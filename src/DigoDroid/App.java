@@ -18,7 +18,8 @@ public class App extends Objeto {
 	}
 
 	public void setActMain(Activity actMain) {
-		this.actMain = actMain;		
+		this.actMain = actMain;
+//		this.actMain.setTitle(this.getStrNomeVizualizacao());
 	}
 
 	public boolean isBooBeta() {
