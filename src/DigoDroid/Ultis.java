@@ -1,15 +1,18 @@
 package DigoDroid;
 
 public abstract class Ultis extends Objeto {
-/* CONSTANTES */
-	public static final String STRING_NULA = "";
-	
-/* ATRIBUTOS */
+	// CONSTANTES
+	// FIM CONSTANTES
 
+	// ATRIBUTOS
+	// FIM ATRIBUTOS
 
-/* MODIFICADORES */
+	// CONSTRUTORES
+	// FIM CONSTRUTORES
 
-/* CONSTRUTORES */
+	// MÉTODOS
+	// FIM MÉTODOS
 
-/* MÉTODOS */
+	// EVENTOS
+	// FIM EVENTOS
 }

@@ -1,21 +1,20 @@
 package DigoDroid.Mailing;
 
 import DigoDroid.Objeto;
-import android.telephony.SmsManager;
 
 public class Sms extends Objeto {
-/* CONSTANTES */
+	// CONSTANTES
+	// FIM CONSTANTES
 
-/* ATRIBUTOS */
+	// ATRIBUTOS
+	// FIM ATRIBUTOS
 
-/* MODIFICADORES */
+	// CONSTRUTORES
+	// FIM CONSTRUTORES
 
-/* CONSTRUTORES */
+	// MÉTODOS
+	// FIM MÉTODOS
 
-/* MÉTODOS */
-	public void enviarSms(String phoneNumber, String message)
-	   {
-	       SmsManager sms = SmsManager.getDefault();
-	       sms.sendTextMessage(phoneNumber, null, message, null, null);
-	    }
+	// EVENTOS
+	// FIM EVENTOS
 }
