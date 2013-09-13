@@ -1,6 +1,6 @@
 package DigoDroid;
 
-public abstract class Ultis extends Objeto {
+public class HttpServer extends Objeto {
 	// CONSTANTES
 	// FIM CONSTANTES
 

@@ -1,0 +1,15 @@
+﻿try
+            {
+                // VARIÁVEIS
+                // FIM VARIÁVEIS
+
+                // AÇÕES
+
+
+
+                // FIM AÇÕES
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }

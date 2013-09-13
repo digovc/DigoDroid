@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><templates><template autoinsert="false" context="java-statements" deleted="false" description="try catch block" enabled="true" id="org.eclipse.jdt.ui.templates.try" name="try">try {
+	${line_selection}${cursor}
+} catch (${Exception} ${exception_variable_name}) {
+	// ${todo}: handle exception
+}</template></templates>
