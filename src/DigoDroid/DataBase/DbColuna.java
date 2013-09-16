@@ -13,6 +13,16 @@ public class DbColuna extends Objeto {
 
 	// ATRIBUTOS
 
+	private DbColuna _clnReferencia;
+
+	public DbColuna getclnReferencia() {
+		return _clnReferencia;
+	}
+
+	public void setClnReferencia(DbColuna clnReferencia) {
+		_clnReferencia = clnReferencia;
+	}
+
 	private DbTabela _objDbTabela;
 
 	public DbTabela getObjDbTabela() {
@@ -38,12 +48,49 @@ public class DbColuna extends Objeto {
 
 	// CONSTRUTORES
 
+	public DbColuna(String strNome, DbTabela objDbTabela) {
+		// VARIÁVEIS
+
+		this.setStrNome(strNome);
+		this.setObjDbTabela(objDbTabela);
+
+		// FIM VARIÁVEIS
+		try {
+			// AÇÕES
+			// FIM AÇÕES
+		} catch (Exception e) {
+		} finally {
+			// LIMPAR VARIÁVEIS
+			// FIM LIMPAR VARIÁVEIS
+		}
+	}
+
 	public DbColuna(String strNome, DbTabela objDbTabela, EnmTipo objEnmTipo) {
 		// VARIÁVEIS
 
 		this.setStrNome(strNome);
 		this.setObjDbTabela(objDbTabela);
 		this.setObjEnmTipo(objEnmTipo);
+
+		// FIM VARIÁVEIS
+		try {
+			// AÇÕES
+			// FIM AÇÕES
+		} catch (Exception e) {
+		} finally {
+			// LIMPAR VARIÁVEIS
+			// FIM LIMPAR VARIÁVEIS
+		}
+	}
+
+	public DbColuna(String strNome, DbTabela objDbTabela, EnmTipo objEnmTipo,
+			DbColuna clnReferencia) {
+		// VARIÁVEIS
+
+		this.setStrNome(strNome);
+		this.setObjDbTabela(objDbTabela);
+		this.setObjEnmTipo(objEnmTipo);
+		this.setClnReferencia(clnReferencia);
 
 		// FIM VARIÁVEIS
 		try {

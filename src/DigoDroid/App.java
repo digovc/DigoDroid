@@ -15,7 +15,6 @@ public abstract class App extends Objeto {
 	public Activity getActMain() {
 		return _actMain;
 	}
-
 	public void setActMain(Activity actMain) {
 		_actMain = actMain;
 	}

@@ -1,3 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?><templates><template autoinsert="false" context="java-statements" deleted="false" description="Cria novo atributo" enabled="true" id="com.digodroid.templates.novo_atributo" name="try">private ${tipo} _${nome}${valorInicial};
-private ${tipo} ${nome} {get{return _${nome};}set{_${nome} = value;}}
-</template></templates>
