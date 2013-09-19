@@ -1,0 +1,382 @@
+package com.digosofter.digodroid.database;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import android.app.Activity;
+import android.content.Intent;
+import android.database.Cursor;
+
+import com.digosofter.digodroid.App;
+import com.digosofter.digodroid.Objeto;
+import com.digosofter.digodroid.Utils;
+import com.digosofter.digodroid.Utils.EnmRandomTipo;
+import com.digosofter.digodroid.activitys.ActCadastro;
+import com.digosofter.digodroid.erro.Erro;
+
+public class DbTabela extends Objeto {
+	// CONSTANTES
+	// FIM CONSTANTES
+
+	// ATRIBUTOS
+
+	private List<DbColuna> _lstObjDbColuna = new ArrayList<DbColuna>();;
+
+	public List<DbColuna> getLstObjDbColuna() {
+		return _lstObjDbColuna;
+	}
+
+	public void setLstObjDbColuna(List<DbColuna> lstObjDbColuna) {
+		_lstObjDbColuna = lstObjDbColuna;
+	}
+
+	private DbColuna _clnChavePrimaria;
+
+	public DbColuna getClnChavePrimaria() {
+
+		if (_clnChavePrimaria == null) {
+			for (DbColuna cln : this.getLstObjDbColuna()) {
+				if (cln.getBooChavePrimaria()) {
+					_clnChavePrimaria = cln;
+				}
+			}
+		}
+		return _clnChavePrimaria;
+	}
+
+	private DbColuna _clnNome;
+
+	public DbColuna getClnNome() {
+		if (_clnNome == null) {
+			for (DbColuna cln : this.getLstObjDbColuna()) {
+				if (cln.getBooClnNome()) {
+					_clnNome = cln;
+					break;
+				}
+			}
+		}
+		if (_clnNome == null) {
+			_clnNome = this.getLstObjDbColuna().get(0);
+		}
+		return _clnNome;
+	}
+
+	private DbColuna _clnOrdemCadastro;
+
+	public DbColuna getClnOrdemCadastro() {
+		_clnOrdemCadastro = null;
+		for (DbColuna cln : this.getLstObjDbColuna()) {
+			if (cln.getBooOrdemCadastro()) {
+				_clnOrdemCadastro = cln;
+				break;
+			}
+		}
+		if (_clnOrdemCadastro == null) {
+			_clnOrdemCadastro = this.getClnChavePrimaria();
+		}
+		return _clnOrdemCadastro;
+	}
+
+	public void setClnOrdemCadastro(DbColuna clnOrdemCadastro) {
+		_clnOrdemCadastro = clnOrdemCadastro;
+	}
+
+	private DataBase _objDataBase;
+
+	public DataBase getObjDataBase() {
+		if (_objDataBase == null) {
+			this._objDataBase = App.getApp().getObjDataBasePrincipal();
+		}
+		return _objDataBase;
+	}
+
+	public void setObjDataBase(DataBase objDataBase) {
+		_objDataBase = objDataBase;
+	}
+
+	// FIM ATRIBUTOS
+
+	// CONSTRUTORES
+
+	public DbTabela(String strNome) {
+		// VARIÁVEIS
+
+		this.setStrNome(strNome);
+
+		// FIM VARIÁVEIS
+		try {
+			// AÇÕES
+
+			// if (!this.getBooTabelaExiste()) {
+			// this.criaTabela();
+			// }
+
+			// FIM AÇÕES
+		} catch (Exception e) {
+		} finally {
+		}
+	}
+
+	// FIM CONSTRUTORES
+
+	// MÉTODOS
+
+	public void abrirTelaCadastro(Activity actPai) {
+		// VARIÁVEIS
+		// FIM VARIÁVEIS
+		try {
+			// AÇÕES
+
+			Intent objIntent = new Intent(actPai, ActCadastro.class);
+			// objIntent.putExtra("TblCliente", this);
+			App.getApp().setTblSelecionada(this);
+			actPai.startActivityForResult(objIntent, 0);
+
+			// FIM AÇÕES
+		} catch (Exception ex) {
+
+			new Erro("Erro inesperado.\n" + ex.getMessage());
+
+		} finally {
+		}
+	}
+
+	public void buscarRegistroPelaChavePrimaria(int intId) {
+		// VARIÁVEIS
+
+		Cursor objCrs = null;
+		int intColunaIndex = 0;
+		String sql = Utils.STRING_VAZIA;
+		String strTabelaNome = this.getStrNomeSimplificado();
+		String strColunaChavePrimariaNome = this.getClnChavePrimaria().getStrNomeSimplificado();
+		String strColunasNomes = Utils.STRING_VAZIA;
+
+		// FIM VARIÁVEIS
+		try {
+			// AÇÕES
+
+			for (DbColuna cln : this.getLstObjDbColuna()) {
+				strColunasNomes += "A." + cln.getStrNomeSimplificado() + ",";
+			}
+			strColunasNomes = Utils.removerUltimaLetra(strColunasNomes);
+			sql = "SELECT " + strColunasNomes + " FROM " + strTabelaNome + " AS A WHERE A."
+					+ strColunaChavePrimariaNome + "='" + intId + "';";
+			objCrs = this.getObjDataBase().execSqlComRetorno(sql);
+			if (objCrs != null) {
+				if (objCrs.moveToFirst()) {
+					do {
+						this.getLstObjDbColuna().get(intColunaIndex).setStrValor(objCrs.getString(intColunaIndex));
+						intColunaIndex++;
+					} while (intColunaIndex < objCrs.getColumnCount());
+				}
+			}
+
+			// FIM AÇÕES
+		} catch (Exception ex) {
+
+			new Erro("Erro inesperado.\n" + ex.getMessage());
+
+		} finally {
+		}
+	}
+
+	public void criarTabela() {
+
+		// VARIÁVEIS
+
+		String sql = Utils.STRING_VAZIA;
+
+		// FIM VARIÁVEIS
+
+		try {
+
+			// AÇÕES
+
+			if (!this.getBooTabelaExiste()) {
+				sql += "CREATE TABLE IF NOT EXISTS ";
+				sql += this.getStrNomeSimplificado();
+				sql += "(";
+				for (DbColuna cln : this.getLstObjDbColuna()) {
+					sql += cln.getStrNomeSimplificado();
+					sql += " ";
+					sql += cln.getStrSqlTipo();
+					sql += cln.getBooChavePrimaria() ? " PRIMARY KEY AUTOINCREMENT" : Utils.STRING_VAZIA;
+					sql += ",";
+				}
+				sql = Utils.removerUltimaLetra(sql);
+				sql += ");";
+				this.getObjDataBase().execSqlSemRetorno(sql);
+			}
+
+			// FIM AÇÕES
+
+		} catch (Exception ex) {
+			new Erro("Erro ao criar tabela.\n" + ex.getMessage());
+
+		} finally {
+			// LIMPAR VARIÁVEIS
+			// FIM LIMPAR VARIÁVEIS
+		}
+	}
+
+	public boolean getBooTabelaExiste() {
+		// VARIÁVEIS
+
+		boolean booTabelaExiste = false;
+		Cursor objCursorTemp;
+		String sql;
+
+		// FIM VARIÁVEIS
+		try {
+			// AÇÕES
+
+			sql = "SELECT name FROM sqlite_master WHERE type='table' AND name='" + this.getStrNomeSimplificado() + "';";
+			objCursorTemp = this.getObjDataBase().execSqlComRetorno(sql);
+			objCursorTemp.moveToFirst();
+			if (objCursorTemp.getCount() > 0) {
+				booTabelaExiste = true;
+			}
+
+			// FIM AÇÕES
+		} catch (Exception e) {
+		} finally {
+			objCursorTemp = null;
+		}
+		return booTabelaExiste;
+	}
+
+	public Cursor getCursorDadosTelaCadastro() {
+		// VARIÁVEIS
+
+		Cursor crsResultado = null;
+		int intNumeroColuna = 0;
+		String sql = Utils.STRING_VAZIA;
+		String strColunaNome = Utils.STRING_VAZIA;
+		String strClnOrdemNome = this.getClnOrdemCadastro().getStrNomeSimplificado();
+
+		// FIM VARIÁVEIS
+		try {
+			// AÇÕES
+			strColunaNome += this.getClnChavePrimaria().getStrNomeSimplificado() + ",";
+			strColunaNome += this.getClnNome().getStrNomeSimplificado() + ",";
+			for (DbColuna cln : this.getLstObjDbColuna()) {
+				if (cln.getBooVisivelCadastro() && !cln.getBooChavePrimaria() && !cln.getBooClnNome()) {
+					strColunaNome += cln.getStrNomeSimplificado() + ",";
+					intNumeroColuna++;
+				}
+				if (intNumeroColuna == 3) {
+					break;
+				}
+			}
+			strColunaNome = Utils.removerUltimaLetra(strColunaNome);
+			sql += "SELECT " + strColunaNome + " FROM " + this.getStrNomeSimplificado() + " ORDER BY " + strClnOrdemNome
+					+ ";";
+			crsResultado = this.getObjDataBase().execSqlComRetorno(sql);
+
+			// FIM AÇÕES
+		} catch (Exception ex) {
+
+			new Erro("Erro inesperado.\n" + ex.getMessage());
+
+		} finally {
+		}
+		return crsResultado;
+	}
+
+	public String getStrClnNomeTelaCadastro(int intClnNumero) {
+		// VARIÁVEIS
+
+		int intIndex = 0;
+		String strColunaNome = Utils.STRING_VAZIA;
+
+		// FIM VARIÁVEIS
+		try {
+			// AÇÕES
+
+			for (DbColuna cln : this.getLstObjDbColuna()) {
+				if (cln.getBooVisivelCadastro()) {
+					if (intClnNumero == intIndex) {
+						strColunaNome = cln.getStrNomeExibicao();
+						break;
+					}
+					intIndex++;
+				}
+			}
+
+			// FIM AÇÕES
+		} catch (Exception ex) {
+
+			new Erro("Erro inesperado.\n" + ex.getMessage());
+
+		} finally {
+		}
+		return strColunaNome;
+	}
+
+	public void inserir() {
+		// VARIÁVEIS
+
+		String strColunasNomes = Utils.STRING_VAZIA;
+		String strColunasValores = Utils.STRING_VAZIA;
+		String sql = Utils.STRING_VAZIA;
+
+		// FIM VARIÁVEIS
+		try {
+			// AÇÕES
+
+			for (DbColuna cln : this.getLstObjDbColuna()) {
+				strColunasNomes += cln.getStrNomeSimplificado() + ",";
+				strColunasValores += "'" + cln.getStrValor() + "',";
+			}
+			strColunasNomes = Utils.removerUltimaLetra(strColunasNomes);
+			strColunasValores = Utils.removerUltimaLetra(strColunasValores);
+			sql += "REPLACE INTO " + this.getStrNomeSimplificado() + " (" + strColunasNomes + ") VALUES ("
+					+ strColunasValores + ");";
+			this.getObjDataBase().execSqlSemRetorno(sql);
+
+			// FIM AÇÕES
+		} catch (Exception ex) {
+
+			new Erro("Erro inesperado.\n" + ex.getMessage());
+
+		} finally {
+		}
+	}
+
+	public void inserirAleatorio() {
+		// VARIÁVEIS
+		// FIM VARIÁVEIS
+		try {
+			// AÇÕES
+
+			for (DbColuna cln : this.getLstObjDbColuna()) {
+				switch (cln.getEnmTipo()) {
+				case INTEGER:
+					cln.setStrValor(Utils.getStrAleatoria(5, EnmRandomTipo.NUMERICO));
+					break;
+				case REAL:
+					cln.setStrValor(Utils.getStrAleatoria(5, EnmRandomTipo.NUMERICO));
+					break;
+				case NUMERIC:
+					cln.setStrValor(Utils.getStrAleatoria(5, EnmRandomTipo.NUMERICO));
+					break;
+				default:
+					cln.setStrValor(Utils.getStrAleatoria(5, EnmRandomTipo.ALPHA));
+					break;
+				}
+			}
+			this.inserir();
+
+			// FIM AÇÕES
+		} catch (Exception ex) {
+
+			new Erro("Erro inesperado.\n" + ex.getMessage());
+
+		} finally {
+		}
+	}
+	// FIM MÉTODOS
+
+	// EVENTOS
+	// FIM EVENTOS
+}
