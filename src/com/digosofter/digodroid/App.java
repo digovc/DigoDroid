@@ -1,5 +1,8 @@
 package com.digosofter.digodroid;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import android.app.Activity;
 import android.widget.Toast;
 
@@ -30,6 +33,16 @@ public abstract class App extends Objeto {
 
 	private static void setApp(App app) {
 		_app = app;
+	}
+
+	private List<DbTabela> _lstTbl = new ArrayList<DbTabela>();
+
+	public List<DbTabela> getlstTbl() {
+		return _lstTbl;
+	}
+
+	public void setlstTbl(List<DbTabela> lstTbl) {
+		_lstTbl = lstTbl;
 	}
 
 	private DataBase _objDataBasePrincipal;
@@ -74,24 +87,24 @@ public abstract class App extends Objeto {
 
 	// MÉTODOS
 
-	public void inicializar() {
-		// VARIÁVEIS
-		// FIM VARIÁVEIS
-		try {
-			// AÇÕES
+//	public void inicializar() {
+//		// VARIÁVEIS
+//		// FIM VARIÁVEIS
+//		try {
+//			// AÇÕES
+//
+//			this._objDataBasePrincipal = new DataBase(this.getStrNomeSimplificado(), this.getActMain()
+//					.getApplicationContext());
+//
+//			// FIM AÇÕES
+//		} catch (Exception e) {
+//		} finally {
+//			// LIMPAR VARIÁVEIS
+//			// FIM LIMPAR VARIÁVEIS
+//		}
+//	}
 
-			this._objDataBasePrincipal = new DataBase(this.getStrNomeSimplificado(), this.getActMain()
-					.getApplicationContext());
-
-			// FIM AÇÕES
-		} catch (Exception e) {
-		} finally {
-			// LIMPAR VARIÁVEIS
-			// FIM LIMPAR VARIÁVEIS
-		}
-	}
-
-	public void mostraMensagemCurta(String strMensagem) {
+	public void mostrarMensagemCurta(String strMensagem) {
 		// VARIÁVEIS
 
 		int intTempo = Toast.LENGTH_SHORT;
@@ -111,7 +124,7 @@ public abstract class App extends Objeto {
 		}
 	}
 
-	public void mostraMensagemLonga(String strMensagem) {
+	public void mostrarMensagemLonga(String strMensagem) {
 		// VARIÁVEIS
 
 		int intTempo = Toast.LENGTH_LONG;

@@ -95,8 +95,12 @@ public class ActCadastro extends ActBase {
 						itmCadastro = new ItmCadastro();
 						itmCadastro.setIntItemId(objCursor.getInt(objCursor.getColumnIndex(this.getTbl()
 								.getClnChavePrimaria().getStrNomeSimplificado())));
-						itmCadastro.setStrNome(objCursor.getString(objCursor.getColumnIndex(this.getTbl().getClnNome()
-								.getStrNomeSimplificado())));
+						if (this.getTbl().getClnNome().getClnReferencia() != null) {
+							itmCadastro.setStrNome(objCursor.getString(objCursor.getColumnIndex("_strNomeB")));
+						} else {
+							itmCadastro.setStrNome(objCursor.getString(objCursor.getColumnIndex(this.getTbl()
+									.getClnNome().getStrNomeSimplificado())));
+						}
 						for (int intColunaIndex = 0; intColunaIndex <= 4; intColunaIndex++) {
 							if (intColunaIndex < objCursor.getColumnCount()) {
 								switch (intColunaIndex) {

@@ -12,6 +12,7 @@ import com.digosofter.digodroid.Objeto;
 import com.digosofter.digodroid.Utils;
 import com.digosofter.digodroid.Utils.EnmRandomTipo;
 import com.digosofter.digodroid.activitys.ActCadastro;
+import com.digosofter.digodroid.database.DbColuna.EnmTipo;
 import com.digosofter.digodroid.erro.Erro;
 
 public class DbTabela extends Objeto {
@@ -19,6 +20,16 @@ public class DbTabela extends Objeto {
 	// FIM CONSTANTES
 
 	// ATRIBUTOS
+
+	private boolean _booSincronizar = true;
+
+	public boolean getBooSincronizar() {
+		return _booSincronizar;
+	}
+
+	public void setBooSincronizar(boolean booSincronizar) {
+		_booSincronizar = booSincronizar;
+	}
 
 	private List<DbColuna> _lstObjDbColuna = new ArrayList<DbColuna>();;
 
@@ -101,6 +112,7 @@ public class DbTabela extends Objeto {
 	public DbTabela(String strNome) {
 		// VARIÁVEIS
 
+		App.getApp().getlstTbl().add(this);
 		this.setStrNome(strNome);
 
 		// FIM VARIÁVEIS
@@ -141,14 +153,14 @@ public class DbTabela extends Objeto {
 		}
 	}
 
-	public void buscarRegistroPelaChavePrimaria(int intId) {
+	public void buscarRegistro(DbColuna clnFiltro, String strValorFiltro) {
 		// VARIÁVEIS
 
 		Cursor objCrs = null;
 		int intColunaIndex = 0;
 		String sql = Utils.STRING_VAZIA;
 		String strTabelaNome = this.getStrNomeSimplificado();
-		String strColunaChavePrimariaNome = this.getClnChavePrimaria().getStrNomeSimplificado();
+		String strColunaFiltro = clnFiltro.getStrNomeSimplificado();
 		String strColunasNomes = Utils.STRING_VAZIA;
 
 		// FIM VARIÁVEIS
@@ -159,8 +171,8 @@ public class DbTabela extends Objeto {
 				strColunasNomes += "A." + cln.getStrNomeSimplificado() + ",";
 			}
 			strColunasNomes = Utils.removerUltimaLetra(strColunasNomes);
-			sql = "SELECT " + strColunasNomes + " FROM " + strTabelaNome + " AS A WHERE A."
-					+ strColunaChavePrimariaNome + "='" + intId + "';";
+			sql = "SELECT " + strColunasNomes + " FROM " + strTabelaNome + " AS A WHERE A." + strColunaFiltro + "='"
+					+ strValorFiltro + "';";
 			objCrs = this.getObjDataBase().execSqlComRetorno(sql);
 			if (objCrs != null) {
 				if (objCrs.moveToFirst()) {
@@ -170,6 +182,23 @@ public class DbTabela extends Objeto {
 					} while (intColunaIndex < objCrs.getColumnCount());
 				}
 			}
+
+			// FIM AÇÕES
+		} catch (Exception ex) {
+
+			new Erro("Erro inesperado.\n" + ex.getMessage());
+
+		} finally {
+		}
+	}
+
+	public void buscarRegistroPelaChavePrimaria(int intId) {
+		// VARIÁVEIS
+		// FIM VARIÁVEIS
+		try {
+			// AÇÕES
+
+			this.buscarRegistro(this.getClnChavePrimaria(), String.valueOf(intId));
 
 			// FIM AÇÕES
 		} catch (Exception ex) {
@@ -196,11 +225,16 @@ public class DbTabela extends Objeto {
 				sql += "CREATE TABLE IF NOT EXISTS ";
 				sql += this.getStrNomeSimplificado();
 				sql += "(";
+
 				for (DbColuna cln : this.getLstObjDbColuna()) {
 					sql += cln.getStrNomeSimplificado();
 					sql += " ";
 					sql += cln.getStrSqlTipo();
-					sql += cln.getBooChavePrimaria() ? " PRIMARY KEY AUTOINCREMENT" : Utils.STRING_VAZIA;
+					if (cln.getEnmTipo() == EnmTipo.TEXT) {
+						sql += cln.getBooChavePrimaria() ? " PRIMARY KEY" : Utils.STRING_VAZIA;
+					} else {
+						sql += cln.getBooChavePrimaria() ? " PRIMARY KEY AUTOINCREMENT" : Utils.STRING_VAZIA;
+					}
 					sql += ",";
 				}
 				sql = Utils.removerUltimaLetra(sql);
@@ -251,25 +285,36 @@ public class DbTabela extends Objeto {
 		Cursor crsResultado = null;
 		int intNumeroColuna = 0;
 		String sql = Utils.STRING_VAZIA;
-		String strColunaNome = Utils.STRING_VAZIA;
+		String strClnNome = Utils.STRING_VAZIA;
 		String strClnOrdemNome = this.getClnOrdemCadastro().getStrNomeSimplificado();
 
 		// FIM VARIÁVEIS
 		try {
 			// AÇÕES
-			strColunaNome += this.getClnChavePrimaria().getStrNomeSimplificado() + ",";
-			strColunaNome += this.getClnNome().getStrNomeSimplificado() + ",";
+			strClnNome += "A." + this.getClnChavePrimaria().getStrNomeSimplificado() + ",";
+			if (this.getClnNome().getClnReferencia() != null) {
+
+				String strTblReferenciaNome = this.getClnNome().getClnReferencia().getTbl().getStrNomeSimplificado();
+				String strTblReferenciaClnNome = this.getClnNome().getClnReferencia().getTbl().getClnNome()
+						.getStrNomeSimplificado();
+				String strClnReferenciaNome = this.getClnNome().getClnReferencia().getStrNomeSimplificado();
+
+				strClnNome += "(SELECT B." + strTblReferenciaClnNome + " FROM " + strTblReferenciaNome + " B WHERE B."
+						+ strClnReferenciaNome + " = A." + this.getClnNome().getStrNomeSimplificado() + ") _strNomeB,";
+			} else {
+				strClnNome += this.getClnNome().getStrNomeSimplificado() + ",";
+			}
 			for (DbColuna cln : this.getLstObjDbColuna()) {
 				if (cln.getBooVisivelCadastro() && !cln.getBooChavePrimaria() && !cln.getBooClnNome()) {
-					strColunaNome += cln.getStrNomeSimplificado() + ",";
+					strClnNome += "A." + cln.getStrNomeSimplificado() + ",";
 					intNumeroColuna++;
 				}
 				if (intNumeroColuna == 3) {
 					break;
 				}
 			}
-			strColunaNome = Utils.removerUltimaLetra(strColunaNome);
-			sql += "SELECT " + strColunaNome + " FROM " + this.getStrNomeSimplificado() + " ORDER BY " + strClnOrdemNome
+			strClnNome = Utils.removerUltimaLetra(strClnNome);
+			sql += "SELECT " + strClnNome + " FROM " + this.getStrNomeSimplificado() + " A ORDER BY " + strClnOrdemNome
 					+ ";";
 			crsResultado = this.getObjDataBase().execSqlComRetorno(sql);
 
@@ -325,8 +370,13 @@ public class DbTabela extends Objeto {
 			// AÇÕES
 
 			for (DbColuna cln : this.getLstObjDbColuna()) {
+
 				strColunasNomes += cln.getStrNomeSimplificado() + ",";
-				strColunasValores += "'" + cln.getStrValor() + "',";
+				if (cln.getStrValor() != null) {
+					strColunasValores += "'" + cln.getStrValor() + "',";
+				} else {
+					strColunasValores += "null,";
+				}
 			}
 			strColunasNomes = Utils.removerUltimaLetra(strColunasNomes);
 			strColunasValores = Utils.removerUltimaLetra(strColunasValores);

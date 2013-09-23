@@ -21,6 +21,9 @@ public class DbColuna extends Objeto {
 	}
 
 	public void setBooChavePrimaria(boolean booChavePrimaria) {
+		for (DbColuna cln : this.getTbl().getLstObjDbColuna()) {
+			cln._booChavePrimaria = false;
+		}
 		_booChavePrimaria = booChavePrimaria;
 	}
 
@@ -31,6 +34,9 @@ public class DbColuna extends Objeto {
 	}
 
 	public void setBooClnNome(boolean booClnNome) {
+		for (DbColuna cln : this.getTbl().getLstObjDbColuna()) {
+			cln._booClnNome = false;
+		}
 		_booClnNome = booClnNome;
 	}
 

@@ -98,6 +98,24 @@ public abstract class Utils {
 		return objSimpleDateFormat.format(objDate);
 	}
 
+	public static String getStrPrimeiraMaiuscula(String str) {
+		// VARIÁVEIS
+		// FIM VARIÁVEIS
+		try {
+			// AÇÕES
+
+			str = str.substring(0, 1).toUpperCase() + str.substring(1);
+
+			// FIM AÇÕES
+		} catch (Exception ex) {
+
+			new Erro("Erro inesperado.\n" + ex.getMessage());
+
+		} finally {
+		}
+		return str;
+	}
+
 	public static String getStrSimplificada(String strComplexa) {
 		// VARIÁVEIS
 		// FIM VARIÁVEIS
