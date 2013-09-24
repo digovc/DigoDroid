@@ -210,6 +210,23 @@ public class DbTabela extends Objeto {
 		}
 	}
 
+	public void buscarRegistroPelaChavePrimaria(String strId) {
+		// VARIÁVEIS
+		// FIM VARIÁVEIS
+		try {
+			// AÇÕES
+
+			this.buscarRegistro(this.getClnChavePrimaria(), strId);
+
+			// FIM AÇÕES
+		} catch (Exception ex) {
+
+			new Erro("Erro inesperado.\n" + ex.getMessage());
+
+		} finally {
+		}
+	}
+
 	public void criarTabela() {
 
 		// VARIÁVEIS
@@ -295,7 +312,7 @@ public class DbTabela extends Objeto {
 			// AÇÕES
 
 			if (lstObjDbFitro != null) {
-
+				strFiltro += " WHERE ";
 				for (DbFiltro objDbFiltro : lstObjDbFitro) {
 					strFiltro += objDbFiltro.getClnFiltro().getStrNomeSimplificado();
 					strFiltro += "='";
@@ -329,8 +346,8 @@ public class DbTabela extends Objeto {
 				}
 			}
 			strClnNome = Utils.removerUltimaLetra(strClnNome);
-			sql += "SELECT " + strClnNome + " FROM " + this.getStrNomeSimplificado() + " A ORDER BY " + strClnOrdemNome
-					+ "WHERE " + strFiltro + ";";
+			sql += "SELECT " + strClnNome + " FROM " + this.getStrNomeSimplificado() + " A " + strFiltro + " ORDER BY "
+					+ strClnOrdemNome + ";";
 			crsResultado = this.getObjDataBase().execSqlComRetorno(sql);
 
 			// FIM AÇÕES

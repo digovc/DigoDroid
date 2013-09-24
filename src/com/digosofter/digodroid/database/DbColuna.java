@@ -190,6 +190,12 @@ public class DbColuna extends Objeto {
 	// FIM CONSTRUTORES
 
 	// MÉTODOS
+
+	@Override
+	public String toString() {
+		return this.getStrValor();
+	}
+
 	// FIM MÉTODOS
 
 	// EVENTOS
