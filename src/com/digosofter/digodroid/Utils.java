@@ -14,7 +14,7 @@ public abstract class Utils {
 		ALPHA, ALPHANUMERICO, NUMERICO
 	}
 
-	public static final Locale objLocaleBrasil = new Locale("pt", "BR");
+	public static final Locale LOCAL_BRASIL = new Locale("pt", "BR");
 
 	public static final String STRING_VAZIA = "";
 
@@ -87,7 +87,7 @@ public abstract class Utils {
 				strDataFormato = "dd/MM/yyyy";
 				break;
 			}
-			objSimpleDateFormat = new SimpleDateFormat(strDataFormato, objLocaleBrasil);
+			objSimpleDateFormat = new SimpleDateFormat(strDataFormato, LOCAL_BRASIL);
 
 			// FIM AÇÕES
 		} catch (Exception e) {
@@ -147,7 +147,7 @@ public abstract class Utils {
 	public static String getStrValorMonetario(double monValor) {
 		// VARIÁVEIS
 
-		NumberFormat objNumberFormat = NumberFormat.getCurrencyInstance(objLocaleBrasil);
+		NumberFormat objNumberFormat = NumberFormat.getCurrencyInstance(LOCAL_BRASIL);
 
 		// FIM VARIÁVEIS
 		try {

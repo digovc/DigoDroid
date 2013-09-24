@@ -168,6 +168,7 @@ public class DbTabela extends Objeto {
 			// AÇÕES
 
 			for (DbColuna cln : this.getLstObjDbColuna()) {
+				cln.setStrValor(null);
 				strColunasNomes += "A." + cln.getStrNomeSimplificado() + ",";
 			}
 			strColunasNomes = Utils.removerUltimaLetra(strColunasNomes);
@@ -279,18 +280,32 @@ public class DbTabela extends Objeto {
 		return booTabelaExiste;
 	}
 
-	public Cursor getCursorDadosTelaCadastro() {
+	public Cursor getCursorDadosTelaCadastro(List<DbFiltro> lstObjDbFitro) {
 		// VARIÁVEIS
 
 		Cursor crsResultado = null;
 		int intNumeroColuna = 0;
 		String sql = Utils.STRING_VAZIA;
 		String strClnNome = Utils.STRING_VAZIA;
+		String strFiltro = Utils.STRING_VAZIA;
 		String strClnOrdemNome = this.getClnOrdemCadastro().getStrNomeSimplificado();
 
 		// FIM VARIÁVEIS
 		try {
 			// AÇÕES
+
+			if (lstObjDbFitro != null) {
+
+				for (DbFiltro objDbFiltro : lstObjDbFitro) {
+					strFiltro += objDbFiltro.getClnFiltro().getStrNomeSimplificado();
+					strFiltro += "='";
+					strFiltro += objDbFiltro.getStrFiltro();
+					strFiltro += "' AND";
+				}
+				strFiltro = Utils.removerUltimaLetra(strFiltro);
+				strFiltro = Utils.removerUltimaLetra(strFiltro);
+				strFiltro = Utils.removerUltimaLetra(strFiltro);
+			}
 			strClnNome += "A." + this.getClnChavePrimaria().getStrNomeSimplificado() + ",";
 			if (this.getClnNome().getClnReferencia() != null) {
 
@@ -315,7 +330,7 @@ public class DbTabela extends Objeto {
 			}
 			strClnNome = Utils.removerUltimaLetra(strClnNome);
 			sql += "SELECT " + strClnNome + " FROM " + this.getStrNomeSimplificado() + " A ORDER BY " + strClnOrdemNome
-					+ ";";
+					+ "WHERE " + strFiltro + ";";
 			crsResultado = this.getObjDataBase().execSqlComRetorno(sql);
 
 			// FIM AÇÕES
@@ -326,6 +341,21 @@ public class DbTabela extends Objeto {
 		} finally {
 		}
 		return crsResultado;
+	}
+
+	public Cursor getCursorDadosTelaCadastro() {
+		// VARIÁVEIS
+		// FIM VARIÁVEIS
+		try {
+			// AÇÕES
+			// FIM AÇÕES
+		} catch (Exception ex) {
+
+			new Erro("Erro inesperado.\n" + ex.getMessage());
+
+		} finally {
+		}
+		return this.getCursorDadosTelaCadastro(null);
 	}
 
 	public String getStrClnNomeTelaCadastro(int intClnNumero) {
