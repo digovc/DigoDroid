@@ -19,7 +19,13 @@ public abstract class Utils {
 	public static final String STRING_VAZIA = "";
 
 	public enum EnmDataFormato {
-		DD_MM, DD_MM_YYYY, HH_MM_DD_MM_YYYY, HH_MM_SS_DD_MM_YYYY
+		DD_MM,
+		DD_MM_YYYY,
+		DD_MM_YYYY_HH_MM,
+		DD_MM_YYYY_HH_MM_SS,
+		HH_MM_DD_MM_YYYY,
+		HH_MM_SS_DD_MM_YYYY,
+		YYYY_MM_DD_HH_MM_SS
 	}
 
 	// FIM CONSTANTES
@@ -77,11 +83,20 @@ public abstract class Utils {
 			case DD_MM_YYYY:
 				strDataFormato = "dd/MM/yyyy";
 				break;
+			case DD_MM_YYYY_HH_MM:
+				strDataFormato = "dd/MM/yyyy H:mm";
+				break;
+			case DD_MM_YYYY_HH_MM_SS:
+				strDataFormato = "dd/MM/yyyy H:mm:ss";
+				break;
 			case HH_MM_DD_MM_YYYY:
-				strDataFormato = "hh:mm dd/MM/yyyy";
+				strDataFormato = "H:mm dd/MM/yyyy";
 				break;
 			case HH_MM_SS_DD_MM_YYYY:
-				strDataFormato = "hh:mm:ss dd/MM/yyyy";
+				strDataFormato = "H:mm:ss dd/MM/yyyy";
+				break;
+			case YYYY_MM_DD_HH_MM_SS:
+				strDataFormato = "yyyy/MM/dd H:mm:ss";
 				break;
 			default:
 				strDataFormato = "dd/MM/yyyy";

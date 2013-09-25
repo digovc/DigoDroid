@@ -103,16 +103,19 @@ public class AdpCadastro extends BaseAdapter {
 			TextView txtRegistroCampo003 = (TextView) objView.findViewById(R.id.itmCadastro_txtCampo003);
 
 			txtRegistroNome.setText(objItmCadastro.getStrNomeExibicao());
+
 			txtRegistroCampo001.setText(objItmCadastro.getstrCampo001());
-			if (txtRegistroCampo001.getText() == null) {
+			if (objItmCadastro.getStrCampo001Valor() == null) {
 				txtRegistroCampo001.setVisibility(View.GONE);
 			}
+			
 			txtRegistroCampo002.setText(objItmCadastro.getstrCampo002());
-			if (txtRegistroCampo002.getText() == null) {
+			if (objItmCadastro.getStrCampo002Valor() == null) {
 				txtRegistroCampo002.setVisibility(View.GONE);
 			}
+			
 			txtRegistroCampo003.setText(objItmCadastro.getstrCampo003());
-			if (txtRegistroCampo003.getText() == null) {
+			if (objItmCadastro.getStrCampo003Valor() == null) {
 				txtRegistroCampo003.setVisibility(View.GONE);
 			}
 
@@ -126,5 +129,6 @@ public class AdpCadastro extends BaseAdapter {
 
 		return objView;
 	}
+
 	// FIM EVENTOS
 }

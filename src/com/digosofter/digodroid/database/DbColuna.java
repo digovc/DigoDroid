@@ -1,7 +1,10 @@
 package com.digosofter.digodroid.database;
 
+import java.util.GregorianCalendar;
+
 import com.digosofter.digodroid.Objeto;
 import com.digosofter.digodroid.Utils;
+import com.digosofter.digodroid.erro.Erro;
 
 public class DbColuna extends Objeto {
 	// CONSTANTES
@@ -114,8 +117,93 @@ public class DbColuna extends Objeto {
 		return Utils.getStrValorMonetario(Double.parseDouble(_strValor));
 	}
 
+	public double getDblValor() {
+		// VARIÁVEIS
+
+		double dlbValorResultado = -1;
+
+		// FIM VARIÁVEIS
+		try {
+			// AÇÕES
+
+			dlbValorResultado = Double.parseDouble(this.getStrValor());
+
+			// FIM AÇÕES
+		} catch (Exception ex) {
+
+			new Erro("Erro inesperado.\n" + ex.getMessage());
+
+		} finally {
+		}
+		return dlbValorResultado;
+	}
+
+	public GregorianCalendar getDttValor() {
+		// VARIÁVEIS
+
+		int intAno = 0;
+		int intMes = 0;
+		int intDia = 0;
+		int intHora = 0;
+		int intMin = 0;
+		int intSeg = 0;
+		GregorianCalendar objGregorianCalendarResultado = null;
+
+		// FIM VARIÁVEIS
+		try {
+			// AÇÕES
+
+			intAno = Integer.parseInt(this.getStrValor().substring(0, 4));
+			intMes = Integer.parseInt(this.getStrValor().substring(5, 7));
+			intDia = Integer.parseInt(this.getStrValor().substring(8, 10));
+			intHora = Integer.parseInt(this.getStrValor().substring(11, 13));
+			intMin = Integer.parseInt(this.getStrValor().substring(14, 16));
+			intSeg = Integer.parseInt(this.getStrValor().substring(17, 19));
+			objGregorianCalendarResultado = new GregorianCalendar(intAno, intMes, intDia, intHora, intMin, intSeg);
+
+			// FIM AÇÕES
+		} catch (Exception ex) {
+
+			new Erro("Erro inesperado.\n" + ex.getMessage());
+
+		} finally {
+		}
+		return objGregorianCalendarResultado;
+	}
+
+	public int getIntValor() {
+		// VARIÁVEIS
+
+		int intValorResultado = -1;
+
+		// FIM VARIÁVEIS
+		try {
+			// AÇÕES
+
+			intValorResultado = Integer.parseInt(this.getStrValor());
+
+			// FIM AÇÕES
+		} catch (Exception ex) {
+
+			new Erro("Erro inesperado.\n" + ex.getMessage());
+
+		} finally {
+		}
+		return intValorResultado;
+	}
+
 	public void setStrValor(String strValor) {
 		_strValor = strValor;
+	}
+
+	private String _strValorDefault;
+
+	public String getStrValorDefault() {
+		return _strValorDefault;
+	}
+
+	public void setStrValorDefault(String strValorDefault) {
+		_strValorDefault = strValorDefault;
 	}
 
 	private DbTabela _tbl;

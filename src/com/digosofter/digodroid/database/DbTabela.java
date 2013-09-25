@@ -253,6 +253,9 @@ public class DbTabela extends Objeto {
 					} else {
 						sql += cln.getBooChavePrimaria() ? " PRIMARY KEY AUTOINCREMENT" : Utils.STRING_VAZIA;
 					}
+					if (cln.getStrValorDefault() != null) {
+						sql += " DEFAULT '" + cln.getStrValorDefault() + "'";
+					}
 					sql += ",";
 				}
 				sql = Utils.removerUltimaLetra(sql);
@@ -305,7 +308,7 @@ public class DbTabela extends Objeto {
 		String sql = Utils.STRING_VAZIA;
 		String strClnNome = Utils.STRING_VAZIA;
 		String strFiltro = Utils.STRING_VAZIA;
-		String strClnOrdemNome = this.getClnOrdemCadastro().getStrNomeSimplificado();
+		String strClnOrdemNome = Utils.STRING_VAZIA;
 
 		// FIM VARIÁVEIS
 		try {
@@ -345,6 +348,11 @@ public class DbTabela extends Objeto {
 					break;
 				}
 			}
+			if (this.getClnOrdemCadastro().getClnReferencia() == null) {
+				strClnOrdemNome = this.getClnOrdemCadastro().getStrNomeSimplificado();
+			} else {
+				strClnOrdemNome = "_strNomeB";
+			}
 			strClnNome = Utils.removerUltimaLetra(strClnNome);
 			sql += "SELECT " + strClnNome + " FROM " + this.getStrNomeSimplificado() + " A " + strFiltro + " ORDER BY "
 					+ strClnOrdemNome + ";";
@@ -375,10 +383,9 @@ public class DbTabela extends Objeto {
 		return this.getCursorDadosTelaCadastro(null);
 	}
 
-	public String getStrClnNomeTelaCadastro(int intClnNumero) {
+	public String getStrClnNomePeloNomeSimplificado(String strNomeSimplificado) {
 		// VARIÁVEIS
 
-		int intIndex = 0;
 		String strColunaNome = Utils.STRING_VAZIA;
 
 		// FIM VARIÁVEIS
@@ -386,12 +393,9 @@ public class DbTabela extends Objeto {
 			// AÇÕES
 
 			for (DbColuna cln : this.getLstObjDbColuna()) {
-				if (cln.getBooVisivelCadastro()) {
-					if (intClnNumero == intIndex) {
-						strColunaNome = cln.getStrNomeExibicao();
-						break;
-					}
-					intIndex++;
+				if (cln.getStrNomeSimplificado().equals(strNomeSimplificado)) {
+					strColunaNome = cln.getStrNomeExibicao();
+					break;
 				}
 			}
 
@@ -422,7 +426,11 @@ public class DbTabela extends Objeto {
 				if (cln.getStrValor() != null) {
 					strColunasValores += "'" + cln.getStrValor() + "',";
 				} else {
-					strColunasValores += "null,";
+					if (cln.getStrValorDefault() != null) {
+						strColunasValores += "'" + cln.getStrValorDefault() + "',";
+					} else {
+						strColunasValores += "null,";
+					}
 				}
 			}
 			strColunasNomes = Utils.removerUltimaLetra(strColunasNomes);
@@ -472,6 +480,26 @@ public class DbTabela extends Objeto {
 		} finally {
 		}
 	}
+
+	public void zerarCampos() {
+		// VARIÁVEIS
+		// FIM VARIÁVEIS
+		try {
+			// AÇÕES
+
+			for (DbColuna cln : this.getLstObjDbColuna()) {
+				cln.setStrValor(null);
+			}
+
+			// FIM AÇÕES
+		} catch (Exception ex) {
+
+			new Erro("Erro inesperado.\n" + ex.getMessage());
+
+		} finally {
+		}
+	}
+
 	// FIM MÉTODOS
 
 	// EVENTOS

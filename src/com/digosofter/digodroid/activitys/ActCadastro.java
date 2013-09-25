@@ -105,18 +105,18 @@ public class ActCadastro extends ActBase {
 							if (intColunaIndex < objCursor.getColumnCount()) {
 								switch (intColunaIndex) {
 								case 2:
-									itmCadastro.setStrCampo001Nome(this.getTbl().getStrClnNomeTelaCadastro(
-											intColunaIndex));
+									itmCadastro.setStrCampo001Nome(this.getTbl().getStrClnNomePeloNomeSimplificado(
+											objCursor.getColumnName(intColunaIndex)));
 									itmCadastro.setStrCampo001Valor(objCursor.getString(intColunaIndex));
 									break;
 								case 3:
-									itmCadastro.setStrCampo002Nome(this.getTbl().getStrClnNomeTelaCadastro(
-											intColunaIndex));
+									itmCadastro.setStrCampo002Nome(this.getTbl().getStrClnNomePeloNomeSimplificado(
+											objCursor.getColumnName(intColunaIndex)));
 									itmCadastro.setStrCampo002Valor(objCursor.getString(intColunaIndex));
 									break;
 								case 4:
-									itmCadastro.setStrCampo003Nome(this.getTbl().getStrClnNomeTelaCadastro(
-											intColunaIndex));
+									itmCadastro.setStrCampo003Nome(this.getTbl().getStrClnNomePeloNomeSimplificado(
+											objCursor.getColumnName(intColunaIndex)));
 									itmCadastro.setStrCampo003Valor(objCursor.getString(intColunaIndex));
 									break;
 								}
