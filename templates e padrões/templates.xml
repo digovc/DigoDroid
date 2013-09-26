@@ -23,7 +23,7 @@ try {&#13;
 } finally {&#13;
 }</template><template autoinsert="true" context="java" deleted="false" description="" enabled="true" name="novoAtributo">private ${tipo} _${nome};&#13;
 &#13;
-public ${tipo} get${nome}() {&#13;
+private ${tipo} get${nome}() {&#13;
 	return _${nome};&#13;
 }&#13;
 &#13;

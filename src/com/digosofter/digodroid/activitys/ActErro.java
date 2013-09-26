@@ -2,6 +2,7 @@ package com.digosofter.digodroid.activitys;
 
 import android.os.Bundle;
 import android.view.Menu;
+import android.view.View;
 import android.widget.TextView;
 
 import com.digosofter.digodroid.App;
@@ -65,13 +66,29 @@ public class ActErro extends ActBase {
 	@Override
 	protected void setEventos() {
 		// TODO Auto-generated method stub
-		
-	}
 
+	}
 
 	// FIM MÉTODOS
 
 	// EVENTOS
+
+	public void actErro_btnIgnorarOnClick(View objView) {
+		// VARIÁVEIS
+		// FIM VARIÁVEIS
+		try {
+			// AÇÕES
+
+			this.finish();
+
+			// FIM AÇÕES
+		} catch (Exception ex) {
+
+			new Erro("Erro inesperado.\n" + ex.getMessage());
+
+		} finally {
+		}
+	}
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {

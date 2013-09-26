@@ -3,6 +3,7 @@ package com.digosofter.digodroid;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.Locale;
 
 import com.digosofter.digodroid.erro.Erro;
@@ -19,13 +20,7 @@ public abstract class Utils {
 	public static final String STRING_VAZIA = "";
 
 	public enum EnmDataFormato {
-		DD_MM,
-		DD_MM_YYYY,
-		DD_MM_YYYY_HH_MM,
-		DD_MM_YYYY_HH_MM_SS,
-		HH_MM_DD_MM_YYYY,
-		HH_MM_SS_DD_MM_YYYY,
-		YYYY_MM_DD_HH_MM_SS
+		DD_MM, DD_MM_YYYY, DD_MM_YYYY_HH_MM, DD_MM_YYYY_HH_MM_SS, HH_MM_DD_MM_YYYY, HH_MM_SS_DD_MM_YYYY, YYYY_MM_DD_HH_MM_SS
 	}
 
 	// FIM CONSTANTES
@@ -37,6 +32,27 @@ public abstract class Utils {
 	// FIM CONSTRUTORES
 
 	// MÉTODOS
+
+	public static Date getDttAgora() {
+		// VARIÁVEIS
+
+		Date dttResultado = null;
+
+		// FIM VARIÁVEIS
+		try {
+			// AÇÕES
+
+			dttResultado = new GregorianCalendar().getTime();
+
+			// FIM AÇÕES
+		} catch (Exception ex) {
+
+			new Erro("Erro inesperado.\n" + ex.getMessage());
+
+		} finally {
+		}
+		return dttResultado;
+	}
 
 	public static String getStrAleatoria(int intTamanho, EnmRandomTipo enmRandomTipo) {
 

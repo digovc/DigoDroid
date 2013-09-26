@@ -83,7 +83,7 @@ public class ActCadastro extends ActBase {
 
 		ArrayList<ItmCadastro> lstObjItmCadastro = new ArrayList<ItmCadastro>();
 		ItmCadastro itmCadastro = null;
-		Cursor objCursor = this.getTbl().getCursorDadosTelaCadastro();
+		Cursor objCursor = this.getTbl().getCrsDadosTelaCadastro();
 
 		// FIM VARIÁVEIS
 		try {

@@ -300,7 +300,73 @@ public class DbTabela extends Objeto {
 		return booTabelaExiste;
 	}
 
-	public Cursor getCursorDadosTelaCadastro(List<DbFiltro> lstObjDbFitro) {
+	public Cursor getCrsDados(List<DbFiltro> lstObjDbFitro) {
+		// VARIÁVEIS
+
+		Cursor crsResultado = null;
+		String sql = Utils.STRING_VAZIA;
+		String strClnNome = Utils.STRING_VAZIA;
+		String strFiltro = Utils.STRING_VAZIA;
+		String strClnOrdemNome = Utils.STRING_VAZIA;
+
+		// FIM VARIÁVEIS
+		try {
+			// AÇÕES
+
+			if (lstObjDbFitro != null) {
+				strFiltro += " WHERE ";
+				for (DbFiltro objDbFiltro : lstObjDbFitro) {
+					strFiltro += objDbFiltro.getClnFiltro().getStrNomeSimplificado();
+					strFiltro += "='";
+					strFiltro += objDbFiltro.getStrFiltro();
+					strFiltro += "' AND ";
+				}
+				strFiltro = Utils.removerUltimaLetra(strFiltro);
+				strFiltro = Utils.removerUltimaLetra(strFiltro);
+				strFiltro = Utils.removerUltimaLetra(strFiltro);
+				strFiltro = Utils.removerUltimaLetra(strFiltro);
+				
+			}
+			for (DbColuna cln : this.getLstObjDbColuna()) {
+				strClnNome += "A." + cln.getStrNomeSimplificado() + ",";
+			}
+			strClnOrdemNome = this.getClnOrdemCadastro().getStrNomeSimplificado();
+			strClnNome = Utils.removerUltimaLetra(strClnNome);
+			sql += "SELECT " + strClnNome + " FROM " + this.getStrNomeSimplificado() + " A " + strFiltro + " ORDER BY "
+					+ strClnOrdemNome + ";";
+			crsResultado = this.getObjDataBase().execSqlComRetorno(sql);
+
+			// FIM AÇÕES
+		} catch (Exception ex) {
+
+			new Erro("Erro inesperado.\n" + ex.getMessage());
+
+		} finally {
+		}
+		return crsResultado;
+	}
+
+	public Cursor getCrsDados() {
+		// VARIÁVEIS
+
+		Cursor crsResultado = null;
+
+		// FIM VARIÁVEIS
+		try {
+			// AÇÕES
+
+			crsResultado = this.getCrsDados(null);
+			// FIM AÇÕES
+		} catch (Exception ex) {
+
+			new Erro("Erro inesperado.\n" + ex.getMessage());
+
+		} finally {
+		}
+		return crsResultado;
+	}
+
+	public Cursor getCrsDadosTelaCadastro(List<DbFiltro> lstObjDbFitro) {
 		// VARIÁVEIS
 
 		Cursor crsResultado = null;
@@ -320,8 +386,9 @@ public class DbTabela extends Objeto {
 					strFiltro += objDbFiltro.getClnFiltro().getStrNomeSimplificado();
 					strFiltro += "='";
 					strFiltro += objDbFiltro.getStrFiltro();
-					strFiltro += "' AND";
+					strFiltro += "' AND ";
 				}
+				strFiltro = Utils.removerUltimaLetra(strFiltro);
 				strFiltro = Utils.removerUltimaLetra(strFiltro);
 				strFiltro = Utils.removerUltimaLetra(strFiltro);
 				strFiltro = Utils.removerUltimaLetra(strFiltro);
@@ -368,7 +435,7 @@ public class DbTabela extends Objeto {
 		return crsResultado;
 	}
 
-	public Cursor getCursorDadosTelaCadastro() {
+	public Cursor getCrsDadosTelaCadastro() {
 		// VARIÁVEIS
 		// FIM VARIÁVEIS
 		try {
@@ -380,7 +447,7 @@ public class DbTabela extends Objeto {
 
 		} finally {
 		}
-		return this.getCursorDadosTelaCadastro(null);
+		return this.getCrsDadosTelaCadastro(null);
 	}
 
 	public String getStrClnNomePeloNomeSimplificado(String strNomeSimplificado) {

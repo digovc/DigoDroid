@@ -1,5 +1,6 @@
 package com.digosofter.digodroid.database;
 
+import java.util.Date;
 import java.util.GregorianCalendar;
 
 import com.digosofter.digodroid.Objeto;
@@ -113,6 +114,10 @@ public class DbColuna extends Objeto {
 		return _strValor;
 	}
 
+	public boolean getBooValor() {
+		return Boolean.parseBoolean(this.getStrValor());
+	}
+
 	public String getStrValorMonetario() {
 		return Utils.getStrValorMonetario(Double.parseDouble(_strValor));
 	}
@@ -194,6 +199,26 @@ public class DbColuna extends Objeto {
 
 	public void setStrValor(String strValor) {
 		_strValor = strValor;
+	}
+
+	public void setBooValor(Boolean booValor) {
+		this.setStrValor(String.valueOf(booValor));
+	}
+
+	public void setDttValor(Date dttValor) {
+		this.setStrValor(String.valueOf(dttValor));
+	}
+
+	public void setDblValor(double dblValor) {
+		this.setStrValor(String.valueOf(dblValor));
+	}
+
+	public void setIntValor(int intValor) {
+		this.setStrValor(String.valueOf(intValor));
+	}
+
+	public void setMonValor(double monValor) {
+		this.setStrValor(String.valueOf(monValor));
 	}
 
 	private String _strValorDefault;
