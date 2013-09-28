@@ -100,19 +100,19 @@ public abstract class Utils {
 				strDataFormato = "dd/MM/yyyy";
 				break;
 			case DD_MM_YYYY_HH_MM:
-				strDataFormato = "dd/MM/yyyy H:mm";
+				strDataFormato = "dd/MM/yyyy HH:mm";
 				break;
 			case DD_MM_YYYY_HH_MM_SS:
-				strDataFormato = "dd/MM/yyyy H:mm:ss";
+				strDataFormato = "dd/MM/yyyy HH:mm:ss";
 				break;
 			case HH_MM_DD_MM_YYYY:
-				strDataFormato = "H:mm dd/MM/yyyy";
+				strDataFormato = "HH:mm dd/MM/yyyy";
 				break;
 			case HH_MM_SS_DD_MM_YYYY:
-				strDataFormato = "H:mm:ss dd/MM/yyyy";
+				strDataFormato = "HH:mm:ss dd/MM/yyyy";
 				break;
 			case YYYY_MM_DD_HH_MM_SS:
-				strDataFormato = "yyyy/MM/dd H:mm:ss";
+				strDataFormato = "yyyy/MM/dd HH:mm:ss";
 				break;
 			default:
 				strDataFormato = "dd/MM/yyyy";

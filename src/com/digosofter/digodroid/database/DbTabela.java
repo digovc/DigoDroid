@@ -41,6 +41,16 @@ public class DbTabela extends Objeto {
 		_lstObjDbColuna = lstObjDbColuna;
 	}
 
+	private ArrayList<DbFiltro> _lstDbFiltroTelaCadastro = new ArrayList<DbFiltro>();
+
+	public ArrayList<DbFiltro> getLstDbFiltroTelaCadastro() {
+		return _lstDbFiltroTelaCadastro;
+	}
+
+	private void setLstDbFiltroTelaCadastro(ArrayList<DbFiltro> lstDbFiltroTelaCadastro) {
+		_lstDbFiltroTelaCadastro = lstDbFiltroTelaCadastro;
+	}
+
 	private DbColuna _clnChavePrimaria;
 
 	public DbColuna getClnChavePrimaria() {
@@ -274,6 +284,28 @@ public class DbTabela extends Objeto {
 		}
 	}
 
+	public void excluir(int intId) {
+		// VARIÁVEIS
+
+		String sql = Utils.STRING_VAZIA;
+
+		// FIM VARIÁVEIS
+		try {
+			// AÇÕES
+
+			sql = "DELETE FROM " + this.getStrNomeSimplificado() + " WHERE "
+					+ this.getClnChavePrimaria().getStrNomeSimplificado() + "= '" + intId + "';";
+			this.getObjDataBase().execSqlSemRetorno(sql);
+
+			// FIM AÇÕES
+		} catch (Exception ex) {
+
+			new Erro("Erro inesperado.\n" + ex.getMessage());
+
+		} finally {
+		}
+	}
+
 	public boolean getBooTabelaExiste() {
 		// VARIÁVEIS
 
@@ -325,7 +357,7 @@ public class DbTabela extends Objeto {
 				strFiltro = Utils.removerUltimaLetra(strFiltro);
 				strFiltro = Utils.removerUltimaLetra(strFiltro);
 				strFiltro = Utils.removerUltimaLetra(strFiltro);
-				
+
 			}
 			for (DbColuna cln : this.getLstObjDbColuna()) {
 				strClnNome += "A." + cln.getStrNomeSimplificado() + ",";
@@ -380,7 +412,7 @@ public class DbTabela extends Objeto {
 		try {
 			// AÇÕES
 
-			if (lstObjDbFitro != null) {
+			if (lstObjDbFitro.size() > 0) {
 				strFiltro += " WHERE ";
 				for (DbFiltro objDbFiltro : lstObjDbFitro) {
 					strFiltro += objDbFiltro.getClnFiltro().getStrNomeSimplificado();
@@ -447,7 +479,7 @@ public class DbTabela extends Objeto {
 
 		} finally {
 		}
-		return this.getCrsDadosTelaCadastro(null);
+		return this.getCrsDadosTelaCadastro(this.getLstDbFiltroTelaCadastro());
 	}
 
 	public String getStrClnNomePeloNomeSimplificado(String strNomeSimplificado) {

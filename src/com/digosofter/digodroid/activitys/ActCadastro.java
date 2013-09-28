@@ -16,6 +16,7 @@ import android.widget.TextView;
 import com.digosofter.digodroid.App;
 import com.digosofter.digodroid.R;
 import com.digosofter.digodroid.adapters.AdpCadastro;
+import com.digosofter.digodroid.database.DbFiltro;
 import com.digosofter.digodroid.database.DbTabela;
 import com.digosofter.digodroid.erro.Erro;
 import com.digosofter.digodroid.itens.ItmCadastro;
