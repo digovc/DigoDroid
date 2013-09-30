@@ -33,6 +33,34 @@ public abstract class Utils {
 
 	// MÉTODOS
 
+	public static double arredondar(double dblValor, int intQtdCasas, int ceilOrFloor) {
+		// VARIÁVEIS
+
+		double dblValorArredondado = dblValor;
+
+		// FIM VARIÁVEIS
+		try {
+			// AÇÕES
+
+			dblValorArredondado *= (Math.pow(10, intQtdCasas));
+			if (ceilOrFloor == 0) {
+				dblValorArredondado = Math.ceil(dblValorArredondado);
+			} else {
+				dblValorArredondado = Math.floor(dblValorArredondado);
+			}
+			dblValorArredondado /= (Math.pow(10, intQtdCasas));
+			
+			
+			// FIM AÇÕES
+		} catch (Exception ex) {
+
+			new Erro("Erro inesperado.\n" + ex.getMessage());
+
+		} finally {
+		}
+		return dblValorArredondado;
+	}
+
 	public static Date getDttAgora() {
 		// VARIÁVEIS
 
