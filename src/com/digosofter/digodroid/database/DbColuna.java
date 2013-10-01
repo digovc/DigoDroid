@@ -111,6 +111,9 @@ public class DbColuna extends Objeto {
 	private String _strValor;
 
 	public String getStrValor() {
+		if (_strValor == null) {
+			_strValor = Utils.STRING_VAZIA;
+		}
 		return _strValor;
 	}
 
@@ -125,7 +128,7 @@ public class DbColuna extends Objeto {
 	public double getDblValor() {
 		// VARIÁVEIS
 
-		double dlbValorResultado = -1;
+		double dlbValorResultado = 0;
 
 		// FIM VARIÁVEIS
 		try {
@@ -136,7 +139,7 @@ public class DbColuna extends Objeto {
 			// FIM AÇÕES
 		} catch (Exception ex) {
 
-			new Erro("Erro inesperado.\n" + ex.getMessage());
+			return 0;
 
 		} finally {
 		}
@@ -179,7 +182,7 @@ public class DbColuna extends Objeto {
 	public int getIntValor() {
 		// VARIÁVEIS
 
-		int intValorResultado = -1;
+		int intValorResultado = 0;
 
 		// FIM VARIÁVEIS
 		try {
@@ -190,7 +193,7 @@ public class DbColuna extends Objeto {
 			// FIM AÇÕES
 		} catch (Exception ex) {
 
-//			new Erro("Erro inesperado.\n" + ex.getMessage());
+			// new Erro("Erro inesperado.\n" + ex.getMessage());
 
 		} finally {
 		}

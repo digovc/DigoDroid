@@ -31,6 +31,37 @@ public class DbTabela extends Objeto {
 		_booSincronizar = booSincronizar;
 	}
 
+	private int _intQtdLinha;
+
+	public int getIntQtdLinha() {
+		// VARIÁVEIS
+
+		Cursor crs = null;
+		String sql = Utils.STRING_VAZIA;
+
+		// FIM VARIÁVEIS
+		try {
+			// AÇÕES
+
+			sql = "SELECT COUNT(" + this.getClnChavePrimaria().getStrNomeSimplificado() + ") FROM "
+					+ this.getStrNomeSimplificado() + ";";
+			crs = this.getObjDataBase().execSqlComRetorno(sql);
+			if (crs != null) {
+				if (crs.moveToFirst()) {
+					_intQtdLinha = crs.getInt(0);
+				}
+			}
+
+			// FIM AÇÕES
+		} catch (Exception ex) {
+
+			_intQtdLinha = 0;
+
+		} finally {
+		}
+		return _intQtdLinha;
+	}
+
 	private List<DbColuna> _lstObjDbColuna = new ArrayList<DbColuna>();;
 
 	public List<DbColuna> getLstObjDbColuna() {
@@ -388,6 +419,36 @@ public class DbTabela extends Objeto {
 			// AÇÕES
 
 			crsResultado = this.getCrsDados(null);
+
+			// FIM AÇÕES
+		} catch (Exception ex) {
+
+			new Erro("Erro inesperado.\n" + ex.getMessage());
+
+		} finally {
+		}
+		return crsResultado;
+	}
+
+	public Cursor getCrsDados(DbColuna clnFiltro, String strFiltro) {
+		// VARIÁVEIS
+
+		Cursor crsResultado = null;
+
+		DbFiltro objDbFiltro = null;
+
+		ArrayList<DbFiltro> lstObjDbFiltro = new ArrayList<DbFiltro>();
+
+		// FIM VARIÁVEIS
+		try {
+			// AÇÕES
+
+			objDbFiltro = new DbFiltro(clnFiltro, strFiltro);
+
+			lstObjDbFiltro.add(objDbFiltro);
+
+			crsResultado = this.getCrsDados(lstObjDbFiltro);
+
 			// FIM AÇÕES
 		} catch (Exception ex) {
 
@@ -522,10 +583,10 @@ public class DbTabela extends Objeto {
 			for (DbColuna cln : this.getLstObjDbColuna()) {
 
 				strColunasNomes += cln.getStrNomeSimplificado() + ",";
-				if (cln.getStrValor() != null) {
+				if (cln.getStrValor() != null && !cln.getStrValor().equals(Utils.STRING_VAZIA)) {
 					strColunasValores += "'" + cln.getStrValor() + "',";
 				} else {
-					if (cln.getStrValorDefault() != null) {
+					if (cln.getStrValorDefault() != null && !cln.getStrValorDefault().equals(Utils.STRING_VAZIA)) {
 						strColunasValores += "'" + cln.getStrValorDefault() + "',";
 					} else {
 						strColunasValores += "null,";

@@ -17,7 +17,7 @@
             android:id="@+id/actCadastro_txtTabelaTitulo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
+            android:background="#1359"
             android:padding="3dp"
             android:text="Cadastro"
             android:textAppearance="?android:attr/textAppearanceLarge"
@@ -31,6 +31,15 @@
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:visibility="gone" />
 
+        <EditText
+            android:id="@+id/actCadastro_edtPesquisa"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10" >
+
+            <requestFocus />
+        </EditText>
+
         <ListView
             android:id="@+id/actCadastro_pnlTabela"
             android:layout_width="match_parent"
@@ -38,6 +47,7 @@
             android:divider="#ECECEC"
             android:dividerHeight="1sp" >
         </ListView>
+
     </LinearLayout>
 
     <LinearLayout

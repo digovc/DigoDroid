@@ -3,11 +3,12 @@ package com.digosofter.digodroid.adapters;
 import java.util.ArrayList;
 
 import android.content.Context;
-import android.opengl.Visibility;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.TextView;
 
 import com.digosofter.digodroid.R;
@@ -15,7 +16,7 @@ import com.digosofter.digodroid.Utils;
 import com.digosofter.digodroid.erro.Erro;
 import com.digosofter.digodroid.itens.ItmCadastro;
 
-public class AdpCadastro extends BaseAdapter {
+public class AdpCadastro extends BaseAdapter implements Filterable {
 
 	// CONSTANTES
 	// FIM CONSTANTES
@@ -34,12 +35,25 @@ public class AdpCadastro extends BaseAdapter {
 
 	private ArrayList<ItmCadastro> _lstObjItmCadastro;
 
-	private ArrayList<ItmCadastro> getlstObjItmCadastro() {
+	private ArrayList<ItmCadastro> getLstObjItmCadastro() {
 		return _lstObjItmCadastro;
 	}
 
-	private void setlstObjItmCadastro(ArrayList<ItmCadastro> lstObjItmCadastro) {
+	private void setLstObjItmCadastro(ArrayList<ItmCadastro> lstObjItmCadastro) {
 		_lstObjItmCadastro = lstObjItmCadastro;
+		if (this.getLstObjItmCadastroSemFiltro() == null) {
+			this.setLstObjItmCadastroSemFiltro(_lstObjItmCadastro);
+		}
+	}
+
+	private ArrayList<ItmCadastro> _lstObjItmCadastroSemFiltro;
+
+	private ArrayList<ItmCadastro> getLstObjItmCadastroSemFiltro() {
+		return _lstObjItmCadastroSemFiltro;
+	}
+
+	private void setLstObjItmCadastroSemFiltro(ArrayList<ItmCadastro> lstObjItmCadastroSemFiltro) {
+		_lstObjItmCadastroSemFiltro = lstObjItmCadastroSemFiltro;
 	}
 
 	// FIM ATRIBUTOS
@@ -52,7 +66,7 @@ public class AdpCadastro extends BaseAdapter {
 		try {
 			// AÇÕES
 
-			this.setlstObjItmCadastro(lstObjItmCadastro);
+			this.setLstObjItmCadastro(lstObjItmCadastro);
 			this.setObjLayoutInflater(LayoutInflater.from(context));
 
 			// FIM AÇÕES
@@ -73,12 +87,12 @@ public class AdpCadastro extends BaseAdapter {
 
 	@Override
 	public int getCount() {
-		return this.getlstObjItmCadastro().size();
+		return this.getLstObjItmCadastro().size();
 	}
 
 	@Override
 	public Object getItem(int position) {
-		return this.getlstObjItmCadastro().get(position);
+		return this.getLstObjItmCadastro().get(position);
 	}
 
 	@Override
@@ -90,7 +104,7 @@ public class AdpCadastro extends BaseAdapter {
 	public View getView(int position, View convertView, ViewGroup parent) {
 		// VARIÁVEIS
 
-		ItmCadastro objItmCadastro = this.getlstObjItmCadastro().get(position);
+		ItmCadastro objItmCadastro = this.getLstObjItmCadastro().get(position);
 		View objView = this.getObjLayoutInflater().inflate(R.layout.itm_cadastro, null);
 
 		// FIM VARIÁVEIS
@@ -105,17 +119,20 @@ public class AdpCadastro extends BaseAdapter {
 			txtRegistroNome.setText(objItmCadastro.getStrNomeExibicao());
 
 			txtRegistroCampo001.setText(objItmCadastro.getstrCampo001());
-			if (objItmCadastro.getStrCampo001Valor() == null) {
+			if (objItmCadastro.getStrCampo001Valor() == null
+					|| objItmCadastro.getStrCampo001Valor().equals(Utils.STRING_VAZIA)) {
 				txtRegistroCampo001.setVisibility(View.GONE);
 			}
-			
+
 			txtRegistroCampo002.setText(objItmCadastro.getstrCampo002());
-			if (objItmCadastro.getStrCampo002Valor() == null) {
+			if (objItmCadastro.getStrCampo002Valor() == null
+					|| objItmCadastro.getStrCampo002Valor().equals(Utils.STRING_VAZIA)) {
 				txtRegistroCampo002.setVisibility(View.GONE);
 			}
-			
+
 			txtRegistroCampo003.setText(objItmCadastro.getstrCampo003());
-			if (objItmCadastro.getStrCampo003Valor() == null) {
+			if (objItmCadastro.getStrCampo003Valor() == null
+					|| objItmCadastro.getStrCampo003Valor().equals(Utils.STRING_VAZIA)) {
 				txtRegistroCampo003.setVisibility(View.GONE);
 			}
 
@@ -128,6 +145,49 @@ public class AdpCadastro extends BaseAdapter {
 		}
 
 		return objView;
+	}
+
+	@Override
+	public Filter getFilter() {
+
+		this.setLstObjItmCadastro(this.getLstObjItmCadastroSemFiltro());
+
+		return new Filter() {
+
+			@Override
+			protected void publishResults(CharSequence constraint, FilterResults results) {
+				// Now we have to inform the adapter about the new list filtered
+				if (results.count == 0)
+					notifyDataSetInvalidated();
+				else {
+					AdpCadastro.this.setLstObjItmCadastro((ArrayList<ItmCadastro>) results.values);
+					notifyDataSetChanged();
+				}
+			}
+
+			@Override
+			protected FilterResults performFiltering(CharSequence strFiltro) {
+				FilterResults objFilterResults = new FilterResults();
+				// We implement here the filter logic
+				if (strFiltro == null || strFiltro.length() == 0) {
+					// No filter implemented we return all the list
+					objFilterResults.values = AdpCadastro.this.getLstObjItmCadastroSemFiltro();
+					objFilterResults.count = AdpCadastro.this.getLstObjItmCadastroSemFiltro().size();
+				} else {
+					// We perform filtering operation
+					ArrayList<ItmCadastro> lstItmCadastro = new ArrayList<ItmCadastro>();
+
+					for (ItmCadastro itmCadastro : AdpCadastro.this.getLstObjItmCadastro()) {
+						if (itmCadastro.getBooContemString(strFiltro.toString())) {
+							lstItmCadastro.add(itmCadastro);
+						}
+					}
+					objFilterResults.values = lstItmCadastro;
+					objFilterResults.count = lstItmCadastro.size();
+				}
+				return objFilterResults;
+			}
+		};
 	}
 
 	// FIM EVENTOS

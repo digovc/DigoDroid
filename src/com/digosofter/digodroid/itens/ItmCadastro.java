@@ -1,6 +1,8 @@
 package com.digosofter.digodroid.itens;
 
 import com.digosofter.digodroid.Objeto;
+import com.digosofter.digodroid.Utils;
+import com.digosofter.digodroid.erro.Erro;
 
 public class ItmCadastro extends Objeto {
 	// CONSTANTES
@@ -38,7 +40,10 @@ public class ItmCadastro extends Objeto {
 	private String _strCampo001Valor;
 
 	public String getStrCampo001Valor() {
-		return _strCampo001Valor;
+		if (_strCampo001Valor == null) {
+			_strCampo001Valor = Utils.STRING_VAZIA;
+		}
+		return _strCampo001Valor.replace("true", "Sim").replace("false", "Não");
 	}
 
 	public void setStrCampo001Valor(String strCampo001Valor) {
@@ -65,7 +70,10 @@ public class ItmCadastro extends Objeto {
 	private String _strCampo002Valor;
 
 	public String getStrCampo002Valor() {
-		return _strCampo002Valor;
+		if (_strCampo002Valor == null) {
+			_strCampo002Valor = Utils.STRING_VAZIA;
+		}
+		return _strCampo002Valor.replace("true", "Sim").replace("false", "Não");
 	}
 
 	public void setStrCampo002Valor(String strCampo002Valor) {
@@ -92,7 +100,10 @@ public class ItmCadastro extends Objeto {
 	private String _strCampo003Valor;
 
 	public String getStrCampo003Valor() {
-		return _strCampo003Valor;
+		if (_strCampo003Valor == null) {
+			_strCampo003Valor = Utils.STRING_VAZIA;
+		}
+		return _strCampo003Valor.replace("true", "Sim").replace("false", "Não");
 	}
 
 	public void setStrCampo003Valor(String strCampo003Valor) {
@@ -105,6 +116,39 @@ public class ItmCadastro extends Objeto {
 	// FIM CONSTRUTORES
 
 	// MÉTODOS
+
+	public boolean getBooContemString(String strFiltro) {
+		// VARIÁVEIS
+
+		boolean booContemString = false;
+
+		// FIM VARIÁVEIS
+		try {
+			// AÇÕES
+
+			if (this.getStrNome().contains(strFiltro)) {
+				booContemString = true;
+			}
+			if (this.getStrCampo001Valor().contains(strFiltro)) {
+				booContemString = true;
+			}
+			if (this.getStrCampo002Valor().contains(strFiltro)) {
+				booContemString = true;
+			}
+			if (this.getStrCampo003Valor().contains(strFiltro)) {
+				booContemString = true;
+			}
+
+			// FIM AÇÕES
+		} catch (Exception ex) {
+
+			new Erro("Erro inesperado.\n" + ex.getMessage());
+
+		} finally {
+		}
+		return booContemString;
+	}
+
 	// FIM MÉTODOS
 
 	// EVENTOS

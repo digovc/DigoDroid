@@ -5,18 +5,23 @@ import java.util.ArrayList;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Color;
+import android.net.MailTo;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.View;
+import android.view.View.OnKeyListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.digosofter.digodroid.App;
 import com.digosofter.digodroid.R;
 import com.digosofter.digodroid.adapters.AdpCadastro;
-import com.digosofter.digodroid.database.DbFiltro;
 import com.digosofter.digodroid.database.DbTabela;
 import com.digosofter.digodroid.erro.Erro;
 import com.digosofter.digodroid.itens.ItmCadastro;
@@ -31,6 +36,25 @@ public class ActCadastro extends ActBase {
 	// FIM CONSTANTES
 
 	// ATRIBUTOS
+
+	private AdpCadastro _adpCadastro;
+
+	private AdpCadastro getAdpCadastro() {
+		return _adpCadastro;
+	}
+
+	private void setAdpCadastro(AdpCadastro adpCadastro) {
+		_adpCadastro = adpCadastro;
+	}
+
+	private EditText _edtPesquisa;
+
+	private EditText getEdtPesquisa() {
+		if (_edtPesquisa == null) {
+			_edtPesquisa = (EditText) this.findViewById(R.id.actCadastro_edtPesquisa);
+		}
+		return _edtPesquisa;
+	}
 
 	private ListView _objListView;
 
@@ -128,8 +152,8 @@ public class ActCadastro extends ActBase {
 					} while (objCursor.moveToNext());
 				}
 			}
-			AdpCadastro adpCadastro = new AdpCadastro(this, lstObjItmCadastro);
-			this.getObjListView().setAdapter(adpCadastro);
+			this.setAdpCadastro(new AdpCadastro(this, lstObjItmCadastro));
+			this.getObjListView().setAdapter(this.getAdpCadastro());
 			this.getObjListView().setCacheColorHint(Color.TRANSPARENT);
 
 			// FIM AÇÕES
@@ -145,6 +169,22 @@ public class ActCadastro extends ActBase {
 		// FIM VARIÁVEIS
 		try {
 			// AÇÕES
+
+			this.getEdtPesquisa().addTextChangedListener(new TextWatcher() {
+
+				@Override
+				public void onTextChanged(CharSequence s, int start, int before, int count) {
+					ActCadastro.this.getAdpCadastro().getFilter().filter(s);
+				}
+
+				@Override
+				public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+				}
+
+				@Override
+				public void afterTextChanged(Editable s) {
+				}
+			});
 
 			this.getObjListView().setOnItemClickListener(new OnItemClickListener() {
 				public void onItemClick(AdapterView<?> parent, View view, int position, long id) {

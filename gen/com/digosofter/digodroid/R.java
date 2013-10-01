@@ -25,29 +25,30 @@ public final class R {
         public static int ic_pesquisa=0x7f020001;
     }
     public static final class id {
-        public static int actCadastro_btnNovo=0x7f080007;
-        public static int actCadastro_btnSelecionar=0x7f080006;
-        public static int actCadastro_pnlComando=0x7f080005;
+        public static int actCadastro_btnNovo=0x7f080008;
+        public static int actCadastro_btnSelecionar=0x7f080007;
+        public static int actCadastro_edtPesquisa=0x7f080004;
+        public static int actCadastro_pnlComando=0x7f080006;
         public static int actCadastro_pnlGeral=0x7f080000;
         public static int actCadastro_pnlInfo=0x7f080001;
-        public static int actCadastro_pnlTabela=0x7f080004;
+        public static int actCadastro_pnlTabela=0x7f080005;
         public static int actCadastro_txtTabelaDescricao=0x7f080003;
         public static int actCadastro_txtTabelaTitulo=0x7f080002;
-        public static int actErro_btnIgnorar=0x7f08000f;
-        public static int actErro_imgAppLogo=0x7f08000b;
-        public static int actErro_pnlComando=0x7f08000a;
-        public static int actErro_pnlGeral=0x7f080008;
-        public static int actErro_pnlInfo=0x7f080009;
-        public static int actErro_txtAppNome=0x7f08000c;
-        public static int actErro_txtErroMensagem=0x7f08000e;
-        public static int actErro_txtErroTitulo=0x7f08000d;
-        public static int action_settings=0x7f080016;
-        public static int itmCadastro_pnlGeral=0x7f080010;
-        public static int itmCadastro_pnlInfo=0x7f080011;
-        public static int itmCadastro_txtCampo001=0x7f080013;
-        public static int itmCadastro_txtCampo002=0x7f080014;
-        public static int itmCadastro_txtCampo003=0x7f080015;
-        public static int itmCadastro_txtNome=0x7f080012;
+        public static int actErro_btnIgnorar=0x7f080010;
+        public static int actErro_imgAppLogo=0x7f08000c;
+        public static int actErro_pnlComando=0x7f08000b;
+        public static int actErro_pnlGeral=0x7f080009;
+        public static int actErro_pnlInfo=0x7f08000a;
+        public static int actErro_txtAppNome=0x7f08000d;
+        public static int actErro_txtErroMensagem=0x7f08000f;
+        public static int actErro_txtErroTitulo=0x7f08000e;
+        public static int action_settings=0x7f080017;
+        public static int itmCadastro_pnlGeral=0x7f080011;
+        public static int itmCadastro_pnlInfo=0x7f080012;
+        public static int itmCadastro_txtCampo001=0x7f080014;
+        public static int itmCadastro_txtCampo002=0x7f080015;
+        public static int itmCadastro_txtCampo003=0x7f080016;
+        public static int itmCadastro_txtNome=0x7f080013;
     }
     public static final class layout {
         public static int act_cadastro=0x7f030000;
