@@ -35,12 +35,24 @@ public class Erro extends Objeto implements Serializable {
 		_strMensagem = strMensagem;
 	}
 
+	private String _strMensagemDetalhes;
+
+	public String getStrMensagemDetalhes() {
+		return _strMensagemDetalhes;
+	}
+
+	private void setStrMensagemDetalhes(String strMensagemDetalhes) {
+		_strMensagemDetalhes = strMensagemDetalhes;
+	}
+
 	// FIM ATRIBUTOS
 
 	// CONSTRUTORES
 
-	public Erro(String strMensagem) {
+	public Erro(String strMensagem, String strMensagemDetalhes) {
 		// VARIÁVEIS
+		
+		this.setStrMensagemDetalhes(strMensagemDetalhes);
 
 		// FIM VARIÁVEIS
 		try {

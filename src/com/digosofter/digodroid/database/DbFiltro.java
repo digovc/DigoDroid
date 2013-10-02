@@ -45,7 +45,7 @@ public class DbFiltro extends Objeto {
 			// FIM AÇÕES
 		} catch (Exception ex) {
 
-			new Erro("Erro inesperado.\n" + ex.getMessage());
+			new Erro("Erro ao instanciar objeto do tipo 'DbFiltro'.\n" , ex.getMessage());
 
 		} finally {
 		}

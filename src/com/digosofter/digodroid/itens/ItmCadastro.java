@@ -142,7 +142,7 @@ public class ItmCadastro extends Objeto {
 			// FIM AÇÕES
 		} catch (Exception ex) {
 
-			new Erro("Erro inesperado.\n" + ex.getMessage());
+			new Erro("Erro ao verificar filtro no item da lista.\n" , ex.getMessage());
 
 		} finally {
 		}

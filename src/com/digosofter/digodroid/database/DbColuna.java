@@ -172,7 +172,7 @@ public class DbColuna extends Objeto {
 			// FIM AÇÕES
 		} catch (Exception ex) {
 
-			new Erro("Erro inesperado.\n" + ex.getMessage());
+			new Erro("Erro ao retornar valor do tipo 'date' do registro.\n" , ex.getMessage());
 
 		} finally {
 		}
@@ -193,7 +193,7 @@ public class DbColuna extends Objeto {
 			// FIM AÇÕES
 		} catch (Exception ex) {
 
-			// new Erro("Erro inesperado.\n" + ex.getMessage());
+			// new Erro("Erro inesperado.\n" , ex.getMessage());
 
 		} finally {
 		}

@@ -60,7 +60,7 @@ public class DataBase extends SQLiteOpenHelper {
 			// FIM AÇÕES
 		} catch (Exception ex) {
 
-			new Erro("Erro ao criar o banco de dados.\n" + ex.getMessage());
+			new Erro("Erro ao criar o banco de dados.\n", ex.getMessage());
 
 		} finally {
 		}
@@ -83,8 +83,8 @@ public class DataBase extends SQLiteOpenHelper {
 			objCursorTemp = this.getObjDbLeitura().rawQuery(sql, null);
 
 			// FIM AÇÕES
-		} catch (Exception e) {
-			new Erro("Erro ao executar SQL.\n" + e.getMessage());
+		} catch (Exception ex) {
+			new Erro("Erro ao executar SQL.\n", ex.getMessage());
 		} finally {
 		}
 		return objCursorTemp;
@@ -102,7 +102,7 @@ public class DataBase extends SQLiteOpenHelper {
 
 			// FIM AÇÕES
 		} catch (Exception e) {
-			new Erro("Erro ao executar SQL.\n" + e.getMessage());
+			new Erro("Erro ao executar SQL.\n", e.getMessage());
 		} finally {
 		}
 	}

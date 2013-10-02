@@ -47,7 +47,7 @@ public abstract class App extends Objeto {
 			// FIM AÇÕES
 		} catch (Exception ex) {
 
-			new Erro("Erro ao verificar se está atualizado.\n" + ex.getMessage());
+			new Erro("Erro ao verificar se está atualizado.\n" , ex.getMessage());
 
 		} finally {
 		}
@@ -191,7 +191,7 @@ public abstract class App extends Objeto {
 			// FIM AÇÕES
 		} catch (Exception ex) {
 
-			new Erro("Erro inesperado.\n" + ex.getMessage());
+			new Erro("Erro ao fazer update do aplicativo.\n" , ex.getMessage());
 
 		} finally {
 		}

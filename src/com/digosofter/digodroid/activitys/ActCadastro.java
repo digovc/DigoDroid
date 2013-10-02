@@ -21,6 +21,7 @@ import android.widget.TextView;
 
 import com.digosofter.digodroid.App;
 import com.digosofter.digodroid.R;
+import com.digosofter.digodroid.Utils;
 import com.digosofter.digodroid.adapters.AdpCadastro;
 import com.digosofter.digodroid.database.DbTabela;
 import com.digosofter.digodroid.erro.Erro;
@@ -90,9 +91,18 @@ public class ActCadastro extends ActBase {
 
 			// FIM A합ES
 		} catch (Exception ex) {
-			new Erro("Erro ao carregar tabela.\n" + ex.getMessage());
+			new Erro("Erro ao carregar tabela.\n" , ex.getMessage());
 		} finally {
 		}
+	}
+
+	private TextView _txtTblTitulo;
+
+	private TextView getTxtTblTitulo() {
+		if (_txtTblTitulo == null) {
+			_txtTblTitulo = (TextView) this.findViewById(R.id.actCadastro_txtTabelaTitulo);
+		}
+		return _txtTblTitulo;
 	}
 
 	// FIM ATRIBUTOS
@@ -152,13 +162,17 @@ public class ActCadastro extends ActBase {
 					} while (objCursor.moveToNext());
 				}
 			}
+			
 			this.setAdpCadastro(new AdpCadastro(this, lstObjItmCadastro));
+			
 			this.getObjListView().setAdapter(this.getAdpCadastro());
 			this.getObjListView().setCacheColorHint(Color.TRANSPARENT);
+			
+			this.getTxtTblTitulo().setBackgroundColor(Utils.getIntCorAleatoria());
 
 			// FIM A합ES
 		} catch (Exception ex) {
-			new Erro("Erro ao montar layout.\n" + ex.getMessage());
+			new Erro("Erro ao montar layout.\n" , ex.getMessage());
 		} finally {
 		}
 	}
@@ -203,7 +217,7 @@ public class ActCadastro extends ActBase {
 						// FIM A합ES
 					} catch (Exception ex) {
 
-						new Erro("Erro inesperado.\n" + ex.getMessage());
+						new Erro("Erro ao fechar tela de cadastro.\n" , ex.getMessage());
 
 					} finally {
 					}
@@ -213,7 +227,7 @@ public class ActCadastro extends ActBase {
 			// FIM A합ES
 		} catch (Exception ex) {
 
-			new Erro("Erro ao setar os eventos.\n" + ex.getMessage());
+			new Erro("Erro ao setar os eventos.\n" , ex.getMessage());
 
 		} finally {
 		}
@@ -239,7 +253,7 @@ public class ActCadastro extends ActBase {
 
 			// FIM A합ES
 		} catch (Exception ex) {
-			new Erro("Erro ao criar tela de cadastro.\n" + ex.getMessage());
+			new Erro("Erro ao criar tela de cadastro.\n" , ex.getMessage());
 		} finally {
 		}
 	}

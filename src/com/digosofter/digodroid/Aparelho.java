@@ -26,7 +26,7 @@ public abstract class Aparelho extends Objeto {
 			// FIM AÇÕES
 		} catch (Exception ex) {
 
-			new Erro("Erro ao recuperar o EMEI do aparelho.\n" + ex.getMessage());
+			new Erro("Erro ao recuperar o EMEI do aparelho.\n", ex.getMessage());
 
 		} finally {
 		}

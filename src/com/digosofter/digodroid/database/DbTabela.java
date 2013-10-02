@@ -188,7 +188,7 @@ public class DbTabela extends Objeto {
 			// FIM AÇÕES
 		} catch (Exception ex) {
 
-			new Erro("Erro inesperado.\n" + ex.getMessage());
+			new Erro("Erro ao abrir tela de cadastro.\n" , ex.getMessage());
 
 		} finally {
 		}
@@ -228,7 +228,7 @@ public class DbTabela extends Objeto {
 			// FIM AÇÕES
 		} catch (Exception ex) {
 
-			new Erro("Erro inesperado.\n" + ex.getMessage());
+			new Erro("Erro ao buscar registro.\n" , ex.getMessage());
 
 		} finally {
 		}
@@ -245,7 +245,7 @@ public class DbTabela extends Objeto {
 			// FIM AÇÕES
 		} catch (Exception ex) {
 
-			new Erro("Erro inesperado.\n" + ex.getMessage());
+			new Erro("Erro ao buscar registro.\n" , ex.getMessage());
 
 		} finally {
 		}
@@ -262,7 +262,7 @@ public class DbTabela extends Objeto {
 			// FIM AÇÕES
 		} catch (Exception ex) {
 
-			new Erro("Erro inesperado.\n" + ex.getMessage());
+			new Erro("Erro ao buscar registro.\n" , ex.getMessage());
 
 		} finally {
 		}
@@ -307,7 +307,7 @@ public class DbTabela extends Objeto {
 			// FIM AÇÕES
 
 		} catch (Exception ex) {
-			new Erro("Erro ao criar tabela.\n" + ex.getMessage());
+			new Erro("Erro ao criar tabela.\n" , ex.getMessage());
 
 		} finally {
 			// LIMPAR VARIÁVEIS
@@ -331,7 +331,7 @@ public class DbTabela extends Objeto {
 			// FIM AÇÕES
 		} catch (Exception ex) {
 
-			new Erro("Erro inesperado.\n" + ex.getMessage());
+			new Erro("Erro ao excluir registro.\n" , ex.getMessage());
 
 		} finally {
 		}
@@ -402,7 +402,7 @@ public class DbTabela extends Objeto {
 			// FIM AÇÕES
 		} catch (Exception ex) {
 
-			new Erro("Erro inesperado.\n" + ex.getMessage());
+			new Erro("Erro ao recuperar tabela no banco de dados.\n" , ex.getMessage());
 
 		} finally {
 		}
@@ -423,7 +423,7 @@ public class DbTabela extends Objeto {
 			// FIM AÇÕES
 		} catch (Exception ex) {
 
-			new Erro("Erro inesperado.\n" + ex.getMessage());
+			new Erro("Erro ao recuperar tabela no banco de dados.\n" , ex.getMessage());
 
 		} finally {
 		}
@@ -452,7 +452,7 @@ public class DbTabela extends Objeto {
 			// FIM AÇÕES
 		} catch (Exception ex) {
 
-			new Erro("Erro inesperado.\n" + ex.getMessage());
+			new Erro("Erro ao recuperar tabela no banco de dados.\n" , ex.getMessage());
 
 		} finally {
 		}
@@ -500,7 +500,7 @@ public class DbTabela extends Objeto {
 				strClnNome += this.getClnNome().getStrNomeSimplificado() + ",";
 			}
 			for (DbColuna cln : this.getLstObjDbColuna()) {
-				if (cln.getBooVisivelCadastro() && !cln.getBooChavePrimaria() && !cln.getBooClnNome()) {
+				if (cln.getBooVisivelCadastro() && !cln.getBooClnNome()) {
 					strClnNome += "A." + cln.getStrNomeSimplificado() + ",";
 					intNumeroColuna++;
 				}
@@ -521,7 +521,7 @@ public class DbTabela extends Objeto {
 			// FIM AÇÕES
 		} catch (Exception ex) {
 
-			new Erro("Erro inesperado.\n" + ex.getMessage());
+			new Erro("Erro ao recuperar tabela no banco de dados.\n" , ex.getMessage());
 
 		} finally {
 		}
@@ -536,7 +536,7 @@ public class DbTabela extends Objeto {
 			// FIM AÇÕES
 		} catch (Exception ex) {
 
-			new Erro("Erro inesperado.\n" + ex.getMessage());
+			new Erro("Erro ao recuperar tabela no banco de dados.\n" , ex.getMessage());
 
 		} finally {
 		}
@@ -562,7 +562,7 @@ public class DbTabela extends Objeto {
 			// FIM AÇÕES
 		} catch (Exception ex) {
 
-			new Erro("Erro inesperado.\n" + ex.getMessage());
+			new Erro("Erro ao recuperar nome da coluna.\n" , ex.getMessage());
 
 		} finally {
 		}
@@ -602,7 +602,7 @@ public class DbTabela extends Objeto {
 			// FIM AÇÕES
 		} catch (Exception ex) {
 
-			new Erro("Erro inesperado.\n" + ex.getMessage());
+			new Erro("Erro ao inserir registro no banco de dados.\n" , ex.getMessage());
 
 		} finally {
 		}
@@ -635,7 +635,7 @@ public class DbTabela extends Objeto {
 			// FIM AÇÕES
 		} catch (Exception ex) {
 
-			new Erro("Erro inesperado.\n" + ex.getMessage());
+			new Erro("Erro ao inserir registro aleatório no banco de dados.\n" , ex.getMessage());
 
 		} finally {
 		}
@@ -654,7 +654,7 @@ public class DbTabela extends Objeto {
 			// FIM AÇÕES
 		} catch (Exception ex) {
 
-			new Erro("Erro inesperado.\n" + ex.getMessage());
+			new Erro("Erro ao zerar valores das colunas do registro.\n" , ex.getMessage());
 
 		} finally {
 		}

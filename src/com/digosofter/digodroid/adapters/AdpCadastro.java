@@ -72,7 +72,7 @@ public class AdpCadastro extends BaseAdapter implements Filterable {
 			// FIM AÇÕES
 		} catch (Exception ex) {
 
-			new Erro("Erro inesperado.\n" + ex.getMessage());
+			new Erro("Erro ao instanciar adaptador do cadastro.\n" , ex.getMessage());
 
 		} finally {
 		}
@@ -139,7 +139,7 @@ public class AdpCadastro extends BaseAdapter implements Filterable {
 			// FIM AÇÕES
 		} catch (Exception ex) {
 
-			new Erro("Erro inesperado.\n" + ex.getMessage());
+			new Erro("Erro ao recuperar o view no adaptador.\n" , ex.getMessage());
 
 		} finally {
 		}
@@ -157,9 +157,10 @@ public class AdpCadastro extends BaseAdapter implements Filterable {
 			@Override
 			protected void publishResults(CharSequence constraint, FilterResults results) {
 				// Now we have to inform the adapter about the new list filtered
-				if (results.count == 0)
-					notifyDataSetInvalidated();
-				else {
+				if (results.count == 0) {
+					AdpCadastro.this.setLstObjItmCadastro(new ArrayList<ItmCadastro>());
+					notifyDataSetChanged();
+				} else {
 					AdpCadastro.this.setLstObjItmCadastro((ArrayList<ItmCadastro>) results.values);
 					notifyDataSetChanged();
 				}
@@ -189,6 +190,5 @@ public class AdpCadastro extends BaseAdapter implements Filterable {
 			}
 		};
 	}
-
 	// FIM EVENTOS
 }

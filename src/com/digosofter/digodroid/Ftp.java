@@ -71,7 +71,7 @@ public class Ftp extends Objeto {
 			// FIM AÇÕES
 		} catch (Exception ex) {
 
-			new Erro("Erro inesperado.\n" + ex.getMessage());
+			new Erro("Erro ao instanciar objeto do tipo 'Ftp'.\n" , ex.getMessage());
 
 		} finally {
 		}
@@ -90,7 +90,7 @@ public class Ftp extends Objeto {
 			// FIM AÇÕES
 		} catch (Exception ex) {
 
-			new Erro("Erro inesperado.\n" + ex.getMessage());
+			new Erro("Erro ao fazer download do FTP.\n" , ex.getMessage());
 
 		} finally {
 		}

@@ -5,6 +5,9 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Locale;
+import java.util.Random;
+
+import android.graphics.Color;
 
 import com.digosofter.digodroid.erro.Erro;
 
@@ -54,7 +57,7 @@ public abstract class Utils {
 			// FIM AÇÕES
 		} catch (Exception ex) {
 
-			new Erro("Erro inesperado.\n" + ex.getMessage());
+			new Erro("Erro ao arredondar valor numérico.\n" , ex.getMessage());
 
 		} finally {
 		}
@@ -75,13 +78,35 @@ public abstract class Utils {
 			// FIM AÇÕES
 		} catch (Exception ex) {
 
-			new Erro("Erro inesperado.\n" + ex.getMessage());
+			new Erro("Erro ao recuperar data atual.\n" , ex.getMessage());
 
 		} finally {
 		}
 		return dttResultado;
 	}
 
+	public static int getIntCorAleatoria() {
+		// VARIÁVEIS
+
+		int intColorResultado = 0;
+		Random objRandom = new Random(); 
+
+		// FIM VARIÁVEIS
+		try {
+			// AÇÕES
+			
+			intColorResultado = Color.argb(255, objRandom.nextInt(256), objRandom.nextInt(256), objRandom.nextInt(256));
+			
+			// FIM AÇÕES
+		} catch (Exception ex) {
+
+			new Erro("Erro ao gerar cor aleatória.\n" , ex.getMessage());
+
+		} finally {
+		}
+		return intColorResultado;
+	}
+	
 	public static String getStrAleatoria(int intTamanho, EnmRandomTipo enmRandomTipo) {
 
 		StringBuffer buffer = new StringBuffer();
@@ -168,7 +193,7 @@ public abstract class Utils {
 			// FIM AÇÕES
 		} catch (Exception ex) {
 
-			new Erro("Erro inesperado.\n" + ex.getMessage());
+			new Erro("Erro inesperado.\n" , ex.getMessage());
 
 		} finally {
 		}
@@ -231,7 +256,7 @@ public abstract class Utils {
 			// FIM AÇÕES
 		} catch (Exception ex) {
 
-			new Erro("Erro inesperado.\n" + ex.getMessage());
+			new Erro("Erro inesperado.\n" , ex.getMessage());
 
 		} finally {
 		}
