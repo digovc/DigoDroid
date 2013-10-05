@@ -2,17 +2,18 @@ package com.digosofter.digodroid.activitys;
 
 import java.util.ArrayList;
 
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Color;
-import android.net.MailTo;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.View;
-import android.view.View.OnKeyListener;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.AbsListView;
+import android.widget.AbsListView.OnScrollListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.EditText;
@@ -91,7 +92,7 @@ public class ActCadastro extends ActBase {
 
 			// FIM AÇÕES
 		} catch (Exception ex) {
-			new Erro("Erro ao carregar tabela.\n" , ex.getMessage());
+			new Erro("Erro ao carregar tabela.\n", ex.getMessage());
 		} finally {
 		}
 	}
@@ -162,17 +163,17 @@ public class ActCadastro extends ActBase {
 					} while (objCursor.moveToNext());
 				}
 			}
-			
+
 			this.setAdpCadastro(new AdpCadastro(this, lstObjItmCadastro));
-			
+
 			this.getObjListView().setAdapter(this.getAdpCadastro());
 			this.getObjListView().setCacheColorHint(Color.TRANSPARENT);
-			
+
 			this.getTxtTblTitulo().setBackgroundColor(Utils.getIntCorAleatoria());
 
 			// FIM AÇÕES
 		} catch (Exception ex) {
-			new Erro("Erro ao montar layout.\n" , ex.getMessage());
+			new Erro("Erro ao montar layout.\n", ex.getMessage());
 		} finally {
 		}
 	}
@@ -217,7 +218,36 @@ public class ActCadastro extends ActBase {
 						// FIM AÇÕES
 					} catch (Exception ex) {
 
-						new Erro("Erro ao fechar tela de cadastro.\n" , ex.getMessage());
+						new Erro("Erro ao fechar tela de cadastro.\n", ex.getMessage());
+
+					} finally {
+					}
+				}
+			});
+
+			this.getObjListView().setOnScrollListener(new OnScrollListener() {
+
+				@Override
+				public void onScrollStateChanged(AbsListView view, int scrollState) {
+					// TODO Auto-generated method stub
+
+				}
+
+				@Override
+				public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+					// VARIÁVEIS
+					// FIM VARIÁVEIS
+					try {
+						// AÇÕES
+
+						InputMethodManager inputManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+						inputManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(),
+								InputMethodManager.HIDE_NOT_ALWAYS);
+
+						// FIM AÇÕES
+					} catch (Exception ex) {
+
+						new Erro("Erro inesperado.\n", ex.getMessage());
 
 					} finally {
 					}
@@ -227,7 +257,7 @@ public class ActCadastro extends ActBase {
 			// FIM AÇÕES
 		} catch (Exception ex) {
 
-			new Erro("Erro ao setar os eventos.\n" , ex.getMessage());
+			new Erro("Erro ao setar os eventos.\n", ex.getMessage());
 
 		} finally {
 		}
@@ -253,7 +283,7 @@ public class ActCadastro extends ActBase {
 
 			// FIM AÇÕES
 		} catch (Exception ex) {
-			new Erro("Erro ao criar tela de cadastro.\n" , ex.getMessage());
+			new Erro("Erro ao criar tela de cadastro.\n", ex.getMessage());
 		} finally {
 		}
 	}
