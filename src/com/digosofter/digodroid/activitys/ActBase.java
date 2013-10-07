@@ -25,7 +25,7 @@ public abstract class ActBase extends ActionBarActivity {
 			getSupportFragmentManager().beginTransaction().add(intIdPnlContainer, objFragmento).commit();
 
 			this.findViewById(0);
-			
+
 			// FIM AÇÕES
 		} catch (Exception ex) {
 		} finally {
@@ -36,7 +36,7 @@ public abstract class ActBase extends ActionBarActivity {
 	public View findViewById(int id) {
 		return super.findViewById(id);
 	}
-	
+
 	protected abstract void montarLayout();
 
 	protected abstract void setEventos();
@@ -44,5 +44,6 @@ public abstract class ActBase extends ActionBarActivity {
 	// FIM MÉTODOS
 
 	// EVENTOS
+
 	// FIM EVENTOS
 }

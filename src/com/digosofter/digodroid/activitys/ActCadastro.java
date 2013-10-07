@@ -75,16 +75,16 @@ public class ActCadastro extends ActBase {
 
 	private void setTbl(DbTabela tbl) {
 		// VARIÁVEIS
+
+		_tbl = tbl;
+
+		TextView txtTabelaDescricao = (TextView) this.findViewById(R.id.actCadastro_txtTabelaDescricao);
+
 		// FIM VARIÁVEIS
 		try {
 			// AÇÕES
 
-			_tbl = tbl;
-
-			TextView txtTabelaTitulo = (TextView) this.findViewById(R.id.actCadastro_txtTabelaTitulo);
-			TextView txtTabelaDescricao = (TextView) this.findViewById(R.id.actCadastro_txtTabelaDescricao);
-
-			txtTabelaTitulo.setText(_tbl.getStrNomeExibicao());
+			this.setTitle(_tbl.getStrNomeExibicao());
 			if (_tbl.getStrDescricao() != null) {
 				txtTabelaDescricao.setText(_tbl.getStrDescricao());
 				txtTabelaDescricao.setVisibility(View.VISIBLE);
@@ -95,15 +95,6 @@ public class ActCadastro extends ActBase {
 			new Erro("Erro ao carregar tabela.\n", ex.getMessage());
 		} finally {
 		}
-	}
-
-	private TextView _txtTblTitulo;
-
-	private TextView getTxtTblTitulo() {
-		if (_txtTblTitulo == null) {
-			_txtTblTitulo = (TextView) this.findViewById(R.id.actCadastro_txtTabelaTitulo);
-		}
-		return _txtTblTitulo;
 	}
 
 	// FIM ATRIBUTOS
@@ -169,8 +160,6 @@ public class ActCadastro extends ActBase {
 			this.getObjListView().setAdapter(this.getAdpCadastro());
 			this.getObjListView().setCacheColorHint(Color.TRANSPARENT);
 
-			this.getTxtTblTitulo().setBackgroundColor(Utils.getIntCorAleatoria());
-
 			// FIM AÇÕES
 		} catch (Exception ex) {
 			new Erro("Erro ao montar layout.\n", ex.getMessage());
@@ -229,12 +218,6 @@ public class ActCadastro extends ActBase {
 
 				@Override
 				public void onScrollStateChanged(AbsListView view, int scrollState) {
-					// TODO Auto-generated method stub
-
-				}
-
-				@Override
-				public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
 					// VARIÁVEIS
 					// FIM VARIÁVEIS
 					try {
@@ -251,6 +234,10 @@ public class ActCadastro extends ActBase {
 
 					} finally {
 					}
+				}
+
+				@Override
+				public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
 				}
 			});
 

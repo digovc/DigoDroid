@@ -11,17 +11,8 @@
         android:id="@+id/actCadastro_pnlInfo"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical" >
-
-        <TextView
-            android:id="@+id/actCadastro_txtTabelaTitulo"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="#1359"
-            android:padding="3dp"
-            android:text="Cadastro"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textColor="#000" />
+        android:orientation="vertical"
+        android:padding="5dp" >
 
         <TextView
             android:id="@+id/actCadastro_txtTabelaDescricao"
@@ -35,7 +26,10 @@
             android:id="@+id/actCadastro_edtPesquisa"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:ems="10" >
+            android:layout_margin="10dp"
+            android:ems="10"
+            android:hint="Pesquisa"
+            android:inputType="textCapCharacters" >
 
             <requestFocus />
         </EditText>
@@ -46,6 +40,7 @@
             android:layout_height="match_parent"
             android:divider="#ECECEC"
             android:dividerHeight="1sp" >
+
         </ListView>
 
     </LinearLayout>
