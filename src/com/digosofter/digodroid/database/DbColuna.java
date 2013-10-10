@@ -1,7 +1,9 @@
 package com.digosofter.digodroid.database;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.List;
 
 import com.digosofter.digodroid.Objeto;
 import com.digosofter.digodroid.Utils;
@@ -108,6 +110,16 @@ public class DbColuna extends Objeto {
 		_enmTipo = enmTipo;
 	}
 
+	private List<String> _lstStrOpcao = new ArrayList<String>();
+
+	public List<String> getLstStrOpcao() {
+		return _lstStrOpcao;
+	}
+
+	public void setLstStrOpcao(List<String> lstStrOpcao) {
+		_lstStrOpcao = lstStrOpcao;
+	}	
+	
 	private String _strValor;
 
 	public String getStrValor() {
@@ -172,7 +184,7 @@ public class DbColuna extends Objeto {
 			// FIM AÇÕES
 		} catch (Exception ex) {
 
-			new Erro("Erro ao retornar valor do tipo 'date' do registro.\n" , ex.getMessage());
+			new Erro("Erro ao retornar valor do tipo 'date' do registro.\n", ex.getMessage());
 
 		} finally {
 		}
@@ -309,6 +321,17 @@ public class DbColuna extends Objeto {
 
 	@Override
 	public String toString() {
+		// VARIÁVEIS
+		// FIM VARIÁVEIS
+		try {
+			// AÇÕES
+			// FIM AÇÕES
+		} catch (Exception ex) {
+
+			new Erro("Erro inesperado.\n", ex.getMessage());
+
+		} finally {
+		}
 		return this.getStrValor();
 	}
 
