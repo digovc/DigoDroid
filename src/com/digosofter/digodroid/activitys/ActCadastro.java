@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AbsListView;
@@ -22,7 +23,6 @@ import android.widget.TextView;
 
 import com.digosofter.digodroid.App;
 import com.digosofter.digodroid.R;
-import com.digosofter.digodroid.Utils;
 import com.digosofter.digodroid.adapters.AdpCadastro;
 import com.digosofter.digodroid.database.DbTabela;
 import com.digosofter.digodroid.erro.Erro;
@@ -160,6 +160,9 @@ public class ActCadastro extends ActBase {
 			this.getObjListView().setAdapter(this.getAdpCadastro());
 			this.getObjListView().setCacheColorHint(Color.TRANSPARENT);
 
+			this.getSupportActionBar().hide();
+			
+			
 			// FIM AÇÕES
 		} catch (Exception ex) {
 			new Erro("Erro ao montar layout.\n", ex.getMessage());
@@ -280,6 +283,29 @@ public class ActCadastro extends ActBase {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.act_cadastro, menu);
 		return true;
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		// VARIÁVEIS
+		// FIM VARIÁVEIS
+		try {
+			// AÇÕES
+
+			switch (item.getItemId()) {
+			case android.R.id.home:
+				this.onBackPressed();
+				break;
+			}
+
+			// FIM AÇÕES
+		} catch (Exception ex) {
+
+			new Erro("Erro inesperado.\n", ex.getMessage());
+
+		} finally {
+		}
+		return super.onOptionsItemSelected(item);
 	}
 
 	// FIM EVENTOS

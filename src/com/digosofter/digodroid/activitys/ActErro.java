@@ -23,11 +23,12 @@ public class ActErro extends ActBase {
 
 	private void setErr(Erro err) {
 		// VARIÁVEIS
+
+		_err = err;
+
 		// FIM VARIÁVEIS
 		try {
 			// AÇÕES
-
-			_err = err;
 
 			TextView txtAppNome = (TextView) this.findViewById(R.id.actErro_txtAppNome);
 			TextView txtErroTitulo = (TextView) this.findViewById(R.id.actErro_txtErroTitulo);
@@ -35,7 +36,11 @@ public class ActErro extends ActBase {
 
 			txtAppNome.setText(App.getApp().getStrNome());
 			txtErroTitulo.setText(_err.getStrNome());
-			txtErroMensagem.setText(_err.getStrMensagem() + "\n\nInformação técnica: " + _err.getStrMensagemDetalhes());
+			if (_err.getStrMensagemDetalhes() != null) {
+				txtErroMensagem.setText(_err.getStrMensagem() + "\n\nInformação técnica: " + _err.getStrMensagemDetalhes());
+			}else{
+				txtErroMensagem.setText(_err.getStrMensagem());
+			}
 
 			// FIM AÇÕES
 		} catch (Exception ex) {
@@ -84,7 +89,7 @@ public class ActErro extends ActBase {
 			// FIM AÇÕES
 		} catch (Exception ex) {
 
-			new Erro("Erro inesperado.\n" , ex.getMessage());
+			new Erro("Erro inesperado.\n", ex.getMessage());
 
 		} finally {
 		}

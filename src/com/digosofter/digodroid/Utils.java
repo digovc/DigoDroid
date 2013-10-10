@@ -1,9 +1,13 @@
 package com.digosofter.digodroid;
 
+import java.math.BigInteger;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.List;
 import java.util.Locale;
 import java.util.Random;
 
@@ -52,12 +56,11 @@ public abstract class Utils {
 				dblValorArredondado = Math.floor(dblValorArredondado);
 			}
 			dblValorArredondado /= (Math.pow(10, intQtdCasas));
-			
-			
+
 			// FIM AÇÕES
 		} catch (Exception ex) {
 
-			new Erro("Erro ao arredondar valor numérico.\n" , ex.getMessage());
+			new Erro("Erro ao arredondar valor numérico.\n", ex.getMessage());
 
 		} finally {
 		}
@@ -78,7 +81,7 @@ public abstract class Utils {
 			// FIM AÇÕES
 		} catch (Exception ex) {
 
-			new Erro("Erro ao recuperar data atual.\n" , ex.getMessage());
+			new Erro("Erro ao recuperar data atual.\n", ex.getMessage());
 
 		} finally {
 		}
@@ -89,24 +92,24 @@ public abstract class Utils {
 		// VARIÁVEIS
 
 		int intColorResultado = 0;
-		Random objRandom = new Random(); 
+		Random objRandom = new Random();
 
 		// FIM VARIÁVEIS
 		try {
 			// AÇÕES
-			
+
 			intColorResultado = Color.argb(255, objRandom.nextInt(256), objRandom.nextInt(256), objRandom.nextInt(256));
-			
+
 			// FIM AÇÕES
 		} catch (Exception ex) {
 
-			new Erro("Erro ao gerar cor aleatória.\n" , ex.getMessage());
+			new Erro("Erro ao gerar cor aleatória.\n", ex.getMessage());
 
 		} finally {
 		}
 		return intColorResultado;
 	}
-	
+
 	public static String getStrAleatoria(int intTamanho, EnmRandomTipo enmRandomTipo) {
 
 		StringBuffer buffer = new StringBuffer();
@@ -182,6 +185,42 @@ public abstract class Utils {
 		return objSimpleDateFormat.format(objDate);
 	}
 
+	public static String getStrMd5(String str) {
+		// VARIÁVEIS
+
+		MessageDigest objMessageDigest = null;
+
+		String strMd5Resultado = Utils.STRING_VAZIA;
+
+		// FIM VARIÁVEIS
+		try {
+			// AÇÕES
+
+			// objMessageDigest = MessageDigest.getInstance("MD5");
+			// objMessageDigest.update(str.getBytes("UTF-8"));
+			//
+			// byte[] digest = objMessageDigest.digest();
+			// StringBuffer sb = new StringBuffer();
+			// for (byte b : digest) {
+			// sb.append(Integer.toHexString((int) (b & 0xff)));
+			// }
+			//
+			// strMd5Resultado = sb.toString().toUpperCase(Utils.LOCAL_BRASIL);
+
+			objMessageDigest = MessageDigest.getInstance("MD5");
+			BigInteger hash = new BigInteger(1, objMessageDigest.digest(str.getBytes()));
+			strMd5Resultado = hash.toString(16).toUpperCase(Utils.LOCAL_BRASIL);
+
+			// FIM AÇÕES
+		} catch (Exception ex) {
+
+			new Erro("Erro inesperado.\n", ex.getMessage());
+
+		} finally {
+		}
+		return strMd5Resultado;
+	}
+
 	public static String getStrPrimeiraMaiuscula(String str) {
 		// VARIÁVEIS
 		// FIM VARIÁVEIS
@@ -193,7 +232,7 @@ public abstract class Utils {
 			// FIM AÇÕES
 		} catch (Exception ex) {
 
-			new Erro("Erro inesperado.\n" , ex.getMessage());
+			new Erro("Erro inesperado.\n", ex.getMessage());
 
 		} finally {
 		}
@@ -228,6 +267,37 @@ public abstract class Utils {
 		return strComplexa;
 	}
 
+	public static String getStrToken(List<String> lstStrTermo, int intTamanho) {
+		// VARIÁVEIS
+
+		String strTermoMd5 = Utils.STRING_VAZIA;
+		String strTokenResultado = Utils.STRING_VAZIA;
+
+		// FIM VARIÁVEIS
+		try {
+			// AÇÕES
+
+			for (String strTermo : lstStrTermo) {
+				strTermoMd5 = Utils.getStrMd5(strTermo);
+				strTokenResultado = Utils.getStrMd5(strTokenResultado + strTermoMd5);
+			}
+
+			strTokenResultado = strTokenResultado.substring(0, intTamanho);
+
+			// FIM AÇÕES
+		} catch (Exception ex) {
+
+			new Erro("Erro inesperado.\n", ex.getMessage());
+
+		} finally {
+		}
+		return strTokenResultado;
+	}
+
+	public static String getStrToken(List<String> lstStrTermo) {
+		return Utils.getStrToken(lstStrTermo, 5);
+	}
+
 	public static String getStrValorMonetario(double monValor) {
 		// VARIÁVEIS
 
@@ -256,7 +326,7 @@ public abstract class Utils {
 			// FIM AÇÕES
 		} catch (Exception ex) {
 
-			new Erro("Erro inesperado.\n" , ex.getMessage());
+			new Erro("Erro inesperado.\n", ex.getMessage());
 
 		} finally {
 		}

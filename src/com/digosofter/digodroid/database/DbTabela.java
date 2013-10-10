@@ -188,7 +188,7 @@ public class DbTabela extends Objeto {
 			// FIM AÇÕES
 		} catch (Exception ex) {
 
-			new Erro("Erro ao abrir tela de cadastro.\n" , ex.getMessage());
+			new Erro("Erro ao abrir tela de cadastro.\n", ex.getMessage());
 
 		} finally {
 		}
@@ -228,7 +228,7 @@ public class DbTabela extends Objeto {
 			// FIM AÇÕES
 		} catch (Exception ex) {
 
-			new Erro("Erro ao buscar registro.\n" , ex.getMessage());
+			new Erro("Erro ao buscar registro.\n", ex.getMessage());
 
 		} finally {
 		}
@@ -245,7 +245,7 @@ public class DbTabela extends Objeto {
 			// FIM AÇÕES
 		} catch (Exception ex) {
 
-			new Erro("Erro ao buscar registro.\n" , ex.getMessage());
+			new Erro("Erro ao buscar registro.\n", ex.getMessage());
 
 		} finally {
 		}
@@ -262,7 +262,7 @@ public class DbTabela extends Objeto {
 			// FIM AÇÕES
 		} catch (Exception ex) {
 
-			new Erro("Erro ao buscar registro.\n" , ex.getMessage());
+			new Erro("Erro ao buscar registro.\n", ex.getMessage());
 
 		} finally {
 		}
@@ -307,7 +307,7 @@ public class DbTabela extends Objeto {
 			// FIM AÇÕES
 
 		} catch (Exception ex) {
-			new Erro("Erro ao criar tabela.\n" , ex.getMessage());
+			new Erro("Erro ao criar tabela.\n", ex.getMessage());
 
 		} finally {
 			// LIMPAR VARIÁVEIS
@@ -331,7 +331,7 @@ public class DbTabela extends Objeto {
 			// FIM AÇÕES
 		} catch (Exception ex) {
 
-			new Erro("Erro ao excluir registro.\n" , ex.getMessage());
+			new Erro("Erro ao excluir registro.\n", ex.getMessage());
 
 		} finally {
 		}
@@ -380,7 +380,7 @@ public class DbTabela extends Objeto {
 				strFiltro += " WHERE ";
 				for (DbFiltro objDbFiltro : lstObjDbFitro) {
 					strFiltro += objDbFiltro.getClnFiltro().getStrNomeSimplificado();
-					strFiltro += "='";
+					strFiltro += objDbFiltro.getStrOperador() + "'";
 					strFiltro += objDbFiltro.getStrFiltro();
 					strFiltro += "' AND ";
 				}
@@ -402,7 +402,7 @@ public class DbTabela extends Objeto {
 			// FIM AÇÕES
 		} catch (Exception ex) {
 
-			new Erro("Erro ao recuperar tabela no banco de dados.\n" , ex.getMessage());
+			new Erro("Erro ao recuperar tabela no banco de dados.\n", ex.getMessage());
 
 		} finally {
 		}
@@ -423,7 +423,7 @@ public class DbTabela extends Objeto {
 			// FIM AÇÕES
 		} catch (Exception ex) {
 
-			new Erro("Erro ao recuperar tabela no banco de dados.\n" , ex.getMessage());
+			new Erro("Erro ao recuperar tabela no banco de dados.\n", ex.getMessage());
 
 		} finally {
 		}
@@ -452,7 +452,7 @@ public class DbTabela extends Objeto {
 			// FIM AÇÕES
 		} catch (Exception ex) {
 
-			new Erro("Erro ao recuperar tabela no banco de dados.\n" , ex.getMessage());
+			new Erro("Erro ao recuperar tabela no banco de dados.\n", ex.getMessage());
 
 		} finally {
 		}
@@ -477,7 +477,7 @@ public class DbTabela extends Objeto {
 				strFiltro += " WHERE ";
 				for (DbFiltro objDbFiltro : lstObjDbFitro) {
 					strFiltro += objDbFiltro.getClnFiltro().getStrNomeSimplificado();
-					strFiltro += "='";
+					strFiltro += objDbFiltro.getStrOperador() + "'";
 					strFiltro += objDbFiltro.getStrFiltro();
 					strFiltro += "' AND ";
 				}
@@ -521,7 +521,7 @@ public class DbTabela extends Objeto {
 			// FIM AÇÕES
 		} catch (Exception ex) {
 
-			new Erro("Erro ao recuperar tabela no banco de dados.\n" , ex.getMessage());
+			new Erro("Erro ao recuperar tabela no banco de dados.\n", ex.getMessage());
 
 		} finally {
 		}
@@ -536,7 +536,7 @@ public class DbTabela extends Objeto {
 			// FIM AÇÕES
 		} catch (Exception ex) {
 
-			new Erro("Erro ao recuperar tabela no banco de dados.\n" , ex.getMessage());
+			new Erro("Erro ao recuperar tabela no banco de dados.\n", ex.getMessage());
 
 		} finally {
 		}
@@ -562,7 +562,7 @@ public class DbTabela extends Objeto {
 			// FIM AÇÕES
 		} catch (Exception ex) {
 
-			new Erro("Erro ao recuperar nome da coluna.\n" , ex.getMessage());
+			new Erro("Erro ao recuperar nome da coluna.\n", ex.getMessage());
 
 		} finally {
 		}
@@ -582,15 +582,12 @@ public class DbTabela extends Objeto {
 
 			for (DbColuna cln : this.getLstObjDbColuna()) {
 
-				strColunasNomes += cln.getStrNomeSimplificado() + ",";
 				if (cln.getStrValor() != null && !cln.getStrValor().equals(Utils.STRING_VAZIA)) {
+					strColunasNomes += cln.getStrNomeSimplificado() + ",";
 					strColunasValores += "'" + cln.getStrValor() + "',";
-				} else {
-					if (cln.getStrValorDefault() != null && !cln.getStrValorDefault().equals(Utils.STRING_VAZIA)) {
-						strColunasValores += "'" + cln.getStrValorDefault() + "',";
-					} else {
-						strColunasValores += "null,";
-					}
+				} else if (cln.getStrValorDefault() != null && !cln.getStrValorDefault().equals(Utils.STRING_VAZIA)) {
+					strColunasNomes += cln.getStrNomeSimplificado() + ",";
+					strColunasValores += "'" + cln.getStrValorDefault() + "',";
 				}
 			}
 			strColunasNomes = Utils.removerUltimaLetra(strColunasNomes);
@@ -602,7 +599,7 @@ public class DbTabela extends Objeto {
 			// FIM AÇÕES
 		} catch (Exception ex) {
 
-			new Erro("Erro ao inserir registro no banco de dados.\n" , ex.getMessage());
+			new Erro("Erro ao inserir registro no banco de dados.\n", ex.getMessage());
 
 		} finally {
 		}
@@ -635,7 +632,7 @@ public class DbTabela extends Objeto {
 			// FIM AÇÕES
 		} catch (Exception ex) {
 
-			new Erro("Erro ao inserir registro aleatório no banco de dados.\n" , ex.getMessage());
+			new Erro("Erro ao inserir registro aleatório no banco de dados.\n", ex.getMessage());
 
 		} finally {
 		}
@@ -654,7 +651,7 @@ public class DbTabela extends Objeto {
 			// FIM AÇÕES
 		} catch (Exception ex) {
 
-			new Erro("Erro ao zerar valores das colunas do registro.\n" , ex.getMessage());
+			new Erro("Erro ao zerar valores das colunas do registro.\n", ex.getMessage());
 
 		} finally {
 		}

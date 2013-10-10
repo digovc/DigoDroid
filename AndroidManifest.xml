@@ -15,27 +15,15 @@
         android:theme="@style/Theme.AppCompat.Light" >
         <activity
             android:name="com.digosofter.digodroid.activitys.ActErro"
-            android:label="@string/title_activity_act_erro"
-            android:parentActivityName="ActBase" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="ActBase" />
+            android:label="@string/title_activity_act_erro">
         </activity>
         <activity
             android:name="com.digosofter.digodroid.activitys.ActErro"
-            android:label="@string/title_activity_act_erro"
-            android:parentActivityName="ActBase" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="ActBase" />
+            android:label="@string/title_activity_act_erro">
         </activity>
         <activity
             android:name="com.digosofter.digodroid.activitys.ActCadastro"
-            android:label="@string/title_activity_act_cadastro"
-            android:parentActivityName="ActBase" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="ActBase" />
+            android:label="@string/title_activity_act_cadastro">
         </activity>
     </application>
 
