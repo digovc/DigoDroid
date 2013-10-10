@@ -15,7 +15,7 @@ import com.digosofter.digodroid.activitys.ActCadastro;
 import com.digosofter.digodroid.database.DbColuna.EnmTipo;
 import com.digosofter.digodroid.erro.Erro;
 
-public class DbTabela extends Objeto {
+public abstract class DbTabela extends Objeto {
 	// CONSTANTES
 	// FIM CONSTANTES
 
@@ -62,16 +62,6 @@ public class DbTabela extends Objeto {
 		return _intQtdLinha;
 	}
 
-	private List<DbColuna> _lstObjDbColuna = new ArrayList<DbColuna>();;
-
-	public List<DbColuna> getLstObjDbColuna() {
-		return _lstObjDbColuna;
-	}
-
-	public void setLstObjDbColuna(List<DbColuna> lstObjDbColuna) {
-		_lstObjDbColuna = lstObjDbColuna;
-	}
-
 	private ArrayList<DbFiltro> _lstDbFiltroTelaCadastro = new ArrayList<DbFiltro>();
 
 	public ArrayList<DbFiltro> getLstDbFiltroTelaCadastro() {
@@ -80,6 +70,20 @@ public class DbTabela extends Objeto {
 
 	private void setLstDbFiltroTelaCadastro(ArrayList<DbFiltro> lstDbFiltroTelaCadastro) {
 		_lstDbFiltroTelaCadastro = lstDbFiltroTelaCadastro;
+	}
+
+	private List<DbColuna> _lstObjDbColuna = new ArrayList<DbColuna>();;
+
+	public List<DbColuna> getLstObjDbColuna() {
+		return _lstObjDbColuna;
+	}
+
+	public List<DbColuna> getLstCln() {
+		return this.getLstObjDbColuna();
+	}
+
+	public void setLstObjDbColuna(List<DbColuna> lstObjDbColuna) {
+		_lstObjDbColuna = lstObjDbColuna;
 	}
 
 	private DbColuna _clnChavePrimaria;
