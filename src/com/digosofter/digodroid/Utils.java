@@ -241,19 +241,24 @@ public abstract class Utils {
 
 	public static String getStrSimplificada(String strComplexa) {
 		// VARIÁVEIS
+
+		String[] arrChrAcentos;
+		String[] arrChrCaracteresEspeciais;
+		String[] arrChrSemAcento;
+
 		// FIM VARIÁVEIS
 		try {
 			// AÇÕES
 
 			strComplexa = strComplexa.toLowerCase(Locale.ENGLISH);
-			String[] arrChrAcentos = new String[] { "ç", "á", "é", "í", "ó", "ú", "ý", "à", "è", "ì", "ò", "ù", "ã",
-					"õ", "ñ", "ä", "ë", "ï", "ö", "ü", "ÿ", "â", "ê", "î", "ô", "û" };
-			String[] arrChrSemAcento = new String[] { "c", "a", "e", "i", "o", "u", "y", "a", "e", "i", "o", "u", "a",
-					"o", "n", "a", "e", "i", "o", "u", "y", "a", "e", "i", "o", "u" };
+			arrChrAcentos = new String[] { "ç", "á", "é", "í", "ó", "ú", "ý", "à", "è", "ì", "ò", "ù", "ã", "õ", "ñ",
+					"ä", "ë", "ï", "ö", "ü", "ÿ", "â", "ê", "î", "ô", "û" };
+			arrChrSemAcento = new String[] { "c", "a", "e", "i", "o", "u", "y", "a", "e", "i", "o", "u", "a", "o", "n",
+					"a", "e", "i", "o", "u", "y", "a", "e", "i", "o", "u" };
 			for (int intTemp = 0; intTemp < arrChrAcentos.length; intTemp++) {
 				strComplexa = strComplexa.replace(arrChrAcentos[intTemp], arrChrSemAcento[intTemp]);
 			}
-			String[] arrChrCaracteresEspeciais = { "\\.", ",", "-", ":", "\\(", "\\)", "ª", "\\|", "\\\\", "°",
+			arrChrCaracteresEspeciais = new String[] { "\\.", ",", "-", ":", "\\(", "\\)", "ª", "\\|", "\\\\", "°",
 					"^\\s+", "\\s+$", "\\s+", ".", "(", ")" };
 			for (int intTemp = 0; intTemp < arrChrCaracteresEspeciais.length; intTemp++) {
 				strComplexa = strComplexa.replace(arrChrCaracteresEspeciais[intTemp], "");
@@ -263,6 +268,9 @@ public abstract class Utils {
 			// FIM AÇÕES
 		} catch (Exception e) {
 		} finally {
+			arrChrAcentos = null;
+			arrChrCaracteresEspeciais = null;
+			arrChrSemAcento = null;
 		}
 		return strComplexa;
 	}

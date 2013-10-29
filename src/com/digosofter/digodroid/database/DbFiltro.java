@@ -59,6 +59,16 @@ public class DbFiltro extends Objeto {
 		_clnFiltro = clnFiltro;
 	}
 
+	private String _strCondicao = "AND";
+
+	public String getStrCondicao() {
+		return _strCondicao;
+	}
+
+	public void setStrCondicao(String strCondicao) {
+		_strCondicao = strCondicao;
+	}
+	
 	private String _strFiltro;
 
 	public String getStrFiltro() {

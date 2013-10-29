@@ -483,7 +483,7 @@ public abstract class DbTabela extends Objeto {
 					strFiltro += objDbFiltro.getClnFiltro().getStrNomeSimplificado();
 					strFiltro += objDbFiltro.getStrOperador() + "'";
 					strFiltro += objDbFiltro.getStrFiltro();
-					strFiltro += "' AND ";
+					strFiltro += "' " + objDbFiltro.getStrCondicao() + " ";
 				}
 				strFiltro = Utils.removerUltimaLetra(strFiltro);
 				strFiltro = Utils.removerUltimaLetra(strFiltro);
@@ -606,6 +606,9 @@ public abstract class DbTabela extends Objeto {
 			new Erro("Erro ao inserir registro no banco de dados.\n", ex.getMessage());
 
 		} finally {
+			strColunasNomes = null;
+			strColunasValores = null;
+			sql = null;
 		}
 	}
 
