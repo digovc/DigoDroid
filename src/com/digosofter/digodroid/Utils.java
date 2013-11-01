@@ -4,6 +4,7 @@ import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
@@ -348,6 +349,11 @@ public abstract class Utils {
 			// AÇÕES
 
 			stbDteResultado = new StringBuilder();
+
+			if (objGregorianCalendar.get(GregorianCalendar.DAY_OF_MONTH) < 10) {
+				stbDteResultado.append(0);
+			}
+
 			stbDteResultado.append(objGregorianCalendar.get(GregorianCalendar.DAY_OF_MONTH));
 			stbDteResultado.append("/");
 			stbDteResultado.append(objGregorianCalendar.get(GregorianCalendar.MONTH));
@@ -429,13 +435,41 @@ public abstract class Utils {
 		// VARIÁVEIS
 
 		Date dteResultado = null;
+		SimpleDateFormat objSimpleDateFormat = null;
 
 		// FIM VARIÁVEIS
 		try {
 			// AÇÕES
 
-			SimpleDateFormat objSimpleDateFormat = new SimpleDateFormat(Utils.enmDataFormatoToString(enmDataFormato));
+			objSimpleDateFormat = new SimpleDateFormat(Utils.enmDataFormatoToString(enmDataFormato), LOCAL_BRASIL);
 			dteResultado = objSimpleDateFormat.parse(strDte);
+
+			// FIM AÇÕES
+		} catch (Exception ex) {
+
+			new Erro("Erro inesperado.\n", ex.getMessage());
+
+		} finally {
+		}
+		return dteResultado;
+	}
+
+	public static GregorianCalendar strToGregorianCalendar(String strDte) {
+		// VARIÁVEIS
+
+		GregorianCalendar dteResultado = null;
+
+		// FIM VARIÁVEIS
+		try {
+			// AÇÕES
+
+			dteResultado = new GregorianCalendar();
+			dteResultado.setTime(Utils.strToDte(strDte, EnmDataFormato.DD_MM_YY));
+			dteResultado.add(Calendar.MONTH, 1);
+
+			if (dteResultado.get(Calendar.MONTH) == 12) {
+				dteResultado.add(Calendar.YEAR, 1);
+			}
 
 			// FIM AÇÕES
 		} catch (Exception ex) {
