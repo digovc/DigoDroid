@@ -63,6 +63,16 @@ public class DbColuna extends Objeto {
 		}
 	}
 
+	private boolean _booOrdemDecrecente;
+
+	public boolean getBooOrdemDecrecente() {
+		return _booOrdemDecrecente;
+	}
+
+	public void setBooOrdemDecrecente(boolean booOrdemDecrecente) {
+		_booOrdemDecrecente = booOrdemDecrecente;
+	}
+
 	private boolean _booVisivelCadastro = true;
 
 	public boolean getBooVisivelCadastro() {
@@ -118,8 +128,8 @@ public class DbColuna extends Objeto {
 
 	public void setLstStrOpcao(List<String> lstStrOpcao) {
 		_lstStrOpcao = lstStrOpcao;
-	}	
-	
+	}
+
 	private String _strValor;
 
 	public String getStrValor() {

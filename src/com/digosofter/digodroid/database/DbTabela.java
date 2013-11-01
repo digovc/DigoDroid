@@ -467,7 +467,9 @@ public abstract class DbTabela extends Objeto {
 		// VARIÁVEIS
 
 		Cursor crsResultado = null;
+
 		int intNumeroColuna = 0;
+
 		String sql = Utils.STRING_VAZIA;
 		String strClnNome = Utils.STRING_VAZIA;
 		String strFiltro = Utils.STRING_VAZIA;
@@ -479,18 +481,25 @@ public abstract class DbTabela extends Objeto {
 
 			if (lstObjDbFitro.size() > 0) {
 				strFiltro += " WHERE ";
+
 				for (DbFiltro objDbFiltro : lstObjDbFitro) {
+
 					strFiltro += objDbFiltro.getClnFiltro().getStrNomeSimplificado();
 					strFiltro += objDbFiltro.getStrOperador() + "'";
 					strFiltro += objDbFiltro.getStrFiltro();
 					strFiltro += "' " + objDbFiltro.getStrCondicao() + " ";
+
 				}
+
 				strFiltro = Utils.removerUltimaLetra(strFiltro);
 				strFiltro = Utils.removerUltimaLetra(strFiltro);
 				strFiltro = Utils.removerUltimaLetra(strFiltro);
 				strFiltro = Utils.removerUltimaLetra(strFiltro);
+
 			}
+
 			strClnNome += "A." + this.getClnChavePrimaria().getStrNomeSimplificado() + ",";
+
 			if (this.getClnNome().getClnReferencia() != null) {
 
 				String strTblReferenciaNome = this.getClnNome().getClnReferencia().getTbl().getStrNomeSimplificado();
@@ -503,23 +512,33 @@ public abstract class DbTabela extends Objeto {
 			} else {
 				strClnNome += this.getClnNome().getStrNomeSimplificado() + ",";
 			}
+
 			for (DbColuna cln : this.getLstObjDbColuna()) {
+
 				if (cln.getBooVisivelCadastro() && !cln.getBooClnNome()) {
 					strClnNome += "A." + cln.getStrNomeSimplificado() + ",";
 					intNumeroColuna++;
 				}
+
 				if (intNumeroColuna == 3) {
 					break;
 				}
 			}
+
 			if (this.getClnOrdemCadastro().getClnReferencia() == null) {
 				strClnOrdemNome = this.getClnOrdemCadastro().getStrNomeSimplificado();
 			} else {
 				strClnOrdemNome = "_strNomeB";
 			}
+
+			if (!strClnOrdemNome.equals(Utils.STRING_VAZIA) && this.getClnOrdemCadastro().getBooOrdemDecrecente()) {
+				strClnOrdemNome += " DESC";
+			}
+
 			strClnNome = Utils.removerUltimaLetra(strClnNome);
 			sql += "SELECT " + strClnNome + " FROM " + this.getStrNomeSimplificado() + " A " + strFiltro + " ORDER BY "
 					+ strClnOrdemNome + ";";
+
 			crsResultado = this.getObjDataBase().execSqlComRetorno(sql);
 
 			// FIM AÇÕES

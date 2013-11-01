@@ -72,7 +72,7 @@ public class AdpCadastro extends BaseAdapter implements Filterable {
 			// FIM AÇÕES
 		} catch (Exception ex) {
 
-			new Erro("Erro ao instanciar adaptador do cadastro.\n" , ex.getMessage());
+			new Erro("Erro ao instanciar adaptador do cadastro.\n", ex.getMessage());
 
 		} finally {
 		}
@@ -81,9 +81,6 @@ public class AdpCadastro extends BaseAdapter implements Filterable {
 	// FIM CONSTRUTORES
 
 	// MÉTODOS
-	// FIM MÉTODOS
-
-	// EVENTOS
 
 	@Override
 	public int getCount() {
@@ -139,7 +136,7 @@ public class AdpCadastro extends BaseAdapter implements Filterable {
 			// FIM AÇÕES
 		} catch (Exception ex) {
 
-			new Erro("Erro ao recuperar o view no adaptador.\n" , ex.getMessage());
+			new Erro("Erro ao recuperar o view no adaptador.\n", ex.getMessage());
 
 		} finally {
 		}
@@ -190,5 +187,9 @@ public class AdpCadastro extends BaseAdapter implements Filterable {
 			}
 		};
 	}
+
+	// FIM MÉTODOS
+
+	// EVENTOS
 	// FIM EVENTOS
 }

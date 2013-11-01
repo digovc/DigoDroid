@@ -2,7 +2,6 @@ package com.digosofter.digodroid;
 
 import java.math.BigInteger;
 import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -12,11 +11,18 @@ import java.util.Locale;
 import java.util.Random;
 
 import android.graphics.Color;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.widget.EditText;
 
 import com.digosofter.digodroid.erro.Erro;
 
 public abstract class Utils {
 	// CONSTANTES
+
+	public enum EnmDataFormato {
+		DD_MM, DD_MM_YY, DD_MM_YYYY, DD_MM_YYYY_HH_MM, DD_MM_YYYY_HH_MM_SS, HH_MM_DD_MM_YYYY, HH_MM_SS_DD_MM_YYYY, YYYY_MM_DD_HH_MM_SS
+	}
 
 	public static enum EnmRandomTipo {
 		ALPHA, ALPHANUMERICO, NUMERICO
@@ -25,10 +31,6 @@ public abstract class Utils {
 	public static final Locale LOCAL_BRASIL = new Locale("pt", "BR");
 
 	public static final String STRING_VAZIA = "";
-
-	public enum EnmDataFormato {
-		DD_MM, DD_MM_YYYY, DD_MM_YYYY_HH_MM, DD_MM_YYYY_HH_MM_SS, HH_MM_DD_MM_YYYY, HH_MM_SS_DD_MM_YYYY, YYYY_MM_DD_HH_MM_SS
-	}
 
 	// FIM CONSTANTES
 
@@ -65,6 +67,55 @@ public abstract class Utils {
 		} finally {
 		}
 		return dblValorArredondado;
+	}
+
+	public static String enmDataFormatoToString(EnmDataFormato enmDataFormato) {
+		// VARIÁVEIS
+
+		String strDataFormatoResultado = Utils.STRING_VAZIA;
+
+		// FIM VARIÁVEIS
+		try {
+			// AÇÕES
+
+			switch (enmDataFormato) {
+			case DD_MM:
+				strDataFormatoResultado = "dd/MM";
+				break;
+			case DD_MM_YY:
+				strDataFormatoResultado = "dd/MM/yy";
+				break;
+			case DD_MM_YYYY:
+				strDataFormatoResultado = "dd/MM/yyyy";
+				break;
+			case DD_MM_YYYY_HH_MM:
+				strDataFormatoResultado = "dd/MM/yyyy HH:mm";
+				break;
+			case DD_MM_YYYY_HH_MM_SS:
+				strDataFormatoResultado = "dd/MM/yyyy HH:mm:ss";
+				break;
+			case HH_MM_DD_MM_YYYY:
+				strDataFormatoResultado = "HH:mm dd/MM/yyyy";
+				break;
+			case HH_MM_SS_DD_MM_YYYY:
+				strDataFormatoResultado = "HH:mm:ss dd/MM/yyyy";
+				break;
+			case YYYY_MM_DD_HH_MM_SS:
+				strDataFormatoResultado = "yyyy/MM/dd HH:mm:ss";
+				break;
+			default:
+				strDataFormatoResultado = "dd/MM/yyyy";
+				break;
+			}
+
+			// FIM AÇÕES
+		} catch (Exception ex) {
+
+			new Erro("Erro inesperado.\n", ex.getMessage());
+
+		} finally {
+		}
+		return strDataFormatoResultado;
 	}
 
 	public static Date getDttAgora() {
@@ -148,32 +199,7 @@ public abstract class Utils {
 		try {
 			// AÇÕES
 
-			switch (enmDataFormato) {
-			case DD_MM:
-				strDataFormato = "dd/MM";
-				break;
-			case DD_MM_YYYY:
-				strDataFormato = "dd/MM/yyyy";
-				break;
-			case DD_MM_YYYY_HH_MM:
-				strDataFormato = "dd/MM/yyyy HH:mm";
-				break;
-			case DD_MM_YYYY_HH_MM_SS:
-				strDataFormato = "dd/MM/yyyy HH:mm:ss";
-				break;
-			case HH_MM_DD_MM_YYYY:
-				strDataFormato = "HH:mm dd/MM/yyyy";
-				break;
-			case HH_MM_SS_DD_MM_YYYY:
-				strDataFormato = "HH:mm:ss dd/MM/yyyy";
-				break;
-			case YYYY_MM_DD_HH_MM_SS:
-				strDataFormato = "yyyy/MM/dd HH:mm:ss";
-				break;
-			default:
-				strDataFormato = "dd/MM/yyyy";
-				break;
-			}
+			strDataFormato = Utils.enmDataFormatoToString(enmDataFormato);
 			objSimpleDateFormat = new SimpleDateFormat(strDataFormato, LOCAL_BRASIL);
 
 			// FIM AÇÕES
@@ -196,17 +222,6 @@ public abstract class Utils {
 		try {
 			// AÇÕES
 
-			// objMessageDigest = MessageDigest.getInstance("MD5");
-			// objMessageDigest.update(str.getBytes("UTF-8"));
-			//
-			// byte[] digest = objMessageDigest.digest();
-			// StringBuffer sb = new StringBuffer();
-			// for (byte b : digest) {
-			// sb.append(Integer.toHexString((int) (b & 0xff)));
-			// }
-			//
-			// strMd5Resultado = sb.toString().toUpperCase(Utils.LOCAL_BRASIL);
-
 			objMessageDigest = MessageDigest.getInstance("MD5");
 			BigInteger hash = new BigInteger(1, objMessageDigest.digest(str.getBytes()));
 			strMd5Resultado = hash.toString(16).toUpperCase(Utils.LOCAL_BRASIL);
@@ -227,7 +242,7 @@ public abstract class Utils {
 		try {
 			// AÇÕES
 
-			str = str.substring(0, 1).toUpperCase() + str.substring(1);
+			str = str.substring(0, 1).toUpperCase(LOCAL_BRASIL) + str.substring(1);
 
 			// FIM AÇÕES
 		} catch (Exception ex) {
@@ -323,6 +338,75 @@ public abstract class Utils {
 		return objNumberFormat.format(monValor);
 	}
 
+	public static String gregorianCalendarToString(GregorianCalendar objGregorianCalendar) {
+		// VARIÁVEIS
+
+		StringBuilder stbDteResultado = null;
+
+		// FIM VARIÁVEIS
+		try {
+			// AÇÕES
+
+			stbDteResultado = new StringBuilder();
+			stbDteResultado.append(objGregorianCalendar.get(GregorianCalendar.DAY_OF_MONTH));
+			stbDteResultado.append("/");
+			stbDteResultado.append(objGregorianCalendar.get(GregorianCalendar.MONTH));
+			stbDteResultado.append("/");
+			stbDteResultado.append(objGregorianCalendar.get(GregorianCalendar.YEAR));
+
+			// FIM AÇÕES
+		} catch (Exception e) {
+		} finally {
+			// LIMPAR VARIÁVEIS
+			// FIM LIMPAR VARIÁVEIS
+		}
+		return stbDteResultado.toString();
+	}
+
+	public static TextWatcher inserirMascara(final String strMascara, final EditText ediTxt) {
+		return new TextWatcher() {
+			boolean isUpdating;
+			String old = "";
+
+			public void onTextChanged(CharSequence s, int start, int before, int count) {
+				String str = Utils.removerMascara(s.toString());
+				String mascara = "";
+				if (isUpdating) {
+					old = str;
+					isUpdating = false;
+					return;
+				}
+				int i = 0;
+				for (char m : strMascara.toCharArray()) {
+					if (m != '#' && str.length() > old.length()) {
+						mascara += m;
+						continue;
+					}
+					try {
+						mascara += str.charAt(i);
+					} catch (Exception e) {
+						break;
+					}
+					i++;
+				}
+				isUpdating = true;
+				ediTxt.setText(mascara);
+				ediTxt.setSelection(mascara.length());
+			}
+
+			public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+			}
+
+			public void afterTextChanged(Editable s) {
+			}
+		};
+	}
+
+	public static String removerMascara(String s) {
+		return s.replaceAll("[.]", "").replaceAll("[-]", "").replaceAll("[/]", "").replaceAll("[(]", "")
+				.replaceAll("[)]", "");
+	}
+
 	public static String removerUltimaLetra(String str) {
 		// VARIÁVEIS
 		// FIM VARIÁVEIS
@@ -339,6 +423,28 @@ public abstract class Utils {
 		} finally {
 		}
 		return str;
+	}
+
+	public static Date strToDte(String strDte, EnmDataFormato enmDataFormato) {
+		// VARIÁVEIS
+
+		Date dteResultado = null;
+
+		// FIM VARIÁVEIS
+		try {
+			// AÇÕES
+
+			SimpleDateFormat objSimpleDateFormat = new SimpleDateFormat(Utils.enmDataFormatoToString(enmDataFormato));
+			dteResultado = objSimpleDateFormat.parse(strDte);
+
+			// FIM AÇÕES
+		} catch (Exception ex) {
+
+			new Erro("Erro inesperado.\n", ex.getMessage());
+
+		} finally {
+		}
+		return dteResultado;
 	}
 
 	// FIM MÉTODOS
