@@ -15,7 +15,7 @@
         android:padding="5dp" >
 
         <TextView
-            android:id="@+id/actCadastro_txtTabelaDescricao"
+            android:id="@+id/actCadastro_txtTblDescricao"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
@@ -35,7 +35,7 @@
         </EditText>
 
         <ListView
-            android:id="@+id/actCadastro_pnlTabela"
+            android:id="@+id/actCadastro_pnlTbl"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:divider="#ECECEC"

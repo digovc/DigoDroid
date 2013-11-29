@@ -36,8 +36,8 @@ public abstract class DbTabela extends Objeto {
 	public int getIntQtdLinha() {
 		// VARIÁVEIS
 
-		Cursor crs = null;
-		String sql = Utils.STRING_VAZIA;
+		Cursor crs;
+		String sql;
 
 		// FIM VARIÁVEIS
 		try {
@@ -46,6 +46,7 @@ public abstract class DbTabela extends Objeto {
 			sql = "SELECT COUNT(" + this.getClnChavePrimaria().getStrNomeSimplificado() + ") FROM "
 					+ this.getStrNomeSimplificado() + ";";
 			crs = this.getObjDataBase().execSqlComRetorno(sql);
+
 			if (crs != null) {
 				if (crs.moveToFirst()) {
 					_intQtdLinha = crs.getInt(0);
@@ -59,6 +60,7 @@ public abstract class DbTabela extends Objeto {
 
 		} finally {
 		}
+
 		return _intQtdLinha;
 	}
 
@@ -89,47 +91,91 @@ public abstract class DbTabela extends Objeto {
 	private DbColuna _clnChavePrimaria;
 
 	public DbColuna getClnChavePrimaria() {
+		// VARIÁVEIS
+		// FIM VARIÁVEIS
+		try {
+			// AÇÕES
 
-		if (_clnChavePrimaria == null) {
 			for (DbColuna cln : this.getLstObjDbColuna()) {
 				if (cln.getBooChavePrimaria()) {
 					_clnChavePrimaria = cln;
+					break;
 				}
 			}
+
+			// FIM AÇÕES
+		} catch (Exception ex) {
+
+			new Erro(App.getApp().getStrTexto(0), ex.getMessage());
+
+		} finally {
 		}
+
 		return _clnChavePrimaria;
 	}
 
 	private DbColuna _clnNome;
 
 	public DbColuna getClnNome() {
-		if (_clnNome == null) {
-			for (DbColuna cln : this.getLstObjDbColuna()) {
-				if (cln.getBooClnNome()) {
-					_clnNome = cln;
-					break;
+		// VARIÁVEIS
+		// FIM VARIÁVEIS
+		try {
+			// AÇÕES
+
+			if (_clnNome == null) {
+				for (DbColuna cln : this.getLstObjDbColuna()) {
+					if (cln.getBooClnNome()) {
+						_clnNome = cln;
+						break;
+					}
 				}
 			}
+
+			if (_clnNome == null) {
+				_clnNome = this.getLstObjDbColuna().get(0);
+			}
+
+			// FIM AÇÕES
+		} catch (Exception ex) {
+
+			new Erro(App.getApp().getStrTexto(0), ex.getMessage());
+
+		} finally {
 		}
-		if (_clnNome == null) {
-			_clnNome = this.getLstObjDbColuna().get(0);
-		}
+
 		return _clnNome;
 	}
 
 	private DbColuna _clnOrdemCadastro;
 
 	public DbColuna getClnOrdemCadastro() {
-		_clnOrdemCadastro = null;
-		for (DbColuna cln : this.getLstObjDbColuna()) {
-			if (cln.getBooOrdemCadastro()) {
-				_clnOrdemCadastro = cln;
-				break;
+		// VARIÁVEIS
+		// FIM VARIÁVEIS
+		try {
+			// AÇÕES
+
+			if (_clnOrdemCadastro == null) {
+
+				for (DbColuna cln : this.getLstObjDbColuna()) {
+					if (cln.getBooOrdemCadastro()) {
+						_clnOrdemCadastro = cln;
+						break;
+					}
+				}
+
+				if (_clnOrdemCadastro == null) {
+					_clnOrdemCadastro = this.getClnChavePrimaria();
+				}
 			}
+
+			// FIM AÇÕES
+		} catch (Exception ex) {
+
+			new Erro(App.getApp().getStrTexto(0), ex.getMessage());
+
+		} finally {
 		}
-		if (_clnOrdemCadastro == null) {
-			_clnOrdemCadastro = this.getClnChavePrimaria();
-		}
+
 		return _clnOrdemCadastro;
 	}
 
@@ -140,9 +186,23 @@ public abstract class DbTabela extends Objeto {
 	private DataBase _objDataBase;
 
 	public DataBase getObjDataBase() {
-		if (_objDataBase == null) {
-			this._objDataBase = App.getApp().getObjDataBasePrincipal();
+		// VARIÁVEIS
+		// FIM VARIÁVEIS
+		try {
+			// AÇÕES
+
+			if (_objDataBase == null) {
+				this._objDataBase = App.getApp().getObjDataBasePrincipal();
+			}
+
+			// FIM AÇÕES
+		} catch (Exception ex) {
+
+			new Erro(App.getApp().getStrTexto(0), ex.getMessage());
+
+		} finally {
 		}
+
 		return _objDataBase;
 	}
 
@@ -156,20 +216,18 @@ public abstract class DbTabela extends Objeto {
 
 	public DbTabela(String strNome) {
 		// VARIÁVEIS
-
-		App.getApp().getlstTbl().add(this);
-		this.setStrNome(strNome);
-
 		// FIM VARIÁVEIS
 		try {
 			// AÇÕES
 
-			// if (!this.getBooTabelaExiste()) {
-			// this.criaTabela();
-			// }
+			App.getApp().getLstTbl().add(this);
+			this.setStrNome(strNome);
 
 			// FIM AÇÕES
-		} catch (Exception e) {
+		} catch (Exception ex) {
+
+			new Erro(App.getApp().getStrTexto(122), ex.getMessage());
+
 		} finally {
 		}
 	}
@@ -180,19 +238,21 @@ public abstract class DbTabela extends Objeto {
 
 	public void abrirTelaCadastro(Activity actPai) {
 		// VARIÁVEIS
+
+		Intent objIntent;
+
 		// FIM VARIÁVEIS
 		try {
 			// AÇÕES
 
-			Intent objIntent = new Intent(actPai, ActCadastro.class);
-			// objIntent.putExtra("TblCliente", this);
 			App.getApp().setTblSelecionada(this);
+			objIntent = new Intent(actPai, ActCadastro.class);
 			actPai.startActivityForResult(objIntent, 0);
 
 			// FIM AÇÕES
 		} catch (Exception ex) {
 
-			new Erro("Erro ao abrir tela de cadastro.\n", ex.getMessage());
+			new Erro(App.getApp().getStrTexto(123), ex.getMessage());
 
 		} finally {
 		}
@@ -201,30 +261,37 @@ public abstract class DbTabela extends Objeto {
 	public void buscarRegistro(DbColuna clnFiltro, String strValorFiltro) {
 		// VARIÁVEIS
 
-		Cursor objCrs = null;
+		Cursor objCrs;
 		int intColunaIndex = 0;
-		String sql = Utils.STRING_VAZIA;
-		String strTabelaNome = this.getStrNomeSimplificado();
-		String strColunaFiltro = clnFiltro.getStrNomeSimplificado();
+		String sql;
+		String strTabelaNome;
+		String strColunaFiltro;
 		String strColunasNomes = Utils.STRING_VAZIA;
 
 		// FIM VARIÁVEIS
 		try {
 			// AÇÕES
 
+			strTabelaNome = this.getStrNomeSimplificado();
+			strColunaFiltro = clnFiltro.getStrNomeSimplificado();
+
 			for (DbColuna cln : this.getLstObjDbColuna()) {
 				cln.setStrValor(null);
 				strColunasNomes += "A." + cln.getStrNomeSimplificado() + ",";
 			}
+
 			strColunasNomes = Utils.removerUltimaLetra(strColunasNomes);
 			sql = "SELECT " + strColunasNomes + " FROM " + strTabelaNome + " AS A WHERE A." + strColunaFiltro + "='"
 					+ strValorFiltro + "';";
 			objCrs = this.getObjDataBase().execSqlComRetorno(sql);
+
 			if (objCrs != null) {
 				if (objCrs.moveToFirst()) {
 					do {
+
 						this.getLstObjDbColuna().get(intColunaIndex).setStrValor(objCrs.getString(intColunaIndex));
 						intColunaIndex++;
+
 					} while (intColunaIndex < objCrs.getColumnCount());
 				}
 			}
@@ -232,48 +299,21 @@ public abstract class DbTabela extends Objeto {
 			// FIM AÇÕES
 		} catch (Exception ex) {
 
-			new Erro("Erro ao buscar registro.\n", ex.getMessage());
+			new Erro(App.getApp().getStrTexto(124), ex.getMessage());
 
 		} finally {
 		}
 	}
 
 	public void buscarRegistroPelaChavePrimaria(int intId) {
-		// VARIÁVEIS
-		// FIM VARIÁVEIS
-		try {
-			// AÇÕES
-
-			this.buscarRegistro(this.getClnChavePrimaria(), String.valueOf(intId));
-
-			// FIM AÇÕES
-		} catch (Exception ex) {
-
-			new Erro("Erro ao buscar registro.\n", ex.getMessage());
-
-		} finally {
-		}
+		this.buscarRegistro(this.getClnChavePrimaria(), String.valueOf(intId));
 	}
 
 	public void buscarRegistroPelaChavePrimaria(String strId) {
-		// VARIÁVEIS
-		// FIM VARIÁVEIS
-		try {
-			// AÇÕES
-
-			this.buscarRegistro(this.getClnChavePrimaria(), strId);
-
-			// FIM AÇÕES
-		} catch (Exception ex) {
-
-			new Erro("Erro ao buscar registro.\n", ex.getMessage());
-
-		} finally {
-		}
+		this.buscarRegistro(this.getClnChavePrimaria(), strId);
 	}
 
 	public void criarTabela() {
-
 		// VARIÁVEIS
 
 		String sql = Utils.STRING_VAZIA;
@@ -285,6 +325,7 @@ public abstract class DbTabela extends Objeto {
 			// AÇÕES
 
 			if (!this.getBooTabelaExiste()) {
+
 				sql += "CREATE TABLE IF NOT EXISTS ";
 				sql += this.getStrNomeSimplificado();
 				sql += "(";
@@ -293,25 +334,31 @@ public abstract class DbTabela extends Objeto {
 					sql += cln.getStrNomeSimplificado();
 					sql += " ";
 					sql += cln.getStrSqlTipo();
+
 					if (cln.getEnmTipo() == EnmTipo.TEXT) {
 						sql += cln.getBooChavePrimaria() ? " PRIMARY KEY" : Utils.STRING_VAZIA;
 					} else {
 						sql += cln.getBooChavePrimaria() ? " PRIMARY KEY AUTOINCREMENT" : Utils.STRING_VAZIA;
 					}
+
 					if (cln.getStrValorDefault() != null) {
 						sql += " DEFAULT '" + cln.getStrValorDefault() + "'";
 					}
+
 					sql += ",";
 				}
+
 				sql = Utils.removerUltimaLetra(sql);
 				sql += ");";
+
 				this.getObjDataBase().execSqlSemRetorno(sql);
 			}
 
 			// FIM AÇÕES
 
 		} catch (Exception ex) {
-			new Erro("Erro ao criar tabela.\n", ex.getMessage());
+
+			new Erro(App.getApp().getStrTexto(124), ex.getMessage());
 
 		} finally {
 			// LIMPAR VARIÁVEIS
@@ -330,12 +377,13 @@ public abstract class DbTabela extends Objeto {
 
 			sql = "DELETE FROM " + this.getStrNomeSimplificado() + " WHERE "
 					+ this.getClnChavePrimaria().getStrNomeSimplificado() + "= '" + intId + "';";
+
 			this.getObjDataBase().execSqlSemRetorno(sql);
 
 			// FIM AÇÕES
 		} catch (Exception ex) {
 
-			new Erro("Erro ao excluir registro.\n", ex.getMessage());
+			new Erro(App.getApp().getStrTexto(126), ex.getMessage());
 
 		} finally {
 		}
@@ -345,7 +393,7 @@ public abstract class DbTabela extends Objeto {
 		// VARIÁVEIS
 
 		boolean booTabelaExiste = false;
-		Cursor objCursorTemp;
+		Cursor objCursor;
 		String sql;
 
 		// FIM VARIÁVEIS
@@ -353,16 +401,21 @@ public abstract class DbTabela extends Objeto {
 			// AÇÕES
 
 			sql = "SELECT name FROM sqlite_master WHERE type='table' AND name='" + this.getStrNomeSimplificado() + "';";
-			objCursorTemp = this.getObjDataBase().execSqlComRetorno(sql);
-			objCursorTemp.moveToFirst();
-			if (objCursorTemp.getCount() > 0) {
+
+			objCursor = this.getObjDataBase().execSqlComRetorno(sql);
+			objCursor.moveToFirst();
+
+			if (objCursor.getCount() > 0) {
 				booTabelaExiste = true;
 			}
 
 			// FIM AÇÕES
-		} catch (Exception e) {
+		} catch (Exception ex) {
+
+			new Erro(App.getApp().getStrTexto(127), ex.getMessage());
+
 		} finally {
-			objCursorTemp = null;
+			objCursor = null;
 		}
 		return booTabelaExiste;
 	}
@@ -381,22 +434,27 @@ public abstract class DbTabela extends Objeto {
 			// AÇÕES
 
 			if (lstObjDbFitro != null) {
+				
 				strFiltro += " WHERE ";
+				
 				for (DbFiltro objDbFiltro : lstObjDbFitro) {
 					strFiltro += objDbFiltro.getClnFiltro().getStrNomeSimplificado();
 					strFiltro += objDbFiltro.getStrOperador() + "'";
 					strFiltro += objDbFiltro.getStrFiltro();
 					strFiltro += "' AND ";
 				}
+				
 				strFiltro = Utils.removerUltimaLetra(strFiltro);
 				strFiltro = Utils.removerUltimaLetra(strFiltro);
 				strFiltro = Utils.removerUltimaLetra(strFiltro);
 				strFiltro = Utils.removerUltimaLetra(strFiltro);
 
 			}
+		
 			for (DbColuna cln : this.getLstObjDbColuna()) {
 				strClnNome += "A." + cln.getStrNomeSimplificado() + ",";
 			}
+			
 			strClnOrdemNome = this.getClnOrdemCadastro().getStrNomeSimplificado();
 			strClnNome = Utils.removerUltimaLetra(strClnNome);
 			sql += "SELECT " + strClnNome + " FROM " + this.getStrNomeSimplificado() + " A " + strFiltro + " ORDER BY "
@@ -406,7 +464,7 @@ public abstract class DbTabela extends Objeto {
 			// FIM AÇÕES
 		} catch (Exception ex) {
 
-			new Erro("Erro ao recuperar tabela no banco de dados.\n", ex.getMessage());
+			new Erro(App.getApp().getStrTexto(128), ex.getMessage());
 
 		} finally {
 		}
@@ -414,34 +472,15 @@ public abstract class DbTabela extends Objeto {
 	}
 
 	public Cursor getCrsDados() {
-		// VARIÁVEIS
-
-		Cursor crsResultado = null;
-
-		// FIM VARIÁVEIS
-		try {
-			// AÇÕES
-
-			crsResultado = this.getCrsDados(null);
-
-			// FIM AÇÕES
-		} catch (Exception ex) {
-
-			new Erro("Erro ao recuperar tabela no banco de dados.\n", ex.getMessage());
-
-		} finally {
-		}
-		return crsResultado;
+		return this.getCrsDados(null);
 	}
 
 	public Cursor getCrsDados(DbColuna clnFiltro, String strFiltro) {
 		// VARIÁVEIS
 
 		Cursor crsResultado = null;
-
-		DbFiltro objDbFiltro = null;
-
-		ArrayList<DbFiltro> lstObjDbFiltro = new ArrayList<DbFiltro>();
+		DbFiltro objDbFiltro;
+		ArrayList<DbFiltro> lstObjDbFiltro;
 
 		// FIM VARIÁVEIS
 		try {
@@ -449,14 +488,15 @@ public abstract class DbTabela extends Objeto {
 
 			objDbFiltro = new DbFiltro(clnFiltro, strFiltro);
 
+			lstObjDbFiltro = new ArrayList<DbFiltro>();
 			lstObjDbFiltro.add(objDbFiltro);
-
+			
 			crsResultado = this.getCrsDados(lstObjDbFiltro);
 
 			// FIM AÇÕES
 		} catch (Exception ex) {
 
-			new Erro("Erro ao recuperar tabela no banco de dados.\n", ex.getMessage());
+			new Erro(App.getApp().getStrTexto(128), ex.getMessage());
 
 		} finally {
 		}
@@ -544,7 +584,7 @@ public abstract class DbTabela extends Objeto {
 			// FIM AÇÕES
 		} catch (Exception ex) {
 
-			new Erro("Erro ao recuperar tabela no banco de dados.\n", ex.getMessage());
+			new Erro(App.getApp().getStrTexto(128), ex.getMessage());
 
 		} finally {
 		}
@@ -552,17 +592,6 @@ public abstract class DbTabela extends Objeto {
 	}
 
 	public Cursor getCrsDadosTelaCadastro() {
-		// VARIÁVEIS
-		// FIM VARIÁVEIS
-		try {
-			// AÇÕES
-			// FIM AÇÕES
-		} catch (Exception ex) {
-
-			new Erro("Erro ao recuperar tabela no banco de dados.\n", ex.getMessage());
-
-		} finally {
-		}
 		return this.getCrsDadosTelaCadastro(this.getLstDbFiltroTelaCadastro());
 	}
 
@@ -576,6 +605,7 @@ public abstract class DbTabela extends Objeto {
 			// AÇÕES
 
 			for (DbColuna cln : this.getLstObjDbColuna()) {
+				
 				if (cln.getStrNomeSimplificado().equals(strNomeSimplificado)) {
 					strColunaNome = cln.getStrNomeExibicao();
 					break;
@@ -585,7 +615,7 @@ public abstract class DbTabela extends Objeto {
 			// FIM AÇÕES
 		} catch (Exception ex) {
 
-			new Erro("Erro ao recuperar nome da coluna.\n", ex.getMessage());
+			new Erro(App.getApp().getStrTexto(128), ex.getMessage());
 
 		} finally {
 		}
@@ -613,16 +643,19 @@ public abstract class DbTabela extends Objeto {
 					strColunasValores += "'" + cln.getStrValorDefault() + "',";
 				}
 			}
+			
 			strColunasNomes = Utils.removerUltimaLetra(strColunasNomes);
 			strColunasValores = Utils.removerUltimaLetra(strColunasValores);
+			
 			sql += "REPLACE INTO " + this.getStrNomeSimplificado() + " (" + strColunasNomes + ") VALUES ("
 					+ strColunasValores + ");";
+			
 			this.getObjDataBase().execSqlSemRetorno(sql);
 
 			// FIM AÇÕES
 		} catch (Exception ex) {
 
-			new Erro("Erro ao inserir registro no banco de dados.\n", ex.getMessage());
+			new Erro(App.getApp().getStrTexto(129), ex.getMessage());
 
 		} finally {
 			strColunasNomes = null;
@@ -653,12 +686,13 @@ public abstract class DbTabela extends Objeto {
 					break;
 				}
 			}
+			
 			this.inserir();
 
 			// FIM AÇÕES
 		} catch (Exception ex) {
 
-			new Erro("Erro ao inserir registro aleatório no banco de dados.\n", ex.getMessage());
+			new Erro(App.getApp().getStrTexto(130), ex.getMessage());
 
 		} finally {
 		}
@@ -677,7 +711,7 @@ public abstract class DbTabela extends Objeto {
 			// FIM AÇÕES
 		} catch (Exception ex) {
 
-			new Erro("Erro ao zerar valores das colunas do registro.\n", ex.getMessage());
+			new Erro(App.getApp().getStrTexto(130), ex.getMessage());
 
 		} finally {
 		}

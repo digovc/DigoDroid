@@ -1,5 +1,6 @@
 package com.digosofter.digodroid.database;
 
+import com.digosofter.digodroid.App;
 import com.digosofter.digodroid.Objeto;
 import com.digosofter.digodroid.erro.Erro;
 
@@ -18,31 +19,6 @@ public class DbFiltro extends Objeto {
 
 	public EnmOperador getEnmOperador() {
 		return _enmOperador;
-	}
-
-	public String getStrOperador() {
-		String strOperador = "=";
-		switch (this.getEnmOperador()) {
-		case IGUAL:
-			strOperador = "=";
-			break;
-		case MAIOR:
-			strOperador = ">";
-			break;
-		case MAIOR_IGUAL:
-			strOperador = ">=";
-			break;
-		case MENOR:
-			strOperador = "<";
-			break;
-		case MENOR_IGUAL:
-			strOperador = "<=";
-			break;
-		default:
-			strOperador = "=";
-			break;
-		}
-		return strOperador;
 	}
 
 	public void setEnmOperador(EnmOperador enmOperador) {
@@ -68,7 +44,7 @@ public class DbFiltro extends Objeto {
 	public void setStrCondicao(String strCondicao) {
 		_strCondicao = strCondicao;
 	}
-	
+
 	private String _strFiltro;
 
 	public String getStrFiltro() {
@@ -77,6 +53,46 @@ public class DbFiltro extends Objeto {
 
 	private void setStrFiltro(String strFiltro) {
 		_strFiltro = strFiltro;
+	}
+
+	private String _strOperador;
+
+	public String getStrOperador() {
+		// VARIÁVEIS
+		// FIM VARIÁVEIS
+		try {
+			// AÇÕES
+
+			switch (this.getEnmOperador()) {
+			case IGUAL:
+				_strOperador = "=";
+				break;
+			case MAIOR:
+				_strOperador = ">";
+				break;
+			case MAIOR_IGUAL:
+				_strOperador = ">=";
+				break;
+			case MENOR:
+				_strOperador = "<";
+				break;
+			case MENOR_IGUAL:
+				_strOperador = "<=";
+				break;
+			default:
+				_strOperador = "=";
+				break;
+			}
+
+			// FIM AÇÕES
+		} catch (Exception ex) {
+
+			new Erro(App.getApp().getStrTexto(0), ex.getMessage());
+
+		} finally {
+		}
+
+		return _strOperador;
 	}
 
 	// FIM ATRIBUTOS
@@ -95,7 +111,7 @@ public class DbFiltro extends Objeto {
 			// FIM AÇÕES
 		} catch (Exception ex) {
 
-			new Erro("Erro ao instanciar objeto do tipo 'DbFiltro'.\n", ex.getMessage());
+			new Erro(App.getApp().getStrTexto(121), ex.getMessage());
 
 		} finally {
 		}

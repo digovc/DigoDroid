@@ -1,5 +1,6 @@
 package com.digosofter.digodroid.itens;
 
+import com.digosofter.digodroid.App;
 import com.digosofter.digodroid.Objeto;
 import com.digosofter.digodroid.Utils;
 import com.digosofter.digodroid.erro.Erro;
@@ -22,8 +23,22 @@ public class ItmCadastro extends Objeto {
 
 	private String _strCampo001;
 
-	public String getstrCampo001() {
-		_strCampo001 = this.getStrCampo001Nome() + ": " + this.getStrCampo001Valor();
+	public String getStrCampo001() {
+		// VARIÁVEIS
+		// FIM VARIÁVEIS
+		try {
+			// AÇÕES
+
+			_strCampo001 = this.getStrCampo001Nome() + ": " + this.getStrCampo001Valor();
+
+			// FIM AÇÕES
+		} catch (Exception ex) {
+
+			new Erro(App.getApp().getStrTexto(0), ex.getMessage());
+
+		} finally {
+		}
+
 		return _strCampo001;
 	}
 
@@ -40,9 +55,23 @@ public class ItmCadastro extends Objeto {
 	private String _strCampo001Valor;
 
 	public String getStrCampo001Valor() {
-		if (_strCampo001Valor == null) {
-			_strCampo001Valor = Utils.STRING_VAZIA;
+		// VARIÁVEIS
+		// FIM VARIÁVEIS
+		try {
+			// AÇÕES
+
+			if (_strCampo001Valor == null) {
+				_strCampo001Valor = Utils.STRING_VAZIA;
+			}
+
+			// FIM AÇÕES
+		} catch (Exception ex) {
+
+			new Erro(App.getApp().getStrTexto(0), ex.getMessage());
+
+		} finally {
 		}
+
 		return _strCampo001Valor.replace("true", "Sim").replace("false", "Não");
 	}
 
@@ -53,7 +82,21 @@ public class ItmCadastro extends Objeto {
 	private String _strCampo002;
 
 	public String getstrCampo002() {
-		_strCampo002 = this.getStrCampo002Nome() + ": " + this.getStrCampo002Valor();
+		// VARIÁVEIS
+		// FIM VARIÁVEIS
+		try {
+			// AÇÕES
+
+			_strCampo002 = this.getStrCampo002Nome() + ": " + this.getStrCampo002Valor();
+
+			// FIM AÇÕES
+		} catch (Exception ex) {
+
+			new Erro(App.getApp().getStrTexto(0), ex.getMessage());
+
+		} finally {
+		}
+
 		return _strCampo002;
 	}
 
@@ -70,9 +113,23 @@ public class ItmCadastro extends Objeto {
 	private String _strCampo002Valor;
 
 	public String getStrCampo002Valor() {
-		if (_strCampo002Valor == null) {
-			_strCampo002Valor = Utils.STRING_VAZIA;
+		// VARIÁVEIS
+		// FIM VARIÁVEIS
+		try {
+			// AÇÕES
+		
+			if (_strCampo002Valor == null) {
+				_strCampo002Valor = Utils.STRING_VAZIA;
+			}
+
+			// FIM AÇÕES
+		} catch (Exception ex) {
+
+			new Erro(App.getApp().getStrTexto(0), ex.getMessage());
+
+		} finally {
 		}
+
 		return _strCampo002Valor.replace("true", "Sim").replace("false", "Não");
 	}
 
@@ -83,7 +140,21 @@ public class ItmCadastro extends Objeto {
 	private String _strCampo003;
 
 	public String getstrCampo003() {
-		_strCampo003 = this.getStrCampo003Nome() + ": " + this.getStrCampo003Valor();
+		// VARIÁVEIS
+		// FIM VARIÁVEIS
+		try {
+			// AÇÕES
+		
+			_strCampo003 = this.getStrCampo003Nome() + ": " + this.getStrCampo003Valor();
+
+			// FIM AÇÕES
+		} catch (Exception ex) {
+
+			new Erro(App.getApp().getStrTexto(0), ex.getMessage());
+
+		} finally {
+		}
+
 		return _strCampo003;
 	}
 
@@ -100,9 +171,23 @@ public class ItmCadastro extends Objeto {
 	private String _strCampo003Valor;
 
 	public String getStrCampo003Valor() {
-		if (_strCampo003Valor == null) {
-			_strCampo003Valor = Utils.STRING_VAZIA;
+		// VARIÁVEIS
+		// FIM VARIÁVEIS
+		try {
+			// AÇÕES
+		
+			if (_strCampo003Valor == null) {
+				_strCampo003Valor = Utils.STRING_VAZIA;
+			}
+
+			// FIM AÇÕES
+		} catch (Exception ex) {
+
+			new Erro(App.getApp().getStrTexto(0), ex.getMessage());
+
+		} finally {
 		}
+
 		return _strCampo003Valor.replace("true", "Sim").replace("false", "Não");
 	}
 
@@ -129,12 +214,15 @@ public class ItmCadastro extends Objeto {
 			if (this.getStrNome().contains(strFiltro)) {
 				booContemString = true;
 			}
+			
 			if (this.getStrCampo001Valor().contains(strFiltro)) {
 				booContemString = true;
 			}
+			
 			if (this.getStrCampo002Valor().contains(strFiltro)) {
 				booContemString = true;
 			}
+			
 			if (this.getStrCampo003Valor().contains(strFiltro)) {
 				booContemString = true;
 			}
@@ -142,10 +230,11 @@ public class ItmCadastro extends Objeto {
 			// FIM AÇÕES
 		} catch (Exception ex) {
 
-			new Erro("Erro ao verificar filtro no item da lista.\n" , ex.getMessage());
+			new Erro(App.getApp().getStrTexto(132), ex.getMessage());
 
 		} finally {
 		}
+		
 		return booContemString;
 	}
 

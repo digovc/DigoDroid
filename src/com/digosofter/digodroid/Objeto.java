@@ -1,18 +1,20 @@
 package com.digosofter.digodroid;
 
+import com.digosofter.digodroid.erro.Erro;
+
 public abstract class Objeto {
 	// CONSTANTES
 
-	public static int INTCONTAGEM;
+	private static int INT_INDEX;
 
 	// FIM CONSTANTES
 
 	// ATRIBUTOS
 
-	private int _intId = Objeto.INTCONTAGEM;
+	private int _intIndexObjeto = Objeto.INT_INDEX;
 
-	public int getIntId() {
-		return _intId;
+	public int getIntIndexObjeto() {
+		return _intIndexObjeto;
 	}
 
 	private String _strDescricao;
@@ -38,9 +40,23 @@ public abstract class Objeto {
 	private String _strNomeExibicao;
 
 	public String getStrNomeExibicao() {
-		if (_strNomeExibicao == null) {
-			_strNomeExibicao = _strNome;
+		// VARIÁVEIS
+		// FIM VARIÁVEIS
+		try {
+			// AÇÕES
+
+			if (_strNomeExibicao == null) {
+				_strNomeExibicao = _strNome;
+			}
+
+			// FIM AÇÕES
+		} catch (Exception ex) {
+
+			new Erro(App.getApp().getStrTexto(0), ex.getMessage());
+
+		} finally {
 		}
+
 		return _strNomeExibicao;
 	}
 
@@ -48,8 +64,25 @@ public abstract class Objeto {
 		_strNomeExibicao = strNomeExibicao;
 	}
 
+	private String _strNomeSimplificado;
+
 	public String getStrNomeSimplificado() {
-		return Utils.getStrSimplificada(_strNome);
+		// VARIÁVEIS
+		// FIM VARIÁVEIS
+		try {
+			// AÇÕES
+
+			_strNomeSimplificado = Utils.getStrSimplificada(_strNome);
+
+			// FIM AÇÕES
+		} catch (Exception ex) {
+
+			new Erro(App.getApp().getStrTexto(0), ex.getMessage());
+
+		} finally {
+		}
+
+		return _strNomeSimplificado;
 	}
 
 	// FIM ATRIBUTOS
@@ -60,14 +93,17 @@ public abstract class Objeto {
 		try {
 			// VARIÁVEIS
 
-			Objeto.INTCONTAGEM++;
+			Objeto.INT_INDEX++;
 
 			// FIM VARIÁVEIS
 
 			// AÇÕES
 
 			// FIM AÇÕES
-		} catch (Exception e) {
+		} catch (Exception ex) {
+
+			new Erro(App.getApp().getStrTexto(108), ex.getMessage());
+
 		} finally {
 		}
 	}

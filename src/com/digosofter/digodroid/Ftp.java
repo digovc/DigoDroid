@@ -1,7 +1,6 @@
 package com.digosofter.digodroid;
 
 import org.apache.commons.net.ftp.FTPClient;
-import org.apache.commons.net.ftp.FTPFile;
 
 import com.digosofter.digodroid.erro.Erro;
 
@@ -14,14 +13,24 @@ public class Ftp extends Objeto {
 	private FTPClient _objFtpClient;
 
 	private FTPClient getObjFtpClient() {
-		if (_objFtpClient == null) {
-			_objFtpClient = new FTPClient();
-		}
-		return _objFtpClient;
-	}
+		// VARIÁVEIS
+		// FIM VARIÁVEIS
+		try {
+			// AÇÕES
 
-	private void setObjFtpClient(FTPClient objFtpClient) {
-		_objFtpClient = objFtpClient;
+			if (_objFtpClient == null) {
+				_objFtpClient = new FTPClient();
+			}
+
+			// FIM AÇÕES
+		} catch (Exception ex) {
+
+			new Erro(App.getApp().getStrTexto(105), ex.getMessage());
+
+		} finally {
+		}
+
+		return _objFtpClient;
 	}
 
 	private String _strLogin;
@@ -71,7 +80,7 @@ public class Ftp extends Objeto {
 			// FIM AÇÕES
 		} catch (Exception ex) {
 
-			new Erro("Erro ao instanciar objeto do tipo 'Ftp'.\n" , ex.getMessage());
+			new Erro(App.getApp().getStrTexto(106), ex.getMessage());
 
 		} finally {
 		}
@@ -80,22 +89,6 @@ public class Ftp extends Objeto {
 	// FIM CONSTRUTORES
 
 	// MÉTODOS
-
-	public void downloadFile(String strFileName, String dirSalvar) {
-		// VARIÁVEIS
-		// FIM VARIÁVEIS
-		try {
-			// AÇÕES
-
-			// FIM AÇÕES
-		} catch (Exception ex) {
-
-			new Erro("Erro ao fazer download do FTP.\n" , ex.getMessage());
-
-		} finally {
-		}
-	}
-
 	// FIM MÉTODOS
 
 	// EVENTOS

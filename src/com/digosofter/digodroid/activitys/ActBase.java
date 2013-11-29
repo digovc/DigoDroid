@@ -2,7 +2,9 @@ package com.digosofter.digodroid.activitys;
 
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBarActivity;
-import android.view.View;
+
+import com.digosofter.digodroid.App;
+import com.digosofter.digodroid.erro.Erro;
 
 public abstract class ActBase extends ActionBarActivity {
 	// CONSTANTES
@@ -22,19 +24,15 @@ public abstract class ActBase extends ActionBarActivity {
 		try {
 			// AÇÕES
 
-			getSupportFragmentManager().beginTransaction().add(intIdPnlContainer, objFragmento).commit();
-
-			this.findViewById(0);
+			this.getSupportFragmentManager().beginTransaction().add(intIdPnlContainer, objFragmento).commit();
 
 			// FIM AÇÕES
 		} catch (Exception ex) {
+			
+			new Erro(App.getApp().getStrTexto(113), ex.getMessage());
+			
 		} finally {
 		}
-	}
-
-	@Override
-	public View findViewById(int id) {
-		return super.findViewById(id);
 	}
 
 	protected abstract void montarLayout();

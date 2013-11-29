@@ -986,8 +986,8 @@ containing a value of this type.
         public static int actCadastro_pnlComando=0x7f050047;
         public static int actCadastro_pnlGeral=0x7f050042;
         public static int actCadastro_pnlInfo=0x7f050043;
-        public static int actCadastro_pnlTabela=0x7f050046;
-        public static int actCadastro_txtTabelaDescricao=0x7f050044;
+        public static int actCadastro_pnlTbl=0x7f050046;
+        public static int actCadastro_txtTblDescricao=0x7f050044;
         public static int actErro_btnIgnorar=0x7f050051;
         public static int actErro_imgAppLogo=0x7f05004d;
         public static int actErro_pnlComando=0x7f05004c;

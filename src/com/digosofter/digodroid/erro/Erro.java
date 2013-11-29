@@ -11,6 +11,9 @@ import com.digosofter.digodroid.activitys.ActErro;
 
 public class Erro extends Objeto implements Serializable {
 	// CONSTANTES
+
+	private static final long serialVersionUID = 1L;
+
 	// FIM CONSTANTES
 
 	// ATRIBUTOS
@@ -51,27 +54,31 @@ public class Erro extends Objeto implements Serializable {
 
 	public Erro(String strMensagem, String strMensagemDetalhes) {
 		// VARIÁVEIS
-		
-		this.setStrMensagemDetalhes(strMensagemDetalhes);
+
+		Intent objIntent;
 
 		// FIM VARIÁVEIS
 		try {
 			// AÇÕES
 
-			if (strMensagem != Utils.STRING_VAZIA) {
+			if (!Utils.getBooIsEmptyNull(strMensagem)) {
 				this.setStrMensagem(strMensagem);
 			}
+
+			if (!Utils.getBooIsEmptyNull(strMensagemDetalhes)) {
+				this.setStrMensagemDetalhes(strMensagemDetalhes);
+			}
+
 			if (this.getBooMostrarUsuario()) {
-				Intent objIntent = new Intent(App.getApp().getActMain(), ActErro.class);
+
+				objIntent = new Intent(App.getApp().getActMain(), ActErro.class);
 				objIntent.putExtra("Erro", this);
+
 				App.getApp().getActMain().startActivity(objIntent);
 			}
 
 			// FIM AÇÕES
 		} catch (Exception ex) {
-
-			int intTempo = 5;
-
 		} finally {
 		}
 	}

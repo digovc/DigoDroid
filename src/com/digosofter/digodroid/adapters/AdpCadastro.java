@@ -11,6 +11,7 @@ import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.TextView;
 
+import com.digosofter.digodroid.App;
 import com.digosofter.digodroid.R;
 import com.digosofter.digodroid.Utils;
 import com.digosofter.digodroid.erro.Erro;
@@ -40,9 +41,23 @@ public class AdpCadastro extends BaseAdapter implements Filterable {
 	}
 
 	private void setLstObjItmCadastro(ArrayList<ItmCadastro> lstObjItmCadastro) {
-		_lstObjItmCadastro = lstObjItmCadastro;
-		if (this.getLstObjItmCadastroSemFiltro() == null) {
-			this.setLstObjItmCadastroSemFiltro(_lstObjItmCadastro);
+		// VARIÁVEIS
+		// FIM VARIÁVEIS
+		try {
+			// AÇÕES
+
+			_lstObjItmCadastro = lstObjItmCadastro;
+			
+			if (this.getLstObjItmCadastroSemFiltro() == null) {
+				this.setLstObjItmCadastroSemFiltro(_lstObjItmCadastro);
+			}
+
+			// FIM AÇÕES
+		} catch (Exception ex) {
+
+			new Erro(App.getApp().getStrTexto(0), ex.getMessage());
+
+		} finally {
 		}
 	}
 
@@ -72,7 +87,7 @@ public class AdpCadastro extends BaseAdapter implements Filterable {
 			// FIM AÇÕES
 		} catch (Exception ex) {
 
-			new Erro("Erro ao instanciar adaptador do cadastro.\n", ex.getMessage());
+			new Erro(App.getApp().getStrTexto(0), ex.getMessage());
 
 		} finally {
 		}
@@ -115,7 +130,7 @@ public class AdpCadastro extends BaseAdapter implements Filterable {
 
 			txtRegistroNome.setText(objItmCadastro.getStrNomeExibicao());
 
-			txtRegistroCampo001.setText(objItmCadastro.getstrCampo001());
+			txtRegistroCampo001.setText(objItmCadastro.getStrCampo001());
 			if (objItmCadastro.getStrCampo001Valor() == null
 					|| objItmCadastro.getStrCampo001Valor().equals(Utils.STRING_VAZIA)) {
 				txtRegistroCampo001.setVisibility(View.GONE);
@@ -136,7 +151,7 @@ public class AdpCadastro extends BaseAdapter implements Filterable {
 			// FIM AÇÕES
 		} catch (Exception ex) {
 
-			new Erro("Erro ao recuperar o view no adaptador.\n", ex.getMessage());
+			new Erro(App.getApp().getStrTexto(0), ex.getMessage());
 
 		} finally {
 		}
@@ -183,6 +198,7 @@ public class AdpCadastro extends BaseAdapter implements Filterable {
 					objFilterResults.values = lstItmCadastro;
 					objFilterResults.count = lstItmCadastro.size();
 				}
+				
 				return objFilterResults;
 			}
 		};

@@ -1,5 +1,6 @@
 package com.digosofter.digodroid.tabelas;
 
+import com.digosofter.digodroid.App;
 import com.digosofter.digodroid.database.DbColuna;
 import com.digosofter.digodroid.database.DbColuna.EnmTipo;
 import com.digosofter.digodroid.erro.Erro;
@@ -25,10 +26,10 @@ public class TblCliente extends TblMain {
 	// CONSTRUTORES
 
 	public TblCliente() {
-		// VARIÁVEIS
 
 		super("tblCliente");
 
+		// VARIÁVEIS
 		// FIM VARIÁVEIS
 		try {
 			// AÇÕES
@@ -38,7 +39,7 @@ public class TblCliente extends TblMain {
 			// FIM AÇÕES
 		} catch (Exception ex) {
 
-			new Erro("Erro inesperado.\n", ex.getMessage());
+			new Erro(App.getApp().getStrTexto(133), ex.getMessage());
 
 		} finally {
 		}

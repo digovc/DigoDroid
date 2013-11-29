@@ -63,7 +63,7 @@ public abstract class Utils {
 			// FIM AÇÕES
 		} catch (Exception ex) {
 
-			new Erro("Erro ao arredondar valor numérico.\n", ex.getMessage());
+			new Erro(App.getApp().getStrTexto(109), ex.getMessage());
 
 		} finally {
 		}
@@ -112,11 +112,35 @@ public abstract class Utils {
 			// FIM AÇÕES
 		} catch (Exception ex) {
 
-			new Erro("Erro inesperado.\n", ex.getMessage());
+			new Erro(App.getApp().getStrTexto(0), ex.getMessage());
 
 		} finally {
 		}
 		return strDataFormatoResultado;
+	}
+
+	public static boolean getBooIsEmptyNull(String str) {
+		// VARIÁVEIS
+
+		boolean booBooIsEmptyNullResultado = true;
+
+		// FIM VARIÁVEIS
+		try {
+			// AÇÕES
+
+			if (str != null && !str.isEmpty()) {
+				booBooIsEmptyNullResultado = false;
+			}
+
+			// FIM AÇÕES
+		} catch (Exception ex) {
+
+			new Erro(App.getApp().getStrTexto(0), ex.getMessage());
+
+		} finally {
+		}
+
+		return booBooIsEmptyNullResultado;
 	}
 
 	public static Date getDttAgora() {
@@ -133,7 +157,7 @@ public abstract class Utils {
 			// FIM AÇÕES
 		} catch (Exception ex) {
 
-			new Erro("Erro ao recuperar data atual.\n", ex.getMessage());
+			new Erro(App.getApp().getStrTexto(110), ex.getMessage());
 
 		} finally {
 		}
@@ -155,7 +179,7 @@ public abstract class Utils {
 			// FIM AÇÕES
 		} catch (Exception ex) {
 
-			new Erro("Erro ao gerar cor aleatória.\n", ex.getMessage());
+			new Erro(App.getApp().getStrTexto(110), ex.getMessage());
 
 		} finally {
 		}
@@ -163,36 +187,51 @@ public abstract class Utils {
 	}
 
 	public static String getStrAleatoria(int intTamanho, EnmRandomTipo enmRandomTipo) {
+		// VARIÁVEIS
 
-		StringBuffer buffer = new StringBuffer();
-		String characters = "";
+		int intCharactersLength;
 
-		switch (enmRandomTipo) {
+		StringBuffer strBuffer = new StringBuffer();
+		String strCharacters = "";
 
-		case ALPHA:
-			characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
-			break;
+		// FIM VARIÁVEIS
+		try {
+			// AÇÕES
 
-		case ALPHANUMERICO:
-			characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
-			break;
+			switch (enmRandomTipo) {
 
-		case NUMERICO:
-			characters = "1234567890";
-			break;
+			case ALPHA:
+				strCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+				break;
+			case ALPHANUMERICO:
+				strCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
+				break;
+			case NUMERICO:
+				strCharacters = "1234567890";
+				break;
+			}
+
+			intCharactersLength = strCharacters.length();
+
+			for (int i = 0; i < intTamanho; i++) {
+				double index = Math.random() * intCharactersLength;
+				strBuffer.append(strCharacters.charAt((int) index));
+			}
+
+			// FIM AÇÕES
+		} catch (Exception ex) {
+
+			new Erro(App.getApp().getStrTexto(111), ex.getMessage());
+
+		} finally {
 		}
 
-		int charactersLength = characters.length();
-
-		for (int i = 0; i < intTamanho; i++) {
-			double index = Math.random() * charactersLength;
-			buffer.append(characters.charAt((int) index));
-		}
-		return buffer.toString();
+		return strBuffer.toString();
 	}
 
 	public static String getStrDataFormatada(Date objDate, EnmDataFormato enmDataFormato) {
 		// VARIÁVEIS
+
 		String strDataFormato = Utils.STRING_VAZIA;
 		SimpleDateFormat objSimpleDateFormat = null;
 
@@ -204,7 +243,10 @@ public abstract class Utils {
 			objSimpleDateFormat = new SimpleDateFormat(strDataFormato, LOCAL_BRASIL);
 
 			// FIM AÇÕES
-		} catch (Exception e) {
+		} catch (Exception ex) {
+
+			new Erro(App.getApp().getStrTexto(0), ex.getMessage());
+
 		} finally {
 			// LIMPAR VARIÁVEIS
 			// FIM LIMPAR VARIÁVEIS
@@ -216,7 +258,6 @@ public abstract class Utils {
 		// VARIÁVEIS
 
 		MessageDigest objMessageDigest = null;
-
 		String strMd5Resultado = Utils.STRING_VAZIA;
 
 		// FIM VARIÁVEIS
@@ -230,7 +271,7 @@ public abstract class Utils {
 			// FIM AÇÕES
 		} catch (Exception ex) {
 
-			new Erro("Erro inesperado.\n", ex.getMessage());
+			new Erro(App.getApp().getStrTexto(112), ex.getMessage());
 
 		} finally {
 		}
@@ -248,7 +289,7 @@ public abstract class Utils {
 			// FIM AÇÕES
 		} catch (Exception ex) {
 
-			new Erro("Erro inesperado.\n", ex.getMessage());
+			new Erro(App.getApp().getStrTexto(0), ex.getMessage());
 
 		} finally {
 		}
@@ -282,7 +323,10 @@ public abstract class Utils {
 			strComplexa = strComplexa.replace(" ", "");
 
 			// FIM AÇÕES
-		} catch (Exception e) {
+		} catch (Exception ex) {
+
+			new Erro(App.getApp().getStrTexto(0), ex.getMessage());
+
 		} finally {
 			arrChrAcentos = null;
 			arrChrCaracteresEspeciais = null;
@@ -311,7 +355,7 @@ public abstract class Utils {
 			// FIM AÇÕES
 		} catch (Exception ex) {
 
-			new Erro("Erro inesperado.\n", ex.getMessage());
+			new Erro(App.getApp().getStrTexto(0), ex.getMessage());
 
 		} finally {
 		}
@@ -325,13 +369,19 @@ public abstract class Utils {
 	public static String getStrValorMonetario(double monValor) {
 		// VARIÁVEIS
 
-		NumberFormat objNumberFormat = NumberFormat.getCurrencyInstance(LOCAL_BRASIL);
+		NumberFormat objNumberFormat = null;
 
 		// FIM VARIÁVEIS
 		try {
 			// AÇÕES
+
+			objNumberFormat = NumberFormat.getCurrencyInstance(LOCAL_BRASIL);
+
 			// FIM AÇÕES
-		} catch (Exception e) {
+		} catch (Exception ex) {
+
+			new Erro(App.getApp().getStrTexto(0), ex.getMessage());
+
 		} finally {
 			// LIMPAR VARIÁVEIS
 			// FIM LIMPAR VARIÁVEIS
@@ -361,7 +411,10 @@ public abstract class Utils {
 			stbDteResultado.append(objGregorianCalendar.get(GregorianCalendar.YEAR));
 
 			// FIM AÇÕES
-		} catch (Exception e) {
+		} catch (Exception ex) {
+
+			new Erro(App.getApp().getStrTexto(0), ex.getMessage());
+
 		} finally {
 			// LIMPAR VARIÁVEIS
 			// FIM LIMPAR VARIÁVEIS
@@ -424,7 +477,7 @@ public abstract class Utils {
 			// FIM AÇÕES
 		} catch (Exception ex) {
 
-			new Erro("Erro inesperado.\n", ex.getMessage());
+			new Erro(App.getApp().getStrTexto(0), ex.getMessage());
 
 		} finally {
 		}
@@ -447,7 +500,7 @@ public abstract class Utils {
 			// FIM AÇÕES
 		} catch (Exception ex) {
 
-			new Erro("Erro inesperado.\n", ex.getMessage());
+			new Erro(App.getApp().getStrTexto(0), ex.getMessage());
 
 		} finally {
 		}
@@ -474,10 +527,11 @@ public abstract class Utils {
 			// FIM AÇÕES
 		} catch (Exception ex) {
 
-			new Erro("Erro inesperado.\n", ex.getMessage());
+			new Erro(App.getApp().getStrTexto(0), ex.getMessage());
 
 		} finally {
 		}
+
 		return dteResultado;
 	}
 

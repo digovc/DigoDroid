@@ -5,6 +5,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import com.digosofter.digodroid.App;
 import com.digosofter.digodroid.erro.Erro;
 
 public class DataBase extends SQLiteOpenHelper {
@@ -16,8 +17,21 @@ public class DataBase extends SQLiteOpenHelper {
 	private SQLiteDatabase _objDbEscrita;
 
 	public SQLiteDatabase getObjDbEscrita() {
-		if (_objDbEscrita == null) {
-			_objDbEscrita = this.getWritableDatabase();
+		// VARIÁVEIS
+		// FIM VARIÁVEIS
+		try {
+			// AÇÕES
+
+			if (_objDbEscrita == null) {
+				_objDbEscrita = this.getWritableDatabase();
+			}
+
+			// FIM AÇÕES
+		} catch (Exception ex) {
+
+			new Erro(App.getApp().getStrTexto(0), ex.getMessage());
+
+		} finally {
 		}
 
 		return _objDbEscrita;
@@ -26,9 +40,23 @@ public class DataBase extends SQLiteOpenHelper {
 	private SQLiteDatabase _objDataBaseLeitura;
 
 	public SQLiteDatabase getObjDbLeitura() {
-		if (_objDataBaseLeitura == null) {
-			_objDataBaseLeitura = this.getReadableDatabase();
+		// VARIÁVEIS
+		// FIM VARIÁVEIS
+		try {
+			// AÇÕES
+
+			if (_objDataBaseLeitura == null) {
+				_objDataBaseLeitura = this.getReadableDatabase();
+			}
+
+			// FIM AÇÕES
+		} catch (Exception ex) {
+
+			new Erro(App.getApp().getStrTexto(0), ex.getMessage());
+
+		} finally {
 		}
+
 		return _objDataBaseLeitura;
 	}
 
@@ -47,10 +75,10 @@ public class DataBase extends SQLiteOpenHelper {
 	// CONSTRUTORES
 
 	public DataBase(String strDbNome, Context context) {
-		// VARIÁVEIS
 
 		super(context, strDbNome, null, 1);
 
+		// VARIÁVEIS
 		// FIM VARIÁVEIS
 		try {
 			// AÇÕES
@@ -60,7 +88,7 @@ public class DataBase extends SQLiteOpenHelper {
 			// FIM AÇÕES
 		} catch (Exception ex) {
 
-			new Erro("Erro ao criar o banco de dados.\n", ex.getMessage());
+			new Erro(App.getApp().getStrTexto(118), ex.getMessage());
 
 		} finally {
 		}
@@ -84,9 +112,12 @@ public class DataBase extends SQLiteOpenHelper {
 
 			// FIM AÇÕES
 		} catch (Exception ex) {
-			new Erro("Erro ao executar SQL.\n", ex.getMessage());
+
+			new Erro(App.getApp().getStrTexto(119), ex.getMessage());
+
 		} finally {
 		}
+
 		return objCursorTemp;
 	}
 
@@ -97,12 +128,13 @@ public class DataBase extends SQLiteOpenHelper {
 
 			// AÇÕES
 
-			// this.getObjDbEscrita().rawQuery(sql, null);
 			this.getObjDbEscrita().execSQL(sql);
 
 			// FIM AÇÕES
-		} catch (Exception e) {
-			new Erro("Erro ao executar SQL.\n", e.getMessage());
+		} catch (Exception ex) {
+
+			new Erro(App.getApp().getStrTexto(119), ex.getMessage());
+
 		} finally {
 		}
 	}
@@ -113,12 +145,32 @@ public class DataBase extends SQLiteOpenHelper {
 
 	@Override
 	public void onCreate(SQLiteDatabase db) {
-		// db.execSQL("CREATE TABLE teste(intId int, strTexto text);");
+		// VARIÁVEIS
+		// FIM VARIÁVEIS
+		try {
+			// AÇÕES
+			// FIM AÇÕES
+		} catch (Exception ex) {
+
+			new Erro(App.getApp().getStrTexto(0), ex.getMessage());
+
+		} finally {
+		}
 	}
 
 	@Override
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+		// VARIÁVEIS
+		// FIM VARIÁVEIS
+		try {
+			// AÇÕES
+			// FIM AÇÕES
+		} catch (Exception ex) {
 
+			new Erro(App.getApp().getStrTexto(0), ex.getMessage());
+
+		} finally {
+		}
 	}
 	// FIM EVENTOS
 }

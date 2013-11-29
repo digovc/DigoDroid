@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 
+import com.digosofter.digodroid.App;
 import com.digosofter.digodroid.Objeto;
 import com.digosofter.digodroid.Utils;
 import com.digosofter.digodroid.erro.Erro;
@@ -27,10 +28,24 @@ public class DbColuna extends Objeto {
 	}
 
 	public void setBooChavePrimaria(boolean booChavePrimaria) {
-		for (DbColuna cln : this.getTbl().getLstObjDbColuna()) {
-			cln._booChavePrimaria = false;
+		// VARIÁVEIS
+		// FIM VARIÁVEIS
+		try {
+			// AÇÕES
+
+			for (DbColuna cln : this.getTbl().getLstObjDbColuna()) {
+				cln._booChavePrimaria = false;
+			}
+
+			_booChavePrimaria = booChavePrimaria;
+
+			// FIM AÇÕES
+		} catch (Exception ex) {
+
+			new Erro(App.getApp().getStrTexto(0), ex.getMessage());
+
+		} finally {
 		}
-		_booChavePrimaria = booChavePrimaria;
 	}
 
 	private boolean _booClnNome = false;
@@ -40,10 +55,24 @@ public class DbColuna extends Objeto {
 	}
 
 	public void setBooClnNome(boolean booClnNome) {
-		for (DbColuna cln : this.getTbl().getLstObjDbColuna()) {
-			cln._booClnNome = false;
+		// VARIÁVEIS
+		// FIM VARIÁVEIS
+		try {
+			// AÇÕES
+
+			for (DbColuna cln : this.getTbl().getLstObjDbColuna()) {
+				cln._booClnNome = false;
+			}
+
+			_booClnNome = booClnNome;
+
+			// FIM AÇÕES
+		} catch (Exception ex) {
+
+			new Erro(App.getApp().getStrTexto(0), ex.getMessage());
+
+		} finally {
 		}
-		_booClnNome = booClnNome;
 	}
 
 	private boolean _booOrdemCadastro = false;
@@ -53,13 +82,23 @@ public class DbColuna extends Objeto {
 	}
 
 	public void setBooOrdemCadastro(boolean booOrdemCadastro) {
-		_booOrdemCadastro = booOrdemCadastro;
-		if (_booOrdemCadastro) {
+		// VARIÁVEIS
+		// FIM VARIÁVEIS
+		try {
+			// AÇÕES
+
 			for (DbColuna cln : this.getTbl().getLstObjDbColuna()) {
-				if (cln.getIntId() != this.getIntId()) {
-					cln.setBooOrdemCadastro(false);
-				}
+				cln._booOrdemCadastro = false;
 			}
+
+			_booOrdemCadastro = booOrdemCadastro;
+
+			// FIM AÇÕES
+		} catch (Exception ex) {
+
+			new Erro(App.getApp().getStrTexto(0), ex.getMessage());
+
+		} finally {
 		}
 	}
 
@@ -99,21 +138,38 @@ public class DbColuna extends Objeto {
 		return _enmTipo;
 	}
 
+	private String _strSqlTipo;
+
 	public String getStrSqlTipo() {
-		switch (this.getEnmTipo()) {
-		case INTEGER:
-			return "INTEGER";
-		case NONE:
-			return "NONE";
-		case NUMERIC:
-			return "NUMERIC";
-		case REAL:
-			return "REAL";
-		case TEXT:
-			return "TEXT";
-		default:
-			return "TEXT";
+		// VARIÁVEIS
+		// FIM VARIÁVEIS
+		try {
+			// AÇÕES
+
+			switch (this.getEnmTipo()) {
+			case INTEGER:
+				_strSqlTipo = "INTEGER";
+			case NONE:
+				_strSqlTipo = "NONE";
+			case NUMERIC:
+				_strSqlTipo = "NUMERIC";
+			case REAL:
+				_strSqlTipo = "REAL";
+			case TEXT:
+				_strSqlTipo = "TEXT";
+			default:
+				_strSqlTipo = "TEXT";
+			}
+
+			// FIM AÇÕES
+		} catch (Exception ex) {
+
+			new Erro(App.getApp().getStrTexto(0), ex.getMessage());
+
+		} finally {
 		}
+
+		return _strSqlTipo;
 	}
 
 	public void setEnmTipo(EnmTipo enmTipo) {
@@ -133,9 +189,23 @@ public class DbColuna extends Objeto {
 	private String _strValor;
 
 	public String getStrValor() {
-		if (_strValor == null) {
-			_strValor = Utils.STRING_VAZIA;
+		// VARIÁVEIS
+		// FIM VARIÁVEIS
+		try {
+			// AÇÕES
+
+			if (_strValor == null) {
+				_strValor = Utils.STRING_VAZIA;
+			}
+
+			// FIM AÇÕES
+		} catch (Exception ex) {
+
+			new Erro(App.getApp().getStrTexto(0), ex.getMessage());
+
+		} finally {
 		}
+
 		return _strValor;
 	}
 
@@ -165,6 +235,7 @@ public class DbColuna extends Objeto {
 
 		} finally {
 		}
+
 		return dlbValorResultado;
 	}
 
@@ -189,15 +260,17 @@ public class DbColuna extends Objeto {
 			intHora = Integer.parseInt(this.getStrValor().substring(11, 13));
 			intMin = Integer.parseInt(this.getStrValor().substring(14, 16));
 			intSeg = Integer.parseInt(this.getStrValor().substring(17, 19));
+
 			objGregorianCalendarResultado = new GregorianCalendar(intAno, intMes, intDia, intHora, intMin, intSeg);
 
 			// FIM AÇÕES
 		} catch (Exception ex) {
 
-			new Erro("Erro ao retornar valor do tipo 'date' do registro.\n", ex.getMessage());
+			new Erro(App.getApp().getStrTexto(0), ex.getMessage());
 
 		} finally {
 		}
+
 		return objGregorianCalendarResultado;
 	}
 
@@ -215,11 +288,17 @@ public class DbColuna extends Objeto {
 			// FIM AÇÕES
 		} catch (Exception ex) {
 
-			// new Erro("Erro inesperado.\n" , ex.getMessage());
+			return 0;
 
 		} finally {
 		}
+
 		return intValorResultado;
+	}
+
+	@Override
+	public String toString() {
+		return this.getStrValor();
 	}
 
 	public void setStrValor(String strValor) {
@@ -263,8 +342,21 @@ public class DbColuna extends Objeto {
 	}
 
 	public void setTbl(DbTabela tbl) {
-		_tbl = tbl;
-		_tbl.getLstObjDbColuna().add(this);
+		// VARIÁVEIS
+		// FIM VARIÁVEIS
+		try {
+			// AÇÕES
+
+			_tbl = tbl;
+			_tbl.getLstObjDbColuna().add(this);
+
+			// FIM AÇÕES
+		} catch (Exception ex) {
+
+			new Erro(App.getApp().getStrTexto(0), ex.getMessage());
+
+		} finally {
+		}
 	}
 
 	// FIM ATRIBUTOS
@@ -273,52 +365,57 @@ public class DbColuna extends Objeto {
 
 	public DbColuna(String strNome, DbTabela objDbTabela) {
 		// VARIÁVEIS
-
-		this.setStrNome(strNome);
-		this.setTbl(objDbTabela);
-
 		// FIM VARIÁVEIS
 		try {
 			// AÇÕES
+
+			this.setStrNome(strNome);
+			this.setTbl(objDbTabela);
+
 			// FIM AÇÕES
-		} catch (Exception e) {
+		} catch (Exception ex) {
+
+			new Erro(App.getApp().getStrTexto(120), ex.getMessage());
+
 		} finally {
-			// LIMPAR VARIÁVEIS
-			// FIM LIMPAR VARIÁVEIS
 		}
 	}
 
 	public DbColuna(String strNome, DbTabela objDbTabela, EnmTipo objEnmTipo) {
 		// VARIÁVEIS
-
-		this.setStrNome(strNome);
-		this.setTbl(objDbTabela);
-		this.setEnmTipo(objEnmTipo);
-
 		// FIM VARIÁVEIS
 		try {
 			// AÇÕES
+
+			this.setStrNome(strNome);
+			this.setTbl(objDbTabela);
+			this.setEnmTipo(objEnmTipo);
+
 			// FIM AÇÕES
-		} catch (Exception e) {
+		} catch (Exception ex) {
+
+			new Erro(App.getApp().getStrTexto(120), ex.getMessage());
+
 		} finally {
-			// LIMPAR VARIÁVEIS
-			// FIM LIMPAR VARIÁVEIS
 		}
 	}
 
 	public DbColuna(String strNome, DbTabela objDbTabela, EnmTipo objEnmTipo, DbColuna clnReferencia) {
 		// VARIÁVEIS
-
-		this.setStrNome(strNome);
-		this.setTbl(objDbTabela);
-		this.setEnmTipo(objEnmTipo);
-		this.setClnReferencia(clnReferencia);
-
 		// FIM VARIÁVEIS
 		try {
 			// AÇÕES
+
+			this.setStrNome(strNome);
+			this.setTbl(objDbTabela);
+			this.setEnmTipo(objEnmTipo);
+			this.setClnReferencia(clnReferencia);
+
 			// FIM AÇÕES
-		} catch (Exception e) {
+		} catch (Exception ex) {
+
+			new Erro(App.getApp().getStrTexto(120), ex.getMessage());
+
 		} finally {
 			// LIMPAR VARIÁVEIS
 			// FIM LIMPAR VARIÁVEIS
@@ -328,23 +425,6 @@ public class DbColuna extends Objeto {
 	// FIM CONSTRUTORES
 
 	// MÉTODOS
-
-	@Override
-	public String toString() {
-		// VARIÁVEIS
-		// FIM VARIÁVEIS
-		try {
-			// AÇÕES
-			// FIM AÇÕES
-		} catch (Exception ex) {
-
-			new Erro("Erro inesperado.\n", ex.getMessage());
-
-		} finally {
-		}
-		return this.getStrValor();
-	}
-
 	// FIM MÉTODOS
 
 	// EVENTOS

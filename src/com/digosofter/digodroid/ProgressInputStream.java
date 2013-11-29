@@ -7,72 +7,196 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 
-public class ProgressInputStream extends InputStream {
+import com.digosofter.digodroid.erro.Erro;
 
-	/* Key to retrieve progress value from message bundle passed to handler */
+public class ProgressInputStream extends InputStream {
+	// CONSTANTES
+
 	public static final String PROGRESS_UPDATE = "progress_update";
 
 	private static final int TEN_KILOBYTES = 1024 * 10;
 
+	// FIM CONSTANTES
+
+	// ATRIBUTOS
+
 	private InputStream inputStream;
 	private Handler handler;
 
-	private long progress;
-	private long lastUpdate;
+	private long progress = 0;
+	private long lastUpdate = 0;
 
-	private boolean closed;
+	private boolean closed = false;
+
+	// FIM ATRIBUTOS
+
+	// CONSTRUTORES
 
 	public ProgressInputStream(InputStream inputStream, Handler handler) {
-		this.inputStream = inputStream;
-		this.handler = handler;
+		// VARIÁVEIS
+		// FIM VARIÁVEIS
+		try {
+			// AÇÕES
 
-		this.progress = 0;
-		this.lastUpdate = 0;
+			this.inputStream = inputStream;
+			this.handler = handler;
 
-		this.closed = false;
+			// FIM AÇÕES
+		} catch (Exception ex) {
+
+			new Erro(App.getApp().getStrTexto(0), ex.getMessage());
+
+		} finally {
+		}
 	}
+
+	// FIM CONSTRUTORES
+
+	// MÉTODOS
 
 	@Override
 	public int read() throws IOException {
-		int count = inputStream.read();
+		// VARIÁVEIS
+
+		int count = 0;
+
+		// FIM VARIÁVEIS
+		try {
+			// AÇÕES
+
+			count = inputStream.read();
+
+			// FIM AÇÕES
+		} catch (Exception ex) {
+
+			new Erro(App.getApp().getStrTexto(0), ex.getMessage());
+
+		} finally {
+		}
+
 		return incrementCounterAndUpdateDisplay(count);
 	}
 
 	@Override
 	public int read(byte[] b, int off, int len) throws IOException {
-		int count = inputStream.read(b, off, len);
+		// VARIÁVEIS
+
+		int count = 0;
+
+		// FIM VARIÁVEIS
+		try {
+			// AÇÕES
+
+			count = inputStream.read(b, off, len);
+
+			// FIM AÇÕES
+		} catch (Exception ex) {
+
+			new Erro(App.getApp().getStrTexto(0), ex.getMessage());
+
+		} finally {
+		}
+
 		return incrementCounterAndUpdateDisplay(count);
 	}
 
 	@Override
 	public void close() throws IOException {
+
 		super.close();
-		if (closed)
-			throw new IOException("already closed");
-		closed = true;
+
+		// VARIÁVEIS
+		// FIM VARIÁVEIS
+		try {
+			// AÇÕES
+
+			if (closed) {
+				throw new IOException("already closed");
+			}
+
+			closed = true;
+
+			// FIM AÇÕES
+		} catch (Exception ex) {
+
+			new Erro(App.getApp().getStrTexto(0), ex.getMessage());
+
+		} finally {
+		}
 	}
 
 	private int incrementCounterAndUpdateDisplay(int count) {
-		if (count > 0)
-			progress += count;
-		lastUpdate = maybeUpdateDisplay(progress, lastUpdate);
+		// VARIÁVEIS
+		// FIM VARIÁVEIS
+		try {
+			// AÇÕES
+
+			if (count > 0)
+				progress += count;
+			lastUpdate = maybeUpdateDisplay(progress, lastUpdate);
+
+			// FIM AÇÕES
+		} catch (Exception ex) {
+
+			new Erro(App.getApp().getStrTexto(0), ex.getMessage());
+
+		} finally {
+		}
+
 		return count;
 	}
 
 	private long maybeUpdateDisplay(long progress, long lastUpdate) {
-		if (progress - lastUpdate > TEN_KILOBYTES) {
-			lastUpdate = progress;
-			sendLong(PROGRESS_UPDATE, progress);
+		// VARIÁVEIS
+		// FIM VARIÁVEIS
+		try {
+			// AÇÕES
+
+			if (progress - lastUpdate > TEN_KILOBYTES) {
+				lastUpdate = progress;
+				sendLong(PROGRESS_UPDATE, progress);
+			}
+
+			// FIM AÇÕES
+		} catch (Exception ex) {
+
+			new Erro(App.getApp().getStrTexto(0), ex.getMessage());
+
+		} finally {
 		}
+
 		return lastUpdate;
 	}
 
 	public void sendLong(String key, long value) {
-		Bundle data = new Bundle();
-		data.putLong(key, value);
+		// VARIÁVEIS
 
-		Message message = Message.obtain();
-		message.setData(data);
-		handler.sendMessage(message);
+		Bundle data;
+		Message message;
+
+		// FIM VARIÁVEIS
+		try {
+			// AÇÕES
+
+			data = new Bundle();
+			data.putLong(key, value);
+
+			message = Message.obtain();
+			message.setData(data);
+			handler.sendMessage(message);
+
+			// FIM AÇÕES
+		} catch (Exception ex) {
+
+			new Erro(App.getApp().getStrTexto(0), ex.getMessage());
+
+		} finally {
+		}
 	}
+
+	// FIM MÉTODOS
+
+	// EVENTOS
+	// FIM EVENTOS
+
 }

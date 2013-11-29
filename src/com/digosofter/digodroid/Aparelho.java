@@ -15,21 +15,26 @@ public abstract class Aparelho extends Objeto {
 
 	public static String getStrImei() {
 		// VARIÁVEIS
+
+		String strTelephonyService;
+		TelephonyManager objTelephonyManager;
+
 		// FIM VARIÁVEIS
 		try {
 			// AÇÕES
 
-			String ts = Context.TELEPHONY_SERVICE;
-			TelephonyManager mTelephonyMgr = (TelephonyManager) App.getApp().getActMain().getSystemService(ts);
-			_strImei = mTelephonyMgr.getDeviceId();
+			strTelephonyService = Context.TELEPHONY_SERVICE;
+			objTelephonyManager = (TelephonyManager) App.getApp().getActMain().getSystemService(strTelephonyService);
+			_strImei = objTelephonyManager.getDeviceId();
 
 			// FIM AÇÕES
 		} catch (Exception ex) {
 
-			new Erro("Erro ao recuperar o EMEI do aparelho.\n", ex.getMessage());
+			new Erro(App.getApp().getStrMensagemUsuario(100), ex.getMessage());
 
 		} finally {
 		}
+
 		return _strImei;
 	}
 

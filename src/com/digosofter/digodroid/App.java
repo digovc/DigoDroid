@@ -7,6 +7,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.widget.Toast;
 
+import com.digosofter.digodroid.MensagemUsuario.EnmLingua;
 import com.digosofter.digodroid.database.DataBase;
 import com.digosofter.digodroid.database.DbTabela;
 import com.digosofter.digodroid.erro.Erro;
@@ -37,27 +38,24 @@ public abstract class App extends Objeto {
 		_app = app;
 	}
 
-	private boolean _booAtualizado;
+	private Context _context;
 
-	public boolean getBooAtualizado() {
+	public Context getContext() {
 		// VARIÁVEIS
 		// FIM VARIÁVEIS
 		try {
 			// AÇÕES
+
+			_context = this.getActMain().getApplicationContext();
+
 			// FIM AÇÕES
 		} catch (Exception ex) {
 
-			new Erro("Erro ao verificar se está atualizado.\n" , ex.getMessage());
+			new Erro(this.getStrMensagemUsuario(101), ex.getMessage());
 
 		} finally {
 		}
-		return _booAtualizado;
-	}
 
-	private Context _context;
-
-	public Context getContext() {
-		_context = this.getActMain().getApplicationContext();
 		return _context;
 	}
 
@@ -71,34 +69,75 @@ public abstract class App extends Objeto {
 		_intVersao = intVersao;
 	}
 
+	private List<MensagemUsuario> _lstObjMensagemUsuario;
+
+	private List<MensagemUsuario> getLstObjMensagemUsuario() {
+		// VARIÁVEIS
+		// FIM VARIÁVEIS
+		try {
+			// AÇÕES
+
+			if (_lstObjMensagemUsuario == null) {
+				_lstObjMensagemUsuario = new ArrayList<MensagemUsuario>();
+
+				// Mensagens
+
+				_lstObjMensagemUsuario.add(new MensagemUsuario("Erro inesperado..", 0));
+				_lstObjMensagemUsuario.add(new MensagemUsuario("Erro ao tentar recuperar o IMEI do aparelho.", 100));
+				_lstObjMensagemUsuario
+						.add(new MensagemUsuario("Erro ao tentar recuperar contexto do aplicativo.", 101));
+				_lstObjMensagemUsuario.add(new MensagemUsuario("Erro ao tentar recuperar banco de dados principal.",
+						102));
+				_lstObjMensagemUsuario.add(new MensagemUsuario("Erro ao tentar recuperar mensagem de usuário.", 103));
+				_lstObjMensagemUsuario.add(new MensagemUsuario("Erro ao tentar mostrar notificação na tela.", 104));
+
+				// Fim mensagens
+
+			}
+
+			// FIM AÇÕES
+		} catch (Exception ex) {
+
+			new Erro(this.getStrMensagemUsuario(0), ex.getMessage());
+
+		} finally {
+		}
+
+		return _lstObjMensagemUsuario;
+	}
+
 	private List<DbTabela> _lstTbl = new ArrayList<DbTabela>();
 
-	public List<DbTabela> getlstTbl() {
+	public List<DbTabela> getLstTbl() {
 		return _lstTbl;
 	}
 
-	public void setlstTbl(List<DbTabela> lstTbl) {
+	public void setLstTbl(List<DbTabela> lstTbl) {
 		_lstTbl = lstTbl;
 	}
 
 	private DataBase _objDataBasePrincipal;
 
 	public DataBase getObjDataBasePrincipal() {
-		if (_objDataBasePrincipal == null) {
-			_objDataBasePrincipal = new DataBase(this.getStrNomeSimplificado(), this.getActMain()
-					.getApplicationContext());
+		// VARIÁVEIS
+		// FIM VARIÁVEIS
+		try {
+			// AÇÕES
+
+			if (_objDataBasePrincipal == null) {
+				_objDataBasePrincipal = new DataBase(this.getStrNomeSimplificado(), this.getActMain()
+						.getApplicationContext());
+			}
+
+			// FIM AÇÕES
+		} catch (Exception ex) {
+
+			new Erro(App.getApp().getStrTexto(102), ex.getMessage());
+
+		} finally {
 		}
+
 		return _objDataBasePrincipal;
-	}
-
-	private String _strUrlUpdate;
-
-	public String getstrUrlUpdate() {
-		return _strUrlUpdate;
-	}
-
-	public void setStrUrlUpdate(String strUrlUpdate) {
-		_strUrlUpdate = strUrlUpdate;
 	}
 
 	private String _strVersaoExibicao;
@@ -143,57 +182,66 @@ public abstract class App extends Objeto {
 
 	// MÉTODOS
 
-	public void mostrarMensagemCurta(String strMensagem) {
+	public String getStrMensagemUsuario(int intId, EnmLingua enmLingua) {
 		// VARIÁVEIS
 
-		int intTempo = Toast.LENGTH_SHORT;
+		String strMensagemUsuarioResultado = Utils.STRING_VAZIA;
 
 		// FIM VARIÁVEIS
 		try {
 			// AÇÕES
 
-			Toast toast = Toast.makeText(this.getActMain().getApplicationContext(), strMensagem, intTempo);
-			toast.show();
+			for (MensagemUsuario objMensagemUsuario : this.getLstObjMensagemUsuario()) {
+				if (objMensagemUsuario.getIntId() == intId && objMensagemUsuario.getEnmLingua() == enmLingua) {
+					strMensagemUsuarioResultado = objMensagemUsuario.getStrTexto();
+					break;
+				}
+			}
 
-			// FIM AÇÕES
-		} catch (Exception e) {
-		} finally {
-			// LIMPAR VARIÁVEIS
-			// FIM LIMPAR VARIÁVEIS
-		}
-	}
-
-	public void mostrarMensagemLonga(String strMensagem) {
-		// VARIÁVEIS
-
-		int intTempo = Toast.LENGTH_LONG;
-
-		// FIM VARIÁVEIS
-		try {
-			// AÇÕES
-
-			Toast toast = Toast.makeText(this.getActMain().getApplicationContext(), strMensagem, intTempo);
-			toast.show();
-
-			// FIM AÇÕES
-		} catch (Exception e) {
-		} finally {
-			// LIMPAR VARIÁVEIS
-			// FIM LIMPAR VARIÁVEIS
-		}
-	}
-
-	public void update() {
-		// VARIÁVEIS
-		// FIM VARIÁVEIS
-		try {
-			// AÇÕES
 			// FIM AÇÕES
 		} catch (Exception ex) {
 
-			new Erro("Erro ao fazer update do aplicativo.\n" , ex.getMessage());
+			new Erro(this.getStrTexto(103), ex.getMessage());
 
 		} finally {
+		}
+
+		return strMensagemUsuarioResultado;
+	}
+
+	public String getStrMensagemUsuario(int intId) {
+		return this.getStrMensagemUsuario(intId, EnmLingua.PORTUGUES);
+	}
+
+	public String getStrTexto(int intId) {
+		return this.getStrMensagemUsuario(intId);
+	}
+
+	public void mostrarNoficacao(String strMensagem) {
+		// VARIÁVEIS
+
+		int intTempo = Toast.LENGTH_SHORT;
+		Toast objToast;
+
+		// FIM VARIÁVEIS
+		try {
+			// AÇÕES
+
+			if (strMensagem.length() > 25) {
+				intTempo = Toast.LENGTH_LONG;
+			}
+
+			objToast = Toast.makeText(this.getActMain().getApplicationContext(), strMensagem, intTempo);
+			objToast.show();
+
+			// FIM AÇÕES
+		} catch (Exception ex) {
+
+			new Erro(this.getStrTexto(104), ex.getMessage());
+
+		} finally {
+			// LIMPAR VARIÁVEIS
+			// FIM LIMPAR VARIÁVEIS
 		}
 	}
 

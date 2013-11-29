@@ -23,29 +23,95 @@ public class ActErro extends ActBase {
 
 	private void setErr(Erro err) {
 		// VARIÁVEIS
-
-		_err = err;
-
 		// FIM VARIÁVEIS
 		try {
 			// AÇÕES
 
-			TextView txtAppNome = (TextView) this.findViewById(R.id.actErro_txtAppNome);
-			TextView txtErroTitulo = (TextView) this.findViewById(R.id.actErro_txtErroTitulo);
-			TextView txtErroMensagem = (TextView) this.findViewById(R.id.actErro_txtErroMensagem);
+			_err = err;
 
-			txtAppNome.setText(App.getApp().getStrNome());
-			txtErroTitulo.setText(_err.getStrNome());
+			this.getTxtAppNome().setText(App.getApp().getStrNome());
+			this.getTxtErroTitulo().setText(_err.getStrNome());
+
 			if (_err.getStrMensagemDetalhes() != null) {
-				txtErroMensagem.setText(_err.getStrMensagem() + "\n\nInformação técnica: " + _err.getStrMensagemDetalhes());
-			}else{
-				txtErroMensagem.setText(_err.getStrMensagem());
+				this.getTxtErroMensagem().setText(
+						_err.getStrMensagem() + "\n\nDetalhes: " + _err.getStrMensagemDetalhes());
+			} else {
+				this.getTxtErroMensagem().setText(_err.getStrMensagem());
 			}
 
 			// FIM AÇÕES
 		} catch (Exception ex) {
 		} finally {
 		}
+	}
+
+	private TextView _txtAppNome;
+
+	private TextView getTxtAppNome() {
+		// VARIÁVEIS
+		// FIM VARIÁVEIS
+		try {
+			// AÇÕES
+
+			if (_txtAppNome == null) {
+				_txtAppNome = (TextView) this.findViewById(R.id.actErro_txtAppNome);
+			}
+
+			// FIM AÇÕES
+		} catch (Exception ex) {
+
+			new Erro(App.getApp().getStrTexto(0), ex.getMessage());
+
+		} finally {
+		}
+
+		return _txtAppNome;
+	}
+
+	private TextView _txtErroMensagem;
+
+	private TextView getTxtErroMensagem() {
+		// VARIÁVEIS
+		// FIM VARIÁVEIS
+		try {
+			// AÇÕES
+
+			if (_txtErroMensagem == null) {
+				_txtErroMensagem = (TextView) this.findViewById(R.id.actErro_txtErroMensagem);
+			}
+
+			// FIM AÇÕES
+		} catch (Exception ex) {
+
+			new Erro(App.getApp().getStrTexto(0), ex.getMessage());
+
+		} finally {
+		}
+
+		return _txtErroMensagem;
+	}
+
+	private TextView _txtErroTitulo;
+
+	private TextView getTxtErroTitulo() {
+		// VARIÁVEIS
+		// FIM VARIÁVEIS
+		try {
+			// AÇÕES
+
+			if (_txtErroTitulo == null) {
+				_txtErroTitulo = (TextView) this.findViewById(R.id.actErro_txtErroTitulo);
+			}
+
+			// FIM AÇÕES
+		} catch (Exception ex) {
+
+			new Erro(App.getApp().getStrTexto(0), ex.getMessage());
+
+		} finally {
+		}
+
+		return _txtErroTitulo;
 	}
 
 	// FIM ATRIBUTOS
@@ -64,14 +130,26 @@ public class ActErro extends ActBase {
 
 			// FIM AÇÕES
 		} catch (Exception ex) {
+
+			new Erro(App.getApp().getStrTexto(0), ex.getMessage());
+
 		} finally {
 		}
 	}
 
 	@Override
 	protected void setEventos() {
-		// TODO Auto-generated method stub
+		// VARIÁVEIS
+		// FIM VARIÁVEIS
+		try {
+			// AÇÕES
+			// FIM AÇÕES
+		} catch (Exception ex) {
 
+			new Erro(App.getApp().getStrTexto(0), ex.getMessage());
+
+		} finally {
+		}
 	}
 
 	// FIM MÉTODOS
@@ -89,7 +167,7 @@ public class ActErro extends ActBase {
 			// FIM AÇÕES
 		} catch (Exception ex) {
 
-			new Erro("Erro inesperado.\n", ex.getMessage());
+			new Erro(App.getApp().getStrTexto(0), ex.getMessage());
 
 		} finally {
 		}
@@ -97,28 +175,44 @@ public class ActErro extends ActBase {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
+
+		super.onCreate(savedInstanceState);
+
 		// VARIÁVEIS
 		// FIM VARIÁVEIS
 		try {
 			// AÇÕES
 
-			super.onCreate(savedInstanceState);
 			setContentView(R.layout.act_erro);
-
-			this.montarLayout();
-
 			this.setErr((Erro) getIntent().getSerializableExtra("Erro"));
+			this.montarLayout();
 
 			// FIM AÇÕES
 		} catch (Exception ex) {
+
+			new Erro(App.getApp().getStrTexto(0), ex.getMessage());
+
 		} finally {
 		}
 	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.act_erro, menu);
+		// VARIÁVEIS
+		// FIM VARIÁVEIS
+		try {
+			// AÇÕES
+		
+			this.getMenuInflater().inflate(R.menu.act_erro, menu);
+
+			// FIM AÇÕES
+		} catch (Exception ex) {
+
+			new Erro(App.getApp().getStrTexto(0), ex.getMessage());
+
+		} finally {
+		}
+
 		return true;
 	}
 

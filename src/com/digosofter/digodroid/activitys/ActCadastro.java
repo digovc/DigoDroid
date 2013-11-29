@@ -52,18 +52,47 @@ public class ActCadastro extends ActBase {
 	private EditText _edtPesquisa;
 
 	private EditText getEdtPesquisa() {
-		if (_edtPesquisa == null) {
-			_edtPesquisa = (EditText) this.findViewById(R.id.actCadastro_edtPesquisa);
+		// VARIÁVEIS
+		// FIM VARIÁVEIS
+		try {
+			// AÇÕES
+
+			if (_edtPesquisa == null) {
+				_edtPesquisa = (EditText) this.findViewById(R.id.actCadastro_edtPesquisa);
+			}
+
+			// FIM AÇÕES
+		} catch (Exception ex) {
+
+			new Erro(App.getApp().getStrTexto(0), ex.getMessage());
+
+		} finally {
 		}
+
 		return _edtPesquisa;
 	}
 
 	private ListView _objListView;
 
 	public ListView getObjListView() {
-		if (_objListView == null) {
-			_objListView = (ListView) findViewById(R.id.actCadastro_pnlTabela);
+		// VARIÁVEIS
+		// FIM VARIÁVEIS
+		try {
+			// AÇÕES
+
+			if (_objListView == null) {
+				_objListView = (ListView) findViewById(R.id.actCadastro_pnlTbl);
+				_objListView.setCacheColorHint(Color.TRANSPARENT);
+			}
+
+			// FIM AÇÕES
+		} catch (Exception ex) {
+
+			new Erro(App.getApp().getStrTexto(0), ex.getMessage());
+
+		} finally {
 		}
+
 		return _objListView;
 	}
 
@@ -75,26 +104,48 @@ public class ActCadastro extends ActBase {
 
 	private void setTbl(DbTabela tbl) {
 		// VARIÁVEIS
-
-		_tbl = tbl;
-
-		TextView txtTabelaDescricao = (TextView) this.findViewById(R.id.actCadastro_txtTabelaDescricao);
-
 		// FIM VARIÁVEIS
 		try {
 			// AÇÕES
 
+			_tbl = tbl;
 			this.setTitle(_tbl.getStrNomeExibicao());
+
 			if (_tbl.getStrDescricao() != null) {
-				txtTabelaDescricao.setText(_tbl.getStrDescricao());
-				txtTabelaDescricao.setVisibility(View.VISIBLE);
+				this.getTxtTblDescricao().setText(_tbl.getStrDescricao());
+				this.getTxtTblDescricao().setVisibility(View.VISIBLE);
 			}
 
 			// FIM AÇÕES
 		} catch (Exception ex) {
-			new Erro("Erro ao carregar tabela.\n", ex.getMessage());
+
+			new Erro(App.getApp().getStrTexto(0), ex.getMessage());
+
 		} finally {
 		}
+	}
+
+	private TextView _txtTblDescricao;
+
+	private TextView getTxtTblDescricao() {
+		// VARIÁVEIS
+		// FIM VARIÁVEIS
+		try {
+			// AÇÕES
+
+			if (_txtTblDescricao == null) {
+				_txtTblDescricao = (TextView) this.findViewById(R.id.actCadastro_txtTblDescricao);
+			}
+
+			// FIM AÇÕES
+		} catch (Exception ex) {
+
+			new Erro(App.getApp().getStrTexto(0), ex.getMessage());
+
+		} finally {
+		}
+
+		return _txtTblDescricao;
 	}
 
 	// FIM ATRIBUTOS
@@ -108,28 +159,35 @@ public class ActCadastro extends ActBase {
 	protected void montarLayout() {
 		// VARIÁVEIS
 
-		ArrayList<ItmCadastro> lstObjItmCadastro = new ArrayList<ItmCadastro>();
-		ItmCadastro itmCadastro = null;
-		Cursor objCursor = this.getTbl().getCrsDadosTelaCadastro();
+		ArrayList<ItmCadastro> lstObjItmCadastro;
+		ItmCadastro itmCadastro;
+		Cursor objCursor;
 
 		// FIM VARIÁVEIS
 		try {
 			// AÇÕES
 
+			lstObjItmCadastro = new ArrayList<ItmCadastro>();
+			objCursor = this.getTbl().getCrsDadosTelaCadastro();
+
 			if (objCursor != null) {
 				if (objCursor.moveToFirst()) {
 					do {
+
 						itmCadastro = new ItmCadastro();
 						itmCadastro.setIntItemId(objCursor.getInt(objCursor.getColumnIndex(this.getTbl()
 								.getClnChavePrimaria().getStrNomeSimplificado())));
+
 						if (this.getTbl().getClnNome().getClnReferencia() != null) {
 							itmCadastro.setStrNome(objCursor.getString(objCursor.getColumnIndex("_strNomeB")));
 						} else {
 							itmCadastro.setStrNome(objCursor.getString(objCursor.getColumnIndex(this.getTbl()
 									.getClnNome().getStrNomeSimplificado())));
 						}
+
 						for (int intColunaIndex = 0; intColunaIndex <= 4; intColunaIndex++) {
 							if (intColunaIndex < objCursor.getColumnCount()) {
+
 								switch (intColunaIndex) {
 								case 2:
 									itmCadastro.setStrCampo001Nome(this.getTbl().getStrClnNomePeloNomeSimplificado(
@@ -147,8 +205,10 @@ public class ActCadastro extends ActBase {
 									itmCadastro.setStrCampo003Valor(objCursor.getString(intColunaIndex));
 									break;
 								}
+
 							}
 						}
+
 						lstObjItmCadastro.add(itmCadastro);
 
 					} while (objCursor.moveToNext());
@@ -156,16 +216,14 @@ public class ActCadastro extends ActBase {
 			}
 
 			this.setAdpCadastro(new AdpCadastro(this, lstObjItmCadastro));
-
 			this.getObjListView().setAdapter(this.getAdpCadastro());
-			this.getObjListView().setCacheColorHint(Color.TRANSPARENT);
-
 			this.getSupportActionBar().hide();
-			
-			
+
 			// FIM AÇÕES
 		} catch (Exception ex) {
-			new Erro("Erro ao montar layout.\n", ex.getMessage());
+
+			new Erro(App.getApp().getStrTexto(114), ex.getMessage());
+
 		} finally {
 		}
 	}
@@ -196,21 +254,27 @@ public class ActCadastro extends ActBase {
 			this.getObjListView().setOnItemClickListener(new OnItemClickListener() {
 				public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 					// VARIÁVEIS
+
+					ItmCadastro objItem;
+					Intent objIntentResult;
+
 					// FIM VARIÁVEIS
 					try {
 						// AÇÕES
 
-						Object objTemp = getObjListView().getItemAtPosition(position);
-						ItmCadastro objItem = (ItmCadastro) objTemp;
-						Intent objIntentResult = new Intent();
+						objItem = (ItmCadastro) ActCadastro.this.getObjListView().getItemAtPosition(position);
+
+						objIntentResult = new Intent();
 						objIntentResult.putExtra("intId", objItem.getIntItemId());
+
 						setResult(ActCadastro.EnmResultadoTipo.REGISTRO_SELECIONADO.ordinal(), objIntentResult);
+
 						finish();
 
 						// FIM AÇÕES
 					} catch (Exception ex) {
 
-						new Erro("Erro ao fechar tela de cadastro.\n", ex.getMessage());
+						new Erro(App.getApp().getStrTexto(115), ex.getMessage());
 
 					} finally {
 					}
@@ -222,18 +286,21 @@ public class ActCadastro extends ActBase {
 				@Override
 				public void onScrollStateChanged(AbsListView view, int scrollState) {
 					// VARIÁVEIS
+
+					InputMethodManager inputManager;
+
 					// FIM VARIÁVEIS
 					try {
 						// AÇÕES
 
-						InputMethodManager inputManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+						inputManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
 						inputManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(),
 								InputMethodManager.HIDE_NOT_ALWAYS);
 
 						// FIM AÇÕES
 					} catch (Exception ex) {
 
-						new Erro("Erro inesperado.\n", ex.getMessage());
+						new Erro(App.getApp().getStrTexto(0), ex.getMessage());
 
 					} finally {
 					}
@@ -247,7 +314,7 @@ public class ActCadastro extends ActBase {
 			// FIM AÇÕES
 		} catch (Exception ex) {
 
-			new Erro("Erro ao setar os eventos.\n", ex.getMessage());
+			new Erro(App.getApp().getStrTexto(116), ex.getMessage());
 
 		} finally {
 		}
@@ -259,29 +326,45 @@ public class ActCadastro extends ActBase {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
+
+		super.onCreate(savedInstanceState);
+
 		// VARIÁVEIS
 		// FIM VARIÁVEIS
 		try {
 			// AÇÕES
 
-			super.onCreate(savedInstanceState);
-			setContentView(R.layout.act_cadastro);
+			this.setContentView(R.layout.act_cadastro);
 			this.setTbl(App.getApp().getTblSelecionada());
-
 			this.montarLayout();
 			this.setEventos();
 
 			// FIM AÇÕES
 		} catch (Exception ex) {
-			new Erro("Erro ao criar tela de cadastro.\n", ex.getMessage());
+
+			new Erro(App.getApp().getStrTexto(117), ex.getMessage());
+
 		} finally {
 		}
 	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.act_cadastro, menu);
+		// VARIÁVEIS
+		// FIM VARIÁVEIS
+		try {
+			// AÇÕES
+
+			this.getMenuInflater().inflate(R.menu.act_cadastro, menu);
+
+			// FIM AÇÕES
+		} catch (Exception ex) {
+
+			new Erro(App.getApp().getStrTexto(0), ex.getMessage());
+
+		} finally {
+		}
+
 		return true;
 	}
 
@@ -301,10 +384,11 @@ public class ActCadastro extends ActBase {
 			// FIM AÇÕES
 		} catch (Exception ex) {
 
-			new Erro("Erro inesperado.\n", ex.getMessage());
+			new Erro(App.getApp().getStrTexto(0), ex.getMessage());
 
 		} finally {
 		}
+
 		return super.onOptionsItemSelected(item);
 	}
 

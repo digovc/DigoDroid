@@ -1,6 +1,6 @@
-package com.digosofter.digodroid;
+package com.digosofter.digodroid.arquivos;
 
-public class Modulo extends Objeto {
+public class ArquivoApk extends Arquivo {
 	// CONSTANTES
 	// FIM CONSTANTES
 
