@@ -24,7 +24,7 @@ public class DbView extends DbTabela {
 			// FIM AÇÕES
 		} catch (Exception ex) {
 
-			new Erro(App.getApp().getStrTexto(0), ex.getMessage());
+			new Erro(App.getApp().getStrTextoPadrao(0), ex.getMessage());
 
 		} finally {
 		}

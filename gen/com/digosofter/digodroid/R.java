@@ -1009,13 +1009,12 @@ containing a value of this type.
         public static int action_mode_bar=0x7f05002f;
         public static int action_mode_bar_stub=0x7f05002e;
         public static int action_mode_close_button=0x7f050022;
-        public static int action_settings=0x7f05005b;
+        public static int action_settings=0x7f050058;
         public static int activity_chooser_view_content=0x7f050023;
         public static int always=0x7f05000b;
         public static int beginning=0x7f050011;
         public static int checkbox=0x7f05002b;
         public static int collapseActionView=0x7f05000d;
-        public static int datePicker1=0x7f050053;
         public static int default_activity_button=0x7f050026;
         public static int dialog=0x7f05000e;
         public static int disableHome=0x7f050008;
@@ -1029,14 +1028,13 @@ containing a value of this type.
         public static int icon=0x7f050028;
         public static int ifRoom=0x7f05000a;
         public static int image=0x7f050025;
-        public static int itmCadastro_pnlGeral=0x7f050055;
-        public static int itmCadastro_pnlInfo=0x7f050056;
-        public static int itmCadastro_txtCampo001=0x7f050058;
-        public static int itmCadastro_txtCampo002=0x7f050059;
-        public static int itmCadastro_txtCampo003=0x7f05005a;
-        public static int itmCadastro_txtNome=0x7f050057;
+        public static int itmCadastro_pnlGeral=0x7f050052;
+        public static int itmCadastro_pnlInfo=0x7f050053;
+        public static int itmCadastro_txtCampo001=0x7f050055;
+        public static int itmCadastro_txtCampo002=0x7f050056;
+        public static int itmCadastro_txtCampo003=0x7f050057;
+        public static int itmCadastro_txtNome=0x7f050054;
         public static int left_icon=0x7f050031;
-        public static int linearLayout1=0x7f050052;
         public static int listMode=0x7f050001;
         public static int list_item=0x7f050027;
         public static int middle=0x7f050012;
@@ -1065,7 +1063,6 @@ containing a value of this type.
         public static int split_action_bar=0x7f05001c;
         public static int submit_area=0x7f05003f;
         public static int tabMode=0x7f050002;
-        public static int timePicker1=0x7f050054;
         public static int title=0x7f050029;
         public static int title_container=0x7f050030;
         public static int top_action_bar=0x7f05001e;
@@ -1125,9 +1122,8 @@ containing a value of this type.
         public static int abc_search_view=0x7f030017;
         public static int act_cadastro=0x7f030018;
         public static int act_erro=0x7f030019;
-        public static int dlg_datetime=0x7f03001a;
-        public static int itm_cadastro=0x7f03001b;
-        public static int support_simple_spinner_dropdown_item=0x7f03001c;
+        public static int itm_cadastro=0x7f03001a;
+        public static int support_simple_spinner_dropdown_item=0x7f03001b;
     }
     public static final class menu {
         public static int act_cadastro=0x7f0c0000;

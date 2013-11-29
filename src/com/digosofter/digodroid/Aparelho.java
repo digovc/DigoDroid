@@ -30,7 +30,7 @@ public abstract class Aparelho extends Objeto {
 			// FIM AÇÕES
 		} catch (Exception ex) {
 
-			new Erro(App.getApp().getStrMensagemUsuario(100), ex.getMessage());
+			new Erro(App.getApp().getStrMensagemUsuarioPadrao(100), ex.getMessage());
 
 		} finally {
 		}

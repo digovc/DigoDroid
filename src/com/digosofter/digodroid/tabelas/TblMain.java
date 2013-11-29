@@ -124,7 +124,7 @@ public abstract class TblMain extends DbTabela {
 			// FIM AÇÕES
 		} catch (Exception ex) {
 
-			new Erro(App.getApp().getStrTexto(134), ex.getMessage());
+			new Erro(App.getApp().getStrTextoPadrao(134), ex.getMessage());
 
 		} finally {
 		}

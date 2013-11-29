@@ -59,7 +59,7 @@ public class MensagemUsuario extends Objeto {
 			// FIM AÇÕES
 		} catch (Exception ex) {
 
-			new Erro(App.getApp().getStrTexto(107), ex.getMessage());
+			new Erro(App.getApp().getStrTextoPadrao(107), ex.getMessage());
 
 		} finally {
 		}
@@ -78,7 +78,7 @@ public class MensagemUsuario extends Objeto {
 			// FIM AÇÕES
 		} catch (Exception ex) {
 
-			new Erro(App.getApp().getStrTexto(107), ex.getMessage());
+			new Erro(App.getApp().getStrTextoPadrao(107), ex.getMessage());
 
 		} finally {
 		}

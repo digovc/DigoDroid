@@ -60,7 +60,7 @@ public class ActErro extends ActBase {
 			// FIM A합ES
 		} catch (Exception ex) {
 
-			new Erro(App.getApp().getStrTexto(0), ex.getMessage());
+			new Erro(App.getApp().getStrTextoPadrao(0), ex.getMessage());
 
 		} finally {
 		}
@@ -83,7 +83,7 @@ public class ActErro extends ActBase {
 			// FIM A합ES
 		} catch (Exception ex) {
 
-			new Erro(App.getApp().getStrTexto(0), ex.getMessage());
+			new Erro(App.getApp().getStrTextoPadrao(0), ex.getMessage());
 
 		} finally {
 		}
@@ -106,7 +106,7 @@ public class ActErro extends ActBase {
 			// FIM A합ES
 		} catch (Exception ex) {
 
-			new Erro(App.getApp().getStrTexto(0), ex.getMessage());
+			new Erro(App.getApp().getStrTextoPadrao(0), ex.getMessage());
 
 		} finally {
 		}
@@ -131,7 +131,7 @@ public class ActErro extends ActBase {
 			// FIM A합ES
 		} catch (Exception ex) {
 
-			new Erro(App.getApp().getStrTexto(0), ex.getMessage());
+			new Erro(App.getApp().getStrTextoPadrao(0), ex.getMessage());
 
 		} finally {
 		}
@@ -146,7 +146,7 @@ public class ActErro extends ActBase {
 			// FIM A합ES
 		} catch (Exception ex) {
 
-			new Erro(App.getApp().getStrTexto(0), ex.getMessage());
+			new Erro(App.getApp().getStrTextoPadrao(0), ex.getMessage());
 
 		} finally {
 		}
@@ -167,7 +167,7 @@ public class ActErro extends ActBase {
 			// FIM A합ES
 		} catch (Exception ex) {
 
-			new Erro(App.getApp().getStrTexto(0), ex.getMessage());
+			new Erro(App.getApp().getStrTextoPadrao(0), ex.getMessage());
 
 		} finally {
 		}
@@ -190,7 +190,7 @@ public class ActErro extends ActBase {
 			// FIM A합ES
 		} catch (Exception ex) {
 
-			new Erro(App.getApp().getStrTexto(0), ex.getMessage());
+			new Erro(App.getApp().getStrTextoPadrao(0), ex.getMessage());
 
 		} finally {
 		}
@@ -208,7 +208,7 @@ public class ActErro extends ActBase {
 			// FIM A합ES
 		} catch (Exception ex) {
 
-			new Erro(App.getApp().getStrTexto(0), ex.getMessage());
+			new Erro(App.getApp().getStrTextoPadrao(0), ex.getMessage());
 
 		} finally {
 		}

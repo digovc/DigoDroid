@@ -39,7 +39,7 @@ public class TblCliente extends TblMain {
 			// FIM AÇÕES
 		} catch (Exception ex) {
 
-			new Erro(App.getApp().getStrTexto(133), ex.getMessage());
+			new Erro(App.getApp().getStrTextoPadrao(133), ex.getMessage());
 
 		} finally {
 		}

@@ -52,7 +52,7 @@ public abstract class Objeto {
 			// FIM AÇÕES
 		} catch (Exception ex) {
 
-			new Erro(App.getApp().getStrTexto(0), ex.getMessage());
+			new Erro(App.getApp().getStrTextoPadrao(0), ex.getMessage());
 
 		} finally {
 		}
@@ -77,7 +77,7 @@ public abstract class Objeto {
 			// FIM AÇÕES
 		} catch (Exception ex) {
 
-			new Erro(App.getApp().getStrTexto(0), ex.getMessage());
+			new Erro(App.getApp().getStrTextoPadrao(0), ex.getMessage());
 
 		} finally {
 		}
@@ -102,7 +102,7 @@ public abstract class Objeto {
 			// FIM AÇÕES
 		} catch (Exception ex) {
 
-			new Erro(App.getApp().getStrTexto(108), ex.getMessage());
+			new Erro(App.getApp().getStrTextoPadrao(108), ex.getMessage());
 
 		} finally {
 		}

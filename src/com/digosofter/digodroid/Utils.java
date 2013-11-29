@@ -63,7 +63,7 @@ public abstract class Utils {
 			// FIM A합ES
 		} catch (Exception ex) {
 
-			new Erro(App.getApp().getStrTexto(109), ex.getMessage());
+			new Erro(App.getApp().getStrTextoPadrao(109), ex.getMessage());
 
 		} finally {
 		}
@@ -112,7 +112,7 @@ public abstract class Utils {
 			// FIM A합ES
 		} catch (Exception ex) {
 
-			new Erro(App.getApp().getStrTexto(0), ex.getMessage());
+			new Erro(App.getApp().getStrTextoPadrao(0), ex.getMessage());
 
 		} finally {
 		}
@@ -135,7 +135,7 @@ public abstract class Utils {
 			// FIM A합ES
 		} catch (Exception ex) {
 
-			new Erro(App.getApp().getStrTexto(0), ex.getMessage());
+			new Erro(App.getApp().getStrTextoPadrao(0), ex.getMessage());
 
 		} finally {
 		}
@@ -157,7 +157,7 @@ public abstract class Utils {
 			// FIM A합ES
 		} catch (Exception ex) {
 
-			new Erro(App.getApp().getStrTexto(110), ex.getMessage());
+			new Erro(App.getApp().getStrTextoPadrao(110), ex.getMessage());
 
 		} finally {
 		}
@@ -179,7 +179,7 @@ public abstract class Utils {
 			// FIM A합ES
 		} catch (Exception ex) {
 
-			new Erro(App.getApp().getStrTexto(110), ex.getMessage());
+			new Erro(App.getApp().getStrTextoPadrao(110), ex.getMessage());
 
 		} finally {
 		}
@@ -221,7 +221,7 @@ public abstract class Utils {
 			// FIM A합ES
 		} catch (Exception ex) {
 
-			new Erro(App.getApp().getStrTexto(111), ex.getMessage());
+			new Erro(App.getApp().getStrTextoPadrao(111), ex.getMessage());
 
 		} finally {
 		}
@@ -245,7 +245,7 @@ public abstract class Utils {
 			// FIM A합ES
 		} catch (Exception ex) {
 
-			new Erro(App.getApp().getStrTexto(0), ex.getMessage());
+			new Erro(App.getApp().getStrTextoPadrao(0), ex.getMessage());
 
 		} finally {
 			// LIMPAR VARI햂EIS
@@ -271,7 +271,7 @@ public abstract class Utils {
 			// FIM A합ES
 		} catch (Exception ex) {
 
-			new Erro(App.getApp().getStrTexto(112), ex.getMessage());
+			new Erro(App.getApp().getStrTextoPadrao(112), ex.getMessage());
 
 		} finally {
 		}
@@ -289,7 +289,7 @@ public abstract class Utils {
 			// FIM A합ES
 		} catch (Exception ex) {
 
-			new Erro(App.getApp().getStrTexto(0), ex.getMessage());
+			new Erro(App.getApp().getStrTextoPadrao(0), ex.getMessage());
 
 		} finally {
 		}
@@ -325,7 +325,7 @@ public abstract class Utils {
 			// FIM A합ES
 		} catch (Exception ex) {
 
-			new Erro(App.getApp().getStrTexto(0), ex.getMessage());
+			new Erro(App.getApp().getStrTextoPadrao(0), ex.getMessage());
 
 		} finally {
 			arrChrAcentos = null;
@@ -355,7 +355,7 @@ public abstract class Utils {
 			// FIM A합ES
 		} catch (Exception ex) {
 
-			new Erro(App.getApp().getStrTexto(0), ex.getMessage());
+			new Erro(App.getApp().getStrTextoPadrao(0), ex.getMessage());
 
 		} finally {
 		}
@@ -380,7 +380,7 @@ public abstract class Utils {
 			// FIM A합ES
 		} catch (Exception ex) {
 
-			new Erro(App.getApp().getStrTexto(0), ex.getMessage());
+			new Erro(App.getApp().getStrTextoPadrao(0), ex.getMessage());
 
 		} finally {
 			// LIMPAR VARI햂EIS
@@ -413,7 +413,7 @@ public abstract class Utils {
 			// FIM A합ES
 		} catch (Exception ex) {
 
-			new Erro(App.getApp().getStrTexto(0), ex.getMessage());
+			new Erro(App.getApp().getStrTextoPadrao(0), ex.getMessage());
 
 		} finally {
 			// LIMPAR VARI햂EIS
@@ -477,7 +477,7 @@ public abstract class Utils {
 			// FIM A합ES
 		} catch (Exception ex) {
 
-			new Erro(App.getApp().getStrTexto(0), ex.getMessage());
+			new Erro(App.getApp().getStrTextoPadrao(0), ex.getMessage());
 
 		} finally {
 		}
@@ -500,7 +500,7 @@ public abstract class Utils {
 			// FIM A합ES
 		} catch (Exception ex) {
 
-			new Erro(App.getApp().getStrTexto(0), ex.getMessage());
+			new Erro(App.getApp().getStrTextoPadrao(0), ex.getMessage());
 
 		} finally {
 		}
@@ -527,7 +527,7 @@ public abstract class Utils {
 			// FIM A합ES
 		} catch (Exception ex) {
 
-			new Erro(App.getApp().getStrTexto(0), ex.getMessage());
+			new Erro(App.getApp().getStrTextoPadrao(0), ex.getMessage());
 
 		} finally {
 		}

@@ -29,7 +29,7 @@ public abstract class ActBase extends ActionBarActivity {
 			// FIM AÇÕES
 		} catch (Exception ex) {
 			
-			new Erro(App.getApp().getStrTexto(113), ex.getMessage());
+			new Erro(App.getApp().getStrTextoPadrao(113), ex.getMessage());
 			
 		} finally {
 		}

@@ -42,7 +42,7 @@ public class DbColuna extends Objeto {
 			// FIM A합ES
 		} catch (Exception ex) {
 
-			new Erro(App.getApp().getStrTexto(0), ex.getMessage());
+			new Erro(App.getApp().getStrTextoPadrao(0), ex.getMessage());
 
 		} finally {
 		}
@@ -69,7 +69,7 @@ public class DbColuna extends Objeto {
 			// FIM A합ES
 		} catch (Exception ex) {
 
-			new Erro(App.getApp().getStrTexto(0), ex.getMessage());
+			new Erro(App.getApp().getStrTextoPadrao(0), ex.getMessage());
 
 		} finally {
 		}
@@ -96,7 +96,7 @@ public class DbColuna extends Objeto {
 			// FIM A합ES
 		} catch (Exception ex) {
 
-			new Erro(App.getApp().getStrTexto(0), ex.getMessage());
+			new Erro(App.getApp().getStrTextoPadrao(0), ex.getMessage());
 
 		} finally {
 		}
@@ -164,7 +164,7 @@ public class DbColuna extends Objeto {
 			// FIM A합ES
 		} catch (Exception ex) {
 
-			new Erro(App.getApp().getStrTexto(0), ex.getMessage());
+			new Erro(App.getApp().getStrTextoPadrao(0), ex.getMessage());
 
 		} finally {
 		}
@@ -201,7 +201,7 @@ public class DbColuna extends Objeto {
 			// FIM A합ES
 		} catch (Exception ex) {
 
-			new Erro(App.getApp().getStrTexto(0), ex.getMessage());
+			new Erro(App.getApp().getStrTextoPadrao(0), ex.getMessage());
 
 		} finally {
 		}
@@ -266,7 +266,7 @@ public class DbColuna extends Objeto {
 			// FIM A합ES
 		} catch (Exception ex) {
 
-			new Erro(App.getApp().getStrTexto(0), ex.getMessage());
+			new Erro(App.getApp().getStrTextoPadrao(0), ex.getMessage());
 
 		} finally {
 		}
@@ -353,7 +353,7 @@ public class DbColuna extends Objeto {
 			// FIM A합ES
 		} catch (Exception ex) {
 
-			new Erro(App.getApp().getStrTexto(0), ex.getMessage());
+			new Erro(App.getApp().getStrTextoPadrao(0), ex.getMessage());
 
 		} finally {
 		}
@@ -375,7 +375,7 @@ public class DbColuna extends Objeto {
 			// FIM A합ES
 		} catch (Exception ex) {
 
-			new Erro(App.getApp().getStrTexto(120), ex.getMessage());
+			new Erro(App.getApp().getStrTextoPadrao(120), ex.getMessage());
 
 		} finally {
 		}
@@ -394,7 +394,7 @@ public class DbColuna extends Objeto {
 			// FIM A합ES
 		} catch (Exception ex) {
 
-			new Erro(App.getApp().getStrTexto(120), ex.getMessage());
+			new Erro(App.getApp().getStrTextoPadrao(120), ex.getMessage());
 
 		} finally {
 		}
@@ -414,7 +414,7 @@ public class DbColuna extends Objeto {
 			// FIM A합ES
 		} catch (Exception ex) {
 
-			new Erro(App.getApp().getStrTexto(120), ex.getMessage());
+			new Erro(App.getApp().getStrTextoPadrao(120), ex.getMessage());
 
 		} finally {
 			// LIMPAR VARI햂EIS
