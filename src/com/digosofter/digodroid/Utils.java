@@ -251,6 +251,7 @@ public abstract class Utils {
 			// LIMPAR VARIÁVEIS
 			// FIM LIMPAR VARIÁVEIS
 		}
+
 		return objSimpleDateFormat.format(objDate);
 	}
 
@@ -399,16 +400,10 @@ public abstract class Utils {
 			// AÇÕES
 
 			stbDteResultado = new StringBuilder();
-
-			if (objGregorianCalendar.get(GregorianCalendar.DAY_OF_MONTH) < 10) {
-				stbDteResultado.append(0);
-			}
-
-			stbDteResultado.append(objGregorianCalendar.get(GregorianCalendar.DAY_OF_MONTH));
-			stbDteResultado.append("/");
-			stbDteResultado.append(objGregorianCalendar.get(GregorianCalendar.MONTH));
-			stbDteResultado.append("/");
-			stbDteResultado.append(objGregorianCalendar.get(GregorianCalendar.YEAR));
+			stbDteResultado.append(String.format("%d/%02d/%02d",
+					objGregorianCalendar.get(GregorianCalendar.DAY_OF_MONTH),
+					objGregorianCalendar.get(GregorianCalendar.MONTH) + 1,
+					objGregorianCalendar.get(GregorianCalendar.YEAR)));
 
 			// FIM AÇÕES
 		} catch (Exception ex) {
@@ -416,9 +411,8 @@ public abstract class Utils {
 			new Erro(App.getApp().getStrTextoPadrao(0), ex.getMessage());
 
 		} finally {
-			// LIMPAR VARIÁVEIS
-			// FIM LIMPAR VARIÁVEIS
 		}
+
 		return stbDteResultado.toString();
 	}
 

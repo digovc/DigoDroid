@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -134,7 +135,7 @@ public class ActCadastro extends ActBase {
 			// AÇÕES
 
 			if (_txtTblDescricao == null) {
-				_txtTblDescricao = (TextView) this.findViewById(R.id.actCadastro_txtTblDescricao);
+				_txtTblDescricao = (TextView) this.findViewById(R.id.actCadastro_pnlPesquisa);
 			}
 
 			// FIM AÇÕES
@@ -186,6 +187,7 @@ public class ActCadastro extends ActBase {
 						}
 
 						for (int intColunaIndex = 0; intColunaIndex <= 4; intColunaIndex++) {
+
 							if (intColunaIndex < objCursor.getColumnCount()) {
 
 								switch (intColunaIndex) {
@@ -205,7 +207,6 @@ public class ActCadastro extends ActBase {
 									itmCadastro.setStrCampo003Valor(objCursor.getString(intColunaIndex));
 									break;
 								}
-
 							}
 						}
 
@@ -217,7 +218,7 @@ public class ActCadastro extends ActBase {
 
 			this.setAdpCadastro(new AdpCadastro(this, lstObjItmCadastro));
 			this.getObjListView().setAdapter(this.getAdpCadastro());
-			this.getSupportActionBar().hide();
+			this.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 			// FIM AÇÕES
 		} catch (Exception ex) {
@@ -349,23 +350,29 @@ public class ActCadastro extends ActBase {
 	}
 
 	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
+	public boolean onCreateOptionsMenu(Menu objMenu) {
 		// VARIÁVEIS
+
+		MenuInflater objMenuInflater;
+
 		// FIM VARIÁVEIS
 		try {
 			// AÇÕES
 
-			this.getMenuInflater().inflate(R.menu.act_cadastro, menu);
+			objMenuInflater = this.getMenuInflater();
+			objMenuInflater.inflate(R.menu.act_cadastro_action_bar, objMenu);
+
+			objMenu.getItem(0).setVisible(this.getTbl().getBooPermitirCadastroNovo());
 
 			// FIM AÇÕES
 		} catch (Exception ex) {
 
-			new Erro(App.getApp().getStrTextoPadrao(0), ex.getMessage());
+			new Erro(App.getApp().getStrTextoPadrao(117), ex.getMessage());
 
 		} finally {
 		}
 
-		return true;
+		return super.onCreateOptionsMenu(objMenu);
 	}
 
 	@Override
@@ -375,10 +382,10 @@ public class ActCadastro extends ActBase {
 		try {
 			// AÇÕES
 
-			switch (item.getItemId()) {
-			case android.R.id.home:
+			if (item.getItemId() == R.id.actCadastro_actionBar_itmNovo) {
+				this.startActivity(new Intent(this, this.getTbl().getClsActFrm()));
+			} else if (item.getItemId() == android.R.id.home) {
 				this.onBackPressed();
-				break;
 			}
 
 			// FIM AÇÕES

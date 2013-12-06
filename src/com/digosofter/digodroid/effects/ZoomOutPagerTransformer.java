@@ -28,42 +28,39 @@ public class ZoomOutPagerTransformer implements PageTransformer {
 	public void transformPage(View objView, float dblPosition) {
 		// VARIÁVEIS
 
-		int intPageWidth = objView.getWidth();
-		int intPageHeight = objView.getHeight();
+		int intPageWidth;
+		int intPageHeight;
 
 		// FIM VARIÁVEIS
 		try {
 			// AÇÕES
 
-			if (dblPosition < -1) {
+			if (android.os.Build.VERSION.SDK_INT >= 11) {
 
-				if (android.os.Build.VERSION.SDK_INT >= 11) {
+				intPageWidth = objView.getWidth();
+				intPageHeight = objView.getHeight();
+
+				if (dblPosition < -1) {
 					objView.setAlpha(0);
-				}
-			} else if (dblPosition <= 1) {
+				} else if (dblPosition <= 1) {
 
-				float scaleFactor = Math.max(MIN_SCALE, 1 - Math.abs(dblPosition));
-				float vertMargin = intPageHeight * (1 - scaleFactor) / 2;
-				float horzMargin = intPageWidth * (1 - scaleFactor) / 2;
-				
-				if (dblPosition < 0) {
-				
-					if (android.os.Build.VERSION.SDK_INT >= 11) {
+					float scaleFactor = Math.max(MIN_SCALE, 1 - Math.abs(dblPosition));
+					float vertMargin = intPageHeight * (1 - scaleFactor) / 2;
+					float horzMargin = intPageWidth * (1 - scaleFactor) / 2;
+
+					if (dblPosition < 0) {
 						objView.setTranslationX(horzMargin - vertMargin / 2);
-					}
-				} else {
-
-					if (android.os.Build.VERSION.SDK_INT >= 11) {
+					} else {
 						objView.setTranslationX(-horzMargin + vertMargin / 2);
 					}
+
+					objView.setScaleX(scaleFactor);
+					objView.setScaleY(scaleFactor);
+					objView.setAlpha(MIN_ALPHA + (scaleFactor - MIN_SCALE) / (1 - MIN_SCALE) * (1 - MIN_ALPHA));
+
+				} else {
+					objView.setAlpha(0);
 				}
-
-				objView.setScaleX(scaleFactor);
-				objView.setScaleY(scaleFactor);
-				objView.setAlpha(MIN_ALPHA + (scaleFactor - MIN_SCALE) / (1 - MIN_SCALE) * (1 - MIN_ALPHA));
-
-			} else {
-				objView.setAlpha(0);
 			}
 
 			// FIM AÇÕES

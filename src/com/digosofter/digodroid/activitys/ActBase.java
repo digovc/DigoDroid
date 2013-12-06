@@ -2,6 +2,12 @@ package com.digosofter.digodroid.activitys;
 
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBarActivity;
+import android.view.View;
+import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.TextView;
 
 import com.digosofter.digodroid.App;
 import com.digosofter.digodroid.erro.Erro;
@@ -28,11 +34,53 @@ public abstract class ActBase extends ActionBarActivity {
 
 			// FIM AÇÕES
 		} catch (Exception ex) {
-			
+
 			new Erro(App.getApp().getStrTextoPadrao(113), ex.getMessage());
-			
+
 		} finally {
 		}
+	}
+
+	protected View getView(int intId) {
+		// VARIÁVEIS
+
+		View viewResultado = null;
+
+		// FIM VARIÁVEIS
+		try {
+			// AÇÕES
+
+			viewResultado = this.findViewById(intId);
+
+			// FIM AÇÕES
+		} catch (Exception ex) {
+
+			new Erro(App.getApp().getStrTextoPadrao(0), ex.getMessage());
+
+		} finally {
+		}
+
+		return viewResultado;
+	}
+
+	protected EditText getEditText(int intId) {
+		return (EditText) this.getView(intId);
+	}
+
+	protected LinearLayout getLinearLayout(int intId) {
+		return (LinearLayout) this.getView(intId);
+	}
+	
+	protected RadioButton getRadioButton(int intId) {
+		return (RadioButton) this.getView(intId);
+	}	
+	
+	protected RadioGroup getRadioGroup(int intId) {
+		return (RadioGroup) this.getView(intId);
+	}	
+	
+	protected TextView getTextView(int intId) {
+		return (TextView) this.getView(intId);
 	}
 
 	protected abstract void montarLayout();

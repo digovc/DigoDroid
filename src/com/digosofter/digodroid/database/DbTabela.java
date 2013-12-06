@@ -31,6 +31,26 @@ public abstract class DbTabela extends Objeto {
 		_booSincronizar = booSincronizar;
 	}
 
+	private boolean _booPermitirCadastroNovo = false;
+
+	public boolean getBooPermitirCadastroNovo() {
+		return _booPermitirCadastroNovo;
+	}
+
+	protected void setBooPermitirCadastroNovo(boolean booPermitirCadastroNovo) {
+		_booPermitirCadastroNovo = booPermitirCadastroNovo;
+	}
+
+	private Class _clsActFrm;
+
+	public Class getClsActFrm() {
+		return _clsActFrm;
+	}
+
+	protected void setClsActFrm(Class clsActFrm) {
+		_clsActFrm = clsActFrm;
+	}
+
 	private int _intQtdLinha;
 
 	public int getIntQtdLinha() {
@@ -434,27 +454,27 @@ public abstract class DbTabela extends Objeto {
 			// AÇÕES
 
 			if (lstObjDbFitro != null) {
-				
+
 				strFiltro += " WHERE ";
-				
+
 				for (DbFiltro objDbFiltro : lstObjDbFitro) {
 					strFiltro += objDbFiltro.getClnFiltro().getStrNomeSimplificado();
 					strFiltro += objDbFiltro.getStrOperador() + "'";
 					strFiltro += objDbFiltro.getStrFiltro();
 					strFiltro += "' AND ";
 				}
-				
+
 				strFiltro = Utils.removerUltimaLetra(strFiltro);
 				strFiltro = Utils.removerUltimaLetra(strFiltro);
 				strFiltro = Utils.removerUltimaLetra(strFiltro);
 				strFiltro = Utils.removerUltimaLetra(strFiltro);
 
 			}
-		
+
 			for (DbColuna cln : this.getLstObjDbColuna()) {
 				strClnNome += "A." + cln.getStrNomeSimplificado() + ",";
 			}
-			
+
 			strClnOrdemNome = this.getClnOrdemCadastro().getStrNomeSimplificado();
 			strClnNome = Utils.removerUltimaLetra(strClnNome);
 			sql += "SELECT " + strClnNome + " FROM " + this.getStrNomeSimplificado() + " A " + strFiltro + " ORDER BY "
@@ -490,7 +510,7 @@ public abstract class DbTabela extends Objeto {
 
 			lstObjDbFiltro = new ArrayList<DbFiltro>();
 			lstObjDbFiltro.add(objDbFiltro);
-			
+
 			crsResultado = this.getCrsDados(lstObjDbFiltro);
 
 			// FIM AÇÕES
@@ -605,7 +625,7 @@ public abstract class DbTabela extends Objeto {
 			// AÇÕES
 
 			for (DbColuna cln : this.getLstObjDbColuna()) {
-				
+
 				if (cln.getStrNomeSimplificado().equals(strNomeSimplificado)) {
 					strColunaNome = cln.getStrNomeExibicao();
 					break;
@@ -643,13 +663,13 @@ public abstract class DbTabela extends Objeto {
 					strColunasValores += "'" + cln.getStrValorDefault() + "',";
 				}
 			}
-			
+
 			strColunasNomes = Utils.removerUltimaLetra(strColunasNomes);
 			strColunasValores = Utils.removerUltimaLetra(strColunasValores);
-			
+
 			sql += "REPLACE INTO " + this.getStrNomeSimplificado() + " (" + strColunasNomes + ") VALUES ("
 					+ strColunasValores + ");";
-			
+
 			this.getObjDataBase().execSqlSemRetorno(sql);
 
 			// FIM AÇÕES
@@ -662,6 +682,11 @@ public abstract class DbTabela extends Objeto {
 			strColunasValores = null;
 			sql = null;
 		}
+	}
+
+
+	public void salvar() {
+		this.inserir();
 	}
 
 	public void inserirAleatorio() {
@@ -686,7 +711,7 @@ public abstract class DbTabela extends Objeto {
 					break;
 				}
 			}
-			
+
 			this.inserir();
 
 			// FIM AÇÕES
@@ -715,6 +740,10 @@ public abstract class DbTabela extends Objeto {
 
 		} finally {
 		}
+	}
+
+	public void limparCampos() {
+		this.zerarCampos();
 	}
 
 	// FIM MÉTODOS

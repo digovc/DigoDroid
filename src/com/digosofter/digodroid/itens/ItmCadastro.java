@@ -215,7 +215,7 @@ public class ItmCadastro extends Objeto {
 				booContemString = true;
 			}
 			
-			if (this.getStrCampo001Valor().contains(strFiltro)) {
+			if (this.getStrCampo001Valor().contains(strFiltro) && this.getStrCampo001Valor().length() == strFiltro.length()) {
 				booContemString = true;
 			}
 			

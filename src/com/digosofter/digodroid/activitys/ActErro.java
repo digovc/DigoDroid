@@ -202,9 +202,6 @@ public class ActErro extends ActBase {
 		// FIM VARIÁVEIS
 		try {
 			// AÇÕES
-		
-			this.getMenuInflater().inflate(R.menu.act_erro, menu);
-
 			// FIM AÇÕES
 		} catch (Exception ex) {
 

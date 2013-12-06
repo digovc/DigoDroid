@@ -149,14 +149,19 @@ public class DbColuna extends Objeto {
 			switch (this.getEnmTipo()) {
 			case INTEGER:
 				_strSqlTipo = "INTEGER";
+				break;
 			case NONE:
 				_strSqlTipo = "NONE";
+				break;
 			case NUMERIC:
 				_strSqlTipo = "NUMERIC";
+				break;
 			case REAL:
 				_strSqlTipo = "REAL";
+				break;
 			case TEXT:
 				_strSqlTipo = "TEXT";
+				break;
 			default:
 				_strSqlTipo = "TEXT";
 			}
@@ -261,7 +266,7 @@ public class DbColuna extends Objeto {
 			intMin = Integer.parseInt(this.getStrValor().substring(14, 16));
 			intSeg = Integer.parseInt(this.getStrValor().substring(17, 19));
 
-			objGregorianCalendarResultado = new GregorianCalendar(intAno, intMes, intDia, intHora, intMin, intSeg);
+			objGregorianCalendarResultado = new GregorianCalendar(intAno, intMes - 1, intDia, intHora, intMin, intSeg);
 
 			// FIM AÇÕES
 		} catch (Exception ex) {
