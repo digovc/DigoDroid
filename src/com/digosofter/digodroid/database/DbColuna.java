@@ -315,7 +315,7 @@ public class DbColuna extends Objeto {
 	}
 
 	public void setDttValor(Date dttValor) {
-		this.setStrValor(String.valueOf(dttValor));
+		this.setStrValor(Utils.getStrDataFormatada(dttValor, Utils.EnmDataFormato.YYYY_MM_DD_HH_MM_SS));
 	}
 
 	public void setDblValor(double dblValor) {

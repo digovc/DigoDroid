@@ -121,6 +121,35 @@ public class DataBase extends SQLiteOpenHelper {
 		return objCursorTemp;
 	}
 
+	public int execSqlGetInt(String sql) {
+		// VARIÁVEIS
+
+		int intResultado = 0;
+		Cursor objCursor;
+
+		// FIM VARIÁVEIS
+		try {
+			// AÇÕES
+
+			objCursor = this.execSqlComRetorno(sql);
+
+			if (objCursor != null) {
+				if (objCursor.moveToFirst()) {
+					intResultado = objCursor.getInt(0);
+				}
+			}
+
+			// FIM AÇÕES
+		} catch (Exception ex) {
+
+			new Erro(App.getApp().getStrTextoPadrao(0), ex.getMessage());
+
+		} finally {
+		}
+
+		return intResultado;
+	}
+
 	public void execSqlSemRetorno(String sql) {
 		// VARIÁVEIS
 		// FIM VARIÁVEIS

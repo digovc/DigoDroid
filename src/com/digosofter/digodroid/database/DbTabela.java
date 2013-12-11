@@ -458,10 +458,12 @@ public abstract class DbTabela extends Objeto {
 				strFiltro += " WHERE ";
 
 				for (DbFiltro objDbFiltro : lstObjDbFitro) {
+				
 					strFiltro += objDbFiltro.getClnFiltro().getStrNomeSimplificado();
 					strFiltro += objDbFiltro.getStrOperador() + "'";
 					strFiltro += objDbFiltro.getStrFiltro();
 					strFiltro += "' AND ";
+
 				}
 
 				strFiltro = Utils.removerUltimaLetra(strFiltro);
@@ -477,8 +479,10 @@ public abstract class DbTabela extends Objeto {
 
 			strClnOrdemNome = this.getClnOrdemCadastro().getStrNomeSimplificado();
 			strClnNome = Utils.removerUltimaLetra(strClnNome);
+
 			sql += "SELECT " + strClnNome + " FROM " + this.getStrNomeSimplificado() + " A " + strFiltro + " ORDER BY "
 					+ strClnOrdemNome + ";";
+			
 			crsResultado = this.getObjDataBase().execSqlComRetorno(sql);
 
 			// FIM AÇÕES
@@ -645,6 +649,8 @@ public abstract class DbTabela extends Objeto {
 	public void inserir() {
 		// VARIÁVEIS
 
+		int intId;
+
 		String strColunasNomes = Utils.STRING_VAZIA;
 		String strColunasValores = Utils.STRING_VAZIA;
 		String sql = Utils.STRING_VAZIA;
@@ -672,6 +678,12 @@ public abstract class DbTabela extends Objeto {
 
 			this.getObjDataBase().execSqlSemRetorno(sql);
 
+			sql = "SELECT last_insert_rowid();";
+
+			intId = this.getObjDataBase().execSqlGetInt(sql);
+			
+			this.buscarRegistroPelaChavePrimaria(intId);
+
 			// FIM AÇÕES
 		} catch (Exception ex) {
 
@@ -683,7 +695,6 @@ public abstract class DbTabela extends Objeto {
 			sql = null;
 		}
 	}
-
 
 	public void salvar() {
 		this.inserir();

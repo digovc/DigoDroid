@@ -81,31 +81,31 @@ public abstract class Utils {
 
 			switch (enmDataFormato) {
 			case DD_MM:
-				strDataFormatoResultado = "dd/MM";
+				strDataFormatoResultado = "dd-MM";
 				break;
 			case DD_MM_YY:
-				strDataFormatoResultado = "dd/MM/yy";
+				strDataFormatoResultado = "dd-MM-yy";
 				break;
 			case DD_MM_YYYY:
-				strDataFormatoResultado = "dd/MM/yyyy";
+				strDataFormatoResultado = "dd-MM-yyyy";
 				break;
 			case DD_MM_YYYY_HH_MM:
-				strDataFormatoResultado = "dd/MM/yyyy HH:mm";
+				strDataFormatoResultado = "dd-MM-yyyy HH:mm";
 				break;
 			case DD_MM_YYYY_HH_MM_SS:
-				strDataFormatoResultado = "dd/MM/yyyy HH:mm:ss";
+				strDataFormatoResultado = "dd-MM-yyyy HH:mm:ss";
 				break;
 			case HH_MM_DD_MM_YYYY:
-				strDataFormatoResultado = "HH:mm dd/MM/yyyy";
+				strDataFormatoResultado = "HH:mm dd-MM-yyyy";
 				break;
 			case HH_MM_SS_DD_MM_YYYY:
-				strDataFormatoResultado = "HH:mm:ss dd/MM/yyyy";
+				strDataFormatoResultado = "HH:mm:ss dd-MM-yyyy";
 				break;
 			case YYYY_MM_DD_HH_MM_SS:
-				strDataFormatoResultado = "yyyy/MM/dd HH:mm:ss";
+				strDataFormatoResultado = "yyyy-MM-dd HH:mm:ss";
 				break;
 			default:
-				strDataFormatoResultado = "dd/MM/yyyy";
+				strDataFormatoResultado = "dd-MM-yyyy";
 				break;
 			}
 
