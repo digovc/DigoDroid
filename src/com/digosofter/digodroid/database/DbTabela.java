@@ -325,6 +325,10 @@ public abstract class DbTabela extends Objeto {
 		}
 	}
 
+	public void buscarRegistro(DbColuna clnFiltro, int intValor) {
+		this.buscarRegistro(clnFiltro, String.valueOf(intValor));
+	}
+
 	public void buscarRegistroPelaChavePrimaria(int intId) {
 		this.buscarRegistro(this.getClnChavePrimaria(), String.valueOf(intId));
 	}
@@ -458,7 +462,7 @@ public abstract class DbTabela extends Objeto {
 				strFiltro += " WHERE ";
 
 				for (DbFiltro objDbFiltro : lstObjDbFitro) {
-				
+
 					strFiltro += objDbFiltro.getClnFiltro().getStrNomeSimplificado();
 					strFiltro += objDbFiltro.getStrOperador() + "'";
 					strFiltro += objDbFiltro.getStrFiltro();
@@ -482,7 +486,7 @@ public abstract class DbTabela extends Objeto {
 
 			sql += "SELECT " + strClnNome + " FROM " + this.getStrNomeSimplificado() + " A " + strFiltro + " ORDER BY "
 					+ strClnOrdemNome + ";";
-			
+
 			crsResultado = this.getObjDataBase().execSqlComRetorno(sql);
 
 			// FIM AÇÕES
@@ -681,7 +685,7 @@ public abstract class DbTabela extends Objeto {
 			sql = "SELECT last_insert_rowid();";
 
 			intId = this.getObjDataBase().execSqlGetInt(sql);
-			
+
 			this.buscarRegistroPelaChavePrimaria(intId);
 
 			// FIM AÇÕES

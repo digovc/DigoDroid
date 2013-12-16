@@ -18,6 +18,7 @@ import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -279,6 +280,46 @@ public class ActCadastro extends ActBase {
 
 					} finally {
 					}
+				}
+			});
+
+			this.getObjListView().setOnItemLongClickListener(new OnItemLongClickListener() {
+
+				@Override
+				public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+					// VARIÁVEIS
+
+					ItmCadastro objItem;
+					Intent objIntent;
+
+					// FIM VARIÁVEIS
+					try {
+						// AÇÕES
+
+						if (ActCadastro.this.getTbl().getClsActFrm() != null) {
+
+							objItem = (ItmCadastro) ActCadastro.this.getObjListView().getItemAtPosition(position);
+
+							objIntent = new Intent(ActCadastro.this.getApplicationContext(), ActCadastro.this.getTbl()
+									.getClsActFrm());
+							objIntent.putExtra("intId", objItem.getIntItemId());
+
+							ActCadastro.this.setResult(ActCadastro.EnmResultadoTipo.REGISTRO_SELECIONADO.ordinal(),
+									objIntent);
+							ActCadastro.this.startActivity(objIntent);
+
+//							finish();
+						}
+
+						// FIM AÇÕES
+					} catch (Exception ex) {
+
+						new Erro(App.getApp().getStrTextoPadrao(115), ex.getMessage());
+
+					} finally {
+					}
+
+					return false;
 				}
 			});
 
