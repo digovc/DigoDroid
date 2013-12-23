@@ -25,7 +25,7 @@ public class Ftp extends Objeto {
 			// FIM AÇÕES
 		} catch (Exception ex) {
 
-			new Erro(App.getApp().getStrTextoPadrao(105), ex.getMessage());
+			new Erro(App.getI().getStrTextoPadrao(105), ex.getMessage());
 
 		} finally {
 		}
@@ -80,7 +80,7 @@ public class Ftp extends Objeto {
 			// FIM AÇÕES
 		} catch (Exception ex) {
 
-			new Erro(App.getApp().getStrTextoPadrao(106), ex.getMessage());
+			new Erro(App.getI().getStrTextoPadrao(106), ex.getMessage());
 
 		} finally {
 		}

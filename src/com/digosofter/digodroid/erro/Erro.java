@@ -71,10 +71,10 @@ public class Erro extends Objeto implements Serializable {
 
 			if (this.getBooMostrarUsuario()) {
 
-				objIntent = new Intent(App.getApp().getActMain(), ActErro.class);
+				objIntent = new Intent(App.getI().getActMain(), ActErro.class);
 				objIntent.putExtra("Erro", this);
 
-				App.getApp().getActMain().startActivity(objIntent);
+				App.getI().getActMain().startActivity(objIntent);
 			}
 
 			// FIM AÇÕES

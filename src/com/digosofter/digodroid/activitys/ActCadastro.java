@@ -66,7 +66,7 @@ public class ActCadastro extends ActBase {
 			// FIM A합ES
 		} catch (Exception ex) {
 
-			new Erro(App.getApp().getStrTextoPadrao(0), ex.getMessage());
+			new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
 
 		} finally {
 		}
@@ -90,7 +90,7 @@ public class ActCadastro extends ActBase {
 			// FIM A합ES
 		} catch (Exception ex) {
 
-			new Erro(App.getApp().getStrTextoPadrao(0), ex.getMessage());
+			new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
 
 		} finally {
 		}
@@ -121,7 +121,7 @@ public class ActCadastro extends ActBase {
 			// FIM A합ES
 		} catch (Exception ex) {
 
-			new Erro(App.getApp().getStrTextoPadrao(0), ex.getMessage());
+			new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
 
 		} finally {
 		}
@@ -142,7 +142,7 @@ public class ActCadastro extends ActBase {
 			// FIM A합ES
 		} catch (Exception ex) {
 
-			new Erro(App.getApp().getStrTextoPadrao(0), ex.getMessage());
+			new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
 
 		} finally {
 		}
@@ -224,7 +224,7 @@ public class ActCadastro extends ActBase {
 			// FIM A합ES
 		} catch (Exception ex) {
 
-			new Erro(App.getApp().getStrTextoPadrao(114), ex.getMessage());
+			new Erro(App.getI().getStrTextoPadrao(114), ex.getMessage());
 
 		} finally {
 		}
@@ -276,7 +276,7 @@ public class ActCadastro extends ActBase {
 						// FIM A합ES
 					} catch (Exception ex) {
 
-						new Erro(App.getApp().getStrTextoPadrao(115), ex.getMessage());
+						new Erro(App.getI().getStrTextoPadrao(115), ex.getMessage());
 
 					} finally {
 					}
@@ -314,7 +314,7 @@ public class ActCadastro extends ActBase {
 						// FIM A합ES
 					} catch (Exception ex) {
 
-						new Erro(App.getApp().getStrTextoPadrao(115), ex.getMessage());
+						new Erro(App.getI().getStrTextoPadrao(115), ex.getMessage());
 
 					} finally {
 					}
@@ -342,7 +342,7 @@ public class ActCadastro extends ActBase {
 						// FIM A합ES
 					} catch (Exception ex) {
 
-						new Erro(App.getApp().getStrTextoPadrao(0), ex.getMessage());
+						new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
 
 					} finally {
 					}
@@ -356,7 +356,7 @@ public class ActCadastro extends ActBase {
 			// FIM A합ES
 		} catch (Exception ex) {
 
-			new Erro(App.getApp().getStrTextoPadrao(116), ex.getMessage());
+			new Erro(App.getI().getStrTextoPadrao(116), ex.getMessage());
 
 		} finally {
 		}
@@ -377,14 +377,14 @@ public class ActCadastro extends ActBase {
 			// A합ES
 
 			this.setContentView(R.layout.act_cadastro);
-			this.setTbl(App.getApp().getTblSelecionada());
+			this.setTbl(App.getI().getTblSelecionada());
 			this.montarLayout();
 			this.setEventos();
 
 			// FIM A합ES
 		} catch (Exception ex) {
 
-			new Erro(App.getApp().getStrTextoPadrao(117), ex.getMessage());
+			new Erro(App.getI().getStrTextoPadrao(117), ex.getMessage());
 
 		} finally {
 		}
@@ -408,7 +408,7 @@ public class ActCadastro extends ActBase {
 			// FIM A합ES
 		} catch (Exception ex) {
 
-			new Erro(App.getApp().getStrTextoPadrao(117), ex.getMessage());
+			new Erro(App.getI().getStrTextoPadrao(117), ex.getMessage());
 
 		} finally {
 		}
@@ -432,7 +432,7 @@ public class ActCadastro extends ActBase {
 			// FIM A합ES
 		} catch (Exception ex) {
 
-			new Erro(App.getApp().getStrTextoPadrao(0), ex.getMessage());
+			new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
 
 		} finally {
 		}

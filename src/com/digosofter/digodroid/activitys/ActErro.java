@@ -29,7 +29,7 @@ public class ActErro extends ActBase {
 
 			_err = err;
 
-			this.getTxtAppNome().setText(App.getApp().getStrNome());
+			this.getTxtAppNome().setText(App.getI().getStrNome());
 			this.getTxtErroTitulo().setText(_err.getStrNome());
 
 			if (_err.getStrMensagemDetalhes() != null) {
@@ -60,7 +60,7 @@ public class ActErro extends ActBase {
 			// FIM A합ES
 		} catch (Exception ex) {
 
-			new Erro(App.getApp().getStrTextoPadrao(0), ex.getMessage());
+			new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
 
 		} finally {
 		}
@@ -83,7 +83,7 @@ public class ActErro extends ActBase {
 			// FIM A합ES
 		} catch (Exception ex) {
 
-			new Erro(App.getApp().getStrTextoPadrao(0), ex.getMessage());
+			new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
 
 		} finally {
 		}
@@ -106,7 +106,7 @@ public class ActErro extends ActBase {
 			// FIM A합ES
 		} catch (Exception ex) {
 
-			new Erro(App.getApp().getStrTextoPadrao(0), ex.getMessage());
+			new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
 
 		} finally {
 		}
@@ -131,7 +131,7 @@ public class ActErro extends ActBase {
 			// FIM A합ES
 		} catch (Exception ex) {
 
-			new Erro(App.getApp().getStrTextoPadrao(0), ex.getMessage());
+			new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
 
 		} finally {
 		}
@@ -146,7 +146,7 @@ public class ActErro extends ActBase {
 			// FIM A합ES
 		} catch (Exception ex) {
 
-			new Erro(App.getApp().getStrTextoPadrao(0), ex.getMessage());
+			new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
 
 		} finally {
 		}
@@ -167,7 +167,7 @@ public class ActErro extends ActBase {
 			// FIM A합ES
 		} catch (Exception ex) {
 
-			new Erro(App.getApp().getStrTextoPadrao(0), ex.getMessage());
+			new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
 
 		} finally {
 		}
@@ -190,7 +190,7 @@ public class ActErro extends ActBase {
 			// FIM A합ES
 		} catch (Exception ex) {
 
-			new Erro(App.getApp().getStrTextoPadrao(0), ex.getMessage());
+			new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
 
 		} finally {
 		}
@@ -205,7 +205,7 @@ public class ActErro extends ActBase {
 			// FIM A합ES
 		} catch (Exception ex) {
 
-			new Erro(App.getApp().getStrTextoPadrao(0), ex.getMessage());
+			new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
 
 		} finally {
 		}

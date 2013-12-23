@@ -63,7 +63,7 @@ public abstract class Utils {
 			// FIM A합ES
 		} catch (Exception ex) {
 
-			new Erro(App.getApp().getStrTextoPadrao(109), ex.getMessage());
+			new Erro(App.getI().getStrTextoPadrao(109), ex.getMessage());
 
 		} finally {
 		}
@@ -112,7 +112,7 @@ public abstract class Utils {
 			// FIM A합ES
 		} catch (Exception ex) {
 
-			new Erro(App.getApp().getStrTextoPadrao(0), ex.getMessage());
+			new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
 
 		} finally {
 		}
@@ -135,7 +135,7 @@ public abstract class Utils {
 			// FIM A합ES
 		} catch (Exception ex) {
 
-			new Erro(App.getApp().getStrTextoPadrao(0), ex.getMessage());
+			new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
 
 		} finally {
 		}
@@ -157,7 +157,7 @@ public abstract class Utils {
 			// FIM A합ES
 		} catch (Exception ex) {
 
-			new Erro(App.getApp().getStrTextoPadrao(110), ex.getMessage());
+			new Erro(App.getI().getStrTextoPadrao(110), ex.getMessage());
 
 		} finally {
 		}
@@ -179,7 +179,7 @@ public abstract class Utils {
 			// FIM A합ES
 		} catch (Exception ex) {
 
-			new Erro(App.getApp().getStrTextoPadrao(110), ex.getMessage());
+			new Erro(App.getI().getStrTextoPadrao(110), ex.getMessage());
 
 		} finally {
 		}
@@ -221,7 +221,7 @@ public abstract class Utils {
 			// FIM A합ES
 		} catch (Exception ex) {
 
-			new Erro(App.getApp().getStrTextoPadrao(111), ex.getMessage());
+			new Erro(App.getI().getStrTextoPadrao(111), ex.getMessage());
 
 		} finally {
 		}
@@ -245,7 +245,7 @@ public abstract class Utils {
 			// FIM A합ES
 		} catch (Exception ex) {
 
-			new Erro(App.getApp().getStrTextoPadrao(0), ex.getMessage());
+			new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
 
 		} finally {
 			// LIMPAR VARI햂EIS
@@ -272,7 +272,7 @@ public abstract class Utils {
 			// FIM A합ES
 		} catch (Exception ex) {
 
-			new Erro(App.getApp().getStrTextoPadrao(112), ex.getMessage());
+			new Erro(App.getI().getStrTextoPadrao(112), ex.getMessage());
 
 		} finally {
 		}
@@ -290,7 +290,7 @@ public abstract class Utils {
 			// FIM A합ES
 		} catch (Exception ex) {
 
-			new Erro(App.getApp().getStrTextoPadrao(0), ex.getMessage());
+			new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
 
 		} finally {
 		}
@@ -326,7 +326,7 @@ public abstract class Utils {
 			// FIM A합ES
 		} catch (Exception ex) {
 
-			new Erro(App.getApp().getStrTextoPadrao(0), ex.getMessage());
+			new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
 
 		} finally {
 			arrChrAcentos = null;
@@ -356,7 +356,7 @@ public abstract class Utils {
 			// FIM A합ES
 		} catch (Exception ex) {
 
-			new Erro(App.getApp().getStrTextoPadrao(0), ex.getMessage());
+			new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
 
 		} finally {
 		}
@@ -381,12 +381,13 @@ public abstract class Utils {
 			// FIM A합ES
 		} catch (Exception ex) {
 
-			new Erro(App.getApp().getStrTextoPadrao(0), ex.getMessage());
+			new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
 
 		} finally {
 			// LIMPAR VARI햂EIS
 			// FIM LIMPAR VARI햂EIS
 		}
+		
 		return objNumberFormat.format(monValor);
 	}
 
@@ -408,7 +409,7 @@ public abstract class Utils {
 			// FIM A합ES
 		} catch (Exception ex) {
 
-			new Erro(App.getApp().getStrTextoPadrao(0), ex.getMessage());
+			new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
 
 		} finally {
 		}
@@ -471,7 +472,7 @@ public abstract class Utils {
 			// FIM A합ES
 		} catch (Exception ex) {
 
-			new Erro(App.getApp().getStrTextoPadrao(0), ex.getMessage());
+			new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
 
 		} finally {
 		}
@@ -494,7 +495,7 @@ public abstract class Utils {
 			// FIM A합ES
 		} catch (Exception ex) {
 
-			new Erro(App.getApp().getStrTextoPadrao(0), ex.getMessage());
+			new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
 
 		} finally {
 		}
@@ -521,7 +522,7 @@ public abstract class Utils {
 			// FIM A합ES
 		} catch (Exception ex) {
 
-			new Erro(App.getApp().getStrTextoPadrao(0), ex.getMessage());
+			new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
 
 		} finally {
 		}

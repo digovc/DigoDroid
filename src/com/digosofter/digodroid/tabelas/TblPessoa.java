@@ -57,7 +57,7 @@ public class TblPessoa extends TblMain {
 			// FIM AÇÕES
 		} catch (Exception ex) {
 
-			new Erro(App.getApp().getStrTextoPadrao(135), ex.getMessage());
+			new Erro(App.getI().getStrTextoPadrao(135), ex.getMessage());
 
 		} finally {
 		}

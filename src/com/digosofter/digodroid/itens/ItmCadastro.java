@@ -34,7 +34,7 @@ public class ItmCadastro extends Objeto {
 			// FIM A합ES
 		} catch (Exception ex) {
 
-			new Erro(App.getApp().getStrTextoPadrao(0), ex.getMessage());
+			new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
 
 		} finally {
 		}
@@ -67,7 +67,7 @@ public class ItmCadastro extends Objeto {
 			// FIM A합ES
 		} catch (Exception ex) {
 
-			new Erro(App.getApp().getStrTextoPadrao(0), ex.getMessage());
+			new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
 
 		} finally {
 		}
@@ -92,7 +92,7 @@ public class ItmCadastro extends Objeto {
 			// FIM A합ES
 		} catch (Exception ex) {
 
-			new Erro(App.getApp().getStrTextoPadrao(0), ex.getMessage());
+			new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
 
 		} finally {
 		}
@@ -125,7 +125,7 @@ public class ItmCadastro extends Objeto {
 			// FIM A합ES
 		} catch (Exception ex) {
 
-			new Erro(App.getApp().getStrTextoPadrao(0), ex.getMessage());
+			new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
 
 		} finally {
 		}
@@ -150,7 +150,7 @@ public class ItmCadastro extends Objeto {
 			// FIM A합ES
 		} catch (Exception ex) {
 
-			new Erro(App.getApp().getStrTextoPadrao(0), ex.getMessage());
+			new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
 
 		} finally {
 		}
@@ -183,7 +183,7 @@ public class ItmCadastro extends Objeto {
 			// FIM A합ES
 		} catch (Exception ex) {
 
-			new Erro(App.getApp().getStrTextoPadrao(0), ex.getMessage());
+			new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
 
 		} finally {
 		}
@@ -230,7 +230,7 @@ public class ItmCadastro extends Objeto {
 			// FIM A합ES
 		} catch (Exception ex) {
 
-			new Erro(App.getApp().getStrTextoPadrao(132), ex.getMessage());
+			new Erro(App.getI().getStrTextoPadrao(132), ex.getMessage());
 
 		} finally {
 		}

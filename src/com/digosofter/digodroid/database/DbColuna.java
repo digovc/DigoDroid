@@ -33,7 +33,7 @@ public class DbColuna extends Objeto {
 		try {
 			// A합ES
 
-			for (DbColuna cln : this.getTbl().getLstObjDbColuna()) {
+			for (DbColuna cln : this.getTbl().getLstCln()) {
 				cln._booChavePrimaria = false;
 			}
 
@@ -42,7 +42,7 @@ public class DbColuna extends Objeto {
 			// FIM A합ES
 		} catch (Exception ex) {
 
-			new Erro(App.getApp().getStrTextoPadrao(0), ex.getMessage());
+			new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
 
 		} finally {
 		}
@@ -60,7 +60,7 @@ public class DbColuna extends Objeto {
 		try {
 			// A합ES
 
-			for (DbColuna cln : this.getTbl().getLstObjDbColuna()) {
+			for (DbColuna cln : this.getTbl().getLstCln()) {
 				cln._booClnNome = false;
 			}
 
@@ -69,7 +69,7 @@ public class DbColuna extends Objeto {
 			// FIM A합ES
 		} catch (Exception ex) {
 
-			new Erro(App.getApp().getStrTextoPadrao(0), ex.getMessage());
+			new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
 
 		} finally {
 		}
@@ -87,7 +87,7 @@ public class DbColuna extends Objeto {
 		try {
 			// A합ES
 
-			for (DbColuna cln : this.getTbl().getLstObjDbColuna()) {
+			for (DbColuna cln : this.getTbl().getLstCln()) {
 				cln._booOrdemCadastro = false;
 			}
 
@@ -96,7 +96,7 @@ public class DbColuna extends Objeto {
 			// FIM A합ES
 		} catch (Exception ex) {
 
-			new Erro(App.getApp().getStrTextoPadrao(0), ex.getMessage());
+			new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
 
 		} finally {
 		}
@@ -112,7 +112,7 @@ public class DbColuna extends Objeto {
 		_booOrdemDecrecente = booOrdemDecrecente;
 	}
 
-	private boolean _booVisivelCadastro = true;
+	private boolean _booVisivelCadastro = false;
 
 	public boolean getBooVisivelCadastro() {
 		return _booVisivelCadastro;
@@ -169,7 +169,7 @@ public class DbColuna extends Objeto {
 			// FIM A합ES
 		} catch (Exception ex) {
 
-			new Erro(App.getApp().getStrTextoPadrao(0), ex.getMessage());
+			new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
 
 		} finally {
 		}
@@ -206,7 +206,7 @@ public class DbColuna extends Objeto {
 			// FIM A합ES
 		} catch (Exception ex) {
 
-			new Erro(App.getApp().getStrTextoPadrao(0), ex.getMessage());
+			new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
 
 		} finally {
 		}
@@ -271,7 +271,7 @@ public class DbColuna extends Objeto {
 			// FIM A합ES
 		} catch (Exception ex) {
 
-			new Erro(App.getApp().getStrTextoPadrao(0), ex.getMessage());
+			new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
 
 		} finally {
 		}
@@ -353,12 +353,12 @@ public class DbColuna extends Objeto {
 			// A합ES
 
 			_tbl = tbl;
-			_tbl.getLstObjDbColuna().add(this);
+			_tbl.getLstCln().add(this);
 
 			// FIM A합ES
 		} catch (Exception ex) {
 
-			new Erro(App.getApp().getStrTextoPadrao(0), ex.getMessage());
+			new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
 
 		} finally {
 		}
@@ -380,7 +380,7 @@ public class DbColuna extends Objeto {
 			// FIM A합ES
 		} catch (Exception ex) {
 
-			new Erro(App.getApp().getStrTextoPadrao(120), ex.getMessage());
+			new Erro(App.getI().getStrTextoPadrao(120), ex.getMessage());
 
 		} finally {
 		}
@@ -399,7 +399,7 @@ public class DbColuna extends Objeto {
 			// FIM A합ES
 		} catch (Exception ex) {
 
-			new Erro(App.getApp().getStrTextoPadrao(120), ex.getMessage());
+			new Erro(App.getI().getStrTextoPadrao(120), ex.getMessage());
 
 		} finally {
 		}
@@ -419,7 +419,7 @@ public class DbColuna extends Objeto {
 			// FIM A합ES
 		} catch (Exception ex) {
 
-			new Erro(App.getApp().getStrTextoPadrao(120), ex.getMessage());
+			new Erro(App.getI().getStrTextoPadrao(120), ex.getMessage());
 
 		} finally {
 			// LIMPAR VARI햂EIS

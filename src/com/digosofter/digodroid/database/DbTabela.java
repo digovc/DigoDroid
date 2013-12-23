@@ -41,13 +41,13 @@ public abstract class DbTabela extends Objeto {
 		_booPermitirCadastroNovo = booPermitirCadastroNovo;
 	}
 
-	private Class _clsActFrm;
+	private Class<?> _clsActFrm;
 
-	public Class getClsActFrm() {
+	public Class<?> getClsActFrm() {
 		return _clsActFrm;
 	}
 
-	protected void setClsActFrm(Class clsActFrm) {
+	protected void setClsActFrm(Class<?> clsActFrm) {
 		_clsActFrm = clsActFrm;
 	}
 
@@ -84,28 +84,54 @@ public abstract class DbTabela extends Objeto {
 		return _intQtdLinha;
 	}
 
-	private ArrayList<DbFiltro> _lstDbFiltroTelaCadastro = new ArrayList<DbFiltro>();
+	private ArrayList<DbFiltro> _lstDbFiltroTelaCadastro;
 
 	public ArrayList<DbFiltro> getLstDbFiltroTelaCadastro() {
+		// VARI햂EIS
+		// FIM VARI햂EIS
+		try {
+			// A합ES
+
+			if (_lstDbFiltroTelaCadastro == null) {
+				_lstDbFiltroTelaCadastro = new ArrayList<DbFiltro>();
+			}
+
+			// FIM A합ES
+		} catch (Exception ex) {
+
+			new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
+
+		} finally {
+		}
+
 		return _lstDbFiltroTelaCadastro;
 	}
 
-	private void setLstDbFiltroTelaCadastro(ArrayList<DbFiltro> lstDbFiltroTelaCadastro) {
-		_lstDbFiltroTelaCadastro = lstDbFiltroTelaCadastro;
-	}
-
-	private List<DbColuna> _lstObjDbColuna = new ArrayList<DbColuna>();;
-
-	public List<DbColuna> getLstObjDbColuna() {
-		return _lstObjDbColuna;
-	}
+	private List<DbColuna> _lstCln;
 
 	public List<DbColuna> getLstCln() {
-		return this.getLstObjDbColuna();
+		// VARI햂EIS
+		// FIM VARI햂EIS
+		try {
+			// A합ES
+
+			if (_lstCln == null) {
+				_lstCln = new ArrayList<DbColuna>();
+			}
+
+			// FIM A합ES
+		} catch (Exception ex) {
+
+			new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
+
+		} finally {
+		}
+
+		return _lstCln;
 	}
 
-	public void setLstObjDbColuna(List<DbColuna> lstObjDbColuna) {
-		_lstObjDbColuna = lstObjDbColuna;
+	public void setLstCln(List<DbColuna> lstCln) {
+		_lstCln = lstCln;
 	}
 
 	private DbColuna _clnChavePrimaria;
@@ -116,7 +142,7 @@ public abstract class DbTabela extends Objeto {
 		try {
 			// A합ES
 
-			for (DbColuna cln : this.getLstObjDbColuna()) {
+			for (DbColuna cln : this.getLstCln()) {
 				if (cln.getBooChavePrimaria()) {
 					_clnChavePrimaria = cln;
 					break;
@@ -126,7 +152,7 @@ public abstract class DbTabela extends Objeto {
 			// FIM A합ES
 		} catch (Exception ex) {
 
-			new Erro(App.getApp().getStrTextoPadrao(0), ex.getMessage());
+			new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
 
 		} finally {
 		}
@@ -143,7 +169,7 @@ public abstract class DbTabela extends Objeto {
 			// A합ES
 
 			if (_clnNome == null) {
-				for (DbColuna cln : this.getLstObjDbColuna()) {
+				for (DbColuna cln : this.getLstCln()) {
 					if (cln.getBooClnNome()) {
 						_clnNome = cln;
 						break;
@@ -152,13 +178,13 @@ public abstract class DbTabela extends Objeto {
 			}
 
 			if (_clnNome == null) {
-				_clnNome = this.getLstObjDbColuna().get(0);
+				_clnNome = this.getLstCln().get(0);
 			}
 
 			// FIM A합ES
 		} catch (Exception ex) {
 
-			new Erro(App.getApp().getStrTextoPadrao(0), ex.getMessage());
+			new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
 
 		} finally {
 		}
@@ -176,7 +202,7 @@ public abstract class DbTabela extends Objeto {
 
 			if (_clnOrdemCadastro == null) {
 
-				for (DbColuna cln : this.getLstObjDbColuna()) {
+				for (DbColuna cln : this.getLstCln()) {
 					if (cln.getBooOrdemCadastro()) {
 						_clnOrdemCadastro = cln;
 						break;
@@ -191,7 +217,7 @@ public abstract class DbTabela extends Objeto {
 			// FIM A합ES
 		} catch (Exception ex) {
 
-			new Erro(App.getApp().getStrTextoPadrao(0), ex.getMessage());
+			new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
 
 		} finally {
 		}
@@ -212,13 +238,13 @@ public abstract class DbTabela extends Objeto {
 			// A합ES
 
 			if (_objDataBase == null) {
-				this._objDataBase = App.getApp().getObjDataBasePrincipal();
+				this._objDataBase = App.getI().getObjDataBasePrincipal();
 			}
 
 			// FIM A합ES
 		} catch (Exception ex) {
 
-			new Erro(App.getApp().getStrTextoPadrao(0), ex.getMessage());
+			new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
 
 		} finally {
 		}
@@ -240,13 +266,13 @@ public abstract class DbTabela extends Objeto {
 		try {
 			// A합ES
 
-			App.getApp().getLstTbl().add(this);
+			App.getI().getLstTbl().add(this);
 			this.setStrNome(strNome);
 
 			// FIM A합ES
 		} catch (Exception ex) {
 
-			new Erro(App.getApp().getStrTextoPadrao(122), ex.getMessage());
+			new Erro(App.getI().getStrTextoPadrao(122), ex.getMessage());
 
 		} finally {
 		}
@@ -265,14 +291,14 @@ public abstract class DbTabela extends Objeto {
 		try {
 			// A합ES
 
-			App.getApp().setTblSelecionada(this);
+			App.getI().setTblSelecionada(this);
 			objIntent = new Intent(actPai, ActCadastro.class);
 			actPai.startActivityForResult(objIntent, 0);
 
 			// FIM A합ES
 		} catch (Exception ex) {
 
-			new Erro(App.getApp().getStrTextoPadrao(123), ex.getMessage());
+			new Erro(App.getI().getStrTextoPadrao(123), ex.getMessage());
 
 		} finally {
 		}
@@ -295,7 +321,7 @@ public abstract class DbTabela extends Objeto {
 			strTabelaNome = this.getStrNomeSimplificado();
 			strColunaFiltro = clnFiltro.getStrNomeSimplificado();
 
-			for (DbColuna cln : this.getLstObjDbColuna()) {
+			for (DbColuna cln : this.getLstCln()) {
 				cln.setStrValor(null);
 				strColunasNomes += "A." + cln.getStrNomeSimplificado() + ",";
 			}
@@ -309,7 +335,7 @@ public abstract class DbTabela extends Objeto {
 				if (objCrs.moveToFirst()) {
 					do {
 
-						this.getLstObjDbColuna().get(intColunaIndex).setStrValor(objCrs.getString(intColunaIndex));
+						this.getLstCln().get(intColunaIndex).setStrValor(objCrs.getString(intColunaIndex));
 						intColunaIndex++;
 
 					} while (intColunaIndex < objCrs.getColumnCount());
@@ -319,7 +345,7 @@ public abstract class DbTabela extends Objeto {
 			// FIM A합ES
 		} catch (Exception ex) {
 
-			new Erro(App.getApp().getStrTextoPadrao(124), ex.getMessage());
+			new Erro(App.getI().getStrTextoPadrao(124), ex.getMessage());
 
 		} finally {
 		}
@@ -354,7 +380,7 @@ public abstract class DbTabela extends Objeto {
 				sql += this.getStrNomeSimplificado();
 				sql += "(";
 
-				for (DbColuna cln : this.getLstObjDbColuna()) {
+				for (DbColuna cln : this.getLstCln()) {
 					sql += cln.getStrNomeSimplificado();
 					sql += " ";
 					sql += cln.getStrSqlTipo();
@@ -382,7 +408,7 @@ public abstract class DbTabela extends Objeto {
 
 		} catch (Exception ex) {
 
-			new Erro(App.getApp().getStrTextoPadrao(124), ex.getMessage());
+			new Erro(App.getI().getStrTextoPadrao(124), ex.getMessage());
 
 		} finally {
 			// LIMPAR VARI햂EIS
@@ -407,7 +433,7 @@ public abstract class DbTabela extends Objeto {
 			// FIM A합ES
 		} catch (Exception ex) {
 
-			new Erro(App.getApp().getStrTextoPadrao(126), ex.getMessage());
+			new Erro(App.getI().getStrTextoPadrao(126), ex.getMessage());
 
 		} finally {
 		}
@@ -436,7 +462,7 @@ public abstract class DbTabela extends Objeto {
 			// FIM A합ES
 		} catch (Exception ex) {
 
-			new Erro(App.getApp().getStrTextoPadrao(127), ex.getMessage());
+			new Erro(App.getI().getStrTextoPadrao(127), ex.getMessage());
 
 		} finally {
 			objCursor = null;
@@ -477,7 +503,7 @@ public abstract class DbTabela extends Objeto {
 
 			}
 
-			for (DbColuna cln : this.getLstObjDbColuna()) {
+			for (DbColuna cln : this.getLstCln()) {
 				strClnNome += "A." + cln.getStrNomeSimplificado() + ",";
 			}
 
@@ -492,7 +518,7 @@ public abstract class DbTabela extends Objeto {
 			// FIM A합ES
 		} catch (Exception ex) {
 
-			new Erro(App.getApp().getStrTextoPadrao(128), ex.getMessage());
+			new Erro(App.getI().getStrTextoPadrao(128), ex.getMessage());
 
 		} finally {
 		}
@@ -524,7 +550,7 @@ public abstract class DbTabela extends Objeto {
 			// FIM A합ES
 		} catch (Exception ex) {
 
-			new Erro(App.getApp().getStrTextoPadrao(128), ex.getMessage());
+			new Erro(App.getI().getStrTextoPadrao(128), ex.getMessage());
 
 		} finally {
 		}
@@ -538,10 +564,13 @@ public abstract class DbTabela extends Objeto {
 
 		int intNumeroColuna = 0;
 
-		String sql = Utils.STRING_VAZIA;
-		String strClnNome = Utils.STRING_VAZIA;
+		String sql;
+		String strClnNome;
 		String strFiltro = Utils.STRING_VAZIA;
-		String strClnOrdemNome = Utils.STRING_VAZIA;
+		String strClnOrdemNome;
+		String strClnRefNome;
+		String strTblRefClnNome;
+		String strTblRefNome;
 
 		// FIM VARI햂EIS
 		try {
@@ -566,22 +595,20 @@ public abstract class DbTabela extends Objeto {
 
 			}
 
-			strClnNome += "A." + this.getClnChavePrimaria().getStrNomeSimplificado() + ",";
+			strClnNome = "A." + this.getClnChavePrimaria().getStrNomeSimplificado() + ",";
 
 			if (this.getClnNome().getClnReferencia() != null) {
 
-				String strTblReferenciaNome = this.getClnNome().getClnReferencia().getTbl().getStrNomeSimplificado();
-				String strTblReferenciaClnNome = this.getClnNome().getClnReferencia().getTbl().getClnNome()
-						.getStrNomeSimplificado();
-				String strClnReferenciaNome = this.getClnNome().getClnReferencia().getStrNomeSimplificado();
-
-				strClnNome += "(SELECT B." + strTblReferenciaClnNome + " FROM " + strTblReferenciaNome + " B WHERE B."
-						+ strClnReferenciaNome + " = A." + this.getClnNome().getStrNomeSimplificado() + ") _strNomeB,";
+				strTblRefNome = this.getClnNome().getClnReferencia().getTbl().getStrNomeSimplificado();
+				strTblRefClnNome = this.getClnNome().getClnReferencia().getTbl().getClnNome().getStrNomeSimplificado();
+				strClnRefNome = this.getClnNome().getClnReferencia().getStrNomeSimplificado();
+				strClnNome += "(SELECT B." + strTblRefClnNome + " FROM " + strTblRefNome + " B WHERE B."
+						+ strClnRefNome + " = A." + this.getClnNome().getStrNomeSimplificado() + ") _strNomeB,";
 			} else {
 				strClnNome += this.getClnNome().getStrNomeSimplificado() + ",";
 			}
 
-			for (DbColuna cln : this.getLstObjDbColuna()) {
+			for (DbColuna cln : this.getLstCln()) {
 
 				if (cln.getBooVisivelCadastro() && !cln.getBooClnNome()) {
 					strClnNome += "A." + cln.getStrNomeSimplificado() + ",";
@@ -604,18 +631,21 @@ public abstract class DbTabela extends Objeto {
 			}
 
 			strClnNome = Utils.removerUltimaLetra(strClnNome);
-			sql += "SELECT " + strClnNome + " FROM " + this.getStrNomeSimplificado() + " A " + strFiltro + " ORDER BY "
+			sql = "SELECT " + strClnNome + " FROM " + this.getStrNomeSimplificado() + " A " + strFiltro + " ORDER BY "
 					+ strClnOrdemNome + ";";
 
 			crsResultado = this.getObjDataBase().execSqlComRetorno(sql);
 
+			lstObjDbFitro.clear();
+
 			// FIM A합ES
 		} catch (Exception ex) {
 
-			new Erro(App.getApp().getStrTextoPadrao(128), ex.getMessage());
+			new Erro(App.getI().getStrTextoPadrao(128), ex.getMessage());
 
 		} finally {
 		}
+
 		return crsResultado;
 	}
 
@@ -632,7 +662,7 @@ public abstract class DbTabela extends Objeto {
 		try {
 			// A합ES
 
-			for (DbColuna cln : this.getLstObjDbColuna()) {
+			for (DbColuna cln : this.getLstCln()) {
 
 				if (cln.getStrNomeSimplificado().equals(strNomeSimplificado)) {
 					strColunaNome = cln.getStrNomeExibicao();
@@ -643,7 +673,7 @@ public abstract class DbTabela extends Objeto {
 			// FIM A합ES
 		} catch (Exception ex) {
 
-			new Erro(App.getApp().getStrTextoPadrao(128), ex.getMessage());
+			new Erro(App.getI().getStrTextoPadrao(128), ex.getMessage());
 
 		} finally {
 		}
@@ -663,7 +693,7 @@ public abstract class DbTabela extends Objeto {
 		try {
 			// A합ES
 
-			for (DbColuna cln : this.getLstObjDbColuna()) {
+			for (DbColuna cln : this.getLstCln()) {
 
 				if (cln.getStrValor() != null && !cln.getStrValor().equals(Utils.STRING_VAZIA)) {
 					strColunasNomes += cln.getStrNomeSimplificado() + ",";
@@ -691,7 +721,7 @@ public abstract class DbTabela extends Objeto {
 			// FIM A합ES
 		} catch (Exception ex) {
 
-			new Erro(App.getApp().getStrTextoPadrao(129), ex.getMessage());
+			new Erro(App.getI().getStrTextoPadrao(129), ex.getMessage());
 
 		} finally {
 			strColunasNomes = null;
@@ -710,7 +740,7 @@ public abstract class DbTabela extends Objeto {
 		try {
 			// A합ES
 
-			for (DbColuna cln : this.getLstObjDbColuna()) {
+			for (DbColuna cln : this.getLstCln()) {
 				switch (cln.getEnmTipo()) {
 				case INTEGER:
 					cln.setStrValor(Utils.getStrAleatoria(5, EnmRandomTipo.NUMERICO));
@@ -732,7 +762,7 @@ public abstract class DbTabela extends Objeto {
 			// FIM A합ES
 		} catch (Exception ex) {
 
-			new Erro(App.getApp().getStrTextoPadrao(130), ex.getMessage());
+			new Erro(App.getI().getStrTextoPadrao(130), ex.getMessage());
 
 		} finally {
 		}
@@ -744,14 +774,14 @@ public abstract class DbTabela extends Objeto {
 		try {
 			// A합ES
 
-			for (DbColuna cln : this.getLstObjDbColuna()) {
+			for (DbColuna cln : this.getLstCln()) {
 				cln.setStrValor(null);
 			}
 
 			// FIM A합ES
 		} catch (Exception ex) {
 
-			new Erro(App.getApp().getStrTextoPadrao(130), ex.getMessage());
+			new Erro(App.getI().getStrTextoPadrao(130), ex.getMessage());
 
 		} finally {
 		}

@@ -3,11 +3,11 @@ package com.digosofter.digodroid;
 import java.util.ArrayList;
 import java.util.List;
 
-import android.app.Activity;
 import android.content.Context;
 import android.widget.Toast;
 
 import com.digosofter.digodroid.MensagemUsuario.EnmLingua;
+import com.digosofter.digodroid.activitys.ActBase;
 import com.digosofter.digodroid.database.DataBase;
 import com.digosofter.digodroid.database.DbTabela;
 import com.digosofter.digodroid.erro.Erro;
@@ -18,24 +18,39 @@ public abstract class App extends Objeto {
 
 	// ATRIBUTOS
 
-	private Activity _actMain;
+	private static App i;
 
-	public Activity getActMain() {
+	public static App getI() {
+		return i;
+	}
+
+	private void setI(App _i) {
+		// VARIÁVEIS
+		// FIM VARIÁVEIS
+		try {
+			// AÇÕES
+
+			if (i == null) {
+				i = _i;
+			}
+
+			// FIM AÇÕES
+		} catch (Exception ex) {
+
+			new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
+
+		} finally {
+		}
+	}
+
+	private ActBase _actMain;
+
+	public ActBase getActMain() {
 		return _actMain;
 	}
 
-	public void setActMain(Activity actMain) {
+	public void setActMain(ActBase actMain) {
 		_actMain = actMain;
-	}
-
-	private static App _app;
-
-	public static App getApp() {
-		return _app;
-	}
-
-	private static void setApp(App app) {
-		_app = app;
 	}
 
 	private Context _context;
@@ -157,14 +172,13 @@ public abstract class App extends Objeto {
 			// AÇÕES
 
 			if (_objDataBasePrincipal == null) {
-				_objDataBasePrincipal = new DataBase(this.getStrNomeSimplificado(), this.getActMain()
-						.getApplicationContext());
+				_objDataBasePrincipal = new DataBase(this.getStrNomeSimplificado(), this.getActMain().getApplicationContext());
 			}
 
 			// FIM AÇÕES
 		} catch (Exception ex) {
 
-			new Erro(App.getApp().getStrTextoPadrao(102), ex.getMessage());
+			new Erro(App.getI().getStrTextoPadrao(102), ex.getMessage());
 
 		} finally {
 		}
@@ -202,7 +216,7 @@ public abstract class App extends Objeto {
 		try {
 			// AÇÕES
 
-			App.setApp(this);
+			this.setI(this);
 
 			// FIM AÇÕES
 		} catch (Exception ex) {
@@ -215,7 +229,7 @@ public abstract class App extends Objeto {
 	// MÉTODOS
 
 	public abstract List<MensagemUsuario> getLstObjMensagemUsuario();
-	
+
 	public String getStrMensagemUsuario(int intId, EnmLingua enmLingua, boolean booMensagemPadrao) {
 		// VARIÁVEIS
 
@@ -265,7 +279,7 @@ public abstract class App extends Objeto {
 	public String getStrTexto(int intId) {
 		return this.getStrMensagemUsuario(intId);
 	}
-	
+
 	public void mostrarNoficacao(String strMensagem) {
 		// VARIÁVEIS
 

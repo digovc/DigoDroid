@@ -35,7 +35,7 @@ public abstract class ActBase extends ActionBarActivity {
 			// FIM AÇÕES
 		} catch (Exception ex) {
 
-			new Erro(App.getApp().getStrTextoPadrao(113), ex.getMessage());
+			new Erro(App.getI().getStrTextoPadrao(113), ex.getMessage());
 
 		} finally {
 		}
@@ -55,7 +55,7 @@ public abstract class ActBase extends ActionBarActivity {
 			// FIM AÇÕES
 		} catch (Exception ex) {
 
-			new Erro(App.getApp().getStrTextoPadrao(0), ex.getMessage());
+			new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
 
 		} finally {
 		}
@@ -63,23 +63,23 @@ public abstract class ActBase extends ActionBarActivity {
 		return viewResultado;
 	}
 
-	protected EditText getEditText(int intId) {
+	public EditText getEditText(int intId) {
 		return (EditText) this.getView(intId);
 	}
 
-	protected LinearLayout getLinearLayout(int intId) {
+	public LinearLayout getLinearLayout(int intId) {
 		return (LinearLayout) this.getView(intId);
 	}
 	
-	protected RadioButton getRadioButton(int intId) {
+	public RadioButton getRadioButton(int intId) {
 		return (RadioButton) this.getView(intId);
 	}	
 	
-	protected RadioGroup getRadioGroup(int intId) {
+	public RadioGroup getRadioGroup(int intId) {
 		return (RadioGroup) this.getView(intId);
 	}	
 	
-	protected TextView getTextView(int intId) {
+	public TextView getTextView(int intId) {
 		return (TextView) this.getView(intId);
 	}
 

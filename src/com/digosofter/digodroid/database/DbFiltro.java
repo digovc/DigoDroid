@@ -87,7 +87,7 @@ public class DbFiltro extends Objeto {
 			// FIM AÇÕES
 		} catch (Exception ex) {
 
-			new Erro(App.getApp().getStrTextoPadrao(0), ex.getMessage());
+			new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
 
 		} finally {
 		}
@@ -99,19 +99,37 @@ public class DbFiltro extends Objeto {
 
 	// CONSTRUTORES
 
-	public DbFiltro(DbColuna clnFiltro, String strFiltro) {
+	public DbFiltro(DbColuna clnFiltro, int intFiltro) {
 		// VARIÁVEIS
-
-		this.setClnFiltro(clnFiltro);
-		this.setStrFiltro(strFiltro);
-
 		// FIM VARIÁVEIS
 		try {
 			// AÇÕES
+
+			this.setClnFiltro(clnFiltro);
+			this.setStrFiltro(String.valueOf(intFiltro));
+
 			// FIM AÇÕES
 		} catch (Exception ex) {
 
-			new Erro(App.getApp().getStrTextoPadrao(121), ex.getMessage());
+			new Erro(App.getI().getStrTextoPadrao(121), ex.getMessage());
+
+		} finally {
+		}
+	}
+
+	public DbFiltro(DbColuna clnFiltro, String strFiltro) {
+		// VARIÁVEIS
+		// FIM VARIÁVEIS
+		try {
+			// AÇÕES
+
+			this.setClnFiltro(clnFiltro);
+			this.setStrFiltro(strFiltro);
+
+			// FIM AÇÕES
+		} catch (Exception ex) {
+
+			new Erro(App.getI().getStrTextoPadrao(121), ex.getMessage());
 
 		} finally {
 		}

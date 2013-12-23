@@ -29,7 +29,7 @@ public class DataBase extends SQLiteOpenHelper {
 			// FIM A합ES
 		} catch (Exception ex) {
 
-			new Erro(App.getApp().getStrTextoPadrao(0), ex.getMessage());
+			new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
 
 		} finally {
 		}
@@ -52,7 +52,7 @@ public class DataBase extends SQLiteOpenHelper {
 			// FIM A합ES
 		} catch (Exception ex) {
 
-			new Erro(App.getApp().getStrTextoPadrao(0), ex.getMessage());
+			new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
 
 		} finally {
 		}
@@ -88,7 +88,7 @@ public class DataBase extends SQLiteOpenHelper {
 			// FIM A합ES
 		} catch (Exception ex) {
 
-			new Erro(App.getApp().getStrTextoPadrao(118), ex.getMessage());
+			new Erro(App.getI().getStrTextoPadrao(118), ex.getMessage());
 
 		} finally {
 		}
@@ -113,7 +113,7 @@ public class DataBase extends SQLiteOpenHelper {
 			// FIM A합ES
 		} catch (Exception ex) {
 
-			new Erro(App.getApp().getStrTextoPadrao(119), ex.getMessage());
+			new Erro(App.getI().getStrTextoPadrao(119), ex.getMessage());
 
 		} finally {
 		}
@@ -142,7 +142,7 @@ public class DataBase extends SQLiteOpenHelper {
 			// FIM A합ES
 		} catch (Exception ex) {
 
-			new Erro(App.getApp().getStrTextoPadrao(0), ex.getMessage());
+			new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
 
 		} finally {
 		}
@@ -162,7 +162,7 @@ public class DataBase extends SQLiteOpenHelper {
 			// FIM A합ES
 		} catch (Exception ex) {
 
-			new Erro(App.getApp().getStrTextoPadrao(119), ex.getMessage());
+			new Erro(App.getI().getStrTextoPadrao(119), ex.getMessage());
 
 		} finally {
 		}
@@ -181,7 +181,7 @@ public class DataBase extends SQLiteOpenHelper {
 			// FIM A합ES
 		} catch (Exception ex) {
 
-			new Erro(App.getApp().getStrTextoPadrao(0), ex.getMessage());
+			new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
 
 		} finally {
 		}
@@ -196,7 +196,7 @@ public class DataBase extends SQLiteOpenHelper {
 			// FIM A합ES
 		} catch (Exception ex) {
 
-			new Erro(App.getApp().getStrTextoPadrao(0), ex.getMessage());
+			new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
 
 		} finally {
 		}
