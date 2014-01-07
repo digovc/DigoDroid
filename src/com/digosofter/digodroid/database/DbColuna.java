@@ -262,9 +262,21 @@ public class DbColuna extends Objeto {
 			intAno = Integer.parseInt(this.getStrValor().substring(0, 4));
 			intMes = Integer.parseInt(this.getStrValor().substring(5, 7));
 			intDia = Integer.parseInt(this.getStrValor().substring(8, 10));
-			intHora = Integer.parseInt(this.getStrValor().substring(11, 13));
-			intMin = Integer.parseInt(this.getStrValor().substring(14, 16));
-			intSeg = Integer.parseInt(this.getStrValor().substring(17, 19));
+
+			try {
+				intHora = Integer.parseInt(this.getStrValor().substring(11, 13));
+			} catch (Exception e) {
+			}
+
+			try {
+				intMin = Integer.parseInt(this.getStrValor().substring(14, 16));
+			} catch (Exception e) {
+			}
+
+			try {
+				intSeg = Integer.parseInt(this.getStrValor().substring(17, 19));
+			} catch (Exception e) {
+			}
 
 			objGregorianCalendarResultado = new GregorianCalendar(intAno, intMes - 1, intDia, intHora, intMin, intSeg);
 

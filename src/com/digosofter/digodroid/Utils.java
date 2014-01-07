@@ -258,7 +258,8 @@ public abstract class Utils {
 	public static String getStrMd5(String str) {
 		// VARIÁVEIS
 
-		MessageDigest objMessageDigest = null;
+		BigInteger objBigInteger;
+		MessageDigest objMessageDigest;
 		String strMd5Resultado = Utils.STRING_VAZIA;
 
 		// FIM VARIÁVEIS
@@ -266,8 +267,8 @@ public abstract class Utils {
 			// AÇÕES
 
 			objMessageDigest = MessageDigest.getInstance("MD5");
-			BigInteger hash = new BigInteger(1, objMessageDigest.digest(str.getBytes()));
-			strMd5Resultado = hash.toString(16).toUpperCase(Utils.LOCAL_BRASIL);
+			objBigInteger = new BigInteger(1, objMessageDigest.digest(str.getBytes()));
+			strMd5Resultado =  String.format("%0" + (objMessageDigest.digest(str.getBytes()).length << 1) + "X", objBigInteger);
 
 			// FIM AÇÕES
 		} catch (Exception ex) {
@@ -276,6 +277,7 @@ public abstract class Utils {
 
 		} finally {
 		}
+
 		return strMd5Resultado;
 	}
 
@@ -309,15 +311,12 @@ public abstract class Utils {
 			// AÇÕES
 
 			strComplexa = strComplexa.toLowerCase(Locale.ENGLISH);
-			arrChrAcentos = new String[] { "ç", "á", "é", "í", "ó", "ú", "ý", "à", "è", "ì", "ò", "ù", "ã", "õ", "ñ",
-					"ä", "ë", "ï", "ö", "ü", "ÿ", "â", "ê", "î", "ô", "û" };
-			arrChrSemAcento = new String[] { "c", "a", "e", "i", "o", "u", "y", "a", "e", "i", "o", "u", "a", "o", "n",
-					"a", "e", "i", "o", "u", "y", "a", "e", "i", "o", "u" };
+			arrChrAcentos = new String[] { "ç", "á", "é", "í", "ó", "ú", "ý", "à", "è", "ì", "ò", "ù", "ã", "õ", "ñ", "ä", "ë", "ï", "ö", "ü", "ÿ", "â", "ê", "î", "ô", "û" };
+			arrChrSemAcento = new String[] { "c", "a", "e", "i", "o", "u", "y", "a", "e", "i", "o", "u", "a", "o", "n", "a", "e", "i", "o", "u", "y", "a", "e", "i", "o", "u" };
 			for (int intTemp = 0; intTemp < arrChrAcentos.length; intTemp++) {
 				strComplexa = strComplexa.replace(arrChrAcentos[intTemp], arrChrSemAcento[intTemp]);
 			}
-			arrChrCaracteresEspeciais = new String[] { "\\.", ",", "-", ":", "\\(", "\\)", "ª", "\\|", "\\\\", "°",
-					"^\\s+", "\\s+$", "\\s+", ".", "(", ")" };
+			arrChrCaracteresEspeciais = new String[] { "\\.", ",", "-", ":", "\\(", "\\)", "ª", "\\|", "\\\\", "°", "^\\s+", "\\s+$", "\\s+", ".", "(", ")" };
 			for (int intTemp = 0; intTemp < arrChrCaracteresEspeciais.length; intTemp++) {
 				strComplexa = strComplexa.replace(arrChrCaracteresEspeciais[intTemp], "");
 			}
@@ -387,7 +386,7 @@ public abstract class Utils {
 			// LIMPAR VARIÁVEIS
 			// FIM LIMPAR VARIÁVEIS
 		}
-		
+
 		return objNumberFormat.format(monValor);
 	}
 
@@ -401,9 +400,7 @@ public abstract class Utils {
 			// AÇÕES
 
 			stbDteResultado = new StringBuilder();
-			stbDteResultado.append(String.format("%d/%02d/%02d",
-					objGregorianCalendar.get(GregorianCalendar.DAY_OF_MONTH),
-					objGregorianCalendar.get(GregorianCalendar.MONTH) + 1,
+			stbDteResultado.append(String.format("%d/%02d/%02d", objGregorianCalendar.get(GregorianCalendar.DAY_OF_MONTH), objGregorianCalendar.get(GregorianCalendar.MONTH) + 1,
 					objGregorianCalendar.get(GregorianCalendar.YEAR)));
 
 			// FIM AÇÕES
@@ -457,8 +454,7 @@ public abstract class Utils {
 	}
 
 	public static String removerMascara(String s) {
-		return s.replaceAll("[.]", "").replaceAll("[-]", "").replaceAll("[/]", "").replaceAll("[(]", "")
-				.replaceAll("[)]", "");
+		return s.replaceAll("[.]", "").replaceAll("[-]", "").replaceAll("[/]", "").replaceAll("[(]", "").replaceAll("[)]", "");
 	}
 
 	public static String removerUltimaLetra(String str) {

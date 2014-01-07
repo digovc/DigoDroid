@@ -14,11 +14,24 @@ public class TblCliente extends TblMain {
 	private DbColuna _clnIntPessoaId;
 
 	private DbColuna getClnIntPessoaId() {
-		return _clnIntPessoaId;
-	}
+		// VARIÁVEIS
+		// FIM VARIÁVEIS
+		try {
+			// AÇÕES
 
-	private void setClnIntPessoaId(DbColuna clnIntPessoaId) {
-		_clnIntPessoaId = clnIntPessoaId;
+			if (_clnIntPessoaId == null) {
+				_clnIntPessoaId = new DbColuna("intPessoaId", this, EnmTipo.INTEGER);
+			}
+
+			// FIM AÇÕES
+		} catch (Exception ex) {
+
+			new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
+
+		} finally {
+		}
+
+		return _clnIntPessoaId;
 	}
 
 	// FIM ATRIBUTOS
@@ -33,9 +46,6 @@ public class TblCliente extends TblMain {
 		// FIM VARIÁVEIS
 		try {
 			// AÇÕES
-
-			this.setClnIntPessoaId(new DbColuna("intPessoaId", this, EnmTipo.INTEGER));
-
 			// FIM AÇÕES
 		} catch (Exception ex) {
 

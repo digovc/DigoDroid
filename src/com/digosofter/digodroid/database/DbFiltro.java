@@ -15,9 +15,19 @@ public class DbFiltro extends Objeto {
 
 	// ATRIBUTOS
 
+	private boolean _booSubSelect;
+
+	private boolean getBooSubSelect() {
+		return _booSubSelect;
+	}
+
+	private void setBooSubSelect(boolean booSubSelect) {
+		_booSubSelect = booSubSelect;
+	}
+
 	private EnmOperador _enmOperador = EnmOperador.IGUAL;
 
-	public EnmOperador getEnmOperador() {
+	private EnmOperador getEnmOperador() {
 		return _enmOperador;
 	}
 
@@ -27,7 +37,7 @@ public class DbFiltro extends Objeto {
 
 	private DbColuna _clnFiltro;
 
-	public DbColuna getClnFiltro() {
+	private DbColuna getClnFiltro() {
 		return _clnFiltro;
 	}
 
@@ -37,7 +47,7 @@ public class DbFiltro extends Objeto {
 
 	private String _strCondicao = "AND";
 
-	public String getStrCondicao() {
+	private String getStrCondicao() {
 		return _strCondicao;
 	}
 
@@ -47,7 +57,7 @@ public class DbFiltro extends Objeto {
 
 	private String _strFiltro;
 
-	public String getStrFiltro() {
+	private String getStrFiltro() {
 		return _strFiltro;
 	}
 
@@ -57,7 +67,7 @@ public class DbFiltro extends Objeto {
 
 	private String _strOperador;
 
-	public String getStrOperador() {
+	private String getStrOperador() {
 		// VARIÁVEIS
 		// FIM VARIÁVEIS
 		try {
@@ -99,6 +109,24 @@ public class DbFiltro extends Objeto {
 
 	// CONSTRUTORES
 
+	public DbFiltro(String strSubSelect) {
+		// VARIÁVEIS
+		// FIM VARIÁVEIS
+		try {
+			// AÇÕES
+
+			this.setBooSubSelect(true);
+			this.setStrFiltro(strSubSelect);
+
+			// FIM AÇÕES
+		} catch (Exception ex) {
+
+			new Erro(App.getI().getStrTextoPadrao(121), ex.getMessage());
+
+		} finally {
+		}
+	}
+
 	public DbFiltro(DbColuna clnFiltro, int intFiltro) {
 		// VARIÁVEIS
 		// FIM VARIÁVEIS
@@ -138,6 +166,56 @@ public class DbFiltro extends Objeto {
 	// FIM CONSTRUTORES
 
 	// MÉTODOS
+
+	/**
+	 * Retorna string com o filtro formatado para uso em sql's.
+	 *  
+	 */
+	public String getStrFiltroFormatado(boolean booPrimeiroTermo) {
+		// VARIÁVEIS
+
+		StringBuilder stbResultado = null;
+
+		// FIM VARIÁVEIS
+		try {
+			// AÇÕES
+
+			stbResultado = new StringBuilder();
+
+			if (!booPrimeiroTermo) {
+
+				stbResultado.append(this.getStrCondicao());
+				stbResultado.append(" ");					
+			}
+			
+			if (!this.getBooSubSelect()) {
+
+				stbResultado.append(this.getClnFiltro().getTbl().getStrNomeSimplificado());
+				stbResultado.append(".");
+				stbResultado.append(this.getClnFiltro().getStrNomeSimplificado());
+				stbResultado.append(this.getStrOperador());
+				stbResultado.append("'");
+				stbResultado.append(this.getStrFiltro());
+				stbResultado.append("' ");
+
+			} else {
+				
+//				stbResultado.append("(");
+				stbResultado.append(this.getStrFiltro());
+//				stbResultado.append(") ");
+			}
+
+			// FIM AÇÕES
+		} catch (Exception ex) {
+
+			new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
+
+		} finally {
+		}
+
+		return stbResultado.toString();
+	}
+
 	// FIM MÉTODOS
 
 	// EVENTOS

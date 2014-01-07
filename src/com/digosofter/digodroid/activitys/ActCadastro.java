@@ -172,49 +172,42 @@ public class ActCadastro extends ActBase {
 			lstObjItmCadastro = new ArrayList<ItmCadastro>();
 			objCursor = this.getTbl().getCrsDadosTelaCadastro();
 
-			if (objCursor != null) {
-				if (objCursor.moveToFirst()) {
-					do {
+			if (objCursor != null && objCursor.moveToFirst()) {
+				do {
 
-						itmCadastro = new ItmCadastro();
-						itmCadastro.setIntItemId(objCursor.getInt(objCursor.getColumnIndex(this.getTbl()
-								.getClnChavePrimaria().getStrNomeSimplificado())));
+					itmCadastro = new ItmCadastro();
+					itmCadastro.setIntItemId(objCursor.getInt(objCursor.getColumnIndex(this.getTbl().getClnChavePrimaria().getStrNomeSimplificado())));
 
-						if (this.getTbl().getClnNome().getClnReferencia() != null) {
-							itmCadastro.setStrNome(objCursor.getString(objCursor.getColumnIndex("_strNomeB")));
-						} else {
-							itmCadastro.setStrNome(objCursor.getString(objCursor.getColumnIndex(this.getTbl()
-									.getClnNome().getStrNomeSimplificado())));
-						}
+					if (this.getTbl().getClnNome().getClnReferencia() != null) {
+						itmCadastro.setStrNome(objCursor.getString(objCursor.getColumnIndex("_strNomeB")));
+					} else {
+						itmCadastro.setStrNome(objCursor.getString(objCursor.getColumnIndex(this.getTbl().getClnNome().getStrNomeSimplificado())));
+					}
 
-						for (int intColunaIndex = 0; intColunaIndex <= 4; intColunaIndex++) {
+					for (int intColunaIndex = 0; intColunaIndex <= 4; intColunaIndex++) {
 
-							if (intColunaIndex < objCursor.getColumnCount()) {
+						if (intColunaIndex < objCursor.getColumnCount()) {
 
-								switch (intColunaIndex) {
-								case 2:
-									itmCadastro.setStrCampo001Nome(this.getTbl().getStrClnNomePeloNomeSimplificado(
-											objCursor.getColumnName(intColunaIndex)));
-									itmCadastro.setStrCampo001Valor(objCursor.getString(intColunaIndex));
-									break;
-								case 3:
-									itmCadastro.setStrCampo002Nome(this.getTbl().getStrClnNomePeloNomeSimplificado(
-											objCursor.getColumnName(intColunaIndex)));
-									itmCadastro.setStrCampo002Valor(objCursor.getString(intColunaIndex));
-									break;
-								case 4:
-									itmCadastro.setStrCampo003Nome(this.getTbl().getStrClnNomePeloNomeSimplificado(
-											objCursor.getColumnName(intColunaIndex)));
-									itmCadastro.setStrCampo003Valor(objCursor.getString(intColunaIndex));
-									break;
-								}
+							switch (intColunaIndex) {
+							case 2:
+								itmCadastro.setStrCampo001Nome(this.getTbl().getStrClnNomePeloNomeSimplificado(objCursor.getColumnName(intColunaIndex)));
+								itmCadastro.setStrCampo001Valor(objCursor.getString(intColunaIndex));
+								break;
+							case 3:
+								itmCadastro.setStrCampo002Nome(this.getTbl().getStrClnNomePeloNomeSimplificado(objCursor.getColumnName(intColunaIndex)));
+								itmCadastro.setStrCampo002Valor(objCursor.getString(intColunaIndex));
+								break;
+							case 4:
+								itmCadastro.setStrCampo003Nome(this.getTbl().getStrClnNomePeloNomeSimplificado(objCursor.getColumnName(intColunaIndex)));
+								itmCadastro.setStrCampo003Valor(objCursor.getString(intColunaIndex));
+								break;
 							}
 						}
+					}
 
-						lstObjItmCadastro.add(itmCadastro);
+					lstObjItmCadastro.add(itmCadastro);
 
-					} while (objCursor.moveToNext());
-				}
+				} while (objCursor.moveToNext());
 			}
 
 			this.setAdpCadastro(new AdpCadastro(this, lstObjItmCadastro));
@@ -300,15 +293,13 @@ public class ActCadastro extends ActBase {
 
 							objItem = (ItmCadastro) ActCadastro.this.getObjListView().getItemAtPosition(position);
 
-							objIntent = new Intent(ActCadastro.this.getApplicationContext(), ActCadastro.this.getTbl()
-									.getClsActFrm());
+							objIntent = new Intent(ActCadastro.this.getApplicationContext(), ActCadastro.this.getTbl().getClsActFrm());
 							objIntent.putExtra("intId", objItem.getIntItemId());
 
-							ActCadastro.this.setResult(ActCadastro.EnmResultadoTipo.REGISTRO_SELECIONADO.ordinal(),
-									objIntent);
+							ActCadastro.this.setResult(ActCadastro.EnmResultadoTipo.REGISTRO_SELECIONADO.ordinal(), objIntent);
 							ActCadastro.this.startActivity(objIntent);
 
-//							finish();
+							// finish();
 						}
 
 						// FIM AÇÕES
@@ -336,8 +327,7 @@ public class ActCadastro extends ActBase {
 						// AÇÕES
 
 						inputManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-						inputManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(),
-								InputMethodManager.HIDE_NOT_ALWAYS);
+						inputManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
 
 						// FIM AÇÕES
 					} catch (Exception ex) {
