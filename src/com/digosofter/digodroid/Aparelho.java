@@ -75,6 +75,39 @@ public abstract class Aparelho extends Objeto {
 		}
 	}
 
+	/**
+	 * Abre o aplicativo padrão para envio de email.
+	 * 
+	 */
+	public static void enviarEmail(String strEmail) {
+		// VARIÁVEIS
+
+		Uri uri;
+		Intent objIntent;
+
+		// FIM VARIÁVEIS
+		try {
+			// AÇÕES
+
+			if (Utils.getBooIsEmptyNull(strEmail)) {
+				return;
+			}
+
+			uri = Uri.parse("mailto:" + strEmail);
+			objIntent = new Intent(Intent.ACTION_SENDTO, uri);
+			objIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+			objIntent.putExtra(Intent.EXTRA_SUBJECT, "Customer comments/questions");
+			App.getI().getContext().startActivity(objIntent);
+
+			// FIM AÇÕES
+		} catch (Exception ex) {
+
+			new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
+
+		} finally {
+		}
+	}
+
 	public static boolean getBooConectado() {
 		// VARIÁVEIS
 

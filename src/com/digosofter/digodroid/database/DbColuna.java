@@ -14,7 +14,7 @@ public class DbColuna extends Objeto {
 	// CONSTANTES
 
 	public enum EnmTipo {
-		INTEGER, TEXT, NONE, REAL, NUMERIC
+		BOOLEAN, DATE_TIME, INTEGER, TEXT, NONE, REAL, MONETARY, NUMERIC
 	}
 
 	// FIM CONSTANTES
@@ -147,8 +147,17 @@ public class DbColuna extends Objeto {
 			// AÇÕES
 
 			switch (this.getEnmTipo()) {
+			case BOOLEAN:
+				_strSqlTipo = "TEXT";
+				break;
+			case DATE_TIME:
+				_strSqlTipo = "TEXT";
+				break;
 			case INTEGER:
 				_strSqlTipo = "INTEGER";
+				break;
+			case MONETARY:
+				_strSqlTipo = "NUMERIC";
 				break;
 			case NONE:
 				_strSqlTipo = "NONE";
@@ -350,6 +359,55 @@ public class DbColuna extends Objeto {
 
 	public void setStrValorDefault(String strValorDefault) {
 		_strValorDefault = strValorDefault;
+	}
+
+	private String _strValorExibicao;
+
+	public String getStrValorExibicao() {
+		// VARIÁVEIS
+		// FIM VARIÁVEIS
+		try {
+			// AÇÕES
+
+			switch (this.getEnmTipo()) {
+			case BOOLEAN:
+				_strValorExibicao = this.getBooValor() ? "Sim" : "Não";
+				break;
+			case DATE_TIME:
+				_strValorExibicao = Utils.getStrDataFormatada(this.getDttValor().getTime(), Utils.EnmDataFormato.DD_MM_YYYY);
+				break;
+			case INTEGER:
+				_strValorExibicao = this.getStrValor();
+				break;
+			case MONETARY:
+				_strValorExibicao = Utils.getStrValorMonetario(this.getDblValor());
+				break;
+			case NONE:
+				_strValorExibicao = this.getStrValor();
+				break;
+			case NUMERIC:
+				_strValorExibicao = this.getStrValor();
+				break;
+			case REAL:
+				_strValorExibicao = this.getStrValor();
+				break;
+			case TEXT:
+				_strValorExibicao = this.getStrValor();
+				break;
+			default:
+				_strValorExibicao = this.getStrValor();
+				break;
+			}
+
+			// FIM AÇÕES
+		} catch (Exception ex) {
+
+			new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
+
+		} finally {
+		}
+
+		return _strValorExibicao;
 	}
 
 	private DbTabela _tbl;

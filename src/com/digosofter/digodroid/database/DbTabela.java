@@ -672,17 +672,44 @@ public abstract class DbTabela extends Objeto {
 				strClnNome += ") _strNomeB,";
 
 			} else {
-				strClnNome += this.getClnNome().getStrNomeSimplificado() + ",";
+				
+				strClnNome += this.getStrNomeSimplificado();
+				strClnNome += ".";
+				strClnNome += this.getClnNome().getStrNomeSimplificado();
+				strClnNome += ",";
 			}
 
 			for (DbColuna cln : this.getLstCln()) {
 
 				if (cln.getBooVisivelCadastro() && !cln.getBooClnNome()) {
 
-					strClnNome += this.getStrNomeSimplificado();
-					strClnNome += ".";
-					strClnNome += cln.getStrNomeSimplificado();
-					strClnNome += ",";
+					if (cln.getClnReferencia() != null) {
+
+						strClnNome += "(SELECT ";
+						strClnNome += cln.getClnReferencia().getTbl().getStrNomeSimplificado();
+						strClnNome += ".";
+						strClnNome += cln.getClnReferencia().getTbl().getClnNome().getStrNomeSimplificado();
+						strClnNome += " FROM ";
+						strClnNome += cln.getClnReferencia().getTbl().getStrNomeSimplificado();
+						strClnNome += " WHERE ";
+						strClnNome += cln.getClnReferencia().getTbl().getStrNomeSimplificado();
+						strClnNome += ".";
+						strClnNome += cln.getClnReferencia().getTbl().getClnChavePrimaria().getStrNomeSimplificado();
+						strClnNome += " = ";
+						strClnNome += this.getStrNomeSimplificado();
+						strClnNome += ".";
+						strClnNome += cln.getStrNomeSimplificado();
+						strClnNome += ")";
+						strClnNome += cln.getStrNomeSimplificado();
+						strClnNome += ",";
+
+					} else {
+						
+						strClnNome += this.getStrNomeSimplificado();
+						strClnNome += ".";
+						strClnNome += cln.getStrNomeSimplificado();
+						strClnNome += ",";
+					}
 
 					intNumeroColuna++;
 				}
