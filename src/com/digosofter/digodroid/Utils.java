@@ -1,6 +1,7 @@
 package com.digosofter.digodroid;
 
 import java.math.BigInteger;
+import java.net.URL;
 import java.security.MessageDigest;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
@@ -143,6 +144,34 @@ public abstract class Utils {
 		return booBooIsEmptyNullResultado;
 	}
 
+	/**
+	 * Verifica se a string é uma URL válida.
+	 * 
+	 * @param url
+	 *            String a ser avaliada.
+	 */
+	public static boolean getBooUrlValida(String url) {
+		// VARIÁVEIS
+
+		boolean booResultado = true;
+
+		// FIM VARIÁVEIS
+		try {
+			// AÇÕES
+
+			new URL(url);
+
+			// FIM AÇÕES
+		} catch (Exception ex) {
+
+			booResultado = false;
+
+		} finally {
+		}
+
+		return booResultado;
+	}
+
 	public static Date getDttAgora() {
 		// VARIÁVEIS
 
@@ -268,7 +297,7 @@ public abstract class Utils {
 
 			objMessageDigest = MessageDigest.getInstance("MD5");
 			objBigInteger = new BigInteger(1, objMessageDigest.digest(str.getBytes()));
-			strMd5Resultado =  String.format("%0" + (objMessageDigest.digest(str.getBytes()).length << 1) + "X", objBigInteger);
+			strMd5Resultado = String.format("%0" + (objMessageDigest.digest(str.getBytes()).length << 1) + "X", objBigInteger);
 
 			// FIM AÇÕES
 		} catch (Exception ex) {

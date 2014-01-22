@@ -71,7 +71,6 @@ private void setI(${tipo} _i) {&#13;
 	}&#13;
 }</template><template autoinsert="true" context="java" deleted="false" description="Cria um novo método." enabled="true" name="novoMetodo">/**&#13;
   * &#13;
-  * &#13;
   */&#13;
 private ${tipoRetorno} ${nome}() {&#13;
 	// VARIÁVEIS&#13;
