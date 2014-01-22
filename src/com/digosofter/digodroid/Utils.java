@@ -1,6 +1,7 @@
 package com.digosofter.digodroid;
 
 import java.math.BigInteger;
+import java.net.InetAddress;
 import java.net.URL;
 import java.security.MessageDigest;
 import java.text.NumberFormat;
@@ -480,6 +481,33 @@ public abstract class Utils {
 			public void afterTextChanged(Editable s) {
 			}
 		};
+	}
+
+	/**
+	 * "Pinga" um host e retorna true caso haja resposta deste.
+	 */
+	public static boolean ping(String url) {
+		// VARIÁVEIS
+
+		boolean booResultado = true;
+		InetAddress objInetAddress;
+
+		// FIM VARIÁVEIS
+		try {
+			// AÇÕES
+
+			objInetAddress = InetAddress.getByName(url);
+			booResultado = objInetAddress.isReachable(5000);
+
+			// FIM AÇÕES
+		} catch (Exception ex) {
+
+			booResultado = false;
+
+		} finally {
+		}
+
+		return booResultado;
 	}
 
 	public static String removerMascara(String s) {
