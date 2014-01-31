@@ -1,4 +1,4 @@
-package com.digosofter.digodroid.activitys;
+package com.digosofter.digodroid.activity;
 
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBarActivity;
@@ -16,7 +16,7 @@ import android.widget.VideoView;
 import com.digosofter.digodroid.App;
 import com.digosofter.digodroid.erro.Erro;
 
-public abstract class ActBase extends ActionBarActivity {
+public abstract class ActMain extends ActionBarActivity {
 	// CONSTANTES
 	// FIM CONSTANTES
 
@@ -70,15 +70,15 @@ public abstract class ActBase extends ActionBarActivity {
 	public Button getButton(int intId) {
 		return (Button) this.getView(intId);
 	}
-	
+
 	public CheckBox getCheckBox(int intId) {
 		return (CheckBox) this.getView(intId);
 	}
-	
+
 	public EditText getEditText(int intId) {
 		return (EditText) this.getView(intId);
 	}
-	
+
 	public ImageView getImageView(int intId) {
 		return (ImageView) this.getView(intId);
 	}
@@ -86,19 +86,19 @@ public abstract class ActBase extends ActionBarActivity {
 	public LinearLayout getLinearLayout(int intId) {
 		return (LinearLayout) this.getView(intId);
 	}
-	
+
 	public RadioButton getRadioButton(int intId) {
 		return (RadioButton) this.getView(intId);
-	}	
-	
+	}
+
 	public RadioGroup getRadioGroup(int intId) {
 		return (RadioGroup) this.getView(intId);
-	}	
-	
+	}
+
 	public TextView getTextView(int intId) {
 		return (TextView) this.getView(intId);
 	}
-	
+
 	public VideoView getVideoView(int intId) {
 		return (VideoView) this.getView(intId);
 	}

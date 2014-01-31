@@ -1,4 +1,4 @@
-package com.digosofter.digodroid.effects;
+package com.digosofter.digodroid.effect;
 
 import android.annotation.TargetApi;
 import android.os.Build;

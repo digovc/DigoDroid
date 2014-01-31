@@ -20,16 +20,17 @@ public abstract class Aparelho extends Objeto {
 	public static String getStrImei() {
 		// VARIÁVEIS
 
-		String strTelephonyService;
 		TelephonyManager objTelephonyManager;
 
 		// FIM VARIÁVEIS
 		try {
 			// AÇÕES
 
-			strTelephonyService = Context.TELEPHONY_SERVICE;
-			objTelephonyManager = (TelephonyManager) App.getI().getActMain().getSystemService(strTelephonyService);
-			_strImei = objTelephonyManager.getDeviceId();
+			if (_strImei == null) {
+
+				objTelephonyManager = (TelephonyManager) App.getI().getActMain().getSystemService(Context.TELEPHONY_SERVICE);
+				_strImei = objTelephonyManager.getDeviceId();
+			}
 
 			// FIM AÇÕES
 		} catch (Exception ex) {

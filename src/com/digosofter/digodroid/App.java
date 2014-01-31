@@ -7,7 +7,7 @@ import android.content.Context;
 import android.widget.Toast;
 
 import com.digosofter.digodroid.MensagemUsuario.EnmLingua;
-import com.digosofter.digodroid.activitys.ActBase;
+import com.digosofter.digodroid.activity.ActMain;
 import com.digosofter.digodroid.database.DataBase;
 import com.digosofter.digodroid.database.DbTabela;
 import com.digosofter.digodroid.erro.Erro;
@@ -43,13 +43,13 @@ public abstract class App extends Objeto {
 		}
 	}
 
-	private ActBase _actMain;
+	private ActMain _actMain;
 
-	public ActBase getActMain() {
+	public ActMain getActMain() {
 		return _actMain;
 	}
 
-	public void setActMain(ActBase actMain) {
+	public void setActMain(ActMain actMain) {
 		_actMain = actMain;
 	}
 
@@ -153,9 +153,26 @@ public abstract class App extends Objeto {
 		return _lstObjMensagemUsuarioPadrao;
 	}
 
-	private List<DbTabela> _lstTbl = new ArrayList<DbTabela>();
+	private List<DbTabela> _lstTbl;
 
 	public List<DbTabela> getLstTbl() {
+		// VARIÁVEIS
+		// FIM VARIÁVEIS
+		try {
+			// AÇÕES
+
+			if (_lstTbl == null) {
+				_lstTbl = new ArrayList<DbTabela>();
+			}
+
+			// FIM AÇÕES
+		} catch (Exception ex) {
+
+			new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
+
+		} finally {
+		}
+
 		return _lstTbl;
 	}
 

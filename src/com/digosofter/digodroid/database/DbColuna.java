@@ -132,9 +132,26 @@ public class DbColuna extends Objeto {
 		_clnReferencia = clnReferencia;
 	}
 
-	private EnmTipo _enmTipo = EnmTipo.TEXT;
+	private EnmTipo _enmTipo;
 
 	public EnmTipo getEnmTipo() {
+		// VARIÁVEIS
+		// FIM VARIÁVEIS
+		try {
+			// AÇÕES
+
+			if (_enmTipo == null) {
+				_enmTipo = EnmTipo.TEXT;
+			}
+
+			// FIM AÇÕES
+		} catch (Exception ex) {
+
+			new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
+
+		} finally {
+		}
+
 		return _enmTipo;
 	}
 
@@ -190,9 +207,26 @@ public class DbColuna extends Objeto {
 		_enmTipo = enmTipo;
 	}
 
-	private List<String> _lstStrOpcao = new ArrayList<String>();
+	private List<String> _lstStrOpcao;
 
 	public List<String> getLstStrOpcao() {
+		// VARIÁVEIS
+		// FIM VARIÁVEIS
+		try {
+			// AÇÕES
+
+			if (_lstStrOpcao == null) {
+				_lstStrOpcao = new ArrayList<String>();
+			}
+
+			// FIM AÇÕES
+		} catch (Exception ex) {
+
+			new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
+
+		} finally {
+		}
+
 		return _lstStrOpcao;
 	}
 

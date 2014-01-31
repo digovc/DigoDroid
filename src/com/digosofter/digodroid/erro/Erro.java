@@ -5,11 +5,10 @@ import java.io.Serializable;
 import android.content.Intent;
 
 import com.digosofter.digodroid.App;
-import com.digosofter.digodroid.Objeto;
 import com.digosofter.digodroid.Utils;
-import com.digosofter.digodroid.activitys.ActErro;
+import com.digosofter.digodroid.activity.ActErro;
 
-public class Erro extends Objeto implements Serializable {
+public class Erro extends Exception implements Serializable {
 	// CONSTANTES
 
 	private static final long serialVersionUID = 1L;
@@ -46,6 +45,16 @@ public class Erro extends Objeto implements Serializable {
 
 	private void setStrMensagemDetalhes(String strMensagemDetalhes) {
 		_strMensagemDetalhes = strMensagemDetalhes;
+	}
+
+	private String _strNome;
+
+	public String getStrNome() {
+		return _strNome;
+	}
+
+	private void setStrNome(String strNome) {
+		_strNome = strNome;
 	}
 
 	// FIM ATRIBUTOS

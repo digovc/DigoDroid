@@ -1,4 +1,4 @@
-package com.digosofter.digodroid.activitys;
+package com.digosofter.digodroid.activity;
 
 import java.util.ArrayList;
 
@@ -25,12 +25,12 @@ import android.widget.TextView;
 
 import com.digosofter.digodroid.App;
 import com.digosofter.digodroid.R;
-import com.digosofter.digodroid.adapters.AdpCadastro;
+import com.digosofter.digodroid.adapter.AdpCadastro;
 import com.digosofter.digodroid.database.DbTabela;
 import com.digosofter.digodroid.erro.Erro;
-import com.digosofter.digodroid.itens.ItmCadastro;
+import com.digosofter.digodroid.item.ItmCadastro;
 
-public class ActCadastro extends ActBase {
+public class ActConsulta extends ActMain {
 	// CONSTANTES
 
 	public enum EnmResultadoTipo {
@@ -234,7 +234,7 @@ public class ActCadastro extends ActBase {
 
 				@Override
 				public void onTextChanged(CharSequence s, int start, int before, int count) {
-					ActCadastro.this.getAdpCadastro().getFilter().filter(s);
+					ActConsulta.this.getAdpCadastro().getFilter().filter(s);
 				}
 
 				@Override
@@ -257,12 +257,12 @@ public class ActCadastro extends ActBase {
 					try {
 						// AÇÕES
 
-						objItem = (ItmCadastro) ActCadastro.this.getObjListView().getItemAtPosition(position);
+						objItem = (ItmCadastro) ActConsulta.this.getObjListView().getItemAtPosition(position);
 
 						objIntentResult = new Intent();
 						objIntentResult.putExtra("intId", objItem.getIntItemId());
 
-						setResult(ActCadastro.EnmResultadoTipo.REGISTRO_SELECIONADO.ordinal(), objIntentResult);
+						setResult(ActConsulta.EnmResultadoTipo.REGISTRO_SELECIONADO.ordinal(), objIntentResult);
 
 						finish();
 
@@ -289,15 +289,15 @@ public class ActCadastro extends ActBase {
 					try {
 						// AÇÕES
 
-						if (ActCadastro.this.getTbl().getClsActFrm() != null) {
+						if (ActConsulta.this.getTbl().getClsActFrm() != null) {
 
-							objItem = (ItmCadastro) ActCadastro.this.getObjListView().getItemAtPosition(position);
+							objItem = (ItmCadastro) ActConsulta.this.getObjListView().getItemAtPosition(position);
 
-							objIntent = new Intent(ActCadastro.this.getApplicationContext(), ActCadastro.this.getTbl().getClsActFrm());
+							objIntent = new Intent(ActConsulta.this.getApplicationContext(), ActConsulta.this.getTbl().getClsActFrm());
 							objIntent.putExtra("intId", objItem.getIntItemId());
 
-							ActCadastro.this.setResult(ActCadastro.EnmResultadoTipo.REGISTRO_SELECIONADO.ordinal(), objIntent);
-							ActCadastro.this.startActivity(objIntent);
+							ActConsulta.this.setResult(ActConsulta.EnmResultadoTipo.REGISTRO_SELECIONADO.ordinal(), objIntent);
+							ActConsulta.this.startActivity(objIntent);
 
 							// finish();
 						}

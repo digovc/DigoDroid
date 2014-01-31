@@ -1,6 +1,6 @@
-package com.digosofter.digodroid.arquivos;
+package com.digosofter.digodroid.arquivo;
 
-public class ArquivoTxt extends Arquivo {
+public class ArquivoXml extends Arquivo {
 	// CONSTANTES
 	// FIM CONSTANTES
 

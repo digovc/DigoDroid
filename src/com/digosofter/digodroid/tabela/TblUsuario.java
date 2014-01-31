@@ -1,4 +1,4 @@
-package com.digosofter.digodroid.tabelas;
+package com.digosofter.digodroid.tabela;
 
 import com.digosofter.digodroid.App;
 import com.digosofter.digodroid.database.DbColuna;

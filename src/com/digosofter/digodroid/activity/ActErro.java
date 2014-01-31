@@ -1,4 +1,4 @@
-package com.digosofter.digodroid.activitys;
+package com.digosofter.digodroid.activity;
 
 import android.os.Bundle;
 import android.view.Menu;
@@ -9,7 +9,7 @@ import com.digosofter.digodroid.App;
 import com.digosofter.digodroid.R;
 import com.digosofter.digodroid.erro.Erro;
 
-public class ActErro extends ActBase {
+public class ActErro extends ActMain {
 	// CONSTANTES
 	// FIM CONSTANTES
 
@@ -122,7 +122,7 @@ public class ActErro extends ActBase {
 	// MÉTODOS
 
 	@Override
-	protected void montarLayout() {
+	protected void montarLayout(){
 		// VARIÁVEIS
 		// FIM VARIÁVEIS
 		try {
@@ -138,7 +138,7 @@ public class ActErro extends ActBase {
 	}
 
 	@Override
-	protected void setEventos() {
+	protected void setEventos(){
 		// VARIÁVEIS
 		// FIM VARIÁVEIS
 		try {

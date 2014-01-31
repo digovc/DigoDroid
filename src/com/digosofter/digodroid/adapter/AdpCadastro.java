@@ -1,4 +1,4 @@
-package com.digosofter.digodroid.adapters;
+package com.digosofter.digodroid.adapter;
 
 import java.util.ArrayList;
 
@@ -15,7 +15,7 @@ import com.digosofter.digodroid.App;
 import com.digosofter.digodroid.R;
 import com.digosofter.digodroid.Utils;
 import com.digosofter.digodroid.erro.Erro;
-import com.digosofter.digodroid.itens.ItmCadastro;
+import com.digosofter.digodroid.item.ItmCadastro;
 
 public class AdpCadastro extends BaseAdapter implements Filterable {
 

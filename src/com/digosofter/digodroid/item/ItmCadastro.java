@@ -1,4 +1,4 @@
-package com.digosofter.digodroid.itens;
+package com.digosofter.digodroid.item;
 
 import com.digosofter.digodroid.App;
 import com.digosofter.digodroid.Objeto;

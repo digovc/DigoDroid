@@ -11,7 +11,7 @@ import com.digosofter.digodroid.App;
 import com.digosofter.digodroid.Objeto;
 import com.digosofter.digodroid.Utils;
 import com.digosofter.digodroid.Utils.EnmRandomTipo;
-import com.digosofter.digodroid.activitys.ActCadastro;
+import com.digosofter.digodroid.activity.ActConsulta;
 import com.digosofter.digodroid.database.DbColuna.EnmTipo;
 import com.digosofter.digodroid.erro.Erro;
 
@@ -291,7 +291,7 @@ public abstract class DbTabela extends Objeto {
 			// AÇÕES
 
 			App.getI().setTblSelecionada(this);
-			objIntent = new Intent(actPai, ActCadastro.class);
+			objIntent = new Intent(actPai, ActConsulta.class);
 			actPai.startActivityForResult(objIntent, 0);
 
 			// FIM AÇÕES
