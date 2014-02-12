@@ -33,11 +33,16 @@ public class DbColuna extends Objeto {
 		try {
 			// AÇÕES
 
-			for (DbColuna cln : this.getTbl().getLstCln()) {
-				cln._booChavePrimaria = false;
-			}
-
 			_booChavePrimaria = booChavePrimaria;
+
+			if (_booChavePrimaria) {
+
+				for (DbColuna cln : this.getTbl().getLstCln()) {
+					cln._booChavePrimaria = false;
+				}
+
+				this.getTbl().setClnChavePrimaria(this);
+			}
 
 			// FIM AÇÕES
 		} catch (Exception ex) {
@@ -60,11 +65,16 @@ public class DbColuna extends Objeto {
 		try {
 			// AÇÕES
 
-			for (DbColuna cln : this.getTbl().getLstCln()) {
-				cln._booClnNome = false;
-			}
-
 			_booClnNome = booClnNome;
+
+			if (_booClnNome) {
+
+				for (DbColuna cln : this.getTbl().getLstCln()) {
+					cln._booClnNome = false;
+				}
+
+				this.getTbl().setClnNome(this);
+			}
 
 			// FIM AÇÕES
 		} catch (Exception ex) {
@@ -87,11 +97,16 @@ public class DbColuna extends Objeto {
 		try {
 			// AÇÕES
 
-			for (DbColuna cln : this.getTbl().getLstCln()) {
-				cln._booOrdemCadastro = false;
-			}
-
 			_booOrdemCadastro = booOrdemCadastro;
+
+			if (_booOrdemCadastro) {
+
+				for (DbColuna cln : this.getTbl().getLstCln()) {
+					cln._booOrdemCadastro = false;
+				}
+
+				this.getTbl().setClnOrdemCadastro(this);
+			}
 
 			// FIM AÇÕES
 		} catch (Exception ex) {
@@ -153,6 +168,16 @@ public class DbColuna extends Objeto {
 		}
 
 		return _enmTipo;
+	}
+
+	private int _intOrdem;
+
+	public int getIntOrdem() {
+		return _intOrdem;
+	}
+
+	public void setIntOrdem(int intOrdem) {
+		_intOrdem = intOrdem;
 	}
 
 	private String _strSqlTipo;
@@ -472,14 +497,14 @@ public class DbColuna extends Objeto {
 
 	// CONSTRUTORES
 
-	public DbColuna(String strNome, DbTabela objDbTabela) {
+	public DbColuna(String strNome, DbTabela tbl) {
 		// VARIÁVEIS
 		// FIM VARIÁVEIS
 		try {
 			// AÇÕES
 
 			this.setStrNome(strNome);
-			this.setTbl(objDbTabela);
+			this.setTbl(tbl);
 
 			// FIM AÇÕES
 		} catch (Exception ex) {
@@ -490,15 +515,15 @@ public class DbColuna extends Objeto {
 		}
 	}
 
-	public DbColuna(String strNome, DbTabela objDbTabela, EnmTipo objEnmTipo) {
+	public DbColuna(String strNome, DbTabela tbl, EnmTipo enmTipo) {
 		// VARIÁVEIS
 		// FIM VARIÁVEIS
 		try {
 			// AÇÕES
 
 			this.setStrNome(strNome);
-			this.setTbl(objDbTabela);
-			this.setEnmTipo(objEnmTipo);
+			this.setTbl(tbl);
+			this.setEnmTipo(enmTipo);
 
 			// FIM AÇÕES
 		} catch (Exception ex) {
@@ -509,15 +534,15 @@ public class DbColuna extends Objeto {
 		}
 	}
 
-	public DbColuna(String strNome, DbTabela objDbTabela, EnmTipo objEnmTipo, DbColuna clnReferencia) {
+	public DbColuna(String strNome, DbTabela tbl, EnmTipo enmTipo, DbColuna clnReferencia) {
 		// VARIÁVEIS
 		// FIM VARIÁVEIS
 		try {
 			// AÇÕES
 
 			this.setStrNome(strNome);
-			this.setTbl(objDbTabela);
-			this.setEnmTipo(objEnmTipo);
+			this.setTbl(tbl);
+			this.setEnmTipo(enmTipo);
 			this.setClnReferencia(clnReferencia);
 
 			// FIM AÇÕES

@@ -15,71 +15,181 @@ public abstract class TblMain extends DbTabela {
 	private DbColuna _clnDttAlteracao;
 
 	public DbColuna getClnDttAlteracao() {
-		return _clnDttAlteracao;
-	}
+		// VARIÁVEIS
+		// FIM VARIÁVEIS
+		try {
+			// AÇÕES
 
-	private void setClnDttAlteracao(DbColuna clnDttAlteracao) {
-		_clnDttAlteracao = clnDttAlteracao;
+			if (_clnDttAlteracao == null) {
+
+				_clnDttAlteracao = new DbColuna("dttAlteracao", this);
+				_clnDttAlteracao.setEnmTipo(EnmTipo.TEXT);
+				_clnDttAlteracao.setStrNomeExibicao("Alteração");
+			}
+
+			// FIM AÇÕES
+		} catch (Exception ex) {
+
+			new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
+
+		} finally {
+		}
+
+		return _clnDttAlteracao;
 	}
 
 	private DbColuna _clnDttCadastro;
 
 	public DbColuna getClnDttCadastro() {
-		return _clnDttCadastro;
-	}
+		// VARIÁVEIS
+		// FIM VARIÁVEIS
+		try {
+			// AÇÕES
 
-	private void setClnDttCadastro(DbColuna clnDttCadastro) {
-		_clnDttCadastro = clnDttCadastro;
+			if (_clnDttCadastro == null) {
+
+				_clnDttCadastro = new DbColuna("dttCadastro", this);
+				_clnDttCadastro.setEnmTipo(EnmTipo.TEXT);
+				_clnDttCadastro.setStrNomeExibicao("Alteração");
+			}
+
+			// FIM AÇÕES
+		} catch (Exception ex) {
+
+			new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
+
+		} finally {
+		}
+
+		return _clnDttCadastro;
 	}
 
 	private DbColuna _clnDttExclusao;
 
 	public DbColuna getClnDttExclusao() {
-		return _clnDttExclusao;
-	}
+		// VARIÁVEIS
+		// FIM VARIÁVEIS
+		try {
+			// AÇÕES
 
-	private void setClnDttExclusao(DbColuna clnDttExclusao) {
-		_clnDttExclusao = clnDttExclusao;
+			if (_clnDttExclusao == null) {
+
+				_clnDttExclusao = new DbColuna("dttExclusao", this);
+				_clnDttExclusao.setEnmTipo(EnmTipo.TEXT);
+				_clnDttExclusao.setStrNomeExibicao("Alteração");
+			}
+
+			// FIM AÇÕES
+		} catch (Exception ex) {
+
+			new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
+
+		} finally {
+		}
+
+		return _clnDttExclusao;
 	}
 
 	private DbColuna _clnIntId;
 
 	public DbColuna getClnIntId() {
-		return _clnIntId;
-	}
+		// VARIÁVEIS
+		// FIM VARIÁVEIS
+		try {
+			// AÇÕES
 
-	private void setClnIntId(DbColuna clnIntId) {
-		_clnIntId = clnIntId;
+			if (_clnIntId == null) {
+
+				_clnIntId = new DbColuna("intId", this);
+				_clnIntId.setBooChavePrimaria(true);
+				_clnIntId.setEnmTipo(EnmTipo.INTEGER);
+				_clnIntId.setStrNomeExibicao("código");
+			}
+
+			// FIM AÇÕES
+		} catch (Exception ex) {
+
+			new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
+
+		} finally {
+		}
+
+		return _clnIntId;
 	}
 
 	private DbColuna _clnIntUsuarioAlteracaoId;
 
 	public DbColuna getClnIntUsuarioAlteracaoId() {
-		return _clnIntUsuarioAlteracaoId;
-	}
+		// VARIÁVEIS
+		// FIM VARIÁVEIS
+		try {
+			// AÇÕES
 
-	private void setClnIntUsuarioAlteracaoId(DbColuna clnIntUsuarioAlteracaoId) {
-		_clnIntUsuarioAlteracaoId = clnIntUsuarioAlteracaoId;
+			if (_clnIntUsuarioAlteracaoId == null) {
+
+				_clnIntUsuarioAlteracaoId = new DbColuna("IntUsuarioAlteracaoId", this);
+				_clnIntUsuarioAlteracaoId.setEnmTipo(EnmTipo.INTEGER);
+			}
+
+			// FIM AÇÕES
+		} catch (Exception ex) {
+
+			new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
+
+		} finally {
+		}
+
+		return _clnIntUsuarioAlteracaoId;
 	}
 
 	private DbColuna _clnIntUsuarioCadastroId;
 
 	public DbColuna getClnIntUsuarioCadastroId() {
-		return _clnIntUsuarioCadastroId;
-	}
+		// VARIÁVEIS
+		// FIM VARIÁVEIS
+		try {
+			// AÇÕES
 
-	private void setClnIntUsuarioCadastroId(DbColuna clnIntUsuarioCadastroId) {
-		_clnIntUsuarioCadastroId = clnIntUsuarioCadastroId;
+			if (_clnIntUsuarioCadastroId == null) {
+
+				_clnIntUsuarioCadastroId = new DbColuna("IntUsuarioCadastroId", this);
+				_clnIntUsuarioCadastroId.setEnmTipo(EnmTipo.INTEGER);
+			}
+
+			// FIM AÇÕES
+		} catch (Exception ex) {
+
+			new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
+
+		} finally {
+		}
+
+		return _clnIntUsuarioCadastroId;
 	}
 
 	private DbColuna _clnIntUsuarioExclusaoId;
 
 	public DbColuna getClnIntUsuarioExclusaoId() {
-		return _clnIntUsuarioExclusaoId;
-	}
+		// VARIÁVEIS
+		// FIM VARIÁVEIS
+		try {
+			// AÇÕES
 
-	private void setClnIntUsuarioExclusaoId(DbColuna clnIntUsuarioExclusaoId) {
-		_clnIntUsuarioExclusaoId = clnIntUsuarioExclusaoId;
+			if (_clnIntUsuarioExclusaoId == null) {
+
+				_clnIntUsuarioExclusaoId = new DbColuna("IntUsuarioExclusaoId", this);
+				_clnIntUsuarioExclusaoId.setEnmTipo(EnmTipo.INTEGER);
+			}
+
+			// FIM AÇÕES
+		} catch (Exception ex) {
+
+			new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
+
+		} finally {
+		}
+
+		return _clnIntUsuarioExclusaoId;
 	}
 
 	// FIM ATRIBUTOS
@@ -94,32 +204,6 @@ public abstract class TblMain extends DbTabela {
 		// FIM VARIÁVEIS
 		try {
 			// AÇÕES
-
-			this.setClnDttAlteracao(new DbColuna("dttAlteracao", this));
-			this.getClnDttAlteracao().setEnmTipo(EnmTipo.TEXT);
-			this.getClnDttAlteracao().setStrNomeExibicao("Alteração");
-
-			this.setClnDttCadastro(new DbColuna("dttCadastro", this));
-			this.getClnDttCadastro().setEnmTipo(EnmTipo.TEXT);
-			this.getClnDttCadastro().setStrNomeExibicao("Alteração");
-
-			this.setClnDttExclusao(new DbColuna("dttExclusao", this));
-			this.getClnDttExclusao().setEnmTipo(EnmTipo.TEXT);
-			this.getClnDttExclusao().setStrNomeExibicao("Alteração");
-
-			this.setClnIntId(new DbColuna("intId", this));
-			this.getClnIntId().setBooChavePrimaria(true);
-			this.getClnIntId().setEnmTipo(EnmTipo.INTEGER);
-			this.getClnIntId().setStrNomeExibicao("código");
-
-			this.setClnIntUsuarioAlteracaoId(new DbColuna("IntUsuarioAlteracaoId", this));
-			this.getClnIntUsuarioAlteracaoId().setEnmTipo(EnmTipo.INTEGER);
-
-			this.setClnIntUsuarioCadastroId(new DbColuna("IntUsuarioCadastroId", this));
-			this.getClnIntUsuarioCadastroId().setEnmTipo(EnmTipo.INTEGER);
-
-			this.setClnIntUsuarioExclusaoId(new DbColuna("IntUsuarioExclusaoId", this));
-			this.getClnIntUsuarioExclusaoId().setEnmTipo(EnmTipo.INTEGER);
 
 			// FIM AÇÕES
 		} catch (Exception ex) {

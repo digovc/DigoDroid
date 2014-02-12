@@ -14,31 +14,74 @@ public class TblUsuario extends TblMain {
 	private DbColuna _clnIntPessoaId;
 
 	public DbColuna getClnIntPessoaId() {
-		return _clnIntPessoaId;
-	}
+		// VARIÁVEIS
+		// FIM VARIÁVEIS
+		try {
+			// AÇÕES
 
-	private void setClnIntPessoaId(DbColuna clnIntPessoaId) {
-		_clnIntPessoaId = clnIntPessoaId;
+			if (_clnIntPessoaId == null) {
+				_clnIntPessoaId = new DbColuna("intPessoaId", this, EnmTipo.INTEGER);
+			}
+
+			// FIM AÇÕES
+		} catch (Exception ex) {
+
+			new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
+
+		} finally {
+		}
+
+		return _clnIntPessoaId;
 	}
 
 	private DbColuna _clnStrLogin;
 
 	public DbColuna getClnStrLogin() {
-		return _clnStrLogin;
-	}
+		// VARIÁVEIS
+		// FIM VARIÁVEIS
+		try {
+			// AÇÕES
 
-	private void setClnStrLogin(DbColuna clnStrLogin) {
-		_clnStrLogin = clnStrLogin;
+			if (_clnStrLogin == null) {
+
+				_clnStrLogin = new DbColuna("strLogin", this, EnmTipo.TEXT);
+				_clnStrLogin.setStrNomeExibicao("login");
+			}
+
+			// FIM AÇÕES
+		} catch (Exception ex) {
+
+			new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
+
+		} finally {
+		}
+
+		return _clnStrLogin;
 	}
 
 	private DbColuna _clnStrPassword;
 
 	public DbColuna getClnStrPassword() {
-		return _clnStrPassword;
-	}
+		// VARIÁVEIS
+		// FIM VARIÁVEIS
+		try {
+			// AÇÕES
 
-	private void setClnStrPassword(DbColuna clnStrPassword) {
-		_clnStrPassword = clnStrPassword;
+			if (_clnStrPassword == null) {
+
+				_clnStrPassword = new DbColuna("strPassword", this, EnmTipo.TEXT);
+				_clnStrPassword.setStrNomeExibicao("Password");
+			}
+
+			// FIM AÇÕES
+		} catch (Exception ex) {
+
+			new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
+
+		} finally {
+		}
+
+		return _clnStrPassword;
 	}
 
 	// FIM ATRIBUTOS
@@ -53,15 +96,6 @@ public class TblUsuario extends TblMain {
 		// FIM VARIÁVEIS
 		try {
 			// AÇÕES
-
-			this.setClnIntPessoaId(new DbColuna("intPessoaId", this, EnmTipo.INTEGER));
-
-			this.setClnStrLogin(new DbColuna("strLogin", this, EnmTipo.TEXT));
-			this.getClnStrLogin().setStrNomeExibicao("login");
-
-			this.setClnStrPassword(new DbColuna("strPassword", this, EnmTipo.TEXT));
-			this.getClnStrPassword().setStrNomeExibicao("Password");
-
 			// FIM AÇÕES
 		} catch (Exception ex) {
 
@@ -74,6 +108,40 @@ public class TblUsuario extends TblMain {
 	// FIM CONSTRUTORES
 
 	// MÉTODOS
+
+	@Override
+	protected void inicializarColunas() {
+		// VARIÁVEIS
+
+		int intOrdem;
+
+		// FIM VARIÁVEIS
+		try {
+			// AÇÕES
+
+			intOrdem = 0;
+
+			this.getClnDttAlteracao().setIntOrdem(++intOrdem);
+			this.getClnDttCadastro().setIntOrdem(++intOrdem);
+			this.getClnDttExclusao().setIntOrdem(++intOrdem);
+			this.getClnIntId().setIntOrdem(++intOrdem);
+			this.getClnIntPessoaId().setIntOrdem(++intOrdem);
+			this.getClnIntUsuarioAlteracaoId().setIntOrdem(++intOrdem);
+			this.getClnIntUsuarioCadastroId().setIntOrdem(++intOrdem);
+			this.getClnIntUsuarioExclusaoId().setIntOrdem(++intOrdem);
+			this.getClnStrLogin().setIntOrdem(++intOrdem);
+			this.getClnStrPassword().setIntOrdem(++intOrdem);
+
+
+			// FIM AÇÕES
+		} catch (Exception ex) {
+
+			new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
+
+		} finally {
+		}
+	}
+
 	// FIM MÉTODOS
 
 	// EVENTOS

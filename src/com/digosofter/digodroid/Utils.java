@@ -1,7 +1,7 @@
 package com.digosofter.digodroid;
 
 import java.math.BigInteger;
-import java.net.InetAddress;
+import java.net.HttpURLConnection;
 import java.net.URL;
 import java.security.MessageDigest;
 import java.text.NumberFormat;
@@ -147,7 +147,7 @@ public abstract class Utils {
 
 	/**
 	 * Verifica se a string é uma URL válida.
-	 * 
+	 *
 	 * @param url
 	 *            String a ser avaliada.
 	 */
@@ -490,16 +490,18 @@ public abstract class Utils {
 		// VARIÁVEIS
 
 		boolean booResultado = true;
-		InetAddress objInetAddress;
 
 		// FIM VARIÁVEIS
 		try {
 			// AÇÕES
 
-			objInetAddress = InetAddress.getByName(url);
-			booResultado = objInetAddress.isReachable(5000);
+			 HttpURLConnection con = (HttpURLConnection) new
+			 URL(url).openConnection();
+			 con.setRequestMethod("HEAD");
+			 booResultado = con.getResponseCode() ==
+			 HttpURLConnection.HTTP_OK;
 
-			// FIM AÇÕES
+		// FIM AÇÕES
 		} catch (Exception ex) {
 
 			booResultado = false;

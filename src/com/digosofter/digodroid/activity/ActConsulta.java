@@ -173,10 +173,11 @@ public class ActConsulta extends ActMain {
 			objCursor = this.getTbl().getCrsDadosTelaCadastro();
 
 			if (objCursor != null && objCursor.moveToFirst()) {
+
 				do {
 
 					itmCadastro = new ItmCadastro();
-					itmCadastro.setIntItemId(objCursor.getInt(objCursor.getColumnIndex(this.getTbl().getClnChavePrimaria().getStrNomeSimplificado())));
+					itmCadastro.setStrItemId(objCursor.getString(objCursor.getColumnIndex(this.getTbl().getClnChavePrimaria().getStrNomeSimplificado())));
 
 					if (this.getTbl().getClnNome().getClnReferencia() != null) {
 						itmCadastro.setStrNome(objCursor.getString(objCursor.getColumnIndex("_strNomeB")));
@@ -251,7 +252,7 @@ public class ActConsulta extends ActMain {
 					// VARIÁVEIS
 
 					ItmCadastro objItem;
-					Intent objIntentResult;
+					Intent objIntent;
 
 					// FIM VARIÁVEIS
 					try {
@@ -259,10 +260,10 @@ public class ActConsulta extends ActMain {
 
 						objItem = (ItmCadastro) ActConsulta.this.getObjListView().getItemAtPosition(position);
 
-						objIntentResult = new Intent();
-						objIntentResult.putExtra("intId", objItem.getIntItemId());
+						objIntent = new Intent();
+						objIntent.putExtra("id", objItem.getStrItemId());
 
-						setResult(ActConsulta.EnmResultadoTipo.REGISTRO_SELECIONADO.ordinal(), objIntentResult);
+						ActConsulta.this.setResult(ActConsulta.EnmResultadoTipo.REGISTRO_SELECIONADO.ordinal(), objIntent);
 
 						finish();
 
@@ -294,7 +295,8 @@ public class ActConsulta extends ActMain {
 							objItem = (ItmCadastro) ActConsulta.this.getObjListView().getItemAtPosition(position);
 
 							objIntent = new Intent(ActConsulta.this.getApplicationContext(), ActConsulta.this.getTbl().getClsActFrm());
-							objIntent.putExtra("intId", objItem.getIntItemId());
+							objIntent.putExtra("id", objItem.getStrItemId());
+
 
 							ActConsulta.this.setResult(ActConsulta.EnmResultadoTipo.REGISTRO_SELECIONADO.ordinal(), objIntent);
 							ActConsulta.this.startActivity(objIntent);

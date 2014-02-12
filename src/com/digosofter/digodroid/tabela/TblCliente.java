@@ -13,7 +13,7 @@ public class TblCliente extends TblMain {
 
 	private DbColuna _clnIntPessoaId;
 
-	private DbColuna getClnIntPessoaId() {
+	public DbColuna getClnIntPessoaId() {
 		// VARIÁVEIS
 		// FIM VARIÁVEIS
 		try {
@@ -58,6 +58,37 @@ public class TblCliente extends TblMain {
 	// FIM CONSTRUTORES
 
 	// MÉTODOS
+
+	@Override
+	protected void inicializarColunas() {
+		// VARIÁVEIS
+
+		int intOrdem;
+
+		// FIM VARIÁVEIS
+		try {
+			// AÇÕES
+
+			intOrdem = 0;
+
+			this.getClnDttAlteracao().setIntOrdem(++intOrdem);
+			this.getClnDttCadastro().setIntOrdem(++intOrdem);
+			this.getClnDttExclusao().setIntOrdem(++intOrdem);
+			this.getClnIntId().setIntOrdem(++intOrdem);
+			this.getClnIntPessoaId().setIntOrdem(++intOrdem);
+			this.getClnIntUsuarioAlteracaoId().setIntOrdem(++intOrdem);
+			this.getClnIntUsuarioCadastroId().setIntOrdem(++intOrdem);
+			this.getClnIntUsuarioExclusaoId().setIntOrdem(++intOrdem);
+
+			// FIM AÇÕES
+		} catch (Exception ex) {
+
+			new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
+
+		} finally {
+		}
+	}
+
 	// FIM MÉTODOS
 
 	// EVENTOS

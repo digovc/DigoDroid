@@ -3,7 +3,7 @@ package com.digosofter.digodroid.database;
 import com.digosofter.digodroid.App;
 import com.digosofter.digodroid.erro.Erro;
 
-public class DbView extends DbTabela {
+public abstract class DbView extends DbTabela {
 
 	// CONSTANTES
 	// FIM CONSTANTES
@@ -16,7 +16,7 @@ public class DbView extends DbTabela {
 	public DbView(String strNome) {
 
 		super(strNome);
-		
+
 		// VARIÁVEIS
 		// FIM VARIÁVEIS
 		try {

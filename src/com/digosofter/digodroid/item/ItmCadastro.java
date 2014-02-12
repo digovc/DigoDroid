@@ -11,16 +11,6 @@ public class ItmCadastro extends Objeto {
 
 	// ATRIBUTOS
 
-	private int _intItemId;
-
-	public int getIntItemId() {
-		return _intItemId;
-	}
-
-	public void setIntItemId(int intItemId) {
-		_intItemId = intItemId;
-	}
-
 	private String _strCampo001;
 
 	public String getStrCampo001() {
@@ -117,7 +107,7 @@ public class ItmCadastro extends Objeto {
 		// FIM VARIÁVEIS
 		try {
 			// AÇÕES
-		
+
 			if (_strCampo002Valor == null) {
 				_strCampo002Valor = Utils.STRING_VAZIA;
 			}
@@ -144,7 +134,7 @@ public class ItmCadastro extends Objeto {
 		// FIM VARIÁVEIS
 		try {
 			// AÇÕES
-		
+
 			_strCampo003 = this.getStrCampo003Nome() + ": " + this.getStrCampo003Valor();
 
 			// FIM AÇÕES
@@ -175,7 +165,7 @@ public class ItmCadastro extends Objeto {
 		// FIM VARIÁVEIS
 		try {
 			// AÇÕES
-		
+
 			if (_strCampo003Valor == null) {
 				_strCampo003Valor = Utils.STRING_VAZIA;
 			}
@@ -193,6 +183,16 @@ public class ItmCadastro extends Objeto {
 
 	public void setStrCampo003Valor(String strCampo003Valor) {
 		_strCampo003Valor = strCampo003Valor;
+	}
+
+	private String _strItemId;
+
+	public String getStrItemId() {
+		return _strItemId;
+	}
+
+	public void setStrItemId(String strItemId) {
+		_strItemId = strItemId;
 	}
 
 	// FIM ATRIBUTOS
@@ -214,15 +214,15 @@ public class ItmCadastro extends Objeto {
 			if (this.getStrNome().contains(strFiltro)) {
 				booContemString = true;
 			}
-			
+
 			if (this.getStrCampo001Valor().contains(strFiltro) && this.getStrCampo001Valor().length() == strFiltro.length()) {
 				booContemString = true;
 			}
-			
+
 			if (this.getStrCampo002Valor().contains(strFiltro)) {
 				booContemString = true;
 			}
-			
+
 			if (this.getStrCampo003Valor().contains(strFiltro)) {
 				booContemString = true;
 			}
@@ -234,7 +234,7 @@ public class ItmCadastro extends Objeto {
 
 		} finally {
 		}
-		
+
 		return booContemString;
 	}
 

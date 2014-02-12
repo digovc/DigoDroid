@@ -8,7 +8,7 @@ public class DbFiltro extends Objeto {
 	// CONSTANTES
 
 	public enum EnmOperador {
-		IGUAL, MAIOR, MENOR, MAIOR_IGUAL, MENOR_IGUAL
+		DIFERENTE, IGUAL, MAIOR, MENOR, MAIOR_IGUAL, MENOR_IGUAL
 	}
 
 	// FIM CONSTANTES
@@ -74,6 +74,9 @@ public class DbFiltro extends Objeto {
 			// AÇÕES
 
 			switch (this.getEnmOperador()) {
+			case DIFERENTE:
+				_strOperador = "<>";
+				break;
 			case IGUAL:
 				_strOperador = "=";
 				break;
@@ -163,13 +166,51 @@ public class DbFiltro extends Objeto {
 		}
 	}
 
+	public DbFiltro(DbColuna clnFiltro, EnmOperador enmOperador, int intFiltro) {
+		// VARIÁVEIS
+		// FIM VARIÁVEIS
+		try {
+			// AÇÕES
+
+			this.setClnFiltro(clnFiltro);
+			this.setStrFiltro(String.valueOf(intFiltro));
+			this.setEnmOperador(enmOperador);
+
+			// FIM AÇÕES
+		} catch (Exception ex) {
+
+			new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
+
+		} finally {
+		}
+	}
+
+	public DbFiltro(DbColuna clnFiltro, EnmOperador enmOperador, String strFiltro) {
+		// VARIÁVEIS
+		// FIM VARIÁVEIS
+		try {
+			// AÇÕES
+
+			this.setClnFiltro(clnFiltro);
+			this.setStrFiltro(strFiltro);
+			this.setEnmOperador(enmOperador);
+
+			// FIM AÇÕES
+		} catch (Exception ex) {
+
+			new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
+
+		} finally {
+		}
+	}
+
 	// FIM CONSTRUTORES
 
 	// MÉTODOS
 
 	/**
 	 * Retorna string com o filtro formatado para uso em sql's.
-	 *  
+	 *
 	 */
 	public String getStrFiltroFormatado(boolean booPrimeiroTermo) {
 		// VARIÁVEIS
@@ -181,13 +222,14 @@ public class DbFiltro extends Objeto {
 			// AÇÕES
 
 			stbResultado = new StringBuilder();
+			stbResultado.append(" ");
 
 			if (!booPrimeiroTermo) {
 
 				stbResultado.append(this.getStrCondicao());
-				stbResultado.append(" ");					
+				stbResultado.append(" ");
 			}
-			
+
 			if (!this.getBooSubSelect()) {
 
 				stbResultado.append(this.getClnFiltro().getTbl().getStrNomeSimplificado());
@@ -196,13 +238,13 @@ public class DbFiltro extends Objeto {
 				stbResultado.append(this.getStrOperador());
 				stbResultado.append("'");
 				stbResultado.append(this.getStrFiltro());
-				stbResultado.append("' ");
+				stbResultado.append("'");
 
 			} else {
-				
-//				stbResultado.append("(");
+
+				// stbResultado.append("(");
 				stbResultado.append(this.getStrFiltro());
-//				stbResultado.append(") ");
+				// stbResultado.append(") ");
 			}
 
 			// FIM AÇÕES

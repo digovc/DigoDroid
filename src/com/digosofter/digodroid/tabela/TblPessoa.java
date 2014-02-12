@@ -14,21 +14,55 @@ public class TblPessoa extends TblMain {
 	private DbColuna _clnStrNome;
 
 	public DbColuna getClnStrNome() {
-		return _clnStrNome;
-	}
+		// VARIÁVEIS
+		// FIM VARIÁVEIS
+		try {
+			// AÇÕES
 
-	private void setClnStrNome(DbColuna clnStrNome) {
-		_clnStrNome = clnStrNome;
+			if (_clnStrNome == null) {
+
+				_clnStrNome = new DbColuna("strNome", this, EnmTipo.TEXT);
+				_clnStrNome.setBooClnNome(true);
+				_clnStrNome.setBooOrdemCadastro(true);
+				_clnStrNome.setBooVisivelCadastro(true);
+				_clnStrNome.setStrNomeExibicao("nome");
+			}
+
+			// FIM AÇÕES
+		} catch (Exception ex) {
+
+			new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
+
+		} finally {
+		}
+
+		return _clnStrNome;
 	}
 
 	private DbColuna _clnStrSobrenome;
 
 	public DbColuna getClnStrSobrenome() {
-		return _clnStrSobrenome;
-	}
+		// VARIÁVEIS
+		// FIM VARIÁVEIS
+		try {
+			// AÇÕES
 
-	private void setClnStrSobrenome(DbColuna clnStrSobrenome) {
-		_clnStrSobrenome = clnStrSobrenome;
+			if (_clnStrSobrenome == null) {
+
+				_clnStrSobrenome = new DbColuna("strSobrenome", this, EnmTipo.TEXT);
+				_clnStrSobrenome.setBooVisivelCadastro(true);
+				_clnStrSobrenome.setStrNomeExibicao("sobrenome");
+			}
+
+			// FIM AÇÕES
+		} catch (Exception ex) {
+
+			new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
+
+		} finally {
+		}
+
+		return _clnStrSobrenome;
 	}
 
 	// FIM ATRIBUTOS
@@ -43,17 +77,6 @@ public class TblPessoa extends TblMain {
 		// FIM VARIÁVEIS
 		try {
 			// AÇÕES
-
-			this.setClnStrNome(new DbColuna("strNome", this, EnmTipo.TEXT));
-			this.getClnStrNome().setBooClnNome(true);
-			this.getClnStrNome().setBooOrdemCadastro(true);
-			this.getClnStrNome().setBooVisivelCadastro(true);
-			this.getClnStrNome().setStrNomeExibicao("nome");
-
-			this.setClnStrSobrenome(new DbColuna("strSobrenome", this, EnmTipo.TEXT));
-			this.getClnStrSobrenome().setBooVisivelCadastro(true);
-			this.getClnStrSobrenome().setStrNomeExibicao("sobrenome");
-
 			// FIM AÇÕES
 		} catch (Exception ex) {
 
@@ -66,6 +89,38 @@ public class TblPessoa extends TblMain {
 	// FIM CONSTRUTORES
 
 	// MÉTODOS
+
+	@Override
+	protected void inicializarColunas() {
+		// VARIÁVEIS
+
+		int intOrdem;
+
+		// FIM VARIÁVEIS
+		try {
+			// AÇÕES
+
+			intOrdem = 1;
+
+			this.getClnDttAlteracao().setIntOrdem(++intOrdem);
+			this.getClnDttCadastro().setIntOrdem(++intOrdem);
+			this.getClnDttExclusao().setIntOrdem(++intOrdem);
+			this.getClnIntId().setIntOrdem(++intOrdem);
+			this.getClnIntUsuarioAlteracaoId().setIntOrdem(++intOrdem);
+			this.getClnIntUsuarioCadastroId().setIntOrdem(++intOrdem);
+			this.getClnIntUsuarioExclusaoId().setIntOrdem(++intOrdem);
+			this.getClnStrNome().setIntOrdem(++intOrdem);
+			this.getClnStrSobrenome().setIntOrdem(++intOrdem);
+
+			// FIM AÇÕES
+		} catch (Exception ex) {
+
+			new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
+
+		} finally {
+		}
+	}
+
 	// FIM MÉTODOS
 
 	// EVENTOS

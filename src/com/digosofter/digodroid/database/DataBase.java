@@ -6,6 +6,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import com.digosofter.digodroid.App;
+import com.digosofter.digodroid.Utils;
 import com.digosofter.digodroid.erro.Erro;
 
 public class DataBase extends SQLiteOpenHelper {
@@ -101,14 +102,14 @@ public class DataBase extends SQLiteOpenHelper {
 	public Cursor execSqlComRetorno(String sql) {
 		// VARIÁVEIS
 
-		Cursor objCursorTemp = null;
+		Cursor crsResultado = null;
 
 		// FIM VARIÁVEIS
 		try {
 
 			// AÇÕES
 
-			objCursorTemp = this.getObjDbLeitura().rawQuery(sql, null);
+			crsResultado = this.getObjDbLeitura().rawQuery(sql, null);
 
 			// FIM AÇÕES
 		} catch (Exception ex) {
@@ -118,25 +119,23 @@ public class DataBase extends SQLiteOpenHelper {
 		} finally {
 		}
 
-		return objCursorTemp;
+		return crsResultado;
 	}
 
-	public int execSqlGetInt(String sql) {
+	public String execSqlGetStr(String sql) {
 		// VARIÁVEIS
 
-		int intResultado = 0;
-		Cursor objCursor;
+		Cursor crs;
+		String strResultado = Utils.STRING_VAZIA;
 
 		// FIM VARIÁVEIS
 		try {
 			// AÇÕES
 
-			objCursor = this.execSqlComRetorno(sql);
+			crs = this.execSqlComRetorno(sql);
 
-			if (objCursor != null) {
-				if (objCursor.moveToFirst()) {
-					intResultado = objCursor.getInt(0);
-				}
+			if (crs != null && crs.moveToFirst()) {
+				strResultado = crs.getString(0);
 			}
 
 			// FIM AÇÕES
@@ -147,7 +146,15 @@ public class DataBase extends SQLiteOpenHelper {
 		} finally {
 		}
 
-		return intResultado;
+		return strResultado;
+	}
+
+	public double execSqlGetDbl(String sql) {
+		return Double.valueOf(this.execSqlGetStr(sql));
+	}
+
+	public int execSqlGetInt(String sql) {
+		return (int)this.execSqlGetDbl(sql);
 	}
 
 	public void execSqlSemRetorno(String sql) {

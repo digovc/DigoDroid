@@ -53,10 +53,6 @@ public class Erro extends Exception implements Serializable {
 		return _strNome;
 	}
 
-	private void setStrNome(String strNome) {
-		_strNome = strNome;
-	}
-
 	// FIM ATRIBUTOS
 
 	// CONSTRUTORES
