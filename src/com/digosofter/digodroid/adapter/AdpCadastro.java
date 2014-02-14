@@ -180,6 +180,7 @@ public class AdpCadastro extends BaseAdapter implements Filterable {
 
 			@Override
 			protected FilterResults performFiltering(CharSequence strFiltro) {
+				
 				FilterResults objFilterResults = new FilterResults();
 				// We implement here the filter logic
 				if (strFiltro == null || strFiltro.length() == 0) {

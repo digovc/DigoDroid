@@ -1,6 +1,6 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/actCadastro_pnlGeral"
+    android:id="@+id/actConsulta_pnlGeral"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@layout/bkg_gradiente_002"
@@ -8,20 +8,20 @@
     tools:context=".activitys.ActCadastro" >
 
     <LinearLayout
-        android:id="@+id/actCadastro_pnlInfo"
+        android:id="@+id/actConsulta_pnlInfo"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical" >
 
         <LinearLayout
-            android:id="@+id/actCadastro_pnlPesquisa"
+            android:id="@+id/actConsulta_pnlPesquisa"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@layout/bkg_gradiente_002"
             android:padding="5dp" >
 
             <EditText
-                android:id="@+id/actCadastro_edtPesquisa"
+                android:id="@+id/actConsulta_edtPesquisa"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="3dp"
@@ -40,7 +40,7 @@
             android:visibility="visible" />
 
         <ListView
-            android:id="@+id/actCadastro_pnlTbl"
+            android:id="@+id/actConsulta_pnlTblLista"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:divider="#ECECEC"

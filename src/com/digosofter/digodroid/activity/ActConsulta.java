@@ -25,6 +25,7 @@ import android.widget.TextView;
 
 import com.digosofter.digodroid.App;
 import com.digosofter.digodroid.R;
+import com.digosofter.digodroid.Utils;
 import com.digosofter.digodroid.adapter.AdpCadastro;
 import com.digosofter.digodroid.database.DbTabela;
 import com.digosofter.digodroid.erro.Erro;
@@ -60,7 +61,7 @@ public class ActConsulta extends ActMain {
 			// AÇÕES
 
 			if (_edtPesquisa == null) {
-				_edtPesquisa = (EditText) this.findViewById(R.id.actCadastro_edtPesquisa);
+				_edtPesquisa = (EditText) this.findViewById(R.id.actConsulta_edtPesquisa);
 			}
 
 			// FIM AÇÕES
@@ -74,17 +75,18 @@ public class ActConsulta extends ActMain {
 		return _edtPesquisa;
 	}
 
-	private ListView _objListView;
+	private ListView _pnlTblLista;
 
-	public ListView getObjListView() {
+	public ListView getPnlTblLista() {
 		// VARIÁVEIS
 		// FIM VARIÁVEIS
 		try {
 			// AÇÕES
 
-			if (_objListView == null) {
-				_objListView = (ListView) findViewById(R.id.actCadastro_pnlTbl);
-				_objListView.setCacheColorHint(Color.TRANSPARENT);
+			if (_pnlTblLista == null) {
+
+				_pnlTblLista = (ListView) findViewById(R.id.actConsulta_pnlTblLista);
+				_pnlTblLista.setCacheColorHint(Color.TRANSPARENT);
 			}
 
 			// FIM AÇÕES
@@ -95,7 +97,7 @@ public class ActConsulta extends ActMain {
 		} finally {
 		}
 
-		return _objListView;
+		return _pnlTblLista;
 	}
 
 	private DbTabela _tbl;
@@ -114,6 +116,7 @@ public class ActConsulta extends ActMain {
 			this.setTitle(_tbl.getStrNomeExibicao());
 
 			if (_tbl.getStrDescricao() != null) {
+
 				this.getTxtTblDescricao().setText(_tbl.getStrDescricao());
 				this.getTxtTblDescricao().setVisibility(View.VISIBLE);
 			}
@@ -136,7 +139,7 @@ public class ActConsulta extends ActMain {
 			// AÇÕES
 
 			if (_txtTblDescricao == null) {
-				_txtTblDescricao = (TextView) this.findViewById(R.id.actCadastro_pnlPesquisa);
+				_txtTblDescricao = (TextView) this.findViewById(R.id.actConsulta_pnlPesquisa);
 			}
 
 			// FIM AÇÕES
@@ -212,13 +215,37 @@ public class ActConsulta extends ActMain {
 			}
 
 			this.setAdpCadastro(new AdpCadastro(this, lstObjItmCadastro));
-			this.getObjListView().setAdapter(this.getAdpCadastro());
+			this.getPnlTblLista().setAdapter(this.getAdpCadastro());
 			this.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 			// FIM AÇÕES
 		} catch (Exception ex) {
 
 			new Erro(App.getI().getStrTextoPadrao(114), ex.getMessage());
+
+		} finally {
+		}
+	}
+
+	/**
+	 * Recupera a última pesquisa feita na tabela da tela de consulta.
+	 */
+	private void recuperarUltimaPesquisa() {
+		// VARIÁVEIS
+		// FIM VARIÁVEIS
+		try {
+			// AÇÕES
+
+			if (Utils.getBooIsEmptyNull(this.getTbl().getStrPesquisaActConsulta())) {
+				return;
+			}
+
+			this.getEdtPesquisa().setText(this.getTbl().getStrPesquisaActConsulta());
+
+			// FIM AÇÕES
+		} catch (Exception ex) {
+
+			new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
 
 		} finally {
 		}
@@ -247,7 +274,8 @@ public class ActConsulta extends ActMain {
 				}
 			});
 
-			this.getObjListView().setOnItemClickListener(new OnItemClickListener() {
+			this.getPnlTblLista().setOnItemClickListener(new OnItemClickListener() {
+
 				public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 					// VARIÁVEIS
 
@@ -258,7 +286,9 @@ public class ActConsulta extends ActMain {
 					try {
 						// AÇÕES
 
-						objItem = (ItmCadastro) ActConsulta.this.getObjListView().getItemAtPosition(position);
+						ActConsulta.this.getTbl().setStrPesquisaActConsulta(ActConsulta.this.getEdtPesquisa().getText().toString());
+
+						objItem = (ItmCadastro) ActConsulta.this.getPnlTblLista().getItemAtPosition(position);
 
 						objIntent = new Intent();
 						objIntent.putExtra("id", objItem.getStrItemId());
@@ -277,7 +307,7 @@ public class ActConsulta extends ActMain {
 				}
 			});
 
-			this.getObjListView().setOnItemLongClickListener(new OnItemLongClickListener() {
+			this.getPnlTblLista().setOnItemLongClickListener(new OnItemLongClickListener() {
 
 				@Override
 				public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
@@ -292,11 +322,10 @@ public class ActConsulta extends ActMain {
 
 						if (ActConsulta.this.getTbl().getClsActFrm() != null) {
 
-							objItem = (ItmCadastro) ActConsulta.this.getObjListView().getItemAtPosition(position);
+							objItem = (ItmCadastro) ActConsulta.this.getPnlTblLista().getItemAtPosition(position);
 
 							objIntent = new Intent(ActConsulta.this.getApplicationContext(), ActConsulta.this.getTbl().getClsActFrm());
 							objIntent.putExtra("id", objItem.getStrItemId());
-
 
 							ActConsulta.this.setResult(ActConsulta.EnmResultadoTipo.REGISTRO_SELECIONADO.ordinal(), objIntent);
 							ActConsulta.this.startActivity(objIntent);
@@ -316,7 +345,7 @@ public class ActConsulta extends ActMain {
 				}
 			});
 
-			this.getObjListView().setOnScrollListener(new OnScrollListener() {
+			this.getPnlTblLista().setOnScrollListener(new OnScrollListener() {
 
 				@Override
 				public void onScrollStateChanged(AbsListView view, int scrollState) {
@@ -368,10 +397,11 @@ public class ActConsulta extends ActMain {
 		try {
 			// AÇÕES
 
-			this.setContentView(R.layout.act_cadastro);
+			this.setContentView(R.layout.act_consulta);
 			this.setTbl(App.getI().getTblSelecionada());
 			this.montarLayout();
 			this.setEventos();
+			this.recuperarUltimaPesquisa();
 
 			// FIM AÇÕES
 		} catch (Exception ex) {

@@ -251,6 +251,16 @@ public abstract class DbTabela extends Objeto {
 		_objDataBase = objDataBase;
 	}
 
+	private String _strPesquisaActConsulta;
+
+	public String getStrPesquisaActConsulta() {
+		return _strPesquisaActConsulta;
+	}
+
+	public void setStrPesquisaActConsulta(String strPesquisaActConsulta) {
+		_strPesquisaActConsulta = strPesquisaActConsulta;
+	}
+
 	// FIM ATRIBUTOS
 
 	// CONSTRUTORES
@@ -481,7 +491,7 @@ public abstract class DbTabela extends Objeto {
 		return booTblExiste;
 	}
 
-	public Cursor getCrsDados(List<DbColuna> lstCln, List<DbFiltro> lstObjDbFitro) {
+	public Cursor getCrsDados(List<DbColuna> lstCln, List<DbFiltro> lstObjDbFiltro) {
 		// VARIÁVEIS
 
 		boolean booPrimeiroTermo = true;
@@ -497,9 +507,9 @@ public abstract class DbTabela extends Objeto {
 		try {
 			// AÇÕES
 
-			if (lstObjDbFitro != null) {
+			if (lstObjDbFiltro != null) {
 
-				for (DbFiltro objDbFiltro : lstObjDbFitro) {
+				for (DbFiltro objDbFiltro : lstObjDbFiltro) {
 
 					strFiltro += objDbFiltro.getStrFiltroFormatado(booPrimeiroTermo);
 					booPrimeiroTermo = false;
@@ -539,8 +549,8 @@ public abstract class DbTabela extends Objeto {
 		return crsResultado;
 	}
 
-	public Cursor getCrsDados(List<DbFiltro> lstObjDbFitro) {
-		return this.getCrsDados(this.getLstCln(), lstObjDbFitro);
+	public Cursor getCrsDados(List<DbFiltro> lstObjDbFiltro) {
+		return this.getCrsDados(this.getLstCln(), lstObjDbFiltro);
 	}
 
 	public Cursor getCrsDados(DbColuna cln) {
@@ -617,7 +627,7 @@ public abstract class DbTabela extends Objeto {
 		return crsResultado;
 	}
 
-	public Cursor getCrsDadosTelaCadastro(List<DbFiltro> lstObjDbFitro) {
+	public Cursor getCrsDadosTelaCadastro(List<DbFiltro> lstObjDbFiltro) {
 		// VARIÁVEIS
 
 		boolean booPrimeiroTermo = true;
@@ -635,15 +645,15 @@ public abstract class DbTabela extends Objeto {
 		try {
 			// AÇÕES
 
-			if (lstObjDbFitro.size() > 0) {
+			if (lstObjDbFiltro.size() > 0) {
 
-				for (DbFiltro objDbFiltro : lstObjDbFitro) {
+				for (DbFiltro objDbFiltro : lstObjDbFiltro) {
 
 					strFiltro += objDbFiltro.getStrFiltroFormatado(booPrimeiroTermo);
 					booPrimeiroTermo = false;
 				}
 
-				lstObjDbFitro.clear();
+				lstObjDbFiltro.clear();
 			}
 
 			strClnNome = this.getStrNomeSimplificado();
@@ -878,9 +888,14 @@ public abstract class DbTabela extends Objeto {
 
 			this.getObjDataBase().execSqlSemRetorno(sql);
 
-			sql = "SELECT last_insert_rowid();";
+			if (Utils.getBooIsEmptyNull(this.getClnChavePrimaria().getStrValor())) {
 
-			strId = this.getObjDataBase().execSqlGetStr(sql);
+				sql = "SELECT last_insert_rowid();";
+				strId = this.getObjDataBase().execSqlGetStr(sql);
+
+			} else {
+				strId = this.getClnChavePrimaria().getStrValor();
+			}
 
 			this.buscarRegistroPelaChavePrimaria(strId);
 
