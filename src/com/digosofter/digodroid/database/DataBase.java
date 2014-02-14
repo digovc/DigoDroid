@@ -150,11 +150,36 @@ public class DataBase extends SQLiteOpenHelper {
 	}
 
 	public double execSqlGetDbl(String sql) {
-		return Double.valueOf(this.execSqlGetStr(sql));
+		// VARIÁVEIS
+
+		String strResultado;
+		double dblResultado = 0;
+
+		// FIM VARIÁVEIS
+		try {
+			// AÇÕES
+
+			strResultado = this.execSqlGetStr(sql);
+
+			if (Utils.getBooIsEmptyNull(strResultado)) {
+				strResultado = "0";
+			}
+
+			dblResultado = Double.valueOf(strResultado);
+
+			// FIM AÇÕES
+		} catch (Exception ex) {
+
+			new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
+
+		} finally {
+		}
+
+		return dblResultado;
 	}
 
 	public int execSqlGetInt(String sql) {
-		return (int)this.execSqlGetDbl(sql);
+		return (int) this.execSqlGetDbl(sql);
 	}
 
 	public void execSqlSemRetorno(String sql) {

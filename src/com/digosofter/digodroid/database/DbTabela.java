@@ -251,6 +251,16 @@ public abstract class DbTabela extends Objeto {
 		_objDataBase = objDataBase;
 	}
 
+	private String _strPesquisaActConsulta;
+
+	public String getStrPesquisaActConsulta() {
+		return _strPesquisaActConsulta;
+	}
+
+	public void setStrPesquisaActConsulta(String strPesquisaActConsulta) {
+		_strPesquisaActConsulta = strPesquisaActConsulta;
+	}
+
 	// FIM ATRIBUTOS
 
 	// CONSTRUTORES
@@ -878,9 +888,14 @@ public abstract class DbTabela extends Objeto {
 
 			this.getObjDataBase().execSqlSemRetorno(sql);
 
-			sql = "SELECT last_insert_rowid();";
+			if (Utils.getBooIsEmptyNull(this.getClnChavePrimaria().getStrValor())) {
 
-			strId = this.getObjDataBase().execSqlGetStr(sql);
+				sql = "SELECT last_insert_rowid();";
+				strId = this.getObjDataBase().execSqlGetStr(sql);
+
+			} else {
+				strId = this.getClnChavePrimaria().getStrValor();
+			}
 
 			this.buscarRegistroPelaChavePrimaria(strId);
 

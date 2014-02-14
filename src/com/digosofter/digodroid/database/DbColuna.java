@@ -33,9 +33,7 @@ public class DbColuna extends Objeto {
 		try {
 			// A합ES
 
-			_booChavePrimaria = booChavePrimaria;
-
-			if (_booChavePrimaria) {
+			if (booChavePrimaria) {
 
 				for (DbColuna cln : this.getTbl().getLstCln()) {
 					cln._booChavePrimaria = false;
@@ -43,6 +41,8 @@ public class DbColuna extends Objeto {
 
 				this.getTbl().setClnChavePrimaria(this);
 			}
+
+			_booChavePrimaria = booChavePrimaria;
 
 			// FIM A합ES
 		} catch (Exception ex) {
@@ -65,9 +65,7 @@ public class DbColuna extends Objeto {
 		try {
 			// A합ES
 
-			_booClnNome = booClnNome;
-
-			if (_booClnNome) {
+			if (booClnNome) {
 
 				for (DbColuna cln : this.getTbl().getLstCln()) {
 					cln._booClnNome = false;
@@ -75,6 +73,8 @@ public class DbColuna extends Objeto {
 
 				this.getTbl().setClnNome(this);
 			}
+
+			_booClnNome = booClnNome;
 
 			// FIM A합ES
 		} catch (Exception ex) {
@@ -97,9 +97,7 @@ public class DbColuna extends Objeto {
 		try {
 			// A합ES
 
-			_booOrdemCadastro = booOrdemCadastro;
-
-			if (_booOrdemCadastro) {
+			if (booOrdemCadastro) {
 
 				for (DbColuna cln : this.getTbl().getLstCln()) {
 					cln._booOrdemCadastro = false;
@@ -107,6 +105,8 @@ public class DbColuna extends Objeto {
 
 				this.getTbl().setClnOrdemCadastro(this);
 			}
+
+			_booOrdemCadastro = booOrdemCadastro;
 
 			// FIM A합ES
 		} catch (Exception ex) {
