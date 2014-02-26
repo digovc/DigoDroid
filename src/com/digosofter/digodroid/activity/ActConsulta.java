@@ -29,7 +29,7 @@ import com.digosofter.digodroid.Utils;
 import com.digosofter.digodroid.adapter.AdpCadastro;
 import com.digosofter.digodroid.database.DbTabela;
 import com.digosofter.digodroid.erro.Erro;
-import com.digosofter.digodroid.item.ItmCadastro;
+import com.digosofter.digodroid.item.ItmConsulta;
 
 public class ActConsulta extends ActMain {
 	// CONSTANTES
@@ -103,22 +103,13 @@ public class ActConsulta extends ActMain {
 	private DbTabela _tbl;
 
 	public DbTabela getTbl() {
-		return _tbl;
-	}
-
-	private void setTbl(DbTabela tbl) {
 		// VARIÁVEIS
 		// FIM VARIÁVEIS
 		try {
 			// AÇÕES
 
-			_tbl = tbl;
-			this.setTitle(_tbl.getStrNomeExibicao());
-
-			if (_tbl.getStrDescricao() != null) {
-
-				this.getTxtTblDescricao().setText(_tbl.getStrDescricao());
-				this.getTxtTblDescricao().setVisibility(View.VISIBLE);
+			if (_tbl == null) {
+				_tbl = App.getI().getTblSelecionada();
 			}
 
 			// FIM AÇÕES
@@ -128,6 +119,8 @@ public class ActConsulta extends ActMain {
 
 		} finally {
 		}
+
+		return _tbl;
 	}
 
 	private TextView _txtTblDescricao;
@@ -163,65 +156,60 @@ public class ActConsulta extends ActMain {
 	@Override
 	protected void montarLayout() {
 		// VARIÁVEIS
-
-		ArrayList<ItmCadastro> lstObjItmCadastro;
-		ItmCadastro itmCadastro;
-		Cursor objCursor;
-
 		// FIM VARIÁVEIS
 		try {
 			// AÇÕES
 
-			lstObjItmCadastro = new ArrayList<ItmCadastro>();
-			objCursor = this.getTbl().getCrsDadosTelaCadastro();
-
-			if (objCursor != null && objCursor.moveToFirst()) {
-
-				do {
-
-					itmCadastro = new ItmCadastro();
-					itmCadastro.setStrItemId(objCursor.getString(objCursor.getColumnIndex(this.getTbl().getClnChavePrimaria().getStrNomeSimplificado())));
-
-					if (this.getTbl().getClnNome().getClnReferencia() != null) {
-						itmCadastro.setStrNome(objCursor.getString(objCursor.getColumnIndex("_strNomeB")));
-					} else {
-						itmCadastro.setStrNome(objCursor.getString(objCursor.getColumnIndex(this.getTbl().getClnNome().getStrNomeSimplificado())));
-					}
-
-					for (int intColunaIndex = 0; intColunaIndex <= 4; intColunaIndex++) {
-
-						if (intColunaIndex < objCursor.getColumnCount()) {
-
-							switch (intColunaIndex) {
-							case 2:
-								itmCadastro.setStrCampo001Nome(this.getTbl().getStrClnNomePeloNomeSimplificado(objCursor.getColumnName(intColunaIndex)));
-								itmCadastro.setStrCampo001Valor(objCursor.getString(intColunaIndex));
-								break;
-							case 3:
-								itmCadastro.setStrCampo002Nome(this.getTbl().getStrClnNomePeloNomeSimplificado(objCursor.getColumnName(intColunaIndex)));
-								itmCadastro.setStrCampo002Valor(objCursor.getString(intColunaIndex));
-								break;
-							case 4:
-								itmCadastro.setStrCampo003Nome(this.getTbl().getStrClnNomePeloNomeSimplificado(objCursor.getColumnName(intColunaIndex)));
-								itmCadastro.setStrCampo003Valor(objCursor.getString(intColunaIndex));
-								break;
-							}
-						}
-					}
-
-					lstObjItmCadastro.add(itmCadastro);
-
-				} while (objCursor.moveToNext());
-			}
-
-			this.setAdpCadastro(new AdpCadastro(this, lstObjItmCadastro));
-			this.getPnlTblLista().setAdapter(this.getAdpCadastro());
-			this.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+			this.montarLayoutTitulo();
+			this.montarLayoutLista();
 
 			// FIM AÇÕES
 		} catch (Exception ex) {
 
 			new Erro(App.getI().getStrTextoPadrao(114), ex.getMessage());
+
+		} finally {
+		}
+	}
+
+	private void montarLayoutLista() {
+		// VARIÁVEIS
+		// FIM VARIÁVEIS
+		try {
+			// AÇÕES
+
+			this.setAdpCadastro(new AdpCadastro(this, this.getTbl().getLstItmConsulta()));
+			this.getPnlTblLista().setAdapter(this.getAdpCadastro());
+			this.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+
+			// FIM AÇÕES
+		} catch (Exception ex) {
+
+			new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
+
+		} finally {
+		}
+	}
+
+	private void montarLayoutTitulo() {
+		// VARIÁVEIS
+		// FIM VARIÁVEIS
+		try {
+			// AÇÕES
+
+			this.setTitle(this.getTbl().getStrNomeExibicao());
+
+			if (!Utils.getBooIsEmptyNull(this.getTbl().getStrDescricao())) {
+
+				this.getTxtTblDescricao().setText(this.getTbl().getStrDescricao());
+				this.getTxtTblDescricao().setVisibility(View.VISIBLE);
+			}
+
+			// FIM AÇÕES
+		} catch (Exception ex) {
+
+			new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
 
 		} finally {
 		}
@@ -279,7 +267,7 @@ public class ActConsulta extends ActMain {
 				public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 					// VARIÁVEIS
 
-					ItmCadastro objItem;
+					ItmConsulta objItem;
 					Intent objIntent;
 
 					// FIM VARIÁVEIS
@@ -288,7 +276,7 @@ public class ActConsulta extends ActMain {
 
 						ActConsulta.this.getTbl().setStrPesquisaActConsulta(ActConsulta.this.getEdtPesquisa().getText().toString());
 
-						objItem = (ItmCadastro) ActConsulta.this.getPnlTblLista().getItemAtPosition(position);
+						objItem = (ItmConsulta) ActConsulta.this.getPnlTblLista().getItemAtPosition(position);
 
 						objIntent = new Intent();
 						objIntent.putExtra("id", objItem.getStrItemId());
@@ -313,7 +301,7 @@ public class ActConsulta extends ActMain {
 				public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
 					// VARIÁVEIS
 
-					ItmCadastro objItem;
+					ItmConsulta objItem;
 					Intent objIntent;
 
 					// FIM VARIÁVEIS
@@ -322,7 +310,7 @@ public class ActConsulta extends ActMain {
 
 						if (ActConsulta.this.getTbl().getClsActFrm() != null) {
 
-							objItem = (ItmCadastro) ActConsulta.this.getPnlTblLista().getItemAtPosition(position);
+							objItem = (ItmConsulta) ActConsulta.this.getPnlTblLista().getItemAtPosition(position);
 
 							objIntent = new Intent(ActConsulta.this.getApplicationContext(), ActConsulta.this.getTbl().getClsActFrm());
 							objIntent.putExtra("id", objItem.getStrItemId());
@@ -398,7 +386,6 @@ public class ActConsulta extends ActMain {
 			// AÇÕES
 
 			this.setContentView(R.layout.act_consulta);
-			this.setTbl(App.getI().getTblSelecionada());
 			this.montarLayout();
 			this.setEventos();
 			this.recuperarUltimaPesquisa();

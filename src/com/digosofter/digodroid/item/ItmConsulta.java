@@ -5,7 +5,7 @@ import com.digosofter.digodroid.Objeto;
 import com.digosofter.digodroid.Utils;
 import com.digosofter.digodroid.erro.Erro;
 
-public class ItmCadastro extends Objeto {
+public class ItmConsulta extends Objeto {
 	// CONSTANTES
 	// FIM CONSTANTES
 

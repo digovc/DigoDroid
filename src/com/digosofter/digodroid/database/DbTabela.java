@@ -14,22 +14,13 @@ import com.digosofter.digodroid.Utils.EnmRandomTipo;
 import com.digosofter.digodroid.activity.ActConsulta;
 import com.digosofter.digodroid.database.DbColuna.EnmTipo;
 import com.digosofter.digodroid.erro.Erro;
+import com.digosofter.digodroid.item.ItmConsulta;
 
 public abstract class DbTabela extends Objeto {
 	// CONSTANTES
 	// FIM CONSTANTES
 
 	// ATRIBUTOS
-
-	private boolean _booSincronizar = true;
-
-	public boolean getBooSincronizar() {
-		return _booSincronizar;
-	}
-
-	public void setBooSincronizar(boolean booSincronizar) {
-		_booSincronizar = booSincronizar;
-	}
 
 	private boolean _booPermitirCadastroNovo = false;
 
@@ -41,89 +32,14 @@ public abstract class DbTabela extends Objeto {
 		_booPermitirCadastroNovo = booPermitirCadastroNovo;
 	}
 
-	private Class<?> _clsActFrm;
+	private boolean _booSincronizar = true;
 
-	public Class<?> getClsActFrm() {
-		return _clsActFrm;
+	public boolean getBooSincronizar() {
+		return _booSincronizar;
 	}
 
-	protected void setClsActFrm(Class<?> clsActFrm) {
-		_clsActFrm = clsActFrm;
-	}
-
-	private int _intQtdLinha;
-
-	public int getIntQtdLinha() {
-		// VARIÁVEIS
-
-		String sql;
-
-		// FIM VARIÁVEIS
-		try {
-			// AÇÕES
-
-			sql = "SELECT COUNT(" + this.getClnChavePrimaria().getStrNomeSimplificado() + ") FROM " + this.getStrNomeSimplificado() + ";";
-			_intQtdLinha = this.getObjDataBase().execSqlGetInt(sql);
-
-			// FIM AÇÕES
-		} catch (Exception ex) {
-
-			_intQtdLinha = 0;
-
-		} finally {
-		}
-
-		return _intQtdLinha;
-	}
-
-	private ArrayList<DbFiltro> _lstDbFiltroTelaCadastro;
-
-	public ArrayList<DbFiltro> getLstDbFiltroTelaCadastro() {
-		// VARIÁVEIS
-		// FIM VARIÁVEIS
-		try {
-			// AÇÕES
-
-			if (_lstDbFiltroTelaCadastro == null) {
-				_lstDbFiltroTelaCadastro = new ArrayList<DbFiltro>();
-			}
-
-			// FIM AÇÕES
-		} catch (Exception ex) {
-
-			new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
-
-		} finally {
-		}
-
-		return _lstDbFiltroTelaCadastro;
-	}
-
-	private List<DbColuna> _lstCln;
-
-	public List<DbColuna> getLstCln() {
-		// VARIÁVEIS
-		// FIM VARIÁVEIS
-		try {
-			// AÇÕES
-
-			if (_lstCln == null) {
-				_lstCln = new ArrayList<DbColuna>();
-			}
-
-			// FIM AÇÕES
-		} catch (Exception ex) {
-
-			new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
-
-		} finally {
-		}
-
-		return _lstCln;
-	}
-
-	public void setLstCln(List<DbColuna> lstCln) {
-		_lstCln = lstCln;
+	public void setBooSincronizar(boolean booSincronizar) {
+		_booSincronizar = booSincronizar;
 	}
 
 	private DbColuna _clnChavePrimaria;
@@ -222,6 +138,164 @@ public abstract class DbTabela extends Objeto {
 
 	public void setClnOrdemCadastro(DbColuna clnOrdemCadastro) {
 		_clnOrdemCadastro = clnOrdemCadastro;
+	}
+
+	private Class<?> _clsActFrm;
+
+	public Class<?> getClsActFrm() {
+		return _clsActFrm;
+	}
+
+	protected void setClsActFrm(Class<?> clsActFrm) {
+		_clsActFrm = clsActFrm;
+	}
+
+	private int _intQtdLinha;
+
+	public int getIntQtdLinha() {
+		// VARIÁVEIS
+
+		String sql;
+
+		// FIM VARIÁVEIS
+		try {
+			// AÇÕES
+
+			sql = "SELECT COUNT(" + this.getClnChavePrimaria().getStrNomeSimplificado() + ") FROM " + this.getStrNomeSimplificado() + ";";
+			_intQtdLinha = this.getObjDataBase().execSqlGetInt(sql);
+
+			// FIM AÇÕES
+		} catch (Exception ex) {
+
+			_intQtdLinha = 0;
+
+		} finally {
+		}
+
+		return _intQtdLinha;
+	}
+
+	private List<DbColuna> _lstCln;
+
+	public List<DbColuna> getLstCln() {
+		// VARIÁVEIS
+		// FIM VARIÁVEIS
+		try {
+			// AÇÕES
+
+			if (_lstCln == null) {
+				_lstCln = new ArrayList<DbColuna>();
+			}
+
+			// FIM AÇÕES
+		} catch (Exception ex) {
+
+			new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
+
+		} finally {
+		}
+
+		return _lstCln;
+	}
+
+	public void setLstCln(List<DbColuna> lstCln) {
+		_lstCln = lstCln;
+	}
+
+	private ArrayList<DbFiltro> _lstDbFiltroTelaCadastro;
+
+	public ArrayList<DbFiltro> getLstDbFiltroTelaCadastro() {
+		// VARIÁVEIS
+		// FIM VARIÁVEIS
+		try {
+			// AÇÕES
+
+			if (_lstDbFiltroTelaCadastro == null) {
+				_lstDbFiltroTelaCadastro = new ArrayList<DbFiltro>();
+			}
+
+			// FIM AÇÕES
+		} catch (Exception ex) {
+
+			new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
+
+		} finally {
+		}
+
+		return _lstDbFiltroTelaCadastro;
+	}
+
+	private List<ItmConsulta> _lstItmConsulta;
+
+	public List<ItmConsulta> getLstItmConsulta() {
+		// VARIÁVEIS
+
+		Cursor crs;
+		ItmConsulta itmConsulta;
+
+		// FIM VARIÁVEIS
+		try {
+			// AÇÕES
+
+			if (_lstItmConsulta == null) {
+
+				_lstItmConsulta = new ArrayList<ItmConsulta>();
+				crs = this.getCrsDadosTelaCadastro();
+
+				if (crs != null && crs.moveToFirst()) {
+
+					do {
+
+						itmConsulta = new ItmConsulta();
+						itmConsulta.setStrItemId(crs.getString(crs.getColumnIndex(this.getClnChavePrimaria().getStrNomeSimplificado())));
+
+						if (this.getClnNome().getClnReferencia() != null) {
+							itmConsulta.setStrNome(crs.getString(crs.getColumnIndex("_strNomeB")));
+						} else {
+							itmConsulta.setStrNome(crs.getString(crs.getColumnIndex(this.getClnNome().getStrNomeSimplificado())));
+						}
+
+						for (int intColunaIndex = 0; intColunaIndex <= 4; intColunaIndex++) {
+
+							if (intColunaIndex < crs.getColumnCount()) {
+
+								switch (intColunaIndex) {
+								case 2:
+									itmConsulta.setStrCampo001Nome(this.getStrClnNomePeloNomeSimplificado(crs.getColumnName(intColunaIndex)));
+									itmConsulta.setStrCampo001Valor(crs.getString(intColunaIndex));
+									break;
+								case 3:
+									itmConsulta.setStrCampo002Nome(this.getStrClnNomePeloNomeSimplificado(crs.getColumnName(intColunaIndex)));
+									itmConsulta.setStrCampo002Valor(crs.getString(intColunaIndex));
+									break;
+								case 4:
+									itmConsulta.setStrCampo003Nome(this.getStrClnNomePeloNomeSimplificado(crs.getColumnName(intColunaIndex)));
+									itmConsulta.setStrCampo003Valor(crs.getString(intColunaIndex));
+									break;
+								}
+							}
+						}
+
+						_lstItmConsulta.add(itmConsulta);
+
+					} while (crs.moveToNext());
+				}
+
+			}
+
+			// FIM AÇÕES
+		} catch (Exception ex) {
+
+			new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
+
+		} finally {
+		}
+
+		return _lstItmConsulta;
+	}
+
+	private void setLstItmConsulta(List<ItmConsulta> lstItmConsulta) {
+		_lstItmConsulta = lstItmConsulta;
 	}
 
 	private DataBase _objDataBase;
@@ -866,6 +940,8 @@ public abstract class DbTabela extends Objeto {
 		// FIM VARIÁVEIS
 		try {
 			// AÇÕES
+
+			this.setLstItmConsulta(null);
 
 			for (DbColuna cln : this.getLstCln()) {
 
