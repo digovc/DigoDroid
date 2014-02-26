@@ -8,17 +8,6 @@ import com.digosofter.digodroid.erro.Erro;
 
 public abstract class Game extends App {
 
-	// CONSTANTES
-	// FIM CONSTANTES
-
-	// ATRIBUTOS
-	// FIM ATRIBUTOS
-
-	// CONSTRUTORES
-	// FIM CONSTRUTORES
-
-	// MÉTODOS
-
 	@Override
 	public List<MensagemUsuario> getLstObjMensagemUsuario() {
 		// VARIÁVEIS
@@ -36,8 +25,4 @@ public abstract class Game extends App {
 		return null;
 	}
 
-	// FIM MÉTODOS
-
-	// EVENTOS
-	// FIM EVENTOS
 }

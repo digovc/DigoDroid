@@ -6,12 +6,25 @@ import com.digosofter.digodroid.database.DbColuna.EnmTipo;
 import com.digosofter.digodroid.erro.Erro;
 
 public class TblCliente extends TblMain {
-	// CONSTANTES
-	// FIM CONSTANTES
-
-	// ATRIBUTOS
 
 	private DbColuna _clnIntPessoaId;
+
+	public TblCliente() {
+
+		super("tblCliente");
+
+		// VARIÁVEIS
+		// FIM VARIÁVEIS
+		try {
+			// AÇÕES
+			// FIM AÇÕES
+		} catch (Exception ex) {
+
+			new Erro(App.getI().getStrTextoPadrao(133), ex.getMessage());
+
+		} finally {
+		}
+	}
 
 	public DbColuna getClnIntPessoaId() {
 		// VARIÁVEIS
@@ -33,31 +46,6 @@ public class TblCliente extends TblMain {
 
 		return _clnIntPessoaId;
 	}
-
-	// FIM ATRIBUTOS
-
-	// CONSTRUTORES
-
-	public TblCliente() {
-
-		super("tblCliente");
-
-		// VARIÁVEIS
-		// FIM VARIÁVEIS
-		try {
-			// AÇÕES
-			// FIM AÇÕES
-		} catch (Exception ex) {
-
-			new Erro(App.getI().getStrTextoPadrao(133), ex.getMessage());
-
-		} finally {
-		}
-	}
-
-	// FIM CONSTRUTORES
-
-	// MÉTODOS
 
 	@Override
 	protected void inicializarColunas() {
@@ -89,8 +77,4 @@ public class TblCliente extends TblMain {
 		}
 	}
 
-	// FIM MÉTODOS
-
-	// EVENTOS
-	// FIM EVENTOS
 }

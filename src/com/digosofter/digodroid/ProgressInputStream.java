@@ -10,27 +10,18 @@ import android.os.Message;
 import com.digosofter.digodroid.erro.Erro;
 
 public class ProgressInputStream extends InputStream {
-	// CONSTANTES
 
 	public static final String PROGRESS_UPDATE = "progress_update";
 
 	private static final int TEN_KILOBYTES = 1024 * 10;
 
-	// FIM CONSTANTES
-
-	// ATRIBUTOS
-
-	private InputStream inputStream;
+	private boolean closed = false;
 	private Handler handler;
 
-	private long progress = 0;
+	private InputStream inputStream;
 	private long lastUpdate = 0;
 
-	private boolean closed = false;
-
-	// FIM ATRIBUTOS
-
-	// CONSTRUTORES
+	private long progress = 0;
 
 	public ProgressInputStream(InputStream inputStream, Handler handler) {
 		// VARIÁVEIS
@@ -48,56 +39,6 @@ public class ProgressInputStream extends InputStream {
 
 		} finally {
 		}
-	}
-
-	// FIM CONSTRUTORES
-
-	// MÉTODOS
-
-	@Override
-	public int read() throws IOException {
-		// VARIÁVEIS
-
-		int count = 0;
-
-		// FIM VARIÁVEIS
-		try {
-			// AÇÕES
-
-			count = inputStream.read();
-
-			// FIM AÇÕES
-		} catch (Exception ex) {
-
-			new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
-
-		} finally {
-		}
-
-		return incrementCounterAndUpdateDisplay(count);
-	}
-
-	@Override
-	public int read(byte[] b, int off, int len) throws IOException {
-		// VARIÁVEIS
-
-		int count = 0;
-
-		// FIM VARIÁVEIS
-		try {
-			// AÇÕES
-
-			count = inputStream.read(b, off, len);
-
-			// FIM AÇÕES
-		} catch (Exception ex) {
-
-			new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
-
-		} finally {
-		}
-
-		return incrementCounterAndUpdateDisplay(count);
 	}
 
 	@Override
@@ -168,6 +109,52 @@ public class ProgressInputStream extends InputStream {
 		return lastUpdate;
 	}
 
+	@Override
+	public int read() throws IOException {
+		// VARIÁVEIS
+
+		int count = 0;
+
+		// FIM VARIÁVEIS
+		try {
+			// AÇÕES
+
+			count = inputStream.read();
+
+			// FIM AÇÕES
+		} catch (Exception ex) {
+
+			new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
+
+		} finally {
+		}
+
+		return incrementCounterAndUpdateDisplay(count);
+	}
+
+	@Override
+	public int read(byte[] b, int off, int len) throws IOException {
+		// VARIÁVEIS
+
+		int count = 0;
+
+		// FIM VARIÁVEIS
+		try {
+			// AÇÕES
+
+			count = inputStream.read(b, off, len);
+
+			// FIM AÇÕES
+		} catch (Exception ex) {
+
+			new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
+
+		} finally {
+		}
+
+		return incrementCounterAndUpdateDisplay(count);
+	}
+
 	public void sendLong(String key, long value) {
 		// VARIÁVEIS
 
@@ -193,10 +180,5 @@ public class ProgressInputStream extends InputStream {
 		} finally {
 		}
 	}
-
-	// FIM MÉTODOS
-
-	// EVENTOS
-	// FIM EVENTOS
 
 }

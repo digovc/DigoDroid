@@ -1,10 +1,7 @@
 package com.digosofter.digodroid.activity;
 
-import java.util.ArrayList;
-
 import android.content.Context;
 import android.content.Intent;
-import android.database.Cursor;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Editable;
@@ -32,27 +29,24 @@ import com.digosofter.digodroid.erro.Erro;
 import com.digosofter.digodroid.item.ItmConsulta;
 
 public class ActConsulta extends ActMain {
-	// CONSTANTES
 
 	public enum EnmResultadoTipo {
-		VOLTAR, REGISTRO_SELECIONADO
+		REGISTRO_SELECIONADO, VOLTAR
 	}
 
-	// FIM CONSTANTES
-
-	// ATRIBUTOS
-
 	private AdpCadastro _adpCadastro;
+
+	private EditText _edtPesquisa;
+
+	private ListView _pnlTblLista;
+
+	private DbTabela _tbl;
+
+	private TextView _txtTblDescricao;
 
 	private AdpCadastro getAdpCadastro() {
 		return _adpCadastro;
 	}
-
-	private void setAdpCadastro(AdpCadastro adpCadastro) {
-		_adpCadastro = adpCadastro;
-	}
-
-	private EditText _edtPesquisa;
 
 	private EditText getEdtPesquisa() {
 		// VARIÁVEIS
@@ -74,8 +68,6 @@ public class ActConsulta extends ActMain {
 
 		return _edtPesquisa;
 	}
-
-	private ListView _pnlTblLista;
 
 	public ListView getPnlTblLista() {
 		// VARIÁVEIS
@@ -100,8 +92,6 @@ public class ActConsulta extends ActMain {
 		return _pnlTblLista;
 	}
 
-	private DbTabela _tbl;
-
 	public DbTabela getTbl() {
 		// VARIÁVEIS
 		// FIM VARIÁVEIS
@@ -123,8 +113,6 @@ public class ActConsulta extends ActMain {
 		return _tbl;
 	}
 
-	private TextView _txtTblDescricao;
-
 	private TextView getTxtTblDescricao() {
 		// VARIÁVEIS
 		// FIM VARIÁVEIS
@@ -145,13 +133,6 @@ public class ActConsulta extends ActMain {
 
 		return _txtTblDescricao;
 	}
-
-	// FIM ATRIBUTOS
-
-	// CONSTRUTORES
-	// FIM CONSTRUTORES
-
-	// MÉTODOS
 
 	@Override
 	protected void montarLayout() {
@@ -181,7 +162,6 @@ public class ActConsulta extends ActMain {
 			this.setAdpCadastro(new AdpCadastro(this, this.getTbl().getLstItmConsulta()));
 			this.getPnlTblLista().setAdapter(this.getAdpCadastro());
 			this.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
 
 			// FIM AÇÕES
 		} catch (Exception ex) {
@@ -214,166 +194,6 @@ public class ActConsulta extends ActMain {
 		} finally {
 		}
 	}
-
-	/**
-	 * Recupera a última pesquisa feita na tabela da tela de consulta.
-	 */
-	private void recuperarUltimaPesquisa() {
-		// VARIÁVEIS
-		// FIM VARIÁVEIS
-		try {
-			// AÇÕES
-
-			if (Utils.getBooIsEmptyNull(this.getTbl().getStrPesquisaActConsulta())) {
-				return;
-			}
-
-			this.getEdtPesquisa().setText(this.getTbl().getStrPesquisaActConsulta());
-
-			// FIM AÇÕES
-		} catch (Exception ex) {
-
-			new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
-
-		} finally {
-		}
-	}
-
-	@Override
-	protected void setEventos() {
-		// VARIÁVEIS
-		// FIM VARIÁVEIS
-		try {
-			// AÇÕES
-
-			this.getEdtPesquisa().addTextChangedListener(new TextWatcher() {
-
-				@Override
-				public void onTextChanged(CharSequence s, int start, int before, int count) {
-					ActConsulta.this.getAdpCadastro().getFilter().filter(s);
-				}
-
-				@Override
-				public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-				}
-
-				@Override
-				public void afterTextChanged(Editable s) {
-				}
-			});
-
-			this.getPnlTblLista().setOnItemClickListener(new OnItemClickListener() {
-
-				public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-					// VARIÁVEIS
-
-					ItmConsulta objItem;
-					Intent objIntent;
-
-					// FIM VARIÁVEIS
-					try {
-						// AÇÕES
-
-						ActConsulta.this.getTbl().setStrPesquisaActConsulta(ActConsulta.this.getEdtPesquisa().getText().toString());
-
-						objItem = (ItmConsulta) ActConsulta.this.getPnlTblLista().getItemAtPosition(position);
-
-						objIntent = new Intent();
-						objIntent.putExtra("id", objItem.getStrItemId());
-
-						ActConsulta.this.setResult(ActConsulta.EnmResultadoTipo.REGISTRO_SELECIONADO.ordinal(), objIntent);
-
-						finish();
-
-						// FIM AÇÕES
-					} catch (Exception ex) {
-
-						new Erro(App.getI().getStrTextoPadrao(115), ex.getMessage());
-
-					} finally {
-					}
-				}
-			});
-
-			this.getPnlTblLista().setOnItemLongClickListener(new OnItemLongClickListener() {
-
-				@Override
-				public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-					// VARIÁVEIS
-
-					ItmConsulta objItem;
-					Intent objIntent;
-
-					// FIM VARIÁVEIS
-					try {
-						// AÇÕES
-
-						if (ActConsulta.this.getTbl().getClsActFrm() != null) {
-
-							objItem = (ItmConsulta) ActConsulta.this.getPnlTblLista().getItemAtPosition(position);
-
-							objIntent = new Intent(ActConsulta.this.getApplicationContext(), ActConsulta.this.getTbl().getClsActFrm());
-							objIntent.putExtra("id", objItem.getStrItemId());
-
-							ActConsulta.this.setResult(ActConsulta.EnmResultadoTipo.REGISTRO_SELECIONADO.ordinal(), objIntent);
-							ActConsulta.this.startActivity(objIntent);
-
-							// finish();
-						}
-
-						// FIM AÇÕES
-					} catch (Exception ex) {
-
-						new Erro(App.getI().getStrTextoPadrao(115), ex.getMessage());
-
-					} finally {
-					}
-
-					return false;
-				}
-			});
-
-			this.getPnlTblLista().setOnScrollListener(new OnScrollListener() {
-
-				@Override
-				public void onScrollStateChanged(AbsListView view, int scrollState) {
-					// VARIÁVEIS
-
-					InputMethodManager inputManager;
-
-					// FIM VARIÁVEIS
-					try {
-						// AÇÕES
-
-						inputManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-						inputManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
-
-						// FIM AÇÕES
-					} catch (Exception ex) {
-
-						new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
-
-					} finally {
-					}
-				}
-
-				@Override
-				public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-				}
-			});
-
-			// FIM AÇÕES
-		} catch (Exception ex) {
-
-			new Erro(App.getI().getStrTextoPadrao(116), ex.getMessage());
-
-		} finally {
-		}
-	}
-
-	// FIM MÉTODOS
-
-	// EVENTOS
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -449,6 +269,165 @@ public class ActConsulta extends ActMain {
 		return super.onOptionsItemSelected(item);
 	}
 
-	// FIM EVENTOS
+	/**
+	 * Recupera a última pesquisa feita na tabela da tela de consulta.
+	 */
+	private void recuperarUltimaPesquisa() {
+		// VARIÁVEIS
+		// FIM VARIÁVEIS
+		try {
+			// AÇÕES
+
+			if (Utils.getBooIsEmptyNull(this.getTbl().getStrPesquisaActConsulta())) {
+				return;
+			}
+
+			this.getEdtPesquisa().setText(this.getTbl().getStrPesquisaActConsulta());
+
+			// FIM AÇÕES
+		} catch (Exception ex) {
+
+			new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
+
+		} finally {
+		}
+	}
+
+	private void setAdpCadastro(AdpCadastro adpCadastro) {
+		_adpCadastro = adpCadastro;
+	}
+
+	@Override
+	protected void setEventos() {
+		// VARIÁVEIS
+		// FIM VARIÁVEIS
+		try {
+			// AÇÕES
+
+			this.getEdtPesquisa().addTextChangedListener(new TextWatcher() {
+
+				@Override
+				public void afterTextChanged(Editable s) {
+				}
+
+				@Override
+				public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+				}
+
+				@Override
+				public void onTextChanged(CharSequence s, int start, int before, int count) {
+					ActConsulta.this.getAdpCadastro().getFilter().filter(s);
+				}
+			});
+
+			this.getPnlTblLista().setOnItemClickListener(new OnItemClickListener() {
+
+				@Override
+				public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+					// VARIÁVEIS
+
+					ItmConsulta objItem;
+					Intent objIntent;
+
+					// FIM VARIÁVEIS
+					try {
+						// AÇÕES
+
+						ActConsulta.this.getTbl().setStrPesquisaActConsulta(ActConsulta.this.getEdtPesquisa().getText().toString());
+
+						objItem = (ItmConsulta) ActConsulta.this.getPnlTblLista().getItemAtPosition(position);
+
+						objIntent = new Intent();
+						objIntent.putExtra("id", objItem.getStrItemId());
+
+						ActConsulta.this.setResult(ActConsulta.EnmResultadoTipo.REGISTRO_SELECIONADO.ordinal(), objIntent);
+
+						finish();
+
+						// FIM AÇÕES
+					} catch (Exception ex) {
+
+						new Erro(App.getI().getStrTextoPadrao(115), ex.getMessage());
+
+					} finally {
+					}
+				}
+			});
+
+			this.getPnlTblLista().setOnItemLongClickListener(new OnItemLongClickListener() {
+
+				@Override
+				public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+					// VARIÁVEIS
+
+					ItmConsulta objItem;
+					Intent objIntent;
+
+					// FIM VARIÁVEIS
+					try {
+						// AÇÕES
+
+						if (ActConsulta.this.getTbl().getClsActFrm() != null) {
+
+							objItem = (ItmConsulta) ActConsulta.this.getPnlTblLista().getItemAtPosition(position);
+
+							objIntent = new Intent(ActConsulta.this.getApplicationContext(), ActConsulta.this.getTbl().getClsActFrm());
+							objIntent.putExtra("id", objItem.getStrItemId());
+
+							ActConsulta.this.setResult(ActConsulta.EnmResultadoTipo.REGISTRO_SELECIONADO.ordinal(), objIntent);
+							ActConsulta.this.startActivity(objIntent);
+
+							// finish();
+						}
+
+						// FIM AÇÕES
+					} catch (Exception ex) {
+
+						new Erro(App.getI().getStrTextoPadrao(115), ex.getMessage());
+
+					} finally {
+					}
+
+					return false;
+				}
+			});
+
+			this.getPnlTblLista().setOnScrollListener(new OnScrollListener() {
+
+				@Override
+				public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+				}
+
+				@Override
+				public void onScrollStateChanged(AbsListView view, int scrollState) {
+					// VARIÁVEIS
+
+					InputMethodManager inputManager;
+
+					// FIM VARIÁVEIS
+					try {
+						// AÇÕES
+
+						inputManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+						inputManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+
+						// FIM AÇÕES
+					} catch (Exception ex) {
+
+						new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
+
+					} finally {
+					}
+				}
+			});
+
+			// FIM AÇÕES
+		} catch (Exception ex) {
+
+			new Erro(App.getI().getStrTextoPadrao(116), ex.getMessage());
+
+		} finally {
+		}
+	}
 
 }

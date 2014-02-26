@@ -10,70 +10,12 @@ import com.digosofter.digodroid.Utils;
 import com.digosofter.digodroid.erro.Erro;
 
 public class DataBase extends SQLiteOpenHelper {
-	// CONSTANTES
-	// FIM CONSTANTES
-
-	// ATRIBUTOS
-
-	private SQLiteDatabase _objDbEscrita;
-
-	public SQLiteDatabase getObjDbEscrita() {
-		// VARIÁVEIS
-		// FIM VARIÁVEIS
-		try {
-			// AÇÕES
-
-			if (_objDbEscrita == null) {
-				_objDbEscrita = this.getWritableDatabase();
-			}
-
-			// FIM AÇÕES
-		} catch (Exception ex) {
-
-			new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
-
-		} finally {
-		}
-
-		return _objDbEscrita;
-	}
 
 	private SQLiteDatabase _objDataBaseLeitura;
 
-	public SQLiteDatabase getObjDbLeitura() {
-		// VARIÁVEIS
-		// FIM VARIÁVEIS
-		try {
-			// AÇÕES
-
-			if (_objDataBaseLeitura == null) {
-				_objDataBaseLeitura = this.getReadableDatabase();
-			}
-
-			// FIM AÇÕES
-		} catch (Exception ex) {
-
-			new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
-
-		} finally {
-		}
-
-		return _objDataBaseLeitura;
-	}
+	private SQLiteDatabase _objDbEscrita;
 
 	private String _strNome;
-
-	public String getStrNome() {
-		return _strNome;
-	}
-
-	private void setStrNome(String strNome) {
-		_strNome = strNome;
-	}
-
-	// FIM ATRIBUTOS
-
-	// CONSTRUTORES
 
 	public DataBase(String strDbNome, Context context) {
 
@@ -94,10 +36,6 @@ public class DataBase extends SQLiteOpenHelper {
 		} finally {
 		}
 	}
-
-	// FIM CONSTRUTORES
-
-	// MÉTODOS
 
 	public Cursor execSqlComRetorno(String sql) {
 		// VARIÁVEIS
@@ -120,33 +58,6 @@ public class DataBase extends SQLiteOpenHelper {
 		}
 
 		return crsResultado;
-	}
-
-	public String execSqlGetStr(String sql) {
-		// VARIÁVEIS
-
-		Cursor crs;
-		String strResultado = Utils.STRING_VAZIA;
-
-		// FIM VARIÁVEIS
-		try {
-			// AÇÕES
-
-			crs = this.execSqlComRetorno(sql);
-
-			if (crs != null && crs.moveToFirst()) {
-				strResultado = crs.getString(0);
-			}
-
-			// FIM AÇÕES
-		} catch (Exception ex) {
-
-			new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
-
-		} finally {
-		}
-
-		return strResultado;
 	}
 
 	public double execSqlGetDbl(String sql) {
@@ -182,6 +93,33 @@ public class DataBase extends SQLiteOpenHelper {
 		return (int) this.execSqlGetDbl(sql);
 	}
 
+	public String execSqlGetStr(String sql) {
+		// VARIÁVEIS
+
+		Cursor crs;
+		String strResultado = Utils.STRING_VAZIA;
+
+		// FIM VARIÁVEIS
+		try {
+			// AÇÕES
+
+			crs = this.execSqlComRetorno(sql);
+
+			if (crs != null && crs.moveToFirst()) {
+				strResultado = crs.getString(0);
+			}
+
+			// FIM AÇÕES
+		} catch (Exception ex) {
+
+			new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
+
+		} finally {
+		}
+
+		return strResultado;
+	}
+
 	public void execSqlSemRetorno(String sql) {
 		// VARIÁVEIS
 		// FIM VARIÁVEIS
@@ -200,9 +138,51 @@ public class DataBase extends SQLiteOpenHelper {
 		}
 	}
 
-	// FIM MÉTODOS
+	public SQLiteDatabase getObjDbEscrita() {
+		// VARIÁVEIS
+		// FIM VARIÁVEIS
+		try {
+			// AÇÕES
 
-	// EVENTOS
+			if (_objDbEscrita == null) {
+				_objDbEscrita = this.getWritableDatabase();
+			}
+
+			// FIM AÇÕES
+		} catch (Exception ex) {
+
+			new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
+
+		} finally {
+		}
+
+		return _objDbEscrita;
+	}
+
+	public SQLiteDatabase getObjDbLeitura() {
+		// VARIÁVEIS
+		// FIM VARIÁVEIS
+		try {
+			// AÇÕES
+
+			if (_objDataBaseLeitura == null) {
+				_objDataBaseLeitura = this.getReadableDatabase();
+			}
+
+			// FIM AÇÕES
+		} catch (Exception ex) {
+
+			new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
+
+		} finally {
+		}
+
+		return _objDataBaseLeitura;
+	}
+
+	public String getStrNome() {
+		return _strNome;
+	}
 
 	@Override
 	public void onCreate(SQLiteDatabase db) {
@@ -233,5 +213,8 @@ public class DataBase extends SQLiteOpenHelper {
 		} finally {
 		}
 	}
-	// FIM EVENTOS
+
+	private void setStrNome(String strNome) {
+		_strNome = strNome;
+	}
 }

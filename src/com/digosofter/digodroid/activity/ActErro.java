@@ -10,42 +10,35 @@ import com.digosofter.digodroid.R;
 import com.digosofter.digodroid.erro.Erro;
 
 public class ActErro extends ActMain {
-	// CONSTANTES
-	// FIM CONSTANTES
-
-	// ATRIBUTOS
 
 	private Erro _err;
 
-	public Erro getErr() {
-		return _err;
-	}
+	private TextView _txtAppNome;
 
-	private void setErr(Erro err) {
+	private TextView _txtErroMensagem;
+
+	private TextView _txtErroTitulo;
+
+	public void actErro_btnIgnorarOnClick(View objView) {
 		// VARIÁVEIS
 		// FIM VARIÁVEIS
 		try {
 			// AÇÕES
 
-			_err = err;
-
-			this.getTxtAppNome().setText(App.getI().getStrNome());
-			this.getTxtErroTitulo().setText(_err.getStrNome());
-
-			if (_err.getStrMensagemDetalhes() != null) {
-				this.getTxtErroMensagem().setText(
-						_err.getStrMensagem() + "\n\nDetalhes: " + _err.getStrMensagemDetalhes());
-			} else {
-				this.getTxtErroMensagem().setText(_err.getStrMensagem());
-			}
+			this.finish();
 
 			// FIM AÇÕES
 		} catch (Exception ex) {
+
+			new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
+
 		} finally {
 		}
 	}
 
-	private TextView _txtAppNome;
+	public Erro getErr() {
+		return _err;
+	}
 
 	private TextView getTxtAppNome() {
 		// VARIÁVEIS
@@ -68,8 +61,6 @@ public class ActErro extends ActMain {
 		return _txtAppNome;
 	}
 
-	private TextView _txtErroMensagem;
-
 	private TextView getTxtErroMensagem() {
 		// VARIÁVEIS
 		// FIM VARIÁVEIS
@@ -90,8 +81,6 @@ public class ActErro extends ActMain {
 
 		return _txtErroMensagem;
 	}
-
-	private TextView _txtErroTitulo;
 
 	private TextView getTxtErroTitulo() {
 		// VARIÁVEIS
@@ -114,55 +103,12 @@ public class ActErro extends ActMain {
 		return _txtErroTitulo;
 	}
 
-	// FIM ATRIBUTOS
-
-	// CONSTRUTORES
-	// FIM CONSTRUTORES
-
-	// MÉTODOS
-
 	@Override
-	protected void montarLayout(){
+	protected void montarLayout() {
 		// VARIÁVEIS
 		// FIM VARIÁVEIS
 		try {
 			// AÇÕES
-
-			// FIM AÇÕES
-		} catch (Exception ex) {
-
-			new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
-
-		} finally {
-		}
-	}
-
-	@Override
-	protected void setEventos(){
-		// VARIÁVEIS
-		// FIM VARIÁVEIS
-		try {
-			// AÇÕES
-			// FIM AÇÕES
-		} catch (Exception ex) {
-
-			new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
-
-		} finally {
-		}
-	}
-
-	// FIM MÉTODOS
-
-	// EVENTOS
-
-	public void actErro_btnIgnorarOnClick(View objView) {
-		// VARIÁVEIS
-		// FIM VARIÁVEIS
-		try {
-			// AÇÕES
-
-			this.finish();
 
 			// FIM AÇÕES
 		} catch (Exception ex) {
@@ -213,6 +159,42 @@ public class ActErro extends ActMain {
 		return true;
 	}
 
-	// FIM EVENTOS
+	private void setErr(Erro err) {
+		// VARIÁVEIS
+		// FIM VARIÁVEIS
+		try {
+			// AÇÕES
+
+			_err = err;
+
+			this.getTxtAppNome().setText(App.getI().getStrNome());
+			this.getTxtErroTitulo().setText(_err.getStrNome());
+
+			if (_err.getStrMensagemDetalhes() != null) {
+				this.getTxtErroMensagem().setText(_err.getStrMensagem() + "\n\nDetalhes: " + _err.getStrMensagemDetalhes());
+			} else {
+				this.getTxtErroMensagem().setText(_err.getStrMensagem());
+			}
+
+			// FIM AÇÕES
+		} catch (Exception ex) {
+		} finally {
+		}
+	}
+
+	@Override
+	protected void setEventos() {
+		// VARIÁVEIS
+		// FIM VARIÁVEIS
+		try {
+			// AÇÕES
+			// FIM AÇÕES
+		} catch (Exception ex) {
+
+			new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
+
+		} finally {
+		}
+	}
 
 }

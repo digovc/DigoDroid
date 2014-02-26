@@ -5,14 +5,6 @@ import com.digosofter.digodroid.erro.Erro;
 
 public abstract class DbView extends DbTabela {
 
-	// CONSTANTES
-	// FIM CONSTANTES
-
-	// ATRIBUTOS
-	// FIM ATRIBUTOS
-
-	// CONSTRUTORES
-
 	public DbView(String strNome) {
 
 		super(strNome);
@@ -30,11 +22,4 @@ public abstract class DbView extends DbTabela {
 		}
 	}
 
-	// FIM CONSTRUTORES
-
-	// MÉTODOS
-	// FIM MÉTODOS
-
-	// EVENTOS
-	// FIM EVENTOS
 }

@@ -11,283 +11,124 @@ import com.digosofter.digodroid.Utils;
 import com.digosofter.digodroid.erro.Erro;
 
 public class DbColuna extends Objeto {
-	// CONSTANTES
 
 	public enum EnmTipo {
-		BOOLEAN, DATE_TIME, INTEGER, TEXT, NONE, REAL, MONETARY, NUMERIC
+		BOOLEAN, DATE_TIME, INTEGER, MONETARY, NONE, NUMERIC, REAL, TEXT
 	}
 
-	// FIM CONSTANTES
-
-	// ATRIBUTOS
-
 	private boolean _booChavePrimaria = false;
+
+	private boolean _booClnNome = false;
+
+	private boolean _booOrdemCadastro = false;
+
+	private boolean _booOrdemDecrecente;
+
+	private boolean _booVisivelCadastro = false;
+
+	private DbColuna _clnReferencia;
+
+	private EnmTipo _enmTipo;
+
+	private int _intOrdem;
+
+	private List<String> _lstStrOpcao;
+
+	private String _strSqlTipo;
+
+	private String _strValor;
+
+	private String _strValorDefault;
+
+	private String _strValorExibicao;
+
+	private DbTabela _tbl;
+
+	public DbColuna(String strNome, DbTabela tbl) {
+		// VARIÁVEIS
+		// FIM VARIÁVEIS
+		try {
+			// AÇÕES
+
+			this.setStrNome(strNome);
+			this.setTbl(tbl);
+
+			// FIM AÇÕES
+		} catch (Exception ex) {
+
+			new Erro(App.getI().getStrTextoPadrao(120), ex.getMessage());
+
+		} finally {
+		}
+	}
+
+	public DbColuna(String strNome, DbTabela tbl, EnmTipo enmTipo) {
+		// VARIÁVEIS
+		// FIM VARIÁVEIS
+		try {
+			// AÇÕES
+
+			this.setStrNome(strNome);
+			this.setTbl(tbl);
+			this.setEnmTipo(enmTipo);
+
+			// FIM AÇÕES
+		} catch (Exception ex) {
+
+			new Erro(App.getI().getStrTextoPadrao(120), ex.getMessage());
+
+		} finally {
+		}
+	}
+
+	public DbColuna(String strNome, DbTabela tbl, EnmTipo enmTipo, DbColuna clnReferencia) {
+		// VARIÁVEIS
+		// FIM VARIÁVEIS
+		try {
+			// AÇÕES
+
+			this.setStrNome(strNome);
+			this.setTbl(tbl);
+			this.setEnmTipo(enmTipo);
+			this.setClnReferencia(clnReferencia);
+
+			// FIM AÇÕES
+		} catch (Exception ex) {
+
+			new Erro(App.getI().getStrTextoPadrao(120), ex.getMessage());
+
+		} finally {
+			// LIMPAR VARIÁVEIS
+			// FIM LIMPAR VARIÁVEIS
+		}
+	}
 
 	public boolean getBooChavePrimaria() {
 		return _booChavePrimaria;
 	}
 
-	public void setBooChavePrimaria(boolean booChavePrimaria) {
-		// VARIÁVEIS
-		// FIM VARIÁVEIS
-		try {
-			// AÇÕES
-
-			if (booChavePrimaria) {
-
-				for (DbColuna cln : this.getTbl().getLstCln()) {
-					cln._booChavePrimaria = false;
-				}
-
-				this.getTbl().setClnChavePrimaria(this);
-			}
-
-			_booChavePrimaria = booChavePrimaria;
-
-			// FIM AÇÕES
-		} catch (Exception ex) {
-
-			new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
-
-		} finally {
-		}
-	}
-
-	private boolean _booClnNome = false;
-
 	public boolean getBooClnNome() {
 		return _booClnNome;
 	}
-
-	public void setBooClnNome(boolean booClnNome) {
-		// VARIÁVEIS
-		// FIM VARIÁVEIS
-		try {
-			// AÇÕES
-
-			if (booClnNome) {
-
-				for (DbColuna cln : this.getTbl().getLstCln()) {
-					cln._booClnNome = false;
-				}
-
-				this.getTbl().setClnNome(this);
-			}
-
-			_booClnNome = booClnNome;
-
-			// FIM AÇÕES
-		} catch (Exception ex) {
-
-			new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
-
-		} finally {
-		}
-	}
-
-	private boolean _booOrdemCadastro = false;
 
 	public boolean getBooOrdemCadastro() {
 		return _booOrdemCadastro;
 	}
 
-	public void setBooOrdemCadastro(boolean booOrdemCadastro) {
-		// VARIÁVEIS
-		// FIM VARIÁVEIS
-		try {
-			// AÇÕES
-
-			if (booOrdemCadastro) {
-
-				for (DbColuna cln : this.getTbl().getLstCln()) {
-					cln._booOrdemCadastro = false;
-				}
-
-				this.getTbl().setClnOrdemCadastro(this);
-			}
-
-			_booOrdemCadastro = booOrdemCadastro;
-
-			// FIM AÇÕES
-		} catch (Exception ex) {
-
-			new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
-
-		} finally {
-		}
-	}
-
-	private boolean _booOrdemDecrecente;
-
 	public boolean getBooOrdemDecrecente() {
 		return _booOrdemDecrecente;
-	}
-
-	public void setBooOrdemDecrecente(boolean booOrdemDecrecente) {
-		_booOrdemDecrecente = booOrdemDecrecente;
-	}
-
-	private boolean _booVisivelCadastro = false;
-
-	public boolean getBooVisivelCadastro() {
-		return _booVisivelCadastro;
-	}
-
-	public void setBooVisivelCadastro(boolean booVisivelCadastro) {
-		_booVisivelCadastro = booVisivelCadastro;
-	}
-
-	private DbColuna _clnReferencia;
-
-	public DbColuna getClnReferencia() {
-		return _clnReferencia;
-	}
-
-	public void setClnReferencia(DbColuna clnReferencia) {
-		_clnReferencia = clnReferencia;
-	}
-
-	private EnmTipo _enmTipo;
-
-	public EnmTipo getEnmTipo() {
-		// VARIÁVEIS
-		// FIM VARIÁVEIS
-		try {
-			// AÇÕES
-
-			if (_enmTipo == null) {
-				_enmTipo = EnmTipo.TEXT;
-			}
-
-			// FIM AÇÕES
-		} catch (Exception ex) {
-
-			new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
-
-		} finally {
-		}
-
-		return _enmTipo;
-	}
-
-	private int _intOrdem;
-
-	public int getIntOrdem() {
-		return _intOrdem;
-	}
-
-	public void setIntOrdem(int intOrdem) {
-		_intOrdem = intOrdem;
-	}
-
-	private String _strSqlTipo;
-
-	public String getStrSqlTipo() {
-		// VARIÁVEIS
-		// FIM VARIÁVEIS
-		try {
-			// AÇÕES
-
-			switch (this.getEnmTipo()) {
-			case BOOLEAN:
-				_strSqlTipo = "TEXT";
-				break;
-			case DATE_TIME:
-				_strSqlTipo = "TEXT";
-				break;
-			case INTEGER:
-				_strSqlTipo = "INTEGER";
-				break;
-			case MONETARY:
-				_strSqlTipo = "NUMERIC";
-				break;
-			case NONE:
-				_strSqlTipo = "NONE";
-				break;
-			case NUMERIC:
-				_strSqlTipo = "NUMERIC";
-				break;
-			case REAL:
-				_strSqlTipo = "REAL";
-				break;
-			case TEXT:
-				_strSqlTipo = "TEXT";
-				break;
-			default:
-				_strSqlTipo = "TEXT";
-			}
-
-			// FIM AÇÕES
-		} catch (Exception ex) {
-
-			new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
-
-		} finally {
-		}
-
-		return _strSqlTipo;
-	}
-
-	public void setEnmTipo(EnmTipo enmTipo) {
-		_enmTipo = enmTipo;
-	}
-
-	private List<String> _lstStrOpcao;
-
-	public List<String> getLstStrOpcao() {
-		// VARIÁVEIS
-		// FIM VARIÁVEIS
-		try {
-			// AÇÕES
-
-			if (_lstStrOpcao == null) {
-				_lstStrOpcao = new ArrayList<String>();
-			}
-
-			// FIM AÇÕES
-		} catch (Exception ex) {
-
-			new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
-
-		} finally {
-		}
-
-		return _lstStrOpcao;
-	}
-
-	public void setLstStrOpcao(List<String> lstStrOpcao) {
-		_lstStrOpcao = lstStrOpcao;
-	}
-
-	private String _strValor;
-
-	public String getStrValor() {
-		// VARIÁVEIS
-		// FIM VARIÁVEIS
-		try {
-			// AÇÕES
-
-			if (_strValor == null) {
-				_strValor = Utils.STRING_VAZIA;
-			}
-
-			// FIM AÇÕES
-		} catch (Exception ex) {
-
-			new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
-
-		} finally {
-		}
-
-		return _strValor;
 	}
 
 	public boolean getBooValor() {
 		return Boolean.parseBoolean(this.getStrValor());
 	}
 
-	public String getStrValorMonetario() {
-		return Utils.getStrValorMonetario(Double.parseDouble(_strValor));
+	public boolean getBooVisivelCadastro() {
+		return _booVisivelCadastro;
+	}
+
+	public DbColuna getClnReferencia() {
+		return _clnReferencia;
 	}
 
 	public double getDblValor() {
@@ -359,6 +200,31 @@ public class DbColuna extends Objeto {
 		return objGregorianCalendarResultado;
 	}
 
+	public EnmTipo getEnmTipo() {
+		// VARIÁVEIS
+		// FIM VARIÁVEIS
+		try {
+			// AÇÕES
+
+			if (_enmTipo == null) {
+				_enmTipo = EnmTipo.TEXT;
+			}
+
+			// FIM AÇÕES
+		} catch (Exception ex) {
+
+			new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
+
+		} finally {
+		}
+
+		return _enmTipo;
+	}
+
+	public int getIntOrdem() {
+		return _intOrdem;
+	}
+
 	public int getIntValor() {
 		// VARIÁVEIS
 
@@ -381,46 +247,97 @@ public class DbColuna extends Objeto {
 		return intValorResultado;
 	}
 
-	@Override
-	public String toString() {
-		return this.getStrValor();
+	public List<String> getLstStrOpcao() {
+		// VARIÁVEIS
+		// FIM VARIÁVEIS
+		try {
+			// AÇÕES
+
+			if (_lstStrOpcao == null) {
+				_lstStrOpcao = new ArrayList<String>();
+			}
+
+			// FIM AÇÕES
+		} catch (Exception ex) {
+
+			new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
+
+		} finally {
+		}
+
+		return _lstStrOpcao;
 	}
 
-	public void setStrValor(String strValor) {
-		_strValor = strValor;
+	public String getStrSqlTipo() {
+		// VARIÁVEIS
+		// FIM VARIÁVEIS
+		try {
+			// AÇÕES
+
+			switch (this.getEnmTipo()) {
+			case BOOLEAN:
+				_strSqlTipo = "TEXT";
+				break;
+			case DATE_TIME:
+				_strSqlTipo = "TEXT";
+				break;
+			case INTEGER:
+				_strSqlTipo = "INTEGER";
+				break;
+			case MONETARY:
+				_strSqlTipo = "NUMERIC";
+				break;
+			case NONE:
+				_strSqlTipo = "NONE";
+				break;
+			case NUMERIC:
+				_strSqlTipo = "NUMERIC";
+				break;
+			case REAL:
+				_strSqlTipo = "REAL";
+				break;
+			case TEXT:
+				_strSqlTipo = "TEXT";
+				break;
+			default:
+				_strSqlTipo = "TEXT";
+			}
+
+			// FIM AÇÕES
+		} catch (Exception ex) {
+
+			new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
+
+		} finally {
+		}
+
+		return _strSqlTipo;
 	}
 
-	public void setBooValor(Boolean booValor) {
-		this.setStrValor(String.valueOf(booValor));
-	}
+	public String getStrValor() {
+		// VARIÁVEIS
+		// FIM VARIÁVEIS
+		try {
+			// AÇÕES
 
-	public void setDttValor(Date dttValor) {
-		this.setStrValor(Utils.getStrDataFormatada(dttValor, Utils.EnmDataFormato.YYYY_MM_DD_HH_MM_SS));
-	}
+			if (_strValor == null) {
+				_strValor = Utils.STRING_VAZIA;
+			}
 
-	public void setDblValor(double dblValor) {
-		this.setStrValor(String.valueOf(dblValor));
-	}
+			// FIM AÇÕES
+		} catch (Exception ex) {
 
-	public void setIntValor(int intValor) {
-		this.setStrValor(String.valueOf(intValor));
-	}
+			new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
 
-	public void setMonValor(double monValor) {
-		this.setStrValor(String.valueOf(monValor));
-	}
+		} finally {
+		}
 
-	private String _strValorDefault;
+		return _strValor;
+	}
 
 	public String getStrValorDefault() {
 		return _strValorDefault;
 	}
-
-	public void setStrValorDefault(String strValorDefault) {
-		_strValorDefault = strValorDefault;
-	}
-
-	private String _strValorExibicao;
 
 	public String getStrValorExibicao() {
 		// VARIÁVEIS
@@ -469,10 +386,142 @@ public class DbColuna extends Objeto {
 		return _strValorExibicao;
 	}
 
-	private DbTabela _tbl;
+	public String getStrValorMonetario() {
+		return Utils.getStrValorMonetario(Double.parseDouble(_strValor));
+	}
 
 	public DbTabela getTbl() {
 		return _tbl;
+	}
+
+	public void setBooChavePrimaria(boolean booChavePrimaria) {
+		// VARIÁVEIS
+		// FIM VARIÁVEIS
+		try {
+			// AÇÕES
+
+			if (booChavePrimaria) {
+
+				for (DbColuna cln : this.getTbl().getLstCln()) {
+					cln._booChavePrimaria = false;
+				}
+
+				this.getTbl().setClnChavePrimaria(this);
+			}
+
+			_booChavePrimaria = booChavePrimaria;
+
+			// FIM AÇÕES
+		} catch (Exception ex) {
+
+			new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
+
+		} finally {
+		}
+	}
+
+	public void setBooClnNome(boolean booClnNome) {
+		// VARIÁVEIS
+		// FIM VARIÁVEIS
+		try {
+			// AÇÕES
+
+			if (booClnNome) {
+
+				for (DbColuna cln : this.getTbl().getLstCln()) {
+					cln._booClnNome = false;
+				}
+
+				this.getTbl().setClnNome(this);
+			}
+
+			_booClnNome = booClnNome;
+
+			// FIM AÇÕES
+		} catch (Exception ex) {
+
+			new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
+
+		} finally {
+		}
+	}
+
+	public void setBooOrdemCadastro(boolean booOrdemCadastro) {
+		// VARIÁVEIS
+		// FIM VARIÁVEIS
+		try {
+			// AÇÕES
+
+			if (booOrdemCadastro) {
+
+				for (DbColuna cln : this.getTbl().getLstCln()) {
+					cln._booOrdemCadastro = false;
+				}
+
+				this.getTbl().setClnOrdemCadastro(this);
+			}
+
+			_booOrdemCadastro = booOrdemCadastro;
+
+			// FIM AÇÕES
+		} catch (Exception ex) {
+
+			new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
+
+		} finally {
+		}
+	}
+
+	public void setBooOrdemDecrecente(boolean booOrdemDecrecente) {
+		_booOrdemDecrecente = booOrdemDecrecente;
+	}
+
+	public void setBooValor(Boolean booValor) {
+		this.setStrValor(String.valueOf(booValor));
+	}
+
+	public void setBooVisivelCadastro(boolean booVisivelCadastro) {
+		_booVisivelCadastro = booVisivelCadastro;
+	}
+
+	public void setClnReferencia(DbColuna clnReferencia) {
+		_clnReferencia = clnReferencia;
+	}
+
+	public void setDblValor(double dblValor) {
+		this.setStrValor(String.valueOf(dblValor));
+	}
+
+	public void setDttValor(Date dttValor) {
+		this.setStrValor(Utils.getStrDataFormatada(dttValor, Utils.EnmDataFormato.YYYY_MM_DD_HH_MM_SS));
+	}
+
+	public void setEnmTipo(EnmTipo enmTipo) {
+		_enmTipo = enmTipo;
+	}
+
+	public void setIntOrdem(int intOrdem) {
+		_intOrdem = intOrdem;
+	}
+
+	public void setIntValor(int intValor) {
+		this.setStrValor(String.valueOf(intValor));
+	}
+
+	public void setLstStrOpcao(List<String> lstStrOpcao) {
+		_lstStrOpcao = lstStrOpcao;
+	}
+
+	public void setMonValor(double monValor) {
+		this.setStrValor(String.valueOf(monValor));
+	}
+
+	public void setStrValor(String strValor) {
+		_strValor = strValor;
+	}
+
+	public void setStrValorDefault(String strValorDefault) {
+		_strValorDefault = strValorDefault;
 	}
 
 	public void setTbl(DbTabela tbl) {
@@ -493,74 +542,9 @@ public class DbColuna extends Objeto {
 		}
 	}
 
-	// FIM ATRIBUTOS
-
-	// CONSTRUTORES
-
-	public DbColuna(String strNome, DbTabela tbl) {
-		// VARIÁVEIS
-		// FIM VARIÁVEIS
-		try {
-			// AÇÕES
-
-			this.setStrNome(strNome);
-			this.setTbl(tbl);
-
-			// FIM AÇÕES
-		} catch (Exception ex) {
-
-			new Erro(App.getI().getStrTextoPadrao(120), ex.getMessage());
-
-		} finally {
-		}
+	@Override
+	public String toString() {
+		return this.getStrValor();
 	}
 
-	public DbColuna(String strNome, DbTabela tbl, EnmTipo enmTipo) {
-		// VARIÁVEIS
-		// FIM VARIÁVEIS
-		try {
-			// AÇÕES
-
-			this.setStrNome(strNome);
-			this.setTbl(tbl);
-			this.setEnmTipo(enmTipo);
-
-			// FIM AÇÕES
-		} catch (Exception ex) {
-
-			new Erro(App.getI().getStrTextoPadrao(120), ex.getMessage());
-
-		} finally {
-		}
-	}
-
-	public DbColuna(String strNome, DbTabela tbl, EnmTipo enmTipo, DbColuna clnReferencia) {
-		// VARIÁVEIS
-		// FIM VARIÁVEIS
-		try {
-			// AÇÕES
-
-			this.setStrNome(strNome);
-			this.setTbl(tbl);
-			this.setEnmTipo(enmTipo);
-			this.setClnReferencia(clnReferencia);
-
-			// FIM AÇÕES
-		} catch (Exception ex) {
-
-			new Erro(App.getI().getStrTextoPadrao(120), ex.getMessage());
-
-		} finally {
-			// LIMPAR VARIÁVEIS
-			// FIM LIMPAR VARIÁVEIS
-		}
-	}
-
-	// FIM CONSTRUTORES
-
-	// MÉTODOS
-	// FIM MÉTODOS
-
-	// EVENTOS
-	// FIM EVENTOS
 }

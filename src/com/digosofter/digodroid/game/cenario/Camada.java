@@ -8,22 +8,33 @@ import com.digosofter.digodroid.Objeto;
 import com.digosofter.digodroid.erro.Erro;
 
 public class Camada extends Objeto {
-	// CONSTANTES
-	// FIM CONSTANTES
-
-	// ATRIBUTOS
 
 	private int _intZ;
+
+	private List<Quadro> _lstObjQuadro;
+
+	private Cenario _objCenario;
+
+	public Camada(Cenario objCenario) {
+		// VARIÁVEIS
+		// FIM VARIÁVEIS
+		try {
+			// AÇÕES
+
+			this.setObjCenario(objCenario);
+
+			// FIM AÇÕES
+		} catch (Exception ex) {
+
+			new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
+
+		} finally {
+		}
+	}
 
 	private int getIntZ() {
 		return _intZ;
 	}
-
-	public void setIntZ(int intZ) {
-		_intZ = intZ;
-	}
-
-	private List<Quadro> _lstObjQuadro;
 
 	public List<Quadro> getLstObjQuadro() {
 		// VARIÁVEIS
@@ -31,8 +42,8 @@ public class Camada extends Objeto {
 		try {
 			// AÇÕES
 
-			if (_lstObjQuadro==null) {
-				_lstObjQuadro =new ArrayList<Quadro>();
+			if (_lstObjQuadro == null) {
+				_lstObjQuadro = new ArrayList<Quadro>();
 			}
 
 			// FIM AÇÕES
@@ -46,14 +57,16 @@ public class Camada extends Objeto {
 		return _lstObjQuadro;
 	}
 
-	private void setLstObjQuadro(List<Quadro> lstObjQuadro) {
-		_lstObjQuadro = lstObjQuadro;
-	}
-
-	private Cenario _objCenario;
-
 	private Cenario getObjCenario() {
 		return _objCenario;
+	}
+
+	public void setIntZ(int intZ) {
+		_intZ = intZ;
+	}
+
+	private void setLstObjQuadro(List<Quadro> lstObjQuadro) {
+		_lstObjQuadro = lstObjQuadro;
 	}
 
 	private void setObjCenario(Cenario objCenario) {
@@ -74,35 +87,7 @@ public class Camada extends Objeto {
 		}
 	}
 
-	// FIM ATRIBUTOS
-
-	// CONSTRUTORES
-
-	public Camada(Cenario objCenario) {
-		// VARIÁVEIS
-		// FIM VARIÁVEIS
-		try {
-			// AÇÕES
-
-			this.setObjCenario(objCenario);
-
-			// FIM AÇÕES
-		} catch (Exception ex) {
-
-			new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
-
-		} finally {
-		}
-	}
-
-	// FIM CONSTRUTORES
-
 	// DESTRUTOR
 	// FIM DESTRUTOR
 
-	// MÉTODOS
-	// FIM MÉTODOS
-
-	// EVENTOS
-	// FIM EVENTOS
 }

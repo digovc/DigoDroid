@@ -10,45 +10,8 @@ import android.telephony.TelephonyManager;
 import com.digosofter.digodroid.erro.Erro;
 
 public abstract class Aparelho extends Objeto {
-	// CONSTANTES
-	// FIM CONSTANTES
-
-	// ATRIBUTOS
 
 	private static String _strImei;
-
-	public static String getStrImei() {
-		// VARIÁVEIS
-
-		TelephonyManager objTelephonyManager;
-
-		// FIM VARIÁVEIS
-		try {
-			// AÇÕES
-
-			if (_strImei == null) {
-
-				objTelephonyManager = (TelephonyManager) App.getI().getActMain().getSystemService(Context.TELEPHONY_SERVICE);
-				_strImei = objTelephonyManager.getDeviceId();
-			}
-
-			// FIM AÇÕES
-		} catch (Exception ex) {
-
-			new Erro(App.getI().getStrMensagemUsuarioPadrao(100), ex.getMessage());
-
-		} finally {
-		}
-
-		return _strImei;
-	}
-
-	// FIM ATRIBUTOS
-
-	// CONSTRUTORES
-	// FIM CONSTRUTORES
-
-	// MÉTODOS
 
 	public static void abrirMapa(String strEnderecoCompleto) {
 		// VARIÁVEIS
@@ -140,6 +103,32 @@ public abstract class Aparelho extends Objeto {
 		return booConectado;
 	}
 
+	public static String getStrImei() {
+		// VARIÁVEIS
+
+		TelephonyManager objTelephonyManager;
+
+		// FIM VARIÁVEIS
+		try {
+			// AÇÕES
+
+			if (_strImei == null) {
+
+				objTelephonyManager = (TelephonyManager) App.getI().getActMain().getSystemService(Context.TELEPHONY_SERVICE);
+				_strImei = objTelephonyManager.getDeviceId();
+			}
+
+			// FIM AÇÕES
+		} catch (Exception ex) {
+
+			new Erro(App.getI().getStrMensagemUsuarioPadrao(100), ex.getMessage());
+
+		} finally {
+		}
+
+		return _strImei;
+	}
+
 	public static void ligarNumero(String strNumero) {
 		// VARIÁVEIS
 
@@ -164,8 +153,4 @@ public abstract class Aparelho extends Objeto {
 		}
 	}
 
-	// FIM MÉTODOS
-
-	// EVENTOS
-	// FIM EVENTOS
 }

@@ -9,21 +9,11 @@ import com.digosofter.digodroid.App;
 import com.digosofter.digodroid.erro.Erro;
 
 public class ZoomOutPagerTransformer implements PageTransformer {
-	// CONSTANTES
 
-	private static float MIN_SCALE = 0.85f;
 	private static float MIN_ALPHA = 0.5f;
+	private static float MIN_SCALE = 0.85f;
 
-	// FIM CONSTANTES
-
-	// ATRIBUTOS
-	// FIM ATRIBUTOS
-
-	// CONSTRUTORES
-	// FIM CONSTRUTORES
-
-	// MÉTODOS
-
+	@Override
 	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
 	public void transformPage(View objView, float dblPosition) {
 		// VARIÁVEIS
@@ -72,8 +62,4 @@ public class ZoomOutPagerTransformer implements PageTransformer {
 		}
 	}
 
-	// FIM MÉTODOS
-
-	// EVENTOS
-	// FIM EVENTOS
 }

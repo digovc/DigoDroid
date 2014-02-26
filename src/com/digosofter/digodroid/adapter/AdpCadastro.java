@@ -20,61 +20,11 @@ import com.digosofter.digodroid.item.ItmConsulta;
 
 public class AdpCadastro extends BaseAdapter implements Filterable {
 
-	// CONSTANTES
-	// FIM CONSTANTES
-
-	// ATRIBUTOS
-
-	private LayoutInflater _objLayoutInflater;
-
-	private LayoutInflater getObjLayoutInflater() {
-		return _objLayoutInflater;
-	}
-
-	private void setObjLayoutInflater(LayoutInflater objLayoutInflater) {
-		_objLayoutInflater = objLayoutInflater;
-	}
-
 	private List<ItmConsulta> _lstItmCadastro;
-
-	private List<ItmConsulta> getLstItmCadastro() {
-		return _lstItmCadastro;
-	}
-
-	private void setLstItmCadastro(List<ItmConsulta> lstItmCadastro) {
-		// VARIÁVEIS
-		// FIM VARIÁVEIS
-		try {
-			// AÇÕES
-
-			_lstItmCadastro = lstItmCadastro;
-
-			if (this.getLstItmCadastroSemFiltro() == null) {
-				this.setLstItmCadastroSemFiltro(_lstItmCadastro);
-			}
-
-			// FIM AÇÕES
-		} catch (Exception ex) {
-
-			new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
-
-		} finally {
-		}
-	}
 
 	private List<ItmConsulta> _lstItmCadastroSemFiltro;
 
-	private List<ItmConsulta> getLstItmCadastroSemFiltro() {
-		return _lstItmCadastroSemFiltro;
-	}
-
-	private void setLstItmCadastroSemFiltro(List<ItmConsulta> lstItmCadastroSemFiltro) {
-		_lstItmCadastroSemFiltro = lstItmCadastroSemFiltro;
-	}
-
-	// FIM ATRIBUTOS
-
-	// CONSTRUTORES
+	private LayoutInflater _objLayoutInflater;
 
 	public AdpCadastro(Context context, List<ItmConsulta> lstItmCadastro) {
 		// VARIÁVEIS
@@ -94,13 +44,55 @@ public class AdpCadastro extends BaseAdapter implements Filterable {
 		}
 	}
 
-	// FIM CONSTRUTORES
-
-	// MÉTODOS
-
 	@Override
 	public int getCount() {
 		return this.getLstItmCadastro().size();
+	}
+
+	@Override
+	public Filter getFilter() {
+
+		this.setLstItmCadastro(this.getLstItmCadastroSemFiltro());
+
+		return new Filter() {
+
+			@Override
+			protected FilterResults performFiltering(CharSequence strFiltro) {
+
+				FilterResults objFilterResults = new FilterResults();
+				// We implement here the filter logic
+				if (strFiltro == null || strFiltro.length() == 0) {
+					// No filter implemented we return all the list
+					objFilterResults.values = AdpCadastro.this.getLstItmCadastroSemFiltro();
+					objFilterResults.count = AdpCadastro.this.getLstItmCadastroSemFiltro().size();
+				} else {
+					// We perform filtering operation
+					ArrayList<ItmConsulta> lstItmCadastro = new ArrayList<ItmConsulta>();
+
+					for (ItmConsulta itmCadastro : AdpCadastro.this.getLstItmCadastro()) {
+						if (itmCadastro.getBooContemString(strFiltro.toString())) {
+							lstItmCadastro.add(itmCadastro);
+						}
+					}
+					objFilterResults.values = lstItmCadastro;
+					objFilterResults.count = lstItmCadastro.size();
+				}
+
+				return objFilterResults;
+			}
+
+			@Override
+			protected void publishResults(CharSequence constraint, FilterResults results) {
+				// Now we have to inform the adapter about the new list filtered
+				if (results.count == 0) {
+					AdpCadastro.this.setLstItmCadastro(new ArrayList<ItmConsulta>());
+					notifyDataSetChanged();
+				} else {
+					AdpCadastro.this.setLstItmCadastro((ArrayList<ItmConsulta>) results.values);
+					notifyDataSetChanged();
+				}
+			}
+		};
 	}
 
 	@Override
@@ -111,6 +103,18 @@ public class AdpCadastro extends BaseAdapter implements Filterable {
 	@Override
 	public long getItemId(int position) {
 		return position;
+	}
+
+	private List<ItmConsulta> getLstItmCadastro() {
+		return _lstItmCadastro;
+	}
+
+	private List<ItmConsulta> getLstItmCadastroSemFiltro() {
+		return _lstItmCadastroSemFiltro;
+	}
+
+	private LayoutInflater getObjLayoutInflater() {
+		return _objLayoutInflater;
 	}
 
 	@Override
@@ -157,54 +161,33 @@ public class AdpCadastro extends BaseAdapter implements Filterable {
 		return objView;
 	}
 
-	@Override
-	public Filter getFilter() {
+	private void setLstItmCadastro(List<ItmConsulta> lstItmCadastro) {
+		// VARIÁVEIS
+		// FIM VARIÁVEIS
+		try {
+			// AÇÕES
 
-		this.setLstItmCadastro(this.getLstItmCadastroSemFiltro());
+			_lstItmCadastro = lstItmCadastro;
 
-		return new Filter() {
-
-			@Override
-			protected void publishResults(CharSequence constraint, FilterResults results) {
-				// Now we have to inform the adapter about the new list filtered
-				if (results.count == 0) {
-					AdpCadastro.this.setLstItmCadastro(new ArrayList<ItmConsulta>());
-					notifyDataSetChanged();
-				} else {
-					AdpCadastro.this.setLstItmCadastro((ArrayList<ItmConsulta>) results.values);
-					notifyDataSetChanged();
-				}
+			if (this.getLstItmCadastroSemFiltro() == null) {
+				this.setLstItmCadastroSemFiltro(_lstItmCadastro);
 			}
 
-			@Override
-			protected FilterResults performFiltering(CharSequence strFiltro) {
+			// FIM AÇÕES
+		} catch (Exception ex) {
 
-				FilterResults objFilterResults = new FilterResults();
-				// We implement here the filter logic
-				if (strFiltro == null || strFiltro.length() == 0) {
-					// No filter implemented we return all the list
-					objFilterResults.values = AdpCadastro.this.getLstItmCadastroSemFiltro();
-					objFilterResults.count = AdpCadastro.this.getLstItmCadastroSemFiltro().size();
-				} else {
-					// We perform filtering operation
-					ArrayList<ItmConsulta> lstItmCadastro = new ArrayList<ItmConsulta>();
+			new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
 
-					for (ItmConsulta itmCadastro : AdpCadastro.this.getLstItmCadastro()) {
-						if (itmCadastro.getBooContemString(strFiltro.toString())) {
-							lstItmCadastro.add(itmCadastro);
-						}
-					}
-					objFilterResults.values = lstItmCadastro;
-					objFilterResults.count = lstItmCadastro.size();
-				}
-
-				return objFilterResults;
-			}
-		};
+		} finally {
+		}
 	}
 
-	// FIM MÉTODOS
+	private void setLstItmCadastroSemFiltro(List<ItmConsulta> lstItmCadastroSemFiltro) {
+		_lstItmCadastroSemFiltro = lstItmCadastroSemFiltro;
+	}
 
-	// EVENTOS
-	// FIM EVENTOS
+	private void setObjLayoutInflater(LayoutInflater objLayoutInflater) {
+		_objLayoutInflater = objLayoutInflater;
+	}
+
 }

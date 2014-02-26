@@ -17,327 +17,30 @@ import com.digosofter.digodroid.erro.Erro;
 import com.digosofter.digodroid.item.ItmConsulta;
 
 public abstract class DbTabela extends Objeto {
-	// CONSTANTES
-	// FIM CONSTANTES
-
-	// ATRIBUTOS
 
 	private boolean _booPermitirCadastroNovo = false;
 
-	public boolean getBooPermitirCadastroNovo() {
-		return _booPermitirCadastroNovo;
-	}
-
-	protected void setBooPermitirCadastroNovo(boolean booPermitirCadastroNovo) {
-		_booPermitirCadastroNovo = booPermitirCadastroNovo;
-	}
-
 	private boolean _booSincronizar = true;
-
-	public boolean getBooSincronizar() {
-		return _booSincronizar;
-	}
-
-	public void setBooSincronizar(boolean booSincronizar) {
-		_booSincronizar = booSincronizar;
-	}
 
 	private DbColuna _clnChavePrimaria;
 
-	public DbColuna getClnChavePrimaria() {
-		// VARIÁVEIS
-		// FIM VARIÁVEIS
-		try {
-			// AÇÕES
-
-			if (_clnChavePrimaria == null) {
-				_clnChavePrimaria = this.getLstCln().get(0);
-			}
-
-			// FIM AÇÕES
-		} catch (Exception ex) {
-
-			new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
-
-		} finally {
-		}
-
-		return _clnChavePrimaria;
-	}
-
-	public void setClnChavePrimaria(DbColuna clnChavePrimaria) {
-		_clnChavePrimaria = clnChavePrimaria;
-	}
-
 	private DbColuna _clnNome;
-
-	public DbColuna getClnNome() {
-		// VARIÁVEIS
-		// FIM VARIÁVEIS
-		try {
-			// AÇÕES
-
-			if (_clnNome == null) {
-				_clnNome = this.getClnChavePrimaria();
-			}
-
-			// FIM AÇÕES
-		} catch (Exception ex) {
-
-			new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
-
-		} finally {
-		}
-
-		return _clnNome;
-	}
-
-	public void setClnNome(DbColuna clnNome) {
-		// VARIÁVEIS
-		// FIM VARIÁVEIS
-		try {
-			// AÇÕES
-
-			if (_clnNome == null) {
-				_clnNome = this.getClnChavePrimaria();
-			}
-
-			// FIM AÇÕES
-		} catch (Exception ex) {
-
-			new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
-
-		} finally {
-		}
-
-		_clnNome = clnNome;
-	}
 
 	private DbColuna _clnOrdemCadastro;
 
-	public DbColuna getClnOrdemCadastro() {
-		// VARIÁVEIS
-		// FIM VARIÁVEIS
-		try {
-			// AÇÕES
-
-			if (_clnOrdemCadastro == null) {
-				_clnOrdemCadastro = this.getClnChavePrimaria();
-			}
-
-			// FIM AÇÕES
-		} catch (Exception ex) {
-
-			new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
-
-		} finally {
-		}
-
-		return _clnOrdemCadastro;
-	}
-
-	public void setClnOrdemCadastro(DbColuna clnOrdemCadastro) {
-		_clnOrdemCadastro = clnOrdemCadastro;
-	}
-
 	private Class<?> _clsActFrm;
-
-	public Class<?> getClsActFrm() {
-		return _clsActFrm;
-	}
-
-	protected void setClsActFrm(Class<?> clsActFrm) {
-		_clsActFrm = clsActFrm;
-	}
 
 	private int _intQtdLinha;
 
-	public int getIntQtdLinha() {
-		// VARIÁVEIS
-
-		String sql;
-
-		// FIM VARIÁVEIS
-		try {
-			// AÇÕES
-
-			sql = "SELECT COUNT(" + this.getClnChavePrimaria().getStrNomeSimplificado() + ") FROM " + this.getStrNomeSimplificado() + ";";
-			_intQtdLinha = this.getObjDataBase().execSqlGetInt(sql);
-
-			// FIM AÇÕES
-		} catch (Exception ex) {
-
-			_intQtdLinha = 0;
-
-		} finally {
-		}
-
-		return _intQtdLinha;
-	}
-
 	private List<DbColuna> _lstCln;
-
-	public List<DbColuna> getLstCln() {
-		// VARIÁVEIS
-		// FIM VARIÁVEIS
-		try {
-			// AÇÕES
-
-			if (_lstCln == null) {
-				_lstCln = new ArrayList<DbColuna>();
-			}
-
-			// FIM AÇÕES
-		} catch (Exception ex) {
-
-			new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
-
-		} finally {
-		}
-
-		return _lstCln;
-	}
-
-	public void setLstCln(List<DbColuna> lstCln) {
-		_lstCln = lstCln;
-	}
 
 	private ArrayList<DbFiltro> _lstDbFiltroTelaCadastro;
 
-	public ArrayList<DbFiltro> getLstDbFiltroTelaCadastro() {
-		// VARIÁVEIS
-		// FIM VARIÁVEIS
-		try {
-			// AÇÕES
-
-			if (_lstDbFiltroTelaCadastro == null) {
-				_lstDbFiltroTelaCadastro = new ArrayList<DbFiltro>();
-			}
-
-			// FIM AÇÕES
-		} catch (Exception ex) {
-
-			new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
-
-		} finally {
-		}
-
-		return _lstDbFiltroTelaCadastro;
-	}
-
 	private List<ItmConsulta> _lstItmConsulta;
-
-	public List<ItmConsulta> getLstItmConsulta() {
-		// VARIÁVEIS
-
-		Cursor crs;
-		ItmConsulta itmConsulta;
-
-		// FIM VARIÁVEIS
-		try {
-			// AÇÕES
-
-			if (_lstItmConsulta == null) {
-
-				_lstItmConsulta = new ArrayList<ItmConsulta>();
-				crs = this.getCrsDadosTelaCadastro();
-
-				if (crs != null && crs.moveToFirst()) {
-
-					do {
-
-						itmConsulta = new ItmConsulta();
-						itmConsulta.setStrItemId(crs.getString(crs.getColumnIndex(this.getClnChavePrimaria().getStrNomeSimplificado())));
-
-						if (this.getClnNome().getClnReferencia() != null) {
-							itmConsulta.setStrNome(crs.getString(crs.getColumnIndex("_strNomeB")));
-						} else {
-							itmConsulta.setStrNome(crs.getString(crs.getColumnIndex(this.getClnNome().getStrNomeSimplificado())));
-						}
-
-						for (int intColunaIndex = 0; intColunaIndex <= 4; intColunaIndex++) {
-
-							if (intColunaIndex < crs.getColumnCount()) {
-
-								switch (intColunaIndex) {
-								case 2:
-									itmConsulta.setStrCampo001Nome(this.getStrClnNomePeloNomeSimplificado(crs.getColumnName(intColunaIndex)));
-									itmConsulta.setStrCampo001Valor(crs.getString(intColunaIndex));
-									break;
-								case 3:
-									itmConsulta.setStrCampo002Nome(this.getStrClnNomePeloNomeSimplificado(crs.getColumnName(intColunaIndex)));
-									itmConsulta.setStrCampo002Valor(crs.getString(intColunaIndex));
-									break;
-								case 4:
-									itmConsulta.setStrCampo003Nome(this.getStrClnNomePeloNomeSimplificado(crs.getColumnName(intColunaIndex)));
-									itmConsulta.setStrCampo003Valor(crs.getString(intColunaIndex));
-									break;
-								}
-							}
-						}
-
-						_lstItmConsulta.add(itmConsulta);
-
-					} while (crs.moveToNext());
-				}
-
-			}
-
-			// FIM AÇÕES
-		} catch (Exception ex) {
-
-			new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
-
-		} finally {
-		}
-
-		return _lstItmConsulta;
-	}
-
-	private void setLstItmConsulta(List<ItmConsulta> lstItmConsulta) {
-		_lstItmConsulta = lstItmConsulta;
-	}
 
 	private DataBase _objDataBase;
 
-	public DataBase getObjDataBase() {
-		// VARIÁVEIS
-		// FIM VARIÁVEIS
-		try {
-			// AÇÕES
-
-			if (_objDataBase == null) {
-				this._objDataBase = App.getI().getObjDataBasePrincipal();
-			}
-
-			// FIM AÇÕES
-		} catch (Exception ex) {
-
-			new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
-
-		} finally {
-		}
-
-		return _objDataBase;
-	}
-
-	public void setObjDataBase(DataBase objDataBase) {
-		_objDataBase = objDataBase;
-	}
-
 	private String _strPesquisaActConsulta;
-
-	public String getStrPesquisaActConsulta() {
-		return _strPesquisaActConsulta;
-	}
-
-	public void setStrPesquisaActConsulta(String strPesquisaActConsulta) {
-		_strPesquisaActConsulta = strPesquisaActConsulta;
-	}
-
-	// FIM ATRIBUTOS
-
-	// CONSTRUTORES
 
 	public DbTabela(String strNome) {
 		// VARIÁVEIS
@@ -358,10 +61,6 @@ public abstract class DbTabela extends Objeto {
 		} finally {
 		}
 	}
-
-	// FIM CONSTRUTORES
-
-	// MÉTODOS
 
 	public void abrirTelaCadastro(Activity actPai) {
 		// VARIÁVEIS
@@ -385,10 +84,14 @@ public abstract class DbTabela extends Objeto {
 		}
 	}
 
+	public void buscarRegistro(DbColuna clnFiltro, int intValor) {
+		this.buscarRegistro(clnFiltro, String.valueOf(intValor));
+	}
+
 	public void buscarRegistro(DbColuna clnFiltro, String strValorFiltro) {
 		// VARIÁVEIS
 
-		Cursor objCrs;
+		Cursor crs;
 
 		int intColunaIndex = 0;
 
@@ -422,16 +125,16 @@ public abstract class DbTabela extends Objeto {
 			sql += strValorFiltro;
 			sql += "';";
 
-			objCrs = this.getObjDataBase().execSqlComRetorno(sql);
+			crs = this.getObjDataBase().execSqlComRetorno(sql);
 
-			if (objCrs != null && objCrs.moveToFirst()) {
+			if (crs != null && crs.moveToFirst()) {
 
 				do {
 
-					this.getLstCln().get(intColunaIndex).setStrValor(objCrs.getString(intColunaIndex));
+					this.getLstCln().get(intColunaIndex).setStrValor(crs.getString(intColunaIndex));
 					intColunaIndex++;
 
-				} while (intColunaIndex < objCrs.getColumnCount());
+				} while (intColunaIndex < crs.getColumnCount());
 			}
 
 			// FIM AÇÕES
@@ -441,10 +144,6 @@ public abstract class DbTabela extends Objeto {
 
 		} finally {
 		}
-	}
-
-	public void buscarRegistro(DbColuna clnFiltro, int intValor) {
-		this.buscarRegistro(clnFiltro, String.valueOf(intValor));
 	}
 
 	public void buscarRegistroPelaChavePrimaria(int intId) {
@@ -508,6 +207,10 @@ public abstract class DbTabela extends Objeto {
 		}
 	}
 
+	public void excluir(int intId) {
+		this.excluir(String.valueOf(intId));
+	}
+
 	public void excluir(String strId) {
 		// VARIÁVEIS
 
@@ -530,8 +233,12 @@ public abstract class DbTabela extends Objeto {
 		}
 	}
 
-	public void excluir(int intId) {
-		this.excluir(String.valueOf(intId));
+	public boolean getBooPermitirCadastroNovo() {
+		return _booPermitirCadastroNovo;
+	}
+
+	public boolean getBooSincronizar() {
+		return _booSincronizar;
 	}
 
 	public boolean getBooTabelaExiste() {
@@ -563,6 +270,147 @@ public abstract class DbTabela extends Objeto {
 			crs = null;
 		}
 		return booTblExiste;
+	}
+
+	public DbColuna getClnChavePrimaria() {
+		// VARIÁVEIS
+		// FIM VARIÁVEIS
+		try {
+			// AÇÕES
+
+			if (_clnChavePrimaria == null) {
+				_clnChavePrimaria = this.getLstCln().get(0);
+			}
+
+			// FIM AÇÕES
+		} catch (Exception ex) {
+
+			new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
+
+		} finally {
+		}
+
+		return _clnChavePrimaria;
+	}
+
+	public DbColuna getClnNome() {
+		// VARIÁVEIS
+		// FIM VARIÁVEIS
+		try {
+			// AÇÕES
+
+			if (_clnNome == null) {
+				_clnNome = this.getClnChavePrimaria();
+			}
+
+			// FIM AÇÕES
+		} catch (Exception ex) {
+
+			new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
+
+		} finally {
+		}
+
+		return _clnNome;
+	}
+
+	public DbColuna getClnOrdemCadastro() {
+		// VARIÁVEIS
+		// FIM VARIÁVEIS
+		try {
+			// AÇÕES
+
+			if (_clnOrdemCadastro == null) {
+				_clnOrdemCadastro = this.getClnChavePrimaria();
+			}
+
+			// FIM AÇÕES
+		} catch (Exception ex) {
+
+			new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
+
+		} finally {
+		}
+
+		return _clnOrdemCadastro;
+	}
+
+	public Class<?> getClsActFrm() {
+		return _clsActFrm;
+	}
+
+	public Cursor getCrsDados() {
+		return this.getCrsDados(this.getLstCln(), null);
+	}
+
+	public Cursor getCrsDados(DbColuna cln) {
+		// VARIÁVEIS
+
+		List<DbColuna> lstCln = null;
+
+		// FIM VARIÁVEIS
+		try {
+			// AÇÕES
+
+			lstCln = new ArrayList<DbColuna>();
+			lstCln.add(cln);
+
+			// FIM AÇÕES
+		} catch (Exception ex) {
+
+			new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
+
+		} finally {
+		}
+
+		return this.getCrsDados(lstCln, null);
+	}
+
+	public Cursor getCrsDados(DbColuna cln, List<DbFiltro> lstObjDbFiltro) {
+		// VARIÁVEIS
+
+		List<DbColuna> lstCln = null;
+
+		// FIM VARIÁVEIS
+		try {
+			// AÇÕES
+
+			lstCln = new ArrayList<DbColuna>();
+			lstCln.add(cln);
+
+			// FIM AÇÕES
+		} catch (Exception ex) {
+
+			new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
+
+		} finally {
+		}
+
+		return this.getCrsDados(lstCln, lstObjDbFiltro);
+	}
+
+	public Cursor getCrsDados(DbColuna clnFiltro, String strFiltro) {
+		// VARIÁVEIS
+
+		Cursor crsResultado = null;
+		ArrayList<DbFiltro> lstObjDbFiltro;
+
+		// FIM VARIÁVEIS
+		try {
+			// AÇÕES
+
+			lstObjDbFiltro = new ArrayList<DbFiltro>();
+			lstObjDbFiltro.add(new DbFiltro(clnFiltro, strFiltro));
+			crsResultado = this.getCrsDados(lstObjDbFiltro);
+
+			// FIM AÇÕES
+		} catch (Exception ex) {
+
+			new Erro(App.getI().getStrTextoPadrao(128), ex.getMessage());
+
+		} finally {
+		}
+		return crsResultado;
 	}
 
 	public Cursor getCrsDados(List<DbColuna> lstCln, List<DbFiltro> lstObjDbFiltro) {
@@ -627,78 +475,8 @@ public abstract class DbTabela extends Objeto {
 		return this.getCrsDados(this.getLstCln(), lstObjDbFiltro);
 	}
 
-	public Cursor getCrsDados(DbColuna cln) {
-		// VARIÁVEIS
-
-		List<DbColuna> lstCln = null;
-
-		// FIM VARIÁVEIS
-		try {
-			// AÇÕES
-
-			lstCln = new ArrayList<DbColuna>();
-			lstCln.add(cln);
-
-			// FIM AÇÕES
-		} catch (Exception ex) {
-
-			new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
-
-		} finally {
-		}
-
-		return this.getCrsDados(lstCln, null);
-	}
-
-	public Cursor getCrsDados(DbColuna cln, List<DbFiltro> lstObjDbFiltro) {
-		// VARIÁVEIS
-
-		List<DbColuna> lstCln = null;
-
-		// FIM VARIÁVEIS
-		try {
-			// AÇÕES
-
-			lstCln = new ArrayList<DbColuna>();
-			lstCln.add(cln);
-
-			// FIM AÇÕES
-		} catch (Exception ex) {
-
-			new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
-
-		} finally {
-		}
-
-		return this.getCrsDados(lstCln, lstObjDbFiltro);
-	}
-
-	public Cursor getCrsDados() {
-		return this.getCrsDados(this.getLstCln(), null);
-	}
-
-	public Cursor getCrsDados(DbColuna clnFiltro, String strFiltro) {
-		// VARIÁVEIS
-
-		Cursor crsResultado = null;
-		ArrayList<DbFiltro> lstObjDbFiltro;
-
-		// FIM VARIÁVEIS
-		try {
-			// AÇÕES
-
-			lstObjDbFiltro = new ArrayList<DbFiltro>();
-			lstObjDbFiltro.add(new DbFiltro(clnFiltro, strFiltro));
-			crsResultado = this.getCrsDados(lstObjDbFiltro);
-
-			// FIM AÇÕES
-		} catch (Exception ex) {
-
-			new Erro(App.getI().getStrTextoPadrao(128), ex.getMessage());
-
-		} finally {
-		}
-		return crsResultado;
+	public Cursor getCrsDadosTelaCadastro() {
+		return this.getCrsDadosTelaCadastro(this.getLstDbFiltroTelaCadastro());
 	}
 
 	public Cursor getCrsDadosTelaCadastro(List<DbFiltro> lstObjDbFiltro) {
@@ -834,35 +612,168 @@ public abstract class DbTabela extends Objeto {
 		return crsResultado;
 	}
 
-	public Cursor getCrsDadosTelaCadastro() {
-		return this.getCrsDadosTelaCadastro(this.getLstDbFiltroTelaCadastro());
-	}
-
-	public String getStrClnNomePeloNomeSimplificado(String strNomeSimplificado) {
+	public int getIntQtdLinha() {
 		// VARIÁVEIS
 
-		String strColunaNome = Utils.STRING_VAZIA;
+		String sql;
 
 		// FIM VARIÁVEIS
 		try {
 			// AÇÕES
 
-			for (DbColuna cln : this.getLstCln()) {
+			sql = "SELECT COUNT(" + this.getClnChavePrimaria().getStrNomeSimplificado() + ") FROM " + this.getStrNomeSimplificado() + ";";
+			_intQtdLinha = this.getObjDataBase().execSqlGetInt(sql);
 
-				if (cln.getStrNomeSimplificado().equals(strNomeSimplificado)) {
-					strColunaNome = cln.getStrNomeExibicao();
-					break;
+			// FIM AÇÕES
+		} catch (Exception ex) {
+
+			_intQtdLinha = 0;
+
+		} finally {
+		}
+
+		return _intQtdLinha;
+	}
+
+	public List<DbColuna> getLstCln() {
+		// VARIÁVEIS
+		// FIM VARIÁVEIS
+		try {
+			// AÇÕES
+
+			if (_lstCln == null) {
+				_lstCln = new ArrayList<DbColuna>();
+			}
+
+			// FIM AÇÕES
+		} catch (Exception ex) {
+
+			new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
+
+		} finally {
+		}
+
+		return _lstCln;
+	}
+
+	public ArrayList<DbFiltro> getLstDbFiltroTelaCadastro() {
+		// VARIÁVEIS
+		// FIM VARIÁVEIS
+		try {
+			// AÇÕES
+
+			if (_lstDbFiltroTelaCadastro == null) {
+				_lstDbFiltroTelaCadastro = new ArrayList<DbFiltro>();
+			}
+
+			// FIM AÇÕES
+		} catch (Exception ex) {
+
+			new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
+
+		} finally {
+		}
+
+		return _lstDbFiltroTelaCadastro;
+	}
+
+	public List<Integer> getLstInt(DbColuna cln, List<DbFiltro> lstObjDbFiltro) {
+		// VARIÁVEIS
+
+		List<Integer> lstIntResultado = null;
+		List<String> lstStr;
+
+		// FIM VARIÁVEIS
+		try {
+			// AÇÕES
+
+			lstStr = this.getLstStr(cln, lstObjDbFiltro);
+
+			if (lstStr != null && !lstStr.isEmpty()) {
+
+				lstIntResultado = new ArrayList<Integer>();
+				for (String str : lstStr) {
+
+					lstIntResultado.add(Integer.valueOf(str));
 				}
 			}
 
 			// FIM AÇÕES
 		} catch (Exception ex) {
 
-			new Erro(App.getI().getStrTextoPadrao(128), ex.getMessage());
+			new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
 
 		} finally {
 		}
-		return strColunaNome;
+
+		return lstIntResultado;
+	}
+
+	public List<ItmConsulta> getLstItmConsulta() {
+		// VARIÁVEIS
+
+		Cursor crs;
+		ItmConsulta itmConsulta;
+
+		// FIM VARIÁVEIS
+		try {
+			// AÇÕES
+
+			if (_lstItmConsulta == null) {
+
+				_lstItmConsulta = new ArrayList<ItmConsulta>();
+				crs = this.getCrsDadosTelaCadastro();
+
+				if (crs != null && crs.moveToFirst()) {
+
+					do {
+
+						itmConsulta = new ItmConsulta();
+						itmConsulta.setStrItemId(crs.getString(crs.getColumnIndex(this.getClnChavePrimaria().getStrNomeSimplificado())));
+
+						if (this.getClnNome().getClnReferencia() != null) {
+							itmConsulta.setStrNome(crs.getString(crs.getColumnIndex("_strNomeB")));
+						} else {
+							itmConsulta.setStrNome(crs.getString(crs.getColumnIndex(this.getClnNome().getStrNomeSimplificado())));
+						}
+
+						for (int intColunaIndex = 0; intColunaIndex <= 4; intColunaIndex++) {
+
+							if (intColunaIndex < crs.getColumnCount()) {
+
+								switch (intColunaIndex) {
+								case 2:
+									itmConsulta.setStrCampo001Nome(this.getStrClnNomePeloNomeSimplificado(crs.getColumnName(intColunaIndex)));
+									itmConsulta.setStrCampo001Valor(crs.getString(intColunaIndex));
+									break;
+								case 3:
+									itmConsulta.setStrCampo002Nome(this.getStrClnNomePeloNomeSimplificado(crs.getColumnName(intColunaIndex)));
+									itmConsulta.setStrCampo002Valor(crs.getString(intColunaIndex));
+									break;
+								case 4:
+									itmConsulta.setStrCampo003Nome(this.getStrClnNomePeloNomeSimplificado(crs.getColumnName(intColunaIndex)));
+									itmConsulta.setStrCampo003Valor(crs.getString(intColunaIndex));
+									break;
+								}
+							}
+						}
+
+						_lstItmConsulta.add(itmConsulta);
+
+					} while (crs.moveToNext());
+				}
+
+			}
+
+			// FIM AÇÕES
+		} catch (Exception ex) {
+
+			new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
+
+		} finally {
+		}
+
+		return _lstItmConsulta;
 	}
 
 	public List<String> getLstStr(DbColuna cln, List<DbFiltro> lstObjDbFiltro) {
@@ -897,25 +808,14 @@ public abstract class DbTabela extends Objeto {
 		return lstStrResultado;
 	}
 
-	public List<Integer> getLstInt(DbColuna cln, List<DbFiltro> lstObjDbFiltro) {
+	public DataBase getObjDataBase() {
 		// VARIÁVEIS
-
-		List<Integer> lstIntResultado = null;
-		List<String> lstStr;
-
 		// FIM VARIÁVEIS
 		try {
 			// AÇÕES
 
-			lstStr = this.getLstStr(cln, lstObjDbFiltro);
-
-			if (lstStr != null && !lstStr.isEmpty()) {
-
-				lstIntResultado = new ArrayList<Integer>();
-				for (String str : lstStr) {
-
-					lstIntResultado.add(Integer.valueOf(str));
-				}
+			if (_objDataBase == null) {
+				this._objDataBase = App.getI().getObjDataBasePrincipal();
 			}
 
 			// FIM AÇÕES
@@ -926,8 +826,41 @@ public abstract class DbTabela extends Objeto {
 		} finally {
 		}
 
-		return lstIntResultado;
+		return _objDataBase;
 	}
+
+	public String getStrClnNomePeloNomeSimplificado(String strNomeSimplificado) {
+		// VARIÁVEIS
+
+		String strColunaNome = Utils.STRING_VAZIA;
+
+		// FIM VARIÁVEIS
+		try {
+			// AÇÕES
+
+			for (DbColuna cln : this.getLstCln()) {
+
+				if (cln.getStrNomeSimplificado().equals(strNomeSimplificado)) {
+					strColunaNome = cln.getStrNomeExibicao();
+					break;
+				}
+			}
+
+			// FIM AÇÕES
+		} catch (Exception ex) {
+
+			new Erro(App.getI().getStrTextoPadrao(128), ex.getMessage());
+
+		} finally {
+		}
+		return strColunaNome;
+	}
+
+	public String getStrPesquisaActConsulta() {
+		return _strPesquisaActConsulta;
+	}
+
+	protected abstract void inicializarColunas();
 
 	public void inserir() {
 		// VARIÁVEIS
@@ -984,12 +917,6 @@ public abstract class DbTabela extends Objeto {
 		}
 	}
 
-	public void salvar() {
-		this.inserir();
-	}
-
-	protected abstract void inicializarColunas();
-
 	public void inserirAleatorio() {
 		// VARIÁVEIS
 		// FIM VARIÁVEIS
@@ -1024,6 +951,71 @@ public abstract class DbTabela extends Objeto {
 		}
 	}
 
+	public void limparCampos() {
+		this.zerarCampos();
+	}
+
+	public void salvar() {
+		this.inserir();
+	}
+
+	protected void setBooPermitirCadastroNovo(boolean booPermitirCadastroNovo) {
+		_booPermitirCadastroNovo = booPermitirCadastroNovo;
+	}
+
+	public void setBooSincronizar(boolean booSincronizar) {
+		_booSincronizar = booSincronizar;
+	}
+
+	public void setClnChavePrimaria(DbColuna clnChavePrimaria) {
+		_clnChavePrimaria = clnChavePrimaria;
+	}
+
+	public void setClnNome(DbColuna clnNome) {
+		// VARIÁVEIS
+		// FIM VARIÁVEIS
+		try {
+			// AÇÕES
+
+			if (_clnNome == null) {
+				_clnNome = this.getClnChavePrimaria();
+			}
+
+			// FIM AÇÕES
+		} catch (Exception ex) {
+
+			new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
+
+		} finally {
+		}
+
+		_clnNome = clnNome;
+	}
+
+	public void setClnOrdemCadastro(DbColuna clnOrdemCadastro) {
+		_clnOrdemCadastro = clnOrdemCadastro;
+	}
+
+	protected void setClsActFrm(Class<?> clsActFrm) {
+		_clsActFrm = clsActFrm;
+	}
+
+	public void setLstCln(List<DbColuna> lstCln) {
+		_lstCln = lstCln;
+	}
+
+	private void setLstItmConsulta(List<ItmConsulta> lstItmConsulta) {
+		_lstItmConsulta = lstItmConsulta;
+	}
+
+	public void setObjDataBase(DataBase objDataBase) {
+		_objDataBase = objDataBase;
+	}
+
+	public void setStrPesquisaActConsulta(String strPesquisaActConsulta) {
+		_strPesquisaActConsulta = strPesquisaActConsulta;
+	}
+
 	public void zerarCampos() {
 		// VARIÁVEIS
 		// FIM VARIÁVEIS
@@ -1043,12 +1035,4 @@ public abstract class DbTabela extends Objeto {
 		}
 	}
 
-	public void limparCampos() {
-		this.zerarCampos();
-	}
-
-	// FIM MÉTODOS
-
-	// EVENTOS
-	// FIM EVENTOS
 }

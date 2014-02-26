@@ -21,7 +21,6 @@ import android.widget.EditText;
 import com.digosofter.digodroid.erro.Erro;
 
 public abstract class Utils {
-	// CONSTANTES
 
 	public enum EnmDataFormato {
 		DD_MM, DD_MM_YY, DD_MM_YYYY, DD_MM_YYYY_HH_MM, DD_MM_YYYY_HH_MM_SS, HH_MM_DD_MM_YYYY, HH_MM_SS_DD_MM_YYYY, YYYY_MM_DD_HH_MM_SS
@@ -34,16 +33,6 @@ public abstract class Utils {
 	public static final Locale LOCAL_BRASIL = new Locale("pt", "BR");
 
 	public static final String STRING_VAZIA = "";
-
-	// FIM CONSTANTES
-
-	// ATRIBUTOS
-	// FIM ATRIBUTOS
-
-	// CONSTRUTORES
-	// FIM CONSTRUTORES
-
-	// MÉTODOS
 
 	public static double arredondar(double dblValor, int intQtdCasas, int ceilOrFloor) {
 		// VARIÁVEIS
@@ -147,7 +136,7 @@ public abstract class Utils {
 
 	/**
 	 * Verifica se a string é uma URL válida.
-	 *
+	 * 
 	 * @param url
 	 *            String a ser avaliada.
 	 */
@@ -365,6 +354,10 @@ public abstract class Utils {
 		return strComplexa;
 	}
 
+	public static String getStrToken(List<String> lstStrTermo) {
+		return Utils.getStrToken(lstStrTermo, 5);
+	}
+
 	public static String getStrToken(List<String> lstStrTermo, int intTamanho) {
 		// VARIÁVEIS
 
@@ -390,10 +383,6 @@ public abstract class Utils {
 		} finally {
 		}
 		return strTokenResultado;
-	}
-
-	public static String getStrToken(List<String> lstStrTermo) {
-		return Utils.getStrToken(lstStrTermo, 5);
 	}
 
 	public static String getStrValorMonetario(double monValor) {
@@ -430,8 +419,8 @@ public abstract class Utils {
 			// AÇÕES
 
 			stbDteResultado = new StringBuilder();
-			stbDteResultado.append(String.format("%d/%02d/%02d", objGregorianCalendar.get(GregorianCalendar.DAY_OF_MONTH), objGregorianCalendar.get(GregorianCalendar.MONTH) + 1,
-					objGregorianCalendar.get(GregorianCalendar.YEAR)));
+			stbDteResultado
+					.append(String.format("%d/%02d/%02d", objGregorianCalendar.get(Calendar.DAY_OF_MONTH), objGregorianCalendar.get(Calendar.MONTH) + 1, objGregorianCalendar.get(Calendar.YEAR)));
 
 			// FIM AÇÕES
 		} catch (Exception ex) {
@@ -449,6 +438,15 @@ public abstract class Utils {
 			boolean isUpdating;
 			String old = "";
 
+			@Override
+			public void afterTextChanged(Editable s) {
+			}
+
+			@Override
+			public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+			}
+
+			@Override
 			public void onTextChanged(CharSequence s, int start, int before, int count) {
 				String str = Utils.removerMascara(s.toString());
 				String mascara = "";
@@ -474,12 +472,6 @@ public abstract class Utils {
 				ediTxt.setText(mascara);
 				ediTxt.setSelection(mascara.length());
 			}
-
-			public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-			}
-
-			public void afterTextChanged(Editable s) {
-			}
 		};
 	}
 
@@ -495,13 +487,11 @@ public abstract class Utils {
 		try {
 			// AÇÕES
 
-			 HttpURLConnection con = (HttpURLConnection) new
-			 URL(url).openConnection();
-			 con.setRequestMethod("HEAD");
-			 booResultado = con.getResponseCode() ==
-			 HttpURLConnection.HTTP_OK;
+			HttpURLConnection con = (HttpURLConnection) new URL(url).openConnection();
+			con.setRequestMethod("HEAD");
+			booResultado = con.getResponseCode() == HttpURLConnection.HTTP_OK;
 
-		// FIM AÇÕES
+			// FIM AÇÕES
 		} catch (Exception ex) {
 
 			booResultado = false;
@@ -585,8 +575,4 @@ public abstract class Utils {
 		return dteResultado;
 	}
 
-	// FIM MÉTODOS
-
-	// EVENTOS
-	// FIM EVENTOS
 }

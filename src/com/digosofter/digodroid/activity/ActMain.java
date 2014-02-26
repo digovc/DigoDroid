@@ -17,16 +17,6 @@ import com.digosofter.digodroid.App;
 import com.digosofter.digodroid.erro.Erro;
 
 public abstract class ActMain extends ActionBarActivity {
-	// CONSTANTES
-	// FIM CONSTANTES
-
-	// ATRIBUTOS
-	// FIM ATRIBUTOS
-
-	// CONSTRUTORES
-	// FIM CONSTRUTORES
-
-	// MÉTODOS
 
 	protected void addFragmento(int intIdPnlContainer, Fragment objFragmento) {
 		// VARIÁVEIS
@@ -43,28 +33,6 @@ public abstract class ActMain extends ActionBarActivity {
 
 		} finally {
 		}
-	}
-
-	protected View getView(int intId) {
-		// VARIÁVEIS
-
-		View viewResultado = null;
-
-		// FIM VARIÁVEIS
-		try {
-			// AÇÕES
-
-			viewResultado = this.findViewById(intId);
-
-			// FIM AÇÕES
-		} catch (Exception ex) {
-
-			new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
-
-		} finally {
-		}
-
-		return viewResultado;
 	}
 
 	public Button getButton(int intId) {
@@ -103,13 +71,30 @@ public abstract class ActMain extends ActionBarActivity {
 		return (VideoView) this.getView(intId);
 	}
 
+	protected View getView(int intId) {
+		// VARIÁVEIS
+
+		View viewResultado = null;
+
+		// FIM VARIÁVEIS
+		try {
+			// AÇÕES
+
+			viewResultado = this.findViewById(intId);
+
+			// FIM AÇÕES
+		} catch (Exception ex) {
+
+			new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
+
+		} finally {
+		}
+
+		return viewResultado;
+	}
+
 	protected abstract void montarLayout();
 
 	protected abstract void setEventos();
 
-	// FIM MÉTODOS
-
-	// EVENTOS
-
-	// FIM EVENTOS
 }

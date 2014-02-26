@@ -5,97 +5,32 @@ import com.digosofter.digodroid.Objeto;
 import com.digosofter.digodroid.erro.Erro;
 
 public class DbFiltro extends Objeto {
-	// CONSTANTES
 
 	public enum EnmOperador {
-		DIFERENTE, IGUAL, MAIOR, MENOR, MAIOR_IGUAL, MENOR_IGUAL
+		DIFERENTE, IGUAL, MAIOR, MAIOR_IGUAL, MENOR, MENOR_IGUAL
 	}
-
-	// FIM CONSTANTES
-
-	// ATRIBUTOS
 
 	private boolean _booSubSelect;
 
-	private boolean getBooSubSelect() {
-		return _booSubSelect;
-	}
-
-	private void setBooSubSelect(boolean booSubSelect) {
-		_booSubSelect = booSubSelect;
-	}
+	private DbColuna _clnFiltro;
 
 	private EnmOperador _enmOperador = EnmOperador.IGUAL;
 
-	private EnmOperador getEnmOperador() {
-		return _enmOperador;
-	}
-
-	public void setEnmOperador(EnmOperador enmOperador) {
-		_enmOperador = enmOperador;
-	}
-
-	private DbColuna _clnFiltro;
-
-	private DbColuna getClnFiltro() {
-		return _clnFiltro;
-	}
-
-	private void setClnFiltro(DbColuna clnFiltro) {
-		_clnFiltro = clnFiltro;
-	}
-
 	private String _strCondicao = "AND";
-
-	private String getStrCondicao() {
-		return _strCondicao;
-	}
-
-	public void setStrCondicao(String strCondicao) {
-		_strCondicao = strCondicao;
-	}
 
 	private String _strFiltro;
 
-	private String getStrFiltro() {
-		return _strFiltro;
-	}
-
-	private void setStrFiltro(String strFiltro) {
-		_strFiltro = strFiltro;
-	}
-
 	private String _strOperador;
 
-	private String getStrOperador() {
+	public DbFiltro(DbColuna clnFiltro, EnmOperador enmOperador, int intFiltro) {
 		// VARIÁVEIS
 		// FIM VARIÁVEIS
 		try {
 			// AÇÕES
 
-			switch (this.getEnmOperador()) {
-			case DIFERENTE:
-				_strOperador = "<>";
-				break;
-			case IGUAL:
-				_strOperador = "=";
-				break;
-			case MAIOR:
-				_strOperador = ">";
-				break;
-			case MAIOR_IGUAL:
-				_strOperador = ">=";
-				break;
-			case MENOR:
-				_strOperador = "<";
-				break;
-			case MENOR_IGUAL:
-				_strOperador = "<=";
-				break;
-			default:
-				_strOperador = "=";
-				break;
-			}
+			this.setClnFiltro(clnFiltro);
+			this.setStrFiltro(String.valueOf(intFiltro));
+			this.setEnmOperador(enmOperador);
 
 			// FIM AÇÕES
 		} catch (Exception ex) {
@@ -104,27 +39,22 @@ public class DbFiltro extends Objeto {
 
 		} finally {
 		}
-
-		return _strOperador;
 	}
 
-	// FIM ATRIBUTOS
-
-	// CONSTRUTORES
-
-	public DbFiltro(String strSubSelect) {
+	public DbFiltro(DbColuna clnFiltro, EnmOperador enmOperador, String strFiltro) {
 		// VARIÁVEIS
 		// FIM VARIÁVEIS
 		try {
 			// AÇÕES
 
-			this.setBooSubSelect(true);
-			this.setStrFiltro(strSubSelect);
+			this.setClnFiltro(clnFiltro);
+			this.setStrFiltro(strFiltro);
+			this.setEnmOperador(enmOperador);
 
 			// FIM AÇÕES
 		} catch (Exception ex) {
 
-			new Erro(App.getI().getStrTextoPadrao(121), ex.getMessage());
+			new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
 
 		} finally {
 		}
@@ -166,51 +96,47 @@ public class DbFiltro extends Objeto {
 		}
 	}
 
-	public DbFiltro(DbColuna clnFiltro, EnmOperador enmOperador, int intFiltro) {
+	public DbFiltro(String strSubSelect) {
 		// VARIÁVEIS
 		// FIM VARIÁVEIS
 		try {
 			// AÇÕES
 
-			this.setClnFiltro(clnFiltro);
-			this.setStrFiltro(String.valueOf(intFiltro));
-			this.setEnmOperador(enmOperador);
+			this.setBooSubSelect(true);
+			this.setStrFiltro(strSubSelect);
 
 			// FIM AÇÕES
 		} catch (Exception ex) {
 
-			new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
+			new Erro(App.getI().getStrTextoPadrao(121), ex.getMessage());
 
 		} finally {
 		}
 	}
 
-	public DbFiltro(DbColuna clnFiltro, EnmOperador enmOperador, String strFiltro) {
-		// VARIÁVEIS
-		// FIM VARIÁVEIS
-		try {
-			// AÇÕES
-
-			this.setClnFiltro(clnFiltro);
-			this.setStrFiltro(strFiltro);
-			this.setEnmOperador(enmOperador);
-
-			// FIM AÇÕES
-		} catch (Exception ex) {
-
-			new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
-
-		} finally {
-		}
+	private boolean getBooSubSelect() {
+		return _booSubSelect;
 	}
 
-	// FIM CONSTRUTORES
+	private DbColuna getClnFiltro() {
+		return _clnFiltro;
+	}
 
-	// MÉTODOS
+	private EnmOperador getEnmOperador() {
+		return _enmOperador;
+	}
+
+	private String getStrCondicao() {
+		return _strCondicao;
+	}
+
+	private String getStrFiltro() {
+		return _strFiltro;
+	}
 
 	/**
 	 * Retorna string com o filtro formatado para uso em sql's.
-	 *
+	 * 
 	 */
 	public String getStrFiltroFormatado(boolean booPrimeiroTermo) {
 		// VARIÁVEIS
@@ -258,8 +184,65 @@ public class DbFiltro extends Objeto {
 		return stbResultado.toString();
 	}
 
-	// FIM MÉTODOS
+	private String getStrOperador() {
+		// VARIÁVEIS
+		// FIM VARIÁVEIS
+		try {
+			// AÇÕES
 
-	// EVENTOS
-	// FIM EVENTOS
+			switch (this.getEnmOperador()) {
+			case DIFERENTE:
+				_strOperador = "<>";
+				break;
+			case IGUAL:
+				_strOperador = "=";
+				break;
+			case MAIOR:
+				_strOperador = ">";
+				break;
+			case MAIOR_IGUAL:
+				_strOperador = ">=";
+				break;
+			case MENOR:
+				_strOperador = "<";
+				break;
+			case MENOR_IGUAL:
+				_strOperador = "<=";
+				break;
+			default:
+				_strOperador = "=";
+				break;
+			}
+
+			// FIM AÇÕES
+		} catch (Exception ex) {
+
+			new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
+
+		} finally {
+		}
+
+		return _strOperador;
+	}
+
+	private void setBooSubSelect(boolean booSubSelect) {
+		_booSubSelect = booSubSelect;
+	}
+
+	private void setClnFiltro(DbColuna clnFiltro) {
+		_clnFiltro = clnFiltro;
+	}
+
+	public void setEnmOperador(EnmOperador enmOperador) {
+		_enmOperador = enmOperador;
+	}
+
+	public void setStrCondicao(String strCondicao) {
+		_strCondicao = strCondicao;
+	}
+
+	private void setStrFiltro(String strFiltro) {
+		_strFiltro = strFiltro;
+	}
+
 }

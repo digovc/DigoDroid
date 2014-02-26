@@ -9,53 +9,16 @@ import com.digosofter.digodroid.Utils;
 import com.digosofter.digodroid.activity.ActErro;
 
 public class Erro extends Exception implements Serializable {
-	// CONSTANTES
 
 	private static final long serialVersionUID = 1L;
 
-	// FIM CONSTANTES
-
-	// ATRIBUTOS
-
 	private boolean _booMostrarUsuario = true;
-
-	public boolean getBooMostrarUsuario() {
-		return _booMostrarUsuario;
-	}
-
-	public void setBooMostrarUsuario(boolean booMostrarUsuario) {
-		_booMostrarUsuario = booMostrarUsuario;
-	}
 
 	private String _strMensagem = "Erro do sistema.";
 
-	public String getStrMensagem() {
-		return _strMensagem;
-	}
-
-	public void setStrMensagem(String strMensagem) {
-		_strMensagem = strMensagem;
-	}
-
 	private String _strMensagemDetalhes;
 
-	public String getStrMensagemDetalhes() {
-		return _strMensagemDetalhes;
-	}
-
-	private void setStrMensagemDetalhes(String strMensagemDetalhes) {
-		_strMensagemDetalhes = strMensagemDetalhes;
-	}
-
 	private String _strNome;
-
-	public String getStrNome() {
-		return _strNome;
-	}
-
-	// FIM ATRIBUTOS
-
-	// CONSTRUTORES
 
 	public Erro(String strMensagem, String strMensagemDetalhes) {
 		// VARIÁVEIS
@@ -88,11 +51,32 @@ public class Erro extends Exception implements Serializable {
 		}
 	}
 
-	// FIM CONSTRUTORES
+	public boolean getBooMostrarUsuario() {
+		return _booMostrarUsuario;
+	}
 
-	// MÉTODOS
-	// FIM MÉTODOS
+	public String getStrMensagem() {
+		return _strMensagem;
+	}
 
-	// EVENTOS
-	// FIM EVENTOS
+	public String getStrMensagemDetalhes() {
+		return _strMensagemDetalhes;
+	}
+
+	public String getStrNome() {
+		return _strNome;
+	}
+
+	public void setBooMostrarUsuario(boolean booMostrarUsuario) {
+		_booMostrarUsuario = booMostrarUsuario;
+	}
+
+	public void setStrMensagem(String strMensagem) {
+		_strMensagem = strMensagem;
+	}
+
+	private void setStrMensagemDetalhes(String strMensagemDetalhes) {
+		_strMensagemDetalhes = strMensagemDetalhes;
+	}
+
 }

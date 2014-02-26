@@ -4,13 +4,6 @@ import com.digosofter.digodroid.App;
 import com.digosofter.digodroid.erro.Erro;
 
 public class HttpServer extends NanoHTTPD {
-	// CONSTANTES
-	// FIM CONSTANTES
-
-	// ATRIBUTOS
-	// FIM ATRIBUTOS
-
-	// CONSTRUTORES
 
 	public HttpServer() {
 
@@ -29,12 +22,8 @@ public class HttpServer extends NanoHTTPD {
 		}
 	}
 
-	// FIM CONSTRUTORES
-
 	// DESTRUTOR
 	// FIM DESTRUTOR
-
-	// MÉTODOS
 
 	@Override
 	public Response serve(IHTTPSession session) {
@@ -53,8 +42,4 @@ public class HttpServer extends NanoHTTPD {
 		return super.serve(session);
 	}
 
-	// FIM MÉTODOS
-
-	// EVENTOS
-	// FIM EVENTOS
 }

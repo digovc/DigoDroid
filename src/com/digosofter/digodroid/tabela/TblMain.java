@@ -7,12 +7,38 @@ import com.digosofter.digodroid.database.DbTabela;
 import com.digosofter.digodroid.erro.Erro;
 
 public abstract class TblMain extends DbTabela {
-	// CONSTANTES
-	// FIM CONSTANTES
-
-	// ATRIBUTOS
 
 	private DbColuna _clnDttAlteracao;
+
+	private DbColuna _clnDttCadastro;
+
+	private DbColuna _clnDttExclusao;
+
+	private DbColuna _clnIntId;
+
+	private DbColuna _clnIntUsuarioAlteracaoId;
+
+	private DbColuna _clnIntUsuarioCadastroId;
+
+	private DbColuna _clnIntUsuarioExclusaoId;
+
+	public TblMain(String strNome) {
+
+		super(strNome);
+
+		// VARIÁVEIS
+		// FIM VARIÁVEIS
+		try {
+			// AÇÕES
+
+			// FIM AÇÕES
+		} catch (Exception ex) {
+
+			new Erro(App.getI().getStrTextoPadrao(134), ex.getMessage());
+
+		} finally {
+		}
+	}
 
 	public DbColuna getClnDttAlteracao() {
 		// VARIÁVEIS
@@ -38,8 +64,6 @@ public abstract class TblMain extends DbTabela {
 		return _clnDttAlteracao;
 	}
 
-	private DbColuna _clnDttCadastro;
-
 	public DbColuna getClnDttCadastro() {
 		// VARIÁVEIS
 		// FIM VARIÁVEIS
@@ -64,8 +88,6 @@ public abstract class TblMain extends DbTabela {
 		return _clnDttCadastro;
 	}
 
-	private DbColuna _clnDttExclusao;
-
 	public DbColuna getClnDttExclusao() {
 		// VARIÁVEIS
 		// FIM VARIÁVEIS
@@ -89,8 +111,6 @@ public abstract class TblMain extends DbTabela {
 
 		return _clnDttExclusao;
 	}
-
-	private DbColuna _clnIntId;
 
 	public DbColuna getClnIntId() {
 		// VARIÁVEIS
@@ -117,8 +137,6 @@ public abstract class TblMain extends DbTabela {
 		return _clnIntId;
 	}
 
-	private DbColuna _clnIntUsuarioAlteracaoId;
-
 	public DbColuna getClnIntUsuarioAlteracaoId() {
 		// VARIÁVEIS
 		// FIM VARIÁVEIS
@@ -141,8 +159,6 @@ public abstract class TblMain extends DbTabela {
 
 		return _clnIntUsuarioAlteracaoId;
 	}
-
-	private DbColuna _clnIntUsuarioCadastroId;
 
 	public DbColuna getClnIntUsuarioCadastroId() {
 		// VARIÁVEIS
@@ -167,8 +183,6 @@ public abstract class TblMain extends DbTabela {
 		return _clnIntUsuarioCadastroId;
 	}
 
-	private DbColuna _clnIntUsuarioExclusaoId;
-
 	public DbColuna getClnIntUsuarioExclusaoId() {
 		// VARIÁVEIS
 		// FIM VARIÁVEIS
@@ -191,35 +205,5 @@ public abstract class TblMain extends DbTabela {
 
 		return _clnIntUsuarioExclusaoId;
 	}
-
-	// FIM ATRIBUTOS
-
-	// CONSTRUTORES
-
-	public TblMain(String strNome) {
-
-		super(strNome);
-
-		// VARIÁVEIS
-		// FIM VARIÁVEIS
-		try {
-			// AÇÕES
-
-			// FIM AÇÕES
-		} catch (Exception ex) {
-
-			new Erro(App.getI().getStrTextoPadrao(134), ex.getMessage());
-
-		} finally {
-		}
-	}
-
-	// FIM CONSTRUTORES
-
-	// MÉTODOS
-	// FIM MÉTODOS
-
-	// EVENTOS
-	// FIM EVENTOS
 
 }

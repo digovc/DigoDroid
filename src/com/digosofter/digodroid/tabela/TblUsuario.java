@@ -6,12 +6,29 @@ import com.digosofter.digodroid.database.DbColuna.EnmTipo;
 import com.digosofter.digodroid.erro.Erro;
 
 public class TblUsuario extends TblMain {
-	// CONSTANTES
-	// FIM CONSTANTES
-
-	// ATRIBUTOS
 
 	private DbColuna _clnIntPessoaId;
+
+	private DbColuna _clnStrLogin;
+
+	private DbColuna _clnStrPassword;
+
+	public TblUsuario() {
+
+		super("tblUsuario");
+
+		// VARIÁVEIS
+		// FIM VARIÁVEIS
+		try {
+			// AÇÕES
+			// FIM AÇÕES
+		} catch (Exception ex) {
+
+			new Erro(App.getI().getStrTextoPadrao(136), ex.getMessage());
+
+		} finally {
+		}
+	}
 
 	public DbColuna getClnIntPessoaId() {
 		// VARIÁVEIS
@@ -33,8 +50,6 @@ public class TblUsuario extends TblMain {
 
 		return _clnIntPessoaId;
 	}
-
-	private DbColuna _clnStrLogin;
 
 	public DbColuna getClnStrLogin() {
 		// VARIÁVEIS
@@ -59,8 +74,6 @@ public class TblUsuario extends TblMain {
 		return _clnStrLogin;
 	}
 
-	private DbColuna _clnStrPassword;
-
 	public DbColuna getClnStrPassword() {
 		// VARIÁVEIS
 		// FIM VARIÁVEIS
@@ -83,31 +96,6 @@ public class TblUsuario extends TblMain {
 
 		return _clnStrPassword;
 	}
-
-	// FIM ATRIBUTOS
-
-	// CONSTRUTORES
-
-	public TblUsuario() {
-
-		super("tblUsuario");
-
-		// VARIÁVEIS
-		// FIM VARIÁVEIS
-		try {
-			// AÇÕES
-			// FIM AÇÕES
-		} catch (Exception ex) {
-
-			new Erro(App.getI().getStrTextoPadrao(136), ex.getMessage());
-
-		} finally {
-		}
-	}
-
-	// FIM CONSTRUTORES
-
-	// MÉTODOS
 
 	@Override
 	protected void inicializarColunas() {
@@ -132,7 +120,6 @@ public class TblUsuario extends TblMain {
 			this.getClnStrLogin().setIntOrdem(++intOrdem);
 			this.getClnStrPassword().setIntOrdem(++intOrdem);
 
-
 			// FIM AÇÕES
 		} catch (Exception ex) {
 
@@ -142,8 +129,4 @@ public class TblUsuario extends TblMain {
 		}
 	}
 
-	// FIM MÉTODOS
-
-	// EVENTOS
-	// FIM EVENTOS
 }

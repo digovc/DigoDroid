@@ -3,41 +3,49 @@ package com.digosofter.digodroid;
 import com.digosofter.digodroid.erro.Erro;
 
 public abstract class Objeto {
-	// CONSTANTES
 
 	private static int INT_INDEX;
 
-	// FIM CONSTANTES
-
-	// ATRIBUTOS
-
 	private int _intIndexObjeto = Objeto.INT_INDEX;
+
+	private String _strDescricao;
+
+	private String _strNome;
+
+	private String _strNomeExibicao;
+
+	private String _strNomeSimplificado;
+
+	public Objeto() {
+		try {
+			// VARIÁVEIS
+
+			Objeto.INT_INDEX++;
+
+			// FIM VARIÁVEIS
+
+			// AÇÕES
+
+			// FIM AÇÕES
+		} catch (Exception ex) {
+
+			new Erro(App.getI().getStrTextoPadrao(108), ex.getMessage());
+
+		} finally {
+		}
+	}
 
 	public int getIntIndexObjeto() {
 		return _intIndexObjeto;
 	}
 
-	private String _strDescricao;
-
 	public String getStrDescricao() {
 		return _strDescricao;
 	}
 
-	public void setStrDescricao(String strDescricao) {
-		_strDescricao = strDescricao;
-	}
-
-	private String _strNome;
-
 	public String getStrNome() {
 		return _strNome;
 	}
-
-	public void setStrNome(String strNome) {
-		_strNome = strNome;
-	}
-
-	private String _strNomeExibicao;
 
 	public String getStrNomeExibicao() {
 		// VARIÁVEIS
@@ -60,12 +68,6 @@ public abstract class Objeto {
 		return _strNomeExibicao;
 	}
 
-	public void setStrNomeExibicao(String strNomeExibicao) {
-		_strNomeExibicao = strNomeExibicao;
-	}
-
-	private String _strNomeSimplificado;
-
 	public String getStrNomeSimplificado() {
 		// VARIÁVEIS
 		// FIM VARIÁVEIS
@@ -85,34 +87,16 @@ public abstract class Objeto {
 		return _strNomeSimplificado;
 	}
 
-	// FIM ATRIBUTOS
-
-	// CONSTRUTORES
-
-	public Objeto() {
-		try {
-			// VARIÁVEIS
-
-			Objeto.INT_INDEX++;
-
-			// FIM VARIÁVEIS
-
-			// AÇÕES
-
-			// FIM AÇÕES
-		} catch (Exception ex) {
-
-			new Erro(App.getI().getStrTextoPadrao(108), ex.getMessage());
-
-		} finally {
-		}
+	public void setStrDescricao(String strDescricao) {
+		_strDescricao = strDescricao;
 	}
 
-	// FIM CONSTRUTORES
+	public void setStrNome(String strNome) {
+		_strNome = strNome;
+	}
 
-	// MÉTODOS
-	// FIM MÉTODOS
+	public void setStrNomeExibicao(String strNomeExibicao) {
+		_strNomeExibicao = strNomeExibicao;
+	}
 
-	// EVENTOS
-	// FIM EVENTOS
 }

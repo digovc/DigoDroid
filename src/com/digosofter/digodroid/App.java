@@ -13,10 +13,6 @@ import com.digosofter.digodroid.database.DbTabela;
 import com.digosofter.digodroid.erro.Erro;
 
 public abstract class App extends Objeto {
-	// CONSTANTES
-	// FIM CONSTANTES
-
-	// ATRIBUTOS
 
 	private static App i;
 
@@ -24,36 +20,39 @@ public abstract class App extends Objeto {
 		return i;
 	}
 
-	private void setI(App _i) {
+	private ActMain _actMain;
+
+	private Context _context;
+
+	private int _intVersao;
+
+	private List<MensagemUsuario> _lstObjMensagemUsuarioPadrao;
+
+	private List<DbTabela> _lstTbl;
+
+	private DataBase _objDataBasePrincipal;
+
+	private String _strVersaoExibicao;
+
+	private DbTabela _tblSelecionada;
+
+	public App() {
 		// VARIÁVEIS
 		// FIM VARIÁVEIS
 		try {
 			// AÇÕES
 
-			if (i == null) {
-				i = _i;
-			}
+			this.setI(this);
 
 			// FIM AÇÕES
 		} catch (Exception ex) {
-
-			new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
-
 		} finally {
 		}
 	}
 
-	private ActMain _actMain;
-
 	public ActMain getActMain() {
 		return _actMain;
 	}
-
-	public void setActMain(ActMain actMain) {
-		_actMain = actMain;
-	}
-
-	private Context _context;
 
 	public Context getContext() {
 		// VARIÁVEIS
@@ -74,17 +73,11 @@ public abstract class App extends Objeto {
 		return _context;
 	}
 
-	private int _intVersao;
-
 	public int getIntVersao() {
 		return _intVersao;
 	}
 
-	public void setIntVersao(int intVersao) {
-		_intVersao = intVersao;
-	}
-
-	private List<MensagemUsuario> _lstObjMensagemUsuarioPadrao;
+	public abstract List<MensagemUsuario> getLstObjMensagemUsuario();
 
 	private List<MensagemUsuario> getLstObjMensagemUsuarioPadrao() {
 		// VARIÁVEIS
@@ -153,8 +146,6 @@ public abstract class App extends Objeto {
 		return _lstObjMensagemUsuarioPadrao;
 	}
 
-	private List<DbTabela> _lstTbl;
-
 	public List<DbTabela> getLstTbl() {
 		// VARIÁVEIS
 		// FIM VARIÁVEIS
@@ -175,12 +166,6 @@ public abstract class App extends Objeto {
 
 		return _lstTbl;
 	}
-
-	public void setLstTbl(List<DbTabela> lstTbl) {
-		_lstTbl = lstTbl;
-	}
-
-	private DataBase _objDataBasePrincipal;
 
 	public DataBase getObjDataBasePrincipal() {
 		// VARIÁVEIS
@@ -203,49 +188,9 @@ public abstract class App extends Objeto {
 		return _objDataBasePrincipal;
 	}
 
-	private String _strVersaoExibicao;
-
-	public String getStrVersaoExibicao() {
-		return _strVersaoExibicao;
+	public String getStrMensagemUsuario(int intId) {
+		return this.getStrMensagemUsuario(intId, EnmLingua.PORTUGUES, false);
 	}
-
-	public void setStrVersaoExibicao(String strVersaoExibicao) {
-		_strVersaoExibicao = strVersaoExibicao;
-	}
-
-	private DbTabela _tblSelecionada;
-
-	public DbTabela getTblSelecionada() {
-		return _tblSelecionada;
-	}
-
-	public void setTblSelecionada(DbTabela tblSelecionada) {
-		_tblSelecionada = tblSelecionada;
-	}
-
-	// FIM ATRIBUTOS
-
-	// CONSTRUTORES
-
-	public App() {
-		// VARIÁVEIS
-		// FIM VARIÁVEIS
-		try {
-			// AÇÕES
-
-			this.setI(this);
-
-			// FIM AÇÕES
-		} catch (Exception ex) {
-		} finally {
-		}
-	}
-
-	// FIM CONSTRUTORES
-
-	// MÉTODOS
-
-	public abstract List<MensagemUsuario> getLstObjMensagemUsuario();
 
 	public String getStrMensagemUsuario(int intId, EnmLingua enmLingua, boolean booMensagemPadrao) {
 		// VARIÁVEIS
@@ -285,16 +230,20 @@ public abstract class App extends Objeto {
 		return this.getStrMensagemUsuario(intId, EnmLingua.PORTUGUES, true);
 	}
 
+	public String getStrTexto(int intId) {
+		return this.getStrMensagemUsuario(intId);
+	}
+
 	public String getStrTextoPadrao(int intId) {
 		return this.getStrMensagemUsuarioPadrao(intId);
 	}
 
-	public String getStrMensagemUsuario(int intId) {
-		return this.getStrMensagemUsuario(intId, EnmLingua.PORTUGUES, false);
+	public String getStrVersaoExibicao() {
+		return _strVersaoExibicao;
 	}
 
-	public String getStrTexto(int intId) {
-		return this.getStrMensagemUsuario(intId);
+	public DbTabela getTblSelecionada() {
+		return _tblSelecionada;
 	}
 
 	public void mostrarNoficacao(String strMensagem) {
@@ -325,8 +274,43 @@ public abstract class App extends Objeto {
 		}
 	}
 
-	// FIM MÉTODOS
+	public void setActMain(ActMain actMain) {
+		_actMain = actMain;
+	}
 
-	// EVENTOS
-	// FIM EVENTOS
+	private void setI(App _i) {
+		// VARIÁVEIS
+		// FIM VARIÁVEIS
+		try {
+			// AÇÕES
+
+			if (i == null) {
+				i = _i;
+			}
+
+			// FIM AÇÕES
+		} catch (Exception ex) {
+
+			new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
+
+		} finally {
+		}
+	}
+
+	public void setIntVersao(int intVersao) {
+		_intVersao = intVersao;
+	}
+
+	public void setLstTbl(List<DbTabela> lstTbl) {
+		_lstTbl = lstTbl;
+	}
+
+	public void setStrVersaoExibicao(String strVersaoExibicao) {
+		_strVersaoExibicao = strVersaoExibicao;
+	}
+
+	public void setTblSelecionada(DbTabela tblSelecionada) {
+		_tblSelecionada = tblSelecionada;
+	}
+
 }

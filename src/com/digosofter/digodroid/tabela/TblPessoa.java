@@ -6,12 +6,27 @@ import com.digosofter.digodroid.database.DbColuna.EnmTipo;
 import com.digosofter.digodroid.erro.Erro;
 
 public class TblPessoa extends TblMain {
-	// CONSTANTES
-	// FIM CONSTANTES
-
-	// ATRIBUTOS
 
 	private DbColuna _clnStrNome;
+
+	private DbColuna _clnStrSobrenome;
+
+	public TblPessoa() {
+
+		super("tblPessoa");
+
+		// VARIÁVEIS
+		// FIM VARIÁVEIS
+		try {
+			// AÇÕES
+			// FIM AÇÕES
+		} catch (Exception ex) {
+
+			new Erro(App.getI().getStrTextoPadrao(135), ex.getMessage());
+
+		} finally {
+		}
+	}
 
 	public DbColuna getClnStrNome() {
 		// VARIÁVEIS
@@ -39,8 +54,6 @@ public class TblPessoa extends TblMain {
 		return _clnStrNome;
 	}
 
-	private DbColuna _clnStrSobrenome;
-
 	public DbColuna getClnStrSobrenome() {
 		// VARIÁVEIS
 		// FIM VARIÁVEIS
@@ -64,31 +77,6 @@ public class TblPessoa extends TblMain {
 
 		return _clnStrSobrenome;
 	}
-
-	// FIM ATRIBUTOS
-
-	// CONSTRUTORES
-
-	public TblPessoa() {
-
-		super("tblPessoa");
-
-		// VARIÁVEIS
-		// FIM VARIÁVEIS
-		try {
-			// AÇÕES
-			// FIM AÇÕES
-		} catch (Exception ex) {
-
-			new Erro(App.getI().getStrTextoPadrao(135), ex.getMessage());
-
-		} finally {
-		}
-	}
-
-	// FIM CONSTRUTORES
-
-	// MÉTODOS
 
 	@Override
 	protected void inicializarColunas() {
@@ -121,8 +109,4 @@ public class TblPessoa extends TblMain {
 		}
 	}
 
-	// FIM MÉTODOS
-
-	// EVENTOS
-	// FIM EVENTOS
 }

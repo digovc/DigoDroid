@@ -3,49 +3,16 @@ package com.digosofter.digodroid;
 import com.digosofter.digodroid.erro.Erro;
 
 public class MensagemUsuario extends Objeto {
-	// CONSTANTES
 
 	public enum EnmLingua {
 		INGLES, PORTUGUES
 	}
 
-	// FIM CONSTANTES
-
-	// ATRIBUTOS
-
 	private EnmLingua _enmLingua = EnmLingua.PORTUGUES;
-
-	public EnmLingua getEnmLingua() {
-		return _enmLingua;
-	}
-
-	private void setEnmLingua(EnmLingua enmLingua) {
-		_enmLingua = enmLingua;
-	}
 
 	private int _intId;
 
-	public int getIntId() {
-		return _intId;
-	}
-
-	private void setIntId(int intId) {
-		_intId = intId;
-	}
-
 	private String _strTexto;
-
-	public String getStrTexto() {
-		return _strTexto;
-	}
-
-	private void setStrTexto(String strTexto) {
-		_strTexto = strTexto;
-	}
-
-	// FIM ATRIBUTOS
-
-	// CONSTRUTORES
 
 	public MensagemUsuario(String strTexto, int intId) {
 		// VARIÁVEIS
@@ -84,12 +51,28 @@ public class MensagemUsuario extends Objeto {
 		}
 	}
 
-	// FIM CONSTRUTORES
+	public EnmLingua getEnmLingua() {
+		return _enmLingua;
+	}
 
-	// MÉTODOS
+	public int getIntId() {
+		return _intId;
+	}
 
-	// FIM MÉTODOS
+	public String getStrTexto() {
+		return _strTexto;
+	}
 
-	// EVENTOS
-	// FIM EVENTOS
+	private void setEnmLingua(EnmLingua enmLingua) {
+		_enmLingua = enmLingua;
+	}
+
+	private void setIntId(int intId) {
+		_intId = intId;
+	}
+
+	private void setStrTexto(String strTexto) {
+		_strTexto = strTexto;
+	}
+
 }
