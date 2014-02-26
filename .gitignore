@@ -1,4 +1,5 @@
-﻿/bin
+﻿# Lista de ignorados
 /.settings/org.eclipse.jdt.core.prefs
 /.settings/org.eclipse.ltk.core.refactoring.prefs
 /gen
+/bin
