@@ -133,7 +133,7 @@ public abstract class NanoHTTPD {
 	 * Provides rudimentary support for cookies. Doesn't support 'path',
 	 * 'secure' nor 'httpOnly'. Feel free to improve it and/or add unsupported
 	 * features.
-	 * 
+	 *
 	 * @author LordFokas
 	 */
 	public class CookieHandler implements Iterable<String> {
@@ -156,7 +156,7 @@ public abstract class NanoHTTPD {
 		/**
 		 * Set a cookie with an expiration date from a month ago, effectively
 		 * deleting it on the client side.
-		 * 
+		 *
 		 * @param name
 		 *            The cookie name.
 		 */
@@ -171,7 +171,7 @@ public abstract class NanoHTTPD {
 
 		/**
 		 * Read a cookie from the HTTP Headers.
-		 * 
+		 *
 		 * @param name
 		 *            The cookie's name.
 		 * @return The cookie's value if it exists, null otherwise.
@@ -186,7 +186,7 @@ public abstract class NanoHTTPD {
 
 		/**
 		 * Sets a cookie.
-		 * 
+		 *
 		 * @param name
 		 *            The cookie's name.
 		 * @param value
@@ -201,7 +201,7 @@ public abstract class NanoHTTPD {
 		/**
 		 * Internally used by the webserver to add all queued cookies into the
 		 * Response's HTTP Headers.
-		 * 
+		 *
 		 * @param response
 		 *            The Response object to which headers the queued cookies
 		 *            will be added.
@@ -830,7 +830,7 @@ public abstract class NanoHTTPD {
 
 		/**
 		 * Adds the files in the request body to the files map.
-		 * 
+		 *
 		 * @arg files - map to modify
 		 */
 		void parseBody(Map<String, String> files) throws IOException, ResponseException;
@@ -1069,6 +1069,7 @@ public abstract class NanoHTTPD {
 
 	public static final class ResponseException extends Exception {
 
+		private static final long serialVersionUID = 1L;
 		private final Response.Status status;
 
 		public ResponseException(Response.Status status, String message) {
@@ -1239,7 +1240,7 @@ public abstract class NanoHTTPD {
 	 * Decode parameters from a URL, handing the case where a single parameter
 	 * name might have been supplied several times, by return lists of values.
 	 * In general these lists will contain a single element.
-	 * 
+	 *
 	 * @param parms
 	 *            original <b>NanoHttpd</b> parameters values, as passed to the
 	 *            <code>serve()</code> method.
@@ -1254,7 +1255,7 @@ public abstract class NanoHTTPD {
 	 * Decode parameters from a URL, handing the case where a single parameter
 	 * name might have been supplied several times, by return lists of values.
 	 * In general these lists will contain a single element.
-	 * 
+	 *
 	 * @param queryString
 	 *            a query string pulled from the URL.
 	 * @return a map of <code>String</code> (parameter name) to
@@ -1285,7 +1286,7 @@ public abstract class NanoHTTPD {
 
 	/**
 	 * Decode percent encoded <code>String</code> values.
-	 * 
+	 *
 	 * @param str
 	 *            the percent encoded <code>String</code>
 	 * @return expanded form of the input, for example "foo%20bar" becomes
@@ -1310,7 +1311,7 @@ public abstract class NanoHTTPD {
 
 	/**
 	 * Registers that a new connection has been set up.
-	 * 
+	 *
 	 * @param socket
 	 *            the {@link Socket} for the connection.
 	 */
@@ -1323,7 +1324,7 @@ public abstract class NanoHTTPD {
 	 * <p/>
 	 * <p/>
 	 * (By default, this delegates to serveFile() and allows directory listing.)
-	 * 
+	 *
 	 * @param session
 	 *            The HTTP session
 	 * @return HTTP response, see class Response for details
@@ -1351,7 +1352,7 @@ public abstract class NanoHTTPD {
 	 * <p/>
 	 * <p/>
 	 * (By default, this delegates to serveFile() and allows directory listing.)
-	 * 
+	 *
 	 * @param uri
 	 *            Percent-decoded URI without parameters, for example
 	 *            "/index.cgi"
@@ -1371,7 +1372,7 @@ public abstract class NanoHTTPD {
 
 	/**
 	 * Pluggable strategy for asynchronously executing requests.
-	 * 
+	 *
 	 * @param asyncRunner
 	 *            new strategy for handling threads.
 	 */
@@ -1381,7 +1382,7 @@ public abstract class NanoHTTPD {
 
 	/**
 	 * Pluggable strategy for creating and cleaning up temporary files.
-	 * 
+	 *
 	 * @param tempFileManagerFactory
 	 *            new strategy for handling temp files.
 	 */
@@ -1391,7 +1392,7 @@ public abstract class NanoHTTPD {
 
 	/**
 	 * Start the server.
-	 * 
+	 *
 	 * @throws IOException
 	 *             if the socket is in use.
 	 */
@@ -1459,7 +1460,7 @@ public abstract class NanoHTTPD {
 
 	/**
 	 * Registers that a connection has been closed
-	 * 
+	 *
 	 * @param socket
 	 *            the {@link Socket} for the connection.
 	 */

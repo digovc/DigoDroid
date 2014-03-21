@@ -81,6 +81,7 @@ public class AdpCadastro extends BaseAdapter implements Filterable {
 				return objFilterResults;
 			}
 
+			@SuppressWarnings("unchecked")
 			@Override
 			protected void publishResults(CharSequence constraint, FilterResults results) {
 				// Now we have to inform the adapter about the new list filtered
