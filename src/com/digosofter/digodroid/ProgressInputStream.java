@@ -11,174 +11,174 @@ import com.digosofter.digodroid.erro.Erro;
 
 public class ProgressInputStream extends InputStream {
 
-	public static final String PROGRESS_UPDATE = "progress_update";
+  public static final String PROGRESS_UPDATE = "progress_update";
 
-	private static final int TEN_KILOBYTES = 1024 * 10;
+  private static final int TEN_KILOBYTES = 1024 * 10;
 
-	private boolean closed = false;
-	private Handler handler;
+  private boolean closed = false;
+  private Handler handler;
 
-	private InputStream inputStream;
-	private long lastUpdate = 0;
+  private InputStream inputStream;
+  private long lastUpdate = 0;
 
-	private long progress = 0;
+  private long progress = 0;
 
-	public ProgressInputStream(InputStream inputStream, Handler handler) {
-		// VARIÁVEIS
-		// FIM VARIÁVEIS
-		try {
-			// AÇÕES
+  public ProgressInputStream(InputStream inputStream, Handler handler) {
+    // VARIÁVEIS
+    // FIM VARIÁVEIS
+    try {
+      // AÇÕES
 
-			this.inputStream = inputStream;
-			this.handler = handler;
+      this.inputStream = inputStream;
+      this.handler = handler;
 
-			// FIM AÇÕES
-		} catch (Exception ex) {
+      // FIM AÇÕES
+    } catch (Exception ex) {
 
-			new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
+      new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
 
-		} finally {
-		}
-	}
+    } finally {
+    }
+  }
 
-	@Override
-	public void close() throws IOException {
+  @Override
+  public void close() throws IOException {
 
-		super.close();
+    super.close();
 
-		// VARIÁVEIS
-		// FIM VARIÁVEIS
-		try {
-			// AÇÕES
+    // VARIÁVEIS
+    // FIM VARIÁVEIS
+    try {
+      // AÇÕES
 
-			if (closed) {
-				throw new IOException("already closed");
-			}
+      if (closed) {
+        throw new IOException("already closed");
+      }
 
-			closed = true;
+      closed = true;
 
-			// FIM AÇÕES
-		} catch (Exception ex) {
+      // FIM AÇÕES
+    } catch (Exception ex) {
 
-			new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
+      new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
 
-		} finally {
-		}
-	}
+    } finally {
+    }
+  }
 
-	private int incrementCounterAndUpdateDisplay(int count) {
-		// VARIÁVEIS
-		// FIM VARIÁVEIS
-		try {
-			// AÇÕES
+  private int incrementCounterAndUpdateDisplay(int count) {
+    // VARIÁVEIS
+    // FIM VARIÁVEIS
+    try {
+      // AÇÕES
 
-			if (count > 0)
-				progress += count;
-			lastUpdate = maybeUpdateDisplay(progress, lastUpdate);
+      if (count > 0)
+        progress += count;
+      lastUpdate = maybeUpdateDisplay(progress, lastUpdate);
 
-			// FIM AÇÕES
-		} catch (Exception ex) {
+      // FIM AÇÕES
+    } catch (Exception ex) {
 
-			new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
+      new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
 
-		} finally {
-		}
+    } finally {
+    }
 
-		return count;
-	}
+    return count;
+  }
 
-	private long maybeUpdateDisplay(long progress, long lastUpdate) {
-		// VARIÁVEIS
-		// FIM VARIÁVEIS
-		try {
-			// AÇÕES
+  private long maybeUpdateDisplay(long progress, long lastUpdate) {
+    // VARIÁVEIS
+    // FIM VARIÁVEIS
+    try {
+      // AÇÕES
 
-			if (progress - lastUpdate > TEN_KILOBYTES) {
-				lastUpdate = progress;
-				sendLong(PROGRESS_UPDATE, progress);
-			}
+      if (progress - lastUpdate > TEN_KILOBYTES) {
+        lastUpdate = progress;
+        sendLong(PROGRESS_UPDATE, progress);
+      }
 
-			// FIM AÇÕES
-		} catch (Exception ex) {
+      // FIM AÇÕES
+    } catch (Exception ex) {
 
-			new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
+      new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
 
-		} finally {
-		}
+    } finally {
+    }
 
-		return lastUpdate;
-	}
+    return lastUpdate;
+  }
 
-	@Override
-	public int read() throws IOException {
-		// VARIÁVEIS
+  @Override
+  public int read() throws IOException {
+    // VARIÁVEIS
 
-		int count = 0;
+    int count = 0;
 
-		// FIM VARIÁVEIS
-		try {
-			// AÇÕES
+    // FIM VARIÁVEIS
+    try {
+      // AÇÕES
 
-			count = inputStream.read();
+      count = inputStream.read();
 
-			// FIM AÇÕES
-		} catch (Exception ex) {
+      // FIM AÇÕES
+    } catch (Exception ex) {
 
-			new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
+      new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
 
-		} finally {
-		}
+    } finally {
+    }
 
-		return incrementCounterAndUpdateDisplay(count);
-	}
+    return incrementCounterAndUpdateDisplay(count);
+  }
 
-	@Override
-	public int read(byte[] b, int off, int len) throws IOException {
-		// VARIÁVEIS
+  @Override
+  public int read(byte[] b, int off, int len) throws IOException {
+    // VARIÁVEIS
 
-		int count = 0;
+    int count = 0;
 
-		// FIM VARIÁVEIS
-		try {
-			// AÇÕES
+    // FIM VARIÁVEIS
+    try {
+      // AÇÕES
 
-			count = inputStream.read(b, off, len);
+      count = inputStream.read(b, off, len);
 
-			// FIM AÇÕES
-		} catch (Exception ex) {
+      // FIM AÇÕES
+    } catch (Exception ex) {
 
-			new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
+      new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
 
-		} finally {
-		}
+    } finally {
+    }
 
-		return incrementCounterAndUpdateDisplay(count);
-	}
+    return incrementCounterAndUpdateDisplay(count);
+  }
 
-	public void sendLong(String key, long value) {
-		// VARIÁVEIS
+  public void sendLong(String key, long value) {
+    // VARIÁVEIS
 
-		Bundle data;
-		Message message;
+    Bundle data;
+    Message message;
 
-		// FIM VARIÁVEIS
-		try {
-			// AÇÕES
+    // FIM VARIÁVEIS
+    try {
+      // AÇÕES
 
-			data = new Bundle();
-			data.putLong(key, value);
+      data = new Bundle();
+      data.putLong(key, value);
 
-			message = Message.obtain();
-			message.setData(data);
-			handler.sendMessage(message);
+      message = Message.obtain();
+      message.setData(data);
+      handler.sendMessage(message);
 
-			// FIM AÇÕES
-		} catch (Exception ex) {
+      // FIM AÇÕES
+    } catch (Exception ex) {
 
-			new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
+      new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
 
-		} finally {
-		}
-	}
+    } finally {
+    }
+  }
 
 }

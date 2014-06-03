@@ -22,557 +22,565 @@ import com.digosofter.digodroid.erro.Erro;
 
 public abstract class Utils {
 
-	public enum EnmDataFormato {
-		DD_MM, DD_MM_YY, DD_MM_YYYY, DD_MM_YYYY_HH_MM, DD_MM_YYYY_HH_MM_SS, HH_MM_DD_MM_YYYY, HH_MM_SS_DD_MM_YYYY, YYYY_MM_DD_HH_MM_SS
-	}
-
-	public static enum EnmRandomTipo {
-		ALPHA, ALPHANUMERICO, NUMERICO
-	}
-
-	public static final Locale LOCAL_BRASIL = new Locale("pt", "BR");
-
-	public static final String STRING_VAZIA = "";
-
-	public static double arredondar(double dblValor, int intQtdCasas, int ceilOrFloor) {
-		// VARIÁVEIS
-
-		double dblValorArredondado = dblValor;
-
-		// FIM VARIÁVEIS
-		try {
-			// AÇÕES
-
-			dblValorArredondado *= (Math.pow(10, intQtdCasas));
-			if (ceilOrFloor == 0) {
-				dblValorArredondado = Math.ceil(dblValorArredondado);
-			} else {
-				dblValorArredondado = Math.floor(dblValorArredondado);
-			}
-			dblValorArredondado /= (Math.pow(10, intQtdCasas));
-
-			// FIM AÇÕES
-		} catch (Exception ex) {
-
-			new Erro(App.getI().getStrTextoPadrao(109), ex.getMessage());
-
-		} finally {
-		}
-		return dblValorArredondado;
-	}
-
-	public static String enmDataFormatoToString(EnmDataFormato enmDataFormato) {
-		// VARIÁVEIS
-
-		String strDataFormatoResultado = Utils.STRING_VAZIA;
-
-		// FIM VARIÁVEIS
-		try {
-			// AÇÕES
-
-			switch (enmDataFormato) {
-			case DD_MM:
-				strDataFormatoResultado = "dd/MM";
-				break;
-			case DD_MM_YY:
-				strDataFormatoResultado = "dd/MM/yy";
-				break;
-			case DD_MM_YYYY:
-				strDataFormatoResultado = "dd/MM/yyyy";
-				break;
-			case DD_MM_YYYY_HH_MM:
-				strDataFormatoResultado = "dd/MM/yyyy HH:mm";
-				break;
-			case DD_MM_YYYY_HH_MM_SS:
-				strDataFormatoResultado = "dd/MM/yyyy HH:mm:ss";
-				break;
-			case HH_MM_DD_MM_YYYY:
-				strDataFormatoResultado = "HH:mm dd/MM/yyyy";
-				break;
-			case HH_MM_SS_DD_MM_YYYY:
-				strDataFormatoResultado = "HH:mm:ss dd/MM/yyyy";
-				break;
-			case YYYY_MM_DD_HH_MM_SS:
-				strDataFormatoResultado = "yyyy/MM/dd HH:mm:ss";
-				break;
-			default:
-				strDataFormatoResultado = "dd/MM/yyyy";
-				break;
-			}
+  public enum EnmDataFormato {
+    DD_MM, DD_MM_YY, DD_MM_YYYY, DD_MM_YYYY_HH_MM, DD_MM_YYYY_HH_MM_SS, HH_MM_DD_MM_YYYY, HH_MM_SS_DD_MM_YYYY, YYYY_MM_DD_HH_MM_SS
+  }
+
+  public static enum EnmRandomTipo {
+    ALPHA, ALPHANUMERICO, NUMERICO
+  }
+
+  public static final Locale LOCAL_BRASIL = new Locale("pt", "BR");
+
+  public static final String STRING_VAZIA = "";
+
+  public static double arredondar(double dblValor, int intQtdCasas, int ceilOrFloor) {
+    // VARIÁVEIS
+
+    double dblValorArredondado = dblValor;
+
+    // FIM VARIÁVEIS
+    try {
+      // AÇÕES
+
+      dblValorArredondado *= (Math.pow(10, intQtdCasas));
+      if (ceilOrFloor == 0) {
+        dblValorArredondado = Math.ceil(dblValorArredondado);
+      } else {
+        dblValorArredondado = Math.floor(dblValorArredondado);
+      }
+      dblValorArredondado /= (Math.pow(10, intQtdCasas));
+
+      // FIM AÇÕES
+    } catch (Exception ex) {
+
+      new Erro(App.getI().getStrTextoPadrao(109), ex.getMessage());
+
+    } finally {
+    }
+    return dblValorArredondado;
+  }
+
+  public static String enmDataFormatoToString(EnmDataFormato enmDataFormato) {
+    // VARIÁVEIS
+
+    String strDataFormatoResultado = Utils.STRING_VAZIA;
+
+    // FIM VARIÁVEIS
+    try {
+      // AÇÕES
+
+      switch (enmDataFormato) {
+        case DD_MM:
+          strDataFormatoResultado = "dd/MM";
+          break;
+        case DD_MM_YY:
+          strDataFormatoResultado = "dd/MM/yy";
+          break;
+        case DD_MM_YYYY:
+          strDataFormatoResultado = "dd/MM/yyyy";
+          break;
+        case DD_MM_YYYY_HH_MM:
+          strDataFormatoResultado = "dd/MM/yyyy HH:mm";
+          break;
+        case DD_MM_YYYY_HH_MM_SS:
+          strDataFormatoResultado = "dd/MM/yyyy HH:mm:ss";
+          break;
+        case HH_MM_DD_MM_YYYY:
+          strDataFormatoResultado = "HH:mm dd/MM/yyyy";
+          break;
+        case HH_MM_SS_DD_MM_YYYY:
+          strDataFormatoResultado = "HH:mm:ss dd/MM/yyyy";
+          break;
+        case YYYY_MM_DD_HH_MM_SS:
+          strDataFormatoResultado = "yyyy/MM/dd HH:mm:ss";
+          break;
+        default:
+          strDataFormatoResultado = "dd/MM/yyyy";
+          break;
+      }
 
-			// FIM AÇÕES
-		} catch (Exception ex) {
+      // FIM AÇÕES
+    } catch (Exception ex) {
 
-			new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
+      new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
 
-		} finally {
-		}
-		return strDataFormatoResultado;
-	}
+    } finally {
+    }
+    return strDataFormatoResultado;
+  }
 
-	public static boolean getBooIsEmptyNull(String str) {
-		// VARIÁVEIS
+  public static boolean getBooIsEmptyNull(String str) {
+    // VARIÁVEIS
 
-		boolean booBooIsEmptyNullResultado = true;
+    boolean booBooIsEmptyNullResultado = true;
 
-		// FIM VARIÁVEIS
-		try {
-			// AÇÕES
+    // FIM VARIÁVEIS
+    try {
+      // AÇÕES
 
-			if (str != null && !str.isEmpty()) {
-				booBooIsEmptyNullResultado = false;
-			}
+      if (str != null && !str.isEmpty()) {
+        booBooIsEmptyNullResultado = false;
+      }
 
-			// FIM AÇÕES
-		} catch (Exception ex) {
+      // FIM AÇÕES
+    } catch (Exception ex) {
 
-			new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
+      new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
 
-		} finally {
-		}
+    } finally {
+    }
 
-		return booBooIsEmptyNullResultado;
-	}
+    return booBooIsEmptyNullResultado;
+  }
 
-	/**
-	 * Verifica se a string é uma URL válida.
-	 * 
-	 * @param url
-	 *            String a ser avaliada.
-	 */
-	public static boolean getBooUrlValida(String url) {
-		// VARIÁVEIS
+  /**
+   * Verifica se a string é uma URL válida.
+   * 
+   * @param url
+   *          String a ser avaliada.
+   */
+  public static boolean getBooUrlValida(String url) {
+    // VARIÁVEIS
 
-		boolean booResultado = true;
+    boolean booResultado = true;
 
-		// FIM VARIÁVEIS
-		try {
-			// AÇÕES
+    // FIM VARIÁVEIS
+    try {
+      // AÇÕES
 
-			new URL(url);
+      new URL(url);
 
-			// FIM AÇÕES
-		} catch (Exception ex) {
+      // FIM AÇÕES
+    } catch (Exception ex) {
 
-			booResultado = false;
+      booResultado = false;
 
-		} finally {
-		}
+    } finally {
+    }
 
-		return booResultado;
-	}
+    return booResultado;
+  }
 
-	public static Date getDttAgora() {
-		// VARIÁVEIS
+  public static Date getDttAgora() {
+    // VARIÁVEIS
 
-		Date dttResultado = null;
+    Date dttResultado = null;
 
-		// FIM VARIÁVEIS
-		try {
-			// AÇÕES
+    // FIM VARIÁVEIS
+    try {
+      // AÇÕES
 
-			dttResultado = new Date();
+      dttResultado = new Date();
 
-			// FIM AÇÕES
-		} catch (Exception ex) {
+      // FIM AÇÕES
+    } catch (Exception ex) {
 
-			new Erro(App.getI().getStrTextoPadrao(110), ex.getMessage());
+      new Erro(App.getI().getStrTextoPadrao(110), ex.getMessage());
 
-		} finally {
-		}
-		return dttResultado;
-	}
+    } finally {
+    }
+    return dttResultado;
+  }
 
-	public static int getIntCorAleatoria() {
-		// VARIÁVEIS
+  public static int getIntCorAleatoria() {
+    // VARIÁVEIS
 
-		int intColorResultado = 0;
-		Random objRandom = new Random();
+    int intColorResultado = 0;
+    Random objRandom = new Random();
 
-		// FIM VARIÁVEIS
-		try {
-			// AÇÕES
+    // FIM VARIÁVEIS
+    try {
+      // AÇÕES
 
-			intColorResultado = Color.argb(255, objRandom.nextInt(256), objRandom.nextInt(256), objRandom.nextInt(256));
+      intColorResultado = Color.argb(255, objRandom.nextInt(256), objRandom.nextInt(256),
+          objRandom.nextInt(256));
 
-			// FIM AÇÕES
-		} catch (Exception ex) {
+      // FIM AÇÕES
+    } catch (Exception ex) {
 
-			new Erro(App.getI().getStrTextoPadrao(110), ex.getMessage());
+      new Erro(App.getI().getStrTextoPadrao(110), ex.getMessage());
 
-		} finally {
-		}
-		return intColorResultado;
-	}
+    } finally {
+    }
+    return intColorResultado;
+  }
 
-	public static String getStrAleatoria(int intTamanho, EnmRandomTipo enmRandomTipo) {
-		// VARIÁVEIS
+  public static String getStrAleatoria(int intTamanho, EnmRandomTipo enmRandomTipo) {
+    // VARIÁVEIS
 
-		int intCharactersLength;
+    int intCharactersLength;
 
-		StringBuffer strBuffer = new StringBuffer();
-		String strCharacters = "";
+    StringBuffer strBuffer = new StringBuffer();
+    String strCharacters = "";
 
-		// FIM VARIÁVEIS
-		try {
-			// AÇÕES
+    // FIM VARIÁVEIS
+    try {
+      // AÇÕES
 
-			switch (enmRandomTipo) {
+      switch (enmRandomTipo) {
 
-			case ALPHA:
-				strCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
-				break;
-			case ALPHANUMERICO:
-				strCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
-				break;
-			case NUMERICO:
-				strCharacters = "1234567890";
-				break;
-			}
+        case ALPHA:
+          strCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+          break;
+        case ALPHANUMERICO:
+          strCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
+          break;
+        case NUMERICO:
+          strCharacters = "1234567890";
+          break;
+      }
 
-			intCharactersLength = strCharacters.length();
+      intCharactersLength = strCharacters.length();
 
-			for (int i = 0; i < intTamanho; i++) {
-				double index = Math.random() * intCharactersLength;
-				strBuffer.append(strCharacters.charAt((int) index));
-			}
+      for (int i = 0; i < intTamanho; i++) {
+        double index = Math.random() * intCharactersLength;
+        strBuffer.append(strCharacters.charAt((int) index));
+      }
 
-			// FIM AÇÕES
-		} catch (Exception ex) {
+      // FIM AÇÕES
+    } catch (Exception ex) {
 
-			new Erro(App.getI().getStrTextoPadrao(111), ex.getMessage());
+      new Erro(App.getI().getStrTextoPadrao(111), ex.getMessage());
 
-		} finally {
-		}
+    } finally {
+    }
 
-		return strBuffer.toString();
-	}
+    return strBuffer.toString();
+  }
 
-	public static String getStrDataFormatada(Date objDate, EnmDataFormato enmDataFormato) {
-		// VARIÁVEIS
+  public static String getStrDataFormatada(Date objDate, EnmDataFormato enmDataFormato) {
+    // VARIÁVEIS
 
-		String strDataFormato = Utils.STRING_VAZIA;
-		SimpleDateFormat objSimpleDateFormat = null;
+    String strDataFormato = Utils.STRING_VAZIA;
+    SimpleDateFormat objSimpleDateFormat = null;
 
-		// FIM VARIÁVEIS
-		try {
-			// AÇÕES
+    // FIM VARIÁVEIS
+    try {
+      // AÇÕES
 
-			strDataFormato = Utils.enmDataFormatoToString(enmDataFormato);
-			objSimpleDateFormat = new SimpleDateFormat(strDataFormato, LOCAL_BRASIL);
+      strDataFormato = Utils.enmDataFormatoToString(enmDataFormato);
+      objSimpleDateFormat = new SimpleDateFormat(strDataFormato, LOCAL_BRASIL);
 
-			// FIM AÇÕES
-		} catch (Exception ex) {
+      // FIM AÇÕES
+    } catch (Exception ex) {
 
-			new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
+      new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
 
-		} finally {
-			// LIMPAR VARIÁVEIS
-			// FIM LIMPAR VARIÁVEIS
-		}
+    } finally {
+      // LIMPAR VARIÁVEIS
+      // FIM LIMPAR VARIÁVEIS
+    }
 
-		return objSimpleDateFormat.format(objDate);
-	}
+    return objSimpleDateFormat.format(objDate);
+  }
 
-	public static String getStrMd5(String str) {
-		// VARIÁVEIS
+  public static String getStrMd5(String str) {
+    // VARIÁVEIS
 
-		BigInteger objBigInteger;
-		MessageDigest objMessageDigest;
-		String strMd5Resultado = Utils.STRING_VAZIA;
+    BigInteger objBigInteger;
+    MessageDigest objMessageDigest;
+    String strMd5Resultado = Utils.STRING_VAZIA;
 
-		// FIM VARIÁVEIS
-		try {
-			// AÇÕES
+    // FIM VARIÁVEIS
+    try {
+      // AÇÕES
 
-			objMessageDigest = MessageDigest.getInstance("MD5");
-			objBigInteger = new BigInteger(1, objMessageDigest.digest(str.getBytes()));
-			strMd5Resultado = String.format("%0" + (objMessageDigest.digest(str.getBytes()).length << 1) + "X", objBigInteger);
+      objMessageDigest = MessageDigest.getInstance("MD5");
+      objBigInteger = new BigInteger(1, objMessageDigest.digest(str.getBytes()));
+      strMd5Resultado = String.format("%0" + (objMessageDigest.digest(str.getBytes()).length << 1)
+          + "X", objBigInteger);
 
-			// FIM AÇÕES
-		} catch (Exception ex) {
+      // FIM AÇÕES
+    } catch (Exception ex) {
 
-			new Erro(App.getI().getStrTextoPadrao(112), ex.getMessage());
+      new Erro(App.getI().getStrTextoPadrao(112), ex.getMessage());
 
-		} finally {
-		}
+    } finally {
+    }
 
-		return strMd5Resultado;
-	}
+    return strMd5Resultado;
+  }
 
-	public static String getStrPrimeiraMaiuscula(String str) {
-		// VARIÁVEIS
-		// FIM VARIÁVEIS
-		try {
-			// AÇÕES
+  public static String getStrPrimeiraMaiuscula(String str) {
+    // VARIÁVEIS
+    // FIM VARIÁVEIS
+    try {
+      // AÇÕES
 
-			str = str.substring(0, 1).toUpperCase(LOCAL_BRASIL) + str.substring(1);
+      str = str.substring(0, 1).toUpperCase(LOCAL_BRASIL) + str.substring(1);
 
-			// FIM AÇÕES
-		} catch (Exception ex) {
+      // FIM AÇÕES
+    } catch (Exception ex) {
 
-			new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
+      new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
 
-		} finally {
-		}
-		return str;
-	}
+    } finally {
+    }
+    return str;
+  }
 
-	public static String getStrSimplificada(String strComplexa) {
-		// VARIÁVEIS
+  public static String getStrSimplificada(String strComplexa) {
+    // VARIÁVEIS
 
-		String[] arrChrAcentos;
-		String[] arrChrCaracteresEspeciais;
-		String[] arrChrSemAcento;
+    String[] arrChrAcentos;
+    String[] arrChrCaracteresEspeciais;
+    String[] arrChrSemAcento;
 
-		// FIM VARIÁVEIS
-		try {
-			// AÇÕES
+    // FIM VARIÁVEIS
+    try {
+      // AÇÕES
 
-			strComplexa = strComplexa.toLowerCase(Locale.ENGLISH);
-			arrChrAcentos = new String[] { "ç", "á", "é", "í", "ó", "ú", "ý", "à", "è", "ì", "ò", "ù", "ã", "õ", "ñ", "ä", "ë", "ï", "ö", "ü", "ÿ", "â", "ê", "î", "ô", "û" };
-			arrChrSemAcento = new String[] { "c", "a", "e", "i", "o", "u", "y", "a", "e", "i", "o", "u", "a", "o", "n", "a", "e", "i", "o", "u", "y", "a", "e", "i", "o", "u" };
-			for (int intTemp = 0; intTemp < arrChrAcentos.length; intTemp++) {
-				strComplexa = strComplexa.replace(arrChrAcentos[intTemp], arrChrSemAcento[intTemp]);
-			}
-			arrChrCaracteresEspeciais = new String[] { "\\.", ",", "-", ":", "\\(", "\\)", "ª", "\\|", "\\\\", "°", "^\\s+", "\\s+$", "\\s+", ".", "(", ")" };
-			for (int intTemp = 0; intTemp < arrChrCaracteresEspeciais.length; intTemp++) {
-				strComplexa = strComplexa.replace(arrChrCaracteresEspeciais[intTemp], "");
-			}
-			strComplexa = strComplexa.replace(" ", "");
+      strComplexa = strComplexa.toLowerCase(Locale.ENGLISH);
+      arrChrAcentos = new String[] { "ç", "á", "é", "í", "ó", "ú", "ý", "à", "è", "ì", "ò", "ù",
+          "ã", "õ", "ñ", "ä", "ë", "ï", "ö", "ü", "ÿ", "â", "ê", "î", "ô", "û" };
+      arrChrSemAcento = new String[] { "c", "a", "e", "i", "o", "u", "y", "a", "e", "i", "o", "u",
+          "a", "o", "n", "a", "e", "i", "o", "u", "y", "a", "e", "i", "o", "u" };
+      for (int intTemp = 0; intTemp < arrChrAcentos.length; intTemp++) {
+        strComplexa = strComplexa.replace(arrChrAcentos[intTemp], arrChrSemAcento[intTemp]);
+      }
+      arrChrCaracteresEspeciais = new String[] { "\\.", ",", "-", ":", "\\(", "\\)", "ª", "\\|",
+          "\\\\", "°", "^\\s+", "\\s+$", "\\s+", ".", "(", ")" };
+      for (int intTemp = 0; intTemp < arrChrCaracteresEspeciais.length; intTemp++) {
+        strComplexa = strComplexa.replace(arrChrCaracteresEspeciais[intTemp], "");
+      }
+      strComplexa = strComplexa.replace(" ", "");
 
-			// FIM AÇÕES
-		} catch (Exception ex) {
+      // FIM AÇÕES
+    } catch (Exception ex) {
 
-			new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
+      new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
 
-		} finally {
-			arrChrAcentos = null;
-			arrChrCaracteresEspeciais = null;
-			arrChrSemAcento = null;
-		}
-		return strComplexa;
-	}
+    } finally {
+      arrChrAcentos = null;
+      arrChrCaracteresEspeciais = null;
+      arrChrSemAcento = null;
+    }
+    return strComplexa;
+  }
 
-	public static String getStrToken(List<String> lstStrTermo) {
-		return Utils.getStrToken(lstStrTermo, 5);
-	}
+  public static String getStrToken(List<String> lstStrTermo) {
+    return Utils.getStrToken(lstStrTermo, 5);
+  }
 
-	public static String getStrToken(List<String> lstStrTermo, int intTamanho) {
-		// VARIÁVEIS
+  public static String getStrToken(List<String> lstStrTermo, int intTamanho) {
+    // VARIÁVEIS
 
-		String strTermoMd5 = Utils.STRING_VAZIA;
-		String strTokenResultado = Utils.STRING_VAZIA;
+    String strTermoMd5 = Utils.STRING_VAZIA;
+    String strTokenResultado = Utils.STRING_VAZIA;
 
-		// FIM VARIÁVEIS
-		try {
-			// AÇÕES
+    // FIM VARIÁVEIS
+    try {
+      // AÇÕES
 
-			for (String strTermo : lstStrTermo) {
-				strTermoMd5 = Utils.getStrMd5(strTermo);
-				strTokenResultado = Utils.getStrMd5(strTokenResultado + strTermoMd5);
-			}
+      for (String strTermo : lstStrTermo) {
+        strTermoMd5 = Utils.getStrMd5(strTermo);
+        strTokenResultado = Utils.getStrMd5(strTokenResultado + strTermoMd5);
+      }
 
-			strTokenResultado = strTokenResultado.substring(0, intTamanho);
+      strTokenResultado = strTokenResultado.substring(0, intTamanho);
 
-			// FIM AÇÕES
-		} catch (Exception ex) {
+      // FIM AÇÕES
+    } catch (Exception ex) {
 
-			new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
+      new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
 
-		} finally {
-		}
-		return strTokenResultado;
-	}
+    } finally {
+    }
+    return strTokenResultado;
+  }
 
-	public static String getStrValorMonetario(double monValor) {
-		// VARIÁVEIS
+  public static String getStrValorMonetario(double monValor) {
+    // VARIÁVEIS
 
-		NumberFormat objNumberFormat = null;
+    NumberFormat objNumberFormat = null;
 
-		// FIM VARIÁVEIS
-		try {
-			// AÇÕES
+    // FIM VARIÁVEIS
+    try {
+      // AÇÕES
 
-			objNumberFormat = NumberFormat.getCurrencyInstance(LOCAL_BRASIL);
+      objNumberFormat = NumberFormat.getCurrencyInstance(LOCAL_BRASIL);
 
-			// FIM AÇÕES
-		} catch (Exception ex) {
+      // FIM AÇÕES
+    } catch (Exception ex) {
 
-			new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
+      new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
 
-		} finally {
-			// LIMPAR VARIÁVEIS
-			// FIM LIMPAR VARIÁVEIS
-		}
+    } finally {
+      // LIMPAR VARIÁVEIS
+      // FIM LIMPAR VARIÁVEIS
+    }
 
-		return objNumberFormat.format(monValor);
-	}
+    return objNumberFormat.format(monValor);
+  }
 
-	public static String gregorianCalendarToString(GregorianCalendar objGregorianCalendar) {
-		// VARIÁVEIS
+  public static String gregorianCalendarToString(GregorianCalendar objGregorianCalendar) {
+    // VARIÁVEIS
 
-		StringBuilder stbDteResultado = null;
+    StringBuilder stbDteResultado = null;
 
-		// FIM VARIÁVEIS
-		try {
-			// AÇÕES
+    // FIM VARIÁVEIS
+    try {
+      // AÇÕES
 
-			stbDteResultado = new StringBuilder();
-			stbDteResultado
-					.append(String.format("%d/%02d/%02d", objGregorianCalendar.get(Calendar.DAY_OF_MONTH), objGregorianCalendar.get(Calendar.MONTH) + 1, objGregorianCalendar.get(Calendar.YEAR)));
+      stbDteResultado = new StringBuilder();
+      stbDteResultado.append(String.format("%d/%02d/%02d",
+          objGregorianCalendar.get(Calendar.DAY_OF_MONTH),
+          objGregorianCalendar.get(Calendar.MONTH) + 1, objGregorianCalendar.get(Calendar.YEAR)));
 
-			// FIM AÇÕES
-		} catch (Exception ex) {
+      // FIM AÇÕES
+    } catch (Exception ex) {
 
-			new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
+      new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
 
-		} finally {
-		}
+    } finally {
+    }
 
-		return stbDteResultado.toString();
-	}
+    return stbDteResultado.toString();
+  }
 
-	public static TextWatcher inserirMascara(final String strMascara, final EditText ediTxt) {
-		return new TextWatcher() {
-			boolean isUpdating;
-			String old = "";
+  public static TextWatcher inserirMascara(final String strMascara, final EditText ediTxt) {
+    return new TextWatcher() {
+      boolean isUpdating;
+      String old = "";
 
-			@Override
-			public void afterTextChanged(Editable s) {
-			}
+      @Override
+      public void afterTextChanged(Editable s) {
+      }
 
-			@Override
-			public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-			}
+      @Override
+      public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+      }
 
-			@Override
-			public void onTextChanged(CharSequence s, int start, int before, int count) {
-				String str = Utils.removerMascara(s.toString());
-				String mascara = "";
-				if (isUpdating) {
-					old = str;
-					isUpdating = false;
-					return;
-				}
-				int i = 0;
-				for (char m : strMascara.toCharArray()) {
-					if (m != '#' && str.length() > old.length()) {
-						mascara += m;
-						continue;
-					}
-					try {
-						mascara += str.charAt(i);
-					} catch (Exception e) {
-						break;
-					}
-					i++;
-				}
-				isUpdating = true;
-				ediTxt.setText(mascara);
-				ediTxt.setSelection(mascara.length());
-			}
-		};
-	}
+      @Override
+      public void onTextChanged(CharSequence s, int start, int before, int count) {
+        String str = Utils.removerMascara(s.toString());
+        String mascara = "";
+        if (isUpdating) {
+          old = str;
+          isUpdating = false;
+          return;
+        }
+        int i = 0;
+        for (char m : strMascara.toCharArray()) {
+          if (m != '#' && str.length() > old.length()) {
+            mascara += m;
+            continue;
+          }
+          try {
+            mascara += str.charAt(i);
+          } catch (Exception e) {
+            break;
+          }
+          i++;
+        }
+        isUpdating = true;
+        ediTxt.setText(mascara);
+        ediTxt.setSelection(mascara.length());
+      }
+    };
+  }
 
-	/**
-	 * "Pinga" um host e retorna true caso haja resposta deste.
-	 */
-	public static boolean ping(String url) {
-		// VARIÁVEIS
+  /**
+   * "Pinga" um host e retorna true caso haja resposta deste.
+   */
+  public static boolean ping(String url) {
+    // VARIÁVEIS
 
-		boolean booResultado = true;
+    boolean booResultado = true;
 
-		// FIM VARIÁVEIS
-		try {
-			// AÇÕES
+    // FIM VARIÁVEIS
+    try {
+      // AÇÕES
 
-			HttpURLConnection con = (HttpURLConnection) new URL(url).openConnection();
-			con.setRequestMethod("HEAD");
-			booResultado = con.getResponseCode() == HttpURLConnection.HTTP_OK;
+      HttpURLConnection con = (HttpURLConnection) new URL(url).openConnection();
+      con.setRequestMethod("HEAD");
+      booResultado = con.getResponseCode() == HttpURLConnection.HTTP_OK;
 
-			// FIM AÇÕES
-		} catch (Exception ex) {
+      // FIM AÇÕES
+    } catch (Exception ex) {
 
-			booResultado = false;
+      booResultado = false;
 
-		} finally {
-		}
+    } finally {
+    }
 
-		return booResultado;
-	}
+    return booResultado;
+  }
 
-	public static String removerMascara(String s) {
-		return s.replaceAll("[.]", "").replaceAll("[-]", "").replaceAll("[/]", "").replaceAll("[(]", "").replaceAll("[)]", "");
-	}
+  public static String removerMascara(String s) {
+    return s.replaceAll("[.]", "").replaceAll("[-]", "").replaceAll("[/]", "")
+        .replaceAll("[(]", "").replaceAll("[)]", "");
+  }
 
-	public static String removerUltimaLetra(String str) {
-		// VARIÁVEIS
-		// FIM VARIÁVEIS
-		try {
-			// AÇÕES
+  public static String removerUltimaLetra(String str) {
+    // VARIÁVEIS
+    // FIM VARIÁVEIS
+    try {
+      // AÇÕES
 
-			str = str.substring(0, str.length() - 1);
+      str = str.substring(0, str.length() - 1);
 
-			// FIM AÇÕES
-		} catch (Exception ex) {
+      // FIM AÇÕES
+    } catch (Exception ex) {
 
-			new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
+      new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
 
-		} finally {
-		}
-		return str;
-	}
+    } finally {
+    }
+    return str;
+  }
 
-	public static Date strToDte(String strDte, EnmDataFormato enmDataFormato) {
-		// VARIÁVEIS
+  public static Date strToDte(String strDte, EnmDataFormato enmDataFormato) {
+    // VARIÁVEIS
 
-		Date dteResultado = null;
-		SimpleDateFormat objSimpleDateFormat;
+    Date dteResultado = null;
+    SimpleDateFormat objSimpleDateFormat;
 
-		// FIM VARIÁVEIS
-		try {
-			// AÇÕES
+    // FIM VARIÁVEIS
+    try {
+      // AÇÕES
 
-			objSimpleDateFormat = new SimpleDateFormat(Utils.enmDataFormatoToString(enmDataFormato), LOCAL_BRASIL);
-			dteResultado = objSimpleDateFormat.parse(strDte);
+      objSimpleDateFormat = new SimpleDateFormat(Utils.enmDataFormatoToString(enmDataFormato),
+          LOCAL_BRASIL);
+      dteResultado = objSimpleDateFormat.parse(strDte);
 
-			// FIM AÇÕES
-		} catch (Exception ex) {
+      // FIM AÇÕES
+    } catch (Exception ex) {
 
-			new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
+      new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
 
-		} finally {
-		}
-		return dteResultado;
-	}
+    } finally {
+    }
+    return dteResultado;
+  }
 
-	public static GregorianCalendar strToGregorianCalendar(String strDte) {
-		// VARIÁVEIS
+  public static GregorianCalendar strToGregorianCalendar(String strDte) {
+    // VARIÁVEIS
 
-		GregorianCalendar dteResultado = null;
+    GregorianCalendar dteResultado = null;
 
-		// FIM VARIÁVEIS
-		try {
-			// AÇÕES
+    // FIM VARIÁVEIS
+    try {
+      // AÇÕES
 
-			dteResultado = new GregorianCalendar();
-			dteResultado.setTime(Utils.strToDte(strDte, EnmDataFormato.DD_MM_YYYY));
-			dteResultado.add(Calendar.MONTH, 1);
+      dteResultado = new GregorianCalendar();
+      dteResultado.setTime(Utils.strToDte(strDte, EnmDataFormato.DD_MM_YYYY));
+      dteResultado.add(Calendar.MONTH, 1);
 
-			if (dteResultado.get(Calendar.MONTH) == 12) {
-				dteResultado.add(Calendar.YEAR, 1);
-			}
+      if (dteResultado.get(Calendar.MONTH) == 12) {
+        dteResultado.add(Calendar.YEAR, 1);
+      }
 
-			// FIM AÇÕES
-		} catch (Exception ex) {
+      // FIM AÇÕES
+    } catch (Exception ex) {
 
-			new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
+      new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
 
-		} finally {
-		}
+    } finally {
+    }
 
-		return dteResultado;
-	}
+    return dteResultado;
+  }
 
 }

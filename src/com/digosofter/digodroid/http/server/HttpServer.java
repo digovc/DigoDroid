@@ -5,41 +5,41 @@ import com.digosofter.digodroid.erro.Erro;
 
 public class HttpServer extends NanoHTTPD {
 
-	public HttpServer() {
+  public HttpServer() {
 
-		super(8080);
+    super(8080);
 
-		// VARIÁVEIS
-		// FIM VARIÁVEIS
-		try {
-			// AÇÕES
-			// FIM AÇÕES
-		} catch (Exception ex) {
+    // VARIÁVEIS
+    // FIM VARIÁVEIS
+    try {
+      // AÇÕES
+      // FIM AÇÕES
+    } catch (Exception ex) {
 
-			new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
+      new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
 
-		} finally {
-		}
-	}
+    } finally {
+    }
+  }
 
-	// DESTRUTOR
-	// FIM DESTRUTOR
+  // DESTRUTOR
+  // FIM DESTRUTOR
 
-	@Override
-	public Response serve(IHTTPSession session) {
-		// VARIÁVEIS
-		// FIM VARIÁVEIS
-		try {
-			// AÇÕES
-			// FIM AÇÕES
-		} catch (Exception ex) {
+  @Override
+  public Response serve(IHTTPSession session) {
+    // VARIÁVEIS
+    // FIM VARIÁVEIS
+    try {
+      // AÇÕES
+      // FIM AÇÕES
+    } catch (Exception ex) {
 
-			new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
+      new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
 
-		} finally {
-		}
+    } finally {
+    }
 
-		return super.serve(session);
-	}
+    return super.serve(session);
+  }
 
 }

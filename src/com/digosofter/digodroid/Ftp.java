@@ -6,76 +6,76 @@ import com.digosofter.digodroid.erro.Erro;
 
 public class Ftp extends Objeto {
 
-	private FTPClient _objFtpClient;
+  private FTPClient _objFtpClient;
 
-	private String _strLogin;
+  private String _strLogin;
 
-	private String _strPassword;
+  private String _strPassword;
 
-	private String _strUrl;
+  private String _strUrl;
 
-	public Ftp(String strUrl, String strLogin, String strPassword) {
-		// VARIÁVEIS
+  public Ftp(String strUrl, String strLogin, String strPassword) {
+    // VARIÁVEIS
 
-		this.setStrUrl(strUrl);
-		this.setStrLogin(strLogin);
-		this.setStrPassword(strPassword);
+    this.setStrUrl(strUrl);
+    this.setStrLogin(strLogin);
+    this.setStrPassword(strPassword);
 
-		// FIM VARIÁVEIS
-		try {
-			// AÇÕES
-			// FIM AÇÕES
-		} catch (Exception ex) {
+    // FIM VARIÁVEIS
+    try {
+      // AÇÕES
+      // FIM AÇÕES
+    } catch (Exception ex) {
 
-			new Erro(App.getI().getStrTextoPadrao(106), ex.getMessage());
+      new Erro(App.getI().getStrTextoPadrao(106), ex.getMessage());
 
-		} finally {
-		}
-	}
+    } finally {
+    }
+  }
 
-	protected FTPClient getObjFtpClient() {
-		// VARIÁVEIS
-		// FIM VARIÁVEIS
-		try {
-			// AÇÕES
+  protected FTPClient getObjFtpClient() {
+    // VARIÁVEIS
+    // FIM VARIÁVEIS
+    try {
+      // AÇÕES
 
-			if (_objFtpClient == null) {
-				_objFtpClient = new FTPClient();
-			}
+      if (_objFtpClient == null) {
+        _objFtpClient = new FTPClient();
+      }
 
-			// FIM AÇÕES
-		} catch (Exception ex) {
+      // FIM AÇÕES
+    } catch (Exception ex) {
 
-			new Erro(App.getI().getStrTextoPadrao(105), ex.getMessage());
+      new Erro(App.getI().getStrTextoPadrao(105), ex.getMessage());
 
-		} finally {
-		}
+    } finally {
+    }
 
-		return _objFtpClient;
-	}
+    return _objFtpClient;
+  }
 
-	protected String getStrLogin() {
-		return _strLogin;
-	}
+  protected String getStrLogin() {
+    return _strLogin;
+  }
 
-	protected String getStrPassword() {
-		return _strPassword;
-	}
+  protected String getStrPassword() {
+    return _strPassword;
+  }
 
-	protected String getStrUrl() {
-		return _strUrl;
-	}
+  protected String getStrUrl() {
+    return _strUrl;
+  }
 
-	private void setStrLogin(String strLogin) {
-		_strLogin = strLogin;
-	}
+  private void setStrLogin(String strLogin) {
+    _strLogin = strLogin;
+  }
 
-	private void setStrPassword(String strPassword) {
-		_strPassword = strPassword;
-	}
+  private void setStrPassword(String strPassword) {
+    _strPassword = strPassword;
+  }
 
-	private void setStrUrl(String strUrl) {
-		_strUrl = strUrl;
-	}
+  private void setStrUrl(String strUrl) {
+    _strUrl = strUrl;
+  }
 
 }

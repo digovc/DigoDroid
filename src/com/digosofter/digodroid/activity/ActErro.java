@@ -11,190 +11,191 @@ import com.digosofter.digodroid.erro.Erro;
 
 public class ActErro extends ActMain {
 
-	private Erro _err;
+  private Erro _err;
 
-	private TextView _txtAppNome;
+  private TextView _txtAppNome;
 
-	private TextView _txtErroMensagem;
+  private TextView _txtErroMensagem;
 
-	private TextView _txtErroTitulo;
+  private TextView _txtErroTitulo;
 
-	public void actErro_btnIgnorarOnClick(View objView) {
-		// VARIÁVEIS
-		// FIM VARIÁVEIS
-		try {
-			// AÇÕES
+  public void actErro_btnIgnorarOnClick(View objView) {
+    // VARIÁVEIS
+    // FIM VARIÁVEIS
+    try {
+      // AÇÕES
 
-			this.finish();
+      this.finish();
 
-			// FIM AÇÕES
-		} catch (Exception ex) {
+      // FIM AÇÕES
+    } catch (Exception ex) {
 
-			new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
+      new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
 
-		} finally {
-		}
-	}
+    } finally {
+    }
+  }
 
-	public Erro getErr() {
-		return _err;
-	}
+  public Erro getErr() {
+    return _err;
+  }
 
-	private TextView getTxtAppNome() {
-		// VARIÁVEIS
-		// FIM VARIÁVEIS
-		try {
-			// AÇÕES
+  private TextView getTxtAppNome() {
+    // VARIÁVEIS
+    // FIM VARIÁVEIS
+    try {
+      // AÇÕES
 
-			if (_txtAppNome == null) {
-				_txtAppNome = (TextView) this.findViewById(R.id.actErro_txtAppNome);
-			}
+      if (_txtAppNome == null) {
+        _txtAppNome = (TextView) this.findViewById(R.id.actErro_txtAppNome);
+      }
 
-			// FIM AÇÕES
-		} catch (Exception ex) {
+      // FIM AÇÕES
+    } catch (Exception ex) {
 
-			new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
+      new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
 
-		} finally {
-		}
+    } finally {
+    }
 
-		return _txtAppNome;
-	}
+    return _txtAppNome;
+  }
 
-	private TextView getTxtErroMensagem() {
-		// VARIÁVEIS
-		// FIM VARIÁVEIS
-		try {
-			// AÇÕES
+  private TextView getTxtErroMensagem() {
+    // VARIÁVEIS
+    // FIM VARIÁVEIS
+    try {
+      // AÇÕES
 
-			if (_txtErroMensagem == null) {
-				_txtErroMensagem = (TextView) this.findViewById(R.id.actErro_txtErroMensagem);
-			}
+      if (_txtErroMensagem == null) {
+        _txtErroMensagem = (TextView) this.findViewById(R.id.actErro_txtErroMensagem);
+      }
 
-			// FIM AÇÕES
-		} catch (Exception ex) {
+      // FIM AÇÕES
+    } catch (Exception ex) {
 
-			new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
+      new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
 
-		} finally {
-		}
+    } finally {
+    }
 
-		return _txtErroMensagem;
-	}
+    return _txtErroMensagem;
+  }
 
-	private TextView getTxtErroTitulo() {
-		// VARIÁVEIS
-		// FIM VARIÁVEIS
-		try {
-			// AÇÕES
+  private TextView getTxtErroTitulo() {
+    // VARIÁVEIS
+    // FIM VARIÁVEIS
+    try {
+      // AÇÕES
 
-			if (_txtErroTitulo == null) {
-				_txtErroTitulo = (TextView) this.findViewById(R.id.actErro_txtErroTitulo);
-			}
+      if (_txtErroTitulo == null) {
+        _txtErroTitulo = (TextView) this.findViewById(R.id.actErro_txtErroTitulo);
+      }
 
-			// FIM AÇÕES
-		} catch (Exception ex) {
+      // FIM AÇÕES
+    } catch (Exception ex) {
 
-			new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
+      new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
 
-		} finally {
-		}
+    } finally {
+    }
 
-		return _txtErroTitulo;
-	}
+    return _txtErroTitulo;
+  }
 
-	@Override
-	protected void montarLayout() {
-		// VARIÁVEIS
-		// FIM VARIÁVEIS
-		try {
-			// AÇÕES
+  @Override
+  protected void montarLayout() {
+    // VARIÁVEIS
+    // FIM VARIÁVEIS
+    try {
+      // AÇÕES
 
-			// FIM AÇÕES
-		} catch (Exception ex) {
+      // FIM AÇÕES
+    } catch (Exception ex) {
 
-			new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
+      new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
 
-		} finally {
-		}
-	}
+    } finally {
+    }
+  }
 
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
+  @Override
+  protected void onCreate(Bundle savedInstanceState) {
 
-		super.onCreate(savedInstanceState);
+    super.onCreate(savedInstanceState);
 
-		// VARIÁVEIS
-		// FIM VARIÁVEIS
-		try {
-			// AÇÕES
+    // VARIÁVEIS
+    // FIM VARIÁVEIS
+    try {
+      // AÇÕES
 
-			setContentView(R.layout.act_erro);
-			this.setErr((Erro) getIntent().getSerializableExtra("Erro"));
-			this.montarLayout();
+      setContentView(R.layout.act_erro);
+      this.setErr((Erro) getIntent().getSerializableExtra("Erro"));
+      this.montarLayout();
 
-			// FIM AÇÕES
-		} catch (Exception ex) {
+      // FIM AÇÕES
+    } catch (Exception ex) {
 
-			new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
+      new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
 
-		} finally {
-		}
-	}
+    } finally {
+    }
+  }
 
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		// VARIÁVEIS
-		// FIM VARIÁVEIS
-		try {
-			// AÇÕES
-			// FIM AÇÕES
-		} catch (Exception ex) {
+  @Override
+  public boolean onCreateOptionsMenu(Menu menu) {
+    // VARIÁVEIS
+    // FIM VARIÁVEIS
+    try {
+      // AÇÕES
+      // FIM AÇÕES
+    } catch (Exception ex) {
 
-			new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
+      new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
 
-		} finally {
-		}
+    } finally {
+    }
 
-		return true;
-	}
+    return true;
+  }
 
-	private void setErr(Erro err) {
-		// VARIÁVEIS
-		// FIM VARIÁVEIS
-		try {
-			// AÇÕES
+  private void setErr(Erro err) {
+    // VARIÁVEIS
+    // FIM VARIÁVEIS
+    try {
+      // AÇÕES
 
-			_err = err;
+      _err = err;
 
-			this.getTxtAppNome().setText(App.getI().getStrNome());
-			this.getTxtErroTitulo().setText(_err.getStrNome());
+      this.getTxtAppNome().setText(App.getI().getStrNome());
+      this.getTxtErroTitulo().setText(_err.getStrNome());
 
-			if (_err.getStrMensagemDetalhes() != null) {
-				this.getTxtErroMensagem().setText(_err.getStrMensagem() + "\n\nDetalhes: " + _err.getStrMensagemDetalhes());
-			} else {
-				this.getTxtErroMensagem().setText(_err.getStrMensagem());
-			}
+      if (_err.getStrMensagemDetalhes() != null) {
+        this.getTxtErroMensagem().setText(
+            _err.getStrMensagem() + "\n\nDetalhes: " + _err.getStrMensagemDetalhes());
+      } else {
+        this.getTxtErroMensagem().setText(_err.getStrMensagem());
+      }
 
-			// FIM AÇÕES
-		} catch (Exception ex) {
-		} finally {
-		}
-	}
+      // FIM AÇÕES
+    } catch (Exception ex) {
+    } finally {
+    }
+  }
 
-	@Override
-	protected void setEventos() {
-		// VARIÁVEIS
-		// FIM VARIÁVEIS
-		try {
-			// AÇÕES
-			// FIM AÇÕES
-		} catch (Exception ex) {
+  @Override
+  protected void setEventos() {
+    // VARIÁVEIS
+    // FIM VARIÁVEIS
+    try {
+      // AÇÕES
+      // FIM AÇÕES
+    } catch (Exception ex) {
 
-			new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
+      new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
 
-		} finally {
-		}
-	}
+    } finally {
+    }
+  }
 
 }

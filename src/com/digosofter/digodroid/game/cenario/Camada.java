@@ -9,85 +9,85 @@ import com.digosofter.digodroid.erro.Erro;
 
 public class Camada extends Objeto {
 
-	private int _intZ;
+  private int _intZ;
 
-	private List<Quadro> _lstObjQuadro;
+  private List<Quadro> _lstObjQuadro;
 
-	private Cenario _objCenario;
+  private Cenario _objCenario;
 
-	public Camada(Cenario objCenario) {
-		// VARIÁVEIS
-		// FIM VARIÁVEIS
-		try {
-			// AÇÕES
+  public Camada(Cenario objCenario) {
+    // VARIÁVEIS
+    // FIM VARIÁVEIS
+    try {
+      // AÇÕES
 
-			this.setObjCenario(objCenario);
+      this.setObjCenario(objCenario);
 
-			// FIM AÇÕES
-		} catch (Exception ex) {
+      // FIM AÇÕES
+    } catch (Exception ex) {
 
-			new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
+      new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
 
-		} finally {
-		}
-	}
+    } finally {
+    }
+  }
 
-	private int getIntZ() {
-		return _intZ;
-	}
+  private int getIntZ() {
+    return _intZ;
+  }
 
-	public List<Quadro> getLstObjQuadro() {
-		// VARIÁVEIS
-		// FIM VARIÁVEIS
-		try {
-			// AÇÕES
+  public List<Quadro> getLstObjQuadro() {
+    // VARIÁVEIS
+    // FIM VARIÁVEIS
+    try {
+      // AÇÕES
 
-			if (_lstObjQuadro == null) {
-				_lstObjQuadro = new ArrayList<Quadro>();
-			}
+      if (_lstObjQuadro == null) {
+        _lstObjQuadro = new ArrayList<Quadro>();
+      }
 
-			// FIM AÇÕES
-		} catch (Exception ex) {
+      // FIM AÇÕES
+    } catch (Exception ex) {
 
-			new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
+      new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
 
-		} finally {
-		}
+    } finally {
+    }
 
-		return _lstObjQuadro;
-	}
+    return _lstObjQuadro;
+  }
 
-	private Cenario getObjCenario() {
-		return _objCenario;
-	}
+  private Cenario getObjCenario() {
+    return _objCenario;
+  }
 
-	public void setIntZ(int intZ) {
-		_intZ = intZ;
-	}
+  public void setIntZ(int intZ) {
+    _intZ = intZ;
+  }
 
-	private void setLstObjQuadro(List<Quadro> lstObjQuadro) {
-		_lstObjQuadro = lstObjQuadro;
-	}
+  private void setLstObjQuadro(List<Quadro> lstObjQuadro) {
+    _lstObjQuadro = lstObjQuadro;
+  }
 
-	private void setObjCenario(Cenario objCenario) {
-		// VARIÁVEIS
-		// FIM VARIÁVEIS
-		try {
-			// AÇÕES
+  private void setObjCenario(Cenario objCenario) {
+    // VARIÁVEIS
+    // FIM VARIÁVEIS
+    try {
+      // AÇÕES
 
-			_objCenario = objCenario;
-			_objCenario.getLstObjCamada().add(this);
+      _objCenario = objCenario;
+      _objCenario.getLstObjCamada().add(this);
 
-			// FIM AÇÕES
-		} catch (Exception ex) {
+      // FIM AÇÕES
+    } catch (Exception ex) {
 
-			new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
+      new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
 
-		} finally {
-		}
-	}
+    } finally {
+    }
+  }
 
-	// DESTRUTOR
-	// FIM DESTRUTOR
+  // DESTRUTOR
+  // FIM DESTRUTOR
 
 }

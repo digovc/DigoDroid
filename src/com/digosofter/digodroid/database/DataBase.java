@@ -11,210 +11,210 @@ import com.digosofter.digodroid.erro.Erro;
 
 public class DataBase extends SQLiteOpenHelper {
 
-	private SQLiteDatabase _objDataBaseLeitura;
+  private SQLiteDatabase _objDataBaseLeitura;
 
-	private SQLiteDatabase _objDbEscrita;
+  private SQLiteDatabase _objDbEscrita;
 
-	private String _strNome;
+  private String _strNome;
 
-	public DataBase(String strDbNome, Context context) {
+  public DataBase(String strDbNome, Context context) {
 
-		super(context, strDbNome, null, 1);
+    super(context, strDbNome, null, 1);
 
-		// VARIÁVEIS
-		// FIM VARIÁVEIS
-		try {
-			// AÇÕES
+    // VARIÁVEIS
+    // FIM VARIÁVEIS
+    try {
+      // AÇÕES
 
-			this.setStrNome(strDbNome);
+      this.setStrNome(strDbNome);
 
-			// FIM AÇÕES
-		} catch (Exception ex) {
+      // FIM AÇÕES
+    } catch (Exception ex) {
 
-			new Erro(App.getI().getStrTextoPadrao(118), ex.getMessage());
+      new Erro(App.getI().getStrTextoPadrao(118), ex.getMessage());
 
-		} finally {
-		}
-	}
+    } finally {
+    }
+  }
 
-	public Cursor execSqlComRetorno(String sql) {
-		// VARIÁVEIS
+  public Cursor execSqlComRetorno(String sql) {
+    // VARIÁVEIS
 
-		Cursor crsResultado = null;
+    Cursor crsResultado = null;
 
-		// FIM VARIÁVEIS
-		try {
+    // FIM VARIÁVEIS
+    try {
 
-			// AÇÕES
+      // AÇÕES
 
-			crsResultado = this.getObjDbLeitura().rawQuery(sql, null);
+      crsResultado = this.getObjDbLeitura().rawQuery(sql, null);
 
-			// FIM AÇÕES
-		} catch (Exception ex) {
+      // FIM AÇÕES
+    } catch (Exception ex) {
 
-			new Erro(App.getI().getStrTextoPadrao(119), ex.getMessage());
+      new Erro(App.getI().getStrTextoPadrao(119), ex.getMessage());
 
-		} finally {
-		}
+    } finally {
+    }
 
-		return crsResultado;
-	}
+    return crsResultado;
+  }
 
-	public double execSqlGetDbl(String sql) {
-		// VARIÁVEIS
+  public double execSqlGetDbl(String sql) {
+    // VARIÁVEIS
 
-		String strResultado;
-		double dblResultado = 0;
+    String strResultado;
+    double dblResultado = 0;
 
-		// FIM VARIÁVEIS
-		try {
-			// AÇÕES
+    // FIM VARIÁVEIS
+    try {
+      // AÇÕES
 
-			strResultado = this.execSqlGetStr(sql);
+      strResultado = this.execSqlGetStr(sql);
 
-			if (Utils.getBooIsEmptyNull(strResultado)) {
-				strResultado = "0";
-			}
+      if (Utils.getBooIsEmptyNull(strResultado)) {
+        strResultado = "0";
+      }
 
-			dblResultado = Double.valueOf(strResultado);
+      dblResultado = Double.valueOf(strResultado);
 
-			// FIM AÇÕES
-		} catch (Exception ex) {
+      // FIM AÇÕES
+    } catch (Exception ex) {
 
-			new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
+      new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
 
-		} finally {
-		}
+    } finally {
+    }
 
-		return dblResultado;
-	}
+    return dblResultado;
+  }
 
-	public int execSqlGetInt(String sql) {
-		return (int) this.execSqlGetDbl(sql);
-	}
+  public int execSqlGetInt(String sql) {
+    return (int) this.execSqlGetDbl(sql);
+  }
 
-	public String execSqlGetStr(String sql) {
-		// VARIÁVEIS
+  public String execSqlGetStr(String sql) {
+    // VARIÁVEIS
 
-		Cursor crs;
-		String strResultado = Utils.STRING_VAZIA;
+    Cursor crs;
+    String strResultado = Utils.STRING_VAZIA;
 
-		// FIM VARIÁVEIS
-		try {
-			// AÇÕES
+    // FIM VARIÁVEIS
+    try {
+      // AÇÕES
 
-			crs = this.execSqlComRetorno(sql);
+      crs = this.execSqlComRetorno(sql);
 
-			if (crs != null && crs.moveToFirst()) {
-				strResultado = crs.getString(0);
-			}
+      if (crs != null && crs.moveToFirst()) {
+        strResultado = crs.getString(0);
+      }
 
-			// FIM AÇÕES
-		} catch (Exception ex) {
+      // FIM AÇÕES
+    } catch (Exception ex) {
 
-			new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
+      new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
 
-		} finally {
-		}
+    } finally {
+    }
 
-		return strResultado;
-	}
+    return strResultado;
+  }
 
-	public void execSqlSemRetorno(String sql) {
-		// VARIÁVEIS
-		// FIM VARIÁVEIS
-		try {
+  public void execSqlSemRetorno(String sql) {
+    // VARIÁVEIS
+    // FIM VARIÁVEIS
+    try {
 
-			// AÇÕES
+      // AÇÕES
 
-			this.getObjDbEscrita().execSQL(sql);
+      this.getObjDbEscrita().execSQL(sql);
 
-			// FIM AÇÕES
-		} catch (Exception ex) {
+      // FIM AÇÕES
+    } catch (Exception ex) {
 
-			new Erro(App.getI().getStrTextoPadrao(119), ex.getMessage());
+      new Erro(App.getI().getStrTextoPadrao(119), ex.getMessage());
 
-		} finally {
-		}
-	}
+    } finally {
+    }
+  }
 
-	public SQLiteDatabase getObjDbEscrita() {
-		// VARIÁVEIS
-		// FIM VARIÁVEIS
-		try {
-			// AÇÕES
+  public SQLiteDatabase getObjDbEscrita() {
+    // VARIÁVEIS
+    // FIM VARIÁVEIS
+    try {
+      // AÇÕES
 
-			if (_objDbEscrita == null) {
-				_objDbEscrita = this.getWritableDatabase();
-			}
+      if (_objDbEscrita == null) {
+        _objDbEscrita = this.getWritableDatabase();
+      }
 
-			// FIM AÇÕES
-		} catch (Exception ex) {
+      // FIM AÇÕES
+    } catch (Exception ex) {
 
-			new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
+      new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
 
-		} finally {
-		}
+    } finally {
+    }
 
-		return _objDbEscrita;
-	}
+    return _objDbEscrita;
+  }
 
-	public SQLiteDatabase getObjDbLeitura() {
-		// VARIÁVEIS
-		// FIM VARIÁVEIS
-		try {
-			// AÇÕES
+  public SQLiteDatabase getObjDbLeitura() {
+    // VARIÁVEIS
+    // FIM VARIÁVEIS
+    try {
+      // AÇÕES
 
-			if (_objDataBaseLeitura == null) {
-				_objDataBaseLeitura = this.getReadableDatabase();
-			}
+      if (_objDataBaseLeitura == null) {
+        _objDataBaseLeitura = this.getReadableDatabase();
+      }
 
-			// FIM AÇÕES
-		} catch (Exception ex) {
+      // FIM AÇÕES
+    } catch (Exception ex) {
 
-			new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
+      new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
 
-		} finally {
-		}
+    } finally {
+    }
 
-		return _objDataBaseLeitura;
-	}
+    return _objDataBaseLeitura;
+  }
 
-	public String getStrNome() {
-		return _strNome;
-	}
+  public String getStrNome() {
+    return _strNome;
+  }
 
-	@Override
-	public void onCreate(SQLiteDatabase db) {
-		// VARIÁVEIS
-		// FIM VARIÁVEIS
-		try {
-			// AÇÕES
-			// FIM AÇÕES
-		} catch (Exception ex) {
+  @Override
+  public void onCreate(SQLiteDatabase db) {
+    // VARIÁVEIS
+    // FIM VARIÁVEIS
+    try {
+      // AÇÕES
+      // FIM AÇÕES
+    } catch (Exception ex) {
 
-			new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
+      new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
 
-		} finally {
-		}
-	}
+    } finally {
+    }
+  }
 
-	@Override
-	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-		// VARIÁVEIS
-		// FIM VARIÁVEIS
-		try {
-			// AÇÕES
-			// FIM AÇÕES
-		} catch (Exception ex) {
+  @Override
+  public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+    // VARIÁVEIS
+    // FIM VARIÁVEIS
+    try {
+      // AÇÕES
+      // FIM AÇÕES
+    } catch (Exception ex) {
 
-			new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
+      new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
 
-		} finally {
-		}
-	}
+    } finally {
+    }
+  }
 
-	private void setStrNome(String strNome) {
-		_strNome = strNome;
-	}
+  private void setStrNome(String strNome) {
+    _strNome = strNome;
+  }
 }

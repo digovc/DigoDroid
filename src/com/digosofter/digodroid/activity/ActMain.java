@@ -18,83 +18,84 @@ import com.digosofter.digodroid.erro.Erro;
 
 public abstract class ActMain extends ActionBarActivity {
 
-	protected void addFragmento(int intIdPnlContainer, Fragment objFragmento) {
-		// VARIÁVEIS
-		// FIM VARIÁVEIS
-		try {
-			// AÇÕES
+  protected void addFragmento(int intIdPnlContainer, Fragment objFragmento) {
+    // VARIÁVEIS
+    // FIM VARIÁVEIS
+    try {
+      // AÇÕES
 
-			this.getSupportFragmentManager().beginTransaction().add(intIdPnlContainer, objFragmento).commit();
+      this.getSupportFragmentManager().beginTransaction().add(intIdPnlContainer, objFragmento)
+          .commit();
 
-			// FIM AÇÕES
-		} catch (Exception ex) {
+      // FIM AÇÕES
+    } catch (Exception ex) {
 
-			new Erro(App.getI().getStrTextoPadrao(113), ex.getMessage());
+      new Erro(App.getI().getStrTextoPadrao(113), ex.getMessage());
 
-		} finally {
-		}
-	}
+    } finally {
+    }
+  }
 
-	public Button getButton(int intId) {
-		return (Button) this.getView(intId);
-	}
+  public Button getButton(int intId) {
+    return (Button) this.getView(intId);
+  }
 
-	public CheckBox getCheckBox(int intId) {
-		return (CheckBox) this.getView(intId);
-	}
+  public CheckBox getCheckBox(int intId) {
+    return (CheckBox) this.getView(intId);
+  }
 
-	public EditText getEditText(int intId) {
-		return (EditText) this.getView(intId);
-	}
+  public EditText getEditText(int intId) {
+    return (EditText) this.getView(intId);
+  }
 
-	public ImageView getImageView(int intId) {
-		return (ImageView) this.getView(intId);
-	}
+  public ImageView getImageView(int intId) {
+    return (ImageView) this.getView(intId);
+  }
 
-	public LinearLayout getLinearLayout(int intId) {
-		return (LinearLayout) this.getView(intId);
-	}
+  public LinearLayout getLinearLayout(int intId) {
+    return (LinearLayout) this.getView(intId);
+  }
 
-	public RadioButton getRadioButton(int intId) {
-		return (RadioButton) this.getView(intId);
-	}
+  public RadioButton getRadioButton(int intId) {
+    return (RadioButton) this.getView(intId);
+  }
 
-	public RadioGroup getRadioGroup(int intId) {
-		return (RadioGroup) this.getView(intId);
-	}
+  public RadioGroup getRadioGroup(int intId) {
+    return (RadioGroup) this.getView(intId);
+  }
 
-	public TextView getTextView(int intId) {
-		return (TextView) this.getView(intId);
-	}
+  public TextView getTextView(int intId) {
+    return (TextView) this.getView(intId);
+  }
 
-	public VideoView getVideoView(int intId) {
-		return (VideoView) this.getView(intId);
-	}
+  public VideoView getVideoView(int intId) {
+    return (VideoView) this.getView(intId);
+  }
 
-	protected View getView(int intId) {
-		// VARIÁVEIS
+  protected View getView(int intId) {
+    // VARIÁVEIS
 
-		View viewResultado = null;
+    View viewResultado = null;
 
-		// FIM VARIÁVEIS
-		try {
-			// AÇÕES
+    // FIM VARIÁVEIS
+    try {
+      // AÇÕES
 
-			viewResultado = this.findViewById(intId);
+      viewResultado = this.findViewById(intId);
 
-			// FIM AÇÕES
-		} catch (Exception ex) {
+      // FIM AÇÕES
+    } catch (Exception ex) {
 
-			new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
+      new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
 
-		} finally {
-		}
+    } finally {
+    }
 
-		return viewResultado;
-	}
+    return viewResultado;
+  }
 
-	protected abstract void montarLayout();
+  protected abstract void montarLayout();
 
-	protected abstract void setEventos();
+  protected abstract void setEventos();
 
 }

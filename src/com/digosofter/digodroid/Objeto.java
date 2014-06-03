@@ -4,99 +4,99 @@ import com.digosofter.digodroid.erro.Erro;
 
 public abstract class Objeto {
 
-	private static int INT_INDEX;
+  private static int INT_INDEX;
 
-	private int _intIndexObjeto = Objeto.INT_INDEX;
+  private int _intIndexObjeto = Objeto.INT_INDEX;
 
-	private String _strDescricao;
+  private String _strDescricao;
 
-	private String _strNome;
+  private String _strNome;
 
-	private String _strNomeExibicao;
+  private String _strNomeExibicao;
 
-	private String _strNomeSimplificado;
+  private String _strNomeSimplificado;
 
-	public Objeto() {
-		try {
-			// VARIÁVEIS
+  public Objeto() {
+    try {
+      // VARIÁVEIS
 
-			Objeto.INT_INDEX++;
+      Objeto.INT_INDEX++;
 
-			// FIM VARIÁVEIS
+      // FIM VARIÁVEIS
 
-			// AÇÕES
+      // AÇÕES
 
-			// FIM AÇÕES
-		} catch (Exception ex) {
+      // FIM AÇÕES
+    } catch (Exception ex) {
 
-			new Erro(App.getI().getStrTextoPadrao(108), ex.getMessage());
+      new Erro(App.getI().getStrTextoPadrao(108), ex.getMessage());
 
-		} finally {
-		}
-	}
+    } finally {
+    }
+  }
 
-	public int getIntIndexObjeto() {
-		return _intIndexObjeto;
-	}
+  public int getIntIndexObjeto() {
+    return _intIndexObjeto;
+  }
 
-	public String getStrDescricao() {
-		return _strDescricao;
-	}
+  public String getStrDescricao() {
+    return _strDescricao;
+  }
 
-	public String getStrNome() {
-		return _strNome;
-	}
+  public String getStrNome() {
+    return _strNome;
+  }
 
-	public String getStrNomeExibicao() {
-		// VARIÁVEIS
-		// FIM VARIÁVEIS
-		try {
-			// AÇÕES
+  public String getStrNomeExibicao() {
+    // VARIÁVEIS
+    // FIM VARIÁVEIS
+    try {
+      // AÇÕES
 
-			if (_strNomeExibicao == null) {
-				_strNomeExibicao = _strNome;
-			}
+      if (_strNomeExibicao == null) {
+        _strNomeExibicao = _strNome;
+      }
 
-			// FIM AÇÕES
-		} catch (Exception ex) {
+      // FIM AÇÕES
+    } catch (Exception ex) {
 
-			new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
+      new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
 
-		} finally {
-		}
+    } finally {
+    }
 
-		return _strNomeExibicao;
-	}
+    return _strNomeExibicao;
+  }
 
-	public String getStrNomeSimplificado() {
-		// VARIÁVEIS
-		// FIM VARIÁVEIS
-		try {
-			// AÇÕES
+  public String getStrNomeSimplificado() {
+    // VARIÁVEIS
+    // FIM VARIÁVEIS
+    try {
+      // AÇÕES
 
-			_strNomeSimplificado = Utils.getStrSimplificada(_strNome);
+      _strNomeSimplificado = Utils.getStrSimplificada(_strNome);
 
-			// FIM AÇÕES
-		} catch (Exception ex) {
+      // FIM AÇÕES
+    } catch (Exception ex) {
 
-			new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
+      new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
 
-		} finally {
-		}
+    } finally {
+    }
 
-		return _strNomeSimplificado;
-	}
+    return _strNomeSimplificado;
+  }
 
-	public void setStrDescricao(String strDescricao) {
-		_strDescricao = strDescricao;
-	}
+  public void setStrDescricao(String strDescricao) {
+    _strDescricao = strDescricao;
+  }
 
-	public void setStrNome(String strNome) {
-		_strNome = strNome;
-	}
+  public void setStrNome(String strNome) {
+    _strNome = strNome;
+  }
 
-	public void setStrNomeExibicao(String strNomeExibicao) {
-		_strNomeExibicao = strNomeExibicao;
-	}
+  public void setStrNomeExibicao(String strNomeExibicao) {
+    _strNomeExibicao = strNomeExibicao;
+  }
 
 }

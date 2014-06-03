@@ -10,73 +10,73 @@ import com.digosofter.digodroid.activity.ActErro;
 
 public class Erro extends Exception implements Serializable {
 
-	private static final long serialVersionUID = 1L;
+  private static final long serialVersionUID = 1L;
 
-	private boolean _booMostrarUsuario = true;
+  private boolean _booMostrarUsuario = true;
 
-	private String _strMensagem = "Erro do sistema.";
+  private String _strMensagem = "Erro do sistema.";
 
-	private String _strMensagemDetalhes;
+  private String _strMensagemDetalhes;
 
-	private String _strNome;
+  private String _strNome;
 
-	public Erro(String strMensagem, String strMensagemDetalhes) {
-		// VARIÁVEIS
+  public Erro(String strMensagem, String strMensagemDetalhes) {
+    // VARIÁVEIS
 
-		Intent objIntent;
+    Intent objIntent;
 
-		// FIM VARIÁVEIS
-		try {
-			// AÇÕES
+    // FIM VARIÁVEIS
+    try {
+      // AÇÕES
 
-			if (!Utils.getBooIsEmptyNull(strMensagem)) {
-				this.setStrMensagem(strMensagem);
-			}
+      if (!Utils.getBooIsEmptyNull(strMensagem)) {
+        this.setStrMensagem(strMensagem);
+      }
 
-			if (!Utils.getBooIsEmptyNull(strMensagemDetalhes)) {
-				this.setStrMensagemDetalhes(strMensagemDetalhes);
-			}
+      if (!Utils.getBooIsEmptyNull(strMensagemDetalhes)) {
+        this.setStrMensagemDetalhes(strMensagemDetalhes);
+      }
 
-			if (this.getBooMostrarUsuario()) {
+      if (this.getBooMostrarUsuario()) {
 
-				objIntent = new Intent(App.getI().getActMain(), ActErro.class);
-				objIntent.putExtra("Erro", this);
+        objIntent = new Intent(App.getI().getActMain(), ActErro.class);
+        objIntent.putExtra("Erro", this);
 
-				App.getI().getActMain().startActivity(objIntent);
-			}
+        App.getI().getActMain().startActivity(objIntent);
+      }
 
-			// FIM AÇÕES
-		} catch (Exception ex) {
-		} finally {
-		}
-	}
+      // FIM AÇÕES
+    } catch (Exception ex) {
+    } finally {
+    }
+  }
 
-	public boolean getBooMostrarUsuario() {
-		return _booMostrarUsuario;
-	}
+  public boolean getBooMostrarUsuario() {
+    return _booMostrarUsuario;
+  }
 
-	public String getStrMensagem() {
-		return _strMensagem;
-	}
+  public String getStrMensagem() {
+    return _strMensagem;
+  }
 
-	public String getStrMensagemDetalhes() {
-		return _strMensagemDetalhes;
-	}
+  public String getStrMensagemDetalhes() {
+    return _strMensagemDetalhes;
+  }
 
-	public String getStrNome() {
-		return _strNome;
-	}
+  public String getStrNome() {
+    return _strNome;
+  }
 
-	public void setBooMostrarUsuario(boolean booMostrarUsuario) {
-		_booMostrarUsuario = booMostrarUsuario;
-	}
+  public void setBooMostrarUsuario(boolean booMostrarUsuario) {
+    _booMostrarUsuario = booMostrarUsuario;
+  }
 
-	public void setStrMensagem(String strMensagem) {
-		_strMensagem = strMensagem;
-	}
+  public void setStrMensagem(String strMensagem) {
+    _strMensagem = strMensagem;
+  }
 
-	private void setStrMensagemDetalhes(String strMensagemDetalhes) {
-		_strMensagemDetalhes = strMensagemDetalhes;
-	}
+  private void setStrMensagemDetalhes(String strMensagemDetalhes) {
+    _strMensagemDetalhes = strMensagemDetalhes;
+  }
 
 }

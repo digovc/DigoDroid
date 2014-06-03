@@ -5,21 +5,21 @@ import com.digosofter.digodroid.erro.Erro;
 
 public abstract class DbView extends DbTabela {
 
-	public DbView(String strNome) {
+  public DbView(String strNome) {
 
-		super(strNome);
+    super(strNome);
 
-		// VARIÁVEIS
-		// FIM VARIÁVEIS
-		try {
-			// AÇÕES
-			// FIM AÇÕES
-		} catch (Exception ex) {
+    // VARIÁVEIS
+    // FIM VARIÁVEIS
+    try {
+      // AÇÕES
+      // FIM AÇÕES
+    } catch (Exception ex) {
 
-			new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
+      new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
 
-		} finally {
-		}
-	}
+    } finally {
+    }
+  }
 
 }

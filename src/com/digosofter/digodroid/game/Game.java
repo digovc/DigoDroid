@@ -8,21 +8,21 @@ import com.digosofter.digodroid.erro.Erro;
 
 public abstract class Game extends App {
 
-	@Override
-	public List<MensagemUsuario> getLstObjMensagemUsuario() {
-		// VARIÁVEIS
-		// FIM VARIÁVEIS
-		try {
-			// AÇÕES
-			// FIM AÇÕES
-		} catch (Exception ex) {
+  @Override
+  public List<MensagemUsuario> getLstObjMensagemUsuario() {
+    // VARIÁVEIS
+    // FIM VARIÁVEIS
+    try {
+      // AÇÕES
+      // FIM AÇÕES
+    } catch (Exception ex) {
 
-			new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
+      new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
 
-		} finally {
-		}
+    } finally {
+    }
 
-		return null;
-	}
+    return null;
+  }
 
 }

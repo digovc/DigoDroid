@@ -11,146 +11,150 @@ import com.digosofter.digodroid.erro.Erro;
 
 public abstract class Aparelho extends Objeto {
 
-	private static String _strImei;
+  private static String _strImei;
 
-	public static void abrirMapa(String strEnderecoCompleto) {
-		// VARIÁVEIS
+  public static void abrirMapa(String strEnderecoCompleto) {
+    // VARIÁVEIS
 
-		Intent objIntent;
-		String strMap = "http://maps.google.co.in/maps?q=";
+    Intent objIntent;
+    String strMap = "http://maps.google.co.in/maps?q=";
 
-		// FIM VARIÁVEIS
-		try {
-			// AÇÕES
+    // FIM VARIÁVEIS
+    try {
+      // AÇÕES
 
-			strMap += strEnderecoCompleto;
+      strMap += strEnderecoCompleto;
 
-			objIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(strMap));
-			objIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+      objIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(strMap));
+      objIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
-			App.getI().getContext().getApplicationContext().getApplicationContext().startActivity(objIntent);
+      App.getI().getContext().getApplicationContext().getApplicationContext()
+          .startActivity(objIntent);
 
-			// FIM AÇÕES
-		} catch (Exception ex) {
+      // FIM AÇÕES
+    } catch (Exception ex) {
 
-			new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
+      new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
 
-		} finally {
-		}
-	}
+    } finally {
+    }
+  }
 
-	/**
-	 * Abre o aplicativo padrão para envio de email.
-	 * 
-	 */
-	public static void enviarEmail(String strEmail) {
-		// VARIÁVEIS
+  /**
+   * Abre o aplicativo padrão para envio de email.
+   * 
+   */
+  public static void enviarEmail(String strEmail) {
+    // VARIÁVEIS
 
-		Uri uri;
-		Intent objIntent;
+    Uri uri;
+    Intent objIntent;
 
-		// FIM VARIÁVEIS
-		try {
-			// AÇÕES
+    // FIM VARIÁVEIS
+    try {
+      // AÇÕES
 
-			if (Utils.getBooIsEmptyNull(strEmail)) {
-				return;
-			}
+      if (Utils.getBooIsEmptyNull(strEmail)) {
+        return;
+      }
 
-			uri = Uri.parse("mailto:" + strEmail);
-			objIntent = new Intent(Intent.ACTION_SENDTO, uri);
-			objIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-			objIntent.putExtra(Intent.EXTRA_SUBJECT, "Customer comments/questions");
-			App.getI().getContext().startActivity(objIntent);
+      uri = Uri.parse("mailto:" + strEmail);
+      objIntent = new Intent(Intent.ACTION_SENDTO, uri);
+      objIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+      objIntent.putExtra(Intent.EXTRA_SUBJECT, "Customer comments/questions");
+      App.getI().getContext().startActivity(objIntent);
 
-			// FIM AÇÕES
-		} catch (Exception ex) {
+      // FIM AÇÕES
+    } catch (Exception ex) {
 
-			new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
+      new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
 
-		} finally {
-		}
-	}
+    } finally {
+    }
+  }
 
-	public static boolean getBooConectado() {
-		// VARIÁVEIS
+  public static boolean getBooConectado() {
+    // VARIÁVEIS
 
-		boolean booConectado = false;
-		ConnectivityManager objConnectivityManager;
-		NetworkInfo objNetworkInfo;
+    boolean booConectado = false;
+    ConnectivityManager objConnectivityManager;
+    NetworkInfo objNetworkInfo;
 
-		// FIM VARIÁVEIS
-		try {
-			// AÇÕES
+    // FIM VARIÁVEIS
+    try {
+      // AÇÕES
 
-			objConnectivityManager = (ConnectivityManager) App.getI().getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
-			objNetworkInfo = objConnectivityManager.getActiveNetworkInfo();
+      objConnectivityManager = (ConnectivityManager) App.getI().getContext()
+          .getSystemService(Context.CONNECTIVITY_SERVICE);
+      objNetworkInfo = objConnectivityManager.getActiveNetworkInfo();
 
-			if (objNetworkInfo == null) {
-				booConectado = false;
-			} else {
-				booConectado = true;
-			}
+      if (objNetworkInfo == null) {
+        booConectado = false;
+      } else {
+        booConectado = true;
+      }
 
-			// FIM AÇÕES
-		} catch (Exception ex) {
+      // FIM AÇÕES
+    } catch (Exception ex) {
 
-			new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
+      new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
 
-		} finally {
-		}
+    } finally {
+    }
 
-		return booConectado;
-	}
+    return booConectado;
+  }
 
-	public static String getStrImei() {
-		// VARIÁVEIS
+  public static String getStrImei() {
+    // VARIÁVEIS
 
-		TelephonyManager objTelephonyManager;
+    TelephonyManager objTelephonyManager;
 
-		// FIM VARIÁVEIS
-		try {
-			// AÇÕES
+    // FIM VARIÁVEIS
+    try {
+      // AÇÕES
 
-			if (_strImei == null) {
+      if (_strImei == null) {
 
-				objTelephonyManager = (TelephonyManager) App.getI().getActMain().getSystemService(Context.TELEPHONY_SERVICE);
-				_strImei = objTelephonyManager.getDeviceId();
-			}
+        objTelephonyManager = (TelephonyManager) App.getI().getActMain()
+            .getSystemService(Context.TELEPHONY_SERVICE);
+        _strImei = objTelephonyManager.getDeviceId();
+      }
 
-			// FIM AÇÕES
-		} catch (Exception ex) {
+      // FIM AÇÕES
+    } catch (Exception ex) {
 
-			new Erro(App.getI().getStrMensagemUsuarioPadrao(100), ex.getMessage());
+      new Erro(App.getI().getStrMensagemUsuarioPadrao(100), ex.getMessage());
 
-		} finally {
-		}
+    } finally {
+    }
 
-		return _strImei;
-	}
+    return _strImei;
+  }
 
-	public static void ligarNumero(String strNumero) {
-		// VARIÁVEIS
+  public static void ligarNumero(String strNumero) {
+    // VARIÁVEIS
 
-		Intent objIntent;
+    Intent objIntent;
 
-		// FIM VARIÁVEIS
-		try {
-			// AÇÕES
+    // FIM VARIÁVEIS
+    try {
+      // AÇÕES
 
-			objIntent = new Intent(Intent.ACTION_CALL);
-			objIntent.setData(Uri.parse("tel:" + strNumero));
-			objIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+      objIntent = new Intent(Intent.ACTION_CALL);
+      objIntent.setData(Uri.parse("tel:" + strNumero));
+      objIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
-			App.getI().getContext().getApplicationContext().getApplicationContext().startActivity(objIntent);
+      App.getI().getContext().getApplicationContext().getApplicationContext()
+          .startActivity(objIntent);
 
-			// FIM AÇÕES
-		} catch (Exception ex) {
+      // FIM AÇÕES
+    } catch (Exception ex) {
 
-			new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
+      new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
 
-		} finally {
-		}
-	}
+    } finally {
+    }
+  }
 
 }

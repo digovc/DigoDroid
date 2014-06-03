@@ -7,126 +7,126 @@ import com.digosofter.digodroid.erro.Erro;
 
 public class TblUsuario extends TblMain {
 
-	private DbColuna _clnIntPessoaId;
+  private DbColuna _clnIntPessoaId;
 
-	private DbColuna _clnStrLogin;
+  private DbColuna _clnStrLogin;
 
-	private DbColuna _clnStrPassword;
+  private DbColuna _clnStrPassword;
 
-	public TblUsuario() {
+  public TblUsuario() {
 
-		super("tblUsuario");
+    super("tblUsuario");
 
-		// VARIÁVEIS
-		// FIM VARIÁVEIS
-		try {
-			// AÇÕES
-			// FIM AÇÕES
-		} catch (Exception ex) {
+    // VARIÁVEIS
+    // FIM VARIÁVEIS
+    try {
+      // AÇÕES
+      // FIM AÇÕES
+    } catch (Exception ex) {
 
-			new Erro(App.getI().getStrTextoPadrao(136), ex.getMessage());
+      new Erro(App.getI().getStrTextoPadrao(136), ex.getMessage());
 
-		} finally {
-		}
-	}
+    } finally {
+    }
+  }
 
-	public DbColuna getClnIntPessoaId() {
-		// VARIÁVEIS
-		// FIM VARIÁVEIS
-		try {
-			// AÇÕES
+  public DbColuna getClnIntPessoaId() {
+    // VARIÁVEIS
+    // FIM VARIÁVEIS
+    try {
+      // AÇÕES
 
-			if (_clnIntPessoaId == null) {
-				_clnIntPessoaId = new DbColuna("intPessoaId", this, EnmTipo.INTEGER);
-			}
+      if (_clnIntPessoaId == null) {
+        _clnIntPessoaId = new DbColuna("intPessoaId", this, EnmTipo.INTEGER);
+      }
 
-			// FIM AÇÕES
-		} catch (Exception ex) {
+      // FIM AÇÕES
+    } catch (Exception ex) {
 
-			new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
+      new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
 
-		} finally {
-		}
+    } finally {
+    }
 
-		return _clnIntPessoaId;
-	}
+    return _clnIntPessoaId;
+  }
 
-	public DbColuna getClnStrLogin() {
-		// VARIÁVEIS
-		// FIM VARIÁVEIS
-		try {
-			// AÇÕES
+  public DbColuna getClnStrLogin() {
+    // VARIÁVEIS
+    // FIM VARIÁVEIS
+    try {
+      // AÇÕES
 
-			if (_clnStrLogin == null) {
+      if (_clnStrLogin == null) {
 
-				_clnStrLogin = new DbColuna("strLogin", this, EnmTipo.TEXT);
-				_clnStrLogin.setStrNomeExibicao("login");
-			}
+        _clnStrLogin = new DbColuna("strLogin", this, EnmTipo.TEXT);
+        _clnStrLogin.setStrNomeExibicao("login");
+      }
 
-			// FIM AÇÕES
-		} catch (Exception ex) {
+      // FIM AÇÕES
+    } catch (Exception ex) {
 
-			new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
+      new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
 
-		} finally {
-		}
+    } finally {
+    }
 
-		return _clnStrLogin;
-	}
+    return _clnStrLogin;
+  }
 
-	public DbColuna getClnStrPassword() {
-		// VARIÁVEIS
-		// FIM VARIÁVEIS
-		try {
-			// AÇÕES
+  public DbColuna getClnStrPassword() {
+    // VARIÁVEIS
+    // FIM VARIÁVEIS
+    try {
+      // AÇÕES
 
-			if (_clnStrPassword == null) {
+      if (_clnStrPassword == null) {
 
-				_clnStrPassword = new DbColuna("strPassword", this, EnmTipo.TEXT);
-				_clnStrPassword.setStrNomeExibicao("Password");
-			}
+        _clnStrPassword = new DbColuna("strPassword", this, EnmTipo.TEXT);
+        _clnStrPassword.setStrNomeExibicao("Password");
+      }
 
-			// FIM AÇÕES
-		} catch (Exception ex) {
+      // FIM AÇÕES
+    } catch (Exception ex) {
 
-			new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
+      new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
 
-		} finally {
-		}
+    } finally {
+    }
 
-		return _clnStrPassword;
-	}
+    return _clnStrPassword;
+  }
 
-	@Override
-	protected void inicializarColunas() {
-		// VARIÁVEIS
+  @Override
+  protected void inicializarColunas() {
+    // VARIÁVEIS
 
-		int intOrdem;
+    int intOrdem;
 
-		// FIM VARIÁVEIS
-		try {
-			// AÇÕES
+    // FIM VARIÁVEIS
+    try {
+      // AÇÕES
 
-			intOrdem = 0;
+      intOrdem = 0;
 
-			this.getClnDttAlteracao().setIntOrdem(++intOrdem);
-			this.getClnDttCadastro().setIntOrdem(++intOrdem);
-			this.getClnDttExclusao().setIntOrdem(++intOrdem);
-			this.getClnIntId().setIntOrdem(++intOrdem);
-			this.getClnIntPessoaId().setIntOrdem(++intOrdem);
-			this.getClnIntUsuarioAlteracaoId().setIntOrdem(++intOrdem);
-			this.getClnIntUsuarioCadastroId().setIntOrdem(++intOrdem);
-			this.getClnIntUsuarioExclusaoId().setIntOrdem(++intOrdem);
-			this.getClnStrLogin().setIntOrdem(++intOrdem);
-			this.getClnStrPassword().setIntOrdem(++intOrdem);
+      this.getClnDttAlteracao().setIntOrdem(++intOrdem);
+      this.getClnDttCadastro().setIntOrdem(++intOrdem);
+      this.getClnDttExclusao().setIntOrdem(++intOrdem);
+      this.getClnIntId().setIntOrdem(++intOrdem);
+      this.getClnIntPessoaId().setIntOrdem(++intOrdem);
+      this.getClnIntUsuarioAlteracaoId().setIntOrdem(++intOrdem);
+      this.getClnIntUsuarioCadastroId().setIntOrdem(++intOrdem);
+      this.getClnIntUsuarioExclusaoId().setIntOrdem(++intOrdem);
+      this.getClnStrLogin().setIntOrdem(++intOrdem);
+      this.getClnStrPassword().setIntOrdem(++intOrdem);
 
-			// FIM AÇÕES
-		} catch (Exception ex) {
+      // FIM AÇÕES
+    } catch (Exception ex) {
 
-			new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
+      new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
 
-		} finally {
-		}
-	}
+    } finally {
+    }
+  }
 
 }

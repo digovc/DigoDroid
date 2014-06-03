@@ -6,78 +6,78 @@ import com.digosofter.digodroid.erro.Erro;
 
 public class Quadro extends Objeto {
 
-	private int _intAnimacaoPosicao;
+  private int _intAnimacaoPosicao;
 
-	private int _intX;
+  private int _intX;
 
-	private int _intY;
+  private int _intY;
 
-	private Camada _objCamada;
+  private Camada _objCamada;
 
-	public Quadro(Camada objCamada) {
-		// VARIÁVEIS
-		// FIM VARIÁVEIS
-		try {
-			// AÇÕES
+  public Quadro(Camada objCamada) {
+    // VARIÁVEIS
+    // FIM VARIÁVEIS
+    try {
+      // AÇÕES
 
-			this.setObjCamada(objCamada);
+      this.setObjCamada(objCamada);
 
-			// FIM AÇÕES
-		} catch (Exception ex) {
+      // FIM AÇÕES
+    } catch (Exception ex) {
 
-			new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
+      new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
 
-		} finally {
-		}
-	}
+    } finally {
+    }
+  }
 
-	private int getIntAnimacaoPosicao() {
-		return _intAnimacaoPosicao;
-	}
+  private int getIntAnimacaoPosicao() {
+    return _intAnimacaoPosicao;
+  }
 
-	private int getIntX() {
-		return _intX;
-	}
+  private int getIntX() {
+    return _intX;
+  }
 
-	private int getIntY() {
-		return _intY;
-	}
+  private int getIntY() {
+    return _intY;
+  }
 
-	private Camada getObjCamada() {
-		return _objCamada;
-	}
+  private Camada getObjCamada() {
+    return _objCamada;
+  }
 
-	private void setIntAnimacaoPosicao(int intAnimacaoPosicao) {
-		_intAnimacaoPosicao = intAnimacaoPosicao;
-	}
+  private void setIntAnimacaoPosicao(int intAnimacaoPosicao) {
+    _intAnimacaoPosicao = intAnimacaoPosicao;
+  }
 
-	public void setIntX(int intX) {
-		_intX = intX;
-	}
+  public void setIntX(int intX) {
+    _intX = intX;
+  }
 
-	private void setIntY(int intY) {
-		_intY = intY;
-	}
+  private void setIntY(int intY) {
+    _intY = intY;
+  }
 
-	private void setObjCamada(Camada objCamada) {
-		// VARIÁVEIS
-		// FIM VARIÁVEIS
-		try {
-			// AÇÕES
+  private void setObjCamada(Camada objCamada) {
+    // VARIÁVEIS
+    // FIM VARIÁVEIS
+    try {
+      // AÇÕES
 
-			_objCamada = objCamada;
-			_objCamada.getLstObjQuadro().add(this);
+      _objCamada = objCamada;
+      _objCamada.getLstObjQuadro().add(this);
 
-			// FIM AÇÕES
-		} catch (Exception ex) {
+      // FIM AÇÕES
+    } catch (Exception ex) {
 
-			new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
+      new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
 
-		} finally {
-		}
-	}
+    } finally {
+    }
+  }
 
-	// DESTRUTOR
-	// FIM DESTRUTOR
+  // DESTRUTOR
+  // FIM DESTRUTOR
 
 }
