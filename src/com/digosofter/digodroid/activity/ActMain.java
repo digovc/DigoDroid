@@ -1,5 +1,6 @@
 package com.digosofter.digodroid.activity;
 
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBarActivity;
 import android.view.View;
@@ -52,6 +53,8 @@ public abstract class ActMain extends ActionBarActivity {
     return (ImageView) this.getView(intId);
   }
 
+  protected abstract int getIntLayoutId();
+
   public LinearLayout getLinearLayout(int intId) {
     return (LinearLayout) this.getView(intId);
   }
@@ -94,8 +97,56 @@ public abstract class ActMain extends ActionBarActivity {
     return viewResultado;
   }
 
-  protected abstract void montarLayout();
+  protected void montarLayout() {
+    // VARIÁVEIS
+    // FIM VARIÁVEIS
+    try {
+      // AÇÕES
 
-  protected abstract void setEventos();
+      this.setContentView(this.getIntLayoutId());
 
+      // FIM AÇÕES
+    } catch (Exception ex) {
+
+      new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
+
+    } finally {
+    }
+  }
+
+  @Override
+  protected void onCreate(Bundle savedInstanceState) {
+
+    super.onCreate(savedInstanceState);
+
+    // VARIÁVEIS
+    // FIM VARIÁVEIS
+    try {
+      // AÇÕES
+
+      this.montarLayout();
+      this.setEventos();
+
+      // FIM AÇÕES
+    } catch (Exception ex) {
+
+      new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
+
+    } finally {
+    }
+  }
+
+  protected void setEventos(){
+    // VARIÁVEIS
+    // FIM VARIÁVEIS
+    try {
+      // AÇÕES
+      // FIM AÇÕES
+    } catch (Exception ex) {
+
+      new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
+
+    } finally {
+    }
+  }
 }

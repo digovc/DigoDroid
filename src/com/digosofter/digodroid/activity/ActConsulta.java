@@ -3,7 +3,6 @@ package com.digosofter.digodroid.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
-import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.Menu;
@@ -67,6 +66,23 @@ public class ActConsulta extends ActMain {
     }
 
     return _edtPesquisa;
+  }
+
+  @Override
+  protected int getIntLayoutId() {
+    // VARIÁVEIS
+    // FIM VARIÁVEIS
+    try {
+      // AÇÕES
+      // FIM AÇÕES
+    } catch (Exception ex) {
+
+      new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
+
+    } finally {
+    }
+
+    return R.layout.act_consulta;
   }
 
   public ListView getPnlTblLista() {
@@ -136,6 +152,9 @@ public class ActConsulta extends ActMain {
 
   @Override
   protected void montarLayout() {
+
+    super.montarLayout();
+
     // VARIÁVEIS
     // FIM VARIÁVEIS
     try {
@@ -143,6 +162,7 @@ public class ActConsulta extends ActMain {
 
       this.montarLayoutTitulo();
       this.montarLayoutLista();
+      this.recuperarUltimaPesquisa();
 
       // FIM AÇÕES
     } catch (Exception ex) {
@@ -190,30 +210,6 @@ public class ActConsulta extends ActMain {
     } catch (Exception ex) {
 
       new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
-
-    } finally {
-    }
-  }
-
-  @Override
-  protected void onCreate(Bundle savedInstanceState) {
-
-    super.onCreate(savedInstanceState);
-
-    // VARIÁVEIS
-    // FIM VARIÁVEIS
-    try {
-      // AÇÕES
-
-      this.setContentView(R.layout.act_consulta);
-      this.montarLayout();
-      this.setEventos();
-      this.recuperarUltimaPesquisa();
-
-      // FIM AÇÕES
-    } catch (Exception ex) {
-
-      new Erro(App.getI().getStrTextoPadrao(117), ex.getMessage());
 
     } finally {
     }
@@ -299,6 +295,9 @@ public class ActConsulta extends ActMain {
 
   @Override
   protected void setEventos() {
+
+    super.setEventos();
+
     // VARIÁVEIS
     // FIM VARIÁVEIS
     try {

@@ -1,12 +1,11 @@
 package com.digosofter.digodroid.activity;
 
-import android.os.Bundle;
-import android.view.Menu;
 import android.view.View;
 import android.widget.TextView;
 
 import com.digosofter.digodroid.App;
 import com.digosofter.digodroid.R;
+import com.digosofter.digodroid.Utils;
 import com.digosofter.digodroid.erro.Erro;
 
 public class ActErro extends ActMain {
@@ -37,7 +36,41 @@ public class ActErro extends ActMain {
   }
 
   public Erro getErr() {
+    // VARIÁVEIS
+    // FIM VARIÁVEIS
+    try {
+      // AÇÕES
+
+      if (_err == null) {
+        _err = (Erro) this.getIntent().getSerializableExtra("Erro");
+      }
+
+      // FIM AÇÕES
+    } catch (Exception ex) {
+
+      new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
+
+    } finally {
+    }
+
     return _err;
+  }
+
+  @Override
+  protected int getIntLayoutId() {
+    // VARIÁVEIS
+    // FIM VARIÁVEIS
+    try {
+      // AÇÕES
+      // FIM AÇÕES
+    } catch (Exception ex) {
+
+      new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
+
+    } finally {
+    }
+
+    return R.layout.act_erro;
   }
 
   private TextView getTxtAppNome() {
@@ -105,90 +138,35 @@ public class ActErro extends ActMain {
 
   @Override
   protected void montarLayout() {
+
+    super.montarLayout();
+
     // VARIÁVEIS
+
+    String strErroMensagem;
+
     // FIM VARIÁVEIS
     try {
       // AÇÕES
-
-      // FIM AÇÕES
-    } catch (Exception ex) {
-
-      new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
-
-    } finally {
-    }
-  }
-
-  @Override
-  protected void onCreate(Bundle savedInstanceState) {
-
-    super.onCreate(savedInstanceState);
-
-    // VARIÁVEIS
-    // FIM VARIÁVEIS
-    try {
-      // AÇÕES
-
-      setContentView(R.layout.act_erro);
-      this.setErr((Erro) getIntent().getSerializableExtra("Erro"));
-      this.montarLayout();
-
-      // FIM AÇÕES
-    } catch (Exception ex) {
-
-      new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
-
-    } finally {
-    }
-  }
-
-  @Override
-  public boolean onCreateOptionsMenu(Menu menu) {
-    // VARIÁVEIS
-    // FIM VARIÁVEIS
-    try {
-      // AÇÕES
-      // FIM AÇÕES
-    } catch (Exception ex) {
-
-      new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
-
-    } finally {
-    }
-
-    return true;
-  }
-
-  private void setErr(Erro err) {
-    // VARIÁVEIS
-    // FIM VARIÁVEIS
-    try {
-      // AÇÕES
-
-      _err = err;
 
       this.getTxtAppNome().setText(App.getI().getStrNome());
-      this.getTxtErroTitulo().setText(_err.getStrNome());
+      this.getTxtErroTitulo().setText(this.getErr().getStrNome());
 
-      if (_err.getStrMensagemDetalhes() != null) {
-        this.getTxtErroMensagem().setText(
-            _err.getStrMensagem() + "\n\nDetalhes: " + _err.getStrMensagemDetalhes());
+      if (!Utils.getBooIsEmptyNull(this.getErr().getStrMensagemDetalhes())) {
+
+        strErroMensagem = "";
+        strErroMensagem += this.getErr().getStrMensagem();
+        strErroMensagem += "\n\nDetalhes: ";
+        strErroMensagem += this.getErr().getStrMensagemDetalhes();
+
+        this.getTxtErroMensagem().setText(strErroMensagem);
+
       } else {
-        this.getTxtErroMensagem().setText(_err.getStrMensagem());
+
+        this.getTxtErroMensagem().setText(this.getErr().getStrMensagem());
+
       }
 
-      // FIM AÇÕES
-    } catch (Exception ex) {
-    } finally {
-    }
-  }
-
-  @Override
-  protected void setEventos() {
-    // VARIÁVEIS
-    // FIM VARIÁVEIS
-    try {
-      // AÇÕES
       // FIM AÇÕES
     } catch (Exception ex) {
 
