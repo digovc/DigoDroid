@@ -242,10 +242,10 @@ public abstract class DbTabela extends Objeto {
     return _booSincronizar;
   }
 
-  public boolean getBooTabelaExiste() {
+  private boolean getBooTabelaExiste() {
     // VARIÁVEIS
 
-    boolean booTblExiste = false;
+    boolean booResultado = false;
     Cursor crs;
     String sql;
 
@@ -253,14 +253,14 @@ public abstract class DbTabela extends Objeto {
     try {
       // AÇÕES
 
-      sql = "SELECT name FROM sqlite_master WHERE type='table' AND name='"
-          + this.getStrNomeSimplificado() + "';";
+      sql = "SELECT name FROM sqlite_master WHERE type='table' AND name='_tbl_nome_simplificado';";
+      sql = sql.replace("_tbl_nome_simplificado", this.getStrNomeSimplificado());
 
       crs = this.getObjDataBase().execSqlComRetorno(sql);
       crs.moveToFirst();
 
-      if (crs.getCount() > 0) {
-        booTblExiste = true;
+      if (crs != null && crs.moveToFirst() && crs.getCount() > 0) {
+        booResultado = true;
       }
 
       // FIM AÇÕES
@@ -271,7 +271,8 @@ public abstract class DbTabela extends Objeto {
     } finally {
       crs = null;
     }
-    return booTblExiste;
+
+    return booResultado;
   }
 
   public DbColuna getClnChavePrimaria() {
@@ -886,7 +887,6 @@ public abstract class DbTabela extends Objeto {
 
     return intOrdem;
   }
-
 
   public void inserir() {
     // VARIÁVEIS
