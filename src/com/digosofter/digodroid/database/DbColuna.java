@@ -16,15 +16,15 @@ public class DbColuna extends Objeto {
     BOOLEAN, DATE_TIME, INTEGER, MONETARY, NONE, NUMERIC, REAL, TEXT
   }
 
-  private boolean _booChavePrimaria = false;
+  private boolean _booChavePrimaria;
 
-  private boolean _booClnNome = false;
+  private boolean _booClnNome;
 
-  private boolean _booOrdemCadastro = false;
+  private boolean _booOrdemCadastro;
 
   private boolean _booOrdemDecrecente;
 
-  private boolean _booVisivelCadastro = false;
+  private boolean _booVisivelCadastro;
 
   private DbColuna _clnReferencia;
 
