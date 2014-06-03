@@ -1,20 +1,4 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?><templates><template autoinsert="true" context="java" deleted="false" description="Cria a estrutura de uma nova classe." enabled="true" name="estruturaClasse">// CONSTANTES&#13;
-// FIM CONSTANTES&#13;
-&#13;
-// ATRIBUTOS&#13;
-// FIM ATRIBUTOS&#13;
-&#13;
-// CONSTRUTORES&#13;
-// FIM CONSTRUTORES&#13;
-&#13;
-// DESTRUTOR&#13;
-// FIM DESTRUTOR&#13;
-&#13;
-// MÉTODOS&#13;
-// FIM MÉTODOS&#13;
-&#13;
-// EVENTOS&#13;
-// FIM EVENTOS</template><template autoinsert="true" context="java" deleted="false" description="Cria a estrutura de um novo método." enabled="true" name="estruturaMetodo">// VARIÁVEIS&#13;
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><templates><template autoinsert="true" context="java" deleted="false" description="Cria a estrutura de um novo método." enabled="true" name="estruturaMetodo">// VARIÁVEIS&#13;
 // FIM VARIÁVEIS&#13;
 try {&#13;
 	// AÇÕES&#13;
@@ -87,4 +71,4 @@ private ${tipoRetorno} ${nome}() {&#13;
 &#13;
 	} finally {&#13;
 	}&#13;
-}</template><template autoinsert="true" context="javadoc" deleted="false" description="&lt;code&gt;null&lt;/code&gt;" enabled="true" id="org.eclipse.jdt.ui.templates.code_tag_null" name="null">&lt;code&gt;null&lt;/code&gt;</template></templates>
+}</template><template autoinsert="true" context="java" deleted="false" description="" enabled="true" name="novoTipoEnumerado">public enum Enm${nome} {}</template></templates>
