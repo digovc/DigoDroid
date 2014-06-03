@@ -18,7 +18,7 @@ import com.digosofter.digodroid.item.ItmConsulta;
 
 public abstract class DbTabela extends Objeto {
 
-  private boolean _booPermitirCadastroNovo = false;
+  private boolean _booPermitirCadastroNovo;
 
   private boolean _booSincronizar = true;
 
@@ -50,7 +50,7 @@ public abstract class DbTabela extends Objeto {
 
       App.getI().getLstTbl().add(this);
       this.setStrNome(strNome);
-      this.inicializarColunas();
+      this.inicializarColunas(-1);
       this.criarTabela();
 
       // FIM AÇÕES
@@ -871,7 +871,22 @@ public abstract class DbTabela extends Objeto {
     return _strPesquisaActConsulta;
   }
 
-  protected abstract void inicializarColunas();
+  protected int inicializarColunas(int intOrdem) {
+    // VARIÁVEIS
+    // FIM VARIÁVEIS
+    try {
+      // AÇÕES
+      // FIM AÇÕES
+    } catch (Exception ex) {
+
+      new Erro(App.getI().getStrTextoPadrao(128), ex.getMessage());
+
+    } finally {
+    }
+
+    return intOrdem;
+  }
+
 
   public void inserir() {
     // VARIÁVEIS

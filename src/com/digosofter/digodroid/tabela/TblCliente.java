@@ -48,16 +48,13 @@ public class TblCliente extends TblMain {
   }
 
   @Override
-  protected void inicializarColunas() {
+  protected int inicializarColunas(int intOrdem) {
     // VARIÁVEIS
-
-    int intOrdem;
-
     // FIM VARIÁVEIS
     try {
       // AÇÕES
 
-      intOrdem = 0;
+      intOrdem = super.inicializarColunas(intOrdem);
 
       this.getClnDttAlteracao().setIntOrdem(++intOrdem);
       this.getClnDttCadastro().setIntOrdem(++intOrdem);
@@ -75,6 +72,8 @@ public class TblCliente extends TblMain {
 
     } finally {
     }
+
+    return intOrdem;
   }
 
 }

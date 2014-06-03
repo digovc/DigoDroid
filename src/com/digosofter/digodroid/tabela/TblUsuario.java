@@ -98,25 +98,15 @@ public class TblUsuario extends TblMain {
   }
 
   @Override
-  protected void inicializarColunas() {
+  protected int inicializarColunas(int intOrdem) {
     // VARIÁVEIS
-
-    int intOrdem;
-
     // FIM VARIÁVEIS
     try {
       // AÇÕES
 
-      intOrdem = 0;
+      intOrdem = super.inicializarColunas(intOrdem);
 
-      this.getClnDttAlteracao().setIntOrdem(++intOrdem);
-      this.getClnDttCadastro().setIntOrdem(++intOrdem);
-      this.getClnDttExclusao().setIntOrdem(++intOrdem);
-      this.getClnIntId().setIntOrdem(++intOrdem);
       this.getClnIntPessoaId().setIntOrdem(++intOrdem);
-      this.getClnIntUsuarioAlteracaoId().setIntOrdem(++intOrdem);
-      this.getClnIntUsuarioCadastroId().setIntOrdem(++intOrdem);
-      this.getClnIntUsuarioExclusaoId().setIntOrdem(++intOrdem);
       this.getClnStrLogin().setIntOrdem(++intOrdem);
       this.getClnStrPassword().setIntOrdem(++intOrdem);
 
@@ -127,6 +117,8 @@ public class TblUsuario extends TblMain {
 
     } finally {
     }
+
+    return intOrdem;
   }
 
 }

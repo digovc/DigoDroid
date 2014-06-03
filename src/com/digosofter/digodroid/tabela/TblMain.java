@@ -206,4 +206,32 @@ public abstract class TblMain extends DbTabela {
     return _clnIntUsuarioExclusaoId;
   }
 
+  @Override
+  protected int inicializarColunas(int intOrdem) {
+    // VARIÁVEIS
+    // FIM VARIÁVEIS
+    try {
+      // AÇÕES
+
+      intOrdem = super.inicializarColunas(intOrdem);
+
+      this.getClnDttAlteracao().setIntOrdem(++intOrdem);
+      this.getClnDttCadastro().setIntOrdem(++intOrdem);
+      this.getClnDttExclusao().setIntOrdem(++intOrdem);
+      this.getClnIntId().setIntOrdem(++intOrdem);
+      this.getClnIntUsuarioAlteracaoId().setIntOrdem(++intOrdem);
+      this.getClnIntUsuarioCadastroId().setIntOrdem(++intOrdem);
+      this.getClnIntUsuarioExclusaoId().setIntOrdem(++intOrdem);
+
+      // FIM AÇÕES
+    } catch (Exception ex) {
+
+      new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
+
+    } finally {
+    }
+
+    return intOrdem;
+  }
+
 }
