@@ -726,56 +726,57 @@ public abstract class DbTabela extends Objeto {
     try {
       // AÇÕES
 
-      if (_lstItmConsulta == null) {
+      if (_lstItmConsulta != null) {
+        return _lstItmConsulta;
+      }
 
-        _lstItmConsulta = new ArrayList<ItmConsulta>();
-        crs = this.getCrsDadosTelaCadastro();
+      _lstItmConsulta = new ArrayList<ItmConsulta>();
+      crs = this.getCrsDadosTelaCadastro();
 
-        if (crs != null && crs.moveToFirst()) {
+      if (crs == null || !crs.moveToFirst()) {
+        return _lstItmConsulta;
+      }
 
-          do {
+      do {
 
-            itmConsulta = new ItmConsulta();
-            itmConsulta.setStrItemId(crs.getString(crs.getColumnIndex(this.getClnChavePrimaria()
-                .getStrNomeSimplificado())));
+        itmConsulta = new ItmConsulta();
+        itmConsulta.setStrItemId(crs.getString(crs.getColumnIndex(this.getClnChavePrimaria()
+            .getStrNomeSimplificado())));
 
-            if (this.getClnNome().getClnReferencia() != null) {
-              itmConsulta.setStrNome(crs.getString(crs.getColumnIndex("_strNomeB")));
-            } else {
-              itmConsulta.setStrNome(crs.getString(crs.getColumnIndex(this.getClnNome()
-                  .getStrNomeSimplificado())));
-            }
-
-            for (int intColunaIndex = 0; intColunaIndex <= 4; intColunaIndex++) {
-
-              if (intColunaIndex < crs.getColumnCount()) {
-
-                switch (intColunaIndex) {
-                  case 2:
-                    itmConsulta.setStrCampo001Nome(this.getStrClnNomePeloNomeSimplificado(crs
-                        .getColumnName(intColunaIndex)));
-                    itmConsulta.setStrCampo001Valor(crs.getString(intColunaIndex));
-                    break;
-                  case 3:
-                    itmConsulta.setStrCampo002Nome(this.getStrClnNomePeloNomeSimplificado(crs
-                        .getColumnName(intColunaIndex)));
-                    itmConsulta.setStrCampo002Valor(crs.getString(intColunaIndex));
-                    break;
-                  case 4:
-                    itmConsulta.setStrCampo003Nome(this.getStrClnNomePeloNomeSimplificado(crs
-                        .getColumnName(intColunaIndex)));
-                    itmConsulta.setStrCampo003Valor(crs.getString(intColunaIndex));
-                    break;
-                }
-              }
-            }
-
-            _lstItmConsulta.add(itmConsulta);
-
-          } while (crs.moveToNext());
+        if (this.getClnNome().getClnReferencia() != null) {
+          itmConsulta.setStrNome(crs.getString(crs.getColumnIndex("_strNomeB")));
+        } else {
+          itmConsulta.setStrNome(crs.getString(crs.getColumnIndex(this.getClnNome()
+              .getStrNomeSimplificado())));
         }
 
-      }
+        for (int intColunaIndex = 0; intColunaIndex <= 4; intColunaIndex++) {
+
+          if (intColunaIndex < crs.getColumnCount()) {
+
+            switch (intColunaIndex) {
+              case 2:
+                itmConsulta.setStrCampo001Nome(this.getStrClnNomePeloNomeSimplificado(crs
+                    .getColumnName(intColunaIndex)));
+                itmConsulta.setStrCampo001Valor(crs.getString(intColunaIndex));
+                break;
+              case 3:
+                itmConsulta.setStrCampo002Nome(this.getStrClnNomePeloNomeSimplificado(crs
+                    .getColumnName(intColunaIndex)));
+                itmConsulta.setStrCampo002Valor(crs.getString(intColunaIndex));
+                break;
+              case 4:
+                itmConsulta.setStrCampo003Nome(this.getStrClnNomePeloNomeSimplificado(crs
+                    .getColumnName(intColunaIndex)));
+                itmConsulta.setStrCampo003Valor(crs.getString(intColunaIndex));
+                break;
+            }
+          }
+        }
+
+        _lstItmConsulta.add(itmConsulta);
+
+      } while (crs.moveToNext());
 
       // FIM AÇÕES
     } catch (Exception ex) {
@@ -900,7 +901,7 @@ public abstract class DbTabela extends Objeto {
     try {
       // AÇÕES
 
-      this.setLstItmConsulta(null);
+      this.limparListaConsulta();
 
       for (DbColuna cln : this.getLstCln()) {
 
@@ -939,6 +940,23 @@ public abstract class DbTabela extends Objeto {
     } catch (Exception ex) {
 
       new Erro(App.getI().getStrTextoPadrao(129), ex.getMessage());
+
+    } finally {
+    }
+  }
+
+  public void limparListaConsulta() {
+    // VARIÁVEIS
+    // FIM VARIÁVEIS
+    try {
+      // AÇÕES
+
+      this.setLstItmConsulta(null);
+
+      // FIM AÇÕES
+    } catch (Exception ex) {
+
+      new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
 
     } finally {
     }

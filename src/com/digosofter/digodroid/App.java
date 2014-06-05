@@ -278,6 +278,29 @@ public abstract class App extends Objeto {
     return _tblSelecionada;
   }
 
+  /**
+   * Limpa o cache com a lista de de itens das telas de consultas das tabelas do
+   * appp.
+   */
+  public void limparTblListaConsulta() {
+    // VARIÁVEIS
+    // FIM VARIÁVEIS
+    try {
+      // AÇÕES
+
+      for (DbTabela tbl : this.getLstTbl()) {
+        tbl.limparListaConsulta();
+      }
+
+      // FIM AÇÕES
+    } catch (Exception ex) {
+
+      new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
+
+    } finally {
+    }
+  }
+
   public void mostrarNoficacao(String strMensagem) {
     // VARIÁVEIS
 
