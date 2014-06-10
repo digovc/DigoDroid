@@ -30,7 +30,7 @@ import com.digosofter.digodroid.item.ItmConsulta;
 public class ActConsulta extends ActMain {
 
   public enum EnmResultadoTipo {
-    REGISTRO_SELECIONADO, VOLTAR
+    NONE, REGISTRO_SELECIONADO, VOLTAR
   }
 
   private AdpCadastro _adpCadastro;
@@ -42,6 +42,23 @@ public class ActConsulta extends ActMain {
   private DbTabela _tbl;
 
   private TextView _txtTblDescricao;
+
+  public ActConsulta() {
+    // VARIÁVEIS
+    // FIM VARIÁVEIS
+    try {
+      // AÇÕES
+
+      this.setResult(EnmResultadoTipo.NONE.ordinal());
+
+      // FIM AÇÕES
+    } catch (Exception ex) {
+
+      new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
+
+    } finally {
+    }
+  }
 
   private AdpCadastro getAdpCadastro() {
     return _adpCadastro;
