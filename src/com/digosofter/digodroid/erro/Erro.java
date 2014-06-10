@@ -20,7 +20,7 @@ public class Erro extends Exception implements Serializable {
 
   private String _strNome;
 
-  public Erro(String strMensagem, String strMensagemDetalhes) {
+  public Erro(String strMensagem, Exception ex) {
     // VARIÁVEIS
 
     Intent objIntent;
@@ -33,8 +33,8 @@ public class Erro extends Exception implements Serializable {
         this.setStrMensagem(strMensagem);
       }
 
-      if (!Utils.getBooIsEmptyNull(strMensagemDetalhes)) {
-        this.setStrMensagemDetalhes(strMensagemDetalhes);
+      if (ex != null && !Utils.getBooIsEmptyNull(ex.getMessage())) {
+        this.setStrMensagemDetalhes(ex.getMessage());
       }
 
       if (this.getBooMostrarUsuario()) {
@@ -46,7 +46,7 @@ public class Erro extends Exception implements Serializable {
       }
 
       // FIM AÇÕES
-    } catch (Exception ex) {
+    } catch (Exception e) {
     } finally {
     }
   }

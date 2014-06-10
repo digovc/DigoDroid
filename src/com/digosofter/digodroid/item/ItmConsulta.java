@@ -56,7 +56,7 @@ public class ItmConsulta extends Objeto {
       // FIM A합ES
     } catch (Exception ex) {
 
-      new Erro(App.getI().getStrTextoPadrao(132), ex.getMessage());
+      new Erro(App.getI().getStrTextoPadrao(132), ex);
 
     } finally {
     }
@@ -75,7 +75,7 @@ public class ItmConsulta extends Objeto {
       // FIM A합ES
     } catch (Exception ex) {
 
-      new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
+      new Erro(App.getI().getStrTextoPadrao(0), ex);
 
     } finally {
     }
@@ -100,7 +100,7 @@ public class ItmConsulta extends Objeto {
       // FIM A합ES
     } catch (Exception ex) {
 
-      new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
+      new Erro(App.getI().getStrTextoPadrao(0), ex);
 
     } finally {
     }
@@ -119,7 +119,7 @@ public class ItmConsulta extends Objeto {
       // FIM A합ES
     } catch (Exception ex) {
 
-      new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
+      new Erro(App.getI().getStrTextoPadrao(0), ex);
 
     } finally {
     }
@@ -144,7 +144,7 @@ public class ItmConsulta extends Objeto {
       // FIM A합ES
     } catch (Exception ex) {
 
-      new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
+      new Erro(App.getI().getStrTextoPadrao(0), ex);
 
     } finally {
     }
@@ -163,7 +163,7 @@ public class ItmConsulta extends Objeto {
       // FIM A합ES
     } catch (Exception ex) {
 
-      new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
+      new Erro(App.getI().getStrTextoPadrao(0), ex);
 
     } finally {
     }
@@ -188,7 +188,7 @@ public class ItmConsulta extends Objeto {
       // FIM A합ES
     } catch (Exception ex) {
 
-      new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
+      new Erro(App.getI().getStrTextoPadrao(0), ex);
 
     } finally {
     }

@@ -65,7 +65,7 @@ public abstract class App extends Objeto {
       // FIM A합ES
     } catch (Exception ex) {
 
-      new Erro(this.getStrMensagemUsuarioPadrao(101), ex.getMessage());
+      new Erro(this.getStrMensagemUsuarioPadrao(101), ex);
 
     } finally {
     }
@@ -168,7 +168,7 @@ public abstract class App extends Objeto {
       // FIM A합ES
     } catch (Exception ex) {
 
-      new Erro(this.getStrMensagemUsuarioPadrao(0), ex.getMessage());
+      new Erro(this.getStrMensagemUsuarioPadrao(0), ex);
 
     } finally {
     }
@@ -189,7 +189,7 @@ public abstract class App extends Objeto {
       // FIM A합ES
     } catch (Exception ex) {
 
-      new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
+      new Erro(App.getI().getStrTextoPadrao(0), ex);
 
     } finally {
     }
@@ -211,7 +211,7 @@ public abstract class App extends Objeto {
       // FIM A합ES
     } catch (Exception ex) {
 
-      new Erro(App.getI().getStrTextoPadrao(102), ex.getMessage());
+      new Erro(App.getI().getStrTextoPadrao(102), ex);
 
     } finally {
     }
@@ -250,7 +250,7 @@ public abstract class App extends Objeto {
       // FIM A합ES
     } catch (Exception ex) {
 
-      new Erro(this.getStrTextoPadrao(103), ex.getMessage());
+      new Erro(this.getStrTextoPadrao(103), ex);
 
     } finally {
     }
@@ -295,7 +295,7 @@ public abstract class App extends Objeto {
       // FIM A합ES
     } catch (Exception ex) {
 
-      new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
+      new Erro(App.getI().getStrTextoPadrao(0), ex);
 
     } finally {
     }
@@ -321,7 +321,7 @@ public abstract class App extends Objeto {
       // FIM A합ES
     } catch (Exception ex) {
 
-      new Erro(this.getStrTextoPadrao(104), ex.getMessage());
+      new Erro(this.getStrTextoPadrao(104), ex);
 
     } finally {
       // LIMPAR VARI햂EIS
@@ -346,7 +346,7 @@ public abstract class App extends Objeto {
       // FIM A합ES
     } catch (Exception ex) {
 
-      new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
+      new Erro(App.getI().getStrTextoPadrao(0), ex);
 
     } finally {
     }

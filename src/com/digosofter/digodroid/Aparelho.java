@@ -34,7 +34,7 @@ public abstract class Aparelho extends Objeto {
       // FIM A합ES
     } catch (Exception ex) {
 
-      new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
+      new Erro(App.getI().getStrTextoPadrao(0), ex);
 
     } finally {
     }
@@ -67,7 +67,7 @@ public abstract class Aparelho extends Objeto {
       // FIM A합ES
     } catch (Exception ex) {
 
-      new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
+      new Erro(App.getI().getStrTextoPadrao(0), ex);
 
     } finally {
     }
@@ -97,7 +97,7 @@ public abstract class Aparelho extends Objeto {
       // FIM A합ES
     } catch (Exception ex) {
 
-      new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
+      new Erro(App.getI().getStrTextoPadrao(0), ex);
 
     } finally {
     }
@@ -124,7 +124,7 @@ public abstract class Aparelho extends Objeto {
       // FIM A합ES
     } catch (Exception ex) {
 
-      new Erro(App.getI().getStrMensagemUsuarioPadrao(100), ex.getMessage());
+      new Erro(App.getI().getStrMensagemUsuarioPadrao(100), ex);
 
     } finally {
     }
@@ -151,7 +151,7 @@ public abstract class Aparelho extends Objeto {
       // FIM A합ES
     } catch (Exception ex) {
 
-      new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
+      new Erro(App.getI().getStrTextoPadrao(0), ex);
 
     } finally {
     }

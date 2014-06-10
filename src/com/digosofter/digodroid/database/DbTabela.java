@@ -56,7 +56,7 @@ public abstract class DbTabela extends Objeto {
       // FIM A합ES
     } catch (Exception ex) {
 
-      new Erro(App.getI().getStrTextoPadrao(122), ex.getMessage());
+      new Erro(App.getI().getStrTextoPadrao(122), ex);
 
     } finally {
     }
@@ -78,7 +78,7 @@ public abstract class DbTabela extends Objeto {
       // FIM A합ES
     } catch (Exception ex) {
 
-      new Erro(App.getI().getStrTextoPadrao(123), ex.getMessage());
+      new Erro(App.getI().getStrTextoPadrao(123), ex);
 
     } finally {
     }
@@ -140,7 +140,7 @@ public abstract class DbTabela extends Objeto {
       // FIM A합ES
     } catch (Exception ex) {
 
-      new Erro(App.getI().getStrTextoPadrao(124), ex.getMessage());
+      new Erro(App.getI().getStrTextoPadrao(124), ex);
 
     } finally {
     }
@@ -199,7 +199,7 @@ public abstract class DbTabela extends Objeto {
 
     } catch (Exception ex) {
 
-      new Erro(App.getI().getStrTextoPadrao(124), ex.getMessage());
+      new Erro(App.getI().getStrTextoPadrao(124), ex);
 
     } finally {
       // LIMPAR VARI햂EIS
@@ -228,7 +228,7 @@ public abstract class DbTabela extends Objeto {
       // FIM A합ES
     } catch (Exception ex) {
 
-      new Erro(App.getI().getStrTextoPadrao(126), ex.getMessage());
+      new Erro(App.getI().getStrTextoPadrao(126), ex);
 
     } finally {
     }
@@ -266,7 +266,7 @@ public abstract class DbTabela extends Objeto {
       // FIM A합ES
     } catch (Exception ex) {
 
-      new Erro(App.getI().getStrTextoPadrao(127), ex.getMessage());
+      new Erro(App.getI().getStrTextoPadrao(127), ex);
 
     } finally {
       crs = null;
@@ -288,7 +288,7 @@ public abstract class DbTabela extends Objeto {
       // FIM A합ES
     } catch (Exception ex) {
 
-      new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
+      new Erro(App.getI().getStrTextoPadrao(0), ex);
 
     } finally {
     }
@@ -309,7 +309,7 @@ public abstract class DbTabela extends Objeto {
       // FIM A합ES
     } catch (Exception ex) {
 
-      new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
+      new Erro(App.getI().getStrTextoPadrao(0), ex);
 
     } finally {
     }
@@ -330,7 +330,7 @@ public abstract class DbTabela extends Objeto {
       // FIM A합ES
     } catch (Exception ex) {
 
-      new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
+      new Erro(App.getI().getStrTextoPadrao(0), ex);
 
     } finally {
     }
@@ -361,7 +361,7 @@ public abstract class DbTabela extends Objeto {
       // FIM A합ES
     } catch (Exception ex) {
 
-      new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
+      new Erro(App.getI().getStrTextoPadrao(0), ex);
 
     } finally {
     }
@@ -384,7 +384,7 @@ public abstract class DbTabela extends Objeto {
       // FIM A합ES
     } catch (Exception ex) {
 
-      new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
+      new Erro(App.getI().getStrTextoPadrao(0), ex);
 
     } finally {
     }
@@ -409,7 +409,7 @@ public abstract class DbTabela extends Objeto {
       // FIM A합ES
     } catch (Exception ex) {
 
-      new Erro(App.getI().getStrTextoPadrao(128), ex.getMessage());
+      new Erro(App.getI().getStrTextoPadrao(128), ex);
 
     } finally {
     }
@@ -466,7 +466,7 @@ public abstract class DbTabela extends Objeto {
       // FIM A합ES
     } catch (Exception ex) {
 
-      new Erro(App.getI().getStrTextoPadrao(128), ex.getMessage());
+      new Erro(App.getI().getStrTextoPadrao(128), ex);
 
     } finally {
     }
@@ -610,7 +610,7 @@ public abstract class DbTabela extends Objeto {
       // FIM A합ES
     } catch (Exception ex) {
 
-      new Erro(App.getI().getStrTextoPadrao(128), ex.getMessage());
+      new Erro(App.getI().getStrTextoPadrao(128), ex);
 
     } finally {
     }
@@ -655,7 +655,7 @@ public abstract class DbTabela extends Objeto {
       // FIM A합ES
     } catch (Exception ex) {
 
-      new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
+      new Erro(App.getI().getStrTextoPadrao(0), ex);
 
     } finally {
     }
@@ -676,7 +676,7 @@ public abstract class DbTabela extends Objeto {
       // FIM A합ES
     } catch (Exception ex) {
 
-      new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
+      new Erro(App.getI().getStrTextoPadrao(0), ex);
 
     } finally {
     }
@@ -708,7 +708,7 @@ public abstract class DbTabela extends Objeto {
       // FIM A합ES
     } catch (Exception ex) {
 
-      new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
+      new Erro(App.getI().getStrTextoPadrao(0), ex);
 
     } finally {
     }
@@ -781,7 +781,7 @@ public abstract class DbTabela extends Objeto {
       // FIM A합ES
     } catch (Exception ex) {
 
-      new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
+      new Erro(App.getI().getStrTextoPadrao(0), ex);
 
     } finally {
     }
@@ -813,7 +813,7 @@ public abstract class DbTabela extends Objeto {
       // FIM A합ES
     } catch (Exception ex) {
 
-      new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
+      new Erro(App.getI().getStrTextoPadrao(0), ex);
 
     } finally {
     }
@@ -834,7 +834,7 @@ public abstract class DbTabela extends Objeto {
       // FIM A합ES
     } catch (Exception ex) {
 
-      new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
+      new Erro(App.getI().getStrTextoPadrao(0), ex);
 
     } finally {
     }
@@ -862,7 +862,7 @@ public abstract class DbTabela extends Objeto {
       // FIM A합ES
     } catch (Exception ex) {
 
-      new Erro(App.getI().getStrTextoPadrao(128), ex.getMessage());
+      new Erro(App.getI().getStrTextoPadrao(128), ex);
 
     } finally {
     }
@@ -881,7 +881,7 @@ public abstract class DbTabela extends Objeto {
       // FIM A합ES
     } catch (Exception ex) {
 
-      new Erro(App.getI().getStrTextoPadrao(128), ex.getMessage());
+      new Erro(App.getI().getStrTextoPadrao(128), ex);
 
     } finally {
     }
@@ -939,7 +939,7 @@ public abstract class DbTabela extends Objeto {
       // FIM A합ES
     } catch (Exception ex) {
 
-      new Erro(App.getI().getStrTextoPadrao(129), ex.getMessage());
+      new Erro(App.getI().getStrTextoPadrao(129), ex);
 
     } finally {
     }
@@ -956,7 +956,7 @@ public abstract class DbTabela extends Objeto {
       // FIM A합ES
     } catch (Exception ex) {
 
-      new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
+      new Erro(App.getI().getStrTextoPadrao(0), ex);
 
     } finally {
     }
@@ -990,7 +990,7 @@ public abstract class DbTabela extends Objeto {
       // FIM A합ES
     } catch (Exception ex) {
 
-      new Erro(App.getI().getStrTextoPadrao(130), ex.getMessage());
+      new Erro(App.getI().getStrTextoPadrao(130), ex);
 
     } finally {
     }
@@ -1029,7 +1029,7 @@ public abstract class DbTabela extends Objeto {
       // FIM A합ES
     } catch (Exception ex) {
 
-      new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
+      new Erro(App.getI().getStrTextoPadrao(0), ex);
 
     } finally {
     }
@@ -1074,7 +1074,7 @@ public abstract class DbTabela extends Objeto {
       // FIM A합ES
     } catch (Exception ex) {
 
-      new Erro(App.getI().getStrTextoPadrao(130), ex.getMessage());
+      new Erro(App.getI().getStrTextoPadrao(130), ex);
 
     } finally {
     }

@@ -17,7 +17,7 @@ public abstract class Game extends App {
       // FIM AÇÕES
     } catch (Exception ex) {
 
-      new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
+      new Erro(App.getI().getStrTextoPadrao(0), ex);
 
     } finally {
     }

@@ -22,7 +22,7 @@ public class TblPessoa extends TblMain {
       // FIM A합ES
     } catch (Exception ex) {
 
-      new Erro(App.getI().getStrTextoPadrao(135), ex.getMessage());
+      new Erro(App.getI().getStrTextoPadrao(135), ex);
 
     } finally {
     }
@@ -46,7 +46,7 @@ public class TblPessoa extends TblMain {
       // FIM A합ES
     } catch (Exception ex) {
 
-      new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
+      new Erro(App.getI().getStrTextoPadrao(0), ex);
 
     } finally {
     }
@@ -70,7 +70,7 @@ public class TblPessoa extends TblMain {
       // FIM A합ES
     } catch (Exception ex) {
 
-      new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
+      new Erro(App.getI().getStrTextoPadrao(0), ex);
 
     } finally {
     }
@@ -93,7 +93,7 @@ public class TblPessoa extends TblMain {
       // FIM A합ES
     } catch (Exception ex) {
 
-      new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
+      new Erro(App.getI().getStrTextoPadrao(0), ex);
 
     } finally {
     }

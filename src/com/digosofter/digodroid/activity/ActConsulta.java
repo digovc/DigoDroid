@@ -54,7 +54,7 @@ public class ActConsulta extends ActMain {
       // FIM A합ES
     } catch (Exception ex) {
 
-      new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
+      new Erro(App.getI().getStrTextoPadrao(0), ex);
 
     } finally {
     }
@@ -77,7 +77,7 @@ public class ActConsulta extends ActMain {
       // FIM A합ES
     } catch (Exception ex) {
 
-      new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
+      new Erro(App.getI().getStrTextoPadrao(0), ex);
 
     } finally {
     }
@@ -94,7 +94,7 @@ public class ActConsulta extends ActMain {
       // FIM A합ES
     } catch (Exception ex) {
 
-      new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
+      new Erro(App.getI().getStrTextoPadrao(0), ex);
 
     } finally {
     }
@@ -117,7 +117,7 @@ public class ActConsulta extends ActMain {
       // FIM A합ES
     } catch (Exception ex) {
 
-      new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
+      new Erro(App.getI().getStrTextoPadrao(0), ex);
 
     } finally {
     }
@@ -138,7 +138,7 @@ public class ActConsulta extends ActMain {
       // FIM A합ES
     } catch (Exception ex) {
 
-      new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
+      new Erro(App.getI().getStrTextoPadrao(0), ex);
 
     } finally {
     }
@@ -159,7 +159,7 @@ public class ActConsulta extends ActMain {
       // FIM A합ES
     } catch (Exception ex) {
 
-      new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
+      new Erro(App.getI().getStrTextoPadrao(0), ex);
 
     } finally {
     }
@@ -184,7 +184,7 @@ public class ActConsulta extends ActMain {
       // FIM A합ES
     } catch (Exception ex) {
 
-      new Erro(App.getI().getStrTextoPadrao(114), ex.getMessage());
+      new Erro(App.getI().getStrTextoPadrao(114), ex);
 
     } finally {
     }
@@ -203,7 +203,7 @@ public class ActConsulta extends ActMain {
       // FIM A합ES
     } catch (Exception ex) {
 
-      new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
+      new Erro(App.getI().getStrTextoPadrao(0), ex);
 
     } finally {
     }
@@ -226,7 +226,7 @@ public class ActConsulta extends ActMain {
       // FIM A합ES
     } catch (Exception ex) {
 
-      new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
+      new Erro(App.getI().getStrTextoPadrao(0), ex);
 
     } finally {
     }
@@ -250,7 +250,7 @@ public class ActConsulta extends ActMain {
       // FIM A합ES
     } catch (Exception ex) {
 
-      new Erro(App.getI().getStrTextoPadrao(117), ex.getMessage());
+      new Erro(App.getI().getStrTextoPadrao(117), ex);
 
     } finally {
     }
@@ -274,7 +274,7 @@ public class ActConsulta extends ActMain {
       // FIM A합ES
     } catch (Exception ex) {
 
-      new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
+      new Erro(App.getI().getStrTextoPadrao(0), ex);
 
     } finally {
     }
@@ -300,7 +300,7 @@ public class ActConsulta extends ActMain {
       // FIM A합ES
     } catch (Exception ex) {
 
-      new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
+      new Erro(App.getI().getStrTextoPadrao(0), ex);
 
     } finally {
     }
@@ -365,7 +365,7 @@ public class ActConsulta extends ActMain {
             // FIM A합ES
           } catch (Exception ex) {
 
-            new Erro(App.getI().getStrTextoPadrao(115), ex.getMessage());
+            new Erro(App.getI().getStrTextoPadrao(115), ex);
 
           } finally {
           }
@@ -403,7 +403,7 @@ public class ActConsulta extends ActMain {
             // FIM A합ES
           } catch (Exception ex) {
 
-            new Erro(App.getI().getStrTextoPadrao(115), ex.getMessage());
+            new Erro(App.getI().getStrTextoPadrao(115), ex);
 
           } finally {
           }
@@ -436,7 +436,7 @@ public class ActConsulta extends ActMain {
             // FIM A합ES
           } catch (Exception ex) {
 
-            new Erro(App.getI().getStrTextoPadrao(0), ex.getMessage());
+            new Erro(App.getI().getStrTextoPadrao(0), ex);
 
           } finally {
           }
@@ -446,7 +446,7 @@ public class ActConsulta extends ActMain {
       // FIM A합ES
     } catch (Exception ex) {
 
-      new Erro(App.getI().getStrTextoPadrao(116), ex.getMessage());
+      new Erro(App.getI().getStrTextoPadrao(116), ex);
 
     } finally {
     }
