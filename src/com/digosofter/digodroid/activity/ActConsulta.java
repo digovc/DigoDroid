@@ -217,7 +217,7 @@ public class ActConsulta extends ActMain {
 
       this.setTitle(this.getTbl().getStrNomeExibicao());
 
-      if (!Utils.getBooIsEmptyNull(this.getTbl().getStrDescricao())) {
+      if (!Utils.getBooStrVazia(this.getTbl().getStrDescricao())) {
 
         this.getTxtTblDescricao().setText(this.getTbl().getStrDescricao());
         this.getTxtTblDescricao().setVisibility(View.VISIBLE);
@@ -291,7 +291,7 @@ public class ActConsulta extends ActMain {
     try {
       // AÇÕES
 
-      if (Utils.getBooIsEmptyNull(this.getTbl().getStrPesquisaActConsulta())) {
+      if (Utils.getBooStrVazia(this.getTbl().getStrPesquisaActConsulta())) {
         return;
       }
 

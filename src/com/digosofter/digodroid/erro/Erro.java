@@ -29,11 +29,11 @@ public class Erro extends Exception implements Serializable {
     try {
       // AÇÕES
 
-      if (!Utils.getBooIsEmptyNull(strMensagem)) {
+      if (!Utils.getBooStrVazia(strMensagem)) {
         this.setStrMensagem(strMensagem);
       }
 
-      if (ex != null && !Utils.getBooIsEmptyNull(ex.getMessage())) {
+      if (ex != null && !Utils.getBooStrVazia(ex.getMessage())) {
         this.setStrMensagemDetalhes(ex.getMessage());
       }
 

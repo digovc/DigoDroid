@@ -72,7 +72,7 @@ public class DataBase extends SQLiteOpenHelper {
 
       strResultado = this.execSqlGetStr(sql);
 
-      if (Utils.getBooIsEmptyNull(strResultado)) {
+      if (Utils.getBooStrVazia(strResultado)) {
         strResultado = "0";
       }
 

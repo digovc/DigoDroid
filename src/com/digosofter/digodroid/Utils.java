@@ -61,6 +61,30 @@ public abstract class Utils {
     return dblValorArredondado;
   }
 
+  public static boolean getBooStrVazia(String str) {
+    // VARIÁVEIS
+
+    boolean booBooIsEmptyNullResultado = true;
+
+    // FIM VARIÁVEIS
+    try {
+      // AÇÕES
+
+      if (str != null && !str.isEmpty()) {
+        booBooIsEmptyNullResultado = false;
+      }
+
+      // FIM AÇÕES
+    } catch (Exception ex) {
+
+      new Erro(App.getI().getStrTextoPadrao(0), ex);
+
+    } finally {
+    }
+
+    return booBooIsEmptyNullResultado;
+  }
+
   public static String enmDataFormatoToString(EnmDataFormato enmDataFormato) {
     // VARIÁVEIS
 
@@ -108,30 +132,6 @@ public abstract class Utils {
     } finally {
     }
     return strDataFormatoResultado;
-  }
-
-  public static boolean getBooIsEmptyNull(String str) {
-    // VARIÁVEIS
-
-    boolean booBooIsEmptyNullResultado = true;
-
-    // FIM VARIÁVEIS
-    try {
-      // AÇÕES
-
-      if (str != null && !str.isEmpty()) {
-        booBooIsEmptyNullResultado = false;
-      }
-
-      // FIM AÇÕES
-    } catch (Exception ex) {
-
-      new Erro(App.getI().getStrTextoPadrao(0), ex);
-
-    } finally {
-    }
-
-    return booBooIsEmptyNullResultado;
   }
 
   /**

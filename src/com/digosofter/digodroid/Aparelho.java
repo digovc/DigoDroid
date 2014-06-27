@@ -54,7 +54,7 @@ public abstract class Aparelho extends Objeto {
     try {
       // AÇÕES
 
-      if (Utils.getBooIsEmptyNull(strEmail)) {
+      if (Utils.getBooStrVazia(strEmail)) {
         return;
       }
 

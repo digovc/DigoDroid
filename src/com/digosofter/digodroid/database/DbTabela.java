@@ -905,12 +905,12 @@ public abstract class DbTabela extends Objeto {
 
       for (DbColuna cln : this.getLstCln()) {
 
-        if (!Utils.getBooIsEmptyNull(cln.getStrValor())) {
+        if (!Utils.getBooStrVazia(cln.getStrValor())) {
 
           strColunasNomes += cln.getStrNomeSimplificado() + ",";
           strColunasValores += "'" + cln.getStrValor() + "',";
 
-        } else if (!Utils.getBooIsEmptyNull(cln.getStrValorDefault())) {
+        } else if (!Utils.getBooStrVazia(cln.getStrValorDefault())) {
 
           strColunasNomes += cln.getStrNomeSimplificado() + ",";
           strColunasValores += "'" + cln.getStrValorDefault() + "',";
@@ -925,7 +925,7 @@ public abstract class DbTabela extends Objeto {
 
       this.getObjDataBase().execSqlSemRetorno(sql);
 
-      if (Utils.getBooIsEmptyNull(this.getClnChavePrimaria().getStrValor())) {
+      if (Utils.getBooStrVazia(this.getClnChavePrimaria().getStrValor())) {
 
         sql = "SELECT last_insert_rowid();";
         strId = this.getObjDataBase().execSqlGetStr(sql);

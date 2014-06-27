@@ -152,7 +152,7 @@ public class ActErro extends ActMain {
       this.getTxtAppNome().setText(App.getI().getStrNome());
       this.getTxtErroTitulo().setText(this.getErr().getStrNome());
 
-      if (!Utils.getBooIsEmptyNull(this.getErr().getStrMensagemDetalhes())) {
+      if (!Utils.getBooStrVazia(this.getErr().getStrMensagemDetalhes())) {
 
         strErroMensagem = "";
         strErroMensagem += this.getErr().getStrMensagem();
