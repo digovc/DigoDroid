@@ -19,27 +19,16 @@ import com.digosofter.digodroid.item.ItmConsulta;
 public abstract class DbTabela extends Objeto {
 
   private boolean _booPermitirCadastroNovo;
-
   private boolean _booSincronizar = true;
-
   private DbColuna _clnChavePrimaria;
-
   private DbColuna _clnNome;
-
   private DbColuna _clnOrdemCadastro;
-
   private Class<?> _clsActFrm;
-
   private int _intQtdLinha;
-
   private List<DbColuna> _lstCln;
-
   private ArrayList<DbFiltro> _lstDbFiltroTelaCadastro;
-
   private List<ItmConsulta> _lstItmConsulta;
-
   private DataBase _objDataBase;
-
   private String _strPesquisaActConsulta;
 
   public DbTabela(String strNome) {

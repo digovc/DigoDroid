@@ -8,7 +8,6 @@ import com.digosofter.digodroid.erro.Erro;
 public class TblPessoa extends TblMain {
 
   private DbColuna _clnStrNome;
-
   private DbColuna _clnStrSobrenome;
 
   public TblPessoa() {

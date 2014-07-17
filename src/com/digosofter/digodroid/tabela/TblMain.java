@@ -9,17 +9,11 @@ import com.digosofter.digodroid.erro.Erro;
 public abstract class TblMain extends DbTabela {
 
   private DbColuna _clnDttAlteracao;
-
   private DbColuna _clnDttCadastro;
-
   private DbColuna _clnDttExclusao;
-
   private DbColuna _clnIntId;
-
   private DbColuna _clnIntUsuarioAlteracaoId;
-
   private DbColuna _clnIntUsuarioCadastroId;
-
   private DbColuna _clnIntUsuarioExclusaoId;
 
   public TblMain(String strNome) {

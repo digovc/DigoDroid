@@ -8,9 +8,7 @@ import com.digosofter.digodroid.erro.Erro;
 public class TblUsuario extends TblMain {
 
   private DbColuna _clnIntPessoaId;
-
   private DbColuna _clnStrLogin;
-
   private DbColuna _clnStrPassword;
 
   public TblUsuario() {
