@@ -13,7 +13,14 @@ import com.digosofter.digodroid.erro.Erro;
 public class DbColuna extends Objeto {
 
   public enum EnmTipo {
-    BOOLEAN, DATE_TIME, INTEGER, MONETARY, NONE, NUMERIC, REAL, TEXT
+    BOOLEAN,
+    DATE_TIME,
+    INTEGER,
+    MONETARY,
+    NONE,
+    NUMERIC,
+    REAL,
+    TEXT
   }
 
   private boolean _booChavePrimaria;

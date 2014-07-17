@@ -12,49 +12,33 @@ import com.digosofter.digodroid.erro.Erro;
 public class HttpCliente extends Objeto {
 
   public enum EnmStatus {
-    NONE,
     CONCLUIDO,
     EM_ANDAMENTO,
+    NONE,
   }
 
   private EnmStatus _enmStatus = EnmStatus.NONE;
+
+  private HttpResponse _objHttpResponse;
+
+  private String _strJson;
+
+  private String _url;
 
   private EnmStatus getEnmStatus() {
     return _enmStatus;
   }
 
-  private HttpResponse _objHttpResponse;
-
   private HttpResponse getObjHttpResponse() {
     return _objHttpResponse;
   }
-
-  private void setObjHttpResponse(HttpResponse objHttpResponse) {
-    _objHttpResponse = objHttpResponse;
-  }
-
-  private void setEnmStatus(EnmStatus enmStatus) {
-    _enmStatus = enmStatus;
-  }
-
-  private String _url;
-
-  private String getUrl() {
-    return _url;
-  }
-
-  public void setUrl(String url) {
-    _url = url;
-  }
-
-  private String _strJson;
 
   private String getStrJson() {
     return _strJson;
   }
 
-  public void setStrJson(String strJson) {
-    _strJson = strJson;
+  private String getUrl() {
+    return _url;
   }
 
   public void postJson() {
@@ -69,6 +53,7 @@ public class HttpCliente extends Objeto {
       this.setEnmStatus(EnmStatus.EM_ANDAMENTO);
 
       thr = new Thread() {
+
         @Override
         public void run() {
           // VARIÁVEIS
@@ -111,5 +96,21 @@ public class HttpCliente extends Objeto {
 
     } finally {
     }
+  }
+
+  private void setEnmStatus(EnmStatus enmStatus) {
+    _enmStatus = enmStatus;
+  }
+
+  private void setObjHttpResponse(HttpResponse objHttpResponse) {
+    _objHttpResponse = objHttpResponse;
+  }
+
+  public void setStrJson(String strJson) {
+    _strJson = strJson;
+  }
+
+  public void setUrl(String url) {
+    _url = url;
   }
 }

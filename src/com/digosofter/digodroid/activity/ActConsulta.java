@@ -30,7 +30,9 @@ import com.digosofter.digodroid.item.ItmConsulta;
 public class ActConsulta extends ActMain {
 
   public enum EnmResultadoTipo {
-    NONE, REGISTRO_SELECIONADO, VOLTAR
+    NONE,
+    REGISTRO_SELECIONADO,
+    VOLTAR
   }
 
   private AdpCadastro _adpCadastro;

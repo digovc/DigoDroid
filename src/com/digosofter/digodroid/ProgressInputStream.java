@@ -72,8 +72,9 @@ public class ProgressInputStream extends InputStream {
     try {
       // AÇÕES
 
-      if (count > 0)
+      if (count > 0) {
         progress += count;
+      }
       lastUpdate = maybeUpdateDisplay(progress, lastUpdate);
 
       // FIM AÇÕES

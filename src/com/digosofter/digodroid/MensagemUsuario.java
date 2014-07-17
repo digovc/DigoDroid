@@ -5,7 +5,8 @@ import com.digosofter.digodroid.erro.Erro;
 public class MensagemUsuario extends Objeto {
 
   public enum EnmLingua {
-    INGLES, PORTUGUES
+    INGLES,
+    PORTUGUES
   }
 
   private EnmLingua _enmLingua = EnmLingua.PORTUGUES;

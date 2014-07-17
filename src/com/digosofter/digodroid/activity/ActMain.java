@@ -136,7 +136,7 @@ public abstract class ActMain extends ActionBarActivity {
     }
   }
 
-  protected void setEventos(){
+  protected void setEventos() {
     // VARIÁVEIS
     // FIM VARIÁVEIS
     try {

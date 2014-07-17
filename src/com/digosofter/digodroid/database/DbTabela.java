@@ -934,23 +934,6 @@ public abstract class DbTabela extends Objeto {
     }
   }
 
-  public void limparListaConsulta() {
-    // VARIÁVEIS
-    // FIM VARIÁVEIS
-    try {
-      // AÇÕES
-
-      this.setLstItmConsulta(null);
-
-      // FIM AÇÕES
-    } catch (Exception ex) {
-
-      new Erro(App.getI().getStrTextoPadrao(0), ex);
-
-    } finally {
-    }
-  }
-
   public void inserirAleatorio() {
     // VARIÁVEIS
     // FIM VARIÁVEIS
@@ -987,6 +970,23 @@ public abstract class DbTabela extends Objeto {
 
   public void limparCampos() {
     this.zerarCampos();
+  }
+
+  public void limparListaConsulta() {
+    // VARIÁVEIS
+    // FIM VARIÁVEIS
+    try {
+      // AÇÕES
+
+      this.setLstItmConsulta(null);
+
+      // FIM AÇÕES
+    } catch (Exception ex) {
+
+      new Erro(App.getI().getStrTextoPadrao(0), ex);
+
+    } finally {
+    }
   }
 
   public void salvar() {

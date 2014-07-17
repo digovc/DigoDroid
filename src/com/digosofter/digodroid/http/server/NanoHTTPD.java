@@ -89,14 +89,17 @@ import java.util.TimeZone;
  * licence)
  */
 public abstract class NanoHTTPD {
+
   /**
    * Pluggable strategy for asynchronously executing requests.
    */
   public interface AsyncRunner {
+
     void exec(Runnable code);
   }
 
   public static class Cookie {
+
     public static String getHTTPTime(int days) {
       Calendar calendar = Calendar.getInstance();
       SimpleDateFormat dateFormat = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss z", Locale.US);
@@ -132,10 +135,11 @@ public abstract class NanoHTTPD {
   /**
    * Provides rudimentary support for cookies. Doesn't support 'path', 'secure'
    * nor 'httpOnly'. Feel free to improve it and/or add unsupported features.
-   * 
+   *
    * @author LordFokas
    */
   public class CookieHandler implements Iterable<String> {
+
     private HashMap<String, String> cookies = new HashMap<String, String>();
     private ArrayList<Cookie> queue = new ArrayList<Cookie>();
 
@@ -155,7 +159,7 @@ public abstract class NanoHTTPD {
     /**
      * Set a cookie with an expiration date from a month ago, effectively
      * deleting it on the client side.
-     * 
+     *
      * @param name
      *          The cookie name.
      */
@@ -170,7 +174,7 @@ public abstract class NanoHTTPD {
 
     /**
      * Read a cookie from the HTTP Headers.
-     * 
+     *
      * @param name
      *          The cookie's name.
      * @return The cookie's value if it exists, null otherwise.
@@ -185,7 +189,7 @@ public abstract class NanoHTTPD {
 
     /**
      * Sets a cookie.
-     * 
+     *
      * @param name
      *          The cookie's name.
      * @param value
@@ -200,7 +204,7 @@ public abstract class NanoHTTPD {
     /**
      * Internally used by the webserver to add all queued cookies into the
      * Response's HTTP Headers.
-     * 
+     *
      * @param response
      *          The Response object to which headers the queued cookies will be
      *          added.
@@ -222,6 +226,7 @@ public abstract class NanoHTTPD {
    * </p>
    */
   public static class DefaultAsyncRunner implements AsyncRunner {
+
     private long requestCount;
 
     @Override
@@ -243,6 +248,7 @@ public abstract class NanoHTTPD {
    * the directory specified.</p>
    */
   public static class DefaultTempFile implements TempFile {
+
     private File file;
     private OutputStream fstream;
 
@@ -279,6 +285,7 @@ public abstract class NanoHTTPD {
    * is invoked at the end of processing a request).</p>
    */
   public static class DefaultTempFileManager implements TempFileManager {
+
     private final List<TempFile> tempFiles;
     private final String tmpdir;
 
@@ -310,6 +317,7 @@ public abstract class NanoHTTPD {
    * Default strategy for creating and cleaning up temporary files.
    */
   private class DefaultTempFileManagerFactory implements TempFileManagerFactory {
+
     @Override
     public TempFileManager create() {
       return new DefaultTempFileManager();
@@ -317,6 +325,7 @@ public abstract class NanoHTTPD {
   }
 
   protected class HTTPSession implements IHTTPSession {
+
     public static final int BUFSIZE = 8192;
     private CookieHandler cookies;
     private Map<String, String> headers;
@@ -394,9 +403,10 @@ public abstract class NanoHTTPD {
           String line = in.readLine();
           while (line != null && line.trim().length() > 0) {
             int p = line.indexOf(':');
-            if (p >= 0)
+            if (p >= 0) {
               headers.put(line.substring(0, p).trim().toLowerCase(Locale.US), line.substring(p + 1)
                   .trim());
+            }
             line = in.readLine();
           }
         }
@@ -544,8 +554,9 @@ public abstract class NanoHTTPD {
           while (read > 0) {
             rlen += read;
             splitbyte = findHeaderEnd(buf, rlen);
-            if (splitbyte > 0)
+            if (splitbyte > 0) {
               break;
+            }
             read = inputStream.read(buf, rlen, BUFSIZE - rlen);
           }
         }
@@ -630,8 +641,9 @@ public abstract class NanoHTTPD {
       List<Integer> matchbytes = new ArrayList<Integer>();
       for (int i = 0; i < b.limit(); i++) {
         if (b.get(i) == boundary[matchcount]) {
-          if (matchcount == 0)
+          if (matchcount == 0) {
             matchbyte = i;
+          }
           matchcount++;
           if (matchcount == boundary.length) {
             matchbytes.add(matchbyte);
@@ -831,6 +843,7 @@ public abstract class NanoHTTPD {
    * Handles one session, i.e. parses the HTTP request and returns the response.
    */
   public interface IHTTPSession {
+
     void execute() throws IOException;
 
     CookieHandler getCookies();
@@ -852,7 +865,7 @@ public abstract class NanoHTTPD {
 
     /**
      * Adds the files in the request body to the files map.
-     * 
+     *
      * @arg files - map to modify
      */
     void parseBody(Map<String, String> files) throws IOException, ResponseException;
@@ -863,7 +876,12 @@ public abstract class NanoHTTPD {
    * to its enum value.
    */
   public enum Method {
-    DELETE, GET, HEAD, OPTIONS, POST, PUT;
+    DELETE,
+    GET,
+    HEAD,
+    OPTIONS,
+    POST,
+    PUT;
 
     static Method lookup(String method) {
       for (Method m : Method.values()) {
@@ -879,16 +897,26 @@ public abstract class NanoHTTPD {
    * HTTP response. Return one of these from serve().
    */
   public static class Response {
+
     /**
      * Some HTTP response status codes
      */
     public enum Status {
-      ACCEPTED(202, "Accepted"), BAD_REQUEST(400, "Bad Request"), CREATED(201, "Created"), FORBIDDEN(
-          403, "Forbidden"), INTERNAL_ERROR(500, "Internal Server Error"), METHOD_NOT_ALLOWED(405,
-          "Method Not Allowed"), NO_CONTENT(204, "No Content"), NOT_FOUND(404, "Not Found"), NOT_MODIFIED(
-          304, "Not Modified"), OK(200, "OK"), PARTIAL_CONTENT(206, "Partial Content"), RANGE_NOT_SATISFIABLE(
-          416, "Requested Range Not Satisfiable"), REDIRECT(301, "Moved Permanently"), UNAUTHORIZED(
-          401, "Unauthorized");
+      ACCEPTED(202, "Accepted"),
+      BAD_REQUEST(400, "Bad Request"),
+      CREATED(201, "Created"),
+      FORBIDDEN(403, "Forbidden"),
+      INTERNAL_ERROR(500, "Internal Server Error"),
+      METHOD_NOT_ALLOWED(405, "Method Not Allowed"),
+      NO_CONTENT(204, "No Content"),
+      NOT_FOUND(404, "Not Found"),
+      NOT_MODIFIED(304, "Not Modified"),
+      OK(200, "OK"),
+      PARTIAL_CONTENT(206, "Partial Content"),
+      RANGE_NOT_SATISFIABLE(416, "Requested Range Not Satisfiable"),
+      REDIRECT(301, "Moved Permanently"),
+      UNAUTHORIZED(401, "Unauthorized");
+
       private final String description;
       private final int requestStatus;
 
@@ -1060,7 +1088,7 @@ public abstract class NanoHTTPD {
         int BUFFER_SIZE = 16 * 1024;
         byte[] buff = new byte[BUFFER_SIZE];
         while (pending > 0) {
-          int read = data.read(buff, 0, ((pending > BUFFER_SIZE) ? BUFFER_SIZE : pending));
+          int read = data.read(buff, 0, pending > BUFFER_SIZE ? BUFFER_SIZE : pending);
           if (read <= 0) {
             break;
           }
@@ -1121,6 +1149,7 @@ public abstract class NanoHTTPD {
    * </p>
    */
   public interface TempFile {
+
     void delete() throws Exception;
 
     String getName();
@@ -1137,6 +1166,7 @@ public abstract class NanoHTTPD {
    * </p>
    */
   public interface TempFileManager {
+
     void clear();
 
     TempFile createTempFile() throws Exception;
@@ -1146,6 +1176,7 @@ public abstract class NanoHTTPD {
    * Factory to create temp file managers.
    */
   public interface TempFileManagerFactory {
+
     TempFileManager create();
   }
 
@@ -1265,7 +1296,7 @@ public abstract class NanoHTTPD {
    * Decode parameters from a URL, handing the case where a single parameter
    * name might have been supplied several times, by return lists of values. In
    * general these lists will contain a single element.
-   * 
+   *
    * @param parms
    *          original <b>NanoHttpd</b> parameters values, as passed to the
    *          <code>serve()</code> method.
@@ -1280,7 +1311,7 @@ public abstract class NanoHTTPD {
    * Decode parameters from a URL, handing the case where a single parameter
    * name might have been supplied several times, by return lists of values. In
    * general these lists will contain a single element.
-   * 
+   *
    * @param queryString
    *          a query string pulled from the URL.
    * @return a map of <code>String</code> (parameter name) to
@@ -1293,12 +1324,12 @@ public abstract class NanoHTTPD {
       while (st.hasMoreTokens()) {
         String e = st.nextToken();
         int sep = e.indexOf('=');
-        String propertyName = (sep >= 0) ? decodePercent(e.substring(0, sep)).trim()
-            : decodePercent(e).trim();
+        String propertyName = sep >= 0 ? decodePercent(e.substring(0, sep)).trim() : decodePercent(
+            e).trim();
         if (!parms.containsKey(propertyName)) {
           parms.put(propertyName, new ArrayList<String>());
         }
-        String propertyValue = (sep >= 0) ? decodePercent(e.substring(sep + 1)) : null;
+        String propertyValue = sep >= 0 ? decodePercent(e.substring(sep + 1)) : null;
         if (propertyValue != null) {
           parms.get(propertyName).add(propertyValue);
         }
@@ -1312,7 +1343,7 @@ public abstract class NanoHTTPD {
 
   /**
    * Decode percent encoded <code>String</code> values.
-   * 
+   *
    * @param str
    *          the percent encoded <code>String</code>
    * @return expanded form of the input, for example "foo%20bar" becomes
@@ -1337,7 +1368,7 @@ public abstract class NanoHTTPD {
 
   /**
    * Registers that a new connection has been set up.
-   * 
+   *
    * @param socket
    *          the {@link Socket} for the connection.
    */
@@ -1350,7 +1381,7 @@ public abstract class NanoHTTPD {
    * <p/>
    * <p/>
    * (By default, this delegates to serveFile() and allows directory listing.)
-   * 
+   *
    * @param session
    *          The HTTP session
    * @return HTTP response, see class Response for details
@@ -1379,7 +1410,7 @@ public abstract class NanoHTTPD {
    * <p/>
    * <p/>
    * (By default, this delegates to serveFile() and allows directory listing.)
-   * 
+   *
    * @param uri
    *          Percent-decoded URI without parameters, for example "/index.cgi"
    * @param method
@@ -1399,7 +1430,7 @@ public abstract class NanoHTTPD {
 
   /**
    * Pluggable strategy for asynchronously executing requests.
-   * 
+   *
    * @param asyncRunner
    *          new strategy for handling threads.
    */
@@ -1409,7 +1440,7 @@ public abstract class NanoHTTPD {
 
   /**
    * Pluggable strategy for creating and cleaning up temporary files.
-   * 
+   *
    * @param tempFileManagerFactory
    *          new strategy for handling temp files.
    */
@@ -1419,16 +1450,17 @@ public abstract class NanoHTTPD {
 
   /**
    * Start the server.
-   * 
+   *
    * @throws IOException
    *           if the socket is in use.
    */
   public void start() throws IOException {
     myServerSocket = new ServerSocket();
-    myServerSocket.bind((hostname != null) ? new InetSocketAddress(hostname, myPort)
+    myServerSocket.bind(hostname != null ? new InetSocketAddress(hostname, myPort)
         : new InetSocketAddress(myPort));
 
     myThread = new Thread(new Runnable() {
+
       @Override
       public void run() {
         do {
@@ -1438,6 +1470,7 @@ public abstract class NanoHTTPD {
             finalAccept.setSoTimeout(SOCKET_READ_TIMEOUT);
             final InputStream inputStream = finalAccept.getInputStream();
             asyncRunner.exec(new Runnable() {
+
               @Override
               public void run() {
                 OutputStream outputStream = null;
@@ -1489,7 +1522,7 @@ public abstract class NanoHTTPD {
 
   /**
    * Registers that a connection has been closed
-   * 
+   *
    * @param socket
    *          the {@link Socket} for the connection.
    */

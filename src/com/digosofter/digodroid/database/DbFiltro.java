@@ -7,7 +7,12 @@ import com.digosofter.digodroid.erro.Erro;
 public class DbFiltro extends Objeto {
 
   public enum EnmOperador {
-    DIFERENTE, IGUAL, MAIOR, MAIOR_IGUAL, MENOR, MENOR_IGUAL
+    DIFERENTE,
+    IGUAL,
+    MAIOR,
+    MAIOR_IGUAL,
+    MENOR,
+    MENOR_IGUAL
   }
 
   private boolean _booSubSelect;
@@ -136,7 +141,7 @@ public class DbFiltro extends Objeto {
 
   /**
    * Retorna string com o filtro formatado para uso em sql's.
-   * 
+   *
    */
   public String getStrFiltroFormatado(boolean booPrimeiroTermo) {
     // VARIÁVEIS

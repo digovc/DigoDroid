@@ -23,11 +23,20 @@ import com.digosofter.digodroid.erro.Erro;
 public abstract class Utils {
 
   public enum EnmDataFormato {
-    DD_MM, DD_MM_YY, DD_MM_YYYY, DD_MM_YYYY_HH_MM, DD_MM_YYYY_HH_MM_SS, HH_MM_DD_MM_YYYY, HH_MM_SS_DD_MM_YYYY, YYYY_MM_DD_HH_MM_SS
+    DD_MM,
+    DD_MM_YY,
+    DD_MM_YYYY,
+    DD_MM_YYYY_HH_MM,
+    DD_MM_YYYY_HH_MM_SS,
+    HH_MM_DD_MM_YYYY,
+    HH_MM_SS_DD_MM_YYYY,
+    YYYY_MM_DD_HH_MM_SS
   }
 
   public static enum EnmRandomTipo {
-    ALPHA, ALPHANUMERICO, NUMERICO
+    ALPHA,
+    ALPHANUMERICO,
+    NUMERICO
   }
 
   public static final Locale LOCAL_BRASIL = new Locale("pt", "BR");
@@ -43,13 +52,13 @@ public abstract class Utils {
     try {
       // AÇÕES
 
-      dblValorArredondado *= (Math.pow(10, intQtdCasas));
+      dblValorArredondado *= Math.pow(10, intQtdCasas);
       if (ceilOrFloor == 0) {
         dblValorArredondado = Math.ceil(dblValorArredondado);
       } else {
         dblValorArredondado = Math.floor(dblValorArredondado);
       }
-      dblValorArredondado /= (Math.pow(10, intQtdCasas));
+      dblValorArredondado /= Math.pow(10, intQtdCasas);
 
       // FIM AÇÕES
     } catch (Exception ex) {
@@ -59,30 +68,6 @@ public abstract class Utils {
     } finally {
     }
     return dblValorArredondado;
-  }
-
-  public static boolean getBooStrVazia(String str) {
-    // VARIÁVEIS
-
-    boolean booBooIsEmptyNullResultado = true;
-
-    // FIM VARIÁVEIS
-    try {
-      // AÇÕES
-
-      if (str != null && !str.isEmpty()) {
-        booBooIsEmptyNullResultado = false;
-      }
-
-      // FIM AÇÕES
-    } catch (Exception ex) {
-
-      new Erro(App.getI().getStrTextoPadrao(0), ex);
-
-    } finally {
-    }
-
-    return booBooIsEmptyNullResultado;
   }
 
   public static String enmDataFormatoToString(EnmDataFormato enmDataFormato) {
@@ -134,9 +119,33 @@ public abstract class Utils {
     return strDataFormatoResultado;
   }
 
+  public static boolean getBooStrVazia(String str) {
+    // VARIÁVEIS
+
+    boolean booBooIsEmptyNullResultado = true;
+
+    // FIM VARIÁVEIS
+    try {
+      // AÇÕES
+
+      if (str != null && !str.isEmpty()) {
+        booBooIsEmptyNullResultado = false;
+      }
+
+      // FIM AÇÕES
+    } catch (Exception ex) {
+
+      new Erro(App.getI().getStrTextoPadrao(0), ex);
+
+    } finally {
+    }
+
+    return booBooIsEmptyNullResultado;
+  }
+
   /**
    * Verifica se a string é uma URL válida.
-   * 
+   *
    * @param url
    *          String a ser avaliada.
    */
@@ -341,8 +350,8 @@ public abstract class Utils {
       }
       arrChrCaracteresEspeciais = new String[] { "\\.", ",", "-", ":", "\\(", "\\)", "ª", "\\|",
           "\\\\", "°", "^\\s+", "\\s+$", "\\s+", ".", "(", ")" };
-      for (int intTemp = 0; intTemp < arrChrCaracteresEspeciais.length; intTemp++) {
-        strComplexa = strComplexa.replace(arrChrCaracteresEspeciais[intTemp], "");
+      for (String arrChrCaracteresEspeciai : arrChrCaracteresEspeciais) {
+        strComplexa = strComplexa.replace(arrChrCaracteresEspeciai, "");
       }
       strComplexa = strComplexa.replace(" ", "");
 
@@ -441,6 +450,7 @@ public abstract class Utils {
 
   public static TextWatcher inserirMascara(final String strMascara, final EditText ediTxt) {
     return new TextWatcher() {
+
       boolean isUpdating;
       String old = "";
 
