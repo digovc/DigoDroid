@@ -488,6 +488,14 @@ public class DbColuna extends Objeto {
     this.setStrValor(String.valueOf(dblValor));
   }
 
+  public void setChrValor(char chrValor) {
+    this.setStrValor(String.valueOf(chrValor));
+  }
+
+  public char getChrValor() {
+    return this.getStrValor().charAt(0);
+  }
+
   public void setDttValor(Date dttValor) {
     this.setStrValor(Utils.getStrDataFormatada(dttValor, Utils.EnmDataFormato.YYYY_MM_DD_HH_MM_SS));
   }
