@@ -24,31 +24,18 @@ public class DbColuna extends Objeto {
   }
 
   private boolean _booChavePrimaria;
-
   private boolean _booClnNome;
-
   private boolean _booOrdemCadastro;
-
   private boolean _booOrdemDecrecente;
-
   private boolean _booVisivelCadastro;
-
   private DbColuna _clnReferencia;
-
   private EnmTipo _enmTipo;
-
   private int _intOrdem;
-
   private List<String> _lstStrOpcao;
-
   private String _strSqlTipo;
-
   private String _strValor;
-
   private String _strValorDefault;
-
   private String _strValorExibicao;
-
   private DbTabela _tbl;
 
   public DbColuna(String strNome, DbTabela tbl) {
@@ -519,10 +506,6 @@ public class DbColuna extends Objeto {
 
   public void setLstStrOpcao(List<String> lstStrOpcao) {
     _lstStrOpcao = lstStrOpcao;
-  }
-
-  public void setMonValor(double monValor) {
-    this.setStrValor(String.valueOf(monValor));
   }
 
   public void setStrValor(String strValor) {
