@@ -1,12 +1,17 @@
 package com.digosofter.digodroid.http;
 
+import java.io.InputStream;
+
+import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.util.EntityUtils;
 
 import com.digosofter.digodroid.App;
 import com.digosofter.digodroid.Objeto;
+import com.digosofter.digodroid.Utils;
 import com.digosofter.digodroid.erro.Erro;
 
 public class HttpCliente extends Objeto {
@@ -18,18 +23,39 @@ public class HttpCliente extends Objeto {
   }
 
   private EnmStatus _enmStatus = EnmStatus.NONE;
-
   private HttpResponse _objHttpResponse;
-
   private String _strJson;
-
   private String _url;
+  private String _strResposta;
+
+  public String getStrResposta() {
+    // VARIÁVEIS
+    // FIM VARIÁVEIS
+    try {
+      // AÇÕES
+
+      if (this.getObjHttpResponse() == null) {
+        return Utils.STRING_VAZIA;
+      }
+
+      _strResposta = EntityUtils.toString(this.getObjHttpResponse().getEntity());
+
+      // FIM AÇÕES
+    } catch (Exception ex) {
+
+      new Erro(App.getI().getStrTextoPadrao(0), ex);
+
+    } finally {
+    }
+
+    return _strResposta;
+  }
 
   private EnmStatus getEnmStatus() {
     return _enmStatus;
   }
 
-  private HttpResponse getObjHttpResponse() {
+  public HttpResponse getObjHttpResponse() {
     return _objHttpResponse;
   }
 
@@ -41,7 +67,7 @@ public class HttpCliente extends Objeto {
     return _url;
   }
 
-  public void postJson() {
+  public void postJson(String strJson) {
     // VARIÁVEIS
 
     Thread thr;
@@ -51,6 +77,7 @@ public class HttpCliente extends Objeto {
       // AÇÕES
 
       this.setEnmStatus(EnmStatus.EM_ANDAMENTO);
+      this.setStrJson(strJson);
 
       thr = new Thread() {
 
@@ -106,7 +133,7 @@ public class HttpCliente extends Objeto {
     _objHttpResponse = objHttpResponse;
   }
 
-  public void setStrJson(String strJson) {
+  private void setStrJson(String strJson) {
     _strJson = strJson;
   }
 

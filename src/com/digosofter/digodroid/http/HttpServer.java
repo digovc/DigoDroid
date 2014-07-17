@@ -1,4 +1,4 @@
-package com.digosofter.digodroid.http.server;
+package com.digosofter.digodroid.http;
 
 import com.digosofter.digodroid.App;
 import com.digosofter.digodroid.erro.Erro;

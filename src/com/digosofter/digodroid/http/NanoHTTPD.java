@@ -1,4 +1,4 @@
-package com.digosofter.digodroid.http.server;
+package com.digosofter.digodroid.http;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
