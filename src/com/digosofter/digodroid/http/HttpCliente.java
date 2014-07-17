@@ -9,7 +9,7 @@ import com.digosofter.digodroid.App;
 import com.digosofter.digodroid.Objeto;
 import com.digosofter.digodroid.erro.Erro;
 
-public class Http extends Objeto {
+public class HttpCliente extends Objeto {
 
   public enum EnmStatus {
     NONE,
@@ -80,12 +80,12 @@ public class Http extends Objeto {
           try {
             // AÇÕES
 
-            objHttppost = new HttpPost(Http.this.getUrl());
-            objHttppost.setHeader("json", Http.this.getStrJson());
+            objHttppost = new HttpPost(HttpCliente.this.getUrl());
+            objHttppost.setHeader("json", HttpCliente.this.getStrJson());
 
             objHttpClient = new DefaultHttpClient();
 
-            Http.this.setObjHttpResponse(objHttpClient.execute(objHttppost));
+            HttpCliente.this.setObjHttpResponse(objHttpClient.execute(objHttppost));
 
             // FIM AÇÕES
           } catch (Exception ex) {
@@ -93,7 +93,7 @@ public class Http extends Objeto {
             new Erro(App.getI().getStrTextoPadrao(0), ex);
 
           } finally {
-            Http.this.setEnmStatus(EnmStatus.CONCLUIDO);
+            HttpCliente.this.setEnmStatus(EnmStatus.CONCLUIDO);
           }
         };
       };
@@ -102,7 +102,7 @@ public class Http extends Objeto {
 
       do {
         Thread.sleep(1);
-      } while (Http.this.getEnmStatus() == EnmStatus.EM_ANDAMENTO);
+      } while (HttpCliente.this.getEnmStatus() == EnmStatus.EM_ANDAMENTO);
 
       // FIM AÇÕES
     } catch (Exception ex) {
