@@ -5,6 +5,8 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 
+import org.apache.commons.net.io.Util;
+
 import com.digosofter.digodroid.App;
 import com.digosofter.digodroid.Objeto;
 import com.digosofter.digodroid.Utils;
@@ -114,27 +116,41 @@ public class DbColuna extends Objeto {
   }
 
   public boolean getBooValor() {
-    return Boolean.parseBoolean(this.getStrValor());
+    // VARIÁVEIS
+
+    boolean booResultado;
+
+    // FIM VARIÁVEIS
+    try {
+      // AÇÕES
+
+      booResultado = Boolean.parseBoolean(this.getStrValor());
+
+      // FIM AÇÕES
+    } catch (Exception ex) {
+
+      return false;
+
+    } finally {
+    }
+
+    return booResultado;
   }
 
   public boolean getBooVisivelCadastro() {
     return _booVisivelCadastro;
   }
 
-  public DbColuna getClnReferencia() {
-    return _clnReferencia;
-  }
-
-  public double getDblValor() {
+  public char getChrValor() {
     // VARIÁVEIS
 
-    double dlbValorResultado = 0;
+    char chrResultado = 0;
 
     // FIM VARIÁVEIS
     try {
       // AÇÕES
 
-      dlbValorResultado = Double.parseDouble(this.getStrValor());
+      chrResultado = this.getStrValor().charAt(0);
 
       // FIM AÇÕES
     } catch (Exception ex) {
@@ -144,7 +160,33 @@ public class DbColuna extends Objeto {
     } finally {
     }
 
-    return dlbValorResultado;
+    return chrResultado;
+  }
+
+  public DbColuna getClnReferencia() {
+    return _clnReferencia;
+  }
+
+  public double getDblValor() {
+    // VARIÁVEIS
+
+    double dlbResultado = 0;
+
+    // FIM VARIÁVEIS
+    try {
+      // AÇÕES
+
+      dlbResultado = Double.parseDouble(this.getStrValor());
+
+      // FIM AÇÕES
+    } catch (Exception ex) {
+
+      return 0;
+
+    } finally {
+    }
+
+    return dlbResultado;
   }
 
   public GregorianCalendar getDttValor() {
@@ -156,7 +198,7 @@ public class DbColuna extends Objeto {
     int intHora = 0;
     int intMin = 0;
     int intSeg = 0;
-    GregorianCalendar objGregorianCalendarResultado = null;
+    GregorianCalendar dttResultado = null;
 
     // FIM VARIÁVEIS
     try {
@@ -181,8 +223,7 @@ public class DbColuna extends Objeto {
       } catch (Exception e) {
       }
 
-      objGregorianCalendarResultado = new GregorianCalendar(intAno, intMes - 1, intDia, intHora,
-          intMin, intSeg);
+      dttResultado = new GregorianCalendar(intAno, intMes - 1, intDia, intHora, intMin, intSeg);
 
       // FIM AÇÕES
     } catch (Exception ex) {
@@ -192,7 +233,7 @@ public class DbColuna extends Objeto {
     } finally {
     }
 
-    return objGregorianCalendarResultado;
+    return dttResultado;
   }
 
   public EnmTipo getEnmTipo() {
@@ -223,13 +264,13 @@ public class DbColuna extends Objeto {
   public int getIntValor() {
     // VARIÁVEIS
 
-    int intValorResultado = 0;
+    int intResultado = 0;
 
     // FIM VARIÁVEIS
     try {
       // AÇÕES
 
-      intValorResultado = Integer.parseInt(this.getStrValor());
+      intResultado = Integer.parseInt(this.getStrValor());
 
       // FIM AÇÕES
     } catch (Exception ex) {
@@ -239,7 +280,7 @@ public class DbColuna extends Objeto {
     } finally {
     }
 
-    return intValorResultado;
+    return intResultado;
   }
 
   public List<String> getLstStrOpcao() {
@@ -315,7 +356,7 @@ public class DbColuna extends Objeto {
     try {
       // AÇÕES
 
-      if (_strValor == null) {
+      if (Utils.getBooStrVazia(_strValor)) {
         _strValor = Utils.STRING_VAZIA;
       }
 
@@ -383,7 +424,25 @@ public class DbColuna extends Objeto {
   }
 
   public String getStrValorMonetario() {
-    return Utils.getStrValorMonetario(Double.parseDouble(_strValor));
+    // VARIÁVEIS
+
+    String strResultado = null;
+
+    // FIM VARIÁVEIS
+    try {
+      // AÇÕES
+
+      strResultado = Utils.getStrValorMonetario(Double.parseDouble(_strValor));
+
+      // FIM AÇÕES
+    } catch (Exception ex) {
+
+      return "R$ 0,00";
+
+    } finally {
+    }
+
+    return strResultado;
   }
 
   public DbTabela getTbl() {
@@ -473,11 +532,41 @@ public class DbColuna extends Objeto {
   }
 
   public void setBooValor(Boolean booValor) {
-    this.setStrValor(String.valueOf(booValor));
+    // VARIÁVEIS
+    // FIM VARIÁVEIS
+    try {
+      // AÇÕES
+
+      this.setStrValor(String.valueOf(booValor));
+
+      // FIM AÇÕES
+    } catch (Exception ex) {
+
+      new Erro(App.getI().getStrTextoPadrao(0), ex);
+
+    } finally {
+    }
   }
 
   public void setBooVisivelCadastro(boolean booVisivelCadastro) {
     _booVisivelCadastro = booVisivelCadastro;
+  }
+
+  public void setChrValor(char chrValor) {
+    // VARIÁVEIS
+    // FIM VARIÁVEIS
+    try {
+      // AÇÕES
+
+      this.setStrValor(String.valueOf(chrValor));
+
+      // FIM AÇÕES
+    } catch (Exception ex) {
+
+      new Erro(App.getI().getStrTextoPadrao(0), ex);
+
+    } finally {
+    }
   }
 
   public void setClnReferencia(DbColuna clnReferencia) {
@@ -485,19 +574,43 @@ public class DbColuna extends Objeto {
   }
 
   public void setDblValor(double dblValor) {
-    this.setStrValor(String.valueOf(dblValor));
-  }
+    // VARIÁVEIS
+    // FIM VARIÁVEIS
+    try {
+      // AÇÕES
 
-  public void setChrValor(char chrValor) {
-    this.setStrValor(String.valueOf(chrValor));
-  }
+      this.setStrValor(String.valueOf(dblValor));
 
-  public char getChrValor() {
-    return this.getStrValor().charAt(0);
+      // FIM AÇÕES
+    } catch (Exception ex) {
+
+      new Erro(App.getI().getStrTextoPadrao(0), ex);
+
+    } finally {
+    }
   }
 
   public void setDttValor(Date dttValor) {
-    this.setStrValor(Utils.getStrDataFormatada(dttValor, Utils.EnmDataFormato.YYYY_MM_DD_HH_MM_SS));
+    // VARIÁVEIS
+    // FIM VARIÁVEIS
+    try {
+      // AÇÕES
+
+      if (dttValor == null) {
+        this.setStrValor(Utils.STRING_VAZIA);
+        return;
+      }
+
+      this.setStrValor(Utils
+          .getStrDataFormatada(dttValor, Utils.EnmDataFormato.YYYY_MM_DD_HH_MM_SS));
+
+      // FIM AÇÕES
+    } catch (Exception ex) {
+
+      new Erro(App.getI().getStrTextoPadrao(0), ex);
+
+    } finally {
+    }
   }
 
   public void setEnmTipo(EnmTipo enmTipo) {
@@ -509,7 +622,20 @@ public class DbColuna extends Objeto {
   }
 
   public void setIntValor(int intValor) {
-    this.setStrValor(String.valueOf(intValor));
+    // VARIÁVEIS
+    // FIM VARIÁVEIS
+    try {
+      // AÇÕES
+
+      this.setStrValor(String.valueOf(intValor));
+
+      // FIM AÇÕES
+    } catch (Exception ex) {
+
+      new Erro(App.getI().getStrTextoPadrao(0), ex);
+
+    } finally {
+    }
   }
 
   public void setLstStrOpcao(List<String> lstStrOpcao) {

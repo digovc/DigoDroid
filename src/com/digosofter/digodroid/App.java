@@ -11,6 +11,8 @@ import com.digosofter.digodroid.activity.ActMain;
 import com.digosofter.digodroid.database.DataBase;
 import com.digosofter.digodroid.database.DbTabela;
 import com.digosofter.digodroid.erro.Erro;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 public abstract class App extends Objeto {
 
@@ -21,19 +23,13 @@ public abstract class App extends Objeto {
   }
 
   private ActMain _actMain;
-
   private Context _context;
-
   private int _intVersao;
-
   private List<MensagemUsuario> _lstObjMensagemUsuarioPadrao;
-
   private List<DbTabela> _lstTbl;
-
   private DataBase _objDataBasePrincipal;
-
+  private Gson _objGson;
   private String _strVersaoExibicao;
-
   private DbTabela _tblSelecionada;
 
   public App() {
@@ -113,15 +109,15 @@ public abstract class App extends Objeto {
         _lstObjMensagemUsuarioPadrao.add(new MensagemUsuario("Erro ao recuperar data atual.", 110));
         _lstObjMensagemUsuarioPadrao.add(new MensagemUsuario("Erro ao gerar cor aleatória.", 110));
         _lstObjMensagemUsuarioPadrao
-            .add(new MensagemUsuario("Erro ao gerar texto aleatório.", 111));
+        .add(new MensagemUsuario("Erro ao gerar texto aleatório.", 111));
         _lstObjMensagemUsuarioPadrao.add(new MensagemUsuario("Erro ao gerar MD5.", 112));
         _lstObjMensagemUsuarioPadrao.add(new MensagemUsuario("Erro ao adicionar fragmento à tela.",
             113));
         _lstObjMensagemUsuarioPadrao
-            .add(new MensagemUsuario("Erro ao montar layout da tela.", 114));
+        .add(new MensagemUsuario("Erro ao montar layout da tela.", 114));
         _lstObjMensagemUsuarioPadrao.add(new MensagemUsuario("Erro ao fechar tela.", 115));
         _lstObjMensagemUsuarioPadrao
-            .add(new MensagemUsuario("Erro ao setar eventos da tela.", 116));
+        .add(new MensagemUsuario("Erro ao setar eventos da tela.", 116));
         _lstObjMensagemUsuarioPadrao.add(new MensagemUsuario("Erro ao criar tela.", 117));
         _lstObjMensagemUsuarioPadrao.add(new MensagemUsuario(
             "Erro ao criar objeto do tipo 'DataBase'.", 118));
@@ -217,6 +213,29 @@ public abstract class App extends Objeto {
     }
 
     return _objDataBasePrincipal;
+  }
+
+  public Gson getObjGson() {
+    // VARIÁVEIS
+    // FIM VARIÁVEIS
+    try {
+      // AÇÕES
+
+      if (_objGson != null) {
+        return _objGson;
+      }
+
+      _objGson = new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ssZ").create();
+
+      // FIM AÇÕES
+    } catch (Exception ex) {
+
+      new Erro("Erro inesperado.\n", ex);
+
+    } finally {
+    }
+
+    return _objGson;
   }
 
   public String getStrMensagemUsuario(int intId) {
