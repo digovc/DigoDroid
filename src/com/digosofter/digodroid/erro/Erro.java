@@ -13,11 +13,8 @@ public class Erro extends Exception implements Serializable {
   private static final long serialVersionUID = 1L;
 
   private boolean _booMostrarUsuario = true;
-
   private String _strMensagem = "Erro do sistema.";
-
   private String _strMensagemDetalhes;
-
   private String _strNome;
 
   public Erro(String strMensagem, Exception ex) {
@@ -45,10 +42,31 @@ public class Erro extends Exception implements Serializable {
         App.getI().getActMain().startActivity(objIntent);
       }
 
+      this.imprimirConsole();
+
       // FIM AÇÕES
     } catch (Exception e) {
     } finally {
     }
+  }
+
+  private void imprimirConsole() {
+    // VARIÁVEIS
+    // FIM VARIÁVEIS
+    try {
+      // AÇÕES
+
+      System.out.println(this.getStrMensagem());
+      System.out.println(this.getStrMensagemDetalhes());
+
+      // FIM AÇÕES
+    } catch (Exception ex) {
+
+      new Erro(App.getI().getStrTextoPadrao(0), ex);
+
+    } finally {
+    }
+
   }
 
   public boolean getBooMostrarUsuario() {
