@@ -11,15 +11,15 @@ import com.digosofter.digodroid.erro.Erro;
 
 public class DataBase extends SQLiteOpenHelper {
 
+  public static final String STR_FILE_PREFIXO = ".sqlite";
+
   private SQLiteDatabase _objDataBaseLeitura;
-
   private SQLiteDatabase _objDbEscrita;
-
   private String _strNome;
 
   public DataBase(String strDbNome, Context context) {
 
-    super(context, strDbNome, null, 1);
+    super(context, strDbNome + STR_FILE_PREFIXO, null, 1);
 
     // VARIÁVEIS
     // FIM VARIÁVEIS
