@@ -19,6 +19,58 @@ import com.digosofter.digodroid.erro.Erro;
 
 public abstract class ActMain extends ActionBarActivity {
 
+  private boolean _booVisivel;
+
+  public boolean getBooVisivel() {
+    return _booVisivel;
+  }
+
+  private void setBooVisivel(boolean booVisivel) {
+    _booVisivel = booVisivel;
+  }
+
+  @Override
+  protected void onStart() {
+
+    super.onStart();
+
+    // VARIÁVEIS
+    // FIM VARIÁVEIS
+    try {
+      // AÇÕES
+
+      this.setBooVisivel(true);
+
+      // FIM AÇÕES
+    } catch (Exception ex) {
+
+      new Erro(App.getI().getStrTextoPadrao(0), ex);
+
+    } finally {
+    }
+  }
+
+  @Override
+  protected void onStop() {
+
+    super.onStop();
+
+    // VARIÁVEIS
+    // FIM VARIÁVEIS
+    try {
+      // AÇÕES
+
+      this.setBooVisivel(false);
+
+      // FIM AÇÕES
+    } catch (Exception ex) {
+
+      new Erro(App.getI().getStrTextoPadrao(0), ex);
+
+    } finally {
+    }
+  }
+
   protected void addFragmento(int intIdPnlContainer, Fragment objFragmento) {
     // VARIÁVEIS
     // FIM VARIÁVEIS
