@@ -1,9 +1,7 @@
 package com.digosofter.digodroid.arquivo;
 
 import java.io.File;
-import java.io.OutputStreamWriter;
-
-import android.content.Context;
+import java.io.FileWriter;
 
 import com.digosofter.digodroid.App;
 import com.digosofter.digodroid.Objeto;
@@ -58,10 +56,31 @@ public abstract class Arquivo extends Objeto {
     try {
       // AÇÕES
 
-      OutputStreamWriter outputStreamWriter = new OutputStreamWriter(App.getI().getContext()
-          .openFileOutput(this.getStrNome(), Context.MODE_PRIVATE));
-      outputStreamWriter.write(this.getStrConteudo());
-      outputStreamWriter.close();
+      this.criarDiretorio();
+      FileWriter out = new FileWriter(new File(this.getDirCompleto()));
+      out.write(this.getStrConteudo());
+      out.close();
+
+      // FIM AÇÕES
+    } catch (Exception ex) {
+
+      new Erro(App.getI().getStrTextoPadrao(0), ex);
+
+    } finally {
+    }
+  }
+
+  private void criarDiretorio() {
+    // VARIÁVEIS
+
+    File fil;
+
+    // FIM VARIÁVEIS
+    try {
+      // AÇÕES
+
+      fil = new File(this.getDir());
+      fil.mkdirs();
 
       // FIM AÇÕES
     } catch (Exception ex) {
@@ -74,21 +93,16 @@ public abstract class Arquivo extends Objeto {
 
   public void setDir(String dir) {
     // VARIÁVEIS
-
-    String dirCompleto;
-
     // FIM VARIÁVEIS
     try {
       // AÇÕES
 
       _dir = dir;
 
-      dirCompleto = Utils.STRING_VAZIA;
-      dirCompleto += _dir;
-      dirCompleto += "//";
-      dirCompleto += this.getStrNome();
-
-      this.setDirCompleto(dirCompleto);
+      _dirCompleto = Utils.STRING_VAZIA;
+      _dirCompleto += _dir;
+      _dirCompleto += "//";
+      _dirCompleto += this.getStrNome();
 
       // FIM AÇÕES
     } catch (Exception ex) {
@@ -113,7 +127,7 @@ public abstract class Arquivo extends Objeto {
       fil = new File(_dirCompleto);
 
       this.setStrNome(fil.getName());
-      this.setDir(fil.getPath());
+      _dir = fil.getPath();
 
       // FIM AÇÕES
     } catch (Exception ex) {
