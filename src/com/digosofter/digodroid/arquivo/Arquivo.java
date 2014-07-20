@@ -61,6 +61,32 @@ public abstract class Arquivo extends Objeto {
       out.write(this.getStrConteudo());
       out.close();
 
+      this.mostrarMensagemSalvo();
+
+      // FIM AÇÕES
+    } catch (Exception ex) {
+
+      new Erro(App.getI().getStrTextoPadrao(0), ex);
+
+    } finally {
+    }
+  }
+
+  private void mostrarMensagemSalvo() {
+    // VARIÁVEIS
+
+    String strMensagem;
+
+    // FIM VARIÁVEIS
+    try {
+      // AÇÕES
+
+      strMensagem = Utils.STRING_VAZIA;
+      strMensagem = "Arquivo \"_arq_nome\" salvo com sucesso.";
+      strMensagem = strMensagem.replace("_arq_nome", this.getDirCompleto());
+
+      App.getI().mostrarNoficacao(strMensagem);
+
       // FIM AÇÕES
     } catch (Exception ex) {
 
