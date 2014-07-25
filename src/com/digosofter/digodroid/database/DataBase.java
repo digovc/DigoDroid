@@ -4,15 +4,18 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.os.Environment;
 
 import com.digosofter.digodroid.App;
 import com.digosofter.digodroid.Utils;
+import com.digosofter.digodroid.arquivo.ArquivoDb;
 import com.digosofter.digodroid.erro.Erro;
 
 public class DataBase extends SQLiteOpenHelper {
 
   public static final String STR_FILE_PREFIXO = ".sqlite";
 
+  private ArquivoDb _arq;
   private SQLiteDatabase _objDataBaseLeitura;
   private SQLiteDatabase _objDbEscrita;
   private String _strNome;
@@ -26,7 +29,7 @@ public class DataBase extends SQLiteOpenHelper {
     try {
       // AÇÕES
 
-      this.setStrNome(strDbNome);
+      this.setStrNome(strDbNome + STR_FILE_PREFIXO);
 
       // FIM AÇÕES
     } catch (Exception ex) {
@@ -138,6 +141,29 @@ public class DataBase extends SQLiteOpenHelper {
     }
   }
 
+  private ArquivoDb getArq() {
+    // VARIÁVEIS
+    // FIM VARIÁVEIS
+    try {
+      // AÇÕES
+
+      if (_arq != null) {
+        return _arq;
+      }
+
+      _arq = new ArquivoDb(this);
+
+      // FIM AÇÕES
+    } catch (Exception ex) {
+
+      new Erro(App.getI().getStrTextoPadrao(0), ex);
+
+    } finally {
+    }
+
+    return _arq;
+  }
+
   public SQLiteDatabase getObjDbEscrita() {
     // VARIÁVEIS
     // FIM VARIÁVEIS
@@ -216,5 +242,25 @@ public class DataBase extends SQLiteOpenHelper {
 
   private void setStrNome(String strNome) {
     _strNome = strNome;
+  }
+
+  /**
+   * Salva um arquivo contendo o banco de dados compactado na memória externa.
+   */
+  public void backup() {
+    // VARIÁVEIS
+    // FIM VARIÁVEIS
+    try {
+      // AÇÕES
+
+      this.getArq().copiar(Environment.getExternalStorageDirectory().getPath());
+
+      // FIM AÇÕES
+    } catch (Exception ex) {
+
+      new Erro(App.getI().getStrTextoPadrao(0), ex);
+
+    } finally {
+    }
   }
 }

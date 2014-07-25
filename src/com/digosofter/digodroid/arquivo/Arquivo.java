@@ -1,6 +1,8 @@
 package com.digosofter.digodroid.arquivo;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
 
 import com.digosofter.digodroid.App;
@@ -62,6 +64,42 @@ public abstract class Arquivo extends Objeto {
       out.close();
 
       this.mostrarMensagemSalvo();
+
+      // FIM AÇÕES
+    } catch (Exception ex) {
+
+      new Erro(App.getI().getStrTextoPadrao(0), ex);
+
+    } finally {
+    }
+  }
+
+  /**
+   * Faz uma cópia deste arquivo para outra diretório.
+   */
+  public void copiar(String dirDestino) {
+    // VARIÁVEIS
+
+    FileInputStream filOriginal = null;
+    FileOutputStream filCopia = null;
+    byte[] arrBytBuffer;
+    int intLength;
+
+    // FIM VARIÁVEIS
+    try {
+      // AÇÕES
+
+      filOriginal = new FileInputStream(this.getDirCompleto());
+      filCopia = new FileOutputStream(dirDestino + "/" + this.getStrNome());
+
+      arrBytBuffer = new byte[1024];
+
+      while ((intLength = filOriginal.read(arrBytBuffer)) > 0) {
+        filCopia.write(arrBytBuffer, 0, intLength);
+      }
+
+      filOriginal.close();
+      filCopia.close();
 
       // FIM AÇÕES
     } catch (Exception ex) {
@@ -153,7 +191,7 @@ public abstract class Arquivo extends Objeto {
       fil = new File(_dirCompleto);
 
       this.setStrNome(fil.getName());
-      _dir = fil.getPath();
+      _dir = fil.getPath().replace(this.getStrNome(), Utils.STRING_VAZIA);
 
       // FIM AÇÕES
     } catch (Exception ex) {
