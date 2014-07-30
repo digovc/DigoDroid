@@ -35,30 +35,28 @@ public class Aparelho extends Objeto {
     return i;
   }
 
-  private Context _objContext;
-
-  private TelephonyManager _objTelephonyManager;
-
+  private Context _cnt;
+  private TelephonyManager _objTelManager;
   private String _strId;
-
   private String _strImei;
 
   public void abrirMapa(String strEnderecoCompleto) {
     // VARIÁVEIS
 
-    Intent objIntent;
-    String strMap = "http://maps.google.co.in/maps?q=";
+    Intent itt;
+    String urlMap;
 
     // FIM VARIÁVEIS
     try {
       // AÇÕES
 
-      strMap += strEnderecoCompleto;
+      urlMap = "http://maps.google.co.in/maps?q=";
+      urlMap += strEnderecoCompleto;
 
-      objIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(strMap));
-      objIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+      itt = new Intent(Intent.ACTION_VIEW, Uri.parse(urlMap));
+      itt.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
-      this.getObjContext().getApplicationContext().getApplicationContext().startActivity(objIntent);
+      this.getCnt().getApplicationContext().getApplicationContext().startActivity(itt);
 
       // FIM AÇÕES
     } catch (Exception ex) {
@@ -71,13 +69,12 @@ public class Aparelho extends Objeto {
 
   /**
    * Abre o aplicativo padrão para envio de email.
-   *
    */
   public void enviarEmail(String strEmail) {
     // VARIÁVEIS
 
     Uri uri;
-    Intent objIntent;
+    Intent itt;
 
     // FIM VARIÁVEIS
     try {
@@ -88,10 +85,11 @@ public class Aparelho extends Objeto {
       }
 
       uri = Uri.parse("mailto:" + strEmail);
-      objIntent = new Intent(Intent.ACTION_SENDTO, uri);
-      objIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-      objIntent.putExtra(Intent.EXTRA_SUBJECT, "Customer comments/questions");
-      this.getObjContext().startActivity(objIntent);
+      itt = new Intent(Intent.ACTION_SENDTO, uri);
+      itt.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+      itt.putExtra(Intent.EXTRA_SUBJECT, "Customer comments/questions");
+
+      this.getCnt().startActivity(itt);
 
       // FIM AÇÕES
     } catch (Exception ex) {
@@ -105,23 +103,18 @@ public class Aparelho extends Objeto {
   public boolean getBooConectado() {
     // VARIÁVEIS
 
-    boolean booConectado = false;
-    ConnectivityManager objConnectivityManager;
+    boolean booResultado = false;
+    ConnectivityManager objCm;
     NetworkInfo objNetworkInfo;
 
     // FIM VARIÁVEIS
     try {
       // AÇÕES
 
-      objConnectivityManager = (ConnectivityManager) App.getI().getContext()
-          .getSystemService(Context.CONNECTIVITY_SERVICE);
-      objNetworkInfo = objConnectivityManager.getActiveNetworkInfo();
+      objCm = (ConnectivityManager) this.getCnt().getSystemService(Context.CONNECTIVITY_SERVICE);
+      objNetworkInfo = objCm.getActiveNetworkInfo();
 
-      if (objNetworkInfo == null) {
-        booConectado = false;
-      } else {
-        booConectado = true;
-      }
+      booResultado = objNetworkInfo == null;
 
       // FIM AÇÕES
     } catch (Exception ex) {
@@ -131,20 +124,20 @@ public class Aparelho extends Objeto {
     } finally {
     }
 
-    return booConectado;
+    return booResultado;
   }
 
-  private Context getObjContext() {
+  private Context getCnt() {
     // VARIÁVEIS
     // FIM VARIÁVEIS
     try {
       // AÇÕES
 
-      if (_objContext != null) {
-        return _objContext;
+      if (_cnt != null) {
+        return _cnt;
       }
 
-      _objContext = App.getI().getContext();
+      _cnt = App.getI().getContext();
 
       // FIM AÇÕES
     } catch (Exception ex) {
@@ -153,21 +146,21 @@ public class Aparelho extends Objeto {
 
     } finally {
     }
-    return _objContext;
+
+    return _cnt;
   }
 
-  private TelephonyManager getObjTelephonyManager() {
+  private TelephonyManager getObjTelManager() {
     // VARIÁVEIS
     // FIM VARIÁVEIS
     try {
       // AÇÕES
 
-      if (_objTelephonyManager != null) {
-        return _objTelephonyManager;
+      if (_objTelManager != null) {
+        return _objTelManager;
       }
 
-      _objTelephonyManager = (TelephonyManager) App.getI().getActMain()
-          .getSystemService(Context.TELEPHONY_SERVICE);
+      _objTelManager = (TelephonyManager) this.getCnt().getSystemService(Context.TELEPHONY_SERVICE);
 
       // FIM AÇÕES
     } catch (Exception ex) {
@@ -177,7 +170,7 @@ public class Aparelho extends Objeto {
     } finally {
     }
 
-    return _objTelephonyManager;
+    return _objTelManager;
   }
 
   /**
@@ -193,7 +186,7 @@ public class Aparelho extends Objeto {
         return _strId;
       }
 
-      _strId = Secure.getString(this.getObjContext().getContentResolver(), Secure.ANDROID_ID);
+      _strId = Secure.getString(this.getCnt().getContentResolver(), Secure.ANDROID_ID);
 
       // FIM AÇÕES
     } catch (Exception ex) {
@@ -215,7 +208,7 @@ public class Aparelho extends Objeto {
       if (!Utils.getBooStrVazia(_strImei)) {
         return _strImei;
       }
-      _strImei = this.getObjTelephonyManager().getDeviceId();
+      _strImei = this.getObjTelManager().getDeviceId();
 
       // FIM AÇÕES
     } catch (Exception ex) {
@@ -241,7 +234,7 @@ public class Aparelho extends Objeto {
       objIntent.setData(Uri.parse("tel:" + strNumero));
       objIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
-      this.getObjContext().getApplicationContext().getApplicationContext().startActivity(objIntent);
+      this.getCnt().startActivity(objIntent);
 
       // FIM AÇÕES
     } catch (Exception ex) {

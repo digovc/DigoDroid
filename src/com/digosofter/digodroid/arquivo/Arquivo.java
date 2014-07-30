@@ -16,64 +16,6 @@ public abstract class Arquivo extends Objeto {
   private String _dirCompleto;
   private String _strConteudo;
 
-  public String getDir() {
-    return _dir;
-  }
-
-  public String getDirCompleto() {
-    // VARIÁVEIS
-    // FIM VARIÁVEIS
-    try {
-      // AÇÕES
-
-      if (!Utils.getBooStrVazia(_dirCompleto)) {
-        return _dirCompleto;
-      }
-
-      _dirCompleto = Utils.STRING_VAZIA;
-      _dirCompleto += this.getDir();
-      _dirCompleto += this.getStrNome();
-
-      // FIM AÇÕES
-    } catch (Exception ex) {
-
-      new Erro(App.getI().getStrTextoPadrao(0), ex);
-
-    } finally {
-    }
-
-    return _dirCompleto;
-  }
-
-  public String getStrConteudo() {
-    return _strConteudo;
-  }
-
-  /**
-   * Salva o arquivo no diretório indicado no atributo "dirCompleto".
-   */
-  public void salvar() {
-    // VARIÁVEIS
-    // FIM VARIÁVEIS
-    try {
-      // AÇÕES
-
-      this.criarDiretorio();
-      FileWriter out = new FileWriter(new File(this.getDirCompleto()));
-      out.write(this.getStrConteudo());
-      out.close();
-
-      this.mostrarMensagemSalvo();
-
-      // FIM AÇÕES
-    } catch (Exception ex) {
-
-      new Erro(App.getI().getStrTextoPadrao(0), ex);
-
-    } finally {
-    }
-  }
-
   /**
    * Faz uma cópia deste arquivo para outra diretório.
    */
@@ -110,6 +52,60 @@ public abstract class Arquivo extends Objeto {
     }
   }
 
+  private void criarDiretorio() {
+    // VARIÁVEIS
+
+    File fil;
+
+    // FIM VARIÁVEIS
+    try {
+      // AÇÕES
+
+      fil = new File(this.getDir());
+      fil.mkdirs();
+
+      // FIM AÇÕES
+    } catch (Exception ex) {
+
+      new Erro(App.getI().getStrTextoPadrao(0), ex);
+
+    } finally {
+    }
+  }
+
+  public String getDir() {
+    return _dir;
+  }
+
+  public String getDirCompleto() {
+    // VARIÁVEIS
+    // FIM VARIÁVEIS
+    try {
+      // AÇÕES
+
+      if (!Utils.getBooStrVazia(_dirCompleto)) {
+        return _dirCompleto;
+      }
+
+      _dirCompleto = Utils.STRING_VAZIA;
+      _dirCompleto += this.getDir();
+      _dirCompleto += this.getStrNome();
+
+      // FIM AÇÕES
+    } catch (Exception ex) {
+
+      new Erro(App.getI().getStrTextoPadrao(0), ex);
+
+    } finally {
+    }
+
+    return _dirCompleto;
+  }
+
+  public String getStrConteudo() {
+    return _strConteudo;
+  }
+
   private void mostrarMensagemSalvo() {
     // VARIÁVEIS
 
@@ -134,17 +130,21 @@ public abstract class Arquivo extends Objeto {
     }
   }
 
-  private void criarDiretorio() {
+  /**
+   * Salva o arquivo no diretório indicado no atributo "dirCompleto".
+   */
+  public void salvar() {
     // VARIÁVEIS
-
-    File fil;
-
     // FIM VARIÁVEIS
     try {
       // AÇÕES
 
-      fil = new File(this.getDir());
-      fil.mkdirs();
+      this.criarDiretorio();
+      FileWriter out = new FileWriter(new File(this.getDirCompleto()));
+      out.write(this.getStrConteudo());
+      out.close();
+
+      this.mostrarMensagemSalvo();
 
       // FIM AÇÕES
     } catch (Exception ex) {

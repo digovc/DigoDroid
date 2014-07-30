@@ -109,15 +109,15 @@ public abstract class App extends Objeto {
         _lstObjMensagemUsuarioPadrao.add(new MensagemUsuario("Erro ao recuperar data atual.", 110));
         _lstObjMensagemUsuarioPadrao.add(new MensagemUsuario("Erro ao gerar cor aleatória.", 110));
         _lstObjMensagemUsuarioPadrao
-            .add(new MensagemUsuario("Erro ao gerar texto aleatório.", 111));
+        .add(new MensagemUsuario("Erro ao gerar texto aleatório.", 111));
         _lstObjMensagemUsuarioPadrao.add(new MensagemUsuario("Erro ao gerar MD5.", 112));
         _lstObjMensagemUsuarioPadrao.add(new MensagemUsuario("Erro ao adicionar fragmento à tela.",
             113));
         _lstObjMensagemUsuarioPadrao
-            .add(new MensagemUsuario("Erro ao montar layout da tela.", 114));
+        .add(new MensagemUsuario("Erro ao montar layout da tela.", 114));
         _lstObjMensagemUsuarioPadrao.add(new MensagemUsuario("Erro ao fechar tela.", 115));
         _lstObjMensagemUsuarioPadrao
-            .add(new MensagemUsuario("Erro ao setar eventos da tela.", 116));
+        .add(new MensagemUsuario("Erro ao setar eventos da tela.", 116));
         _lstObjMensagemUsuarioPadrao.add(new MensagemUsuario("Erro ao criar tela.", 117));
         _lstObjMensagemUsuarioPadrao.add(new MensagemUsuario(
             "Erro ao criar objeto do tipo 'DataBase'.", 118));

@@ -1,8 +1,5 @@
 package com.digosofter.digodroid.http;
 
-import java.io.InputStream;
-
-import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
@@ -25,8 +22,20 @@ public class HttpCliente extends Objeto {
   private EnmStatus _enmStatus = EnmStatus.NONE;
   private HttpResponse _objHttpResponse;
   private String _strJson;
-  private String _url;
   private String _strResposta;
+  private String _url;
+
+  private EnmStatus getEnmStatus() {
+    return _enmStatus;
+  }
+
+  public HttpResponse getObjHttpResponse() {
+    return _objHttpResponse;
+  }
+
+  private String getStrJson() {
+    return _strJson;
+  }
 
   public String getStrResposta() {
     // VARIÁVEIS
@@ -49,18 +58,6 @@ public class HttpCliente extends Objeto {
     }
 
     return _strResposta;
-  }
-
-  private EnmStatus getEnmStatus() {
-    return _enmStatus;
-  }
-
-  public HttpResponse getObjHttpResponse() {
-    return _objHttpResponse;
-  }
-
-  private String getStrJson() {
-    return _strJson;
   }
 
   private String getUrl() {

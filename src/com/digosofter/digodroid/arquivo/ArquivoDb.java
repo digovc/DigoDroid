@@ -1,7 +1,5 @@
 package com.digosofter.digodroid.arquivo;
 
-import android.os.Environment;
-
 import com.digosofter.digodroid.App;
 import com.digosofter.digodroid.database.DataBase;
 import com.digosofter.digodroid.erro.Erro;
@@ -14,7 +12,8 @@ public class ArquivoDb extends Arquivo {
     try {
       // AÇÕES
 
-      this.setDirCompleto(App.getI().getContext().getDatabasePath(objDataBase.getStrNome()).getPath());
+      this.setDirCompleto(App.getI().getContext().getDatabasePath(objDataBase.getStrNome())
+          .getPath());
 
       // FIM AÇÕES
     } catch (Exception ex) {

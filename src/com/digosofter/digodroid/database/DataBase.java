@@ -40,6 +40,26 @@ public class DataBase extends SQLiteOpenHelper {
     }
   }
 
+  /**
+   * Salva um arquivo contendo o banco de dados compactado na memória externa.
+   */
+  public void backup() {
+    // VARIÁVEIS
+    // FIM VARIÁVEIS
+    try {
+      // AÇÕES
+
+      this.getArq().copiar(Environment.getExternalStorageDirectory().getPath());
+
+      // FIM AÇÕES
+    } catch (Exception ex) {
+
+      new Erro(App.getI().getStrTextoPadrao(0), ex);
+
+    } finally {
+    }
+  }
+
   public Cursor execSqlComRetorno(String sql) {
     // VARIÁVEIS
 
@@ -242,25 +262,5 @@ public class DataBase extends SQLiteOpenHelper {
 
   private void setStrNome(String strNome) {
     _strNome = strNome;
-  }
-
-  /**
-   * Salva um arquivo contendo o banco de dados compactado na memória externa.
-   */
-  public void backup() {
-    // VARIÁVEIS
-    // FIM VARIÁVEIS
-    try {
-      // AÇÕES
-
-      this.getArq().copiar(Environment.getExternalStorageDirectory().getPath());
-
-      // FIM AÇÕES
-    } catch (Exception ex) {
-
-      new Erro(App.getI().getStrTextoPadrao(0), ex);
-
-    } finally {
-    }
   }
 }

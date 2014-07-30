@@ -50,6 +50,22 @@ public class Erro extends Exception implements Serializable {
     }
   }
 
+  public boolean getBooMostrarUsuario() {
+    return _booMostrarUsuario;
+  }
+
+  public String getStrMensagem() {
+    return _strMensagem;
+  }
+
+  public String getStrMensagemDetalhes() {
+    return _strMensagemDetalhes;
+  }
+
+  public String getStrNome() {
+    return _strNome;
+  }
+
   private void imprimirConsole() {
     // VARIÁVEIS
     // FIM VARIÁVEIS
@@ -67,22 +83,6 @@ public class Erro extends Exception implements Serializable {
     } finally {
     }
 
-  }
-
-  public boolean getBooMostrarUsuario() {
-    return _booMostrarUsuario;
-  }
-
-  public String getStrMensagem() {
-    return _strMensagem;
-  }
-
-  public String getStrMensagemDetalhes() {
-    return _strMensagemDetalhes;
-  }
-
-  public String getStrNome() {
-    return _strNome;
   }
 
   public void setBooMostrarUsuario(boolean booMostrarUsuario) {
