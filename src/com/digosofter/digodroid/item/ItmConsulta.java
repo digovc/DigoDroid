@@ -2,7 +2,7 @@ package com.digosofter.digodroid.item;
 
 import com.digosofter.digodroid.App;
 import com.digosofter.digodroid.Objeto;
-import com.digosofter.digodroid.Utils;
+import com.digosofter.digodroid.Util;
 import com.digosofter.digodroid.erro.Erro;
 
 public class ItmConsulta extends Objeto {
@@ -66,7 +66,7 @@ public class ItmConsulta extends Objeto {
 
     try {
       if (_strCampo001Valor == null) {
-        _strCampo001Valor = Utils.STRING_VAZIA;
+        _strCampo001Valor = Util.STR_VAZIA;
       }
     }
     catch (Exception ex) {
@@ -99,7 +99,7 @@ public class ItmConsulta extends Objeto {
 
     try {
       if (_strCampo002Valor == null) {
-        _strCampo002Valor = Utils.STRING_VAZIA;
+        _strCampo002Valor = Util.STR_VAZIA;
       }
     }
     catch (Exception ex) {
@@ -132,7 +132,7 @@ public class ItmConsulta extends Objeto {
 
     try {
       if (_strCampo003Valor == null) {
-        _strCampo003Valor = Utils.STRING_VAZIA;
+        _strCampo003Valor = Util.STR_VAZIA;
       }
     }
     catch (Exception ex) {

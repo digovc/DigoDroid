@@ -20,7 +20,7 @@ import android.widget.EditText;
 
 import com.digosofter.digodroid.erro.Erro;
 
-public abstract class Utils {
+public abstract class Util {
 
   public enum EnmDataFormato {
     DD_MM,
@@ -33,67 +33,67 @@ public abstract class Utils {
     YYYY_MM_DD_HH_MM_SS
   }
 
-  public static enum EnmRandomTipo {
+  public static enum EnmStrTipo {
     ALPHA,
     ALPHANUMERICO,
     NUMERICO
   }
 
   public static final Locale LOCAL_BRASIL = new Locale("pt", "BR");
-  public static final String STRING_VAZIA = "";
+  public static final String STR_VAZIA = "";
 
   public static double arredondar(double dblValor, int intQtdCasas, int ceilOrFloor) {
 
-    double dblValorArredondado = dblValor;
+    double dblResultado = dblValor;
     try {
-      dblValorArredondado *= Math.pow(10, intQtdCasas);
+      dblResultado *= Math.pow(10, intQtdCasas);
       if (ceilOrFloor == 0) {
-        dblValorArredondado = Math.ceil(dblValorArredondado);
+        dblResultado = Math.ceil(dblResultado);
       }
       else {
-        dblValorArredondado = Math.floor(dblValorArredondado);
+        dblResultado = Math.floor(dblResultado);
       }
-      dblValorArredondado /= Math.pow(10, intQtdCasas);
+      dblResultado /= Math.pow(10, intQtdCasas);
     }
     catch (Exception ex) {
       new Erro(App.getI().getStrTextoPadrao(109), ex);
     }
     finally {
     }
-    return dblValorArredondado;
+    return dblResultado;
   }
 
-  public static String enmDataFormatoToString(EnmDataFormato enmDataFormato) {
+  private static String enmDataFormatoToString(EnmDataFormato enmDataFormato) {
 
-    String strDataFormatoResultado = Utils.STRING_VAZIA;
+    String strResultado = null;
     try {
       switch (enmDataFormato) {
         case DD_MM:
-          strDataFormatoResultado = "dd/MM";
+          strResultado = "dd/MM";
           break;
         case DD_MM_YY:
-          strDataFormatoResultado = "dd/MM/yy";
+          strResultado = "dd/MM/yy";
           break;
         case DD_MM_YYYY:
-          strDataFormatoResultado = "dd/MM/yyyy";
+          strResultado = "dd/MM/yyyy";
           break;
         case DD_MM_YYYY_HH_MM:
-          strDataFormatoResultado = "dd/MM/yyyy HH:mm";
+          strResultado = "dd/MM/yyyy HH:mm";
           break;
         case DD_MM_YYYY_HH_MM_SS:
-          strDataFormatoResultado = "dd/MM/yyyy HH:mm:ss";
+          strResultado = "dd/MM/yyyy HH:mm:ss";
           break;
         case HH_MM_DD_MM_YYYY:
-          strDataFormatoResultado = "HH:mm dd/MM/yyyy";
+          strResultado = "HH:mm dd/MM/yyyy";
           break;
         case HH_MM_SS_DD_MM_YYYY:
-          strDataFormatoResultado = "HH:mm:ss dd/MM/yyyy";
+          strResultado = "HH:mm:ss dd/MM/yyyy";
           break;
         case YYYY_MM_DD_HH_MM_SS:
-          strDataFormatoResultado = "yyyy/MM/dd HH:mm:ss";
+          strResultado = "yyyy/MM/dd HH:mm:ss";
           break;
         default:
-          strDataFormatoResultado = "dd/MM/yyyy";
+          strResultado = "dd/MM/yyyy";
           break;
       }
     }
@@ -102,15 +102,15 @@ public abstract class Utils {
     }
     finally {
     }
-    return strDataFormatoResultado;
+    return strResultado;
   }
 
   public static boolean getBooStrVazia(String str) {
 
-    boolean booBooIsEmptyNullResultado = true;
+    boolean booResultado = true;
     try {
       if (str != null && !str.isEmpty()) {
-        booBooIsEmptyNullResultado = false;
+        booResultado = false;
       }
     }
     catch (Exception ex) {
@@ -118,14 +118,11 @@ public abstract class Utils {
     }
     finally {
     }
-    return booBooIsEmptyNullResultado;
+    return booResultado;
   }
 
   /**
    * Verifica se a string é uma URL válida.
-   *
-   * @param url
-   *          String a ser avaliada.
    */
   public static boolean getBooUrlValida(String url) {
 
@@ -157,27 +154,27 @@ public abstract class Utils {
 
   public static int getIntCorAleatoria() {
 
-    int intColorResultado = 0;
-    Random objRandom = new Random();
+    int intResultado = 0;
+    Random objR;
     try {
-      intColorResultado = Color.argb(255, objRandom.nextInt(256), objRandom.nextInt(256),
-          objRandom.nextInt(256));
+      objR = new Random();
+      intResultado = Color.argb(255, objR.nextInt(256), objR.nextInt(256), objR.nextInt(256));
     }
     catch (Exception ex) {
       new Erro(App.getI().getStrTextoPadrao(110), ex);
     }
     finally {
     }
-    return intColorResultado;
+    return intResultado;
   }
 
-  public static String getStrAleatoria(int intTamanho, EnmRandomTipo enmRandomTipo) {
+  public static String getStrAleatoria(int intTamanho, EnmStrTipo enmStrTipo) {
 
     int intCharactersLength;
-    StringBuffer strBuffer = new StringBuffer();
+    StringBuffer stbResultado = new StringBuffer();
     String strCharacters = "";
     try {
-      switch (enmRandomTipo) {
+      switch (enmStrTipo) {
         case ALPHA:
           strCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
           break;
@@ -191,7 +188,7 @@ public abstract class Utils {
       intCharactersLength = strCharacters.length();
       for (int i = 0; i < intTamanho; i++) {
         double index = Math.random() * intCharactersLength;
-        strBuffer.append(strCharacters.charAt((int) index));
+        stbResultado.append(strCharacters.charAt((int) index));
       }
     }
     catch (Exception ex) {
@@ -199,15 +196,15 @@ public abstract class Utils {
     }
     finally {
     }
-    return strBuffer.toString();
+    return stbResultado.toString();
   }
 
   public static String getStrDataFormatada(Date objDate, EnmDataFormato enmDataFormato) {
 
-    String strDataFormato = Utils.STRING_VAZIA;
+    String strDataFormato = Util.STR_VAZIA;
     SimpleDateFormat objSimpleDateFormat = null;
     try {
-      strDataFormato = Utils.enmDataFormatoToString(enmDataFormato);
+      strDataFormato = Util.enmDataFormatoToString(enmDataFormato);
       objSimpleDateFormat = new SimpleDateFormat(strDataFormato, LOCAL_BRASIL);
     }
     catch (Exception ex) {
@@ -220,15 +217,15 @@ public abstract class Utils {
     return objSimpleDateFormat.format(objDate);
   }
 
-  public static String getStrMd5(String str) {
+  public static String getMd5(String str) {
 
     BigInteger objBigInteger;
     MessageDigest objMessageDigest;
-    String strMd5Resultado = Utils.STRING_VAZIA;
+    String md5Resultado = null;
     try {
       objMessageDigest = MessageDigest.getInstance("MD5");
       objBigInteger = new BigInteger(1, objMessageDigest.digest(str.getBytes()));
-      strMd5Resultado = String.format("%0" + (objMessageDigest.digest(str.getBytes()).length << 1)
+      md5Resultado = String.format("%0" + (objMessageDigest.digest(str.getBytes()).length << 1)
           + "X", objBigInteger);
     }
     catch (Exception ex) {
@@ -236,7 +233,7 @@ public abstract class Utils {
     }
     finally {
     }
-    return strMd5Resultado;
+    return md5Resultado;
   }
 
   public static String getStrPrimeiraMaiuscula(String str) {
@@ -286,26 +283,26 @@ public abstract class Utils {
 
   public static String getStrToken(List<String> lstStrTermo) {
 
-    return Utils.getStrToken(lstStrTermo, 5);
+    return Util.getStrToken(lstStrTermo, 5);
   }
 
   public static String getStrToken(List<String> lstStrTermo, int intTamanho) {
 
-    String strTermoMd5 = Utils.STRING_VAZIA;
-    String strTokenResultado = Utils.STRING_VAZIA;
+    String strTermoMd5;
+    String strResultado = null;
     try {
       for (String strTermo : lstStrTermo) {
-        strTermoMd5 = Utils.getStrMd5(strTermo);
-        strTokenResultado = Utils.getStrMd5(strTokenResultado + strTermoMd5);
+        strTermoMd5 = Util.getMd5(strTermo);
+        strResultado = Util.getMd5(strResultado + strTermoMd5);
       }
-      strTokenResultado = strTokenResultado.substring(0, intTamanho);
+      strResultado = strResultado.substring(0, intTamanho);
     }
     catch (Exception ex) {
       new Erro(App.getI().getStrTextoPadrao(0), ex);
     }
     finally {
     }
-    return strTokenResultado;
+    return strResultado;
   }
 
   public static String getStrValorMonetario(double monValor) {
@@ -326,10 +323,10 @@ public abstract class Utils {
 
   public static String gregorianCalendarToString(GregorianCalendar objGregorianCalendar) {
 
-    StringBuilder stbDteResultado = null;
+    StringBuilder stbResultado = null;
     try {
-      stbDteResultado = new StringBuilder();
-      stbDteResultado.append(String.format("%d/%02d/%02d",
+      stbResultado = new StringBuilder();
+      stbResultado.append(String.format("%d/%02d/%02d",
           objGregorianCalendar.get(Calendar.DAY_OF_MONTH),
           objGregorianCalendar.get(Calendar.MONTH) + 1, objGregorianCalendar.get(Calendar.YEAR)));
     }
@@ -338,7 +335,7 @@ public abstract class Utils {
     }
     finally {
     }
-    return stbDteResultado.toString();
+    return stbResultado.toString();
   }
 
   public static TextWatcher inserirMascara(final String strMascara, final EditText ediTxt) {
@@ -361,7 +358,7 @@ public abstract class Utils {
       @Override
       public void onTextChanged(CharSequence s, int start, int before, int count) {
 
-        String str = Utils.removerMascara(s.toString());
+        String str = Util.removerMascara(s.toString());
         String mascara = "";
         if (isUpdating) {
           old = str;
@@ -394,11 +391,12 @@ public abstract class Utils {
    */
   public static boolean ping(String url) {
 
-    boolean booResultado = true;
+    boolean booResultado = false;
+    HttpURLConnection objHttpURLConnection;
     try {
-      HttpURLConnection con = (HttpURLConnection) new URL(url).openConnection();
-      con.setRequestMethod("HEAD");
-      booResultado = con.getResponseCode() == HttpURLConnection.HTTP_OK;
+      objHttpURLConnection = (HttpURLConnection) new URL(url).openConnection();
+      objHttpURLConnection.setRequestMethod("HEAD");
+      booResultado = objHttpURLConnection.getResponseCode() == HttpURLConnection.HTTP_OK;
     }
     catch (Exception ex) {
       booResultado = false;
@@ -430,11 +428,10 @@ public abstract class Utils {
   public static Date strToDte(String strDte, EnmDataFormato enmDataFormato) {
 
     Date dteResultado = null;
-    SimpleDateFormat objSimpleDateFormat;
+    SimpleDateFormat sdf;
     try {
-      objSimpleDateFormat = new SimpleDateFormat(Utils.enmDataFormatoToString(enmDataFormato),
-          LOCAL_BRASIL);
-      dteResultado = objSimpleDateFormat.parse(strDte);
+      sdf = new SimpleDateFormat(Util.enmDataFormatoToString(enmDataFormato), LOCAL_BRASIL);
+      dteResultado = sdf.parse(strDte);
     }
     catch (Exception ex) {
       new Erro(App.getI().getStrTextoPadrao(0), ex);
@@ -449,7 +446,7 @@ public abstract class Utils {
     GregorianCalendar dteResultado = null;
     try {
       dteResultado = new GregorianCalendar();
-      dteResultado.setTime(Utils.strToDte(strDte, EnmDataFormato.DD_MM_YYYY));
+      dteResultado.setTime(Util.strToDte(strDte, EnmDataFormato.DD_MM_YYYY));
       dteResultado.add(Calendar.MONTH, 1);
       if (dteResultado.get(Calendar.MONTH) == 12) {
         dteResultado.add(Calendar.YEAR, 1);

@@ -7,7 +7,7 @@ import java.util.List;
 
 import com.digosofter.digodroid.App;
 import com.digosofter.digodroid.Objeto;
-import com.digosofter.digodroid.Utils;
+import com.digosofter.digodroid.Util;
 import com.digosofter.digodroid.erro.Erro;
 
 public class DbColuna extends Objeto {
@@ -284,8 +284,8 @@ public class DbColuna extends Objeto {
   public String getStrValor() {
 
     try {
-      if (Utils.getBooStrVazia(_strValor)) {
-        _strValor = Utils.STRING_VAZIA;
+      if (Util.getBooStrVazia(_strValor)) {
+        _strValor = Util.STR_VAZIA;
       }
     }
     catch (Exception ex) {
@@ -309,14 +309,14 @@ public class DbColuna extends Objeto {
           _strValorExibicao = this.getBooValor() ? "Sim" : "Não";
           break;
         case DATE_TIME:
-          _strValorExibicao = Utils.getStrDataFormatada(this.getDttValor().getTime(),
-              Utils.EnmDataFormato.DD_MM_YYYY);
+          _strValorExibicao = Util.getStrDataFormatada(this.getDttValor().getTime(),
+              Util.EnmDataFormato.DD_MM_YYYY);
           break;
         case INTEGER:
           _strValorExibicao = this.getStrValor();
           break;
         case MONETARY:
-          _strValorExibicao = Utils.getStrValorMonetario(this.getDblValor());
+          _strValorExibicao = Util.getStrValorMonetario(this.getDblValor());
           break;
         case NONE:
           _strValorExibicao = this.getStrValor();
@@ -347,7 +347,7 @@ public class DbColuna extends Objeto {
 
     String strResultado = null;
     try {
-      strResultado = Utils.getStrValorMonetario(Double.parseDouble(_strValor));
+      strResultado = Util.getStrValorMonetario(Double.parseDouble(_strValor));
     }
     catch (Exception ex) {
       return "R$ 0,00";
@@ -471,11 +471,11 @@ public class DbColuna extends Objeto {
 
     try {
       if (dttValor == null) {
-        this.setStrValor(Utils.STRING_VAZIA);
+        this.setStrValor(Util.STR_VAZIA);
         return;
       }
-      this.setStrValor(Utils
-          .getStrDataFormatada(dttValor, Utils.EnmDataFormato.YYYY_MM_DD_HH_MM_SS));
+      this.setStrValor(Util
+          .getStrDataFormatada(dttValor, Util.EnmDataFormato.YYYY_MM_DD_HH_MM_SS));
     }
     catch (Exception ex) {
       new Erro(App.getI().getStrTextoPadrao(0), ex);

@@ -7,7 +7,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Environment;
 
 import com.digosofter.digodroid.App;
-import com.digosofter.digodroid.Utils;
+import com.digosofter.digodroid.Util;
 import com.digosofter.digodroid.arquivo.ArquivoDb;
 import com.digosofter.digodroid.erro.Erro;
 
@@ -67,7 +67,7 @@ public class DataBase extends SQLiteOpenHelper {
     double dblResultado = 0;
     try {
       strResultado = this.execSqlGetStr(sql);
-      if (Utils.getBooStrVazia(strResultado)) {
+      if (Util.getBooStrVazia(strResultado)) {
         strResultado = "0";
       }
       dblResultado = Double.valueOf(strResultado);
@@ -88,7 +88,7 @@ public class DataBase extends SQLiteOpenHelper {
   public String execSqlGetStr(String sql) {
 
     Cursor crs;
-    String strResultado = Utils.STRING_VAZIA;
+    String strResultado = Util.STR_VAZIA;
     try {
       crs = this.execSqlComRetorno(sql);
       if (crs != null && crs.moveToFirst()) {

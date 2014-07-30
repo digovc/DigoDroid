@@ -9,8 +9,8 @@ import android.database.Cursor;
 
 import com.digosofter.digodroid.App;
 import com.digosofter.digodroid.Objeto;
-import com.digosofter.digodroid.Utils;
-import com.digosofter.digodroid.Utils.EnmRandomTipo;
+import com.digosofter.digodroid.Util;
+import com.digosofter.digodroid.Util.EnmStrTipo;
 import com.digosofter.digodroid.activity.ActConsulta;
 import com.digosofter.digodroid.database.DbColuna.EnmTipo;
 import com.digosofter.digodroid.erro.Erro;
@@ -71,7 +71,7 @@ public abstract class DbTabela extends Objeto {
     Cursor crs;
     int intColunaIndex = 0;
     String sql;
-    String strColunasNomes = Utils.STRING_VAZIA;
+    String strColunasNomes = Util.STR_VAZIA;
     try {
       for (DbColuna cln : this.getLstCln()) {
         cln.setStrValor(null);
@@ -80,7 +80,7 @@ public abstract class DbTabela extends Objeto {
         strColunasNomes += cln.getStrNomeSimplificado();
         strColunasNomes += ",";
       }
-      strColunasNomes = Utils.removerUltimaLetra(strColunasNomes);
+      strColunasNomes = Util.removerUltimaLetra(strColunasNomes);
       sql = "SELECT ";
       sql += strColunasNomes;
       sql += " FROM ";
@@ -120,7 +120,7 @@ public abstract class DbTabela extends Objeto {
 
   public void criarTabela() {
 
-    String sql = Utils.STRING_VAZIA;
+    String sql = Util.STR_VAZIA;
     try {
       if (!this.getBooTabelaExiste()) {
         sql += "CREATE TABLE IF NOT EXISTS ";
@@ -131,17 +131,17 @@ public abstract class DbTabela extends Objeto {
           sql += " ";
           sql += cln.getStrSqlTipo();
           if (cln.getEnmTipo() == EnmTipo.TEXT) {
-            sql += cln.getBooChavePrimaria() ? " PRIMARY KEY" : Utils.STRING_VAZIA;
+            sql += cln.getBooChavePrimaria() ? " PRIMARY KEY" : Util.STR_VAZIA;
           }
           else {
-            sql += cln.getBooChavePrimaria() ? " PRIMARY KEY AUTOINCREMENT" : Utils.STRING_VAZIA;
+            sql += cln.getBooChavePrimaria() ? " PRIMARY KEY AUTOINCREMENT" : Util.STR_VAZIA;
           }
           if (cln.getStrValorDefault() != null) {
             sql += " DEFAULT '" + cln.getStrValorDefault() + "'";
           }
           sql += ",";
         }
-        sql = Utils.removerUltimaLetra(sql);
+        sql = Util.removerUltimaLetra(sql);
         sql += ");";
         this.getObjDataBase().execSqlSemRetorno(sql);
       }
@@ -162,7 +162,7 @@ public abstract class DbTabela extends Objeto {
 
   public void excluir(String strId) {
 
-    String sql = Utils.STRING_VAZIA;
+    String sql = Util.STR_VAZIA;
     try {
       sql = "DELETE FROM " + this.getStrNomeSimplificado() + " WHERE "
           + this.getClnChavePrimaria().getStrNomeSimplificado() + "= '" + strId + "';";
@@ -315,8 +315,8 @@ public abstract class DbTabela extends Objeto {
     boolean booPrimeiroTermo = true;
     Cursor crsResultado = null;
     String sql;
-    String strClnNome = Utils.STRING_VAZIA;
-    String strFiltro = Utils.STRING_VAZIA;
+    String strClnNome = Util.STR_VAZIA;
+    String strFiltro = Util.STR_VAZIA;
     String strClnOrdemNome;
     try {
       if (lstObjDbFiltro != null) {
@@ -331,14 +331,14 @@ public abstract class DbTabela extends Objeto {
         strClnNome += cln.getStrNomeSimplificado();
         strClnNome += ",";
       }
-      strClnNome = Utils.removerUltimaLetra(strClnNome);
+      strClnNome = Util.removerUltimaLetra(strClnNome);
       strClnOrdemNome = this.getClnOrdemCadastro().getStrNomeSimplificado();
       sql = "SELECT ";
       sql += strClnNome;
       sql += " FROM ";
       sql += this.getStrNomeSimplificado();
-      sql += strFiltro.isEmpty() ? Utils.STRING_VAZIA : " WHERE" + strFiltro;
-      sql += strClnOrdemNome.isEmpty() ? Utils.STRING_VAZIA : " ORDER BY " + strClnOrdemNome;
+      sql += strFiltro.isEmpty() ? Util.STR_VAZIA : " WHERE" + strFiltro;
+      sql += strClnOrdemNome.isEmpty() ? Util.STR_VAZIA : " ORDER BY " + strClnOrdemNome;
       sql += ";";
       crsResultado = this.getObjDataBase().execSqlComRetorno(sql);
     }
@@ -367,7 +367,7 @@ public abstract class DbTabela extends Objeto {
     int intNumeroColuna = 0;
     String sql;
     String strClnNome;
-    String strFiltro = Utils.STRING_VAZIA;
+    String strFiltro = Util.STR_VAZIA;
     String strClnOrdemNome;
     try {
       if (lstObjDbFiltro.size() > 0) {
@@ -445,17 +445,17 @@ public abstract class DbTabela extends Objeto {
       else {
         strClnOrdemNome = "_strNomeB";
       }
-      if (!strClnOrdemNome.equals(Utils.STRING_VAZIA)
+      if (!strClnOrdemNome.equals(Util.STR_VAZIA)
           && this.getClnOrdemCadastro().getBooOrdemDecrecente()) {
         strClnOrdemNome += " DESC";
       }
-      strClnNome = Utils.removerUltimaLetra(strClnNome);
+      strClnNome = Util.removerUltimaLetra(strClnNome);
       sql = "SELECT ";
       sql += strClnNome;
       sql += " FROM ";
       sql += this.getStrNomeSimplificado();
-      sql += strFiltro.isEmpty() ? Utils.STRING_VAZIA : " WHERE " + strFiltro;
-      sql += strClnOrdemNome.isEmpty() ? Utils.STRING_VAZIA : " ORDER BY " + strClnOrdemNome;
+      sql += strFiltro.isEmpty() ? Util.STR_VAZIA : " WHERE " + strFiltro;
+      sql += strClnOrdemNome.isEmpty() ? Util.STR_VAZIA : " ORDER BY " + strClnOrdemNome;
       sql += ";";
       crsResultado = this.getObjDataBase().execSqlComRetorno(sql);
     }
@@ -630,7 +630,7 @@ public abstract class DbTabela extends Objeto {
 
   public String getStrClnNomePeloNomeSimplificado(String strNomeSimplificado) {
 
-    String strColunaNome = Utils.STRING_VAZIA;
+    String strColunaNome = Util.STR_VAZIA;
     try {
       for (DbColuna cln : this.getLstCln()) {
         if (cln.getStrNomeSimplificado().equals(strNomeSimplificado)) {
@@ -667,27 +667,27 @@ public abstract class DbTabela extends Objeto {
   public void inserir() {
 
     String strId;
-    String strColunasNomes = Utils.STRING_VAZIA;
-    String strColunasValores = Utils.STRING_VAZIA;
+    String strColunasNomes = Util.STR_VAZIA;
+    String strColunasValores = Util.STR_VAZIA;
     String sql;
     try {
       this.limparListaConsulta();
       for (DbColuna cln : this.getLstCln()) {
-        if (!Utils.getBooStrVazia(cln.getStrValor())) {
+        if (!Util.getBooStrVazia(cln.getStrValor())) {
           strColunasNomes += cln.getStrNomeSimplificado() + ",";
           strColunasValores += "'" + cln.getStrValor() + "',";
         }
-        else if (!Utils.getBooStrVazia(cln.getStrValorDefault())) {
+        else if (!Util.getBooStrVazia(cln.getStrValorDefault())) {
           strColunasNomes += cln.getStrNomeSimplificado() + ",";
           strColunasValores += "'" + cln.getStrValorDefault() + "',";
         }
       }
-      strColunasNomes = Utils.removerUltimaLetra(strColunasNomes);
-      strColunasValores = Utils.removerUltimaLetra(strColunasValores);
+      strColunasNomes = Util.removerUltimaLetra(strColunasNomes);
+      strColunasValores = Util.removerUltimaLetra(strColunasValores);
       sql = "REPLACE INTO " + this.getStrNomeSimplificado() + " (" + strColunasNomes + ") VALUES ("
           + strColunasValores + ");";
       this.getObjDataBase().execSqlSemRetorno(sql);
-      if (Utils.getBooStrVazia(this.getClnChavePrimaria().getStrValor())) {
+      if (Util.getBooStrVazia(this.getClnChavePrimaria().getStrValor())) {
         sql = "SELECT last_insert_rowid();";
         strId = this.getObjDataBase().execSqlGetStr(sql);
       }
@@ -709,16 +709,16 @@ public abstract class DbTabela extends Objeto {
       for (DbColuna cln : this.getLstCln()) {
         switch (cln.getEnmTipo()) {
           case INTEGER:
-            cln.setStrValor(Utils.getStrAleatoria(5, EnmRandomTipo.NUMERICO));
+            cln.setStrValor(Util.getStrAleatoria(5, EnmStrTipo.NUMERICO));
             break;
           case REAL:
-            cln.setStrValor(Utils.getStrAleatoria(5, EnmRandomTipo.NUMERICO));
+            cln.setStrValor(Util.getStrAleatoria(5, EnmStrTipo.NUMERICO));
             break;
           case NUMERIC:
-            cln.setStrValor(Utils.getStrAleatoria(5, EnmRandomTipo.NUMERICO));
+            cln.setStrValor(Util.getStrAleatoria(5, EnmStrTipo.NUMERICO));
             break;
           default:
-            cln.setStrValor(Utils.getStrAleatoria(5, EnmRandomTipo.ALPHA));
+            cln.setStrValor(Util.getStrAleatoria(5, EnmStrTipo.ALPHA));
             break;
         }
       }

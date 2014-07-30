@@ -8,7 +8,7 @@ import org.apache.http.util.EntityUtils;
 
 import com.digosofter.digodroid.App;
 import com.digosofter.digodroid.Objeto;
-import com.digosofter.digodroid.Utils;
+import com.digosofter.digodroid.Util;
 import com.digosofter.digodroid.erro.Erro;
 
 public class HttpCliente extends Objeto {
@@ -44,7 +44,7 @@ public class HttpCliente extends Objeto {
 
     try {
       if (this.getObjHttpResponse() == null) {
-        return Utils.STRING_VAZIA;
+        return Util.STR_VAZIA;
       }
       _strResposta = EntityUtils.toString(this.getObjHttpResponse().getEntity());
     }

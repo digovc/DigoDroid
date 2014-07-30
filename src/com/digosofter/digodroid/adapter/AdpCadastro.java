@@ -14,7 +14,7 @@ import android.widget.TextView;
 
 import com.digosofter.digodroid.App;
 import com.digosofter.digodroid.R;
-import com.digosofter.digodroid.Utils;
+import com.digosofter.digodroid.Util;
 import com.digosofter.digodroid.erro.Erro;
 import com.digosofter.digodroid.item.ItmConsulta;
 
@@ -130,17 +130,17 @@ public class AdpCadastro extends BaseAdapter implements Filterable {
       txtRegistroNome.setText(objItmCadastro.getStrNomeExibicao());
       txtRegistroCampo001.setText(objItmCadastro.getStrCampo001());
       if (objItmCadastro.getStrCampo001Valor() == null
-          || objItmCadastro.getStrCampo001Valor().equals(Utils.STRING_VAZIA)) {
+          || objItmCadastro.getStrCampo001Valor().equals(Util.STR_VAZIA)) {
         txtRegistroCampo001.setVisibility(View.GONE);
       }
       txtRegistroCampo002.setText(objItmCadastro.getstrCampo002());
       if (objItmCadastro.getStrCampo002Valor() == null
-          || objItmCadastro.getStrCampo002Valor().equals(Utils.STRING_VAZIA)) {
+          || objItmCadastro.getStrCampo002Valor().equals(Util.STR_VAZIA)) {
         txtRegistroCampo002.setVisibility(View.GONE);
       }
       txtRegistroCampo003.setText(objItmCadastro.getstrCampo003());
       if (objItmCadastro.getStrCampo003Valor() == null
-          || objItmCadastro.getStrCampo003Valor().equals(Utils.STRING_VAZIA)) {
+          || objItmCadastro.getStrCampo003Valor().equals(Util.STR_VAZIA)) {
         txtRegistroCampo003.setVisibility(View.GONE);
       }
     }

@@ -5,7 +5,7 @@ import java.io.Serializable;
 import android.content.Intent;
 
 import com.digosofter.digodroid.App;
-import com.digosofter.digodroid.Utils;
+import com.digosofter.digodroid.Util;
 import com.digosofter.digodroid.activity.ActErro;
 
 public class Erro extends Exception implements Serializable {
@@ -20,10 +20,10 @@ public class Erro extends Exception implements Serializable {
 
     Intent objIntent;
     try {
-      if (!Utils.getBooStrVazia(strMensagem)) {
+      if (!Util.getBooStrVazia(strMensagem)) {
         this.setStrMensagem(strMensagem);
       }
-      if (ex != null && !Utils.getBooStrVazia(ex.getMessage())) {
+      if (ex != null && !Util.getBooStrVazia(ex.getMessage())) {
         this.setStrMensagemDetalhes(ex.getMessage());
       }
       if (this.getBooMostrarUsuario()) {
