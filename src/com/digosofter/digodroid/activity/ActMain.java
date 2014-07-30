@@ -22,11 +22,10 @@ public abstract class ActMain extends ActionBarActivity {
 
   private boolean _booVisivel;
 
-  protected void addFragmento(int intIdPnlContainer, Fragment objFragmento) {
+  protected void addFragmento(int intPnlId, Fragment frg) {
 
     try {
-      this.getSupportFragmentManager().beginTransaction().add(intIdPnlContainer, objFragmento)
-      .commit();
+      this.getSupportFragmentManager().beginTransaction().add(intPnlId, frg).commit();
     }
     catch (Exception ex) {
       new Erro(App.getI().getStrTextoPadrao(113), ex);
@@ -94,16 +93,16 @@ public abstract class ActMain extends ActionBarActivity {
 
   protected View getView(int intId) {
 
-    View viewResultado = null;
+    View viwResultado = null;
     try {
-      viewResultado = this.findViewById(intId);
+      viwResultado = this.findViewById(intId);
     }
     catch (Exception ex) {
       new Erro(App.getI().getStrTextoPadrao(0), ex);
     }
     finally {
     }
-    return viewResultado;
+    return viwResultado;
   }
 
   protected void montarLayout() {
