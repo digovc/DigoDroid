@@ -2,7 +2,7 @@ package com.digosofter.digodroid;
 
 import com.digosofter.digodroid.erro.Erro;
 
-public class MensagemUsuario extends Objeto {
+public class MsgUsuario extends Objeto {
 
   public enum EnmLingua {
     INGLES,
@@ -15,7 +15,7 @@ public class MensagemUsuario extends Objeto {
 
   private String _strTexto;
 
-  public MensagemUsuario(String strTexto, int intId) {
+  public MsgUsuario(String strTexto, int intId) {
     // VARIÁVEIS
     // FIM VARIÁVEIS
     try {
@@ -33,7 +33,7 @@ public class MensagemUsuario extends Objeto {
     }
   }
 
-  public MensagemUsuario(String strTexto, int intId, EnmLingua enmLingua) {
+  public MsgUsuario(String strTexto, int intId, EnmLingua enmLingua) {
     // VARIÁVEIS
     // FIM VARIÁVEIS
     try {

@@ -134,7 +134,7 @@ public class ActConsulta extends ActMain {
       // AÇÕES
 
       if (_tbl == null) {
-        _tbl = App.getI().getTblSelecionada();
+        _tbl = App.getI().getTblSelec();
       }
 
       // FIM AÇÕES

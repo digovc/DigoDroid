@@ -3,13 +3,13 @@ package com.digosofter.digodroid.game;
 import java.util.List;
 
 import com.digosofter.digodroid.App;
-import com.digosofter.digodroid.MensagemUsuario;
+import com.digosofter.digodroid.MsgUsuario;
 import com.digosofter.digodroid.erro.Erro;
 
 public abstract class Game extends App {
 
   @Override
-  public List<MensagemUsuario> getLstObjMensagemUsuario() {
+  public List<MsgUsuario> getLstMsgUsuario() {
     // VARIÁVEIS
     // FIM VARIÁVEIS
     try {

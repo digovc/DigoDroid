@@ -137,7 +137,7 @@ public class Aparelho extends Objeto {
         return _cnt;
       }
 
-      _cnt = App.getI().getContext();
+      _cnt = App.getI().getCnt();
 
       // FIM AÇÕES
     } catch (Exception ex) {
@@ -213,7 +213,7 @@ public class Aparelho extends Objeto {
       // FIM AÇÕES
     } catch (Exception ex) {
 
-      new Erro(App.getI().getStrMensagemUsuarioPadrao(100), ex);
+      new Erro(App.getI().getStrMsgUsuarioPadrao(100), ex);
 
     } finally {
     }

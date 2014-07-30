@@ -6,7 +6,7 @@ import java.util.List;
 import android.content.Context;
 import android.widget.Toast;
 
-import com.digosofter.digodroid.MensagemUsuario.EnmLingua;
+import com.digosofter.digodroid.MsgUsuario.EnmLingua;
 import com.digosofter.digodroid.activity.ActMain;
 import com.digosofter.digodroid.database.DataBase;
 import com.digosofter.digodroid.database.DbTabela;
@@ -23,25 +23,24 @@ public abstract class App extends Objeto {
   }
 
   private ActMain _actMain;
-  private Context _context;
+  private Context _cnt;
   private int _intVersao;
-  private List<MensagemUsuario> _lstObjMensagemUsuarioPadrao;
+  private List<MsgUsuario> _lstMsgUsuarioPadrao;
   private List<DbTabela> _lstTbl;
-  private DataBase _objDataBasePrincipal;
+  private DataBase _objDbPrincipal;
   private Gson _objGson;
-  private String _strVersaoExibicao;
-  private DbTabela _tblSelecionada;
+  private String _strVersao;
+  private DbTabela _tblSelec;
 
   public App() {
-    // VARIÁVEIS
-    // FIM VARIÁVEIS
     try {
-      // AÇÕES
 
       this.setI(this);
 
-      // FIM AÇÕES
     } catch (Exception ex) {
+
+      new Erro("Erro inesperado.\n", ex);
+
     } finally {
     }
   }
@@ -50,126 +49,97 @@ public abstract class App extends Objeto {
     return _actMain;
   }
 
-  public Context getContext() {
+  public Context getCnt() {
     // VARIÁVEIS
     // FIM VARIÁVEIS
     try {
       // AÇÕES
 
-      _context = this.getActMain().getApplicationContext();
+      _cnt = this.getActMain().getApplicationContext();
 
       // FIM AÇÕES
     } catch (Exception ex) {
 
-      new Erro(this.getStrMensagemUsuarioPadrao(101), ex);
+      new Erro(this.getStrMsgUsuarioPadrao(101), ex);
 
     } finally {
     }
 
-    return _context;
+    return _cnt;
   }
 
   public int getIntVersao() {
     return _intVersao;
   }
 
-  public abstract List<MensagemUsuario> getLstObjMensagemUsuario();
+  public abstract List<MsgUsuario> getLstMsgUsuario();
 
-  private List<MensagemUsuario> getLstObjMensagemUsuarioPadrao() {
+  private List<MsgUsuario> getLstMsgUsuarioPadrao() {
     // VARIÁVEIS
     // FIM VARIÁVEIS
     try {
       // AÇÕES
 
-      if (_lstObjMensagemUsuarioPadrao == null) {
-        _lstObjMensagemUsuarioPadrao = new ArrayList<MensagemUsuario>();
-
-        // Mensagens
-
-        _lstObjMensagemUsuarioPadrao.add(new MensagemUsuario("Erro inesperado..", 0));
-        _lstObjMensagemUsuarioPadrao.add(new MensagemUsuario(
-            "Erro ao recuperar o IMEI do aparelho.", 100));
-        _lstObjMensagemUsuarioPadrao.add(new MensagemUsuario(
-            "Erro ao recuperar contexto do aplicativo.", 101));
-        _lstObjMensagemUsuarioPadrao.add(new MensagemUsuario(
-            "Erro ao recuperar banco de dados principal.", 102));
-        _lstObjMensagemUsuarioPadrao.add(new MensagemUsuario(
-            "Erro ao recuperar mensagem de usuário.", 103));
-        _lstObjMensagemUsuarioPadrao.add(new MensagemUsuario(
-            "Erro ao mostrar notificação na tela.", 104));
-        _lstObjMensagemUsuarioPadrao.add(new MensagemUsuario(
-            "Erro ao criar objeto do tipo 'FtpClient'.", 105));
-        _lstObjMensagemUsuarioPadrao.add(new MensagemUsuario("Erro ao criar objeto do tipo 'Ftp'.",
-            106));
-        _lstObjMensagemUsuarioPadrao.add(new MensagemUsuario(
-            "Erro ao criar objeto do tipo 'MensagemUsuario'.", 107));
-        _lstObjMensagemUsuarioPadrao.add(new MensagemUsuario(
-            "Erro ao criar objeto do tipo 'Objeto'.", 108));
-        _lstObjMensagemUsuarioPadrao.add(new MensagemUsuario("Erro ao arredondar valor.", 109));
-        _lstObjMensagemUsuarioPadrao.add(new MensagemUsuario("Erro ao recuperar data atual.", 110));
-        _lstObjMensagemUsuarioPadrao.add(new MensagemUsuario("Erro ao gerar cor aleatória.", 110));
-        _lstObjMensagemUsuarioPadrao
-        .add(new MensagemUsuario("Erro ao gerar texto aleatório.", 111));
-        _lstObjMensagemUsuarioPadrao.add(new MensagemUsuario("Erro ao gerar MD5.", 112));
-        _lstObjMensagemUsuarioPadrao.add(new MensagemUsuario("Erro ao adicionar fragmento à tela.",
-            113));
-        _lstObjMensagemUsuarioPadrao
-        .add(new MensagemUsuario("Erro ao montar layout da tela.", 114));
-        _lstObjMensagemUsuarioPadrao.add(new MensagemUsuario("Erro ao fechar tela.", 115));
-        _lstObjMensagemUsuarioPadrao
-        .add(new MensagemUsuario("Erro ao setar eventos da tela.", 116));
-        _lstObjMensagemUsuarioPadrao.add(new MensagemUsuario("Erro ao criar tela.", 117));
-        _lstObjMensagemUsuarioPadrao.add(new MensagemUsuario(
-            "Erro ao criar objeto do tipo 'DataBase'.", 118));
-        _lstObjMensagemUsuarioPadrao.add(new MensagemUsuario("Erro ao executar SQL.", 119));
-        _lstObjMensagemUsuarioPadrao.add(new MensagemUsuario(
-            "Erro ao criar objeto do tipo 'DbColuna'.", 120));
-        _lstObjMensagemUsuarioPadrao.add(new MensagemUsuario(
-            "Erro ao criar objeto do tipo 'DbFiltro'.", 121));
-        _lstObjMensagemUsuarioPadrao.add(new MensagemUsuario(
-            "Erro ao criar objeto do tipo 'dbTabela'.", 122));
-        _lstObjMensagemUsuarioPadrao.add(new MensagemUsuario("Erro ao abrir tela.", 123));
-        _lstObjMensagemUsuarioPadrao.add(new MensagemUsuario(
-            "Erro ao buscar registro no banco de dados.", 124));
-        _lstObjMensagemUsuarioPadrao.add(new MensagemUsuario(
-            "Erro ao criar tabela no banco de dados.", 125));
-        _lstObjMensagemUsuarioPadrao.add(new MensagemUsuario("Erro ao excluir registro.", 126));
-        _lstObjMensagemUsuarioPadrao.add(new MensagemUsuario(
-            "Erro ao verificar se tabela existe no banco de dados.", 127));
-        _lstObjMensagemUsuarioPadrao.add(new MensagemUsuario(
-            "Erro ao recuperar tabela no banco de dados.", 128));
-        _lstObjMensagemUsuarioPadrao.add(new MensagemUsuario(
-            "Erro ao inserir registro no banco de dados.", 129));
-        _lstObjMensagemUsuarioPadrao.add(new MensagemUsuario(
-            "Erro ao inserir registro aleatório no banco de dados.", 130));
-        _lstObjMensagemUsuarioPadrao.add(new MensagemUsuario(
-            "Erro ao zerar valores das colunas no registro.", 131));
-        _lstObjMensagemUsuarioPadrao.add(new MensagemUsuario(
-            "Erro ao verificar filtro no item da lista.", 132));
-        _lstObjMensagemUsuarioPadrao.add(new MensagemUsuario(
-            "Erro ao criar objeto do tipo 'TblCliente'.", 133));
-        _lstObjMensagemUsuarioPadrao.add(new MensagemUsuario(
-            "Erro ao criar objeto do tipo 'TblMain'.", 134));
-        _lstObjMensagemUsuarioPadrao.add(new MensagemUsuario(
-            "Erro ao criar objeto do tipo 'TblPessoa'.", 135));
-        _lstObjMensagemUsuarioPadrao.add(new MensagemUsuario(
-            "Erro ao criar objeto do tipo 'TblUsuario'.", 136));
-        _lstObjMensagemUsuarioPadrao.add(new MensagemUsuario(
-            "Erro ao criar objeto do tipo 'ConfigItem'.", 137));
-
-        // Fim mensagens
-
+      if (_lstMsgUsuarioPadrao != null) {
+        return _lstMsgUsuarioPadrao;
       }
+
+      _lstMsgUsuarioPadrao = new ArrayList<MsgUsuario>();
+
+      _lstMsgUsuarioPadrao.add(new MsgUsuario("Erro inesperado..", 0));
+      _lstMsgUsuarioPadrao.add(new MsgUsuario("Erro ao recuperar o IMEI do aparelho.", 100));
+      _lstMsgUsuarioPadrao.add(new MsgUsuario("Erro ao recuperar contexto do aplicativo.", 101));
+      _lstMsgUsuarioPadrao.add(new MsgUsuario("Erro ao recuperar banco de dados principal.", 102));
+      _lstMsgUsuarioPadrao.add(new MsgUsuario("Erro ao recuperar mensagem de usuário.", 103));
+      _lstMsgUsuarioPadrao.add(new MsgUsuario("Erro ao mostrar notificação na tela.", 104));
+      _lstMsgUsuarioPadrao.add(new MsgUsuario("Erro ao criar objeto do tipo 'FtpClient'.", 105));
+      _lstMsgUsuarioPadrao.add(new MsgUsuario("Erro ao criar objeto do tipo 'Ftp'.", 106));
+      _lstMsgUsuarioPadrao.add(new MsgUsuario("Erro ao criar objeto do tipo 'MensagemUsuario'.",
+          107));
+      _lstMsgUsuarioPadrao.add(new MsgUsuario("Erro ao criar objeto do tipo 'Objeto'.", 108));
+      _lstMsgUsuarioPadrao.add(new MsgUsuario("Erro ao arredondar valor.", 109));
+      _lstMsgUsuarioPadrao.add(new MsgUsuario("Erro ao recuperar data atual.", 110));
+      _lstMsgUsuarioPadrao.add(new MsgUsuario("Erro ao gerar cor aleatória.", 110));
+      _lstMsgUsuarioPadrao.add(new MsgUsuario("Erro ao gerar texto aleatório.", 111));
+      _lstMsgUsuarioPadrao.add(new MsgUsuario("Erro ao gerar MD5.", 112));
+      _lstMsgUsuarioPadrao.add(new MsgUsuario("Erro ao adicionar fragmento à tela.", 113));
+      _lstMsgUsuarioPadrao.add(new MsgUsuario("Erro ao montar layout da tela.", 114));
+      _lstMsgUsuarioPadrao.add(new MsgUsuario("Erro ao fechar tela.", 115));
+      _lstMsgUsuarioPadrao.add(new MsgUsuario("Erro ao setar eventos da tela.", 116));
+      _lstMsgUsuarioPadrao.add(new MsgUsuario("Erro ao criar tela.", 117));
+      _lstMsgUsuarioPadrao.add(new MsgUsuario("Erro ao criar objeto do tipo 'DataBase'.", 118));
+      _lstMsgUsuarioPadrao.add(new MsgUsuario("Erro ao executar SQL.", 119));
+      _lstMsgUsuarioPadrao.add(new MsgUsuario("Erro ao criar objeto do tipo 'DbColuna'.", 120));
+      _lstMsgUsuarioPadrao.add(new MsgUsuario("Erro ao criar objeto do tipo 'DbFiltro'.", 121));
+      _lstMsgUsuarioPadrao.add(new MsgUsuario("Erro ao criar objeto do tipo 'dbTabela'.", 122));
+      _lstMsgUsuarioPadrao.add(new MsgUsuario("Erro ao abrir tela.", 123));
+      _lstMsgUsuarioPadrao.add(new MsgUsuario("Erro ao buscar registro no banco de dados.", 124));
+      _lstMsgUsuarioPadrao.add(new MsgUsuario("Erro ao criar tabela no banco de dados.", 125));
+      _lstMsgUsuarioPadrao.add(new MsgUsuario("Erro ao excluir registro.", 126));
+      _lstMsgUsuarioPadrao.add(new MsgUsuario(
+          "Erro ao verificar se tabela existe no banco de dados.", 127));
+      _lstMsgUsuarioPadrao.add(new MsgUsuario("Erro ao recuperar tabela no banco de dados.", 128));
+      _lstMsgUsuarioPadrao.add(new MsgUsuario("Erro ao inserir registro no banco de dados.", 129));
+      _lstMsgUsuarioPadrao.add(new MsgUsuario(
+          "Erro ao inserir registro aleatório no banco de dados.", 130));
+      _lstMsgUsuarioPadrao
+          .add(new MsgUsuario("Erro ao zerar valores das colunas no registro.", 131));
+      _lstMsgUsuarioPadrao.add(new MsgUsuario("Erro ao verificar filtro no item da lista.", 132));
+      _lstMsgUsuarioPadrao.add(new MsgUsuario("Erro ao criar objeto do tipo 'TblCliente'.", 133));
+      _lstMsgUsuarioPadrao.add(new MsgUsuario("Erro ao criar objeto do tipo 'TblMain'.", 134));
+      _lstMsgUsuarioPadrao.add(new MsgUsuario("Erro ao criar objeto do tipo 'TblPessoa'.", 135));
+      _lstMsgUsuarioPadrao.add(new MsgUsuario("Erro ao criar objeto do tipo 'TblUsuario'.", 136));
+      _lstMsgUsuarioPadrao.add(new MsgUsuario("Erro ao criar objeto do tipo 'ConfigItem'.", 137));
 
       // FIM AÇÕES
     } catch (Exception ex) {
 
-      new Erro(this.getStrMensagemUsuarioPadrao(0), ex);
+      new Erro(this.getStrMsgUsuarioPadrao(0), ex);
 
     } finally {
     }
 
-    return _lstObjMensagemUsuarioPadrao;
+    return _lstMsgUsuarioPadrao;
   }
 
   public List<DbTabela> getLstTbl() {
@@ -178,9 +148,11 @@ public abstract class App extends Objeto {
     try {
       // AÇÕES
 
-      if (_lstTbl == null) {
-        _lstTbl = new ArrayList<DbTabela>();
+      if (_lstTbl != null) {
+        return _lstTbl;
       }
+
+      _lstTbl = new ArrayList<DbTabela>();
 
       // FIM AÇÕES
     } catch (Exception ex) {
@@ -193,16 +165,17 @@ public abstract class App extends Objeto {
     return _lstTbl;
   }
 
-  public DataBase getObjDataBasePrincipal() {
+  public DataBase getObjDbPrincipal() {
     // VARIÁVEIS
     // FIM VARIÁVEIS
     try {
       // AÇÕES
 
-      if (_objDataBasePrincipal == null) {
-        _objDataBasePrincipal = new DataBase(this.getStrNomeSimplificado(), this.getActMain()
-            .getApplicationContext());
+      if (_objDbPrincipal != null) {
+        return _objDbPrincipal;
       }
+
+      _objDbPrincipal = new DataBase(this.getStrNomeSimplificado(), this.getCnt());
 
       // FIM AÇÕES
     } catch (Exception ex) {
@@ -212,7 +185,7 @@ public abstract class App extends Objeto {
     } finally {
     }
 
-    return _objDataBasePrincipal;
+    return _objDbPrincipal;
   }
 
   public Gson getObjGson() {
@@ -238,30 +211,30 @@ public abstract class App extends Objeto {
     return _objGson;
   }
 
-  public String getStrMensagemUsuario(int intId) {
-    return this.getStrMensagemUsuario(intId, EnmLingua.PORTUGUES, false);
+  public String getStrMsgUsuario(int intId) {
+    return this.getStrMsgUsuario(intId, EnmLingua.PORTUGUES, false);
   }
 
-  public String getStrMensagemUsuario(int intId, EnmLingua enmLingua, boolean booMensagemPadrao) {
+  public String getStrMsgUsuario(int intId, EnmLingua enmLingua, boolean booMsgPadrao) {
     // VARIÁVEIS
 
-    List<MensagemUsuario> lstObjMensagemUsuarioTemp;
-    String strMensagemUsuarioResultado = Utils.STRING_VAZIA;
+    List<MsgUsuario> lstMsgUsuarioTemp;
+    String strResultado = Utils.STRING_VAZIA;
 
     // FIM VARIÁVEIS
     try {
       // AÇÕES
 
-      if (booMensagemPadrao) {
-        lstObjMensagemUsuarioTemp = this.getLstObjMensagemUsuarioPadrao();
+      if (booMsgPadrao) {
+        lstMsgUsuarioTemp = this.getLstMsgUsuarioPadrao();
       } else {
-        lstObjMensagemUsuarioTemp = this.getLstObjMensagemUsuario();
+        lstMsgUsuarioTemp = this.getLstMsgUsuario();
       }
 
-      for (MensagemUsuario objMensagemUsuario : lstObjMensagemUsuarioTemp) {
-        if (objMensagemUsuario.getIntId() == intId
-            && objMensagemUsuario.getEnmLingua() == enmLingua) {
-          strMensagemUsuarioResultado = objMensagemUsuario.getStrTexto();
+      for (MsgUsuario msgUsuario : lstMsgUsuarioTemp) {
+
+        if (msgUsuario.getIntId() == intId && msgUsuario.getEnmLingua() == enmLingua) {
+          strResultado = msgUsuario.getStrTexto();
           break;
         }
       }
@@ -274,32 +247,32 @@ public abstract class App extends Objeto {
     } finally {
     }
 
-    return strMensagemUsuarioResultado;
+    return strResultado;
   }
 
-  public String getStrMensagemUsuarioPadrao(int intId) {
-    return this.getStrMensagemUsuario(intId, EnmLingua.PORTUGUES, true);
+  public String getStrMsgUsuarioPadrao(int intId) {
+    return this.getStrMsgUsuario(intId, EnmLingua.PORTUGUES, true);
   }
 
   public String getStrTexto(int intId) {
-    return this.getStrMensagemUsuario(intId);
+    return this.getStrMsgUsuario(intId);
   }
 
   public String getStrTextoPadrao(int intId) {
-    return this.getStrMensagemUsuarioPadrao(intId);
+    return this.getStrMsgUsuarioPadrao(intId);
   }
 
-  public String getStrVersaoExibicao() {
-    return _strVersaoExibicao;
+  public String getStrVersao() {
+    return _strVersao;
   }
 
-  public DbTabela getTblSelecionada() {
-    return _tblSelecionada;
+  public DbTabela getTblSelec() {
+    return _tblSelec;
   }
 
   /**
-   * Limpa o cache com a lista de de itens das telas de consultas das tabelas do
-   * appp.
+   * Limpa o "cache" com a lista de de ítens das telas de consultas das tabelas
+   * do app.
    */
   public void limparTblListaConsulta() {
     // VARIÁVEIS
@@ -332,18 +305,14 @@ public abstract class App extends Objeto {
         public void run() {
           // VARIÁVEIS
 
-          int intTempo = Toast.LENGTH_SHORT;
+          int intTempo;
 
           // FIM VARIÁVEIS
           try {
             // AÇÕES
 
-            if (strMensagem.length() > 25) {
-              intTempo = Toast.LENGTH_LONG;
-            }
-
-            Toast.makeText(App.this.getContext(), strMensagem, intTempo).show();
-            ;
+            intTempo = strMensagem.length() > 25 ? Toast.LENGTH_LONG : Toast.LENGTH_SHORT;
+            Toast.makeText(App.this.getCnt(), strMensagem, intTempo).show();
 
             // FIM AÇÕES
           } catch (Exception ex) {
@@ -361,8 +330,6 @@ public abstract class App extends Objeto {
       new Erro(this.getStrTextoPadrao(104), ex);
 
     } finally {
-      // LIMPAR VARIÁVEIS
-      // FIM LIMPAR VARIÁVEIS
     }
   }
 
@@ -393,16 +360,12 @@ public abstract class App extends Objeto {
     _intVersao = intVersao;
   }
 
-  public void setLstTbl(List<DbTabela> lstTbl) {
-    _lstTbl = lstTbl;
+  public void setStrVersao(String strVersao) {
+    _strVersao = strVersao;
   }
 
-  public void setStrVersaoExibicao(String strVersaoExibicao) {
-    _strVersaoExibicao = strVersaoExibicao;
-  }
-
-  public void setTblSelecionada(DbTabela tblSelecionada) {
-    _tblSelecionada = tblSelecionada;
+  public void setTblSelec(DbTabela tblSelec) {
+    _tblSelec = tblSelec;
   }
 
 }

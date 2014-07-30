@@ -12,7 +12,7 @@ public class ArquivoDb extends Arquivo {
     try {
       // AÇÕES
 
-      this.setDirCompleto(App.getI().getContext().getDatabasePath(objDataBase.getStrNome())
+      this.setDirCompleto(App.getI().getCnt().getDatabasePath(objDataBase.getStrNome())
           .getPath());
 
       // FIM AÇÕES

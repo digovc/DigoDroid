@@ -60,7 +60,7 @@ public abstract class DbTabela extends Objeto {
     try {
       // AÇÕES
 
-      App.getI().setTblSelecionada(this);
+      App.getI().setTblSelec(this);
       objIntent = new Intent(actPai, ActConsulta.class);
       actPai.startActivityForResult(objIntent, 0);
 
@@ -817,7 +817,7 @@ public abstract class DbTabela extends Objeto {
       // AÇÕES
 
       if (_objDataBase == null) {
-        this._objDataBase = App.getI().getObjDataBasePrincipal();
+        this._objDataBase = App.getI().getObjDbPrincipal();
       }
 
       // FIM AÇÕES
