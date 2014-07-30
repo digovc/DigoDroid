@@ -30,9 +30,10 @@ public class ActErro extends ActMain {
   public Erro getErr() {
 
     try {
-      if (_err == null) {
-        _err = (Erro) this.getIntent().getSerializableExtra("Erro");
+      if (_err != null) {
+        return _err;
       }
+      _err = (Erro) this.getIntent().getSerializableExtra("Erro");
     }
     catch (Exception ex) {
       new Erro(App.getI().getStrTextoPadrao(0), ex);
@@ -45,22 +46,16 @@ public class ActErro extends ActMain {
   @Override
   protected int getIntLayoutId() {
 
-    try {
-    }
-    catch (Exception ex) {
-      new Erro(App.getI().getStrTextoPadrao(0), ex);
-    }
-    finally {
-    }
     return R.layout.act_erro;
   }
 
   private TextView getTxtAppNome() {
 
     try {
-      if (_txtAppNome == null) {
-        _txtAppNome = (TextView) this.findViewById(R.id.actErro_txtAppNome);
+      if (_txtAppNome != null) {
+        return _txtAppNome;
       }
+      _txtAppNome = this.getTextView(R.id.actErro_txtAppNome);
     }
     catch (Exception ex) {
       new Erro(App.getI().getStrTextoPadrao(0), ex);
@@ -73,9 +68,10 @@ public class ActErro extends ActMain {
   private TextView getTxtErroMensagem() {
 
     try {
-      if (_txtErroMensagem == null) {
-        _txtErroMensagem = (TextView) this.findViewById(R.id.actErro_txtErroMensagem);
+      if (_txtErroMensagem != null) {
+        return _txtErroMensagem;
       }
+      _txtErroMensagem = this.getTextView(R.id.actErro_txtErroMensagem);
     }
     catch (Exception ex) {
       new Erro(App.getI().getStrTextoPadrao(0), ex);
@@ -88,9 +84,10 @@ public class ActErro extends ActMain {
   private TextView getTxtErroTitulo() {
 
     try {
-      if (_txtErroTitulo == null) {
-        _txtErroTitulo = (TextView) this.findViewById(R.id.actErro_txtErroTitulo);
+      if (_txtErroTitulo != null) {
+        return _txtErroTitulo;
       }
+      _txtErroTitulo = this.getTextView(R.id.actErro_txtErroTitulo);
     }
     catch (Exception ex) {
       new Erro(App.getI().getStrTextoPadrao(0), ex);
@@ -104,20 +101,18 @@ public class ActErro extends ActMain {
   protected void montarLayout() {
 
     super.montarLayout();
-    String strErroMensagem;
+    String strFormatada;
     try {
       this.getTxtAppNome().setText(App.getI().getStrNome());
       this.getTxtErroTitulo().setText(this.getErr().getStrNome());
-      if (!Util.getBooStrVazia(this.getErr().getStrMensagemDetalhes())) {
-        strErroMensagem = "";
-        strErroMensagem += this.getErr().getStrMensagem();
-        strErroMensagem += "\n\nDetalhes: ";
-        strErroMensagem += this.getErr().getStrMensagemDetalhes();
-        this.getTxtErroMensagem().setText(strErroMensagem);
-      }
-      else {
+      if (Util.getBooStrVazia(this.getErr().getStrMensagemDetalhes())) {
         this.getTxtErroMensagem().setText(this.getErr().getStrMensagem());
+        return;
       }
+      strFormatada = "_msg\n\nDetalhes: _detalhe";
+      strFormatada = strFormatada.replace("_msg", this.getErr().getStrMensagem());
+      strFormatada = strFormatada.replace("_detalhe", this.getErr().getStrMensagemDetalhes());
+      this.getTxtErroMensagem().setText(strFormatada);
     }
     catch (Exception ex) {
       new Erro(App.getI().getStrTextoPadrao(0), ex);
