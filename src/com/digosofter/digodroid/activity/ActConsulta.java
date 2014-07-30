@@ -61,9 +61,10 @@ public class ActConsulta extends ActMain {
   private EditText getEdtPesquisa() {
 
     try {
-      if (_edtPesquisa == null) {
-        _edtPesquisa = (EditText) this.findViewById(R.id.actConsulta_edtPesquisa);
+      if (_edtPesquisa != null) {
+        return _edtPesquisa;
       }
+      _edtPesquisa = this.getEditText(R.id.actConsulta_edtPesquisa);
     }
     catch (Exception ex) {
       new Erro(App.getI().getStrTextoPadrao(0), ex);
@@ -76,23 +77,17 @@ public class ActConsulta extends ActMain {
   @Override
   protected int getIntLayoutId() {
 
-    try {
-    }
-    catch (Exception ex) {
-      new Erro(App.getI().getStrTextoPadrao(0), ex);
-    }
-    finally {
-    }
     return R.layout.act_consulta;
   }
 
   public ListView getPnlTblLista() {
 
     try {
-      if (_pnlTblLista == null) {
-        _pnlTblLista = (ListView) findViewById(R.id.actConsulta_pnlTblLista);
-        _pnlTblLista.setCacheColorHint(Color.TRANSPARENT);
+      if (_pnlTblLista != null) {
+        return _pnlTblLista;
       }
+      _pnlTblLista = this.getListView(R.id.actConsulta_pnlTblLista);
+      _pnlTblLista.setCacheColorHint(Color.TRANSPARENT);
     }
     catch (Exception ex) {
       new Erro(App.getI().getStrTextoPadrao(0), ex);
@@ -105,9 +100,10 @@ public class ActConsulta extends ActMain {
   public DbTabela getTbl() {
 
     try {
-      if (_tbl == null) {
-        _tbl = App.getI().getTblSelec();
+      if (_tbl != null) {
+        return _tbl;
       }
+      _tbl = App.getI().getTblSelec();
     }
     catch (Exception ex) {
       new Erro(App.getI().getStrTextoPadrao(0), ex);
@@ -120,9 +116,10 @@ public class ActConsulta extends ActMain {
   private TextView getTxtTblDescricao() {
 
     try {
-      if (_txtTblDescricao == null) {
-        _txtTblDescricao = (TextView) this.findViewById(R.id.actConsulta_pnlPesquisa);
+      if (_txtTblDescricao != null) {
+        return _txtTblDescricao;
       }
+      _txtTblDescricao = this.getTextView(R.id.actConsulta_pnlPesquisa);
     }
     catch (Exception ex) {
       new Erro(App.getI().getStrTextoPadrao(0), ex);
@@ -275,7 +272,7 @@ public class ActConsulta extends ActMain {
             objIntent.putExtra("id", objItem.getStrItemId());
             ActConsulta.this.setResult(ActConsulta.EnmResultadoTipo.REGISTRO_SELECIONADO.ordinal(),
                 objIntent);
-            finish();
+            ActConsulta.this.finish();
           }
           catch (Exception ex) {
             new Erro(App.getI().getStrTextoPadrao(115), ex);
@@ -292,16 +289,16 @@ public class ActConsulta extends ActMain {
           ItmConsulta objItem;
           Intent objIntent;
           try {
-            if (ActConsulta.this.getTbl().getClsActFrm() != null) {
-              objItem = (ItmConsulta) ActConsulta.this.getPnlTblLista().getItemAtPosition(position);
-              objIntent = new Intent(ActConsulta.this.getApplicationContext(), ActConsulta.this
-                  .getTbl().getClsActFrm());
-              objIntent.putExtra("id", objItem.getStrItemId());
-              ActConsulta.this.setResult(
-                  ActConsulta.EnmResultadoTipo.REGISTRO_SELECIONADO.ordinal(), objIntent);
-              ActConsulta.this.startActivity(objIntent);
-              // finish();
+            if (ActConsulta.this.getTbl().getClsActFrm() == null) {
+              return false;
             }
+            objItem = (ItmConsulta) ActConsulta.this.getPnlTblLista().getItemAtPosition(position);
+            objIntent = new Intent(ActConsulta.this.getApplicationContext(), ActConsulta.this
+                .getTbl().getClsActFrm());
+            objIntent.putExtra("id", objItem.getStrItemId());
+            ActConsulta.this.setResult(ActConsulta.EnmResultadoTipo.REGISTRO_SELECIONADO.ordinal(),
+                objIntent);
+            ActConsulta.this.startActivity(objIntent);
           }
           catch (Exception ex) {
             new Erro(App.getI().getStrTextoPadrao(115), ex);
@@ -322,10 +319,11 @@ public class ActConsulta extends ActMain {
         @Override
         public void onScrollStateChanged(AbsListView view, int scrollState) {
 
-          InputMethodManager inputManager;
+          InputMethodManager objIm;
           try {
-            inputManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-            inputManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(),
+            objIm = (InputMethodManager) ActConsulta.this
+                .getSystemService(Context.INPUT_METHOD_SERVICE);
+            objIm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(),
                 InputMethodManager.HIDE_NOT_ALWAYS);
           }
           catch (Exception ex) {

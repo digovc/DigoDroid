@@ -9,6 +9,7 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -42,6 +43,11 @@ public abstract class ActMain extends ActionBarActivity {
   public Button getButton(int intId) {
 
     return (Button) this.getView(intId);
+  }
+
+  public ListView getListView(int intId) {
+
+    return (ListView) this.getView(intId);
   }
 
   public CheckBox getCheckBox(int intId) {
