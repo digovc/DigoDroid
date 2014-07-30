@@ -6,76 +6,72 @@ import com.digosofter.digodroid.erro.Erro;
 
 public class Ftp extends Objeto {
 
-  private FTPClient _objFtpClient;
-
+  private FTPClient _ftpClient;
   private String _strLogin;
-
   private String _strPassword;
+  private String _url;
 
-  private String _strUrl;
+  public Ftp(String url, String strLogin, String strPassword) {
 
-  public Ftp(String strUrl, String strLogin, String strPassword) {
-    // VARIÁVEIS
-
-    this.setStrUrl(strUrl);
-    this.setStrLogin(strLogin);
-    this.setStrPassword(strPassword);
-
-    // FIM VARIÁVEIS
     try {
-      // AÇÕES
-      // FIM AÇÕES
-    } catch (Exception ex) {
-
-      new Erro(App.getI().getStrTextoPadrao(106), ex);
-
-    } finally {
+      this.setUrl(url);
+      this.setStrLogin(strLogin);
+      this.setStrPassword(strPassword);
+    }
+    catch (Exception ex) {
+      new Erro("Erro inesperado.\n", ex);
+    }
+    finally {
     }
   }
 
-  protected FTPClient getObjFtpClient() {
+  protected FTPClient getFtpClient() {
+
     // VARIÁVEIS
     // FIM VARIÁVEIS
     try {
       // AÇÕES
-
-      if (_objFtpClient == null) {
-        _objFtpClient = new FTPClient();
+      if (_ftpClient != null) {
+        return _ftpClient;
       }
-
+      _ftpClient = new FTPClient();
       // FIM AÇÕES
-    } catch (Exception ex) {
-
-      new Erro(App.getI().getStrTextoPadrao(105), ex);
-
-    } finally {
     }
-
-    return _objFtpClient;
+    catch (Exception ex) {
+      new Erro(App.getI().getStrTextoPadrao(105), ex);
+    }
+    finally {
+    }
+    return _ftpClient;
   }
 
   protected String getStrLogin() {
+
     return _strLogin;
   }
 
   protected String getStrPassword() {
+
     return _strPassword;
   }
 
-  protected String getStrUrl() {
-    return _strUrl;
+  protected String getUrl() {
+
+    return _url;
   }
 
   private void setStrLogin(String strLogin) {
+
     _strLogin = strLogin;
   }
 
   private void setStrPassword(String strPassword) {
+
     _strPassword = strPassword;
   }
 
-  private void setStrUrl(String strUrl) {
-    _strUrl = strUrl;
-  }
+  private void setUrl(String url) {
 
+    _url = url;
+  }
 }
