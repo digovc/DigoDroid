@@ -16,126 +16,101 @@ public class DbFiltro extends Objeto {
   }
 
   private boolean _booSubSelect;
-
   private DbColuna _clnFiltro;
-
   private EnmOperador _enmOperador = EnmOperador.IGUAL;
-
   private String _strCondicao = "AND";
-
   private String _strFiltro;
-
   private String _strOperador;
 
   public DbFiltro(DbColuna clnFiltro, EnmOperador enmOperador, int intFiltro) {
-    // VARIÁVEIS
-    // FIM VARIÁVEIS
-    try {
-      // AÇÕES
 
+    try {
       this.setClnFiltro(clnFiltro);
       this.setStrFiltro(String.valueOf(intFiltro));
       this.setEnmOperador(enmOperador);
-
-      // FIM AÇÕES
-    } catch (Exception ex) {
-
+    }
+    catch (Exception ex) {
       new Erro(App.getI().getStrTextoPadrao(0), ex);
-
-    } finally {
+    }
+    finally {
     }
   }
 
   public DbFiltro(DbColuna clnFiltro, EnmOperador enmOperador, String strFiltro) {
-    // VARIÁVEIS
-    // FIM VARIÁVEIS
-    try {
-      // AÇÕES
 
+    try {
       this.setClnFiltro(clnFiltro);
       this.setStrFiltro(strFiltro);
       this.setEnmOperador(enmOperador);
-
-      // FIM AÇÕES
-    } catch (Exception ex) {
-
+    }
+    catch (Exception ex) {
       new Erro(App.getI().getStrTextoPadrao(0), ex);
-
-    } finally {
+    }
+    finally {
     }
   }
 
   public DbFiltro(DbColuna clnFiltro, int intFiltro) {
-    // VARIÁVEIS
-    // FIM VARIÁVEIS
-    try {
-      // AÇÕES
 
+    try {
       this.setClnFiltro(clnFiltro);
       this.setStrFiltro(String.valueOf(intFiltro));
-
-      // FIM AÇÕES
-    } catch (Exception ex) {
-
+    }
+    catch (Exception ex) {
       new Erro(App.getI().getStrTextoPadrao(121), ex);
-
-    } finally {
+    }
+    finally {
     }
   }
 
   public DbFiltro(DbColuna clnFiltro, String strFiltro) {
-    // VARIÁVEIS
-    // FIM VARIÁVEIS
-    try {
-      // AÇÕES
 
+    try {
       this.setClnFiltro(clnFiltro);
       this.setStrFiltro(strFiltro);
-
-      // FIM AÇÕES
-    } catch (Exception ex) {
-
+    }
+    catch (Exception ex) {
       new Erro(App.getI().getStrTextoPadrao(121), ex);
-
-    } finally {
+    }
+    finally {
     }
   }
 
   public DbFiltro(String strSubSelect) {
-    // VARIÁVEIS
-    // FIM VARIÁVEIS
-    try {
-      // AÇÕES
 
+    try {
       this.setBooSubSelect(true);
       this.setStrFiltro(strSubSelect);
-
-      // FIM AÇÕES
-    } catch (Exception ex) {
-
+    }
+    catch (Exception ex) {
       new Erro(App.getI().getStrTextoPadrao(121), ex);
-
-    } finally {
+    }
+    finally {
     }
   }
 
   private boolean getBooSubSelect() {
+
     return _booSubSelect;
   }
 
   private DbColuna getClnFiltro() {
+
     return _clnFiltro;
   }
 
   private EnmOperador getEnmOperador() {
+
     return _enmOperador;
   }
 
   private String getStrCondicao() {
+
     return _strCondicao;
   }
 
   private String getStrFiltro() {
+
     return _strFiltro;
   }
 
@@ -144,25 +119,16 @@ public class DbFiltro extends Objeto {
    *
    */
   public String getStrFiltroFormatado(boolean booPrimeiroTermo) {
-    // VARIÁVEIS
 
     StringBuilder stbResultado = null;
-
-    // FIM VARIÁVEIS
     try {
-      // AÇÕES
-
       stbResultado = new StringBuilder();
       stbResultado.append(" ");
-
       if (!booPrimeiroTermo) {
-
         stbResultado.append(this.getStrCondicao());
         stbResultado.append(" ");
       }
-
       if (!this.getBooSubSelect()) {
-
         stbResultado.append(this.getClnFiltro().getTbl().getStrNomeSimplificado());
         stbResultado.append(".");
         stbResultado.append(this.getClnFiltro().getStrNomeSimplificado());
@@ -170,31 +136,24 @@ public class DbFiltro extends Objeto {
         stbResultado.append("'");
         stbResultado.append(this.getStrFiltro());
         stbResultado.append("'");
-
-      } else {
-
+      }
+      else {
         // stbResultado.append("(");
         stbResultado.append(this.getStrFiltro());
         // stbResultado.append(") ");
       }
-
-      // FIM AÇÕES
-    } catch (Exception ex) {
-
-      new Erro(App.getI().getStrTextoPadrao(0), ex);
-
-    } finally {
     }
-
+    catch (Exception ex) {
+      new Erro(App.getI().getStrTextoPadrao(0), ex);
+    }
+    finally {
+    }
     return stbResultado.toString();
   }
 
   private String getStrOperador() {
-    // VARIÁVEIS
-    // FIM VARIÁVEIS
-    try {
-      // AÇÕES
 
+    try {
       switch (this.getEnmOperador()) {
         case DIFERENTE:
           _strOperador = "<>";
@@ -218,36 +177,37 @@ public class DbFiltro extends Objeto {
           _strOperador = "=";
           break;
       }
-
-      // FIM AÇÕES
-    } catch (Exception ex) {
-
-      new Erro(App.getI().getStrTextoPadrao(0), ex);
-
-    } finally {
     }
-
+    catch (Exception ex) {
+      new Erro(App.getI().getStrTextoPadrao(0), ex);
+    }
+    finally {
+    }
     return _strOperador;
   }
 
   private void setBooSubSelect(boolean booSubSelect) {
+
     _booSubSelect = booSubSelect;
   }
 
   private void setClnFiltro(DbColuna clnFiltro) {
+
     _clnFiltro = clnFiltro;
   }
 
   public void setEnmOperador(EnmOperador enmOperador) {
+
     _enmOperador = enmOperador;
   }
 
   public void setStrCondicao(String strCondicao) {
+
     _strCondicao = strCondicao;
   }
 
   private void setStrFiltro(String strFiltro) {
+
     _strFiltro = strFiltro;
   }
-
 }

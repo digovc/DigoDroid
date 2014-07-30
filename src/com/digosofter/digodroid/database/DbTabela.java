@@ -32,76 +32,55 @@ public abstract class DbTabela extends Objeto {
   private String _strPesquisaActConsulta;
 
   public DbTabela(String strNome) {
-    // VARIÁVEIS
-    // FIM VARIÁVEIS
-    try {
-      // AÇÕES
 
+    try {
       App.getI().getLstTbl().add(this);
       this.setStrNome(strNome);
       this.inicializarColunas(-1);
       this.criarTabela();
-
-      // FIM AÇÕES
-    } catch (Exception ex) {
-
+    }
+    catch (Exception ex) {
       new Erro(App.getI().getStrTextoPadrao(122), ex);
-
-    } finally {
+    }
+    finally {
     }
   }
 
   public void abrirTelaCadastro(Activity actPai) {
-    // VARIÁVEIS
 
     Intent objIntent;
-
-    // FIM VARIÁVEIS
     try {
-      // AÇÕES
-
       App.getI().setTblSelec(this);
       objIntent = new Intent(actPai, ActConsulta.class);
       actPai.startActivityForResult(objIntent, 0);
-
-      // FIM AÇÕES
-    } catch (Exception ex) {
-
+    }
+    catch (Exception ex) {
       new Erro(App.getI().getStrTextoPadrao(123), ex);
-
-    } finally {
+    }
+    finally {
     }
   }
 
   public void buscarRegistro(DbColuna clnFiltro, int intValor) {
+
     this.buscarRegistro(clnFiltro, String.valueOf(intValor));
   }
 
   public void buscarRegistro(DbColuna clnFiltro, String strValorFiltro) {
-    // VARIÁVEIS
 
     Cursor crs;
-
     int intColunaIndex = 0;
-
     String sql;
     String strColunasNomes = Utils.STRING_VAZIA;
-
-    // FIM VARIÁVEIS
     try {
-      // AÇÕES
-
       for (DbColuna cln : this.getLstCln()) {
-
         cln.setStrValor(null);
         strColunasNomes += cln.getTbl().getStrNomeSimplificado();
         strColunasNomes += ".";
         strColunasNomes += cln.getStrNomeSimplificado();
         strColunasNomes += ",";
       }
-
       strColunasNomes = Utils.removerUltimaLetra(strColunasNomes);
-
       sql = "SELECT ";
       sql += strColunasNomes;
       sql += " FROM ";
@@ -113,335 +92,247 @@ public abstract class DbTabela extends Objeto {
       sql += "='";
       sql += strValorFiltro;
       sql += "';";
-
       crs = this.getObjDataBase().execSqlComRetorno(sql);
-
       if (crs != null && crs.moveToFirst()) {
-
         do {
-
           this.getLstCln().get(intColunaIndex).setStrValor(crs.getString(intColunaIndex));
           intColunaIndex++;
-
-        } while (intColunaIndex < crs.getColumnCount());
+        }
+        while (intColunaIndex < crs.getColumnCount());
       }
-
-      // FIM AÇÕES
-    } catch (Exception ex) {
-
+    }
+    catch (Exception ex) {
       new Erro(App.getI().getStrTextoPadrao(124), ex);
-
-    } finally {
+    }
+    finally {
     }
   }
 
   public void buscarRegistroPelaChavePrimaria(int intId) {
+
     this.buscarRegistro(this.getClnChavePrimaria(), String.valueOf(intId));
   }
 
   public void buscarRegistroPelaChavePrimaria(String strId) {
+
     this.buscarRegistro(this.getClnChavePrimaria(), strId);
   }
 
   public void criarTabela() {
-    // VARIÁVEIS
 
     String sql = Utils.STRING_VAZIA;
-
-    // FIM VARIÁVEIS
-
     try {
-
-      // AÇÕES
-
       if (!this.getBooTabelaExiste()) {
-
         sql += "CREATE TABLE IF NOT EXISTS ";
         sql += this.getStrNomeSimplificado();
         sql += "(";
-
         for (DbColuna cln : this.getLstCln()) {
           sql += cln.getStrNomeSimplificado();
           sql += " ";
           sql += cln.getStrSqlTipo();
-
           if (cln.getEnmTipo() == EnmTipo.TEXT) {
             sql += cln.getBooChavePrimaria() ? " PRIMARY KEY" : Utils.STRING_VAZIA;
-          } else {
+          }
+          else {
             sql += cln.getBooChavePrimaria() ? " PRIMARY KEY AUTOINCREMENT" : Utils.STRING_VAZIA;
           }
-
           if (cln.getStrValorDefault() != null) {
             sql += " DEFAULT '" + cln.getStrValorDefault() + "'";
           }
-
           sql += ",";
         }
-
         sql = Utils.removerUltimaLetra(sql);
         sql += ");";
-
         this.getObjDataBase().execSqlSemRetorno(sql);
       }
-
-      // FIM AÇÕES
-
-    } catch (Exception ex) {
-
+    }
+    catch (Exception ex) {
       new Erro(App.getI().getStrTextoPadrao(124), ex);
-
-    } finally {
+    }
+    finally {
       // LIMPAR VARIÁVEIS
       // FIM LIMPAR VARIÁVEIS
     }
   }
 
   public void excluir(int intId) {
+
     this.excluir(String.valueOf(intId));
   }
 
   public void excluir(String strId) {
-    // VARIÁVEIS
 
     String sql = Utils.STRING_VAZIA;
-
-    // FIM VARIÁVEIS
     try {
-      // AÇÕES
-
       sql = "DELETE FROM " + this.getStrNomeSimplificado() + " WHERE "
           + this.getClnChavePrimaria().getStrNomeSimplificado() + "= '" + strId + "';";
-
       this.getObjDataBase().execSqlSemRetorno(sql);
-
-      // FIM AÇÕES
-    } catch (Exception ex) {
-
+    }
+    catch (Exception ex) {
       new Erro(App.getI().getStrTextoPadrao(126), ex);
-
-    } finally {
+    }
+    finally {
     }
   }
 
   public boolean getBooPermitirCadastroNovo() {
+
     return _booPermitirCadastroNovo;
   }
 
   public boolean getBooSincronizar() {
+
     return _booSincronizar;
   }
 
   private boolean getBooTabelaExiste() {
-    // VARIÁVEIS
 
     boolean booResultado = false;
     Cursor crs;
     String sql;
-
-    // FIM VARIÁVEIS
     try {
-      // AÇÕES
-
       sql = "SELECT name FROM sqlite_master WHERE type='table' AND name='_tbl_nome_simplificado';";
       sql = sql.replace("_tbl_nome_simplificado", this.getStrNomeSimplificado());
-
       crs = this.getObjDataBase().execSqlComRetorno(sql);
       crs.moveToFirst();
-
       if (crs != null && crs.moveToFirst() && crs.getCount() > 0) {
         booResultado = true;
       }
-
-      // FIM AÇÕES
-    } catch (Exception ex) {
-
+    }
+    catch (Exception ex) {
       new Erro(App.getI().getStrTextoPadrao(127), ex);
-
-    } finally {
+    }
+    finally {
       crs = null;
     }
-
     return booResultado;
   }
 
   public DbColuna getClnChavePrimaria() {
-    // VARIÁVEIS
-    // FIM VARIÁVEIS
-    try {
-      // AÇÕES
 
+    try {
       if (_clnChavePrimaria == null) {
         _clnChavePrimaria = this.getLstCln().get(0);
       }
-
-      // FIM AÇÕES
-    } catch (Exception ex) {
-
-      new Erro(App.getI().getStrTextoPadrao(0), ex);
-
-    } finally {
     }
-
+    catch (Exception ex) {
+      new Erro(App.getI().getStrTextoPadrao(0), ex);
+    }
+    finally {
+    }
     return _clnChavePrimaria;
   }
 
   public DbColuna getClnNome() {
-    // VARIÁVEIS
-    // FIM VARIÁVEIS
-    try {
-      // AÇÕES
 
+    try {
       if (_clnNome == null) {
         _clnNome = this.getClnChavePrimaria();
       }
-
-      // FIM AÇÕES
-    } catch (Exception ex) {
-
-      new Erro(App.getI().getStrTextoPadrao(0), ex);
-
-    } finally {
     }
-
+    catch (Exception ex) {
+      new Erro(App.getI().getStrTextoPadrao(0), ex);
+    }
+    finally {
+    }
     return _clnNome;
   }
 
   public DbColuna getClnOrdemCadastro() {
-    // VARIÁVEIS
-    // FIM VARIÁVEIS
-    try {
-      // AÇÕES
 
+    try {
       if (_clnOrdemCadastro == null) {
         _clnOrdemCadastro = this.getClnChavePrimaria();
       }
-
-      // FIM AÇÕES
-    } catch (Exception ex) {
-
-      new Erro(App.getI().getStrTextoPadrao(0), ex);
-
-    } finally {
     }
-
+    catch (Exception ex) {
+      new Erro(App.getI().getStrTextoPadrao(0), ex);
+    }
+    finally {
+    }
     return _clnOrdemCadastro;
   }
 
   public Class<?> getClsActFrm() {
+
     return _clsActFrm;
   }
 
   public Cursor getCrsDados() {
+
     return this.getCrsDados(this.getLstCln(), null);
   }
 
   public Cursor getCrsDados(DbColuna cln) {
-    // VARIÁVEIS
 
     List<DbColuna> lstCln = null;
-
-    // FIM VARIÁVEIS
     try {
-      // AÇÕES
-
       lstCln = new ArrayList<DbColuna>();
       lstCln.add(cln);
-
-      // FIM AÇÕES
-    } catch (Exception ex) {
-
-      new Erro(App.getI().getStrTextoPadrao(0), ex);
-
-    } finally {
     }
-
+    catch (Exception ex) {
+      new Erro(App.getI().getStrTextoPadrao(0), ex);
+    }
+    finally {
+    }
     return this.getCrsDados(lstCln, null);
   }
 
   public Cursor getCrsDados(DbColuna cln, List<DbFiltro> lstObjDbFiltro) {
-    // VARIÁVEIS
 
     List<DbColuna> lstCln = null;
-
-    // FIM VARIÁVEIS
     try {
-      // AÇÕES
-
       lstCln = new ArrayList<DbColuna>();
       lstCln.add(cln);
-
-      // FIM AÇÕES
-    } catch (Exception ex) {
-
-      new Erro(App.getI().getStrTextoPadrao(0), ex);
-
-    } finally {
     }
-
+    catch (Exception ex) {
+      new Erro(App.getI().getStrTextoPadrao(0), ex);
+    }
+    finally {
+    }
     return this.getCrsDados(lstCln, lstObjDbFiltro);
   }
 
   public Cursor getCrsDados(DbColuna clnFiltro, String strFiltro) {
-    // VARIÁVEIS
 
     Cursor crsResultado = null;
     ArrayList<DbFiltro> lstObjDbFiltro;
-
-    // FIM VARIÁVEIS
     try {
-      // AÇÕES
-
       lstObjDbFiltro = new ArrayList<DbFiltro>();
       lstObjDbFiltro.add(new DbFiltro(clnFiltro, strFiltro));
       crsResultado = this.getCrsDados(lstObjDbFiltro);
-
-      // FIM AÇÕES
-    } catch (Exception ex) {
-
+    }
+    catch (Exception ex) {
       new Erro(App.getI().getStrTextoPadrao(128), ex);
-
-    } finally {
+    }
+    finally {
     }
     return crsResultado;
   }
 
   public Cursor getCrsDados(List<DbColuna> lstCln, List<DbFiltro> lstObjDbFiltro) {
-    // VARIÁVEIS
 
     boolean booPrimeiroTermo = true;
-
     Cursor crsResultado = null;
-
     String sql;
     String strClnNome = Utils.STRING_VAZIA;
     String strFiltro = Utils.STRING_VAZIA;
     String strClnOrdemNome;
-
-    // FIM VARIÁVEIS
     try {
-      // AÇÕES
-
       if (lstObjDbFiltro != null) {
-
         for (DbFiltro objDbFiltro : lstObjDbFiltro) {
-
           strFiltro += objDbFiltro.getStrFiltroFormatado(booPrimeiroTermo);
           booPrimeiroTermo = false;
         }
       }
-
       for (DbColuna cln : lstCln) {
-
         strClnNome += cln.getTbl().getStrNomeSimplificado();
         strClnNome += ".";
         strClnNome += cln.getStrNomeSimplificado();
         strClnNome += ",";
       }
-
       strClnNome = Utils.removerUltimaLetra(strClnNome);
-
       strClnOrdemNome = this.getClnOrdemCadastro().getStrNomeSimplificado();
-
       sql = "SELECT ";
       sql += strClnNome;
       sql += " FROM ";
@@ -449,64 +340,48 @@ public abstract class DbTabela extends Objeto {
       sql += strFiltro.isEmpty() ? Utils.STRING_VAZIA : " WHERE" + strFiltro;
       sql += strClnOrdemNome.isEmpty() ? Utils.STRING_VAZIA : " ORDER BY " + strClnOrdemNome;
       sql += ";";
-
       crsResultado = this.getObjDataBase().execSqlComRetorno(sql);
-
-      // FIM AÇÕES
-    } catch (Exception ex) {
-
-      new Erro(App.getI().getStrTextoPadrao(128), ex);
-
-    } finally {
     }
-
+    catch (Exception ex) {
+      new Erro(App.getI().getStrTextoPadrao(128), ex);
+    }
+    finally {
+    }
     return crsResultado;
   }
 
   public Cursor getCrsDados(List<DbFiltro> lstObjDbFiltro) {
+
     return this.getCrsDados(this.getLstCln(), lstObjDbFiltro);
   }
 
   public Cursor getCrsDadosTelaCadastro() {
+
     return this.getCrsDadosTelaCadastro(this.getLstDbFiltroTelaCadastro());
   }
 
   public Cursor getCrsDadosTelaCadastro(List<DbFiltro> lstObjDbFiltro) {
-    // VARIÁVEIS
 
     boolean booPrimeiroTermo = true;
-
     Cursor crsResultado = null;
-
     int intNumeroColuna = 0;
-
     String sql;
     String strClnNome;
     String strFiltro = Utils.STRING_VAZIA;
     String strClnOrdemNome;
-
-    // FIM VARIÁVEIS
     try {
-      // AÇÕES
-
       if (lstObjDbFiltro.size() > 0) {
-
         for (DbFiltro objDbFiltro : lstObjDbFiltro) {
-
           strFiltro += objDbFiltro.getStrFiltroFormatado(booPrimeiroTermo);
           booPrimeiroTermo = false;
         }
-
         lstObjDbFiltro.clear();
       }
-
       strClnNome = this.getStrNomeSimplificado();
       strClnNome += ".";
       strClnNome += this.getClnChavePrimaria().getStrNomeSimplificado();
       strClnNome += ",";
-
       if (this.getClnNome().getClnReferencia() != null) {
-
         strClnNome += "(SELECT ";
         strClnNome += this.getClnNome().getClnReferencia().getTbl().getStrNomeSimplificado();
         strClnNome += ".";
@@ -523,21 +398,16 @@ public abstract class DbTabela extends Objeto {
         strClnNome += ".";
         strClnNome += this.getClnNome().getStrNomeSimplificado();
         strClnNome += ") _strNomeB,";
-
-      } else {
-
+      }
+      else {
         strClnNome += this.getStrNomeSimplificado();
         strClnNome += ".";
         strClnNome += this.getClnNome().getStrNomeSimplificado();
         strClnNome += ",";
       }
-
       for (DbColuna cln : this.getLstCln()) {
-
         if (cln.getBooVisivelCadastro() && !cln.getBooClnNome()) {
-
           if (cln.getClnReferencia() != null) {
-
             strClnNome += "(SELECT ";
             strClnNome += cln.getClnReferencia().getTbl().getStrNomeSimplificado();
             strClnNome += ".";
@@ -556,36 +426,30 @@ public abstract class DbTabela extends Objeto {
             strClnNome += ")";
             strClnNome += cln.getStrNomeSimplificado();
             strClnNome += ",";
-
-          } else {
-
+          }
+          else {
             strClnNome += this.getStrNomeSimplificado();
             strClnNome += ".";
             strClnNome += cln.getStrNomeSimplificado();
             strClnNome += ",";
           }
-
           intNumeroColuna++;
         }
-
         if (intNumeroColuna == 3) {
           break;
         }
       }
-
       if (this.getClnOrdemCadastro().getClnReferencia() == null) {
         strClnOrdemNome = this.getClnOrdemCadastro().getStrNomeSimplificado();
-      } else {
+      }
+      else {
         strClnOrdemNome = "_strNomeB";
       }
-
       if (!strClnOrdemNome.equals(Utils.STRING_VAZIA)
           && this.getClnOrdemCadastro().getBooOrdemDecrecente()) {
         strClnOrdemNome += " DESC";
       }
-
       strClnNome = Utils.removerUltimaLetra(strClnNome);
-
       sql = "SELECT ";
       sql += strClnNome;
       sql += " FROM ";
@@ -593,156 +457,109 @@ public abstract class DbTabela extends Objeto {
       sql += strFiltro.isEmpty() ? Utils.STRING_VAZIA : " WHERE " + strFiltro;
       sql += strClnOrdemNome.isEmpty() ? Utils.STRING_VAZIA : " ORDER BY " + strClnOrdemNome;
       sql += ";";
-
       crsResultado = this.getObjDataBase().execSqlComRetorno(sql);
-
-      // FIM AÇÕES
-    } catch (Exception ex) {
-
-      new Erro(App.getI().getStrTextoPadrao(128), ex);
-
-    } finally {
     }
-
+    catch (Exception ex) {
+      new Erro(App.getI().getStrTextoPadrao(128), ex);
+    }
+    finally {
+    }
     return crsResultado;
   }
 
   public int getIntQtdLinha() {
-    // VARIÁVEIS
 
     String sql;
-
-    // FIM VARIÁVEIS
     try {
-      // AÇÕES
-
       sql = "SELECT COUNT(" + this.getClnChavePrimaria().getStrNomeSimplificado() + ") FROM "
           + this.getStrNomeSimplificado() + ";";
       _intQtdLinha = this.getObjDataBase().execSqlGetInt(sql);
-
-      // FIM AÇÕES
-    } catch (Exception ex) {
-
-      _intQtdLinha = 0;
-
-    } finally {
     }
-
+    catch (Exception ex) {
+      _intQtdLinha = 0;
+    }
+    finally {
+    }
     return _intQtdLinha;
   }
 
   public List<DbColuna> getLstCln() {
-    // VARIÁVEIS
-    // FIM VARIÁVEIS
-    try {
-      // AÇÕES
 
+    try {
       if (_lstCln == null) {
         _lstCln = new ArrayList<DbColuna>();
       }
-
-      // FIM AÇÕES
-    } catch (Exception ex) {
-
-      new Erro(App.getI().getStrTextoPadrao(0), ex);
-
-    } finally {
     }
-
+    catch (Exception ex) {
+      new Erro(App.getI().getStrTextoPadrao(0), ex);
+    }
+    finally {
+    }
     return _lstCln;
   }
 
   public ArrayList<DbFiltro> getLstDbFiltroTelaCadastro() {
-    // VARIÁVEIS
-    // FIM VARIÁVEIS
-    try {
-      // AÇÕES
 
+    try {
       if (_lstDbFiltroTelaCadastro == null) {
         _lstDbFiltroTelaCadastro = new ArrayList<DbFiltro>();
       }
-
-      // FIM AÇÕES
-    } catch (Exception ex) {
-
-      new Erro(App.getI().getStrTextoPadrao(0), ex);
-
-    } finally {
     }
-
+    catch (Exception ex) {
+      new Erro(App.getI().getStrTextoPadrao(0), ex);
+    }
+    finally {
+    }
     return _lstDbFiltroTelaCadastro;
   }
 
   public List<Integer> getLstInt(DbColuna cln, List<DbFiltro> lstObjDbFiltro) {
-    // VARIÁVEIS
 
     List<Integer> lstIntResultado = null;
     List<String> lstStr;
-
-    // FIM VARIÁVEIS
     try {
-      // AÇÕES
-
       lstStr = this.getLstStr(cln, lstObjDbFiltro);
-
       if (lstStr != null && !lstStr.isEmpty()) {
-
         lstIntResultado = new ArrayList<Integer>();
         for (String str : lstStr) {
-
           lstIntResultado.add(Integer.valueOf(str));
         }
       }
-
-      // FIM AÇÕES
-    } catch (Exception ex) {
-
-      new Erro(App.getI().getStrTextoPadrao(0), ex);
-
-    } finally {
     }
-
+    catch (Exception ex) {
+      new Erro(App.getI().getStrTextoPadrao(0), ex);
+    }
+    finally {
+    }
     return lstIntResultado;
   }
 
   public List<ItmConsulta> getLstItmConsulta() {
-    // VARIÁVEIS
 
     Cursor crs;
     ItmConsulta itmConsulta;
-
-    // FIM VARIÁVEIS
     try {
-      // AÇÕES
-
       if (_lstItmConsulta != null) {
         return _lstItmConsulta;
       }
-
       _lstItmConsulta = new ArrayList<ItmConsulta>();
       crs = this.getCrsDadosTelaCadastro();
-
       if (crs == null || !crs.moveToFirst()) {
         return _lstItmConsulta;
       }
-
       do {
-
         itmConsulta = new ItmConsulta();
         itmConsulta.setStrItemId(crs.getString(crs.getColumnIndex(this.getClnChavePrimaria()
             .getStrNomeSimplificado())));
-
         if (this.getClnNome().getClnReferencia() != null) {
           itmConsulta.setStrNome(crs.getString(crs.getColumnIndex("_strNomeB")));
-        } else {
+        }
+        else {
           itmConsulta.setStrNome(crs.getString(crs.getColumnIndex(this.getClnNome()
               .getStrNomeSimplificado())));
         }
-
         for (int intColunaIndex = 0; intColunaIndex <= 4; intColunaIndex++) {
-
           if (intColunaIndex < crs.getColumnCount()) {
-
             switch (intColunaIndex) {
               case 2:
                 itmConsulta.setStrCampo001Nome(this.getStrClnNomePeloNomeSimplificado(crs
@@ -762,184 +579,133 @@ public abstract class DbTabela extends Objeto {
             }
           }
         }
-
         _lstItmConsulta.add(itmConsulta);
-
-      } while (crs.moveToNext());
-
-      // FIM AÇÕES
-    } catch (Exception ex) {
-
-      new Erro(App.getI().getStrTextoPadrao(0), ex);
-
-    } finally {
+      }
+      while (crs.moveToNext());
     }
-
+    catch (Exception ex) {
+      new Erro(App.getI().getStrTextoPadrao(0), ex);
+    }
+    finally {
+    }
     return _lstItmConsulta;
   }
 
   public List<String> getLstStr(DbColuna cln, List<DbFiltro> lstObjDbFiltro) {
-    // VARIÁVEIS
 
     Cursor crs;
     List<String> lstStrResultado = null;
-
-    // FIM VARIÁVEIS
     try {
-      // AÇÕES
-
       crs = this.getCrsDados(cln, lstObjDbFiltro);
-
       if (crs != null && crs.moveToFirst()) {
-
         lstStrResultado = new ArrayList<String>();
         do {
-
           lstStrResultado.add(crs.getString(0));
-        } while (crs.moveToNext());
+        }
+        while (crs.moveToNext());
       }
-
-      // FIM AÇÕES
-    } catch (Exception ex) {
-
-      new Erro(App.getI().getStrTextoPadrao(0), ex);
-
-    } finally {
     }
-
+    catch (Exception ex) {
+      new Erro(App.getI().getStrTextoPadrao(0), ex);
+    }
+    finally {
+    }
     return lstStrResultado;
   }
 
   public DataBase getObjDataBase() {
-    // VARIÁVEIS
-    // FIM VARIÁVEIS
-    try {
-      // AÇÕES
 
+    try {
       if (_objDataBase == null) {
         this._objDataBase = App.getI().getObjDbPrincipal();
       }
-
-      // FIM AÇÕES
-    } catch (Exception ex) {
-
-      new Erro(App.getI().getStrTextoPadrao(0), ex);
-
-    } finally {
     }
-
+    catch (Exception ex) {
+      new Erro(App.getI().getStrTextoPadrao(0), ex);
+    }
+    finally {
+    }
     return _objDataBase;
   }
 
   public String getStrClnNomePeloNomeSimplificado(String strNomeSimplificado) {
-    // VARIÁVEIS
 
     String strColunaNome = Utils.STRING_VAZIA;
-
-    // FIM VARIÁVEIS
     try {
-      // AÇÕES
-
       for (DbColuna cln : this.getLstCln()) {
-
         if (cln.getStrNomeSimplificado().equals(strNomeSimplificado)) {
           strColunaNome = cln.getStrNomeExibicao();
           break;
         }
       }
-
-      // FIM AÇÕES
-    } catch (Exception ex) {
-
+    }
+    catch (Exception ex) {
       new Erro(App.getI().getStrTextoPadrao(128), ex);
-
-    } finally {
+    }
+    finally {
     }
     return strColunaNome;
   }
 
   public String getStrPesquisaActConsulta() {
+
     return _strPesquisaActConsulta;
   }
 
   protected int inicializarColunas(int intOrdem) {
-    // VARIÁVEIS
-    // FIM VARIÁVEIS
+
     try {
-      // AÇÕES
-      // FIM AÇÕES
-    } catch (Exception ex) {
-
-      new Erro(App.getI().getStrTextoPadrao(128), ex);
-
-    } finally {
     }
-
+    catch (Exception ex) {
+      new Erro(App.getI().getStrTextoPadrao(128), ex);
+    }
+    finally {
+    }
     return intOrdem;
   }
 
   public void inserir() {
-    // VARIÁVEIS
 
     String strId;
     String strColunasNomes = Utils.STRING_VAZIA;
     String strColunasValores = Utils.STRING_VAZIA;
     String sql;
-
-    // FIM VARIÁVEIS
     try {
-      // AÇÕES
-
       this.limparListaConsulta();
-
       for (DbColuna cln : this.getLstCln()) {
-
         if (!Utils.getBooStrVazia(cln.getStrValor())) {
-
           strColunasNomes += cln.getStrNomeSimplificado() + ",";
           strColunasValores += "'" + cln.getStrValor() + "',";
-
-        } else if (!Utils.getBooStrVazia(cln.getStrValorDefault())) {
-
+        }
+        else if (!Utils.getBooStrVazia(cln.getStrValorDefault())) {
           strColunasNomes += cln.getStrNomeSimplificado() + ",";
           strColunasValores += "'" + cln.getStrValorDefault() + "',";
         }
       }
-
       strColunasNomes = Utils.removerUltimaLetra(strColunasNomes);
       strColunasValores = Utils.removerUltimaLetra(strColunasValores);
-
       sql = "REPLACE INTO " + this.getStrNomeSimplificado() + " (" + strColunasNomes + ") VALUES ("
           + strColunasValores + ");";
-
       this.getObjDataBase().execSqlSemRetorno(sql);
-
       if (Utils.getBooStrVazia(this.getClnChavePrimaria().getStrValor())) {
-
         sql = "SELECT last_insert_rowid();";
         strId = this.getObjDataBase().execSqlGetStr(sql);
-
-      } else {
+      }
+      else {
         strId = this.getClnChavePrimaria().getStrValor();
       }
-
       this.buscarRegistroPelaChavePrimaria(strId);
-
-      // FIM AÇÕES
-    } catch (Exception ex) {
-
+    }
+    catch (Exception ex) {
       new Erro(App.getI().getStrTextoPadrao(129), ex);
-
-    } finally {
+    }
+    finally {
     }
   }
 
   public void inserirAleatorio() {
-    // VARIÁVEIS
-    // FIM VARIÁVEIS
-    try {
-      // AÇÕES
 
+    try {
       for (DbColuna cln : this.getLstCln()) {
         switch (cln.getEnmTipo()) {
           case INTEGER:
@@ -956,117 +722,108 @@ public abstract class DbTabela extends Objeto {
             break;
         }
       }
-
       this.inserir();
-
-      // FIM AÇÕES
-    } catch (Exception ex) {
-
+    }
+    catch (Exception ex) {
       new Erro(App.getI().getStrTextoPadrao(130), ex);
-
-    } finally {
+    }
+    finally {
     }
   }
 
   public void limparCampos() {
+
     this.zerarCampos();
   }
 
   public void limparListaConsulta() {
-    // VARIÁVEIS
-    // FIM VARIÁVEIS
+
     try {
-      // AÇÕES
-
       this.setLstItmConsulta(null);
-
-      // FIM AÇÕES
-    } catch (Exception ex) {
-
+    }
+    catch (Exception ex) {
       new Erro(App.getI().getStrTextoPadrao(0), ex);
-
-    } finally {
+    }
+    finally {
     }
   }
 
   public void salvar() {
+
     this.inserir();
   }
 
   protected void setBooPermitirCadastroNovo(boolean booPermitirCadastroNovo) {
+
     _booPermitirCadastroNovo = booPermitirCadastroNovo;
   }
 
   public void setBooSincronizar(boolean booSincronizar) {
+
     _booSincronizar = booSincronizar;
   }
 
   public void setClnChavePrimaria(DbColuna clnChavePrimaria) {
+
     _clnChavePrimaria = clnChavePrimaria;
   }
 
   public void setClnNome(DbColuna clnNome) {
-    // VARIÁVEIS
-    // FIM VARIÁVEIS
-    try {
-      // AÇÕES
 
+    try {
       if (_clnNome == null) {
         _clnNome = this.getClnChavePrimaria();
       }
-
-      // FIM AÇÕES
-    } catch (Exception ex) {
-
-      new Erro(App.getI().getStrTextoPadrao(0), ex);
-
-    } finally {
     }
-
+    catch (Exception ex) {
+      new Erro(App.getI().getStrTextoPadrao(0), ex);
+    }
+    finally {
+    }
     _clnNome = clnNome;
   }
 
   public void setClnOrdemCadastro(DbColuna clnOrdemCadastro) {
+
     _clnOrdemCadastro = clnOrdemCadastro;
   }
 
   protected void setClsActFrm(Class<?> clsActFrm) {
+
     _clsActFrm = clsActFrm;
   }
 
   public void setLstCln(List<DbColuna> lstCln) {
+
     _lstCln = lstCln;
   }
 
   private void setLstItmConsulta(List<ItmConsulta> lstItmConsulta) {
+
     _lstItmConsulta = lstItmConsulta;
   }
 
   public void setObjDataBase(DataBase objDataBase) {
+
     _objDataBase = objDataBase;
   }
 
   public void setStrPesquisaActConsulta(String strPesquisaActConsulta) {
+
     _strPesquisaActConsulta = strPesquisaActConsulta;
   }
 
   public void zerarCampos() {
-    // VARIÁVEIS
-    // FIM VARIÁVEIS
-    try {
-      // AÇÕES
 
+    try {
       for (DbColuna cln : this.getLstCln()) {
         cln.setStrValor(null);
       }
-
-      // FIM AÇÕES
-    } catch (Exception ex) {
-
+    }
+    catch (Exception ex) {
       new Erro(App.getI().getStrTextoPadrao(130), ex);
-
-    } finally {
+    }
+    finally {
     }
   }
-
 }

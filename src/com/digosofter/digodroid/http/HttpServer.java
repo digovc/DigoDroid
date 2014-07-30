@@ -8,38 +8,27 @@ public class HttpServer extends NanoHTTPD {
   public HttpServer() {
 
     super(8080);
-
-    // VARIÁVEIS
-    // FIM VARIÁVEIS
     try {
-      // AÇÕES
-      // FIM AÇÕES
-    } catch (Exception ex) {
-
+    }
+    catch (Exception ex) {
       new Erro(App.getI().getStrTextoPadrao(0), ex);
-
-    } finally {
+    }
+    finally {
     }
   }
 
   // DESTRUTOR
   // FIM DESTRUTOR
-
   @Override
   public Response serve(IHTTPSession session) {
-    // VARIÁVEIS
-    // FIM VARIÁVEIS
+
     try {
-      // AÇÕES
-      // FIM AÇÕES
-    } catch (Exception ex) {
-
-      new Erro(App.getI().getStrTextoPadrao(0), ex);
-
-    } finally {
     }
-
+    catch (Exception ex) {
+      new Erro(App.getI().getStrTextoPadrao(0), ex);
+    }
+    finally {
+    }
     return super.serve(session);
   }
-
 }

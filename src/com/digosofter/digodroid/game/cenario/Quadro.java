@@ -7,77 +7,69 @@ import com.digosofter.digodroid.erro.Erro;
 public class Quadro extends Objeto {
 
   private int _intAnimacaoPosicao;
-
   private int _intX;
-
   private int _intY;
-
   private Camada _objCamada;
 
   public Quadro(Camada objCamada) {
-    // VARIÁVEIS
-    // FIM VARIÁVEIS
+
     try {
-      // AÇÕES
-
       this.setObjCamada(objCamada);
-
-      // FIM AÇÕES
-    } catch (Exception ex) {
-
+    }
+    catch (Exception ex) {
       new Erro(App.getI().getStrTextoPadrao(0), ex);
-
-    } finally {
+    }
+    finally {
     }
   }
 
   private int getIntAnimacaoPosicao() {
+
     return _intAnimacaoPosicao;
   }
 
   private int getIntX() {
+
     return _intX;
   }
 
   private int getIntY() {
+
     return _intY;
   }
 
   private Camada getObjCamada() {
+
     return _objCamada;
   }
 
   private void setIntAnimacaoPosicao(int intAnimacaoPosicao) {
+
     _intAnimacaoPosicao = intAnimacaoPosicao;
   }
 
   public void setIntX(int intX) {
+
     _intX = intX;
   }
 
   private void setIntY(int intY) {
+
     _intY = intY;
   }
 
   private void setObjCamada(Camada objCamada) {
-    // VARIÁVEIS
-    // FIM VARIÁVEIS
-    try {
-      // AÇÕES
 
+    try {
       _objCamada = objCamada;
       _objCamada.getLstObjQuadro().add(this);
-
-      // FIM AÇÕES
-    } catch (Exception ex) {
-
+    }
+    catch (Exception ex) {
       new Erro(App.getI().getStrTextoPadrao(0), ex);
-
-    } finally {
+    }
+    finally {
     }
   }
-
   // DESTRUTOR
   // FIM DESTRUTOR
-
 }

@@ -22,101 +22,93 @@ public abstract class ActMain extends ActionBarActivity {
   private boolean _booVisivel;
 
   protected void addFragmento(int intIdPnlContainer, Fragment objFragmento) {
-    // VARIÁVEIS
-    // FIM VARIÁVEIS
-    try {
-      // AÇÕES
 
+    try {
       this.getSupportFragmentManager().beginTransaction().add(intIdPnlContainer, objFragmento)
       .commit();
-
-      // FIM AÇÕES
-    } catch (Exception ex) {
-
+    }
+    catch (Exception ex) {
       new Erro(App.getI().getStrTextoPadrao(113), ex);
-
-    } finally {
+    }
+    finally {
     }
   }
 
   public boolean getBooVisivel() {
+
     return _booVisivel;
   }
 
   public Button getButton(int intId) {
+
     return (Button) this.getView(intId);
   }
 
   public CheckBox getCheckBox(int intId) {
+
     return (CheckBox) this.getView(intId);
   }
 
   public EditText getEditText(int intId) {
+
     return (EditText) this.getView(intId);
   }
 
   public ImageView getImageView(int intId) {
+
     return (ImageView) this.getView(intId);
   }
 
   protected abstract int getIntLayoutId();
 
   public LinearLayout getLinearLayout(int intId) {
+
     return (LinearLayout) this.getView(intId);
   }
 
   public RadioButton getRadioButton(int intId) {
+
     return (RadioButton) this.getView(intId);
   }
 
   public RadioGroup getRadioGroup(int intId) {
+
     return (RadioGroup) this.getView(intId);
   }
 
   public TextView getTextView(int intId) {
+
     return (TextView) this.getView(intId);
   }
 
   public VideoView getVideoView(int intId) {
+
     return (VideoView) this.getView(intId);
   }
 
   protected View getView(int intId) {
-    // VARIÁVEIS
 
     View viewResultado = null;
-
-    // FIM VARIÁVEIS
     try {
-      // AÇÕES
-
       viewResultado = this.findViewById(intId);
-
-      // FIM AÇÕES
-    } catch (Exception ex) {
-
-      new Erro(App.getI().getStrTextoPadrao(0), ex);
-
-    } finally {
     }
-
+    catch (Exception ex) {
+      new Erro(App.getI().getStrTextoPadrao(0), ex);
+    }
+    finally {
+    }
     return viewResultado;
   }
 
   protected void montarLayout() {
-    // VARIÁVEIS
-    // FIM VARIÁVEIS
+
     try {
-      // AÇÕES
-
       this.setContentView(this.getIntLayoutId());
-
-      // FIM AÇÕES
-    } catch (Exception ex) {
-
+    }
+    catch (Exception ex) {
       new Erro(App.getI().getStrTextoPadrao(0), ex);
-
-    } finally {
+    }
+    finally {
     }
   }
 
@@ -124,21 +116,14 @@ public abstract class ActMain extends ActionBarActivity {
   protected void onCreate(Bundle savedInstanceState) {
 
     super.onCreate(savedInstanceState);
-
-    // VARIÁVEIS
-    // FIM VARIÁVEIS
     try {
-      // AÇÕES
-
       this.montarLayout();
       this.setEventos();
-
-      // FIM AÇÕES
-    } catch (Exception ex) {
-
+    }
+    catch (Exception ex) {
       new Erro(App.getI().getStrTextoPadrao(0), ex);
-
-    } finally {
+    }
+    finally {
     }
   }
 
@@ -146,20 +131,13 @@ public abstract class ActMain extends ActionBarActivity {
   protected void onStart() {
 
     super.onStart();
-
-    // VARIÁVEIS
-    // FIM VARIÁVEIS
     try {
-      // AÇÕES
-
       this.setBooVisivel(true);
-
-      // FIM AÇÕES
-    } catch (Exception ex) {
-
+    }
+    catch (Exception ex) {
       new Erro(App.getI().getStrTextoPadrao(0), ex);
-
-    } finally {
+    }
+    finally {
     }
   }
 
@@ -167,38 +145,29 @@ public abstract class ActMain extends ActionBarActivity {
   protected void onStop() {
 
     super.onStop();
-
-    // VARIÁVEIS
-    // FIM VARIÁVEIS
     try {
-      // AÇÕES
-
       this.setBooVisivel(false);
-
-      // FIM AÇÕES
-    } catch (Exception ex) {
-
+    }
+    catch (Exception ex) {
       new Erro(App.getI().getStrTextoPadrao(0), ex);
-
-    } finally {
+    }
+    finally {
     }
   }
 
   private void setBooVisivel(boolean booVisivel) {
+
     _booVisivel = booVisivel;
   }
 
   protected void setEventos() {
-    // VARIÁVEIS
-    // FIM VARIÁVEIS
+
     try {
-      // AÇÕES
-      // FIM AÇÕES
-    } catch (Exception ex) {
-
+    }
+    catch (Exception ex) {
       new Erro(App.getI().getStrTextoPadrao(0), ex);
-
-    } finally {
+    }
+    finally {
     }
   }
 }

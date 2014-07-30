@@ -12,50 +12,35 @@ public class TblCliente extends TblMain {
   public TblCliente() {
 
     super("tblCliente");
-
-    // VARIÁVEIS
-    // FIM VARIÁVEIS
     try {
-      // AÇÕES
-      // FIM AÇÕES
-    } catch (Exception ex) {
-
+    }
+    catch (Exception ex) {
       new Erro(App.getI().getStrTextoPadrao(133), ex);
-
-    } finally {
+    }
+    finally {
     }
   }
 
   public DbColuna getClnIntPessoaId() {
-    // VARIÁVEIS
-    // FIM VARIÁVEIS
-    try {
-      // AÇÕES
 
+    try {
       if (_clnIntPessoaId == null) {
         _clnIntPessoaId = new DbColuna("intPessoaId", this, EnmTipo.INTEGER);
       }
-
-      // FIM AÇÕES
-    } catch (Exception ex) {
-
-      new Erro(App.getI().getStrTextoPadrao(0), ex);
-
-    } finally {
     }
-
+    catch (Exception ex) {
+      new Erro(App.getI().getStrTextoPadrao(0), ex);
+    }
+    finally {
+    }
     return _clnIntPessoaId;
   }
 
   @Override
   protected int inicializarColunas(int intOrdem) {
-    // VARIÁVEIS
-    // FIM VARIÁVEIS
+
     try {
-      // AÇÕES
-
       intOrdem = super.inicializarColunas(intOrdem);
-
       this.getClnDttAlteracao().setIntOrdem(++intOrdem);
       this.getClnDttCadastro().setIntOrdem(++intOrdem);
       this.getClnDttExclusao().setIntOrdem(++intOrdem);
@@ -64,16 +49,12 @@ public class TblCliente extends TblMain {
       this.getClnIntUsuarioAlteracaoId().setIntOrdem(++intOrdem);
       this.getClnIntUsuarioCadastroId().setIntOrdem(++intOrdem);
       this.getClnIntUsuarioExclusaoId().setIntOrdem(++intOrdem);
-
-      // FIM AÇÕES
-    } catch (Exception ex) {
-
-      new Erro(App.getI().getStrTextoPadrao(0), ex);
-
-    } finally {
     }
-
+    catch (Exception ex) {
+      new Erro(App.getI().getStrTextoPadrao(0), ex);
+    }
+    finally {
+    }
     return intOrdem;
   }
-
 }

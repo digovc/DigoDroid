@@ -8,18 +8,12 @@ public abstract class DbView extends DbTabela {
   public DbView(String strNome) {
 
     super(strNome);
-
-    // VARIÁVEIS
-    // FIM VARIÁVEIS
     try {
-      // AÇÕES
-      // FIM AÇÕES
-    } catch (Exception ex) {
-
+    }
+    catch (Exception ex) {
       new Erro(App.getI().getStrTextoPadrao(0), ex);
-
-    } finally {
+    }
+    finally {
     }
   }
-
 }

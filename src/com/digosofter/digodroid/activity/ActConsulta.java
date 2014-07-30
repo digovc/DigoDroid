@@ -36,136 +36,99 @@ public class ActConsulta extends ActMain {
   }
 
   private AdpCadastro _adpCadastro;
-
   private EditText _edtPesquisa;
-
   private ListView _pnlTblLista;
-
   private DbTabela _tbl;
-
   private TextView _txtTblDescricao;
 
   public ActConsulta() {
-    // VARIÁVEIS
-    // FIM VARIÁVEIS
+
     try {
-      // AÇÕES
-
       this.setResult(EnmResultadoTipo.NONE.ordinal());
-
-      // FIM AÇÕES
-    } catch (Exception ex) {
-
+    }
+    catch (Exception ex) {
       new Erro(App.getI().getStrTextoPadrao(0), ex);
-
-    } finally {
+    }
+    finally {
     }
   }
 
   private AdpCadastro getAdpCadastro() {
+
     return _adpCadastro;
   }
 
   private EditText getEdtPesquisa() {
-    // VARIÁVEIS
-    // FIM VARIÁVEIS
-    try {
-      // AÇÕES
 
+    try {
       if (_edtPesquisa == null) {
         _edtPesquisa = (EditText) this.findViewById(R.id.actConsulta_edtPesquisa);
       }
-
-      // FIM AÇÕES
-    } catch (Exception ex) {
-
-      new Erro(App.getI().getStrTextoPadrao(0), ex);
-
-    } finally {
     }
-
+    catch (Exception ex) {
+      new Erro(App.getI().getStrTextoPadrao(0), ex);
+    }
+    finally {
+    }
     return _edtPesquisa;
   }
 
   @Override
   protected int getIntLayoutId() {
-    // VARIÁVEIS
-    // FIM VARIÁVEIS
+
     try {
-      // AÇÕES
-      // FIM AÇÕES
-    } catch (Exception ex) {
-
-      new Erro(App.getI().getStrTextoPadrao(0), ex);
-
-    } finally {
     }
-
+    catch (Exception ex) {
+      new Erro(App.getI().getStrTextoPadrao(0), ex);
+    }
+    finally {
+    }
     return R.layout.act_consulta;
   }
 
   public ListView getPnlTblLista() {
-    // VARIÁVEIS
-    // FIM VARIÁVEIS
+
     try {
-      // AÇÕES
-
       if (_pnlTblLista == null) {
-
         _pnlTblLista = (ListView) findViewById(R.id.actConsulta_pnlTblLista);
         _pnlTblLista.setCacheColorHint(Color.TRANSPARENT);
       }
-
-      // FIM AÇÕES
-    } catch (Exception ex) {
-
-      new Erro(App.getI().getStrTextoPadrao(0), ex);
-
-    } finally {
     }
-
+    catch (Exception ex) {
+      new Erro(App.getI().getStrTextoPadrao(0), ex);
+    }
+    finally {
+    }
     return _pnlTblLista;
   }
 
   public DbTabela getTbl() {
-    // VARIÁVEIS
-    // FIM VARIÁVEIS
-    try {
-      // AÇÕES
 
+    try {
       if (_tbl == null) {
         _tbl = App.getI().getTblSelec();
       }
-
-      // FIM AÇÕES
-    } catch (Exception ex) {
-
-      new Erro(App.getI().getStrTextoPadrao(0), ex);
-
-    } finally {
     }
-
+    catch (Exception ex) {
+      new Erro(App.getI().getStrTextoPadrao(0), ex);
+    }
+    finally {
+    }
     return _tbl;
   }
 
   private TextView getTxtTblDescricao() {
-    // VARIÁVEIS
-    // FIM VARIÁVEIS
-    try {
-      // AÇÕES
 
+    try {
       if (_txtTblDescricao == null) {
         _txtTblDescricao = (TextView) this.findViewById(R.id.actConsulta_pnlPesquisa);
       }
-
-      // FIM AÇÕES
-    } catch (Exception ex) {
-
-      new Erro(App.getI().getStrTextoPadrao(0), ex);
-
-    } finally {
     }
-
+    catch (Exception ex) {
+      new Erro(App.getI().getStrTextoPadrao(0), ex);
+    }
+    finally {
+    }
     return _txtTblDescricao;
   }
 
@@ -173,114 +136,81 @@ public class ActConsulta extends ActMain {
   protected void montarLayout() {
 
     super.montarLayout();
-
-    // VARIÁVEIS
-    // FIM VARIÁVEIS
     try {
-      // AÇÕES
-
       this.montarLayoutTitulo();
       this.montarLayoutLista();
       this.recuperarUltimaPesquisa();
-
-      // FIM AÇÕES
-    } catch (Exception ex) {
-
+    }
+    catch (Exception ex) {
       new Erro(App.getI().getStrTextoPadrao(114), ex);
-
-    } finally {
+    }
+    finally {
     }
   }
 
   private void montarLayoutLista() {
-    // VARIÁVEIS
-    // FIM VARIÁVEIS
-    try {
-      // AÇÕES
 
+    try {
       this.setAdpCadastro(new AdpCadastro(this, this.getTbl().getLstItmConsulta()));
       this.getPnlTblLista().setAdapter(this.getAdpCadastro());
       this.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-      // FIM AÇÕES
-    } catch (Exception ex) {
-
+    }
+    catch (Exception ex) {
       new Erro(App.getI().getStrTextoPadrao(0), ex);
-
-    } finally {
+    }
+    finally {
     }
   }
 
   private void montarLayoutTitulo() {
-    // VARIÁVEIS
-    // FIM VARIÁVEIS
+
     try {
-      // AÇÕES
-
       this.setTitle(this.getTbl().getStrNomeExibicao());
-
       if (!Utils.getBooStrVazia(this.getTbl().getStrDescricao())) {
-
         this.getTxtTblDescricao().setText(this.getTbl().getStrDescricao());
         this.getTxtTblDescricao().setVisibility(View.VISIBLE);
       }
-
-      // FIM AÇÕES
-    } catch (Exception ex) {
-
+    }
+    catch (Exception ex) {
       new Erro(App.getI().getStrTextoPadrao(0), ex);
-
-    } finally {
+    }
+    finally {
     }
   }
 
   @Override
   public boolean onCreateOptionsMenu(Menu objMenu) {
-    // VARIÁVEIS
 
     MenuInflater objMenuInflater;
-
-    // FIM VARIÁVEIS
     try {
-      // AÇÕES
-
       objMenuInflater = this.getMenuInflater();
       objMenuInflater.inflate(R.menu.act_cadastro_action_bar, objMenu);
-
       objMenu.getItem(0).setVisible(this.getTbl().getBooPermitirCadastroNovo());
-
-      // FIM AÇÕES
-    } catch (Exception ex) {
-
-      new Erro(App.getI().getStrTextoPadrao(117), ex);
-
-    } finally {
     }
-
+    catch (Exception ex) {
+      new Erro(App.getI().getStrTextoPadrao(117), ex);
+    }
+    finally {
+    }
     return super.onCreateOptionsMenu(objMenu);
   }
 
   @Override
   public boolean onOptionsItemSelected(MenuItem item) {
-    // VARIÁVEIS
-    // FIM VARIÁVEIS
-    try {
-      // AÇÕES
 
+    try {
       if (item.getItemId() == R.id.actCadastro_actionBar_itmNovo) {
         this.startActivity(new Intent(this, this.getTbl().getClsActFrm()));
-      } else if (item.getItemId() == android.R.id.home) {
+      }
+      else if (item.getItemId() == android.R.id.home) {
         this.onBackPressed();
       }
-
-      // FIM AÇÕES
-    } catch (Exception ex) {
-
-      new Erro(App.getI().getStrTextoPadrao(0), ex);
-
-    } finally {
     }
-
+    catch (Exception ex) {
+      new Erro(App.getI().getStrTextoPadrao(0), ex);
+    }
+    finally {
+    }
     return super.onOptionsItemSelected(item);
   }
 
@@ -288,27 +218,22 @@ public class ActConsulta extends ActMain {
    * Recupera a última pesquisa feita na tabela da tela de consulta.
    */
   private void recuperarUltimaPesquisa() {
-    // VARIÁVEIS
-    // FIM VARIÁVEIS
-    try {
-      // AÇÕES
 
+    try {
       if (Utils.getBooStrVazia(this.getTbl().getStrPesquisaActConsulta())) {
         return;
       }
-
       this.getEdtPesquisa().setText(this.getTbl().getStrPesquisaActConsulta());
-
-      // FIM AÇÕES
-    } catch (Exception ex) {
-
+    }
+    catch (Exception ex) {
       new Erro(App.getI().getStrTextoPadrao(0), ex);
-
-    } finally {
+    }
+    finally {
     }
   }
 
   private void setAdpCadastro(AdpCadastro adpCadastro) {
+
     _adpCadastro = adpCadastro;
   }
 
@@ -316,142 +241,105 @@ public class ActConsulta extends ActMain {
   protected void setEventos() {
 
     super.setEventos();
-
-    // VARIÁVEIS
-    // FIM VARIÁVEIS
     try {
-      // AÇÕES
-
       this.getEdtPesquisa().addTextChangedListener(new TextWatcher() {
 
         @Override
         public void afterTextChanged(Editable s) {
+
         }
 
         @Override
         public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
         }
 
         @Override
         public void onTextChanged(CharSequence s, int start, int before, int count) {
+
           ActConsulta.this.getAdpCadastro().getFilter().filter(s);
         }
       });
-
       this.getPnlTblLista().setOnItemClickListener(new OnItemClickListener() {
 
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-          // VARIÁVEIS
 
           ItmConsulta objItem;
           Intent objIntent;
-
-          // FIM VARIÁVEIS
           try {
-            // AÇÕES
-
             ActConsulta.this.getTbl().setStrPesquisaActConsulta(
                 ActConsulta.this.getEdtPesquisa().getText().toString());
-
             objItem = (ItmConsulta) ActConsulta.this.getPnlTblLista().getItemAtPosition(position);
-
             objIntent = new Intent();
             objIntent.putExtra("id", objItem.getStrItemId());
-
             ActConsulta.this.setResult(ActConsulta.EnmResultadoTipo.REGISTRO_SELECIONADO.ordinal(),
                 objIntent);
-
             finish();
-
-            // FIM AÇÕES
-          } catch (Exception ex) {
-
+          }
+          catch (Exception ex) {
             new Erro(App.getI().getStrTextoPadrao(115), ex);
-
-          } finally {
+          }
+          finally {
           }
         }
       });
-
       this.getPnlTblLista().setOnItemLongClickListener(new OnItemLongClickListener() {
 
         @Override
         public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-          // VARIÁVEIS
 
           ItmConsulta objItem;
           Intent objIntent;
-
-          // FIM VARIÁVEIS
           try {
-            // AÇÕES
-
             if (ActConsulta.this.getTbl().getClsActFrm() != null) {
-
               objItem = (ItmConsulta) ActConsulta.this.getPnlTblLista().getItemAtPosition(position);
-
               objIntent = new Intent(ActConsulta.this.getApplicationContext(), ActConsulta.this
                   .getTbl().getClsActFrm());
               objIntent.putExtra("id", objItem.getStrItemId());
-
               ActConsulta.this.setResult(
                   ActConsulta.EnmResultadoTipo.REGISTRO_SELECIONADO.ordinal(), objIntent);
               ActConsulta.this.startActivity(objIntent);
-
               // finish();
             }
-
-            // FIM AÇÕES
-          } catch (Exception ex) {
-
-            new Erro(App.getI().getStrTextoPadrao(115), ex);
-
-          } finally {
           }
-
+          catch (Exception ex) {
+            new Erro(App.getI().getStrTextoPadrao(115), ex);
+          }
+          finally {
+          }
           return false;
         }
       });
-
       this.getPnlTblLista().setOnScrollListener(new OnScrollListener() {
 
         @Override
         public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount,
             int totalItemCount) {
+
         }
 
         @Override
         public void onScrollStateChanged(AbsListView view, int scrollState) {
-          // VARIÁVEIS
 
           InputMethodManager inputManager;
-
-          // FIM VARIÁVEIS
           try {
-            // AÇÕES
-
             inputManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
             inputManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(),
                 InputMethodManager.HIDE_NOT_ALWAYS);
-
-            // FIM AÇÕES
-          } catch (Exception ex) {
-
+          }
+          catch (Exception ex) {
             new Erro(App.getI().getStrTextoPadrao(0), ex);
-
-          } finally {
+          }
+          finally {
           }
         }
       });
-
-      // FIM AÇÕES
-    } catch (Exception ex) {
-
+    }
+    catch (Exception ex) {
       new Erro(App.getI().getStrTextoPadrao(116), ex);
-
-    } finally {
+    }
+    finally {
     }
   }
-
 }

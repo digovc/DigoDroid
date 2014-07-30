@@ -19,6 +19,7 @@ public abstract class App extends Objeto {
   private static App i;
 
   public static App getI() {
+
     return i;
   }
 
@@ -33,59 +34,49 @@ public abstract class App extends Objeto {
   private DbTabela _tblSelec;
 
   public App() {
+
     try {
-
       this.setI(this);
-
-    } catch (Exception ex) {
-
+    }
+    catch (Exception ex) {
       new Erro("Erro inesperado.\n", ex);
-
-    } finally {
+    }
+    finally {
     }
   }
 
   public ActMain getActMain() {
+
     return _actMain;
   }
 
   public Context getCnt() {
-    // VARIÁVEIS
-    // FIM VARIÁVEIS
+
     try {
-      // AÇÕES
-
       _cnt = this.getActMain().getApplicationContext();
-
-      // FIM AÇÕES
-    } catch (Exception ex) {
-
-      new Erro(this.getStrMsgUsuarioPadrao(101), ex);
-
-    } finally {
     }
-
+    catch (Exception ex) {
+      new Erro(this.getStrMsgUsuarioPadrao(101), ex);
+    }
+    finally {
+    }
     return _cnt;
   }
 
   public int getIntVersao() {
+
     return _intVersao;
   }
 
   public abstract List<MsgUsuario> getLstMsgUsuario();
 
   private List<MsgUsuario> getLstMsgUsuarioPadrao() {
-    // VARIÁVEIS
-    // FIM VARIÁVEIS
-    try {
-      // AÇÕES
 
+    try {
       if (_lstMsgUsuarioPadrao != null) {
         return _lstMsgUsuarioPadrao;
       }
-
       _lstMsgUsuarioPadrao = new ArrayList<MsgUsuario>();
-
       _lstMsgUsuarioPadrao.add(new MsgUsuario("Erro inesperado..", 0));
       _lstMsgUsuarioPadrao.add(new MsgUsuario("Erro ao recuperar o IMEI do aparelho.", 100));
       _lstMsgUsuarioPadrao.add(new MsgUsuario("Erro ao recuperar contexto do aplicativo.", 101));
@@ -123,150 +114,123 @@ public abstract class App extends Objeto {
       _lstMsgUsuarioPadrao.add(new MsgUsuario(
           "Erro ao inserir registro aleatório no banco de dados.", 130));
       _lstMsgUsuarioPadrao
-          .add(new MsgUsuario("Erro ao zerar valores das colunas no registro.", 131));
+      .add(new MsgUsuario("Erro ao zerar valores das colunas no registro.", 131));
       _lstMsgUsuarioPadrao.add(new MsgUsuario("Erro ao verificar filtro no item da lista.", 132));
       _lstMsgUsuarioPadrao.add(new MsgUsuario("Erro ao criar objeto do tipo 'TblCliente'.", 133));
       _lstMsgUsuarioPadrao.add(new MsgUsuario("Erro ao criar objeto do tipo 'TblMain'.", 134));
       _lstMsgUsuarioPadrao.add(new MsgUsuario("Erro ao criar objeto do tipo 'TblPessoa'.", 135));
       _lstMsgUsuarioPadrao.add(new MsgUsuario("Erro ao criar objeto do tipo 'TblUsuario'.", 136));
       _lstMsgUsuarioPadrao.add(new MsgUsuario("Erro ao criar objeto do tipo 'ConfigItem'.", 137));
-
-      // FIM AÇÕES
-    } catch (Exception ex) {
-
-      new Erro(this.getStrMsgUsuarioPadrao(0), ex);
-
-    } finally {
     }
-
+    catch (Exception ex) {
+      new Erro(this.getStrMsgUsuarioPadrao(0), ex);
+    }
+    finally {
+    }
     return _lstMsgUsuarioPadrao;
   }
 
   public List<DbTabela> getLstTbl() {
-    // VARIÁVEIS
-    // FIM VARIÁVEIS
-    try {
-      // AÇÕES
 
+    try {
       if (_lstTbl != null) {
         return _lstTbl;
       }
-
       _lstTbl = new ArrayList<DbTabela>();
-
-      // FIM AÇÕES
-    } catch (Exception ex) {
-
-      new Erro(App.getI().getStrTextoPadrao(0), ex);
-
-    } finally {
     }
-
+    catch (Exception ex) {
+      new Erro(App.getI().getStrTextoPadrao(0), ex);
+    }
+    finally {
+    }
     return _lstTbl;
   }
 
   public DataBase getObjDbPrincipal() {
-    // VARIÁVEIS
-    // FIM VARIÁVEIS
-    try {
-      // AÇÕES
 
+    try {
       if (_objDbPrincipal != null) {
         return _objDbPrincipal;
       }
-
       _objDbPrincipal = new DataBase(this.getStrNomeSimplificado(), this.getCnt());
-
-      // FIM AÇÕES
-    } catch (Exception ex) {
-
-      new Erro(App.getI().getStrTextoPadrao(102), ex);
-
-    } finally {
     }
-
+    catch (Exception ex) {
+      new Erro(App.getI().getStrTextoPadrao(102), ex);
+    }
+    finally {
+    }
     return _objDbPrincipal;
   }
 
   public Gson getObjGson() {
-    // VARIÁVEIS
-    // FIM VARIÁVEIS
-    try {
-      // AÇÕES
 
+    try {
       if (_objGson != null) {
         return _objGson;
       }
-
       _objGson = new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ssZ").create();
-
-      // FIM AÇÕES
-    } catch (Exception ex) {
-
-      new Erro("Erro inesperado.\n", ex);
-
-    } finally {
     }
-
+    catch (Exception ex) {
+      new Erro("Erro inesperado.\n", ex);
+    }
+    finally {
+    }
     return _objGson;
   }
 
   public String getStrMsgUsuario(int intId) {
+
     return this.getStrMsgUsuario(intId, EnmLingua.PORTUGUES, false);
   }
 
   public String getStrMsgUsuario(int intId, EnmLingua enmLingua, boolean booMsgPadrao) {
-    // VARIÁVEIS
 
     List<MsgUsuario> lstMsgUsuarioTemp;
     String strResultado = Utils.STRING_VAZIA;
-
-    // FIM VARIÁVEIS
     try {
-      // AÇÕES
-
       if (booMsgPadrao) {
         lstMsgUsuarioTemp = this.getLstMsgUsuarioPadrao();
-      } else {
+      }
+      else {
         lstMsgUsuarioTemp = this.getLstMsgUsuario();
       }
-
       for (MsgUsuario msgUsuario : lstMsgUsuarioTemp) {
-
         if (msgUsuario.getIntId() == intId && msgUsuario.getEnmLingua() == enmLingua) {
           strResultado = msgUsuario.getStrTexto();
           break;
         }
       }
-
-      // FIM AÇÕES
-    } catch (Exception ex) {
-
-      new Erro(this.getStrTextoPadrao(103), ex);
-
-    } finally {
     }
-
+    catch (Exception ex) {
+      new Erro(this.getStrTextoPadrao(103), ex);
+    }
+    finally {
+    }
     return strResultado;
   }
 
   public String getStrMsgUsuarioPadrao(int intId) {
+
     return this.getStrMsgUsuario(intId, EnmLingua.PORTUGUES, true);
   }
 
   public String getStrTexto(int intId) {
+
     return this.getStrMsgUsuario(intId);
   }
 
   public String getStrTextoPadrao(int intId) {
+
     return this.getStrMsgUsuarioPadrao(intId);
   }
 
   public String getStrVersao() {
+
     return _strVersao;
   }
 
   public DbTabela getTblSelec() {
+
     return _tblSelec;
   }
 
@@ -275,97 +239,78 @@ public abstract class App extends Objeto {
    * do app.
    */
   public void limparTblListaConsulta() {
-    // VARIÁVEIS
-    // FIM VARIÁVEIS
-    try {
-      // AÇÕES
 
+    try {
       for (DbTabela tbl : this.getLstTbl()) {
         tbl.limparListaConsulta();
       }
-
-      // FIM AÇÕES
-    } catch (Exception ex) {
-
+    }
+    catch (Exception ex) {
       new Erro(App.getI().getStrTextoPadrao(0), ex);
-
-    } finally {
+    }
+    finally {
     }
   }
 
   public void mostrarNoficacao(final String strMensagem) {
-    // VARIÁVEIS
-    // FIM VARIÁVEIS
-    try {
-      // AÇÕES
 
+    try {
       this.getActMain().runOnUiThread(new Runnable() {
 
         @Override
         public void run() {
-          // VARIÁVEIS
 
           int intTempo;
-
-          // FIM VARIÁVEIS
           try {
-            // AÇÕES
-
             intTempo = strMensagem.length() > 25 ? Toast.LENGTH_LONG : Toast.LENGTH_SHORT;
             Toast.makeText(App.this.getCnt(), strMensagem, intTempo).show();
-
-            // FIM AÇÕES
-          } catch (Exception ex) {
-
+          }
+          catch (Exception ex) {
             new Erro(App.getI().getStrTextoPadrao(0), ex);
-
-          } finally {
+          }
+          finally {
           }
         }
       });
-
-      // FIM AÇÕES
-    } catch (Exception ex) {
-
+    }
+    catch (Exception ex) {
       new Erro(this.getStrTextoPadrao(104), ex);
-
-    } finally {
+    }
+    finally {
     }
   }
 
   public void setActMain(ActMain actMain) {
+
     _actMain = actMain;
   }
 
   private void setI(App _i) {
-    // VARIÁVEIS
-    // FIM VARIÁVEIS
-    try {
-      // AÇÕES
 
+    try {
       if (i == null) {
         i = _i;
       }
-
-      // FIM AÇÕES
-    } catch (Exception ex) {
-
+    }
+    catch (Exception ex) {
       new Erro(App.getI().getStrTextoPadrao(0), ex);
-
-    } finally {
+    }
+    finally {
     }
   }
 
   public void setIntVersao(int intVersao) {
+
     _intVersao = intVersao;
   }
 
   public void setStrVersao(String strVersao) {
+
     _strVersao = strVersao;
   }
 
   public void setTblSelec(DbTabela tblSelec) {
+
     _tblSelec = tblSelec;
   }
-
 }

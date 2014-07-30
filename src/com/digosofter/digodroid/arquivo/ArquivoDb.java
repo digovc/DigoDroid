@@ -7,20 +7,14 @@ import com.digosofter.digodroid.erro.Erro;
 public class ArquivoDb extends Arquivo {
 
   public ArquivoDb(DataBase objDataBase) {
-    // VARIÁVEIS
-    // FIM VARIÁVEIS
+
     try {
-      // AÇÕES
-
-      this.setDirCompleto(App.getI().getCnt().getDatabasePath(objDataBase.getStrNome())
-          .getPath());
-
-      // FIM AÇÕES
-    } catch (Exception ex) {
-
+      this.setDirCompleto(App.getI().getCnt().getDatabasePath(objDataBase.getStrNome()).getPath());
+    }
+    catch (Exception ex) {
       new Erro(App.getI().getStrTextoPadrao(0), ex);
-
-    } finally {
+    }
+    finally {
     }
   }
 }

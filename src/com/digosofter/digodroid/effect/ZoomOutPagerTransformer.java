@@ -16,51 +16,40 @@ public class ZoomOutPagerTransformer implements PageTransformer {
   @Override
   @TargetApi(Build.VERSION_CODES.HONEYCOMB)
   public void transformPage(View objView, float dblPosition) {
-    // VARIÁVEIS
 
     int intPageWidth;
     int intPageHeight;
-
-    // FIM VARIÁVEIS
     try {
-      // AÇÕES
-
       if (android.os.Build.VERSION.SDK_INT >= 11) {
-
         intPageWidth = objView.getWidth();
         intPageHeight = objView.getHeight();
-
         if (dblPosition < -1) {
           objView.setAlpha(0);
-        } else if (dblPosition <= 1) {
-
+        }
+        else if (dblPosition <= 1) {
           float scaleFactor = Math.max(MIN_SCALE, 1 - Math.abs(dblPosition));
           float vertMargin = intPageHeight * (1 - scaleFactor) / 2;
           float horzMargin = intPageWidth * (1 - scaleFactor) / 2;
-
           if (dblPosition < 0) {
             objView.setTranslationX(horzMargin - vertMargin / 2);
-          } else {
+          }
+          else {
             objView.setTranslationX(-horzMargin + vertMargin / 2);
           }
-
           objView.setScaleX(scaleFactor);
           objView.setScaleY(scaleFactor);
           objView.setAlpha(MIN_ALPHA + (scaleFactor - MIN_SCALE) / (1 - MIN_SCALE)
               * (1 - MIN_ALPHA));
-
-        } else {
+        }
+        else {
           objView.setAlpha(0);
         }
       }
-
-      // FIM AÇÕES
-    } catch (Exception ex) {
-
+    }
+    catch (Exception ex) {
       new Erro(App.getI().getStrTextoPadrao(0), ex);
-
-    } finally {
+    }
+    finally {
     }
   }
-
 }

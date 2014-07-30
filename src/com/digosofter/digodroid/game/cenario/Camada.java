@@ -10,84 +10,68 @@ import com.digosofter.digodroid.erro.Erro;
 public class Camada extends Objeto {
 
   private int _intZ;
-
   private List<Quadro> _lstObjQuadro;
-
   private Cenario _objCenario;
 
   public Camada(Cenario objCenario) {
-    // VARIÁVEIS
-    // FIM VARIÁVEIS
+
     try {
-      // AÇÕES
-
       this.setObjCenario(objCenario);
-
-      // FIM AÇÕES
-    } catch (Exception ex) {
-
+    }
+    catch (Exception ex) {
       new Erro(App.getI().getStrTextoPadrao(0), ex);
-
-    } finally {
+    }
+    finally {
     }
   }
 
   private int getIntZ() {
+
     return _intZ;
   }
 
   public List<Quadro> getLstObjQuadro() {
-    // VARIÁVEIS
-    // FIM VARIÁVEIS
-    try {
-      // AÇÕES
 
+    try {
       if (_lstObjQuadro == null) {
         _lstObjQuadro = new ArrayList<Quadro>();
       }
-
-      // FIM AÇÕES
-    } catch (Exception ex) {
-
-      new Erro(App.getI().getStrTextoPadrao(0), ex);
-
-    } finally {
     }
-
+    catch (Exception ex) {
+      new Erro(App.getI().getStrTextoPadrao(0), ex);
+    }
+    finally {
+    }
     return _lstObjQuadro;
   }
 
   private Cenario getObjCenario() {
+
     return _objCenario;
   }
 
   public void setIntZ(int intZ) {
+
     _intZ = intZ;
   }
 
   private void setLstObjQuadro(List<Quadro> lstObjQuadro) {
+
     _lstObjQuadro = lstObjQuadro;
   }
 
   private void setObjCenario(Cenario objCenario) {
-    // VARIÁVEIS
-    // FIM VARIÁVEIS
-    try {
-      // AÇÕES
 
+    try {
       _objCenario = objCenario;
       _objCenario.getLstObjCamada().add(this);
-
-      // FIM AÇÕES
-    } catch (Exception ex) {
-
+    }
+    catch (Exception ex) {
       new Erro(App.getI().getStrTextoPadrao(0), ex);
-
-    } finally {
+    }
+    finally {
     }
   }
-
   // DESTRUTOR
   // FIM DESTRUTOR
-
 }

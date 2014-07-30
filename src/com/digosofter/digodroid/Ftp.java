@@ -27,15 +27,11 @@ public class Ftp extends Objeto {
 
   protected FTPClient getFtpClient() {
 
-    // VARIÁVEIS
-    // FIM VARIÁVEIS
     try {
-      // AÇÕES
       if (_ftpClient != null) {
         return _ftpClient;
       }
       _ftpClient = new FTPClient();
-      // FIM AÇÕES
     }
     catch (Exception ex) {
       new Erro(App.getI().getStrTextoPadrao(105), ex);
