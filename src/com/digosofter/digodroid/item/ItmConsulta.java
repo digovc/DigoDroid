@@ -18,21 +18,38 @@ public class ItmConsulta extends Objeto {
   private String _strCampo3Valor;
   private String _strItemId;
 
-  public boolean getBooContemString(String strFiltro) {
+  private String formatarValor(String strValor) {
+
+    try {
+      if (Util.getBooStrVazia(strValor)) {
+        return Util.STR_VAZIA;
+      }
+      strValor = strValor.replace("true", "Sim");
+      strValor = strValor.replace("false", "Não");
+    }
+    catch (Exception ex) {
+      new Erro("Erro inesperado.\n", ex);
+    }
+    finally {
+    }
+    return strValor;
+  }
+
+  public boolean getBooContemTermo(String strTermo) {
 
     boolean booContemString = false;
     try {
-      if (this.getStrNome().contains(strFiltro)) {
+      if (this.getStrNome().contains(strTermo)) {
         booContemString = true;
       }
-      if (this.getStrCampo1Valor().contains(strFiltro)
-          && this.getStrCampo1Valor().length() == strFiltro.length()) {
+      if (this.getStrCampo1Valor().contains(strTermo)
+          && this.getStrCampo1Valor().length() == strTermo.length()) {
         booContemString = true;
       }
-      if (this.getStrCampo2Valor().contains(strFiltro)) {
+      if (this.getStrCampo2Valor().contains(strTermo)) {
         booContemString = true;
       }
-      if (this.getStrCampo3Valor().contains(strFiltro)) {
+      if (this.getStrCampo3Valor().contains(strTermo)) {
         booContemString = true;
       }
     }
@@ -47,6 +64,9 @@ public class ItmConsulta extends Objeto {
   public String getStrCampo001() {
 
     try {
+      if (!Util.getBooStrVazia(_strCampo1)) {
+        return _strCampo1;
+      }
       _strCampo1 = this.getStrCampo1Nome() + ": " + this.getStrCampo1Valor();
     }
     catch (Exception ex) {
@@ -65,21 +85,25 @@ public class ItmConsulta extends Objeto {
   public String getStrCampo1Valor() {
 
     try {
-      if (_strCampo1Valor == null) {
-        _strCampo1Valor = Util.STR_VAZIA;
+      if (!Util.getBooStrVazia(_strCampo1Valor)) {
+        return _strCampo1Valor;
       }
+      _strCampo1Valor = this.formatarValor(_strCampo1Valor);
     }
     catch (Exception ex) {
       new Erro(App.getI().getStrTextoPadrao(0), ex);
     }
     finally {
     }
-    return _strCampo1Valor.replace("true", "Sim").replace("false", "Não");
+    return _strCampo1Valor;
   }
 
   public String getstrCampo2() {
 
     try {
+      if (!Util.getBooStrVazia(_strCampo2)) {
+        return _strCampo2;
+      }
       _strCampo2 = this.getStrCampo2Nome() + ": " + this.getStrCampo2Valor();
     }
     catch (Exception ex) {
@@ -98,21 +122,25 @@ public class ItmConsulta extends Objeto {
   public String getStrCampo2Valor() {
 
     try {
-      if (_strCampo2Valor == null) {
-        _strCampo2Valor = Util.STR_VAZIA;
+      if (!Util.getBooStrVazia(_strCampo2Valor)) {
+        return _strCampo2Valor;
       }
+      _strCampo2Valor = this.formatarValor(_strCampo2Valor);
     }
     catch (Exception ex) {
       new Erro(App.getI().getStrTextoPadrao(0), ex);
     }
     finally {
     }
-    return _strCampo2Valor.replace("true", "Sim").replace("false", "Não");
+    return _strCampo2Valor;
   }
 
   public String getstrCampo3() {
 
     try {
+      if (!Util.getBooStrVazia(_strCampo3)) {
+        return _strCampo3;
+      }
       _strCampo3 = this.getStrCampo3Nome() + ": " + this.getStrCampo3Valor();
     }
     catch (Exception ex) {
@@ -131,16 +159,17 @@ public class ItmConsulta extends Objeto {
   public String getStrCampo3Valor() {
 
     try {
-      if (_strCampo3Valor == null) {
-        _strCampo3Valor = Util.STR_VAZIA;
+      if (!Util.getBooStrVazia(_strCampo3Valor)) {
+        return _strCampo3Valor;
       }
+      _strCampo3Valor = this.formatarValor(_strCampo3Valor);
     }
     catch (Exception ex) {
       new Erro(App.getI().getStrTextoPadrao(0), ex);
     }
     finally {
     }
-    return _strCampo3Valor.replace("true", "Sim").replace("false", "Não");
+    return _strCampo3Valor;
   }
 
   public String getStrItemId() {

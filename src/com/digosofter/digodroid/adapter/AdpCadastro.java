@@ -60,7 +60,7 @@ public class AdpCadastro extends BaseAdapter implements Filterable {
         else {
           ArrayList<ItmConsulta> lstItmCadastro = new ArrayList<ItmConsulta>();
           for (ItmConsulta itmCadastro : AdpCadastro.this.getLstItmCadastro()) {
-            if (itmCadastro.getBooContemString(strFiltro.toString())) {
+            if (itmCadastro.getBooContemTermo(strFiltro.toString())) {
               lstItmCadastro.add(itmCadastro);
             }
           }
