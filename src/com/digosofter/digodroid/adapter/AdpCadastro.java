@@ -135,15 +135,15 @@ public class AdpCadastro extends BaseAdapter implements Filterable {
       itmCadastro = this.getLstItmCadastro().get(position);
       txtRegistroNome.setText(itmCadastro.getStrNomeExibicao());
       txtRegistroCampo001.setText(itmCadastro.getStrCampo001());
-      if (Util.getBooStrVazia(itmCadastro.getStrCampo001Valor())) {
+      if (Util.getBooStrVazia(itmCadastro.getStrCampo1Valor())) {
         txtRegistroCampo001.setVisibility(View.GONE);
       }
-      txtRegistroCampo002.setText(itmCadastro.getstrCampo002());
-      if (Util.getBooStrVazia(itmCadastro.getStrCampo002Valor())) {
+      txtRegistroCampo002.setText(itmCadastro.getstrCampo2());
+      if (Util.getBooStrVazia(itmCadastro.getStrCampo2Valor())) {
         txtRegistroCampo002.setVisibility(View.GONE);
       }
-      txtRegistroCampo003.setText(itmCadastro.getstrCampo003());
-      if (Util.getBooStrVazia(itmCadastro.getStrCampo003Valor())) {
+      txtRegistroCampo003.setText(itmCadastro.getstrCampo3());
+      if (Util.getBooStrVazia(itmCadastro.getStrCampo3Valor())) {
         txtRegistroCampo003.setVisibility(View.GONE);
       }
     }

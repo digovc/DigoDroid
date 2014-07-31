@@ -197,7 +197,7 @@ public class ActConsulta extends ActMain {
 
     try {
       if (item.getItemId() == R.id.actCadastro_actionBar_itmNovo) {
-        this.startActivity(new Intent(this, this.getTbl().getClsActFrm()));
+        this.startActivity(new Intent(this, this.getTbl().getClsActCadastro()));
       }
       else if (item.getItemId() == android.R.id.home) {
         this.onBackPressed();
@@ -289,12 +289,12 @@ public class ActConsulta extends ActMain {
           ItmConsulta objItem;
           Intent objIntent;
           try {
-            if (ActConsulta.this.getTbl().getClsActFrm() == null) {
+            if (ActConsulta.this.getTbl().getClsActCadastro() == null) {
               return false;
             }
             objItem = (ItmConsulta) ActConsulta.this.getPnlTblLista().getItemAtPosition(position);
             objIntent = new Intent(ActConsulta.this.getApplicationContext(), ActConsulta.this
-                .getTbl().getClsActFrm());
+                .getTbl().getClsActCadastro());
             objIntent.putExtra("id", objItem.getStrItemId());
             ActConsulta.this.setResult(ActConsulta.EnmResultadoTipo.REGISTRO_SELECIONADO.ordinal(),
                 objIntent);

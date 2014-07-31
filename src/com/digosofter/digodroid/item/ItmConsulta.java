@@ -7,15 +7,15 @@ import com.digosofter.digodroid.erro.Erro;
 
 public class ItmConsulta extends Objeto {
 
-  private String _strCampo001;
-  private String _strCampo001Nome;
-  private String _strCampo001Valor;
-  private String _strCampo002;
-  private String _strCampo002Nome;
-  private String _strCampo002Valor;
-  private String _strCampo003;
-  private String _strCampo003Nome;
-  private String _strCampo003Valor;
+  private String _strCampo1;
+  private String _strCampo1Nome;
+  private String _strCampo1Valor;
+  private String _strCampo2;
+  private String _strCampo2Nome;
+  private String _strCampo2Valor;
+  private String _strCampo3;
+  private String _strCampo3Nome;
+  private String _strCampo3Valor;
   private String _strItemId;
 
   public boolean getBooContemString(String strFiltro) {
@@ -25,14 +25,14 @@ public class ItmConsulta extends Objeto {
       if (this.getStrNome().contains(strFiltro)) {
         booContemString = true;
       }
-      if (this.getStrCampo001Valor().contains(strFiltro)
-          && this.getStrCampo001Valor().length() == strFiltro.length()) {
+      if (this.getStrCampo1Valor().contains(strFiltro)
+          && this.getStrCampo1Valor().length() == strFiltro.length()) {
         booContemString = true;
       }
-      if (this.getStrCampo002Valor().contains(strFiltro)) {
+      if (this.getStrCampo2Valor().contains(strFiltro)) {
         booContemString = true;
       }
-      if (this.getStrCampo003Valor().contains(strFiltro)) {
+      if (this.getStrCampo3Valor().contains(strFiltro)) {
         booContemString = true;
       }
     }
@@ -47,26 +47,26 @@ public class ItmConsulta extends Objeto {
   public String getStrCampo001() {
 
     try {
-      _strCampo001 = this.getStrCampo001Nome() + ": " + this.getStrCampo001Valor();
+      _strCampo1 = this.getStrCampo1Nome() + ": " + this.getStrCampo1Valor();
     }
     catch (Exception ex) {
       new Erro(App.getI().getStrTextoPadrao(0), ex);
     }
     finally {
     }
-    return _strCampo001;
+    return _strCampo1;
   }
 
-  public String getStrCampo001Nome() {
+  public String getStrCampo1Nome() {
 
-    return _strCampo001Nome;
+    return _strCampo1Nome;
   }
 
-  public String getStrCampo001Valor() {
+  public String getStrCampo1Valor() {
 
     try {
-      if (_strCampo001Valor == null) {
-        _strCampo001Valor = Util.STR_VAZIA;
+      if (_strCampo1Valor == null) {
+        _strCampo1Valor = Util.STR_VAZIA;
       }
     }
     catch (Exception ex) {
@@ -74,32 +74,32 @@ public class ItmConsulta extends Objeto {
     }
     finally {
     }
-    return _strCampo001Valor.replace("true", "Sim").replace("false", "Não");
+    return _strCampo1Valor.replace("true", "Sim").replace("false", "Não");
   }
 
-  public String getstrCampo002() {
+  public String getstrCampo2() {
 
     try {
-      _strCampo002 = this.getStrCampo002Nome() + ": " + this.getStrCampo002Valor();
+      _strCampo2 = this.getStrCampo2Nome() + ": " + this.getStrCampo2Valor();
     }
     catch (Exception ex) {
       new Erro(App.getI().getStrTextoPadrao(0), ex);
     }
     finally {
     }
-    return _strCampo002;
+    return _strCampo2;
   }
 
-  public String getStrCampo002Nome() {
+  public String getStrCampo2Nome() {
 
-    return _strCampo002Nome;
+    return _strCampo2Nome;
   }
 
-  public String getStrCampo002Valor() {
+  public String getStrCampo2Valor() {
 
     try {
-      if (_strCampo002Valor == null) {
-        _strCampo002Valor = Util.STR_VAZIA;
+      if (_strCampo2Valor == null) {
+        _strCampo2Valor = Util.STR_VAZIA;
       }
     }
     catch (Exception ex) {
@@ -107,32 +107,32 @@ public class ItmConsulta extends Objeto {
     }
     finally {
     }
-    return _strCampo002Valor.replace("true", "Sim").replace("false", "Não");
+    return _strCampo2Valor.replace("true", "Sim").replace("false", "Não");
   }
 
-  public String getstrCampo003() {
+  public String getstrCampo3() {
 
     try {
-      _strCampo003 = this.getStrCampo003Nome() + ": " + this.getStrCampo003Valor();
+      _strCampo3 = this.getStrCampo3Nome() + ": " + this.getStrCampo3Valor();
     }
     catch (Exception ex) {
       new Erro(App.getI().getStrTextoPadrao(0), ex);
     }
     finally {
     }
-    return _strCampo003;
+    return _strCampo3;
   }
 
-  public String getStrCampo003Nome() {
+  public String getStrCampo3Nome() {
 
-    return _strCampo003Nome;
+    return _strCampo3Nome;
   }
 
-  public String getStrCampo003Valor() {
+  public String getStrCampo3Valor() {
 
     try {
-      if (_strCampo003Valor == null) {
-        _strCampo003Valor = Util.STR_VAZIA;
+      if (_strCampo3Valor == null) {
+        _strCampo3Valor = Util.STR_VAZIA;
       }
     }
     catch (Exception ex) {
@@ -140,7 +140,7 @@ public class ItmConsulta extends Objeto {
     }
     finally {
     }
-    return _strCampo003Valor.replace("true", "Sim").replace("false", "Não");
+    return _strCampo3Valor.replace("true", "Sim").replace("false", "Não");
   }
 
   public String getStrItemId() {
@@ -148,34 +148,34 @@ public class ItmConsulta extends Objeto {
     return _strItemId;
   }
 
-  public void setStrCampo001Nome(String strCampo001Nome) {
+  public void setStrCampo1Nome(String strCampo1Nome) {
 
-    _strCampo001Nome = strCampo001Nome;
+    _strCampo1Nome = strCampo1Nome;
   }
 
-  public void setStrCampo001Valor(String strCampo001Valor) {
+  public void setStrCampo1Valor(String strCampo1Valor) {
 
-    _strCampo001Valor = strCampo001Valor;
+    _strCampo1Valor = strCampo1Valor;
   }
 
-  public void setStrCampo002Nome(String strCampo002Nome) {
+  public void setStrCampo2Nome(String strCampo2Nome) {
 
-    _strCampo002Nome = strCampo002Nome;
+    _strCampo2Nome = strCampo2Nome;
   }
 
-  public void setStrCampo002Valor(String strCampo002Valor) {
+  public void setStrCampo2Valor(String strCampo2Valor) {
 
-    _strCampo002Valor = strCampo002Valor;
+    _strCampo2Valor = strCampo2Valor;
   }
 
-  public void setStrCampo003Nome(String strCampo003Nome) {
+  public void setStrCampo3Nome(String strCampo3Nome) {
 
-    _strCampo003Nome = strCampo003Nome;
+    _strCampo3Nome = strCampo3Nome;
   }
 
-  public void setStrCampo003Valor(String strCampo003Valor) {
+  public void setStrCampo3Valor(String strCampo3Valor) {
 
-    _strCampo003Valor = strCampo003Valor;
+    _strCampo3Valor = strCampo3Valor;
   }
 
   public void setStrItemId(String strItemId) {

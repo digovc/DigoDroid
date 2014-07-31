@@ -272,6 +272,16 @@ public class DbColuna extends Objeto {
 
   public String getStrValorDefault() {
 
+    try {
+      if (Util.getBooStrVazia(_strValorDefault)) {
+        _strValorDefault = Util.STR_VAZIA;
+      }
+    }
+    catch (Exception ex) {
+      new Erro("Erro inesperado.\n", ex);
+    }
+    finally {
+    }
     return _strValorDefault;
   }
 
