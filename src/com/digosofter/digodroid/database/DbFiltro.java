@@ -2,6 +2,7 @@ package com.digosofter.digodroid.database;
 
 import com.digosofter.digodroid.App;
 import com.digosofter.digodroid.Objeto;
+import com.digosofter.digodroid.Util;
 import com.digosofter.digodroid.erro.Erro;
 
 public class DbFiltro extends Objeto {
@@ -9,6 +10,8 @@ public class DbFiltro extends Objeto {
   public enum EnmOperador {
     DIFERENTE,
     IGUAL,
+    IS_NOT_NULL,
+    IS_NULL,
     MAIOR,
     MAIOR_IGUAL,
     MENOR,
@@ -18,9 +21,10 @@ public class DbFiltro extends Objeto {
   private boolean _booSubSelect;
   private DbColuna _clnFiltro;
   private EnmOperador _enmOperador = EnmOperador.IGUAL;
-  private String _strCondicao = "AND";
+  private String _strCondicao;
   private String _strFiltro;
   private String _strOperador;
+  private String _sqlFiltro;
 
   public DbFiltro(DbColuna clnFiltro, EnmOperador enmOperador, int intFiltro) {
 
@@ -106,6 +110,16 @@ public class DbFiltro extends Objeto {
 
   private String getStrCondicao() {
 
+    try {
+      if (Util.getBooStrVazia(_strCondicao)) {
+        _strCondicao = "and";
+      }
+    }
+    catch (Exception ex) {
+      new Erro("Erro inesperado.\n", ex);
+    }
+    finally {
+    }
     return _strCondicao;
   }
 
@@ -118,48 +132,54 @@ public class DbFiltro extends Objeto {
    * Retorna string com o filtro formatado para uso em sql's.
    *
    */
-  public String getStrFiltroFormatado(boolean booPrimeiroTermo) {
+  public String getSqlFiltro(boolean booPrimeiroTermo) {
 
-    StringBuilder stbResultado = null;
     try {
-      stbResultado = new StringBuilder();
-      stbResultado.append(" ");
-      if (!booPrimeiroTermo) {
-        stbResultado.append(this.getStrCondicao());
-        stbResultado.append(" ");
+      if (!Util.getBooStrVazia(_sqlFiltro)) {
+        return _sqlFiltro;
       }
-      if (!this.getBooSubSelect()) {
-        stbResultado.append(this.getClnFiltro().getTbl().getStrNomeSimplificado());
-        stbResultado.append(".");
-        stbResultado.append(this.getClnFiltro().getStrNomeSimplificado());
-        stbResultado.append(this.getStrOperador());
-        stbResultado.append("'");
-        stbResultado.append(this.getStrFiltro());
-        stbResultado.append("'");
+      if (this.getBooSubSelect()) {
+        _sqlFiltro = "_operador (_sub_select)";
+        _sqlFiltro = _sqlFiltro.replace("_operador", booPrimeiroTermo ? this.getStrCondicao()
+            : Util.STR_VAZIA);
+        _sqlFiltro = _sqlFiltro.replace("_sub_select", this.getStrFiltro());
+        return _sqlFiltro;
       }
-      else {
-        // stbResultado.append("(");
-        stbResultado.append(this.getStrFiltro());
-        // stbResultado.append(") ");
-      }
+      _sqlFiltro = "_operador _tbl_nome._cln_nome _operador '_filtro'";
+      _sqlFiltro = _sqlFiltro.replace("_operador", booPrimeiroTermo ? this.getStrCondicao()
+          : Util.STR_VAZIA);
+      _sqlFiltro = _sqlFiltro.replace("_tbl_nome", this.getClnFiltro().getTbl()
+          .getStrNomeSimplificado());
+      _sqlFiltro = _sqlFiltro.replace("_cln_nome", this.getClnFiltro().getStrNomeSimplificado());
+      _sqlFiltro = _sqlFiltro.replace("_operador", this.getStrOperador());
+      _sqlFiltro = _sqlFiltro.replace("_filtro", this.getStrFiltro());
     }
     catch (Exception ex) {
       new Erro(App.getI().getStrTextoPadrao(0), ex);
     }
     finally {
     }
-    return stbResultado.toString();
+    return _sqlFiltro;
   }
 
   private String getStrOperador() {
 
     try {
+      if (!Util.getBooStrVazia(_strOperador)) {
+        return _strOperador;
+      }
       switch (this.getEnmOperador()) {
         case DIFERENTE:
           _strOperador = "<>";
           break;
         case IGUAL:
           _strOperador = "=";
+          break;
+        case IS_NOT_NULL:
+          _strOperador = "is not null";
+          break;
+        case IS_NULL:
+          _strOperador = "is null";
           break;
         case MAIOR:
           _strOperador = ">";

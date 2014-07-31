@@ -220,31 +220,31 @@ public class DbColuna extends Objeto {
       }
       switch (this.getEnmTipo()) {
         case BOOLEAN:
-          _sqlTipo = "TEXT";
+          _sqlTipo = "text";
           break;
         case DATE_TIME:
-          _sqlTipo = "TEXT";
+          _sqlTipo = "text";
           break;
         case INTEGER:
-          _sqlTipo = "INTEGER";
+          _sqlTipo = "integer";
           break;
         case MONETARY:
-          _sqlTipo = "NUMERIC";
+          _sqlTipo = "numeric";
           break;
         case NONE:
-          _sqlTipo = "NONE";
+          _sqlTipo = "none";
           break;
         case NUMERIC:
-          _sqlTipo = "NUMERIC";
+          _sqlTipo = "numeric";
           break;
         case REAL:
-          _sqlTipo = "REAL";
+          _sqlTipo = "real";
           break;
         case TEXT:
-          _sqlTipo = "TEXT";
+          _sqlTipo = "text";
           break;
         default:
-          _sqlTipo = "TEXT";
+          _sqlTipo = "text";
       }
     }
     catch (Exception ex) {

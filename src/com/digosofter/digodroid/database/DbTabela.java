@@ -321,7 +321,7 @@ public abstract class DbTabela extends Objeto {
     try {
       if (lstObjDbFiltro != null) {
         for (DbFiltro objDbFiltro : lstObjDbFiltro) {
-          strFiltro += objDbFiltro.getStrFiltroFormatado(booPrimeiroTermo);
+          strFiltro += objDbFiltro.getSqlFiltro(booPrimeiroTermo);
           booPrimeiroTermo = false;
         }
       }
@@ -372,7 +372,7 @@ public abstract class DbTabela extends Objeto {
     try {
       if (lstObjDbFiltro.size() > 0) {
         for (DbFiltro objDbFiltro : lstObjDbFiltro) {
-          strFiltro += objDbFiltro.getStrFiltroFormatado(booPrimeiroTermo);
+          strFiltro += objDbFiltro.getSqlFiltro(booPrimeiroTermo);
           booPrimeiroTermo = false;
         }
         lstObjDbFiltro.clear();
