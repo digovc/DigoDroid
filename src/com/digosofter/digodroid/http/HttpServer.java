@@ -17,8 +17,6 @@ public class HttpServer extends NanoHTTPD {
     }
   }
 
-  // DESTRUTOR
-  // FIM DESTRUTOR
   @Override
   public Response serve(IHTTPSession session) {
 
