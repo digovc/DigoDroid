@@ -15,13 +15,13 @@ public class DataBase extends SQLiteOpenHelper {
 
   public static final String STR_FILE_PREFIXO = ".sqlite";
   private ArquivoDb _arq;
-  private SQLiteDatabase _objDataBaseLeitura;
+  private SQLiteDatabase _objDbLeitura;
   private SQLiteDatabase _objDbEscrita;
   private String _strNome;
 
-  public DataBase(String strDbNome, Context context) {
+  public DataBase(String strDbNome, Context cnt) {
 
-    super(context, strDbNome + STR_FILE_PREFIXO, null, 1);
+    super(cnt, strDbNome + STR_FILE_PREFIXO, null, 1);
     try {
       this.setStrNome(strDbNome + STR_FILE_PREFIXO);
     }
@@ -63,14 +63,14 @@ public class DataBase extends SQLiteOpenHelper {
 
   public double execSqlGetDbl(String sql) {
 
-    String strResultado;
+    String str;
     double dblResultado = 0;
     try {
-      strResultado = this.execSqlGetStr(sql);
-      if (Util.getBooStrVazia(strResultado)) {
-        strResultado = "0";
+      str = this.execSqlGetStr(sql);
+      if (Util.getBooStrVazia(str)) {
+        str = "0";
       }
-      dblResultado = Double.valueOf(strResultado);
+      dblResultado = Double.valueOf(str);
     }
     catch (Exception ex) {
       new Erro(App.getI().getStrTextoPadrao(0), ex);
@@ -134,9 +134,10 @@ public class DataBase extends SQLiteOpenHelper {
   public SQLiteDatabase getObjDbEscrita() {
 
     try {
-      if (_objDbEscrita == null) {
-        _objDbEscrita = this.getWritableDatabase();
+      if (_objDbEscrita != null) {
+        return _objDbEscrita;
       }
+      _objDbEscrita = this.getWritableDatabase();
     }
     catch (Exception ex) {
       new Erro(App.getI().getStrTextoPadrao(0), ex);
@@ -149,16 +150,17 @@ public class DataBase extends SQLiteOpenHelper {
   public SQLiteDatabase getObjDbLeitura() {
 
     try {
-      if (_objDataBaseLeitura == null) {
-        _objDataBaseLeitura = this.getReadableDatabase();
+      if (_objDbLeitura != null) {
+        return _objDbLeitura = this.getReadableDatabase();
       }
+      _objDbLeitura = this.getReadableDatabase();
     }
     catch (Exception ex) {
       new Erro(App.getI().getStrTextoPadrao(0), ex);
     }
     finally {
     }
-    return _objDataBaseLeitura;
+    return _objDbLeitura;
   }
 
   public String getStrNome() {
@@ -169,25 +171,11 @@ public class DataBase extends SQLiteOpenHelper {
   @Override
   public void onCreate(SQLiteDatabase db) {
 
-    try {
-    }
-    catch (Exception ex) {
-      new Erro(App.getI().getStrTextoPadrao(0), ex);
-    }
-    finally {
-    }
   }
 
   @Override
   public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 
-    try {
-    }
-    catch (Exception ex) {
-      new Erro(App.getI().getStrTextoPadrao(0), ex);
-    }
-    finally {
-    }
   }
 
   private void setStrNome(String strNome) {
