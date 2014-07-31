@@ -31,10 +31,11 @@ public abstract class TblMain extends DbTabela {
   public DbColuna getClnDttAlteracao() {
 
     try {
-      if (_clnDttAlteracao == null) {
-        _clnDttAlteracao = new DbColuna("dttAlteracao", this, EnmTipo.TEXT);
-        _clnDttAlteracao.setStrNomeExibicao("Alteração");
+      if (_clnDttAlteracao != null) {
+        return _clnDttAlteracao;
       }
+      _clnDttAlteracao = new DbColuna("dtt_alteracao", this, EnmTipo.TEXT);
+      _clnDttAlteracao.setStrNomeExibicao("Alteração");
     }
     catch (Exception ex) {
       new Erro(App.getI().getStrTextoPadrao(0), ex);
@@ -47,10 +48,11 @@ public abstract class TblMain extends DbTabela {
   public DbColuna getClnDttCadastro() {
 
     try {
-      if (_clnDttCadastro == null) {
-        _clnDttCadastro = new DbColuna("dttCadastro", this, EnmTipo.TEXT);
-        _clnDttCadastro.setStrNomeExibicao("Alteração");
+      if (_clnDttCadastro != null) {
+        return _clnDttCadastro;
       }
+      _clnDttCadastro = new DbColuna("dtt_cadastro", this, EnmTipo.TEXT);
+      _clnDttCadastro.setStrNomeExibicao("Cadastro");
     }
     catch (Exception ex) {
       new Erro(App.getI().getStrTextoPadrao(0), ex);
@@ -63,10 +65,11 @@ public abstract class TblMain extends DbTabela {
   public DbColuna getClnDttExclusao() {
 
     try {
-      if (_clnDttExclusao == null) {
-        _clnDttExclusao = new DbColuna("dttExclusao", this, EnmTipo.TEXT);
-        _clnDttExclusao.setStrNomeExibicao("Alteração");
+      if (_clnDttExclusao != null) {
+        return _clnDttExclusao;
       }
+      _clnDttExclusao = new DbColuna("dtt_exclusao", this, EnmTipo.TEXT);
+      _clnDttExclusao.setStrNomeExibicao("Exclusão");
     }
     catch (Exception ex) {
       new Erro(App.getI().getStrTextoPadrao(0), ex);
@@ -79,11 +82,12 @@ public abstract class TblMain extends DbTabela {
   public DbColuna getClnIntId() {
 
     try {
-      if (_clnIntId == null) {
-        _clnIntId = new DbColuna("intId", this, EnmTipo.INTEGER);
-        _clnIntId.setBooChavePrimaria(true);
-        _clnIntId.setStrNomeExibicao("código");
+      if (_clnIntId != null) {
+        return _clnIntId;
       }
+      _clnIntId = new DbColuna("int_id", this, EnmTipo.INTEGER);
+      _clnIntId.setBooChavePrimaria(true);
+      _clnIntId.setStrNomeExibicao("Código");
     }
     catch (Exception ex) {
       new Erro(App.getI().getStrTextoPadrao(0), ex);
@@ -96,9 +100,10 @@ public abstract class TblMain extends DbTabela {
   public DbColuna getClnIntUsuarioAlteracaoId() {
 
     try {
-      if (_clnIntUsuarioAlteracaoId == null) {
-        _clnIntUsuarioAlteracaoId = new DbColuna("IntUsuarioAlteracaoId", this, EnmTipo.INTEGER);
+      if (_clnIntUsuarioAlteracaoId != null) {
+        return _clnIntUsuarioAlteracaoId;
       }
+      _clnIntUsuarioAlteracaoId = new DbColuna("int_usuario_alteracao_id", this, EnmTipo.INTEGER);
     }
     catch (Exception ex) {
       new Erro(App.getI().getStrTextoPadrao(0), ex);
@@ -111,9 +116,10 @@ public abstract class TblMain extends DbTabela {
   public DbColuna getClnIntUsuarioCadastroId() {
 
     try {
-      if (_clnIntUsuarioCadastroId == null) {
-        _clnIntUsuarioCadastroId = new DbColuna("IntUsuarioCadastroId", this, EnmTipo.INTEGER);
+      if (_clnIntUsuarioCadastroId != null) {
+        return _clnIntUsuarioCadastroId;
       }
+      _clnIntUsuarioCadastroId = new DbColuna("int_usuario_cadastro_id", this, EnmTipo.INTEGER);
     }
     catch (Exception ex) {
       new Erro(App.getI().getStrTextoPadrao(0), ex);
@@ -126,9 +132,10 @@ public abstract class TblMain extends DbTabela {
   public DbColuna getClnIntUsuarioExclusaoId() {
 
     try {
-      if (_clnIntUsuarioExclusaoId == null) {
-        _clnIntUsuarioExclusaoId = new DbColuna("IntUsuarioExclusaoId", this, EnmTipo.INTEGER);
+      if (_clnIntUsuarioExclusaoId != null) {
+        return _clnIntUsuarioExclusaoId;
       }
+      _clnIntUsuarioExclusaoId = new DbColuna("int_usuario_exclusao_id", this, EnmTipo.INTEGER);
     }
     catch (Exception ex) {
       new Erro(App.getI().getStrTextoPadrao(0), ex);
