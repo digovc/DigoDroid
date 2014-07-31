@@ -289,7 +289,7 @@ public abstract class Util {
   public static String getStrToken(List<String> lstStrTermo, int intTamanho) {
 
     String strTermoMd5;
-    String strResultado = null;
+    String strResultado = Util.STR_VAZIA;
     try {
       for (String strTermo : lstStrTermo) {
         strTermoMd5 = Util.getMd5(strTermo);
