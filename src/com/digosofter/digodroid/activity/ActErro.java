@@ -105,13 +105,13 @@ public class ActErro extends ActMain {
     try {
       this.getTxtAppNome().setText(App.getI().getStrNome());
       this.getTxtErroTitulo().setText(this.getErr().getStrNome());
-      if (Util.getBooStrVazia(this.getErr().getStrMensagemDetalhes())) {
-        this.getTxtErroMensagem().setText(this.getErr().getStrMensagem());
+      if (Util.getBooStrVazia(this.getErr().getStrMsgDetalhe())) {
+        this.getTxtErroMensagem().setText(this.getErr().getStrMsg());
         return;
       }
       strFormatada = "_msg\n\nDetalhes: _detalhe";
-      strFormatada = strFormatada.replace("_msg", this.getErr().getStrMensagem());
-      strFormatada = strFormatada.replace("_detalhe", this.getErr().getStrMensagemDetalhes());
+      strFormatada = strFormatada.replace("_msg", this.getErr().getStrMsg());
+      strFormatada = strFormatada.replace("_detalhe", this.getErr().getStrMsgDetalhe());
       this.getTxtErroMensagem().setText(strFormatada);
     }
     catch (Exception ex) {

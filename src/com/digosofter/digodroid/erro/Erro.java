@@ -3,6 +3,7 @@ package com.digosofter.digodroid.erro;
 import java.io.Serializable;
 
 import android.content.Intent;
+import android.util.Log;
 
 import com.digosofter.digodroid.App;
 import com.digosofter.digodroid.Util;
@@ -12,25 +13,26 @@ public class Erro extends Exception implements Serializable {
 
   private static final long serialVersionUID = 1L;
   private boolean _booMostrarUsuario = true;
-  private String _strMensagem = "Erro do sistema.";
-  private String _strMensagemDetalhes;
+  private String _strMsg;
+  private String _strMsgDetalhe;
   private String _strNome;
 
-  public Erro(String strMensagem, Exception ex) {
+  public Erro(String strMsg, Exception ex) {
 
     Intent objIntent;
     try {
-      if (!Util.getBooStrVazia(strMensagem)) {
-        this.setStrMensagem(strMensagem);
+      if (!Util.getBooStrVazia(strMsg)) {
+        this.setStrMsg(strMsg);
       }
       if (ex != null && !Util.getBooStrVazia(ex.getMessage())) {
-        this.setStrMensagemDetalhes(ex.getMessage());
+        this.setStrMsgDetalhe(ex.getMessage());
       }
-      if (this.getBooMostrarUsuario()) {
-        objIntent = new Intent(App.getI().getActMain(), ActErro.class);
-        objIntent.putExtra("Erro", this);
-        App.getI().getActMain().startActivity(objIntent);
+      if (!this.getBooMostrarUsuario()) {
+        return;
       }
+      objIntent = new Intent(App.getI().getCnt(), ActErro.class);
+      objIntent.putExtra("Erro", this);
+      App.getI().getActMain().startActivity(objIntent);
       this.imprimirConsole();
     }
     catch (Exception e) {
@@ -39,19 +41,41 @@ public class Erro extends Exception implements Serializable {
     }
   }
 
-  public boolean getBooMostrarUsuario() {
+  private boolean getBooMostrarUsuario() {
 
     return _booMostrarUsuario;
   }
 
-  public String getStrMensagem() {
+  public String getStrMsg() {
 
-    return _strMensagem;
+    try {
+      if (!Util.getBooStrVazia(_strMsg)) {
+        return _strMsg;
+      }
+      _strMsg = "Erro do sistema.";
+    }
+    catch (Exception ex) {
+      new Erro("Erro inesperado.\n", ex);
+    }
+    finally {
+    }
+    return _strMsg;
   }
 
-  public String getStrMensagemDetalhes() {
+  public String getStrMsgDetalhe() {
 
-    return _strMensagemDetalhes;
+    try {
+      if (!Util.getBooStrVazia(_strMsgDetalhe)) {
+        return _strMsgDetalhe;
+      }
+      _strMsgDetalhe = "Sem mais detalhes do erro.";
+    }
+    catch (Exception ex) {
+      new Erro("Erro inesperado.\n", ex);
+    }
+    finally {
+    }
+    return _strMsgDetalhe;
   }
 
   public String getStrNome() {
@@ -62,8 +86,9 @@ public class Erro extends Exception implements Serializable {
   private void imprimirConsole() {
 
     try {
-      System.out.println(this.getStrMensagem());
-      System.out.println(this.getStrMensagemDetalhes());
+      System.out.println(this.getStrMsg());
+      System.out.println(this.getStrMsgDetalhe());
+      Log.println(Log.ERROR, this.getStrMsg(), this.getStrMsgDetalhe());
     }
     catch (Exception ex) {
       new Erro(App.getI().getStrTextoPadrao(0), ex);
@@ -77,13 +102,13 @@ public class Erro extends Exception implements Serializable {
     _booMostrarUsuario = booMostrarUsuario;
   }
 
-  public void setStrMensagem(String strMensagem) {
+  public void setStrMsg(String strMsg) {
 
-    _strMensagem = strMensagem;
+    _strMsg = strMsg;
   }
 
-  private void setStrMensagemDetalhes(String strMensagemDetalhes) {
+  private void setStrMsgDetalhe(String strMsgDetalhe) {
 
-    _strMensagemDetalhes = strMensagemDetalhes;
+    _strMsgDetalhe = strMsgDetalhe;
   }
 }
