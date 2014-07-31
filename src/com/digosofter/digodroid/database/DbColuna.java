@@ -28,28 +28,15 @@ public class DbColuna extends Objeto {
   private boolean _booOrdemCadastro;
   private boolean _booOrdemDecrecente;
   private boolean _booVisivelCadastro;
-  private DbColuna _clnReferencia;
+  private DbColuna _clnRef;
   private EnmTipo _enmTipo;
   private int _intOrdem;
   private List<String> _lstStrOpcao;
-  private String _strSqlTipo;
+  private String _sqlTipo;
   private String _strValor;
   private String _strValorDefault;
   private String _strValorExibicao;
   private DbTabela _tbl;
-
-  public DbColuna(String strNome, DbTabela tbl) {
-
-    try {
-      this.setStrNome(strNome);
-      this.setTbl(tbl);
-    }
-    catch (Exception ex) {
-      new Erro(App.getI().getStrTextoPadrao(120), ex);
-    }
-    finally {
-    }
-  }
 
   public DbColuna(String strNome, DbTabela tbl, EnmTipo enmTipo) {
 
@@ -62,23 +49,6 @@ public class DbColuna extends Objeto {
       new Erro(App.getI().getStrTextoPadrao(120), ex);
     }
     finally {
-    }
-  }
-
-  public DbColuna(String strNome, DbTabela tbl, EnmTipo enmTipo, DbColuna clnReferencia) {
-
-    try {
-      this.setStrNome(strNome);
-      this.setTbl(tbl);
-      this.setEnmTipo(enmTipo);
-      this.setClnReferencia(clnReferencia);
-    }
-    catch (Exception ex) {
-      new Erro(App.getI().getStrTextoPadrao(120), ex);
-    }
-    finally {
-      // LIMPAR VARIÁVEIS
-      // FIM LIMPAR VARIÁVEIS
     }
   }
 
@@ -135,14 +105,14 @@ public class DbColuna extends Objeto {
     return chrResultado;
   }
 
-  public DbColuna getClnReferencia() {
+  public DbColuna getClnRef() {
 
-    return _clnReferencia;
+    return _clnRef;
   }
 
   public double getDblValor() {
 
-    double dlbResultado = 0;
+    double dlbResultado;
     try {
       dlbResultado = Double.parseDouble(this.getStrValor());
     }
@@ -156,13 +126,13 @@ public class DbColuna extends Objeto {
 
   public GregorianCalendar getDttValor() {
 
-    int intAno = 0;
-    int intMes = 0;
-    int intDia = 0;
+    GregorianCalendar dttResultado = null;
+    int intAno;
+    int intDia;
     int intHora = 0;
+    int intMes;
     int intMin = 0;
     int intSeg = 0;
-    GregorianCalendar dttResultado = null;
     try {
       intAno = Integer.parseInt(this.getStrValor().substring(0, 4));
       intMes = Integer.parseInt(this.getStrValor().substring(5, 7));
@@ -214,7 +184,7 @@ public class DbColuna extends Objeto {
 
   public int getIntValor() {
 
-    int intResultado = 0;
+    int intResultado;
     try {
       intResultado = Integer.parseInt(this.getStrValor());
     }
@@ -229,9 +199,10 @@ public class DbColuna extends Objeto {
   public List<String> getLstStrOpcao() {
 
     try {
-      if (_lstStrOpcao == null) {
-        _lstStrOpcao = new ArrayList<String>();
+      if (_lstStrOpcao != null) {
+        return _lstStrOpcao;
       }
+      _lstStrOpcao = new ArrayList<String>();
     }
     catch (Exception ex) {
       new Erro(App.getI().getStrTextoPadrao(0), ex);
@@ -241,36 +212,39 @@ public class DbColuna extends Objeto {
     return _lstStrOpcao;
   }
 
-  public String getStrSqlTipo() {
+  public String getSqlTipo() {
 
     try {
+      if (!Util.getBooStrVazia(_sqlTipo)) {
+        return _sqlTipo;
+      }
       switch (this.getEnmTipo()) {
         case BOOLEAN:
-          _strSqlTipo = "TEXT";
+          _sqlTipo = "TEXT";
           break;
         case DATE_TIME:
-          _strSqlTipo = "TEXT";
+          _sqlTipo = "TEXT";
           break;
         case INTEGER:
-          _strSqlTipo = "INTEGER";
+          _sqlTipo = "INTEGER";
           break;
         case MONETARY:
-          _strSqlTipo = "NUMERIC";
+          _sqlTipo = "NUMERIC";
           break;
         case NONE:
-          _strSqlTipo = "NONE";
+          _sqlTipo = "NONE";
           break;
         case NUMERIC:
-          _strSqlTipo = "NUMERIC";
+          _sqlTipo = "NUMERIC";
           break;
         case REAL:
-          _strSqlTipo = "REAL";
+          _sqlTipo = "REAL";
           break;
         case TEXT:
-          _strSqlTipo = "TEXT";
+          _sqlTipo = "TEXT";
           break;
         default:
-          _strSqlTipo = "TEXT";
+          _sqlTipo = "TEXT";
       }
     }
     catch (Exception ex) {
@@ -278,7 +252,7 @@ public class DbColuna extends Objeto {
     }
     finally {
     }
-    return _strSqlTipo;
+    return _sqlTipo;
   }
 
   public String getStrValor() {
@@ -450,9 +424,9 @@ public class DbColuna extends Objeto {
     }
   }
 
-  public void setClnReferencia(DbColuna clnReferencia) {
+  public void setClnRef(DbColuna clnRef) {
 
-    _clnReferencia = clnReferencia;
+    _clnRef = clnRef;
   }
 
   public void setDblValor(double dblValor) {
@@ -474,8 +448,7 @@ public class DbColuna extends Objeto {
         this.setStrValor(Util.STR_VAZIA);
         return;
       }
-      this.setStrValor(Util
-          .getStrDataFormatada(dttValor, Util.EnmDataFormato.YYYY_MM_DD_HH_MM_SS));
+      this.setStrValor(Util.getStrDataFormatada(dttValor, Util.EnmDataFormato.YYYY_MM_DD_HH_MM_SS));
     }
     catch (Exception ex) {
       new Erro(App.getI().getStrTextoPadrao(0), ex);
@@ -484,7 +457,7 @@ public class DbColuna extends Objeto {
     }
   }
 
-  public void setEnmTipo(EnmTipo enmTipo) {
+  private void setEnmTipo(EnmTipo enmTipo) {
 
     _enmTipo = enmTipo;
   }
@@ -525,6 +498,9 @@ public class DbColuna extends Objeto {
 
     try {
       _tbl = tbl;
+      if (_tbl == null) {
+        return;
+      }
       _tbl.getLstCln().add(this);
     }
     catch (Exception ex) {

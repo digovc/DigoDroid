@@ -32,8 +32,7 @@ public abstract class TblMain extends DbTabela {
 
     try {
       if (_clnDttAlteracao == null) {
-        _clnDttAlteracao = new DbColuna("dttAlteracao", this);
-        _clnDttAlteracao.setEnmTipo(EnmTipo.TEXT);
+        _clnDttAlteracao = new DbColuna("dttAlteracao", this, EnmTipo.TEXT);
         _clnDttAlteracao.setStrNomeExibicao("Alteração");
       }
     }
@@ -49,8 +48,7 @@ public abstract class TblMain extends DbTabela {
 
     try {
       if (_clnDttCadastro == null) {
-        _clnDttCadastro = new DbColuna("dttCadastro", this);
-        _clnDttCadastro.setEnmTipo(EnmTipo.TEXT);
+        _clnDttCadastro = new DbColuna("dttCadastro", this, EnmTipo.TEXT);
         _clnDttCadastro.setStrNomeExibicao("Alteração");
       }
     }
@@ -66,8 +64,7 @@ public abstract class TblMain extends DbTabela {
 
     try {
       if (_clnDttExclusao == null) {
-        _clnDttExclusao = new DbColuna("dttExclusao", this);
-        _clnDttExclusao.setEnmTipo(EnmTipo.TEXT);
+        _clnDttExclusao = new DbColuna("dttExclusao", this, EnmTipo.TEXT);
         _clnDttExclusao.setStrNomeExibicao("Alteração");
       }
     }
@@ -83,9 +80,8 @@ public abstract class TblMain extends DbTabela {
 
     try {
       if (_clnIntId == null) {
-        _clnIntId = new DbColuna("intId", this);
+        _clnIntId = new DbColuna("intId", this, EnmTipo.INTEGER);
         _clnIntId.setBooChavePrimaria(true);
-        _clnIntId.setEnmTipo(EnmTipo.INTEGER);
         _clnIntId.setStrNomeExibicao("código");
       }
     }
@@ -101,8 +97,7 @@ public abstract class TblMain extends DbTabela {
 
     try {
       if (_clnIntUsuarioAlteracaoId == null) {
-        _clnIntUsuarioAlteracaoId = new DbColuna("IntUsuarioAlteracaoId", this);
-        _clnIntUsuarioAlteracaoId.setEnmTipo(EnmTipo.INTEGER);
+        _clnIntUsuarioAlteracaoId = new DbColuna("IntUsuarioAlteracaoId", this, EnmTipo.INTEGER);
       }
     }
     catch (Exception ex) {
@@ -117,8 +112,7 @@ public abstract class TblMain extends DbTabela {
 
     try {
       if (_clnIntUsuarioCadastroId == null) {
-        _clnIntUsuarioCadastroId = new DbColuna("IntUsuarioCadastroId", this);
-        _clnIntUsuarioCadastroId.setEnmTipo(EnmTipo.INTEGER);
+        _clnIntUsuarioCadastroId = new DbColuna("IntUsuarioCadastroId", this, EnmTipo.INTEGER);
       }
     }
     catch (Exception ex) {
@@ -133,8 +127,7 @@ public abstract class TblMain extends DbTabela {
 
     try {
       if (_clnIntUsuarioExclusaoId == null) {
-        _clnIntUsuarioExclusaoId = new DbColuna("IntUsuarioExclusaoId", this);
-        _clnIntUsuarioExclusaoId.setEnmTipo(EnmTipo.INTEGER);
+        _clnIntUsuarioExclusaoId = new DbColuna("IntUsuarioExclusaoId", this, EnmTipo.INTEGER);
       }
     }
     catch (Exception ex) {

@@ -129,7 +129,7 @@ public abstract class DbTabela extends Objeto {
         for (DbColuna cln : this.getLstCln()) {
           sql += cln.getStrNomeSimplificado();
           sql += " ";
-          sql += cln.getStrSqlTipo();
+          sql += cln.getSqlTipo();
           if (cln.getEnmTipo() == EnmTipo.TEXT) {
             sql += cln.getBooChavePrimaria() ? " PRIMARY KEY" : Util.STR_VAZIA;
           }
@@ -381,18 +381,18 @@ public abstract class DbTabela extends Objeto {
       strClnNome += ".";
       strClnNome += this.getClnChavePrimaria().getStrNomeSimplificado();
       strClnNome += ",";
-      if (this.getClnNome().getClnReferencia() != null) {
+      if (this.getClnNome().getClnRef() != null) {
         strClnNome += "(SELECT ";
-        strClnNome += this.getClnNome().getClnReferencia().getTbl().getStrNomeSimplificado();
+        strClnNome += this.getClnNome().getClnRef().getTbl().getStrNomeSimplificado();
         strClnNome += ".";
-        strClnNome += this.getClnNome().getClnReferencia().getTbl().getClnNome()
+        strClnNome += this.getClnNome().getClnRef().getTbl().getClnNome()
             .getStrNomeSimplificado();
         strClnNome += " FROM ";
-        strClnNome += this.getClnNome().getClnReferencia().getTbl().getStrNomeSimplificado();
+        strClnNome += this.getClnNome().getClnRef().getTbl().getStrNomeSimplificado();
         strClnNome += " WHERE ";
-        strClnNome += this.getClnNome().getClnReferencia().getTbl().getStrNomeSimplificado();
+        strClnNome += this.getClnNome().getClnRef().getTbl().getStrNomeSimplificado();
         strClnNome += ".";
-        strClnNome += this.getClnNome().getClnReferencia().getStrNomeSimplificado();
+        strClnNome += this.getClnNome().getClnRef().getStrNomeSimplificado();
         strClnNome += " = ";
         strClnNome += this.getStrNomeSimplificado();
         strClnNome += ".";
@@ -407,17 +407,17 @@ public abstract class DbTabela extends Objeto {
       }
       for (DbColuna cln : this.getLstCln()) {
         if (cln.getBooVisivelCadastro() && !cln.getBooClnNome()) {
-          if (cln.getClnReferencia() != null) {
+          if (cln.getClnRef() != null) {
             strClnNome += "(SELECT ";
-            strClnNome += cln.getClnReferencia().getTbl().getStrNomeSimplificado();
+            strClnNome += cln.getClnRef().getTbl().getStrNomeSimplificado();
             strClnNome += ".";
-            strClnNome += cln.getClnReferencia().getTbl().getClnNome().getStrNomeSimplificado();
+            strClnNome += cln.getClnRef().getTbl().getClnNome().getStrNomeSimplificado();
             strClnNome += " FROM ";
-            strClnNome += cln.getClnReferencia().getTbl().getStrNomeSimplificado();
+            strClnNome += cln.getClnRef().getTbl().getStrNomeSimplificado();
             strClnNome += " WHERE ";
-            strClnNome += cln.getClnReferencia().getTbl().getStrNomeSimplificado();
+            strClnNome += cln.getClnRef().getTbl().getStrNomeSimplificado();
             strClnNome += ".";
-            strClnNome += cln.getClnReferencia().getTbl().getClnChavePrimaria()
+            strClnNome += cln.getClnRef().getTbl().getClnChavePrimaria()
                 .getStrNomeSimplificado();
             strClnNome += " = ";
             strClnNome += this.getStrNomeSimplificado();
@@ -439,7 +439,7 @@ public abstract class DbTabela extends Objeto {
           break;
         }
       }
-      if (this.getClnOrdemCadastro().getClnReferencia() == null) {
+      if (this.getClnOrdemCadastro().getClnRef() == null) {
         strClnOrdemNome = this.getClnOrdemCadastro().getStrNomeSimplificado();
       }
       else {
@@ -551,7 +551,7 @@ public abstract class DbTabela extends Objeto {
         itmConsulta = new ItmConsulta();
         itmConsulta.setStrItemId(crs.getString(crs.getColumnIndex(this.getClnChavePrimaria()
             .getStrNomeSimplificado())));
-        if (this.getClnNome().getClnReferencia() != null) {
+        if (this.getClnNome().getClnRef() != null) {
           itmConsulta.setStrNome(crs.getString(crs.getColumnIndex("_strNomeB")));
         }
         else {
