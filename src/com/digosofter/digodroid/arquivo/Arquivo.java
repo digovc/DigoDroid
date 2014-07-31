@@ -21,8 +21,8 @@ public abstract class Arquivo extends Objeto {
    */
   public void copiar(String dirDestino) {
 
-    FileInputStream filOriginal = null;
-    FileOutputStream filCopia = null;
+    FileInputStream filOriginal;
+    FileOutputStream filCopia;
     byte[] arrBytBuffer;
     int intLength;
     try {
@@ -67,9 +67,10 @@ public abstract class Arquivo extends Objeto {
       if (!Util.getBooStrVazia(_dirCompleto)) {
         return _dirCompleto;
       }
-      _dirCompleto = Util.STR_VAZIA;
-      _dirCompleto += this.getDir();
-      _dirCompleto += this.getStrNome();
+      _dirCompleto = "_dir\\_str_nome";
+      _dirCompleto = _dirCompleto.replace("_dir", this.getDir());
+      _dirCompleto = _dirCompleto.replace("_str_nome", this.getStrNome());
+      _dirCompleto = _dirCompleto.replace("\\\\", "\\");
     }
     catch (Exception ex) {
       new Erro(App.getI().getStrTextoPadrao(0), ex);
@@ -86,12 +87,11 @@ public abstract class Arquivo extends Objeto {
 
   private void mostrarMensagemSalvo() {
 
-    String strMensagem;
+    String msg;
     try {
-      strMensagem = Util.STR_VAZIA;
-      strMensagem = "Arquivo \"_arq_nome\" salvo com sucesso.";
-      strMensagem = strMensagem.replace("_arq_nome", this.getDirCompleto());
-      App.getI().mostrarNoficacao(strMensagem);
+      msg = "Arquivo '_arq_nome' salvo com sucesso.";
+      msg = msg.replace("_arq_nome", this.getDirCompleto());
+      App.getI().mostrarNoficacao(msg);
     }
     catch (Exception ex) {
       new Erro(App.getI().getStrTextoPadrao(0), ex);
@@ -105,11 +105,12 @@ public abstract class Arquivo extends Objeto {
    */
   public void salvar() {
 
+    FileWriter filWriter;
     try {
       this.criarDiretorio();
-      FileWriter out = new FileWriter(new File(this.getDirCompleto()));
-      out.write(this.getStrConteudo());
-      out.close();
+      filWriter = new FileWriter(new File(this.getDirCompleto()));
+      filWriter.write(this.getStrConteudo());
+      filWriter.close();
       this.mostrarMensagemSalvo();
     }
     catch (Exception ex) {
@@ -121,18 +122,7 @@ public abstract class Arquivo extends Objeto {
 
   public void setDir(String dir) {
 
-    try {
-      _dir = dir;
-      _dirCompleto = Util.STR_VAZIA;
-      _dirCompleto += _dir;
-      _dirCompleto += "//";
-      _dirCompleto += this.getStrNome();
-    }
-    catch (Exception ex) {
-      new Erro(App.getI().getStrTextoPadrao(0), ex);
-    }
-    finally {
-    }
+    _dir = dir;
   }
 
   public void setDirCompleto(String dirCompleto) {
