@@ -11,7 +11,7 @@ public class TblCliente extends TblMain {
 
   public TblCliente() {
 
-    super("tblCliente");
+    super("tbl_cliente");
     try {
     }
     catch (Exception ex) {
@@ -24,9 +24,10 @@ public class TblCliente extends TblMain {
   public DbColuna getClnIntPessoaId() {
 
     try {
-      if (_clnIntPessoaId == null) {
-        _clnIntPessoaId = new DbColuna("intPessoaId", this, EnmTipo.INTEGER);
+      if (_clnIntPessoaId != null) {
+        return _clnIntPessoaId;
       }
+      _clnIntPessoaId = new DbColuna("int_pessoa_id", this, EnmTipo.INTEGER);
     }
     catch (Exception ex) {
       new Erro(App.getI().getStrTextoPadrao(0), ex);
@@ -41,14 +42,7 @@ public class TblCliente extends TblMain {
 
     try {
       intOrdem = super.inicializarColunas(intOrdem);
-      this.getClnDttAlteracao().setIntOrdem(++intOrdem);
-      this.getClnDttCadastro().setIntOrdem(++intOrdem);
-      this.getClnDttExclusao().setIntOrdem(++intOrdem);
-      this.getClnIntId().setIntOrdem(++intOrdem);
       this.getClnIntPessoaId().setIntOrdem(++intOrdem);
-      this.getClnIntUsuarioAlteracaoId().setIntOrdem(++intOrdem);
-      this.getClnIntUsuarioCadastroId().setIntOrdem(++intOrdem);
-      this.getClnIntUsuarioExclusaoId().setIntOrdem(++intOrdem);
     }
     catch (Exception ex) {
       new Erro(App.getI().getStrTextoPadrao(0), ex);
