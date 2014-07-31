@@ -123,7 +123,9 @@ public class AdpCadastro extends BaseAdapter implements Filterable {
     TextView txtRegistroCampo003;
     try {
       if (viwReciclada == null) {
-        viw = this.getObjLayoutInflater().inflate(R.layout.itm_cadastro, null);
+        // viw = this.getObjLayoutInflater().inflate(R.layout.itm_cadastro,
+        // null);
+        viw = this.getObjLayoutInflater().inflate(R.layout.itm_cadastro, viwParent);
       }
       else {
         viw = viwReciclada;
