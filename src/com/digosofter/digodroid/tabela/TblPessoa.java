@@ -12,7 +12,7 @@ public class TblPessoa extends TblMain {
 
   public TblPessoa() {
 
-    super("tblPessoa");
+    super("tbl_pessoa");
     try {
     }
     catch (Exception ex) {
@@ -25,13 +25,14 @@ public class TblPessoa extends TblMain {
   public DbColuna getClnStrNome() {
 
     try {
-      if (_clnStrNome == null) {
-        _clnStrNome = new DbColuna("strNome", this, EnmTipo.TEXT);
-        _clnStrNome.setBooClnNome(true);
-        _clnStrNome.setBooOrdemCadastro(true);
-        _clnStrNome.setBooVisivelCadastro(true);
-        _clnStrNome.setStrNomeExibicao("nome");
+      if (_clnStrNome != null) {
+        return _clnStrNome;
       }
+      _clnStrNome = new DbColuna("str_nome", this, EnmTipo.TEXT);
+      _clnStrNome.setBooClnNome(true);
+      _clnStrNome.setBooOrdemCadastro(true);
+      _clnStrNome.setBooVisivelCadastro(true);
+      _clnStrNome.setStrNomeExibicao("Nome");
     }
     catch (Exception ex) {
       new Erro(App.getI().getStrTextoPadrao(0), ex);
@@ -44,11 +45,12 @@ public class TblPessoa extends TblMain {
   public DbColuna getClnStrSobrenome() {
 
     try {
-      if (_clnStrSobrenome == null) {
-        _clnStrSobrenome = new DbColuna("strSobrenome", this, EnmTipo.TEXT);
-        _clnStrSobrenome.setBooVisivelCadastro(true);
-        _clnStrSobrenome.setStrNomeExibicao("sobrenome");
+      if (_clnStrSobrenome != null) {
+        return _clnStrSobrenome;
       }
+      _clnStrSobrenome = new DbColuna("str_sobrenome", this, EnmTipo.TEXT);
+      _clnStrSobrenome.setBooVisivelCadastro(true);
+      _clnStrSobrenome.setStrNomeExibicao("Sobrenome");
     }
     catch (Exception ex) {
       new Erro(App.getI().getStrTextoPadrao(0), ex);
