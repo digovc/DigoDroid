@@ -19,13 +19,6 @@ public abstract class TblMain extends DbTabela {
   public TblMain(String strNome) {
 
     super(strNome);
-    try {
-    }
-    catch (Exception ex) {
-      new Erro(App.getI().getStrTextoPadrao(134), ex);
-    }
-    finally {
-    }
   }
 
   public DbColuna getClnDttAlteracao() {

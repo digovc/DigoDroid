@@ -13,13 +13,6 @@ public class TblPessoa extends TblMain {
   public TblPessoa() {
 
     super("tbl_pessoa");
-    try {
-    }
-    catch (Exception ex) {
-      new Erro(App.getI().getStrTextoPadrao(135), ex);
-    }
-    finally {
-    }
   }
 
   public DbColuna getClnStrNome() {

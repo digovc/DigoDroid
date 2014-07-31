@@ -12,13 +12,6 @@ public class TblCliente extends TblMain {
   public TblCliente() {
 
     super("tbl_cliente");
-    try {
-    }
-    catch (Exception ex) {
-      new Erro(App.getI().getStrTextoPadrao(133), ex);
-    }
-    finally {
-    }
   }
 
   public DbColuna getClnIntPessoaId() {

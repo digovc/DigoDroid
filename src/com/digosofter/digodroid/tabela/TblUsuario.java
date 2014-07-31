@@ -13,22 +13,16 @@ public class TblUsuario extends TblMain {
 
   public TblUsuario() {
 
-    super("tblUsuario");
-    try {
-    }
-    catch (Exception ex) {
-      new Erro(App.getI().getStrTextoPadrao(136), ex);
-    }
-    finally {
-    }
+    super("tbl_usuario");
   }
 
   public DbColuna getClnIntPessoaId() {
 
     try {
-      if (_clnIntPessoaId == null) {
-        _clnIntPessoaId = new DbColuna("intPessoaId", this, EnmTipo.INTEGER);
+      if (_clnIntPessoaId != null) {
+        return _clnIntPessoaId;
       }
+      _clnIntPessoaId = new DbColuna("int_pessoa_id", this, EnmTipo.INTEGER);
     }
     catch (Exception ex) {
       new Erro(App.getI().getStrTextoPadrao(0), ex);
@@ -41,10 +35,11 @@ public class TblUsuario extends TblMain {
   public DbColuna getClnStrLogin() {
 
     try {
-      if (_clnStrLogin == null) {
-        _clnStrLogin = new DbColuna("strLogin", this, EnmTipo.TEXT);
-        _clnStrLogin.setStrNomeExibicao("login");
+      if (_clnStrLogin != null) {
+        return _clnStrLogin;
       }
+      _clnStrLogin = new DbColuna("str_login", this, EnmTipo.TEXT);
+      _clnStrLogin.setStrNomeExibicao("Login");
     }
     catch (Exception ex) {
       new Erro(App.getI().getStrTextoPadrao(0), ex);
@@ -57,10 +52,11 @@ public class TblUsuario extends TblMain {
   public DbColuna getClnStrPassword() {
 
     try {
-      if (_clnStrPassword == null) {
-        _clnStrPassword = new DbColuna("strPassword", this, EnmTipo.TEXT);
-        _clnStrPassword.setStrNomeExibicao("Password");
+      if (_clnStrPassword != null) {
+        return _clnStrPassword;
       }
+      _clnStrPassword = new DbColuna("str_password", this, EnmTipo.TEXT);
+      _clnStrPassword.setStrNomeExibicao("Password");
     }
     catch (Exception ex) {
       new Erro(App.getI().getStrTextoPadrao(0), ex);
