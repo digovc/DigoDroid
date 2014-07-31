@@ -21,7 +21,7 @@ public class HttpCliente extends Objeto {
 
   private EnmStatus _enmStatus = EnmStatus.NONE;
   private HttpResponse _objHttpResponse;
-  private String _strJson;
+  private String _jsn;
   private String _strResposta;
   private String _url;
 
@@ -35,9 +35,9 @@ public class HttpCliente extends Objeto {
     return _objHttpResponse;
   }
 
-  private String getStrJson() {
+  private String getJsn() {
 
-    return _strJson;
+    return _jsn;
   }
 
   public String getStrResposta() {
@@ -61,12 +61,16 @@ public class HttpCliente extends Objeto {
     return _url;
   }
 
-  public void postJson(String strJson) {
+  /**
+   * Envia um objeto "json" para o servidor indicado no atributo "url" e colocar
+   * deixa a resposta disponível no atributo "strResposta".
+   */
+  public void postJson(String jsn) {
 
     Thread thr;
     try {
       this.setEnmStatus(EnmStatus.EM_ANDAMENTO);
-      this.setStrJson(strJson);
+      this.setJsn(jsn);
       thr = new Thread() {
 
         @Override
@@ -76,7 +80,7 @@ public class HttpCliente extends Objeto {
           HttpPost objHttppost;
           try {
             objHttppost = new HttpPost(HttpCliente.this.getUrl());
-            objHttppost.setHeader("json", HttpCliente.this.getStrJson());
+            objHttppost.setHeader("json", HttpCliente.this.getJsn());
             objHttpClient = new DefaultHttpClient();
             HttpCliente.this.setObjHttpResponse(objHttpClient.execute(objHttppost));
           }
@@ -90,7 +94,8 @@ public class HttpCliente extends Objeto {
       };
       thr.start();
       do {
-        Thread.sleep(1);
+        // TODO: Definir se fazer isso assíncrono seria melhor.
+        Thread.sleep(10);
       }
       while (HttpCliente.this.getEnmStatus() == EnmStatus.EM_ANDAMENTO);
     }
@@ -111,9 +116,9 @@ public class HttpCliente extends Objeto {
     _objHttpResponse = objHttpResponse;
   }
 
-  private void setStrJson(String strJson) {
+  private void setJsn(String jsn) {
 
-    _strJson = strJson;
+    _jsn = jsn;
   }
 
   public void setUrl(String url) {
