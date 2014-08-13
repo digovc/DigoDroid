@@ -5,7 +5,7 @@
         android:id="@+id/actCadastro_actionBar_itmNovo"
         android:icon="@drawable/ic_novo"
         android:orderInCategory="100"
-        android:title="Novo"
-        netzmobile:showAsAction="always"/>
+        android:showAsAction="always"
+        android:title="Novo"/>
 
 </menu>

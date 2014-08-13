@@ -1,8 +1,9 @@
 package com.digosofter.digodroid.activity;
 
+import android.app.Activity;
+import android.app.Fragment;
+import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v7.app.ActionBarActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -18,14 +19,28 @@ import android.widget.VideoView;
 import com.digosofter.digodroid.App;
 import com.digosofter.digodroid.erro.Erro;
 
-public abstract class ActMain extends ActionBarActivity {
+public abstract class ActMain extends Activity {
 
   private boolean _booVisivel;
+
+  public void abrirAct(Class<? extends ActMain> cls) {
+
+    try {
+      this.startActivity(new Intent(this.getApplicationContext(), cls));
+    }
+    catch (Exception ex) {
+
+      new Erro("Erro inesperado.\n", ex);
+
+    }
+    finally {
+    }
+  }
 
   protected void addFragmento(int intPnlId, Fragment frg) {
 
     try {
-      this.getSupportFragmentManager().beginTransaction().add(intPnlId, frg).commit();
+      this.getFragmentManager().beginTransaction().add(intPnlId, frg).commit();
     }
     catch (Exception ex) {
       new Erro(App.getI().getStrTextoPadrao(113), ex);
@@ -42,11 +57,6 @@ public abstract class ActMain extends ActionBarActivity {
   public Button getButton(int intId) {
 
     return (Button) this.getView(intId);
-  }
-
-  public ListView getListView(int intId) {
-
-    return (ListView) this.getView(intId);
   }
 
   public CheckBox getCheckBox(int intId) {
@@ -69,6 +79,11 @@ public abstract class ActMain extends ActionBarActivity {
   public LinearLayout getLinearLayout(int intId) {
 
     return (LinearLayout) this.getView(intId);
+  }
+
+  public ListView getListView(int intId) {
+
+    return (ListView) this.getView(intId);
   }
 
   public RadioButton getRadioButton(int intId) {
@@ -109,11 +124,11 @@ public abstract class ActMain extends ActionBarActivity {
 
     try {
 
-      if (this.getIntLayoutId() < 1) {
-        return;
+      if (this.getIntLayoutId() > 0) {
+        this.setContentView(this.getIntLayoutId());
       }
 
-      this.setContentView(this.getIntLayoutId());
+      this.getActionBar().setDisplayHomeAsUpEnabled(true);
     }
     catch (Exception ex) {
       new Erro(App.getI().getStrTextoPadrao(0), ex);
