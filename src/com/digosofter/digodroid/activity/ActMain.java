@@ -108,6 +108,11 @@ public abstract class ActMain extends ActionBarActivity {
   protected void montarLayout() {
 
     try {
+
+      if (this.getIntLayoutId() < 1) {
+        return;
+      }
+
       this.setContentView(this.getIntLayoutId());
     }
     catch (Exception ex) {

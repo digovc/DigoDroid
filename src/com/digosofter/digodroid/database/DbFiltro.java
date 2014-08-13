@@ -139,14 +139,14 @@ public class DbFiltro extends Objeto {
         return _sqlFiltro;
       }
       if (this.getBooSubSelect()) {
-        _sqlFiltro = "_operador (_sub_select)";
-        _sqlFiltro = _sqlFiltro.replace("_operador", booPrimeiroTermo ? this.getStrCondicao()
+        _sqlFiltro = "_condicao (_sub_select)";
+        _sqlFiltro = _sqlFiltro.replace("_condicao", booPrimeiroTermo ? this.getStrCondicao()
             : Util.STR_VAZIA);
         _sqlFiltro = _sqlFiltro.replace("_sub_select", this.getStrFiltro());
         return _sqlFiltro;
       }
-      _sqlFiltro = "_operador _tbl_nome._cln_nome _operador '_filtro'";
-      _sqlFiltro = _sqlFiltro.replace("_operador", booPrimeiroTermo ? this.getStrCondicao()
+      _sqlFiltro = "_condicao _tbl_nome._cln_nome _operador '_filtro'";
+      _sqlFiltro = _sqlFiltro.replace("_condicao", !booPrimeiroTermo ? this.getStrCondicao()
           : Util.STR_VAZIA);
       _sqlFiltro = _sqlFiltro.replace("_tbl_nome", this.getClnFiltro().getTbl()
           .getStrNomeSimplificado());

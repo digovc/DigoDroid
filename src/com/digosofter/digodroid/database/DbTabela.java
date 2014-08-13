@@ -645,6 +645,9 @@ public abstract class DbTabela extends Objeto {
     String str;
     boolean booPrimeiroTermo;
     try {
+      if (lstObjDbFiltro==null||lstObjDbFiltro.isEmpty()) {
+        return Util.STR_VAZIA;
+      }
       booPrimeiroTermo = true;
       strResultado = Util.STR_VAZIA;
       for (DbFiltro fil : lstObjDbFiltro) {
@@ -653,6 +656,7 @@ public abstract class DbTabela extends Objeto {
         strResultado += str;
         booPrimeiroTermo = false;
       }
+      strResultado = Util.removerUltimaLetra(strResultado);
     }
     catch (Exception ex) {
       new Erro("Erro inesperado.\n", ex);
