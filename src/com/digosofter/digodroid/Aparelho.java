@@ -17,15 +17,19 @@ public class Aparelho extends Objeto {
   public static Aparelho getI() {
 
     try {
-      if (i == null) {
-        i = new Aparelho();
+
+      if (i != null) {
+        return i;
       }
+
+      i = new Aparelho();
     }
     catch (Exception ex) {
       new Erro(App.getI().getStrTextoPadrao(0), ex);
     }
     finally {
     }
+
     return i;
   }
 

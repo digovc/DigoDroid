@@ -114,7 +114,7 @@ public abstract class App extends Objeto {
       _lstMsgUsuarioPadrao.add(new MsgUsuario(
           "Erro ao inserir registro aleatório no banco de dados.", 130));
       _lstMsgUsuarioPadrao
-      .add(new MsgUsuario("Erro ao zerar valores das colunas no registro.", 131));
+          .add(new MsgUsuario("Erro ao zerar valores das colunas no registro.", 131));
       _lstMsgUsuarioPadrao.add(new MsgUsuario("Erro ao verificar filtro no item da lista.", 132));
       _lstMsgUsuarioPadrao.add(new MsgUsuario("Erro ao criar objeto do tipo 'TblCliente'.", 133));
       _lstMsgUsuarioPadrao.add(new MsgUsuario("Erro ao criar objeto do tipo 'TblMain'.", 134));

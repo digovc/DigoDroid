@@ -193,14 +193,22 @@ public class ActConsulta extends ActMain {
   }
 
   @Override
-  public boolean onOptionsItemSelected(MenuItem item) {
+  public boolean onOptionsItemSelected(MenuItem itm) {
 
     try {
-      if (item.getItemId() == R.id.actCadastro_actionBar_itmNovo) {
-        this.startActivity(new Intent(this, this.getTbl().getClsActCadastro()));
+
+      if (super.onOptionsItemSelected(itm)) {
+        return true;
       }
-      else if (item.getItemId() == android.R.id.home) {
+
+      if (itm.getItemId() == R.id.actCadastro_actionBar_itmNovo) {
+        this.startActivity(new Intent(this, this.getTbl().getClsActCadastro()));
+        return true;
+      }
+
+      if (itm.getItemId() == android.R.id.home) {
         this.onBackPressed();
+        return true;
       }
     }
     catch (Exception ex) {
@@ -208,7 +216,8 @@ public class ActConsulta extends ActMain {
     }
     finally {
     }
-    return super.onOptionsItemSelected(item);
+
+    return false;
   }
 
   /**
