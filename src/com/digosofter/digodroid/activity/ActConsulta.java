@@ -44,6 +44,7 @@ public class ActConsulta extends ActMain {
   public ActConsulta() {
 
     try {
+
       this.setResult(EnmResultadoTipo.NONE.ordinal());
     }
     catch (Exception ex) {
@@ -61,9 +62,11 @@ public class ActConsulta extends ActMain {
   private EditText getEdtPesquisa() {
 
     try {
+
       if (_edtPesquisa != null) {
         return _edtPesquisa;
       }
+
       _edtPesquisa = this.getEditText(R.id.actConsulta_edtPesquisa);
     }
     catch (Exception ex) {
@@ -71,6 +74,7 @@ public class ActConsulta extends ActMain {
     }
     finally {
     }
+
     return _edtPesquisa;
   }
 
@@ -83,9 +87,11 @@ public class ActConsulta extends ActMain {
   public ListView getPnlTblLista() {
 
     try {
+
       if (_pnlTblLista != null) {
         return _pnlTblLista;
       }
+
       _pnlTblLista = this.getListView(R.id.actConsulta_pnlTblLista);
       _pnlTblLista.setCacheColorHint(Color.TRANSPARENT);
     }
@@ -94,15 +100,18 @@ public class ActConsulta extends ActMain {
     }
     finally {
     }
+
     return _pnlTblLista;
   }
 
   public DbTabela getTbl() {
 
     try {
+
       if (_tbl != null) {
         return _tbl;
       }
+
       _tbl = App.getI().getTblSelec();
     }
     catch (Exception ex) {
@@ -110,15 +119,18 @@ public class ActConsulta extends ActMain {
     }
     finally {
     }
+
     return _tbl;
   }
 
   private TextView getTxtTblDescricao() {
 
     try {
+
       if (_txtTblDescricao != null) {
         return _txtTblDescricao;
       }
+
       _txtTblDescricao = this.getTextView(R.id.actConsulta_pnlPesquisa);
     }
     catch (Exception ex) {
@@ -126,6 +138,7 @@ public class ActConsulta extends ActMain {
     }
     finally {
     }
+
     return _txtTblDescricao;
   }
 
@@ -133,7 +146,9 @@ public class ActConsulta extends ActMain {
   protected void montarLayout() {
 
     super.montarLayout();
+
     try {
+
       this.montarLayoutTitulo();
       this.montarLayoutLista();
       this.recuperarUltimaPesquisa();
@@ -148,6 +163,7 @@ public class ActConsulta extends ActMain {
   private void montarLayoutLista() {
 
     try {
+
       this.setAdpCadastro(new AdpCadastro(this, this.getTbl().getLstItmConsulta()));
       this.getPnlTblLista().setAdapter(this.getAdpCadastro());
       this.getActionBar().setDisplayHomeAsUpEnabled(true);
@@ -162,7 +178,9 @@ public class ActConsulta extends ActMain {
   private void montarLayoutTitulo() {
 
     try {
+
       this.setTitle(this.getTbl().getStrNomeExibicao());
+
       if (!Utils.getBooStrVazia(this.getTbl().getStrDescricao())) {
         this.getTxtTblDescricao().setText(this.getTbl().getStrDescricao());
         this.getTxtTblDescricao().setVisibility(View.VISIBLE);
@@ -179,7 +197,9 @@ public class ActConsulta extends ActMain {
   public boolean onCreateOptionsMenu(Menu objMenu) {
 
     MenuInflater objMenuInflater;
+
     try {
+
       objMenuInflater = this.getMenuInflater();
       objMenuInflater.inflate(R.menu.act_cadastro_action_bar, objMenu);
       objMenu.getItem(0).setVisible(this.getTbl().getBooPermitirCadastroNovo());
@@ -189,6 +209,7 @@ public class ActConsulta extends ActMain {
     }
     finally {
     }
+
     return super.onCreateOptionsMenu(objMenu);
   }
 
@@ -226,9 +247,11 @@ public class ActConsulta extends ActMain {
   private void recuperarUltimaPesquisa() {
 
     try {
+
       if (Utils.getBooStrVazia(this.getTbl().getStrPesquisaActConsulta())) {
         return;
       }
+
       this.getEdtPesquisa().setText(this.getTbl().getStrPesquisaActConsulta());
     }
     catch (Exception ex) {
@@ -247,7 +270,9 @@ public class ActConsulta extends ActMain {
   protected void setEventos() {
 
     super.setEventos();
+
     try {
+
       this.getEdtPesquisa().addTextChangedListener(new TextWatcher() {
 
         @Override
@@ -266,6 +291,7 @@ public class ActConsulta extends ActMain {
           ActConsulta.this.getAdpCadastro().getFilter().filter(s);
         }
       });
+
       this.getPnlTblLista().setOnItemClickListener(new OnItemClickListener() {
 
         @Override
@@ -273,16 +299,21 @@ public class ActConsulta extends ActMain {
 
           ItmConsulta objItem;
           Intent objIntent;
+
           try {
+
             ActConsulta.this.getTbl().setStrPesquisaActConsulta(
                 ActConsulta.this.getEdtPesquisa().getText().toString());
+
             objItem = (ItmConsulta) ActConsulta.this.getPnlTblLista().getItemAtPosition(position);
             objIntent = new Intent();
             objIntent.putExtra("id", objItem.getStrItemId());
+
             ActConsulta.this.setResult(ActConsulta.EnmResultadoTipo.REGISTRO_SELECIONADO.ordinal(),
                 objIntent);
             ActConsulta.this.finish();
           }
+
           catch (Exception ex) {
             new Erro(App.getI().getStrTextoPadrao(115), ex);
           }
@@ -297,14 +328,18 @@ public class ActConsulta extends ActMain {
 
           ItmConsulta objItem;
           Intent objIntent;
+
           try {
+
             if (ActConsulta.this.getTbl().getClsActCadastro() == null) {
               return false;
             }
+
             objItem = (ItmConsulta) ActConsulta.this.getPnlTblLista().getItemAtPosition(position);
             objIntent = new Intent(ActConsulta.this.getApplicationContext(), ActConsulta.this
                 .getTbl().getClsActCadastro());
             objIntent.putExtra("id", objItem.getStrItemId());
+
             ActConsulta.this.setResult(ActConsulta.EnmResultadoTipo.REGISTRO_SELECIONADO.ordinal(),
                 objIntent);
             ActConsulta.this.startActivity(objIntent);
@@ -314,9 +349,11 @@ public class ActConsulta extends ActMain {
           }
           finally {
           }
+
           return false;
         }
       });
+
       this.getPnlTblLista().setOnScrollListener(new OnScrollListener() {
 
         @Override
@@ -329,7 +366,9 @@ public class ActConsulta extends ActMain {
         public void onScrollStateChanged(AbsListView view, int scrollState) {
 
           InputMethodManager objIm;
+
           try {
+
             objIm = (InputMethodManager) ActConsulta.this
                 .getSystemService(Context.INPUT_METHOD_SERVICE);
             objIm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(),

@@ -835,7 +835,7 @@ public abstract class DbTabela extends Objeto {
 
         str = "'_cln_valor', ";
         str = str
-            .replace("_cln_valor", !Utils.getBooStrVazia(cln.getStrValor()) ? cln.getStrValor()
+            .replace("_cln_valor", !Utils.getBooStrVazia(cln.getStrValorSql()) ? cln.getStrValor()
                 : cln.getStrValorDefault());
 
         strResultado += str;

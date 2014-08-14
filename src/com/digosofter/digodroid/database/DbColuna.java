@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
+import java.util.Locale;
 
 import com.digosofter.digodroid.App;
 import com.digosofter.digodroid.Objeto;
@@ -16,8 +17,6 @@ public class DbColuna extends Objeto {
     BOOLEAN,
     DATE_TIME,
     INTEGER,
-    MONETARY,
-    NONE,
     NUMERIC,
     REAL,
     TEXT
@@ -36,6 +35,7 @@ public class DbColuna extends Objeto {
   private String _strValor;
   private String _strValorDefault;
   private String _strValorExibicao;
+  private String _strValorSql;
   private DbTabela _tbl;
 
   public DbColuna(String strNome, DbTabela tbl, EnmTipo enmTipo) {
@@ -220,19 +220,13 @@ public class DbColuna extends Objeto {
       }
       switch (this.getEnmTipo()) {
         case BOOLEAN:
-          _sqlTipo = "text";
+          _sqlTipo = "integer";
           break;
         case DATE_TIME:
           _sqlTipo = "text";
           break;
         case INTEGER:
           _sqlTipo = "integer";
-          break;
-        case MONETARY:
-          _sqlTipo = "numeric";
-          break;
-        case NONE:
-          _sqlTipo = "none";
           break;
         case NUMERIC:
           _sqlTipo = "numeric";
@@ -299,12 +293,6 @@ public class DbColuna extends Objeto {
         case INTEGER:
           _strValorExibicao = this.getStrValor();
           break;
-        case MONETARY:
-          _strValorExibicao = Utils.getStrValorMonetario(this.getDblValor());
-          break;
-        case NONE:
-          _strValorExibicao = this.getStrValor();
-          break;
         case NUMERIC:
           _strValorExibicao = this.getStrValor();
           break;
@@ -338,6 +326,78 @@ public class DbColuna extends Objeto {
     }
     finally {
     }
+    return strResultado;
+  }
+
+  public String getStrValorSql() {
+
+    try {
+
+      switch (this.getEnmTipo()) {
+        case BOOLEAN:
+          _strValorSql = this.getStrValorSqlBoolean();
+          break;
+        case DATE_TIME:
+          _strValorSql = this.getStrValor();
+          break;
+        case INTEGER:
+          _strValorSql = this.getStrValor();
+          break;
+        case NUMERIC:
+          _strValorSql = this.getStrValor();
+          break;
+        case REAL:
+          _strValorSql = this.getStrValor();
+          break;
+        case TEXT:
+          _strValorSql = this.getStrValor();
+          break;
+        default:
+          _strValorSql = this.getStrValor();
+          break;
+      }
+
+    }
+    catch (Exception ex) {
+
+      new Erro("Erro inesperado.\n", ex);
+
+    }
+    finally {
+    }
+
+    return _strValorSql;
+  }
+
+  private String getStrValorSqlBoolean() {
+
+    String strResultado = null;
+
+    try {
+
+      if (Utils.getBooStrVazia(this.getStrValor())) {
+        return "0";
+      }
+
+      switch (this.getStrValor().toLowerCase(Locale.ROOT)) {
+        case "true":
+        case "t":
+        case "sim":
+        case "1":
+          return "1";
+        default:
+          return "0";
+      }
+
+    }
+    catch (Exception ex) {
+
+      new Erro("Erro inesperado.\n", ex);
+
+    }
+    finally {
+    }
+
     return strResultado;
   }
 
@@ -458,7 +518,8 @@ public class DbColuna extends Objeto {
         this.setStrValor(Utils.STR_VAZIA);
         return;
       }
-      this.setStrValor(Utils.getStrDataFormatada(dttValor, Utils.EnmDataFormato.YYYY_MM_DD_HH_MM_SS));
+      this.setStrValor(Utils
+          .getStrDataFormatada(dttValor, Utils.EnmDataFormato.YYYY_MM_DD_HH_MM_SS));
     }
     catch (Exception ex) {
       new Erro(App.getI().getStrTextoPadrao(0), ex);
