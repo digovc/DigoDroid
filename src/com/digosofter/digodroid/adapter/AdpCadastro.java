@@ -14,7 +14,7 @@ import android.widget.TextView;
 
 import com.digosofter.digodroid.App;
 import com.digosofter.digodroid.R;
-import com.digosofter.digodroid.Util;
+import com.digosofter.digodroid.Utils;
 import com.digosofter.digodroid.erro.Erro;
 import com.digosofter.digodroid.item.ItmConsulta;
 
@@ -137,15 +137,15 @@ public class AdpCadastro extends BaseAdapter implements Filterable {
       itmCadastro = this.getLstItmCadastro().get(position);
       txtRegistroNome.setText(itmCadastro.getStrNomeExibicao());
       txtRegistroCampo001.setText(itmCadastro.getStrCampo001());
-      if (Util.getBooStrVazia(itmCadastro.getStrCampo1Valor())) {
+      if (Utils.getBooStrVazia(itmCadastro.getStrCampo1Valor())) {
         txtRegistroCampo001.setVisibility(View.GONE);
       }
       txtRegistroCampo002.setText(itmCadastro.getstrCampo2());
-      if (Util.getBooStrVazia(itmCadastro.getStrCampo2Valor())) {
+      if (Utils.getBooStrVazia(itmCadastro.getStrCampo2Valor())) {
         txtRegistroCampo002.setVisibility(View.GONE);
       }
       txtRegistroCampo003.setText(itmCadastro.getstrCampo3());
-      if (Util.getBooStrVazia(itmCadastro.getStrCampo3Valor())) {
+      if (Utils.getBooStrVazia(itmCadastro.getStrCampo3Valor())) {
         txtRegistroCampo003.setVisibility(View.GONE);
       }
     }

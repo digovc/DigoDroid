@@ -186,7 +186,7 @@ public abstract class App extends Objeto {
   public String getStrMsgUsuario(int intId, EnmLingua enmLingua, boolean booMsgPadrao) {
 
     List<MsgUsuario> lstMsgUsuarioTemp;
-    String strResultado = Util.STR_VAZIA;
+    String strResultado = Utils.STR_VAZIA;
     try {
       if (booMsgPadrao) {
         lstMsgUsuarioTemp = this.getLstMsgUsuarioPadrao();

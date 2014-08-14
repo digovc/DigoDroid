@@ -5,7 +5,7 @@ import android.widget.TextView;
 
 import com.digosofter.digodroid.App;
 import com.digosofter.digodroid.R;
-import com.digosofter.digodroid.Util;
+import com.digosofter.digodroid.Utils;
 import com.digosofter.digodroid.erro.Erro;
 
 public class ActErro extends ActMain {
@@ -105,7 +105,7 @@ public class ActErro extends ActMain {
     try {
       this.getTxtAppNome().setText(App.getI().getStrNome());
       this.getTxtErroTitulo().setText(this.getErr().getStrNome());
-      if (Util.getBooStrVazia(this.getErr().getStrMsgDetalhe())) {
+      if (Utils.getBooStrVazia(this.getErr().getStrMsgDetalhe())) {
         this.getTxtErroMensagem().setText(this.getErr().getStrMsg());
         return;
       }

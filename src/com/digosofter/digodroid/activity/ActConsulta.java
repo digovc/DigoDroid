@@ -21,7 +21,7 @@ import android.widget.TextView;
 
 import com.digosofter.digodroid.App;
 import com.digosofter.digodroid.R;
-import com.digosofter.digodroid.Util;
+import com.digosofter.digodroid.Utils;
 import com.digosofter.digodroid.adapter.AdpCadastro;
 import com.digosofter.digodroid.database.DbTabela;
 import com.digosofter.digodroid.erro.Erro;
@@ -163,7 +163,7 @@ public class ActConsulta extends ActMain {
 
     try {
       this.setTitle(this.getTbl().getStrNomeExibicao());
-      if (!Util.getBooStrVazia(this.getTbl().getStrDescricao())) {
+      if (!Utils.getBooStrVazia(this.getTbl().getStrDescricao())) {
         this.getTxtTblDescricao().setText(this.getTbl().getStrDescricao());
         this.getTxtTblDescricao().setVisibility(View.VISIBLE);
       }
@@ -226,7 +226,7 @@ public class ActConsulta extends ActMain {
   private void recuperarUltimaPesquisa() {
 
     try {
-      if (Util.getBooStrVazia(this.getTbl().getStrPesquisaActConsulta())) {
+      if (Utils.getBooStrVazia(this.getTbl().getStrPesquisaActConsulta())) {
         return;
       }
       this.getEdtPesquisa().setText(this.getTbl().getStrPesquisaActConsulta());

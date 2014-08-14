@@ -41,10 +41,10 @@ public abstract class Objeto {
   public String getStrNomeExibicao() {
 
     try {
-      if (!Util.getBooStrVazia(_strNomeExibicao)) {
+      if (!Utils.getBooStrVazia(_strNomeExibicao)) {
         return _strNomeExibicao;
       }
-      _strNomeExibicao = Util.getStrPrimeiraMaiuscula(_strNome);
+      _strNomeExibicao = Utils.getStrPrimeiraMaiuscula(_strNome);
     }
     catch (Exception ex) {
       new Erro(App.getI().getStrTextoPadrao(0), ex);
@@ -57,10 +57,10 @@ public abstract class Objeto {
   public String getStrNomeSimplificado() {
 
     try {
-      if (!Util.getBooStrVazia(_strNomeSimplificado)) {
+      if (!Utils.getBooStrVazia(_strNomeSimplificado)) {
         return _strNomeSimplificado;
       }
-      _strNomeSimplificado = Util.getStrSimplificada(_strNome);
+      _strNomeSimplificado = Utils.getStrSimplificada(_strNome);
     }
     catch (Exception ex) {
       new Erro(App.getI().getStrTextoPadrao(0), ex);

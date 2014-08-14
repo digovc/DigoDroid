@@ -2,7 +2,7 @@ package com.digosofter.digodroid.database;
 
 import com.digosofter.digodroid.App;
 import com.digosofter.digodroid.Objeto;
-import com.digosofter.digodroid.Util;
+import com.digosofter.digodroid.Utils;
 import com.digosofter.digodroid.erro.Erro;
 
 public class DbFiltro extends Objeto {
@@ -111,7 +111,7 @@ public class DbFiltro extends Objeto {
   private String getStrCondicao() {
 
     try {
-      if (Util.getBooStrVazia(_strCondicao)) {
+      if (Utils.getBooStrVazia(_strCondicao)) {
         _strCondicao = "and";
       }
     }
@@ -130,24 +130,28 @@ public class DbFiltro extends Objeto {
 
   /**
    * Retorna string com o filtro formatado para uso em sql's.
-   *
    */
   public String getSqlFiltro(boolean booPrimeiroTermo) {
 
     try {
-      if (!Util.getBooStrVazia(_sqlFiltro)) {
+
+      if (!Utils.getBooStrVazia(_sqlFiltro)) {
         return _sqlFiltro;
       }
+
       if (this.getBooSubSelect()) {
+
         _sqlFiltro = "_condicao (_sub_select)";
         _sqlFiltro = _sqlFiltro.replace("_condicao", booPrimeiroTermo ? this.getStrCondicao()
-            : Util.STR_VAZIA);
+            : Utils.STR_VAZIA);
         _sqlFiltro = _sqlFiltro.replace("_sub_select", this.getStrFiltro());
+
         return _sqlFiltro;
       }
+
       _sqlFiltro = "_condicao _tbl_nome._cln_nome _operador '_filtro'";
       _sqlFiltro = _sqlFiltro.replace("_condicao", !booPrimeiroTermo ? this.getStrCondicao()
-          : Util.STR_VAZIA);
+          : Utils.STR_VAZIA);
       _sqlFiltro = _sqlFiltro.replace("_tbl_nome", this.getClnFiltro().getTbl()
           .getStrNomeSimplificado());
       _sqlFiltro = _sqlFiltro.replace("_cln_nome", this.getClnFiltro().getStrNomeSimplificado());
@@ -165,7 +169,7 @@ public class DbFiltro extends Objeto {
   private String getStrOperador() {
 
     try {
-      if (!Util.getBooStrVazia(_strOperador)) {
+      if (!Utils.getBooStrVazia(_strOperador)) {
         return _strOperador;
       }
       switch (this.getEnmOperador()) {

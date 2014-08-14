@@ -2,7 +2,7 @@ package com.digosofter.digodroid.item;
 
 import com.digosofter.digodroid.App;
 import com.digosofter.digodroid.Objeto;
-import com.digosofter.digodroid.Util;
+import com.digosofter.digodroid.Utils;
 import com.digosofter.digodroid.erro.Erro;
 
 public class ItmConsulta extends Objeto {
@@ -21,8 +21,8 @@ public class ItmConsulta extends Objeto {
   private String formatarValor(String strValor) {
 
     try {
-      if (Util.getBooStrVazia(strValor)) {
-        return Util.STR_VAZIA;
+      if (Utils.getBooStrVazia(strValor)) {
+        return Utils.STR_VAZIA;
       }
       strValor = strValor.replace("true", "Sim");
       strValor = strValor.replace("false", "Não");
@@ -64,7 +64,7 @@ public class ItmConsulta extends Objeto {
   public String getStrCampo001() {
 
     try {
-      if (!Util.getBooStrVazia(_strCampo1)) {
+      if (!Utils.getBooStrVazia(_strCampo1)) {
         return _strCampo1;
       }
       _strCampo1 = this.getStrCampo1Nome() + ": " + this.getStrCampo1Valor();
@@ -85,7 +85,7 @@ public class ItmConsulta extends Objeto {
   public String getStrCampo1Valor() {
 
     try {
-      if (!Util.getBooStrVazia(_strCampo1Valor)) {
+      if (!Utils.getBooStrVazia(_strCampo1Valor)) {
         return _strCampo1Valor;
       }
       _strCampo1Valor = this.formatarValor(_strCampo1Valor);
@@ -101,7 +101,7 @@ public class ItmConsulta extends Objeto {
   public String getstrCampo2() {
 
     try {
-      if (!Util.getBooStrVazia(_strCampo2)) {
+      if (!Utils.getBooStrVazia(_strCampo2)) {
         return _strCampo2;
       }
       _strCampo2 = this.getStrCampo2Nome() + ": " + this.getStrCampo2Valor();
@@ -122,7 +122,7 @@ public class ItmConsulta extends Objeto {
   public String getStrCampo2Valor() {
 
     try {
-      if (!Util.getBooStrVazia(_strCampo2Valor)) {
+      if (!Utils.getBooStrVazia(_strCampo2Valor)) {
         return _strCampo2Valor;
       }
       _strCampo2Valor = this.formatarValor(_strCampo2Valor);
@@ -138,7 +138,7 @@ public class ItmConsulta extends Objeto {
   public String getstrCampo3() {
 
     try {
-      if (!Util.getBooStrVazia(_strCampo3)) {
+      if (!Utils.getBooStrVazia(_strCampo3)) {
         return _strCampo3;
       }
       _strCampo3 = this.getStrCampo3Nome() + ": " + this.getStrCampo3Valor();
@@ -159,7 +159,7 @@ public class ItmConsulta extends Objeto {
   public String getStrCampo3Valor() {
 
     try {
-      if (!Util.getBooStrVazia(_strCampo3Valor)) {
+      if (!Utils.getBooStrVazia(_strCampo3Valor)) {
         return _strCampo3Valor;
       }
       _strCampo3Valor = this.formatarValor(_strCampo3Valor);

@@ -6,7 +6,7 @@ import android.content.Intent;
 import android.util.Log;
 
 import com.digosofter.digodroid.App;
-import com.digosofter.digodroid.Util;
+import com.digosofter.digodroid.Utils;
 import com.digosofter.digodroid.activity.ActErro;
 
 public class Erro extends Exception implements Serializable {
@@ -21,10 +21,10 @@ public class Erro extends Exception implements Serializable {
 
     Intent objIntent;
     try {
-      if (!Util.getBooStrVazia(strMsg)) {
+      if (!Utils.getBooStrVazia(strMsg)) {
         this.setStrMsg(strMsg);
       }
-      if (ex != null && !Util.getBooStrVazia(ex.getMessage())) {
+      if (ex != null && !Utils.getBooStrVazia(ex.getMessage())) {
         this.setStrMsgDetalhe(ex.getMessage());
       }
       if (!this.getBooMostrarUsuario()) {
@@ -49,7 +49,7 @@ public class Erro extends Exception implements Serializable {
   public String getStrMsg() {
 
     try {
-      if (!Util.getBooStrVazia(_strMsg)) {
+      if (!Utils.getBooStrVazia(_strMsg)) {
         return _strMsg;
       }
       _strMsg = "Erro do sistema.";
@@ -65,7 +65,7 @@ public class Erro extends Exception implements Serializable {
   public String getStrMsgDetalhe() {
 
     try {
-      if (!Util.getBooStrVazia(_strMsgDetalhe)) {
+      if (!Utils.getBooStrVazia(_strMsgDetalhe)) {
         return _strMsgDetalhe;
       }
       _strMsgDetalhe = "Sem mais detalhes do erro.";

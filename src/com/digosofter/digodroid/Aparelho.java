@@ -64,7 +64,7 @@ public class Aparelho extends Objeto {
     Uri uri;
     Intent itt;
     try {
-      if (Util.getBooStrVazia(strEmail)) {
+      if (Utils.getBooStrVazia(strEmail)) {
         return;
       }
       uri = Uri.parse("mailto:" + strEmail);
@@ -136,7 +136,7 @@ public class Aparelho extends Objeto {
   public String getStrId() {
 
     try {
-      if (!Util.getBooStrVazia(_strId)) {
+      if (!Utils.getBooStrVazia(_strId)) {
         return _strId;
       }
       _strId = Secure.getString(this.getCnt().getContentResolver(), Secure.ANDROID_ID);
@@ -152,7 +152,7 @@ public class Aparelho extends Objeto {
   public String getStrImei() {
 
     try {
-      if (!Util.getBooStrVazia(_strImei)) {
+      if (!Utils.getBooStrVazia(_strImei)) {
         return _strImei;
       }
       _strImei = this.getObjTelManager().getDeviceId();

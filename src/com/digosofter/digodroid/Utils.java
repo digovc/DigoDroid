@@ -20,7 +20,7 @@ import android.widget.EditText;
 
 import com.digosofter.digodroid.erro.Erro;
 
-public abstract class Util {
+public abstract class Utils {
 
   public enum EnmDataFormato {
     DD_MM,
@@ -201,10 +201,10 @@ public abstract class Util {
 
   public static String getStrDataFormatada(Date objDate, EnmDataFormato enmDataFormato) {
 
-    String strDataFormato = Util.STR_VAZIA;
+    String strDataFormato = Utils.STR_VAZIA;
     SimpleDateFormat objSimpleDateFormat = null;
     try {
-      strDataFormato = Util.enmDataFormatoToString(enmDataFormato);
+      strDataFormato = Utils.enmDataFormatoToString(enmDataFormato);
       objSimpleDateFormat = new SimpleDateFormat(strDataFormato, LOCAL_BRASIL);
     }
     catch (Exception ex) {
@@ -283,17 +283,17 @@ public abstract class Util {
 
   public static String getStrToken(List<String> lstStrTermo) {
 
-    return Util.getStrToken(lstStrTermo, 5);
+    return Utils.getStrToken(lstStrTermo, 5);
   }
 
   public static String getStrToken(List<String> lstStrTermo, int intTamanho) {
 
     String strTermoMd5;
-    String strResultado = Util.STR_VAZIA;
+    String strResultado = Utils.STR_VAZIA;
     try {
       for (String strTermo : lstStrTermo) {
-        strTermoMd5 = Util.getMd5(strTermo);
-        strResultado = Util.getMd5(strResultado + strTermoMd5);
+        strTermoMd5 = Utils.getMd5(strTermo);
+        strResultado = Utils.getMd5(strResultado + strTermoMd5);
       }
       strResultado = strResultado.substring(0, intTamanho);
     }
@@ -358,7 +358,7 @@ public abstract class Util {
       @Override
       public void onTextChanged(CharSequence s, int start, int before, int count) {
 
-        String str = Util.removerMascara(s.toString());
+        String str = Utils.removerMascara(s.toString());
         String mascara = "";
         if (isUpdating) {
           old = str;
@@ -430,7 +430,7 @@ public abstract class Util {
     Date dteResultado = null;
     SimpleDateFormat sdf;
     try {
-      sdf = new SimpleDateFormat(Util.enmDataFormatoToString(enmDataFormato), LOCAL_BRASIL);
+      sdf = new SimpleDateFormat(Utils.enmDataFormatoToString(enmDataFormato), LOCAL_BRASIL);
       dteResultado = sdf.parse(strDte);
     }
     catch (Exception ex) {
@@ -446,7 +446,7 @@ public abstract class Util {
     GregorianCalendar dteResultado = null;
     try {
       dteResultado = new GregorianCalendar();
-      dteResultado.setTime(Util.strToDte(strDte, EnmDataFormato.DD_MM_YYYY));
+      dteResultado.setTime(Utils.strToDte(strDte, EnmDataFormato.DD_MM_YYYY));
       dteResultado.add(Calendar.MONTH, 1);
       if (dteResultado.get(Calendar.MONTH) == 12) {
         dteResultado.add(Calendar.YEAR, 1);

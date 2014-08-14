@@ -7,7 +7,7 @@ import java.io.FileWriter;
 
 import com.digosofter.digodroid.App;
 import com.digosofter.digodroid.Objeto;
-import com.digosofter.digodroid.Util;
+import com.digosofter.digodroid.Utils;
 import com.digosofter.digodroid.erro.Erro;
 
 public abstract class Arquivo extends Objeto {
@@ -64,7 +64,7 @@ public abstract class Arquivo extends Objeto {
   public String getDirCompleto() {
 
     try {
-      if (!Util.getBooStrVazia(_dirCompleto)) {
+      if (!Utils.getBooStrVazia(_dirCompleto)) {
         return _dirCompleto;
       }
       _dirCompleto = "_dir\\_str_nome";
@@ -132,7 +132,7 @@ public abstract class Arquivo extends Objeto {
       _dirCompleto = dirCompleto;
       fil = new File(_dirCompleto);
       this.setStrNome(fil.getName());
-      _dir = fil.getPath().replace(this.getStrNome(), Util.STR_VAZIA);
+      _dir = fil.getPath().replace(this.getStrNome(), Utils.STR_VAZIA);
     }
     catch (Exception ex) {
       new Erro(App.getI().getStrTextoPadrao(0), ex);
