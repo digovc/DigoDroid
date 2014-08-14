@@ -36,7 +36,9 @@ public abstract class DbTabela extends Objeto {
   public DbTabela(String strNome) {
 
     try {
+
       App.getI().getLstTbl().add(this);
+
       this.setStrNome(strNome);
       this.inicializarColunas(-1);
       this.criarTabela();
@@ -51,8 +53,11 @@ public abstract class DbTabela extends Objeto {
   public void abrirActCadastro(Activity actPai) {
 
     Intent objIntent;
+
     try {
+
       App.getI().setTblSelec(this);
+
       objIntent = new Intent(actPai, ActConsulta.class);
       actPai.startActivityForResult(objIntent, 0);
     }
@@ -71,9 +76,12 @@ public abstract class DbTabela extends Objeto {
   public void buscarReg(DbColuna clnFiltro, String strFiltro) {
 
     List<DbFiltro> lstObjDbFiltro;
+
     try {
+
       lstObjDbFiltro = new ArrayList<DbFiltro>();
       lstObjDbFiltro.add(new DbFiltro(clnFiltro, strFiltro));
+
       this.buscarReg(lstObjDbFiltro);
     }
     catch (Exception ex) {
@@ -92,13 +100,17 @@ public abstract class DbTabela extends Objeto {
 
     String sql;
     Cursor crs;
+
     try {
+
       sql = "select _clns_nome from _tbl_nome where _where order by _tbl_nome._order;";
       sql = sql.replace("_clns_nome", this.getSqlColunasNomes());
       sql = sql.replace("_tbl_nome", this.getStrNomeSimplificado());
       sql = sql.replace("_where", this.getSqlWhere(lstObjDbFiltro));
       sql = sql.replace("_order", this.getClnChavePrimaria().getStrNomeSimplificado());
+
       crs = this.getObjDb().execSqlComRetorno(sql);
+
       this.carregarDados(crs);
     }
     catch (Exception ex) {
@@ -116,11 +128,15 @@ public abstract class DbTabela extends Objeto {
   private void carregarDados(Cursor crs) {
 
     try {
+
       if (crs == null || !crs.moveToFirst()) {
         return;
       }
+
       this.limparColunas();
+
       for (DbColuna cln : this.getLstCln()) {
+
         cln.setStrValor(crs.getString(crs.getColumnIndex(cln.getStrNomeSimplificado())));
       }
     }
@@ -134,13 +150,17 @@ public abstract class DbTabela extends Objeto {
   public void criarTabela() {
 
     String sql;
+
     try {
+
       if (this.getBooTblExiste()) {
         return;
       }
+
       sql = "create table if not exists _tbl_nome(_clns);";
       sql = sql.replace("_tbl_nome", this.getStrNomeSimplificado());
       sql = sql.replace("_clns", this.getSqlColunasNomesCreateTable());
+
       this.getObjDb().execSqlSemRetorno(sql);
     }
     catch (Exception ex) {
@@ -158,11 +178,13 @@ public abstract class DbTabela extends Objeto {
   public void excluir(String strId) {
 
     String sql;
+
     try {
       sql = "delete from _tbl_nome where _tbl_nome._cln_nome='_id';";
       sql = sql.replace("_tbl_nome", this.getStrNomeSimplificado());
       sql = sql.replace("_cln_nome", this.getClnChavePrimaria().getStrNomeExibicao());
       sql = sql.replace("_id", strId);
+
       this.getObjDb().execSqlSemRetorno(sql);
     }
     catch (Exception ex) {
@@ -187,10 +209,14 @@ public abstract class DbTabela extends Objeto {
     boolean booResultado = false;
     Cursor crs;
     String sql;
+
     try {
+
       sql = "select name from sqlite_master where type='table' and name='_tbl_nome';";
       sql = sql.replace("_tbl_nome", this.getStrNomeSimplificado());
+
       crs = this.getObjDb().execSqlComRetorno(sql);
+
       booResultado = crs != null && crs.moveToFirst() && crs.getCount() > 0;
     }
     catch (Exception ex) {
@@ -199,15 +225,18 @@ public abstract class DbTabela extends Objeto {
     finally {
       crs = null;
     }
+
     return booResultado;
   }
 
   public DbColuna getClnChavePrimaria() {
 
     try {
+
       if (_clnChavePrimaria != null) {
         return _clnChavePrimaria;
       }
+
       _clnChavePrimaria = this.getLstCln().get(0);
     }
     catch (Exception ex) {
@@ -215,15 +244,18 @@ public abstract class DbTabela extends Objeto {
     }
     finally {
     }
+
     return _clnChavePrimaria;
   }
 
   public DbColuna getClnNome() {
 
     try {
+
       if (_clnNome != null) {
         return _clnNome;
       }
+
       _clnNome = this.getClnChavePrimaria();
     }
     catch (Exception ex) {
@@ -231,15 +263,18 @@ public abstract class DbTabela extends Objeto {
     }
     finally {
     }
+
     return _clnNome;
   }
 
   public DbColuna getClnOrdemCadastro() {
 
     try {
+
       if (_clnOrdemCadastro != null) {
         return _clnOrdemCadastro;
       }
+
       _clnOrdemCadastro = this.getClnChavePrimaria();
     }
     catch (Exception ex) {
@@ -247,6 +282,7 @@ public abstract class DbTabela extends Objeto {
     }
     finally {
     }
+
     return _clnOrdemCadastro;
   }
 
@@ -263,7 +299,9 @@ public abstract class DbTabela extends Objeto {
   public Cursor getCrsDados(DbColuna cln) {
 
     List<DbColuna> lstCln = null;
+
     try {
+
       lstCln = new ArrayList<DbColuna>();
       lstCln.add(cln);
     }
@@ -272,13 +310,16 @@ public abstract class DbTabela extends Objeto {
     }
     finally {
     }
+
     return this.getCrsDados(lstCln, null);
   }
 
   public Cursor getCrsDados(DbColuna cln, List<DbFiltro> lstObjDbFiltro) {
 
     List<DbColuna> lstCln = null;
+
     try {
+
       lstCln = new ArrayList<DbColuna>();
       lstCln.add(cln);
     }
@@ -287,6 +328,7 @@ public abstract class DbTabela extends Objeto {
     }
     finally {
     }
+
     return this.getCrsDados(lstCln, lstObjDbFiltro);
   }
 
@@ -294,9 +336,12 @@ public abstract class DbTabela extends Objeto {
 
     Cursor crsResultado = null;
     ArrayList<DbFiltro> lstObjDbFiltro;
+
     try {
+
       lstObjDbFiltro = new ArrayList<DbFiltro>();
       lstObjDbFiltro.add(new DbFiltro(clnFiltro, strFiltro));
+
       crsResultado = this.getCrsDados(lstObjDbFiltro);
     }
     catch (Exception ex) {
@@ -304,6 +349,7 @@ public abstract class DbTabela extends Objeto {
     }
     finally {
     }
+
     return crsResultado;
   }
 
@@ -311,7 +357,9 @@ public abstract class DbTabela extends Objeto {
 
     Cursor crsResultado = null;
     String sql;
+
     try {
+
       sql = "select _clns_nome from _tbl_nome where _where order by _tbl_nome._order;";
       sql = sql.replace("_clns_nome", this.getSqlSelectColunasNomes(lstCln));
       sql = sql.replace("_tbl_nome", this.getStrNomeSimplificado());
@@ -319,6 +367,7 @@ public abstract class DbTabela extends Objeto {
           lstObjDbFiltro != null && lstObjDbFiltro.size() > 0 ? "where _where" : Utils.STR_VAZIA);
       sql = sql.replace("_where", this.getSqlWhere(lstObjDbFiltro));
       sql = sql.replace("_order", this.getClnOrdemCadastro().getStrNomeSimplificado());
+
       crsResultado = this.getObjDb().execSqlComRetorno(sql);
     }
     catch (Exception ex) {
@@ -326,6 +375,7 @@ public abstract class DbTabela extends Objeto {
     }
     finally {
     }
+
     return crsResultado;
   }
 
@@ -338,7 +388,9 @@ public abstract class DbTabela extends Objeto {
 
     Cursor crsResultado = null;
     String sql;
+
     try {
+
       sql = "select _clns_nome from _tbl_nome where _where order by _tbl_nome._order;";
       sql = sql.replace("_clns_nome", this.getSqlSelectColunasNomesCadastro());
       sql = sql.replace("_tbl_nome", this.getStrNomeSimplificado());
@@ -346,6 +398,7 @@ public abstract class DbTabela extends Objeto {
           && this.getLstDbFiltroTelaCadastro().size() > 0 ? "where _where" : Utils.STR_VAZIA);
       sql = sql.replace("_where", this.getSqlWhere(this.getLstDbFiltroTelaCadastro()));
       sql = sql.replace("_order", this.getClnOrdemCadastro().getStrNomeSimplificado());
+
       crsResultado = this.getObjDb().execSqlComRetorno(sql);
     }
     catch (Exception ex) {
@@ -353,6 +406,7 @@ public abstract class DbTabela extends Objeto {
     }
     finally {
     }
+
     return crsResultado;
   }
 
@@ -448,9 +502,11 @@ public abstract class DbTabela extends Objeto {
       _lstClnCadastro = new ArrayList<DbColuna>();
 
       for (DbColuna cln : this.getLstCln()) {
+
         if (!cln.getBooVisivelCadastro() && !cln.getBooChavePrimaria()) {
           continue;
         }
+
         _lstClnCadastro.add(cln);
       }
     }
@@ -828,15 +884,12 @@ public abstract class DbTabela extends Objeto {
 
       for (DbColuna cln : this.getLstCln()) {
 
-        if (Utils.getBooStrVazia(cln.getStrValor())
-            && Utils.getBooStrVazia(cln.getStrValorDefault())) {
+        if (Utils.getBooStrVazia(cln.getStrValor())) {
           continue;
         }
 
         str = "'_cln_valor', ";
-        str = str
-            .replace("_cln_valor", !Utils.getBooStrVazia(cln.getStrValorSql()) ? cln.getStrValor()
-                : cln.getStrValorDefault());
+        str = str.replace("_cln_valor", cln.getStrValorSql());
 
         strResultado += str;
       }
@@ -864,8 +917,7 @@ public abstract class DbTabela extends Objeto {
 
       for (DbColuna cln : this.getLstCln()) {
 
-        if (Utils.getBooStrVazia(cln.getStrValor())
-            && Utils.getBooStrVazia(cln.getStrValorDefault())) {
+        if (Utils.getBooStrVazia(cln.getStrValor())) {
           continue;
         }
 
