@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.content.Context;
+import android.content.pm.ApplicationInfo;
 import android.widget.Toast;
 
 import com.digosofter.digodroid.MsgUsuario.EnmLingua;
@@ -24,6 +25,8 @@ public abstract class App extends Objeto {
   }
 
   private ActMain _actMain;
+
+  private boolean _booDebug;
   private Context _cnt;
   private int _intVersao;
   private List<MsgUsuario> _lstMsgUsuarioPadrao;
@@ -48,6 +51,24 @@ public abstract class App extends Objeto {
   public ActMain getActMain() {
 
     return _actMain;
+  }
+
+  public boolean getBooDebug() {
+
+    try {
+
+      _booDebug = 0 != (this.getActMain().getApplicationInfo().flags & ApplicationInfo.FLAG_DEBUGGABLE);
+
+    }
+    catch (Exception ex) {
+
+      new Erro("Erro inesperado.\n", ex);
+
+    }
+    finally {
+    }
+
+    return _booDebug;
   }
 
   public Context getCnt() {
@@ -114,7 +135,7 @@ public abstract class App extends Objeto {
       _lstMsgUsuarioPadrao.add(new MsgUsuario(
           "Erro ao inserir registro aleatório no banco de dados.", 130));
       _lstMsgUsuarioPadrao
-          .add(new MsgUsuario("Erro ao zerar valores das colunas no registro.", 131));
+      .add(new MsgUsuario("Erro ao zerar valores das colunas no registro.", 131));
       _lstMsgUsuarioPadrao.add(new MsgUsuario("Erro ao verificar filtro no item da lista.", 132));
       _lstMsgUsuarioPadrao.add(new MsgUsuario("Erro ao criar objeto do tipo 'TblCliente'.", 133));
       _lstMsgUsuarioPadrao.add(new MsgUsuario("Erro ao criar objeto do tipo 'TblMain'.", 134));
