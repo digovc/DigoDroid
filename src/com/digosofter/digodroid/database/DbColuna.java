@@ -147,6 +147,10 @@ public class DbColuna extends Objeto {
 
     try {
 
+      if (Utils.getBooStrVazia(this.getStrValor())) {
+        return null;
+      }
+
       intAno = Integer.parseInt(this.getStrValor().substring(0, 4));
       intMes = Integer.parseInt(this.getStrValor().substring(5, 7));
       intDia = Integer.parseInt(this.getStrValor().substring(8, 10));
