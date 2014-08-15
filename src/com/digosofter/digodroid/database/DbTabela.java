@@ -888,6 +888,10 @@ public abstract class DbTabela extends Objeto {
           continue;
         }
 
+        if (cln.getClnRef() != null && "0".equals(cln.getIntValor())) {
+          continue;
+        }
+
         str = "'_cln_valor', ";
         str = str.replace("_cln_valor", cln.getStrValorSql());
 
@@ -918,6 +922,10 @@ public abstract class DbTabela extends Objeto {
       for (DbColuna cln : this.getLstCln()) {
 
         if (Utils.getBooStrVazia(cln.getStrValor())) {
+          continue;
+        }
+
+        if (cln.getClnRef() != null && "0".equals(cln.getIntValor())) {
           continue;
         }
 
