@@ -12,6 +12,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -63,6 +64,11 @@ public abstract class ActMain extends Activity {
   public CheckBox getCheckBox(int intId) {
 
     return (CheckBox) this.getView(intId);
+  }
+
+  public ProgressBar getProgressBar(int intId) {
+
+    return (ProgressBar) this.getView(intId);
   }
 
   public EditText getEditText(int intId) {
