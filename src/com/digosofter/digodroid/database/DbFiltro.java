@@ -142,7 +142,7 @@ public class DbFiltro extends Objeto {
       if (this.getBooSubSelect()) {
 
         _sqlFiltro = "_condicao (_sub_select)";
-        _sqlFiltro = _sqlFiltro.replace("_condicao", booPrimeiroTermo ? this.getStrCondicao()
+        _sqlFiltro = _sqlFiltro.replace("_condicao", !booPrimeiroTermo ? this.getStrCondicao()
             : Utils.STR_VAZIA);
         _sqlFiltro = _sqlFiltro.replace("_sub_select", this.getStrFiltro());
 

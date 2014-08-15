@@ -41,6 +41,7 @@ public class DbColuna extends Objeto {
   public DbColuna(String strNome, DbTabela tbl, EnmTipo enmTipo) {
 
     try {
+
       this.setStrNome(strNome);
       this.setTbl(tbl);
       this.setEnmTipo(enmTipo);
@@ -75,7 +76,9 @@ public class DbColuna extends Objeto {
   public boolean getBooValor() {
 
     boolean booResultado;
+
     try {
+
       booResultado = Boolean.parseBoolean(this.getStrValor());
     }
     catch (Exception ex) {
@@ -83,6 +86,7 @@ public class DbColuna extends Objeto {
     }
     finally {
     }
+
     return booResultado;
   }
 
@@ -94,7 +98,9 @@ public class DbColuna extends Objeto {
   public char getChrValor() {
 
     char chrResultado = 0;
+
     try {
+
       chrResultado = this.getStrValor().charAt(0);
     }
     catch (Exception ex) {
@@ -102,6 +108,7 @@ public class DbColuna extends Objeto {
     }
     finally {
     }
+
     return chrResultado;
   }
 
@@ -113,7 +120,9 @@ public class DbColuna extends Objeto {
   public double getDblValor() {
 
     double dlbResultado;
+
     try {
+
       dlbResultado = Double.parseDouble(this.getStrValor());
     }
     catch (Exception ex) {
@@ -121,37 +130,45 @@ public class DbColuna extends Objeto {
     }
     finally {
     }
+
     return dlbResultado;
   }
 
   public GregorianCalendar getDttValor() {
 
     GregorianCalendar dttResultado = null;
+
     int intAno;
     int intDia;
     int intHora = 0;
     int intMes;
     int intMin = 0;
     int intSeg = 0;
+
     try {
+
       intAno = Integer.parseInt(this.getStrValor().substring(0, 4));
       intMes = Integer.parseInt(this.getStrValor().substring(5, 7));
       intDia = Integer.parseInt(this.getStrValor().substring(8, 10));
+
       try {
         intHora = Integer.parseInt(this.getStrValor().substring(11, 13));
       }
       catch (Exception e) {
       }
+
       try {
         intMin = Integer.parseInt(this.getStrValor().substring(14, 16));
       }
       catch (Exception e) {
       }
+
       try {
         intSeg = Integer.parseInt(this.getStrValor().substring(17, 19));
       }
       catch (Exception e) {
       }
+
       dttResultado = new GregorianCalendar(intAno, intMes - 1, intDia, intHora, intMin, intSeg);
     }
     catch (Exception ex) {
@@ -159,21 +176,26 @@ public class DbColuna extends Objeto {
     }
     finally {
     }
+
     return dttResultado;
   }
 
   public EnmTipo getEnmTipo() {
 
     try {
-      if (_enmTipo == null) {
-        _enmTipo = EnmTipo.TEXT;
+
+      if (_enmTipo != null) {
+        return _enmTipo;
       }
+
+      _enmTipo = EnmTipo.TEXT;
     }
     catch (Exception ex) {
       new Erro(App.getI().getStrTextoPadrao(0), ex);
     }
     finally {
     }
+
     return _enmTipo;
   }
 
@@ -185,7 +207,9 @@ public class DbColuna extends Objeto {
   public int getIntValor() {
 
     int intResultado;
+
     try {
+
       intResultado = Integer.parseInt(this.getStrValor());
     }
     catch (Exception ex) {
@@ -193,15 +217,18 @@ public class DbColuna extends Objeto {
     }
     finally {
     }
+
     return intResultado;
   }
 
   public List<String> getLstStrOpcao() {
 
     try {
+
       if (_lstStrOpcao != null) {
         return _lstStrOpcao;
       }
+
       _lstStrOpcao = new ArrayList<String>();
     }
     catch (Exception ex) {
@@ -209,15 +236,18 @@ public class DbColuna extends Objeto {
     }
     finally {
     }
+
     return _lstStrOpcao;
   }
 
   public String getSqlTipo() {
 
     try {
+
       if (!Utils.getBooStrVazia(_sqlTipo)) {
         return _sqlTipo;
       }
+
       switch (this.getEnmTipo()) {
         case BOOLEAN:
           _sqlTipo = "integer";
@@ -246,12 +276,14 @@ public class DbColuna extends Objeto {
     }
     finally {
     }
+
     return _sqlTipo;
   }
 
   public String getStrValor() {
 
     try {
+
       if (Utils.getBooStrVazia(_strValor)) {
         _strValor = Utils.STR_VAZIA;
       }
@@ -261,12 +293,14 @@ public class DbColuna extends Objeto {
     }
     finally {
     }
+
     return _strValor;
   }
 
   public String getStrValorDefault() {
 
     try {
+
       if (Utils.getBooStrVazia(_strValorDefault)) {
         _strValorDefault = Utils.STR_VAZIA;
       }
@@ -276,12 +310,14 @@ public class DbColuna extends Objeto {
     }
     finally {
     }
+
     return _strValorDefault;
   }
 
   public String getStrValorExibicao() {
 
     try {
+
       switch (this.getEnmTipo()) {
         case BOOLEAN:
           _strValorExibicao = this.getBooValor() ? "Sim" : "Não";
@@ -312,13 +348,16 @@ public class DbColuna extends Objeto {
     }
     finally {
     }
+
     return _strValorExibicao;
   }
 
   public String getStrValorMonetario() {
 
     String strResultado = null;
+
     try {
+
       strResultado = Utils.getStrValorMonetario(Double.parseDouble(_strValor));
     }
     catch (Exception ex) {
@@ -326,6 +365,7 @@ public class DbColuna extends Objeto {
     }
     finally {
     }
+
     return strResultado;
   }
 
@@ -409,12 +449,16 @@ public class DbColuna extends Objeto {
   public void setBooChavePrimaria(boolean booChavePrimaria) {
 
     try {
+
       if (booChavePrimaria) {
+
         for (DbColuna cln : this.getTbl().getLstCln()) {
           cln._booChavePrimaria = false;
         }
+
         this.getTbl().setClnChavePrimaria(this);
       }
+
       _booChavePrimaria = booChavePrimaria;
     }
     catch (Exception ex) {
@@ -427,12 +471,16 @@ public class DbColuna extends Objeto {
   public void setBooClnNome(boolean booClnNome) {
 
     try {
+
       if (booClnNome) {
+
         for (DbColuna cln : this.getTbl().getLstCln()) {
           cln._booClnNome = false;
         }
+
         this.getTbl().setClnNome(this);
       }
+
       _booClnNome = booClnNome;
     }
     catch (Exception ex) {
@@ -445,10 +493,13 @@ public class DbColuna extends Objeto {
   public void setBooOrdemCadastro(boolean booOrdemCadastro) {
 
     try {
+
       if (booOrdemCadastro) {
+
         for (DbColuna cln : this.getTbl().getLstCln()) {
           cln._booOrdemCadastro = false;
         }
+
         this.getTbl().setClnOrdemCadastro(this);
       }
       _booOrdemCadastro = booOrdemCadastro;
@@ -468,6 +519,7 @@ public class DbColuna extends Objeto {
   public void setBooValor(Boolean booValor) {
 
     try {
+
       this.setStrValor(String.valueOf(booValor));
     }
     catch (Exception ex) {
@@ -485,6 +537,7 @@ public class DbColuna extends Objeto {
   public void setChrValor(char chrValor) {
 
     try {
+
       this.setStrValor(String.valueOf(chrValor));
     }
     catch (Exception ex) {
@@ -502,6 +555,7 @@ public class DbColuna extends Objeto {
   public void setDblValor(double dblValor) {
 
     try {
+
       this.setStrValor(String.valueOf(dblValor));
     }
     catch (Exception ex) {
@@ -514,10 +568,12 @@ public class DbColuna extends Objeto {
   public void setDttValor(Date dttValor) {
 
     try {
+
       if (dttValor == null) {
         this.setStrValor(Utils.STR_VAZIA);
         return;
       }
+
       this.setStrValor(Utils
           .getStrDataFormatada(dttValor, Utils.EnmDataFormato.YYYY_MM_DD_HH_MM_SS));
     }
@@ -541,6 +597,13 @@ public class DbColuna extends Objeto {
   public void setIntValor(int intValor) {
 
     try {
+
+      if (this.getClnRef() != null && intValor == 0) {
+
+        this.setStrValor(Utils.STR_VAZIA);
+        return;
+      }
+
       this.setStrValor(String.valueOf(intValor));
     }
     catch (Exception ex) {
@@ -568,10 +631,13 @@ public class DbColuna extends Objeto {
   public void setTbl(DbTabela tbl) {
 
     try {
+
       _tbl = tbl;
+
       if (_tbl == null) {
         return;
       }
+
       _tbl.getLstCln().add(this);
     }
     catch (Exception ex) {
