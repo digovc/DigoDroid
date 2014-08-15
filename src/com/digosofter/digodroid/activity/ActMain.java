@@ -28,6 +28,7 @@ public abstract class ActMain extends Activity {
   public void abrirAct(Class<? extends ActMain> cls) {
 
     try {
+
       this.startActivity(new Intent(this.getApplicationContext(), cls));
     }
     catch (Exception ex) {
@@ -42,6 +43,7 @@ public abstract class ActMain extends Activity {
   protected void addFragmento(int intPnlId, Fragment frg) {
 
     try {
+
       this.getFragmentManager().beginTransaction().add(intPnlId, frg).commit();
     }
     catch (Exception ex) {
@@ -116,7 +118,9 @@ public abstract class ActMain extends Activity {
   protected View getView(int intId) {
 
     View viwResultado = null;
+
     try {
+
       viwResultado = this.findViewById(intId);
     }
     catch (Exception ex) {
@@ -124,6 +128,7 @@ public abstract class ActMain extends Activity {
     }
     finally {
     }
+
     return viwResultado;
   }
 
@@ -148,7 +153,9 @@ public abstract class ActMain extends Activity {
   protected void onCreate(Bundle savedInstanceState) {
 
     super.onCreate(savedInstanceState);
+
     try {
+
       this.montarLayout();
       this.setEventos();
     }
@@ -163,7 +170,9 @@ public abstract class ActMain extends Activity {
   protected void onStart() {
 
     super.onStart();
+
     try {
+
       this.setBooVisivel(true);
     }
     catch (Exception ex) {
@@ -177,7 +186,9 @@ public abstract class ActMain extends Activity {
   protected void onStop() {
 
     super.onStop();
+
     try {
+
       this.setBooVisivel(false);
     }
     catch (Exception ex) {
@@ -202,6 +213,7 @@ public abstract class ActMain extends Activity {
       }
 
       switch (itm.getItemId()) {
+
         case android.R.id.home:
           this.onBackPressed();
           return true;

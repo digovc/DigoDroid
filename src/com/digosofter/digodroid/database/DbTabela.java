@@ -426,11 +426,13 @@ public abstract class DbTabela extends Objeto {
           str = "_tbl_nome._cln_nome, ";
           str = str.replace("_tbl_nome", cln.getTbl().getStrNomeSimplificado());
           str = str.replace("_cln_nome", cln.getStrNomeSimplificado());
+
           strResultado += str;
+
           continue;
         }
 
-        str = "(select _tbl_ref_nome._cln_ref_nome from _tbl_ref_nome where _tbl_ref_nome._cln_ref_pk=_tbl_nome._cln_nome) _cln_nome, ";
+        str = "(select _tbl_ref_nome._cln_ref_nome from _tbl_ref_nome where _tbl_ref_nome._cln_ref_pk = _tbl_nome._cln_nome) _cln_nome, ";
         str = str.replace("_tbl_ref_nome", cln.getClnRef().getTbl().getStrNomeSimplificado());
         str = str.replace("_cln_ref_nome", cln.getClnRef().getTbl().getClnNome()
             .getStrNomeSimplificado());
@@ -438,6 +440,8 @@ public abstract class DbTabela extends Objeto {
             .getStrNomeSimplificado());
         str = str.replace("_tbl_nome", cln.getTbl().getStrNomeSimplificado());
         str = str.replace("_cln_nome", cln.getStrNomeSimplificado());
+
+        strResultado += str;
       }
 
       strResultado = Utils.removerUltimaLetra(strResultado);

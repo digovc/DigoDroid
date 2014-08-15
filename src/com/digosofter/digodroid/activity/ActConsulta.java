@@ -166,7 +166,6 @@ public class ActConsulta extends ActMain {
 
       this.setAdpCadastro(new AdpCadastro(this, this.getTbl().getLstItmConsulta()));
       this.getPnlTblLista().setAdapter(this.getAdpCadastro());
-      this.getActionBar().setDisplayHomeAsUpEnabled(true);
     }
     catch (Exception ex) {
       new Erro(App.getI().getStrTextoPadrao(0), ex);
