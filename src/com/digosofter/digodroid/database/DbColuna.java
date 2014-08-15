@@ -598,12 +598,6 @@ public class DbColuna extends Objeto {
 
     try {
 
-      if (this.getClnRef() != null && intValor == 0) {
-
-        this.setStrValor(Utils.STR_VAZIA);
-        return;
-      }
-
       this.setStrValor(String.valueOf(intValor));
     }
     catch (Exception ex) {
