@@ -129,11 +129,11 @@ public abstract class DbTabela extends Objeto {
 
     try {
 
+      this.limparColunas();
+
       if (crs == null || !crs.moveToFirst()) {
         return;
       }
-
-      this.limparColunas();
 
       for (DbColuna cln : this.getLstCln()) {
 
@@ -147,7 +147,7 @@ public abstract class DbTabela extends Objeto {
     }
   }
 
-  public void criarTabela() {
+  private void criarTabela() {
 
     String sql;
 
