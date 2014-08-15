@@ -888,7 +888,7 @@ public abstract class DbTabela extends Objeto {
           continue;
         }
 
-        if (cln.getClnRef() != null && "0".equals(cln.getIntValor())) {
+        if (cln.getClnRef() != null && "0".equals(cln.getStrValor())) {
           continue;
         }
 
@@ -925,7 +925,7 @@ public abstract class DbTabela extends Objeto {
           continue;
         }
 
-        if (cln.getClnRef() != null && "0".equals(cln.getIntValor())) {
+        if (cln.getClnRef() != null && "0".equals(cln.getStrValor())) {
           continue;
         }
 
