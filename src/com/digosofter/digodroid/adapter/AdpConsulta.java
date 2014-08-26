@@ -18,16 +18,17 @@ import com.digosofter.digodroid.Utils;
 import com.digosofter.digodroid.erro.Erro;
 import com.digosofter.digodroid.item.ItmConsulta;
 
-public class AdpCadastro extends BaseAdapter implements Filterable {
+public class AdpConsulta extends BaseAdapter implements Filterable {
 
-  private List<ItmConsulta> _lstItmCadastro;
-  private List<ItmConsulta> _lstItmCadastroSemFiltro;
+  private List<ItmConsulta> _lstItmConsulta;
+  private List<ItmConsulta> _lstItmConsultaSemFiltro;
   private LayoutInflater _objLayoutInflater;
 
-  public AdpCadastro(Context cnt, List<ItmConsulta> lstItmCadastro) {
+  public AdpConsulta(Context cnt, List<ItmConsulta> lstItmConsulta) {
 
     try {
-      this.setLstItmCadastro(lstItmCadastro);
+
+      this.setLstItmConsulta(lstItmConsulta);
       this.setObjLayoutInflater(LayoutInflater.from(cnt));
     }
     catch (Exception ex) {
@@ -40,33 +41,40 @@ public class AdpCadastro extends BaseAdapter implements Filterable {
   @Override
   public int getCount() {
 
-    return this.getLstItmCadastro().size();
+    return this.getLstItmConsulta().size();
   }
 
   @Override
   public Filter getFilter() {
 
-    this.setLstItmCadastro(this.getLstItmCadastroSemFiltro());
+    this.setLstItmConsulta(this.getLstItmConsultaSemFiltro());
     return new Filter() {
 
       @Override
       protected FilterResults performFiltering(CharSequence strFiltro) {
 
         FilterResults objFilterResults = new FilterResults();
+
         if (strFiltro == null || strFiltro.length() == 0) {
-          objFilterResults.values = AdpCadastro.this.getLstItmCadastroSemFiltro();
-          objFilterResults.count = AdpCadastro.this.getLstItmCadastroSemFiltro().size();
+
+          objFilterResults.values = AdpConsulta.this.getLstItmConsultaSemFiltro();
+          objFilterResults.count = AdpConsulta.this.getLstItmConsultaSemFiltro().size();
         }
         else {
-          ArrayList<ItmConsulta> lstItmCadastro = new ArrayList<ItmConsulta>();
-          for (ItmConsulta itmCadastro : AdpCadastro.this.getLstItmCadastro()) {
-            if (itmCadastro.getBooContemTermo(strFiltro.toString())) {
-              lstItmCadastro.add(itmCadastro);
+
+          ArrayList<ItmConsulta> lstItmConsulta = new ArrayList<ItmConsulta>();
+
+          for (ItmConsulta itm : AdpConsulta.this.getLstItmConsulta()) {
+
+            if (itm.getBooContemTermo(strFiltro.toString())) {
+              lstItmConsulta.add(itm);
             }
           }
-          objFilterResults.values = lstItmCadastro;
-          objFilterResults.count = lstItmCadastro.size();
+
+          objFilterResults.values = lstItmConsulta;
+          objFilterResults.count = lstItmConsulta.size();
         }
+
         return objFilterResults;
       }
 
@@ -75,11 +83,13 @@ public class AdpCadastro extends BaseAdapter implements Filterable {
       protected void publishResults(CharSequence constraint, FilterResults results) {
 
         if (results.count == 0) {
-          AdpCadastro.this.setLstItmCadastro(new ArrayList<ItmConsulta>());
+
+          AdpConsulta.this.setLstItmConsulta(new ArrayList<ItmConsulta>());
           notifyDataSetChanged();
           return;
         }
-        AdpCadastro.this.setLstItmCadastro((ArrayList<ItmConsulta>) results.values);
+
+        AdpConsulta.this.setLstItmConsulta((ArrayList<ItmConsulta>) results.values);
         notifyDataSetChanged();
       }
     };
@@ -88,7 +98,7 @@ public class AdpCadastro extends BaseAdapter implements Filterable {
   @Override
   public Object getItem(int position) {
 
-    return this.getLstItmCadastro().get(position);
+    return this.getLstItmConsulta().get(position);
   }
 
   @Override
@@ -97,14 +107,14 @@ public class AdpCadastro extends BaseAdapter implements Filterable {
     return position;
   }
 
-  private List<ItmConsulta> getLstItmCadastro() {
+  private List<ItmConsulta> getLstItmConsulta() {
 
-    return _lstItmCadastro;
+    return _lstItmConsulta;
   }
 
-  private List<ItmConsulta> getLstItmCadastroSemFiltro() {
+  private List<ItmConsulta> getLstItmConsultaSemFiltro() {
 
-    return _lstItmCadastroSemFiltro;
+    return _lstItmConsultaSemFiltro;
   }
 
   private LayoutInflater getObjLayoutInflater() {
@@ -116,35 +126,43 @@ public class AdpCadastro extends BaseAdapter implements Filterable {
   public View getView(int position, View viwReciclada, ViewGroup viwParent) {
 
     ItmConsulta itmCadastro;
-    View viw = null;
-    TextView txtRegistroNome;
     TextView txtRegistroCampo001;
     TextView txtRegistroCampo002;
     TextView txtRegistroCampo003;
+    TextView txtRegistroNome;
+    View viwResultado = null;
+
     try {
       if (viwReciclada == null) {
-        // viw = this.getObjLayoutInflater().inflate(R.layout.itm_cadastro,
-        // null);
-        viw = this.getObjLayoutInflater().inflate(R.layout.itm_cadastro, viwParent);
+        viwResultado = this.getObjLayoutInflater().inflate(R.layout.itm_cadastro, viwParent);
       }
       else {
-        viw = viwReciclada;
+        viwResultado = viwReciclada;
       }
-      txtRegistroNome = (TextView) viw.findViewById(R.id.itmCadastro_txtNome);
-      txtRegistroCampo001 = (TextView) viw.findViewById(R.id.itmCadastro_txtCampo001);
-      txtRegistroCampo002 = (TextView) viw.findViewById(R.id.itmCadastro_txtCampo002);
-      txtRegistroCampo003 = (TextView) viw.findViewById(R.id.itmCadastro_txtCampo003);
-      itmCadastro = this.getLstItmCadastro().get(position);
+
+      txtRegistroNome = (TextView) viwResultado.findViewById(R.id.itmCadastro_txtNome);
+
+      txtRegistroCampo001 = (TextView) viwResultado.findViewById(R.id.itmCadastro_txtCampo001);
+      txtRegistroCampo002 = (TextView) viwResultado.findViewById(R.id.itmCadastro_txtCampo002);
+      txtRegistroCampo003 = (TextView) viwResultado.findViewById(R.id.itmCadastro_txtCampo003);
+
+      itmCadastro = this.getLstItmConsulta().get(position);
+
       txtRegistroNome.setText(itmCadastro.getStrNomeExibicao());
       txtRegistroCampo001.setText(itmCadastro.getStrCampo001());
+
       if (Utils.getBooStrVazia(itmCadastro.getStrCampo1Valor())) {
         txtRegistroCampo001.setVisibility(View.GONE);
       }
+
       txtRegistroCampo002.setText(itmCadastro.getstrCampo2());
+
       if (Utils.getBooStrVazia(itmCadastro.getStrCampo2Valor())) {
         txtRegistroCampo002.setVisibility(View.GONE);
       }
+
       txtRegistroCampo003.setText(itmCadastro.getstrCampo3());
+
       if (Utils.getBooStrVazia(itmCadastro.getStrCampo3Valor())) {
         txtRegistroCampo003.setVisibility(View.GONE);
       }
@@ -154,15 +172,18 @@ public class AdpCadastro extends BaseAdapter implements Filterable {
     }
     finally {
     }
-    return viw;
+
+    return viwResultado;
   }
 
-  private void setLstItmCadastro(List<ItmConsulta> lstItmCadastro) {
+  private void setLstItmConsulta(List<ItmConsulta> lstItmConsulta) {
 
     try {
-      _lstItmCadastro = lstItmCadastro;
-      if (this.getLstItmCadastroSemFiltro() == null) {
-        this.setLstItmCadastroSemFiltro(_lstItmCadastro);
+
+      _lstItmConsulta = lstItmConsulta;
+
+      if (this.getLstItmConsultaSemFiltro() == null) {
+        this.setLstItmConsultaSemFiltro(_lstItmConsulta);
       }
     }
     catch (Exception ex) {
@@ -172,9 +193,9 @@ public class AdpCadastro extends BaseAdapter implements Filterable {
     }
   }
 
-  private void setLstItmCadastroSemFiltro(List<ItmConsulta> lstItmCadastroSemFiltro) {
+  private void setLstItmConsultaSemFiltro(List<ItmConsulta> lstItmConsultaSemFiltro) {
 
-    _lstItmCadastroSemFiltro = lstItmCadastroSemFiltro;
+    _lstItmConsultaSemFiltro = lstItmConsultaSemFiltro;
   }
 
   private void setObjLayoutInflater(LayoutInflater objLayoutInflater) {

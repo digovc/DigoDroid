@@ -22,7 +22,7 @@ import android.widget.TextView;
 import com.digosofter.digodroid.App;
 import com.digosofter.digodroid.R;
 import com.digosofter.digodroid.Utils;
-import com.digosofter.digodroid.adapter.AdpCadastro;
+import com.digosofter.digodroid.adapter.AdpConsulta;
 import com.digosofter.digodroid.database.DbTabela;
 import com.digosofter.digodroid.erro.Erro;
 import com.digosofter.digodroid.item.ItmConsulta;
@@ -35,7 +35,7 @@ public class ActConsulta extends ActMain {
     VOLTAR
   }
 
-  private AdpCadastro _adpCadastro;
+  private AdpConsulta _adpCadastro;
   private EditText _edtPesquisa;
   private ListView _pnlTblLista;
   private DbTabela _tbl;
@@ -54,7 +54,7 @@ public class ActConsulta extends ActMain {
     }
   }
 
-  private AdpCadastro getAdpCadastro() {
+  private AdpConsulta getAdpCadastro() {
 
     return _adpCadastro;
   }
@@ -164,7 +164,7 @@ public class ActConsulta extends ActMain {
 
     try {
 
-      this.setAdpCadastro(new AdpCadastro(this, this.getTbl().getLstItmConsulta()));
+      this.setAdpCadastro(new AdpConsulta(this, this.getTbl().getLstItmConsulta()));
       this.getPnlTblLista().setAdapter(this.getAdpCadastro());
     }
     catch (Exception ex) {
@@ -260,7 +260,7 @@ public class ActConsulta extends ActMain {
     }
   }
 
-  private void setAdpCadastro(AdpCadastro adpCadastro) {
+  private void setAdpCadastro(AdpConsulta adpCadastro) {
 
     _adpCadastro = adpCadastro;
   }
