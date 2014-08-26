@@ -616,8 +616,6 @@ public class DbColuna extends Objeto {
     _lstStrOpcao = lstStrOpcao;
   }
 
-  public void setStrValor(String strValor) {
-
     _strValor = strValor;
   }
 
