@@ -217,6 +217,12 @@ public class Aparelho extends Objeto {
       }
       _strImei = this.getObjTelephonyManager().getDeviceId();
 
+      if (!Utils.getBooStrVazia(_strImei)) {
+        return _strImei;
+      }
+
+      _strImei = this.getStrId();
+
       // FIM AÇÕES
     } catch (Exception ex) {
 
