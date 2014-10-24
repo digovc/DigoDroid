@@ -15,24 +15,21 @@ public class TblPessoa extends TblMain {
 
     super("tblPessoa");
 
-    // VARIÁVEIS
-    // FIM VARIÁVEIS
     try {
-      // AÇÕES
-      // FIM AÇÕES
-    } catch (Exception ex) {
+
+    }
+    catch (Exception ex) {
 
       new Erro(App.getI().getStrTextoPadrao(135), ex);
 
-    } finally {
+    }
+    finally {
     }
   }
 
   public DbColuna getClnStrNome() {
-    // VARIÁVEIS
-    // FIM VARIÁVEIS
+
     try {
-      // AÇÕES
 
       if (_clnStrNome == null) {
 
@@ -43,22 +40,21 @@ public class TblPessoa extends TblMain {
         _clnStrNome.setStrNomeExibicao("nome");
       }
 
-      // FIM AÇÕES
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new Erro(App.getI().getStrTextoPadrao(0), ex);
 
-    } finally {
+    }
+    finally {
     }
 
     return _clnStrNome;
   }
 
   public DbColuna getClnStrSobrenome() {
-    // VARIÁVEIS
-    // FIM VARIÁVEIS
+
     try {
-      // AÇÕES
 
       if (_clnStrSobrenome == null) {
 
@@ -67,12 +63,13 @@ public class TblPessoa extends TblMain {
         _clnStrSobrenome.setStrNomeExibicao("sobrenome");
       }
 
-      // FIM AÇÕES
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new Erro(App.getI().getStrTextoPadrao(0), ex);
 
-    } finally {
+    }
+    finally {
     }
 
     return _clnStrSobrenome;
@@ -80,22 +77,21 @@ public class TblPessoa extends TblMain {
 
   @Override
   protected int inicializarColunas(int intOrdem) {
-    // VARIÁVEIS
-    // FIM VARIÁVEIS
+
     try {
-      // AÇÕES
 
       intOrdem = super.inicializarColunas(intOrdem);
 
       this.getClnStrNome().setIntOrdem(++intOrdem);
       this.getClnStrSobrenome().setIntOrdem(++intOrdem);
 
-      // FIM AÇÕES
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new Erro(App.getI().getStrTextoPadrao(0), ex);
 
-    } finally {
+    }
+    finally {
     }
 
     return intOrdem;

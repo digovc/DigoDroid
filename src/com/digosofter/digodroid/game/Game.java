@@ -10,16 +10,16 @@ public abstract class Game extends App {
 
   @Override
   public List<MensagemUsuario> getLstObjMensagemUsuario() {
-    // VARIÁVEIS
-    // FIM VARIÁVEIS
+
     try {
-      // AÇÕES
-      // FIM AÇÕES
-    } catch (Exception ex) {
+
+    }
+    catch (Exception ex) {
 
       new Erro(App.getI().getStrTextoPadrao(0), ex);
 
-    } finally {
+    }
+    finally {
     }
 
     return null;

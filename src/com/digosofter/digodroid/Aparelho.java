@@ -15,21 +15,20 @@ public class Aparelho extends Objeto {
   private static Aparelho i;
 
   public static Aparelho getI() {
-    // VARIÁVEIS
-    // FIM VARIÁVEIS
+
     try {
-      // AÇÕES
 
       if (i == null) {
         i = new Aparelho();
       }
 
-      // FIM AÇÕES
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new Erro(App.getI().getStrTextoPadrao(0), ex);
 
-    } finally {
+    }
+    finally {
     }
 
     return i;
@@ -44,14 +43,11 @@ public class Aparelho extends Objeto {
   private String _strImei;
 
   public void abrirMapa(String strEnderecoCompleto) {
-    // VARIÁVEIS
 
     Intent objIntent;
     String strMap = "http://maps.google.co.in/maps?q=";
 
-    // FIM VARIÁVEIS
     try {
-      // AÇÕES
 
       strMap += strEnderecoCompleto;
 
@@ -60,12 +56,13 @@ public class Aparelho extends Objeto {
 
       this.getObjContext().getApplicationContext().getApplicationContext().startActivity(objIntent);
 
-      // FIM AÇÕES
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new Erro(App.getI().getStrTextoPadrao(0), ex);
 
-    } finally {
+    }
+    finally {
     }
   }
 
@@ -74,14 +71,11 @@ public class Aparelho extends Objeto {
    *
    */
   public void enviarEmail(String strEmail) {
-    // VARIÁVEIS
 
     Uri uri;
     Intent objIntent;
 
-    // FIM VARIÁVEIS
     try {
-      // AÇÕES
 
       if (Utils.getBooStrVazia(strEmail)) {
         return;
@@ -93,52 +87,49 @@ public class Aparelho extends Objeto {
       objIntent.putExtra(Intent.EXTRA_SUBJECT, "Customer comments/questions");
       this.getObjContext().startActivity(objIntent);
 
-      // FIM AÇÕES
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new Erro(App.getI().getStrTextoPadrao(0), ex);
 
-    } finally {
+    }
+    finally {
     }
   }
 
   public boolean getBooConectado() {
-    // VARIÁVEIS
 
     boolean booConectado = false;
     ConnectivityManager objConnectivityManager;
     NetworkInfo objNetworkInfo;
 
-    // FIM VARIÁVEIS
     try {
-      // AÇÕES
 
-      objConnectivityManager = (ConnectivityManager) App.getI().getContext()
-          .getSystemService(Context.CONNECTIVITY_SERVICE);
+      objConnectivityManager = (ConnectivityManager) App.getI().getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
       objNetworkInfo = objConnectivityManager.getActiveNetworkInfo();
 
       if (objNetworkInfo == null) {
         booConectado = false;
-      } else {
+      }
+      else {
         booConectado = true;
       }
 
-      // FIM AÇÕES
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new Erro(App.getI().getStrTextoPadrao(0), ex);
 
-    } finally {
+    }
+    finally {
     }
 
     return booConectado;
   }
 
   private Context getObjContext() {
-    // VARIÁVEIS
-    // FIM VARIÁVEIS
+
     try {
-      // AÇÕES
 
       if (_objContext != null) {
         return _objContext;
@@ -146,35 +137,34 @@ public class Aparelho extends Objeto {
 
       _objContext = App.getI().getContext();
 
-      // FIM AÇÕES
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new Erro(App.getI().getStrTextoPadrao(0), ex);
 
-    } finally {
+    }
+    finally {
     }
     return _objContext;
   }
 
   private TelephonyManager getObjTelephonyManager() {
-    // VARIÁVEIS
-    // FIM VARIÁVEIS
+
     try {
-      // AÇÕES
 
       if (_objTelephonyManager != null) {
         return _objTelephonyManager;
       }
 
-      _objTelephonyManager = (TelephonyManager) App.getI().getActMain()
-          .getSystemService(Context.TELEPHONY_SERVICE);
+      _objTelephonyManager = (TelephonyManager) App.getI().getActMain().getSystemService(Context.TELEPHONY_SERVICE);
 
-      // FIM AÇÕES
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new Erro(App.getI().getStrTextoPadrao(0), ex);
 
-    } finally {
+    }
+    finally {
     }
 
     return _objTelephonyManager;
@@ -184,10 +174,8 @@ public class Aparelho extends Objeto {
    * Retorna uma "string 64-bit" única para cada aparelho.
    */
   public String getStrId() {
-    // VARIÁVEIS
-    // FIM VARIÁVEIS
+
     try {
-      // AÇÕES
 
       if (!Utils.getBooStrVazia(_strId)) {
         return _strId;
@@ -195,22 +183,21 @@ public class Aparelho extends Objeto {
 
       _strId = Secure.getString(this.getObjContext().getContentResolver(), Secure.ANDROID_ID);
 
-      // FIM AÇÕES
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new Erro(App.getI().getStrTextoPadrao(0), ex);
 
-    } finally {
+    }
+    finally {
     }
 
     return _strId;
   }
 
   public String getStrImei() {
-    // VARIÁVEIS
-    // FIM VARIÁVEIS
+
     try {
-      // AÇÕES
 
       if (!Utils.getBooStrVazia(_strImei)) {
         return _strImei;
@@ -223,25 +210,23 @@ public class Aparelho extends Objeto {
 
       _strImei = this.getStrId();
 
-      // FIM AÇÕES
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new Erro(App.getI().getStrMensagemUsuarioPadrao(100), ex);
 
-    } finally {
+    }
+    finally {
     }
 
     return _strImei;
   }
 
   public void ligarNumero(String strNumero) {
-    // VARIÁVEIS
 
     Intent objIntent;
 
-    // FIM VARIÁVEIS
     try {
-      // AÇÕES
 
       objIntent = new Intent(Intent.ACTION_CALL);
       objIntent.setData(Uri.parse("tel:" + strNumero));
@@ -249,12 +234,13 @@ public class Aparelho extends Objeto {
 
       this.getObjContext().getApplicationContext().getApplicationContext().startActivity(objIntent);
 
-      // FIM AÇÕES
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new Erro(App.getI().getStrTextoPadrao(0), ex);
 
-    } finally {
+    }
+    finally {
     }
   }
 

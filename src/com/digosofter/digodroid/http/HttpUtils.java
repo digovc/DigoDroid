@@ -16,15 +16,12 @@ import com.digosofter.digodroid.erro.Erro;
 public abstract class HttpUtils extends Objeto {
 
   public static HttpResponse postData(String uri, List<NameValuePair> lstNameValuePair) {
-    // VARIÁVEIS
 
     HttpClient objHttpclient;
     HttpPost objHttppost;
     HttpResponse objHttpResponseResultado = null;
 
-    // FIM VARIÁVEIS
     try {
-      // AÇÕES
 
       objHttpResponseResultado = null;
 
@@ -34,12 +31,13 @@ public abstract class HttpUtils extends Objeto {
       objHttpclient = new DefaultHttpClient();
       objHttpResponseResultado = objHttpclient.execute(objHttppost);
 
-      // FIM AÇÕES
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new Erro(App.getI().getStrTextoPadrao(0), ex);
 
-    } finally {
+    }
+    finally {
     }
 
     return objHttpResponseResultado;

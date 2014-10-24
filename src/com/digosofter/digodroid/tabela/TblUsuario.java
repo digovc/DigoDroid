@@ -17,45 +17,41 @@ public class TblUsuario extends TblMain {
 
     super("tblUsuario");
 
-    // VARIÁVEIS
-    // FIM VARIÁVEIS
     try {
-      // AÇÕES
-      // FIM AÇÕES
-    } catch (Exception ex) {
+
+    }
+    catch (Exception ex) {
 
       new Erro(App.getI().getStrTextoPadrao(136), ex);
 
-    } finally {
+    }
+    finally {
     }
   }
 
   public DbColuna getClnIntPessoaId() {
-    // VARIÁVEIS
-    // FIM VARIÁVEIS
+
     try {
-      // AÇÕES
 
       if (_clnIntPessoaId == null) {
         _clnIntPessoaId = new DbColuna("intPessoaId", this, EnmTipo.INTEGER);
       }
 
-      // FIM AÇÕES
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new Erro(App.getI().getStrTextoPadrao(0), ex);
 
-    } finally {
+    }
+    finally {
     }
 
     return _clnIntPessoaId;
   }
 
   public DbColuna getClnStrLogin() {
-    // VARIÁVEIS
-    // FIM VARIÁVEIS
+
     try {
-      // AÇÕES
 
       if (_clnStrLogin == null) {
 
@@ -63,22 +59,21 @@ public class TblUsuario extends TblMain {
         _clnStrLogin.setStrNomeExibicao("login");
       }
 
-      // FIM AÇÕES
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new Erro(App.getI().getStrTextoPadrao(0), ex);
 
-    } finally {
+    }
+    finally {
     }
 
     return _clnStrLogin;
   }
 
   public DbColuna getClnStrPassword() {
-    // VARIÁVEIS
-    // FIM VARIÁVEIS
+
     try {
-      // AÇÕES
 
       if (_clnStrPassword == null) {
 
@@ -86,12 +81,13 @@ public class TblUsuario extends TblMain {
         _clnStrPassword.setStrNomeExibicao("Password");
       }
 
-      // FIM AÇÕES
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new Erro(App.getI().getStrTextoPadrao(0), ex);
 
-    } finally {
+    }
+    finally {
     }
 
     return _clnStrPassword;
@@ -99,10 +95,8 @@ public class TblUsuario extends TblMain {
 
   @Override
   protected int inicializarColunas(int intOrdem) {
-    // VARIÁVEIS
-    // FIM VARIÁVEIS
+
     try {
-      // AÇÕES
 
       intOrdem = super.inicializarColunas(intOrdem);
 
@@ -110,12 +104,13 @@ public class TblUsuario extends TblMain {
       this.getClnStrLogin().setIntOrdem(++intOrdem);
       this.getClnStrPassword().setIntOrdem(++intOrdem);
 
-      // FIM AÇÕES
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new Erro(App.getI().getStrTextoPadrao(0), ex);
 
-    } finally {
+    }
+    finally {
     }
 
     return intOrdem;

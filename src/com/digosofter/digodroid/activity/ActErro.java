@@ -19,38 +19,36 @@ public class ActErro extends ActMain {
   private TextView _txtErroTitulo;
 
   public void actErro_btnIgnorarOnClick(View objView) {
-    // VARIÁVEIS
-    // FIM VARIÁVEIS
+
     try {
-      // AÇÕES
 
       this.finish();
 
-      // FIM AÇÕES
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new Erro(App.getI().getStrTextoPadrao(0), ex);
 
-    } finally {
+    }
+    finally {
     }
   }
 
   public Erro getErr() {
-    // VARIÁVEIS
-    // FIM VARIÁVEIS
+
     try {
-      // AÇÕES
 
       if (_err == null) {
         _err = (Erro) this.getIntent().getSerializableExtra("Erro");
       }
 
-      // FIM AÇÕES
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new Erro(App.getI().getStrTextoPadrao(0), ex);
 
-    } finally {
+    }
+    finally {
     }
 
     return _err;
@@ -58,79 +56,76 @@ public class ActErro extends ActMain {
 
   @Override
   protected int getIntLayoutId() {
-    // VARIÁVEIS
-    // FIM VARIÁVEIS
+
     try {
-      // AÇÕES
-      // FIM AÇÕES
-    } catch (Exception ex) {
+
+    }
+    catch (Exception ex) {
 
       new Erro(App.getI().getStrTextoPadrao(0), ex);
 
-    } finally {
+    }
+    finally {
     }
 
     return R.layout.act_erro;
   }
 
   private TextView getTxtAppNome() {
-    // VARIÁVEIS
-    // FIM VARIÁVEIS
+
     try {
-      // AÇÕES
 
       if (_txtAppNome == null) {
         _txtAppNome = (TextView) this.findViewById(R.id.actErro_txtAppNome);
       }
 
-      // FIM AÇÕES
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new Erro(App.getI().getStrTextoPadrao(0), ex);
 
-    } finally {
+    }
+    finally {
     }
 
     return _txtAppNome;
   }
 
   private TextView getTxtErroMensagem() {
-    // VARIÁVEIS
-    // FIM VARIÁVEIS
+
     try {
-      // AÇÕES
 
       if (_txtErroMensagem == null) {
         _txtErroMensagem = (TextView) this.findViewById(R.id.actErro_txtErroMensagem);
       }
 
-      // FIM AÇÕES
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new Erro(App.getI().getStrTextoPadrao(0), ex);
 
-    } finally {
+    }
+    finally {
     }
 
     return _txtErroMensagem;
   }
 
   private TextView getTxtErroTitulo() {
-    // VARIÁVEIS
-    // FIM VARIÁVEIS
+
     try {
-      // AÇÕES
 
       if (_txtErroTitulo == null) {
         _txtErroTitulo = (TextView) this.findViewById(R.id.actErro_txtErroTitulo);
       }
 
-      // FIM AÇÕES
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new Erro(App.getI().getStrTextoPadrao(0), ex);
 
-    } finally {
+    }
+    finally {
     }
 
     return _txtErroTitulo;
@@ -141,13 +136,9 @@ public class ActErro extends ActMain {
 
     super.montarLayout();
 
-    // VARIÁVEIS
-
     String strErroMensagem;
 
-    // FIM VARIÁVEIS
     try {
-      // AÇÕES
 
       this.getTxtAppNome().setText(App.getI().getStrNome());
       this.getTxtErroTitulo().setText(this.getErr().getStrNome());
@@ -161,18 +152,20 @@ public class ActErro extends ActMain {
 
         this.getTxtErroMensagem().setText(strErroMensagem);
 
-      } else {
+      }
+      else {
 
         this.getTxtErroMensagem().setText(this.getErr().getStrMensagem());
 
       }
 
-      // FIM AÇÕES
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new Erro(App.getI().getStrTextoPadrao(0), ex);
 
-    } finally {
+    }
+    finally {
     }
   }
 

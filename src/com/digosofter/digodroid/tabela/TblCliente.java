@@ -13,35 +13,33 @@ public class TblCliente extends TblMain {
 
     super("tblCliente");
 
-    // VARIÁVEIS
-    // FIM VARIÁVEIS
     try {
-      // AÇÕES
-      // FIM AÇÕES
-    } catch (Exception ex) {
+
+    }
+    catch (Exception ex) {
 
       new Erro(App.getI().getStrTextoPadrao(133), ex);
 
-    } finally {
+    }
+    finally {
     }
   }
 
   public DbColuna getClnIntPessoaId() {
-    // VARIÁVEIS
-    // FIM VARIÁVEIS
+
     try {
-      // AÇÕES
 
       if (_clnIntPessoaId == null) {
         _clnIntPessoaId = new DbColuna("intPessoaId", this, EnmTipo.INTEGER);
       }
 
-      // FIM AÇÕES
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new Erro(App.getI().getStrTextoPadrao(0), ex);
 
-    } finally {
+    }
+    finally {
     }
 
     return _clnIntPessoaId;
@@ -49,10 +47,8 @@ public class TblCliente extends TblMain {
 
   @Override
   protected int inicializarColunas(int intOrdem) {
-    // VARIÁVEIS
-    // FIM VARIÁVEIS
+
     try {
-      // AÇÕES
 
       intOrdem = super.inicializarColunas(intOrdem);
 
@@ -65,12 +61,13 @@ public class TblCliente extends TblMain {
       this.getClnIntUsuarioCadastroId().setIntOrdem(++intOrdem);
       this.getClnIntUsuarioExclusaoId().setIntOrdem(++intOrdem);
 
-      // FIM AÇÕES
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new Erro(App.getI().getStrTextoPadrao(0), ex);
 
-    } finally {
+    }
+    finally {
     }
 
     return intOrdem;

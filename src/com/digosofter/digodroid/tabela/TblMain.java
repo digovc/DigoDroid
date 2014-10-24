@@ -26,25 +26,21 @@ public abstract class TblMain extends DbTabela {
 
     super(strNome);
 
-    // VARIÁVEIS
-    // FIM VARIÁVEIS
     try {
-      // AÇÕES
 
-      // FIM AÇÕES
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new Erro(App.getI().getStrTextoPadrao(134), ex);
 
-    } finally {
+    }
+    finally {
     }
   }
 
   public DbColuna getClnDttAlteracao() {
-    // VARIÁVEIS
-    // FIM VARIÁVEIS
+
     try {
-      // AÇÕES
 
       if (_clnDttAlteracao == null) {
 
@@ -53,22 +49,21 @@ public abstract class TblMain extends DbTabela {
         _clnDttAlteracao.setStrNomeExibicao("Alteração");
       }
 
-      // FIM AÇÕES
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new Erro(App.getI().getStrTextoPadrao(0), ex);
 
-    } finally {
+    }
+    finally {
     }
 
     return _clnDttAlteracao;
   }
 
   public DbColuna getClnDttCadastro() {
-    // VARIÁVEIS
-    // FIM VARIÁVEIS
+
     try {
-      // AÇÕES
 
       if (_clnDttCadastro == null) {
 
@@ -77,22 +72,21 @@ public abstract class TblMain extends DbTabela {
         _clnDttCadastro.setStrNomeExibicao("Alteração");
       }
 
-      // FIM AÇÕES
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new Erro(App.getI().getStrTextoPadrao(0), ex);
 
-    } finally {
+    }
+    finally {
     }
 
     return _clnDttCadastro;
   }
 
   public DbColuna getClnDttExclusao() {
-    // VARIÁVEIS
-    // FIM VARIÁVEIS
+
     try {
-      // AÇÕES
 
       if (_clnDttExclusao == null) {
 
@@ -101,22 +95,21 @@ public abstract class TblMain extends DbTabela {
         _clnDttExclusao.setStrNomeExibicao("Alteração");
       }
 
-      // FIM AÇÕES
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new Erro(App.getI().getStrTextoPadrao(0), ex);
 
-    } finally {
+    }
+    finally {
     }
 
     return _clnDttExclusao;
   }
 
   public DbColuna getClnIntId() {
-    // VARIÁVEIS
-    // FIM VARIÁVEIS
+
     try {
-      // AÇÕES
 
       if (_clnIntId == null) {
 
@@ -126,22 +119,21 @@ public abstract class TblMain extends DbTabela {
         _clnIntId.setStrNomeExibicao("código");
       }
 
-      // FIM AÇÕES
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new Erro(App.getI().getStrTextoPadrao(0), ex);
 
-    } finally {
+    }
+    finally {
     }
 
     return _clnIntId;
   }
 
   public DbColuna getClnIntUsuarioAlteracaoId() {
-    // VARIÁVEIS
-    // FIM VARIÁVEIS
+
     try {
-      // AÇÕES
 
       if (_clnIntUsuarioAlteracaoId == null) {
 
@@ -149,22 +141,21 @@ public abstract class TblMain extends DbTabela {
         _clnIntUsuarioAlteracaoId.setEnmTipo(EnmTipo.INTEGER);
       }
 
-      // FIM AÇÕES
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new Erro(App.getI().getStrTextoPadrao(0), ex);
 
-    } finally {
+    }
+    finally {
     }
 
     return _clnIntUsuarioAlteracaoId;
   }
 
   public DbColuna getClnIntUsuarioCadastroId() {
-    // VARIÁVEIS
-    // FIM VARIÁVEIS
+
     try {
-      // AÇÕES
 
       if (_clnIntUsuarioCadastroId == null) {
 
@@ -172,22 +163,21 @@ public abstract class TblMain extends DbTabela {
         _clnIntUsuarioCadastroId.setEnmTipo(EnmTipo.INTEGER);
       }
 
-      // FIM AÇÕES
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new Erro(App.getI().getStrTextoPadrao(0), ex);
 
-    } finally {
+    }
+    finally {
     }
 
     return _clnIntUsuarioCadastroId;
   }
 
   public DbColuna getClnIntUsuarioExclusaoId() {
-    // VARIÁVEIS
-    // FIM VARIÁVEIS
+
     try {
-      // AÇÕES
 
       if (_clnIntUsuarioExclusaoId == null) {
 
@@ -195,12 +185,13 @@ public abstract class TblMain extends DbTabela {
         _clnIntUsuarioExclusaoId.setEnmTipo(EnmTipo.INTEGER);
       }
 
-      // FIM AÇÕES
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new Erro(App.getI().getStrTextoPadrao(0), ex);
 
-    } finally {
+    }
+    finally {
     }
 
     return _clnIntUsuarioExclusaoId;
@@ -208,10 +199,8 @@ public abstract class TblMain extends DbTabela {
 
   @Override
   protected int inicializarColunas(int intOrdem) {
-    // VARIÁVEIS
-    // FIM VARIÁVEIS
+
     try {
-      // AÇÕES
 
       intOrdem = super.inicializarColunas(intOrdem);
 
@@ -223,12 +212,13 @@ public abstract class TblMain extends DbTabela {
       this.getClnIntUsuarioCadastroId().setIntOrdem(++intOrdem);
       this.getClnIntUsuarioExclusaoId().setIntOrdem(++intOrdem);
 
-      // FIM AÇÕES
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new Erro(App.getI().getStrTextoPadrao(0), ex);
 
-    } finally {
+    }
+    finally {
     }
 
     return intOrdem;
