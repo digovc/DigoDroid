@@ -18,6 +18,8 @@ import com.digosofter.digodroid.item.ItmConsulta;
 
 public abstract class DbTabela extends Objeto {
 
+  private boolean _booItmConsultaUsarCache = true;
+
   private boolean _booPermitirCadastroNovo;
 
   private boolean _booSincronizar = true;
@@ -232,6 +234,11 @@ public abstract class DbTabela extends Objeto {
 
     } finally {
     }
+  }
+
+  private boolean getBooItmConsultaUsarCache() {
+
+    return _booItmConsultaUsarCache;
   }
 
   public boolean getBooPermitirCadastroNovo() {
@@ -479,10 +486,6 @@ public abstract class DbTabela extends Objeto {
   }
 
   public Cursor getCrsDadosTelaCadastro() {
-    return this.getCrsDadosTelaCadastro(this.getLstDbFiltroTelaCadastro());
-  }
-
-  public Cursor getCrsDadosTelaCadastro(List<DbFiltro> lstObjDbFiltro) {
     // VARIÁVEIS
 
     boolean booPrimeiroTermo = true;
@@ -500,15 +503,15 @@ public abstract class DbTabela extends Objeto {
     try {
       // AÇÕES
 
-      if (lstObjDbFiltro.size() > 0) {
+      if (this.getLstDbFiltroTelaCadastro().size() > 0) {
 
-        for (DbFiltro objDbFiltro : lstObjDbFiltro) {
+        for (DbFiltro objDbFiltro : this.getLstDbFiltroTelaCadastro()) {
 
           strFiltro += objDbFiltro.getStrFiltroFormatado(booPrimeiroTermo);
           booPrimeiroTermo = false;
         }
 
-        lstObjDbFiltro.clear();
+        this.getLstDbFiltroTelaCadastro().clear();
       }
 
       strClnNome = this.getStrNomeSimplificado();
@@ -726,7 +729,7 @@ public abstract class DbTabela extends Objeto {
     try {
       // AÇÕES
 
-      if (_lstItmConsulta != null) {
+      if (_lstItmConsulta != null && this.getBooItmConsultaUsarCache()) {
         return _lstItmConsulta;
       }
 
@@ -945,23 +948,6 @@ public abstract class DbTabela extends Objeto {
     }
   }
 
-  public void limparListaConsulta() {
-    // VARIÁVEIS
-    // FIM VARIÁVEIS
-    try {
-      // AÇÕES
-
-      this.setLstItmConsulta(null);
-
-      // FIM AÇÕES
-    } catch (Exception ex) {
-
-      new Erro(App.getI().getStrTextoPadrao(0), ex);
-
-    } finally {
-    }
-  }
-
   public void inserirAleatorio() {
     // VARIÁVEIS
     // FIM VARIÁVEIS
@@ -1000,8 +986,30 @@ public abstract class DbTabela extends Objeto {
     this.zerarCampos();
   }
 
+  public void limparListaConsulta() {
+    // VARIÁVEIS
+    // FIM VARIÁVEIS
+    try {
+      // AÇÕES
+
+      this.setLstItmConsulta(null);
+
+      // FIM AÇÕES
+    } catch (Exception ex) {
+
+      new Erro(App.getI().getStrTextoPadrao(0), ex);
+
+    } finally {
+    }
+  }
+
   public void salvar() {
     this.inserir();
+  }
+
+  protected void setBooItmConsultaUsarCache(boolean booItmConsultaUsarCache) {
+
+    _booItmConsultaUsarCache = booItmConsultaUsarCache;
   }
 
   protected void setBooPermitirCadastroNovo(boolean booPermitirCadastroNovo) {
