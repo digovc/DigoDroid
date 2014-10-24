@@ -327,8 +327,7 @@ public class DbColuna extends Objeto {
           _strValorExibicao = this.getBooValor() ? "Sim" : "Não";
           break;
         case DATE_TIME:
-          _strValorExibicao = Utils.getStrDataFormatada(this.getDttValor().getTime(),
-              Utils.EnmDataFormato.DD_MM_YYYY);
+          _strValorExibicao = Utils.getStrDataFormatada(this.getDttValor().getTime(), Utils.EnmDataFormato.DD_MM_YYYY);
           break;
         case INTEGER:
           _strValorExibicao = this.getStrValor();
@@ -578,8 +577,7 @@ public class DbColuna extends Objeto {
         return;
       }
 
-      this.setStrValor(Utils
-          .getStrDataFormatada(dttValor, Utils.EnmDataFormato.YYYY_MM_DD_HH_MM_SS));
+      this.setStrValor(Utils.getStrDataFormatada(dttValor, Utils.EnmDataFormato.YYYY_MM_DD_HH_MM_SS));
     }
     catch (Exception ex) {
       new Erro(App.getI().getStrTextoPadrao(0), ex);
@@ -615,6 +613,8 @@ public class DbColuna extends Objeto {
 
     _lstStrOpcao = lstStrOpcao;
   }
+
+  public void setStrValor(String strValor) {
 
     _strValor = strValor;
   }
