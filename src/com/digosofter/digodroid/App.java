@@ -22,19 +22,12 @@ public abstract class App extends Objeto {
   }
 
   private ActMain _actMain;
-
   private Context _context;
-
   private int _intVersao;
-
   private List<MensagemUsuario> _lstObjMensagemUsuarioPadrao;
-
   private List<DbTabela> _lstTbl;
-
   private DataBase _objDataBasePrincipal;
-
   private String _strVersaoExibicao;
-
   private DbTabela _tblSelecionada;
 
   public App() {

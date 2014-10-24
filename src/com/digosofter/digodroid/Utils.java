@@ -323,7 +323,7 @@ public abstract class Utils {
       for (int intTemp = 0; intTemp < arrChrAcentos.length; intTemp++) {
         strComplexa = strComplexa.replace(arrChrAcentos[intTemp], arrChrSemAcento[intTemp]);
       }
-      arrChrCaracteresEspeciais = new String[] { "\\.", ",", "-", ":", "\\(", "\\)", "ª", "\\|", "\\\\", "°", "^\\s+", "\\s+$", "\\s+", ".", "(", ")" };
+      arrChrCaracteresEspeciais = new String[] { "/", "\\.", ",", "-", ":", "\\(", "\\)", "ª", "\\|", "\\\\", "°", "^\\s+", "\\s+$", "\\s+", ".", "(", ")" };
       for (String arrChrCaracteresEspeciai : arrChrCaracteresEspeciais) {
         strComplexa = strComplexa.replace(arrChrCaracteresEspeciai, "");
       }
