@@ -3,6 +3,7 @@ package com.digosofter.digodroid.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.Menu;
@@ -36,13 +37,9 @@ public class ActConsulta extends ActMain {
   }
 
   private AdpCadastro _adpCadastro;
-
   private EditText _edtPesquisa;
-
   private ListView _pnlTblLista;
-
   private DbTabela _tbl;
-
   private TextView _txtTblDescricao;
 
   public ActConsulta() {
@@ -171,11 +168,8 @@ public class ActConsulta extends ActMain {
     super.montarLayout();
 
     try {
-
       this.montarLayoutTitulo();
       this.montarLayoutLista();
-      this.recuperarUltimaPesquisa();
-
     }
     catch (Exception ex) {
 
@@ -220,6 +214,25 @@ public class ActConsulta extends ActMain {
     catch (Exception ex) {
 
       new Erro(App.getI().getStrTextoPadrao(0), ex);
+
+    }
+    finally {
+    }
+  }
+
+  @Override
+  protected void onCreate(Bundle savedInstanceState) {
+
+    super.onCreate(savedInstanceState);
+
+    try {
+
+      this.recuperarUltimaPesquisa();
+
+    }
+    catch (Exception ex) {
+
+      new Erro("Erro inesperado.\n", ex);
 
     }
     finally {
@@ -277,7 +290,7 @@ public class ActConsulta extends ActMain {
   /**
    * Recupera a última pesquisa feita na tabela da tela de consulta.
    */
-   private void recuperarUltimaPesquisa() {
+  private void recuperarUltimaPesquisa() {
 
     try {
 
@@ -295,143 +308,143 @@ public class ActConsulta extends ActMain {
     }
     finally {
     }
-   }
+  }
 
-   private void setAdpCadastro(AdpCadastro adpCadastro) {
+  private void setAdpCadastro(AdpCadastro adpCadastro) {
 
-     _adpCadastro = adpCadastro;
-   }
+    _adpCadastro = adpCadastro;
+  }
 
-   @Override
-   protected void setEventos() {
+  @Override
+  protected void setEventos() {
 
-     super.setEventos();
+    super.setEventos();
 
     try {
 
       this.getEdtPesquisa().addTextChangedListener(new TextWatcher() {
 
-         @Override
-         public void afterTextChanged(Editable s) {
+        @Override
+        public void afterTextChanged(Editable s) {
 
-         }
+        }
 
-         @Override
-         public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
-         }
+        }
 
-         @Override
-         public void onTextChanged(CharSequence s, int start, int before, int count) {
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
 
-           ActConsulta.this.getAdpCadastro().getFilter().filter(s);
-         }
-       });
+          ActConsulta.this.getAdpCadastro().getFilter().filter(s);
+        }
+      });
 
-       this.getPnlTblLista().setOnItemClickListener(new OnItemClickListener() {
+      this.getPnlTblLista().setOnItemClickListener(new OnItemClickListener() {
 
-         @Override
-         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
           ItmConsulta objItem;
-           Intent objIntent;
+          Intent objIntent;
 
           try {
 
             ActConsulta.this.getTbl().setStrPesquisaActConsulta(ActConsulta.this.getEdtPesquisa().getText().toString());
 
-             objItem = (ItmConsulta) ActConsulta.this.getPnlTblLista().getItemAtPosition(position);
+            objItem = (ItmConsulta) ActConsulta.this.getPnlTblLista().getItemAtPosition(position);
 
-             objIntent = new Intent();
-             objIntent.putExtra("id", objItem.getStrItemId());
+            objIntent = new Intent();
+            objIntent.putExtra("id", objItem.getStrItemId());
 
-             ActConsulta.this.setResult(ActConsulta.EnmResultadoTipo.REGISTRO_SELECIONADO.ordinal(), objIntent);
+            ActConsulta.this.setResult(ActConsulta.EnmResultadoTipo.REGISTRO_SELECIONADO.ordinal(), objIntent);
 
-             finish();
+            finish();
 
           }
-           catch (Exception ex) {
+          catch (Exception ex) {
 
-             new Erro(App.getI().getStrTextoPadrao(115), ex);
+            new Erro(App.getI().getStrTextoPadrao(115), ex);
 
-           }
-           finally {
-           }
-         }
-       });
+          }
+          finally {
+          }
+        }
+      });
 
-       this.getPnlTblLista().setOnItemLongClickListener(new OnItemLongClickListener() {
+      this.getPnlTblLista().setOnItemLongClickListener(new OnItemLongClickListener() {
 
-         @Override
-         public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+        @Override
+        public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
 
           ItmConsulta objItem;
-           Intent objIntent;
+          Intent objIntent;
 
           try {
 
             if (ActConsulta.this.getTbl().getClsActFrm() != null) {
 
-               objItem = (ItmConsulta) ActConsulta.this.getPnlTblLista().getItemAtPosition(position);
+              objItem = (ItmConsulta) ActConsulta.this.getPnlTblLista().getItemAtPosition(position);
 
-               objIntent = new Intent(ActConsulta.this.getApplicationContext(), ActConsulta.this.getTbl().getClsActFrm());
-               objIntent.putExtra("id", objItem.getStrItemId());
+              objIntent = new Intent(ActConsulta.this.getApplicationContext(), ActConsulta.this.getTbl().getClsActFrm());
+              objIntent.putExtra("id", objItem.getStrItemId());
 
-               ActConsulta.this.setResult(ActConsulta.EnmResultadoTipo.REGISTRO_SELECIONADO.ordinal(), objIntent);
-               ActConsulta.this.startActivity(objIntent);
+              ActConsulta.this.setResult(ActConsulta.EnmResultadoTipo.REGISTRO_SELECIONADO.ordinal(), objIntent);
+              ActConsulta.this.startActivity(objIntent);
 
-               // finish();
-             }
+              // finish();
+            }
 
           }
-           catch (Exception ex) {
+          catch (Exception ex) {
 
-             new Erro(App.getI().getStrTextoPadrao(115), ex);
+            new Erro(App.getI().getStrTextoPadrao(115), ex);
 
-           }
-           finally {
-           }
+          }
+          finally {
+          }
 
-           return false;
-         }
-       });
+          return false;
+        }
+      });
 
-       this.getPnlTblLista().setOnScrollListener(new OnScrollListener() {
+      this.getPnlTblLista().setOnScrollListener(new OnScrollListener() {
 
-         @Override
-         public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+        @Override
+        public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
 
-         }
+        }
 
-         @Override
-         public void onScrollStateChanged(AbsListView view, int scrollState) {
+        @Override
+        public void onScrollStateChanged(AbsListView view, int scrollState) {
 
           InputMethodManager inputManager;
 
           try {
 
             inputManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-             inputManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+            inputManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
 
           }
-           catch (Exception ex) {
+          catch (Exception ex) {
 
-             new Erro(App.getI().getStrTextoPadrao(0), ex);
+            new Erro(App.getI().getStrTextoPadrao(0), ex);
 
-           }
-           finally {
-           }
-         }
-       });
+          }
+          finally {
+          }
+        }
+      });
 
     }
-     catch (Exception ex) {
+    catch (Exception ex) {
 
-       new Erro(App.getI().getStrTextoPadrao(116), ex);
+      new Erro(App.getI().getStrTextoPadrao(116), ex);
 
-     }
-     finally {
-     }
-   }
+    }
+    finally {
+    }
+  }
 
 }
