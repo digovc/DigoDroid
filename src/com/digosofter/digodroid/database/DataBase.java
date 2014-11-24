@@ -11,15 +11,13 @@ import com.digosofter.digodroid.erro.Erro;
 
 public class DataBase extends SQLiteOpenHelper {
 
-  private SQLiteDatabase _objDataBaseLeitura;
-
+  private SQLiteDatabase _objDbLeitura;
   private SQLiteDatabase _objDbEscrita;
-
   private String _strNome;
 
-  public DataBase(String strDbNome, Context context) {
+  public DataBase(String strDbNome, Context cnt) {
 
-    super(context, strDbNome, null, 1);
+    super(cnt, strDbNome, null, 1);
 
     try {
 
@@ -152,8 +150,8 @@ public class DataBase extends SQLiteOpenHelper {
 
     try {
 
-      if (_objDataBaseLeitura == null) {
-        _objDataBaseLeitura = this.getReadableDatabase();
+      if (_objDbLeitura == null) {
+        _objDbLeitura = this.getReadableDatabase();
       }
 
     }
@@ -165,7 +163,7 @@ public class DataBase extends SQLiteOpenHelper {
     finally {
     }
 
-    return _objDataBaseLeitura;
+    return _objDbLeitura;
   }
 
   public String getStrNome() {
