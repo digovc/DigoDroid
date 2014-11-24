@@ -9,9 +9,9 @@ import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 
-import com.digosofter.digodroid.App;
-import com.digosofter.digodroid.Objeto;
-import com.digosofter.digodroid.erro.Erro;
+import com.digosofter.digodroid.AppAndroid;
+import com.digosofter.digodroid.erro.AndroidErro;
+import com.digosofter.digojava.Objeto;
 
 public abstract class HttpUtils extends Objeto {
 
@@ -37,7 +37,7 @@ public abstract class HttpUtils extends Objeto {
       // FIM AÇÕES
     } catch (Exception ex) {
 
-      new Erro(App.getI().getStrTextoPadrao(0), ex);
+      new AndroidErro(AppAndroid.getI().getStrTextoPadrao(0), ex);
 
     } finally {
     }

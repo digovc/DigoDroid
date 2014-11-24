@@ -19,13 +19,13 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.digosofter.digodroid.App;
+import com.digosofter.digodroid.AppAndroid;
 import com.digosofter.digodroid.R;
-import com.digosofter.digodroid.Utils;
 import com.digosofter.digodroid.adapter.AdpConsulta;
-import com.digosofter.digodroid.database.DbTabela;
-import com.digosofter.digodroid.erro.Erro;
+import com.digosofter.digodroid.database.DbTabelaAndroid;
+import com.digosofter.digodroid.erro.AndroidErro;
 import com.digosofter.digodroid.item.ItmConsulta;
+import com.digosofter.digojava.Utils;
 
 public class ActConsulta extends ActMain {
 
@@ -38,7 +38,7 @@ public class ActConsulta extends ActMain {
   private AdpConsulta _adpCadastro;
   private EditText _edtPesquisa;
   private ListView _pnlTblLista;
-  private DbTabela _tbl;
+  private DbTabelaAndroid _tbl;
   private TextView _txtTblDescricao;
 
   public ActConsulta() {
@@ -48,7 +48,7 @@ public class ActConsulta extends ActMain {
       this.setResult(EnmResultadoTipo.NONE.ordinal());
     }
     catch (Exception ex) {
-      new Erro(App.getI().getStrTextoPadrao(0), ex);
+      new AndroidErro(AppAndroid.getI().getStrTextoPadrao(0), ex);
     }
     finally {
     }
@@ -70,7 +70,7 @@ public class ActConsulta extends ActMain {
       _edtPesquisa = this.getEditText(R.id.actConsulta_edtPesquisa);
     }
     catch (Exception ex) {
-      new Erro(App.getI().getStrTextoPadrao(0), ex);
+      new AndroidErro(AppAndroid.getI().getStrTextoPadrao(0), ex);
     }
     finally {
     }
@@ -96,7 +96,7 @@ public class ActConsulta extends ActMain {
       _pnlTblLista.setCacheColorHint(Color.TRANSPARENT);
     }
     catch (Exception ex) {
-      new Erro(App.getI().getStrTextoPadrao(0), ex);
+      new AndroidErro(AppAndroid.getI().getStrTextoPadrao(0), ex);
     }
     finally {
     }
@@ -104,18 +104,19 @@ public class ActConsulta extends ActMain {
     return _pnlTblLista;
   }
 
-  public DbTabela getTbl() {
+  public DbTabelaAndroid getTbl() {
 
     try {
 
       if (_tbl != null) {
+
         return _tbl;
       }
 
-      _tbl = App.getI().getTblSelec();
+      _tbl = (DbTabelaAndroid) AppAndroid.getI().getTblSelec();
     }
     catch (Exception ex) {
-      new Erro(App.getI().getStrTextoPadrao(0), ex);
+      new AndroidErro(AppAndroid.getI().getStrTextoPadrao(0), ex);
     }
     finally {
     }
@@ -134,7 +135,7 @@ public class ActConsulta extends ActMain {
       _txtTblDescricao = this.getTextView(R.id.actConsulta_pnlPesquisa);
     }
     catch (Exception ex) {
-      new Erro(App.getI().getStrTextoPadrao(0), ex);
+      new AndroidErro(AppAndroid.getI().getStrTextoPadrao(0), ex);
     }
     finally {
     }
@@ -154,7 +155,7 @@ public class ActConsulta extends ActMain {
       this.recuperarUltimaPesquisa();
     }
     catch (Exception ex) {
-      new Erro(App.getI().getStrTextoPadrao(114), ex);
+      new AndroidErro(AppAndroid.getI().getStrTextoPadrao(114), ex);
     }
     finally {
     }
@@ -168,7 +169,7 @@ public class ActConsulta extends ActMain {
       this.getPnlTblLista().setAdapter(this.getAdpCadastro());
     }
     catch (Exception ex) {
-      new Erro(App.getI().getStrTextoPadrao(0), ex);
+      new AndroidErro(AppAndroid.getI().getStrTextoPadrao(0), ex);
     }
     finally {
     }
@@ -186,7 +187,7 @@ public class ActConsulta extends ActMain {
       }
     }
     catch (Exception ex) {
-      new Erro(App.getI().getStrTextoPadrao(0), ex);
+      new AndroidErro(AppAndroid.getI().getStrTextoPadrao(0), ex);
     }
     finally {
     }
@@ -204,7 +205,7 @@ public class ActConsulta extends ActMain {
       objMenu.getItem(0).setVisible(this.getTbl().getBooPermitirCadastroNovo());
     }
     catch (Exception ex) {
-      new Erro(App.getI().getStrTextoPadrao(117), ex);
+      new AndroidErro(AppAndroid.getI().getStrTextoPadrao(117), ex);
     }
     finally {
     }
@@ -232,7 +233,7 @@ public class ActConsulta extends ActMain {
       }
     }
     catch (Exception ex) {
-      new Erro(App.getI().getStrTextoPadrao(0), ex);
+      new AndroidErro(AppAndroid.getI().getStrTextoPadrao(0), ex);
     }
     finally {
     }
@@ -254,7 +255,7 @@ public class ActConsulta extends ActMain {
       this.getEdtPesquisa().setText(this.getTbl().getStrPesquisaActConsulta());
     }
     catch (Exception ex) {
-      new Erro(App.getI().getStrTextoPadrao(0), ex);
+      new AndroidErro(AppAndroid.getI().getStrTextoPadrao(0), ex);
     }
     finally {
     }
@@ -301,20 +302,18 @@ public class ActConsulta extends ActMain {
 
           try {
 
-            ActConsulta.this.getTbl().setStrPesquisaActConsulta(
-                ActConsulta.this.getEdtPesquisa().getText().toString());
+            ActConsulta.this.getTbl().setStrPesquisaActConsulta(ActConsulta.this.getEdtPesquisa().getText().toString());
 
             objItem = (ItmConsulta) ActConsulta.this.getPnlTblLista().getItemAtPosition(position);
             objIntent = new Intent();
             objIntent.putExtra("id", objItem.getStrItemId());
 
-            ActConsulta.this.setResult(ActConsulta.EnmResultadoTipo.REGISTRO_SELECIONADO.ordinal(),
-                objIntent);
+            ActConsulta.this.setResult(ActConsulta.EnmResultadoTipo.REGISTRO_SELECIONADO.ordinal(), objIntent);
             ActConsulta.this.finish();
           }
 
           catch (Exception ex) {
-            new Erro(App.getI().getStrTextoPadrao(115), ex);
+            new AndroidErro(AppAndroid.getI().getStrTextoPadrao(115), ex);
           }
           finally {
           }
@@ -335,16 +334,14 @@ public class ActConsulta extends ActMain {
             }
 
             objItem = (ItmConsulta) ActConsulta.this.getPnlTblLista().getItemAtPosition(position);
-            objIntent = new Intent(ActConsulta.this.getApplicationContext(), ActConsulta.this
-                .getTbl().getClsActCadastro());
+            objIntent = new Intent(ActConsulta.this.getApplicationContext(), ActConsulta.this.getTbl().getClsActCadastro());
             objIntent.putExtra("id", objItem.getStrItemId());
 
-            ActConsulta.this.setResult(ActConsulta.EnmResultadoTipo.REGISTRO_SELECIONADO.ordinal(),
-                objIntent);
+            ActConsulta.this.setResult(ActConsulta.EnmResultadoTipo.REGISTRO_SELECIONADO.ordinal(), objIntent);
             ActConsulta.this.startActivity(objIntent);
           }
           catch (Exception ex) {
-            new Erro(App.getI().getStrTextoPadrao(115), ex);
+            new AndroidErro(AppAndroid.getI().getStrTextoPadrao(115), ex);
           }
           finally {
           }
@@ -356,8 +353,7 @@ public class ActConsulta extends ActMain {
       this.getPnlTblLista().setOnScrollListener(new OnScrollListener() {
 
         @Override
-        public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount,
-            int totalItemCount) {
+        public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
 
         }
 
@@ -368,13 +364,11 @@ public class ActConsulta extends ActMain {
 
           try {
 
-            objIm = (InputMethodManager) ActConsulta.this
-                .getSystemService(Context.INPUT_METHOD_SERVICE);
-            objIm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(),
-                InputMethodManager.HIDE_NOT_ALWAYS);
+            objIm = (InputMethodManager) ActConsulta.this.getSystemService(Context.INPUT_METHOD_SERVICE);
+            objIm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
           }
           catch (Exception ex) {
-            new Erro(App.getI().getStrTextoPadrao(0), ex);
+            new AndroidErro(AppAndroid.getI().getStrTextoPadrao(0), ex);
           }
           finally {
           }
@@ -382,7 +376,7 @@ public class ActConsulta extends ActMain {
       });
     }
     catch (Exception ex) {
-      new Erro(App.getI().getStrTextoPadrao(116), ex);
+      new AndroidErro(AppAndroid.getI().getStrTextoPadrao(116), ex);
     }
     finally {
     }

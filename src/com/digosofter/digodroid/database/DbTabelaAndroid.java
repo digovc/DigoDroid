@@ -7,44 +7,35 @@ import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
 
-import com.digosofter.digodroid.App;
-import com.digosofter.digodroid.Objeto;
-import com.digosofter.digodroid.Utils;
-import com.digosofter.digodroid.Utils.EnmStrTipo;
+import com.digosofter.digodroid.AppAndroid;
 import com.digosofter.digodroid.activity.ActConsulta;
 import com.digosofter.digodroid.activity.ActMain;
-import com.digosofter.digodroid.database.DbColuna.EnmTipo;
-import com.digosofter.digodroid.erro.Erro;
+import com.digosofter.digodroid.erro.AndroidErro;
 import com.digosofter.digodroid.item.ItmConsulta;
+import com.digosofter.digojava.Utils;
+import com.digosofter.digojava.Utils.EnmStrTipo;
+import com.digosofter.digojava.database.DbColuna;
+import com.digosofter.digojava.database.DbColuna.EnmTipo;
+import com.digosofter.digojava.database.DbFiltro;
+import com.digosofter.digojava.database.DbTabela;
 
-public abstract class DbTabela extends Objeto {
+public abstract class DbTabelaAndroid extends DbTabela {
 
-  private boolean _booPermitirCadastroNovo;
   private boolean _booSinc = true;
-  private DbColuna _clnChavePrimaria;
-  private DbColuna _clnNome;
-  private DbColuna _clnOrdemCadastro;
   private Class<? extends ActMain> _clsActCadastro;
-  private int _intQtdLinha;
-  private List<DbColuna> _lstCln;
-  private List<DbColuna> _lstClnCadastro;
-  private ArrayList<DbFiltro> _lstDbFiltroTelaCadastro;
   private List<ItmConsulta> _lstItmConsulta;
-  private DataBase _objDb;
-  private String _strPesquisaActConsulta;
+  private DataBaseAndroid _objDb;
 
-  public DbTabela(String strNome) {
+  public DbTabelaAndroid(String strNome) {
+
+    super(strNome);
 
     try {
 
-      App.getI().getLstTbl().add(this);
-
-      this.setStrNome(strNome);
-      this.inicializarColunas(-1);
       this.criarTabela();
     }
     catch (Exception ex) {
-      new Erro(App.getI().getStrTextoPadrao(122), ex);
+      new AndroidErro(AppAndroid.getI().getStrTextoPadrao(122), ex);
     }
     finally {
     }
@@ -56,13 +47,13 @@ public abstract class DbTabela extends Objeto {
 
     try {
 
-      App.getI().setTblSelec(this);
+      AppAndroid.getI().setTblSelec(this);
 
       objIntent = new Intent(actPai, ActConsulta.class);
       actPai.startActivityForResult(objIntent, 0);
     }
     catch (Exception ex) {
-      new Erro(App.getI().getStrTextoPadrao(123), ex);
+      new AndroidErro(AppAndroid.getI().getStrTextoPadrao(123), ex);
     }
     finally {
     }
@@ -85,7 +76,7 @@ public abstract class DbTabela extends Objeto {
       this.buscarReg(lstObjDbFiltro);
     }
     catch (Exception ex) {
-      new Erro("Erro inesperado.\n", ex);
+      new AndroidErro("Erro inesperado.\n", ex);
     }
     finally {
     }
@@ -114,7 +105,7 @@ public abstract class DbTabela extends Objeto {
       this.carregarDados(crs);
     }
     catch (Exception ex) {
-      new Erro("Erro inesperado.\n", ex);
+      new AndroidErro("Erro inesperado.\n", ex);
     }
     finally {
     }
@@ -141,7 +132,7 @@ public abstract class DbTabela extends Objeto {
       }
     }
     catch (Exception ex) {
-      new Erro("Erro inesperado.\n", ex);
+      new AndroidErro("Erro inesperado.\n", ex);
     }
     finally {
     }
@@ -164,7 +155,7 @@ public abstract class DbTabela extends Objeto {
       this.getObjDb().execSqlSemRetorno(sql);
     }
     catch (Exception ex) {
-      new Erro(App.getI().getStrTextoPadrao(124), ex);
+      new AndroidErro(AppAndroid.getI().getStrTextoPadrao(124), ex);
     }
     finally {
     }
@@ -188,15 +179,10 @@ public abstract class DbTabela extends Objeto {
       this.getObjDb().execSqlSemRetorno(sql);
     }
     catch (Exception ex) {
-      new Erro(App.getI().getStrTextoPadrao(126), ex);
+      new AndroidErro(AppAndroid.getI().getStrTextoPadrao(126), ex);
     }
     finally {
     }
-  }
-
-  public boolean getBooPermitirCadastroNovo() {
-
-    return _booPermitirCadastroNovo;
   }
 
   public boolean getBooSinc() {
@@ -220,70 +206,13 @@ public abstract class DbTabela extends Objeto {
       booResultado = crs != null && crs.moveToFirst() && crs.getCount() > 0;
     }
     catch (Exception ex) {
-      new Erro(App.getI().getStrTextoPadrao(127), ex);
+      new AndroidErro(AppAndroid.getI().getStrTextoPadrao(127), ex);
     }
     finally {
       crs = null;
     }
 
     return booResultado;
-  }
-
-  public DbColuna getClnChavePrimaria() {
-
-    try {
-
-      if (_clnChavePrimaria != null) {
-        return _clnChavePrimaria;
-      }
-
-      _clnChavePrimaria = this.getLstCln().get(0);
-    }
-    catch (Exception ex) {
-      new Erro(App.getI().getStrTextoPadrao(0), ex);
-    }
-    finally {
-    }
-
-    return _clnChavePrimaria;
-  }
-
-  public DbColuna getClnNome() {
-
-    try {
-
-      if (_clnNome != null) {
-        return _clnNome;
-      }
-
-      _clnNome = this.getClnChavePrimaria();
-    }
-    catch (Exception ex) {
-      new Erro(App.getI().getStrTextoPadrao(0), ex);
-    }
-    finally {
-    }
-
-    return _clnNome;
-  }
-
-  public DbColuna getClnOrdemCadastro() {
-
-    try {
-
-      if (_clnOrdemCadastro != null) {
-        return _clnOrdemCadastro;
-      }
-
-      _clnOrdemCadastro = this.getClnChavePrimaria();
-    }
-    catch (Exception ex) {
-      new Erro(App.getI().getStrTextoPadrao(0), ex);
-    }
-    finally {
-    }
-
-    return _clnOrdemCadastro;
   }
 
   public Class<? extends ActMain> getClsActCadastro() {
@@ -306,7 +235,7 @@ public abstract class DbTabela extends Objeto {
       lstCln.add(cln);
     }
     catch (Exception ex) {
-      new Erro(App.getI().getStrTextoPadrao(0), ex);
+      new AndroidErro(AppAndroid.getI().getStrTextoPadrao(0), ex);
     }
     finally {
     }
@@ -324,7 +253,7 @@ public abstract class DbTabela extends Objeto {
       lstCln.add(cln);
     }
     catch (Exception ex) {
-      new Erro(App.getI().getStrTextoPadrao(0), ex);
+      new AndroidErro(AppAndroid.getI().getStrTextoPadrao(0), ex);
     }
     finally {
     }
@@ -345,7 +274,7 @@ public abstract class DbTabela extends Objeto {
       crsResultado = this.getCrsDados(lstObjDbFiltro);
     }
     catch (Exception ex) {
-      new Erro(App.getI().getStrTextoPadrao(128), ex);
+      new AndroidErro(AppAndroid.getI().getStrTextoPadrao(128), ex);
     }
     finally {
     }
@@ -363,15 +292,14 @@ public abstract class DbTabela extends Objeto {
       sql = "select _clns_nome from _tbl_nome where _where order by _tbl_nome._order;";
       sql = sql.replace("_clns_nome", this.getSqlSelectColunasNomes(lstCln));
       sql = sql.replace("_tbl_nome", this.getStrNomeSimplificado());
-      sql = sql.replace("where _where",
-          lstObjDbFiltro != null && lstObjDbFiltro.size() > 0 ? "where _where" : Utils.STR_VAZIA);
+      sql = sql.replace("where _where", lstObjDbFiltro != null && lstObjDbFiltro.size() > 0 ? "where _where" : Utils.STR_VAZIA);
       sql = sql.replace("_where", this.getSqlWhere(lstObjDbFiltro));
       sql = sql.replace("_order", this.getClnOrdemCadastro().getStrNomeSimplificado());
 
       crsResultado = this.getObjDb().execSqlComRetorno(sql);
     }
     catch (Exception ex) {
-      new Erro(App.getI().getStrTextoPadrao(128), ex);
+      new AndroidErro(AppAndroid.getI().getStrTextoPadrao(128), ex);
     }
     finally {
     }
@@ -394,152 +322,19 @@ public abstract class DbTabela extends Objeto {
       sql = "select _clns_nome from _tbl_nome where _where order by _tbl_nome._order;";
       sql = sql.replace("_clns_nome", this.getSqlSelectColunasNomesCadastro());
       sql = sql.replace("_tbl_nome", this.getStrNomeSimplificado());
-      sql = sql.replace("where _where", this.getLstDbFiltroTelaCadastro() != null
-          && this.getLstDbFiltroTelaCadastro().size() > 0 ? "where _where" : Utils.STR_VAZIA);
+      sql = sql.replace("where _where", this.getLstDbFiltroTelaCadastro() != null && this.getLstDbFiltroTelaCadastro().size() > 0 ? "where _where" : Utils.STR_VAZIA);
       sql = sql.replace("_where", this.getSqlWhere(this.getLstDbFiltroTelaCadastro()));
       sql = sql.replace("_order", this.getClnOrdemCadastro().getStrNomeSimplificado());
 
       crsResultado = this.getObjDb().execSqlComRetorno(sql);
     }
     catch (Exception ex) {
-      new Erro(App.getI().getStrTextoPadrao(128), ex);
+      new AndroidErro(AppAndroid.getI().getStrTextoPadrao(128), ex);
     }
     finally {
     }
 
     return crsResultado;
-  }
-
-  private String getSqlSelectColunasNomesCadastro() {
-
-    String strResultado = null;
-    String str;
-
-    try {
-
-      strResultado = Utils.STR_VAZIA;
-
-      for (DbColuna cln : this.getLstClnCadastro()) {
-
-        if (cln.getClnRef() == null) {
-
-          str = "_tbl_nome._cln_nome, ";
-          str = str.replace("_tbl_nome", cln.getTbl().getStrNomeSimplificado());
-          str = str.replace("_cln_nome", cln.getStrNomeSimplificado());
-
-          strResultado += str;
-
-          continue;
-        }
-
-        str = "(select _tbl_ref_nome._cln_ref_nome from _tbl_ref_nome where _tbl_ref_nome._cln_ref_pk = _tbl_nome._cln_nome) _cln_nome, ";
-        str = str.replace("_tbl_ref_nome", cln.getClnRef().getTbl().getStrNomeSimplificado());
-        str = str.replace("_cln_ref_nome", cln.getClnRef().getTbl().getClnNome()
-            .getStrNomeSimplificado());
-        str = str.replace("_cln_ref_pk", cln.getClnRef().getTbl().getClnChavePrimaria()
-            .getStrNomeSimplificado());
-        str = str.replace("_tbl_nome", cln.getTbl().getStrNomeSimplificado());
-        str = str.replace("_cln_nome", cln.getStrNomeSimplificado());
-
-        strResultado += str;
-      }
-
-      strResultado = Utils.removerUltimaLetra(strResultado);
-      strResultado = Utils.removerUltimaLetra(strResultado);
-    }
-    catch (Exception ex) {
-      new Erro("Erro inesperado.\n", ex);
-    }
-    finally {
-    }
-
-    return strResultado;
-  }
-
-  public int getIntQtdLinha() {
-
-    String sql;
-
-    try {
-
-      sql = "select count(1) from _tbl_nome;";
-      sql = sql.replace("_tbl_nome", this.getStrNomeSimplificado());
-
-      _intQtdLinha = this.getObjDb().execSqlGetInt(sql);
-    }
-    catch (Exception ex) {
-      _intQtdLinha = 0;
-    }
-    finally {
-    }
-
-    return _intQtdLinha;
-  }
-
-  public List<DbColuna> getLstCln() {
-
-    try {
-
-      if (_lstCln != null) {
-        return _lstCln;
-      }
-
-      _lstCln = new ArrayList<DbColuna>();
-    }
-    catch (Exception ex) {
-      new Erro(App.getI().getStrTextoPadrao(0), ex);
-    }
-    finally {
-    }
-
-    return _lstCln;
-  }
-
-  public List<DbColuna> getLstClnCadastro() {
-
-    try {
-
-      if (_lstClnCadastro != null) {
-        return _lstClnCadastro;
-      }
-
-      _lstClnCadastro = new ArrayList<DbColuna>();
-
-      for (DbColuna cln : this.getLstCln()) {
-
-        if (!cln.getBooVisivelCadastro() && !cln.getBooChavePrimaria()) {
-          continue;
-        }
-
-        _lstClnCadastro.add(cln);
-      }
-    }
-    catch (Exception ex) {
-      new Erro("Erro inesperado.\n", ex);
-    }
-    finally {
-    }
-
-    return _lstClnCadastro;
-  }
-
-  public ArrayList<DbFiltro> getLstDbFiltroTelaCadastro() {
-
-    try {
-
-      if (_lstDbFiltroTelaCadastro != null) {
-        return _lstDbFiltroTelaCadastro;
-      }
-
-      _lstDbFiltroTelaCadastro = new ArrayList<DbFiltro>();
-    }
-    catch (Exception ex) {
-      new Erro(App.getI().getStrTextoPadrao(0), ex);
-    }
-    finally {
-    }
-
-    return _lstDbFiltroTelaCadastro;
   }
 
   public List<Integer> getLstInt(DbColuna cln, List<DbFiltro> lstObjDbFiltro) {
@@ -561,7 +356,7 @@ public abstract class DbTabela extends Objeto {
       }
     }
     catch (Exception ex) {
-      new Erro(App.getI().getStrTextoPadrao(0), ex);
+      new AndroidErro(AppAndroid.getI().getStrTextoPadrao(0), ex);
     }
     finally {
     }
@@ -591,26 +386,21 @@ public abstract class DbTabela extends Objeto {
       do {
 
         itmConsulta = new ItmConsulta();
-        itmConsulta.setStrItemId(crs.getString(crs.getColumnIndex(this.getClnChavePrimaria()
-            .getStrNomeSimplificado())));
-        itmConsulta.setStrNome(crs.getString(crs.getColumnIndex(this.getClnNome()
-            .getStrNomeSimplificado())));
+        itmConsulta.setStrItemId(crs.getString(crs.getColumnIndex(this.getClnChavePrimaria().getStrNomeSimplificado())));
+        itmConsulta.setStrNome(crs.getString(crs.getColumnIndex(this.getClnNome().getStrNomeSimplificado())));
         itmConsulta.setStrCampo1Nome(this.getLstClnCadastro().get(0).getStrNomeExibicao());
-        itmConsulta.setStrCampo1Valor(crs.getString(crs.getColumnIndex(this.getLstClnCadastro()
-            .get(0).getStrNomeSimplificado())));
+        itmConsulta.setStrCampo1Valor(crs.getString(crs.getColumnIndex(this.getLstClnCadastro().get(0).getStrNomeSimplificado())));
         itmConsulta.setStrCampo2Nome(this.getLstClnCadastro().get(1).getStrNomeExibicao());
-        itmConsulta.setStrCampo2Valor(crs.getString(crs.getColumnIndex(this.getLstClnCadastro()
-            .get(1).getStrNomeSimplificado())));
+        itmConsulta.setStrCampo2Valor(crs.getString(crs.getColumnIndex(this.getLstClnCadastro().get(1).getStrNomeSimplificado())));
         itmConsulta.setStrCampo3Nome(this.getLstClnCadastro().get(2).getStrNomeExibicao());
-        itmConsulta.setStrCampo3Valor(crs.getString(crs.getColumnIndex(this.getLstClnCadastro()
-            .get(2).getStrNomeSimplificado())));
+        itmConsulta.setStrCampo3Valor(crs.getString(crs.getColumnIndex(this.getLstClnCadastro().get(2).getStrNomeSimplificado())));
 
         _lstItmConsulta.add(itmConsulta);
       }
       while (crs.moveToNext());
     }
     catch (Exception ex) {
-      new Erro(App.getI().getStrTextoPadrao(0), ex);
+      new AndroidErro(AppAndroid.getI().getStrTextoPadrao(0), ex);
     }
     finally {
     }
@@ -638,7 +428,7 @@ public abstract class DbTabela extends Objeto {
       while (crs.moveToNext());
     }
     catch (Exception ex) {
-      new Erro(App.getI().getStrTextoPadrao(0), ex);
+      new AndroidErro(AppAndroid.getI().getStrTextoPadrao(0), ex);
     }
     finally {
     }
@@ -646,18 +436,20 @@ public abstract class DbTabela extends Objeto {
     return lstStrResultado;
   }
 
-  public DataBase getObjDb() {
+  @Override
+  public DataBaseAndroid getObjDb() {
 
     try {
 
       if (_objDb != null) {
+
         return _objDb;
       }
 
-      _objDb = App.getI().getObjDbPrincipal();
+      _objDb = AppAndroid.getI().getObjDbPrincipal();
     }
     catch (Exception ex) {
-      new Erro(App.getI().getStrTextoPadrao(0), ex);
+      new AndroidErro(AppAndroid.getI().getStrTextoPadrao(0), ex);
     }
     finally {
     }
@@ -690,7 +482,7 @@ public abstract class DbTabela extends Objeto {
       strResultado = Utils.removerUltimaLetra(strResultado);
     }
     catch (Exception ex) {
-      new Erro("Erro inesperado.\n", ex);
+      new AndroidErro("Erro inesperado.\n", ex);
     }
     finally {
     }
@@ -711,14 +503,9 @@ public abstract class DbTabela extends Objeto {
         str = "_cln_nome _cln_tipo _pk default _default, ";
         str = str.replace("_cln_nome", cln.getStrNomeSimplificado());
         str = str.replace("_cln_tipo", cln.getSqlTipo());
-        str = str.replace("_pk", cln.getBooChavePrimaria() ? "primary key autoincrement"
-            : Utils.STR_VAZIA);
-        str = str.replace("autoincrement", cln.getEnmTipo() != EnmTipo.TEXT ? "autoincrement"
-            : Utils.STR_VAZIA);
-        str = str
-            .replace(" default _default",
-                !Utils.getBooStrVazia(cln.getStrValorDefault()) ? " default _default"
-                    : Utils.STR_VAZIA);
+        str = str.replace("_pk", cln.getBooChavePrimaria() ? "primary key autoincrement" : Utils.STR_VAZIA);
+        str = str.replace("autoincrement", cln.getEnmTipo() != EnmTipo.TEXT ? "autoincrement" : Utils.STR_VAZIA);
+        str = str.replace(" default _default", !Utils.getBooStrVazia(cln.getStrValorDefault()) ? " default _default" : Utils.STR_VAZIA);
         str = str.replace("_default", cln.getStrValorDefault());
 
         strResultado += str;
@@ -728,189 +515,10 @@ public abstract class DbTabela extends Objeto {
       strResultado = Utils.removerUltimaLetra(strResultado);
     }
     catch (Exception ex) {
-      new Erro("Erro inesperado.\n", ex);
+      new AndroidErro("Erro inesperado.\n", ex);
     }
     finally {
     }
-    return strResultado;
-  }
-
-  private String getSqlSelectColunasNomes(List<DbColuna> lstCln) {
-
-    String strResultado = null;
-    String str;
-
-    try {
-
-      if (lstCln == null || lstCln.isEmpty()) {
-        return "*";
-      }
-
-      strResultado = Utils.STR_VAZIA;
-
-      for (DbColuna cln : lstCln) {
-
-        str = "_tbl_nome._cln_nome, ";
-        str = str.replace("_tbl_nome", cln.getTbl().getStrNomeSimplificado());
-        str = str.replace("_cln_nome", cln.getStrNomeSimplificado());
-
-        strResultado += str;
-      }
-
-      strResultado = Utils.removerUltimaLetra(strResultado);
-      strResultado = Utils.removerUltimaLetra(strResultado);
-    }
-    catch (Exception ex) {
-      new Erro("Erro inesperado.\n", ex);
-    }
-    finally {
-    }
-
-    return strResultado;
-  }
-
-  private String getSqlWhere(List<DbFiltro> lstObjDbFiltro) {
-
-    String strResultado = null;
-    String str;
-    boolean booPrimeiroTermo;
-
-    try {
-
-      if (lstObjDbFiltro == null || lstObjDbFiltro.isEmpty()) {
-        return Utils.STR_VAZIA;
-      }
-
-      booPrimeiroTermo = true;
-      strResultado = Utils.STR_VAZIA;
-
-      for (DbFiltro fil : lstObjDbFiltro) {
-        str = "_filtro ";
-        str = str.replace("_filtro", fil.getSqlFiltro(booPrimeiroTermo));
-        strResultado += str;
-        booPrimeiroTermo = false;
-      }
-
-      strResultado = Utils.removerUltimaLetra(strResultado);
-    }
-    catch (Exception ex) {
-      new Erro("Erro inesperado.\n", ex);
-    }
-    finally {
-    }
-
-    return strResultado;
-  }
-
-  public String getStrClnNome(String strNomeSimplificado) {
-
-    String strResultado = null;
-
-    try {
-
-      strResultado = Utils.STR_VAZIA;
-
-      for (DbColuna cln : this.getLstCln()) {
-
-        if (cln.getStrNomeSimplificado().equals(strNomeSimplificado)) {
-          return cln.getStrNomeExibicao();
-        }
-      }
-    }
-    catch (Exception ex) {
-      new Erro(App.getI().getStrTextoPadrao(128), ex);
-    }
-    finally {
-    }
-
-    return strResultado;
-  }
-
-  public String getStrPesquisaActConsulta() {
-
-    return _strPesquisaActConsulta;
-  }
-
-  protected int inicializarColunas(int intOrdem) {
-
-    try {
-    }
-    catch (Exception ex) {
-      new Erro(App.getI().getStrTextoPadrao(128), ex);
-    }
-    finally {
-    }
-    return intOrdem;
-  }
-
-  public void salvar() {
-
-    String strId;
-    String sql;
-
-    try {
-
-      this.limparListaConsulta();
-
-      sql = "replace into _tbl_nome (_clns_nome) values (_values);";
-      sql = sql.replace("_tbl_nome", this.getStrNomeSimplificado());
-      sql = sql.replace("_clns_nome", this.getSqlColunasNomesInsert());
-      sql = sql.replace("_values", this.getSqlColunasValoresInsert());
-
-      this.getObjDb().execSqlSemRetorno(sql);
-
-      if (Utils.getBooStrVazia(this.getClnChavePrimaria().getStrValor())) {
-
-        sql = "SELECT last_insert_rowid();";
-        strId = this.getObjDb().execSqlGetStr(sql);
-      }
-      else {
-        strId = this.getClnChavePrimaria().getStrValor();
-      }
-
-      this.buscarReg(strId);
-    }
-    catch (Exception ex) {
-      new Erro(App.getI().getStrTextoPadrao(129), ex);
-    }
-    finally {
-    }
-  }
-
-  private String getSqlColunasValoresInsert() {
-
-    String strResultado = null;
-    String str;
-
-    try {
-
-      strResultado = Utils.STR_VAZIA;
-
-      for (DbColuna cln : this.getLstCln()) {
-
-        if (Utils.getBooStrVazia(cln.getStrValor())) {
-          continue;
-        }
-
-        if (cln.getClnRef() != null && "0".equals(cln.getStrValor())) {
-          continue;
-        }
-
-        str = "'_cln_valor', ";
-        str = str.replace("_cln_valor", cln.getStrValorSql());
-
-        strResultado += str;
-      }
-
-      strResultado = Utils.removerUltimaLetra(strResultado);
-      strResultado = Utils.removerUltimaLetra(strResultado);
-    }
-    catch (Exception ex) {
-      new Erro("Erro inesperado.\n", ex);
-    }
-    finally {
-    }
-
     return strResultado;
   }
 
@@ -943,7 +551,155 @@ public abstract class DbTabela extends Objeto {
       strResultado = Utils.removerUltimaLetra(strResultado);
     }
     catch (Exception ex) {
-      new Erro("Erro inesperado.\n", ex);
+      new AndroidErro("Erro inesperado.\n", ex);
+    }
+    finally {
+    }
+
+    return strResultado;
+  }
+
+  private String getSqlColunasValoresInsert() {
+
+    String strResultado = null;
+    String str;
+
+    try {
+
+      strResultado = Utils.STR_VAZIA;
+
+      for (DbColuna cln : this.getLstCln()) {
+
+        if (Utils.getBooStrVazia(cln.getStrValor())) {
+          continue;
+        }
+
+        if (cln.getClnRef() != null && "0".equals(cln.getStrValor())) {
+          continue;
+        }
+
+        str = "'_cln_valor', ";
+        str = str.replace("_cln_valor", cln.getStrValorSql());
+
+        strResultado += str;
+      }
+
+      strResultado = Utils.removerUltimaLetra(strResultado);
+      strResultado = Utils.removerUltimaLetra(strResultado);
+    }
+    catch (Exception ex) {
+      new AndroidErro("Erro inesperado.\n", ex);
+    }
+    finally {
+    }
+
+    return strResultado;
+  }
+
+  private String getSqlSelectColunasNomes(List<DbColuna> lstCln) {
+
+    String strResultado = null;
+    String str;
+
+    try {
+
+      if (lstCln == null || lstCln.isEmpty()) {
+        return "*";
+      }
+
+      strResultado = Utils.STR_VAZIA;
+
+      for (DbColuna cln : lstCln) {
+
+        str = "_tbl_nome._cln_nome, ";
+        str = str.replace("_tbl_nome", cln.getTbl().getStrNomeSimplificado());
+        str = str.replace("_cln_nome", cln.getStrNomeSimplificado());
+
+        strResultado += str;
+      }
+
+      strResultado = Utils.removerUltimaLetra(strResultado);
+      strResultado = Utils.removerUltimaLetra(strResultado);
+    }
+    catch (Exception ex) {
+      new AndroidErro("Erro inesperado.\n", ex);
+    }
+    finally {
+    }
+
+    return strResultado;
+  }
+
+  private String getSqlSelectColunasNomesCadastro() {
+
+    String strResultado = null;
+    String str;
+
+    try {
+
+      strResultado = Utils.STR_VAZIA;
+
+      for (DbColuna cln : this.getLstClnCadastro()) {
+
+        if (cln.getClnRef() == null) {
+
+          str = "_tbl_nome._cln_nome, ";
+          str = str.replace("_tbl_nome", cln.getTbl().getStrNomeSimplificado());
+          str = str.replace("_cln_nome", cln.getStrNomeSimplificado());
+
+          strResultado += str;
+
+          continue;
+        }
+
+        str = "(select _tbl_ref_nome._cln_ref_nome from _tbl_ref_nome where _tbl_ref_nome._cln_ref_pk = _tbl_nome._cln_nome) _cln_nome, ";
+        str = str.replace("_tbl_ref_nome", cln.getClnRef().getTbl().getStrNomeSimplificado());
+        str = str.replace("_cln_ref_nome", cln.getClnRef().getTbl().getClnNome().getStrNomeSimplificado());
+        str = str.replace("_cln_ref_pk", cln.getClnRef().getTbl().getClnChavePrimaria().getStrNomeSimplificado());
+        str = str.replace("_tbl_nome", cln.getTbl().getStrNomeSimplificado());
+        str = str.replace("_cln_nome", cln.getStrNomeSimplificado());
+
+        strResultado += str;
+      }
+
+      strResultado = Utils.removerUltimaLetra(strResultado);
+      strResultado = Utils.removerUltimaLetra(strResultado);
+    }
+    catch (Exception ex) {
+      new AndroidErro("Erro inesperado.\n", ex);
+    }
+    finally {
+    }
+
+    return strResultado;
+  }
+
+  private String getSqlWhere(List<DbFiltro> lstObjDbFiltro) {
+
+    String strResultado = null;
+    String str;
+    boolean booPrimeiroTermo;
+
+    try {
+
+      if (lstObjDbFiltro == null || lstObjDbFiltro.isEmpty()) {
+        return Utils.STR_VAZIA;
+      }
+
+      booPrimeiroTermo = true;
+      strResultado = Utils.STR_VAZIA;
+
+      for (DbFiltro fil : lstObjDbFiltro) {
+        str = "_filtro ";
+        str = str.replace("_filtro", fil.getSqlFiltro(booPrimeiroTermo));
+        strResultado += str;
+        booPrimeiroTermo = false;
+      }
+
+      strResultado = Utils.removerUltimaLetra(strResultado);
+    }
+    catch (Exception ex) {
+      new AndroidErro("Erro inesperado.\n", ex);
     }
     finally {
     }
@@ -976,22 +732,7 @@ public abstract class DbTabela extends Objeto {
       this.salvar();
     }
     catch (Exception ex) {
-      new Erro(App.getI().getStrTextoPadrao(130), ex);
-    }
-    finally {
-    }
-  }
-
-  public void limparColunas() {
-
-    try {
-
-      for (DbColuna cln : this.getLstCln()) {
-        cln.setStrValor(null);
-      }
-    }
-    catch (Exception ex) {
-      new Erro(App.getI().getStrTextoPadrao(130), ex);
+      new AndroidErro(AppAndroid.getI().getStrTextoPadrao(130), ex);
     }
     finally {
     }
@@ -1004,15 +745,44 @@ public abstract class DbTabela extends Objeto {
       this.setLstItmConsulta(null);
     }
     catch (Exception ex) {
-      new Erro(App.getI().getStrTextoPadrao(0), ex);
+      new AndroidErro(AppAndroid.getI().getStrTextoPadrao(0), ex);
     }
     finally {
     }
   }
 
-  protected void setBooPermitirCadastroNovo(boolean booPermitirCadastroNovo) {
+  public void salvar() {
 
-    _booPermitirCadastroNovo = booPermitirCadastroNovo;
+    String strId;
+    String sql;
+
+    try {
+
+      this.limparListaConsulta();
+
+      sql = "replace into _tbl_nome (_clns_nome) values (_values);";
+      sql = sql.replace("_tbl_nome", this.getStrNomeSimplificado());
+      sql = sql.replace("_clns_nome", this.getSqlColunasNomesInsert());
+      sql = sql.replace("_values", this.getSqlColunasValoresInsert());
+
+      this.getObjDb().execSqlSemRetorno(sql);
+
+      if (Utils.getBooStrVazia(this.getClnChavePrimaria().getStrValor())) {
+
+        sql = "SELECT last_insert_rowid();";
+        strId = this.getObjDb().execSqlGetStr(sql);
+      }
+      else {
+        strId = this.getClnChavePrimaria().getStrValor();
+      }
+
+      this.buscarReg(strId);
+    }
+    catch (Exception ex) {
+      new AndroidErro(AppAndroid.getI().getStrTextoPadrao(129), ex);
+    }
+    finally {
+    }
   }
 
   public void setBooSinc(boolean booSinc) {
@@ -1020,29 +790,9 @@ public abstract class DbTabela extends Objeto {
     _booSinc = booSinc;
   }
 
-  public void setClnChavePrimaria(DbColuna clnChavePrimaria) {
-
-    _clnChavePrimaria = clnChavePrimaria;
-  }
-
-  public void setClnNome(DbColuna clnNome) {
-
-    _clnNome = clnNome;
-  }
-
-  public void setClnOrdemCadastro(DbColuna clnOrdemCadastro) {
-
-    _clnOrdemCadastro = clnOrdemCadastro;
-  }
-
   protected void setClsActCadastro(Class<? extends ActMain> clsActFrm) {
 
     _clsActCadastro = clsActFrm;
-  }
-
-  public void setLstCln(List<DbColuna> lstCln) {
-
-    _lstCln = lstCln;
   }
 
   private void setLstItmConsulta(List<ItmConsulta> lstItmConsulta) {
@@ -1050,13 +800,8 @@ public abstract class DbTabela extends Objeto {
     _lstItmConsulta = lstItmConsulta;
   }
 
-  public void setObjDb(DataBase objDb) {
+  public void setObjDb(DataBaseAndroid objDb) {
 
     _objDb = objDb;
-  }
-
-  public void setStrPesquisaActConsulta(String strPesquisaActConsulta) {
-
-    _strPesquisaActConsulta = strPesquisaActConsulta;
   }
 }

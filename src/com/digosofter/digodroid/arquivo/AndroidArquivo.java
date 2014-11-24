@@ -1,0 +1,42 @@
+package com.digosofter.digodroid.arquivo;
+
+import com.digosofter.digodroid.AppAndroid;
+import com.digosofter.digodroid.erro.AndroidErro;
+import com.digosofter.digojava.arquivo.Arquivo;
+
+public abstract class AndroidArquivo extends Arquivo {
+
+  private void mostrarMensagemSalvo() {
+
+    String msg;
+
+    try {
+
+      msg = "Arquivo '_arq_nome' salvo com sucesso.";
+      msg = msg.replace("_arq_nome", this.getDirCompleto());
+      AppAndroid.getI().mostrarNoficacao(msg);
+    }
+    catch (Exception ex) {
+      new AndroidErro(AppAndroid.getI().getStrTextoPadrao(0), ex);
+    }
+    finally {
+    }
+  }
+
+  @Override
+  public void salvar() {
+
+    super.salvar();
+
+    try {
+
+      this.mostrarMensagemSalvo();
+    }
+    catch (Exception ex) {
+      new AndroidErro(AppAndroid.getI().getStrTextoPadrao(0), ex);
+    }
+    finally {
+    }
+  }
+
+}

@@ -1,9 +1,9 @@
 package com.digosofter.digodroid.item;
 
-import com.digosofter.digodroid.App;
-import com.digosofter.digodroid.Objeto;
-import com.digosofter.digodroid.Utils;
-import com.digosofter.digodroid.erro.Erro;
+import com.digosofter.digodroid.AppAndroid;
+import com.digosofter.digodroid.UtilsAndroid;
+import com.digosofter.digodroid.erro.AndroidErro;
+import com.digosofter.digojava.Objeto;
 
 public class ItmConsulta extends Objeto {
 
@@ -22,15 +22,15 @@ public class ItmConsulta extends Objeto {
 
     try {
 
-      if (Utils.getBooStrVazia(strValor)) {
-        return Utils.STR_VAZIA;
+      if (UtilsAndroid.getBooStrVazia(strValor)) {
+        return UtilsAndroid.STR_VAZIA;
       }
 
       strValor = strValor.replace("true", "Sim");
       strValor = strValor.replace("false", "Não");
     }
     catch (Exception ex) {
-      new Erro("Erro inesperado.\n", ex);
+      new AndroidErro("Erro inesperado.\n", ex);
     }
     finally {
     }
@@ -62,7 +62,7 @@ public class ItmConsulta extends Objeto {
       }
     }
     catch (Exception ex) {
-      new Erro(App.getI().getStrTextoPadrao(132), ex);
+      new AndroidErro(AppAndroid.getI().getStrTextoPadrao(132), ex);
     }
     finally {
     }
@@ -74,14 +74,14 @@ public class ItmConsulta extends Objeto {
 
     try {
 
-      if (!Utils.getBooStrVazia(_strCampo1)) {
+      if (!UtilsAndroid.getBooStrVazia(_strCampo1)) {
         return _strCampo1;
       }
 
       _strCampo1 = this.getStrCampo1Nome() + ": " + this.getStrCampo1Valor();
     }
     catch (Exception ex) {
-      new Erro(App.getI().getStrTextoPadrao(0), ex);
+      new AndroidErro(AppAndroid.getI().getStrTextoPadrao(0), ex);
     }
     finally {
     }
@@ -98,14 +98,14 @@ public class ItmConsulta extends Objeto {
 
     try {
 
-      if (!Utils.getBooStrVazia(_strCampo1Valor)) {
+      if (!UtilsAndroid.getBooStrVazia(_strCampo1Valor)) {
         return _strCampo1Valor;
       }
 
       _strCampo1Valor = this.formatarValor(_strCampo1Valor);
     }
     catch (Exception ex) {
-      new Erro(App.getI().getStrTextoPadrao(0), ex);
+      new AndroidErro(AppAndroid.getI().getStrTextoPadrao(0), ex);
     }
     finally {
     }
@@ -117,14 +117,14 @@ public class ItmConsulta extends Objeto {
 
     try {
 
-      if (!Utils.getBooStrVazia(_strCampo2)) {
+      if (!UtilsAndroid.getBooStrVazia(_strCampo2)) {
         return _strCampo2;
       }
 
       _strCampo2 = this.getStrCampo2Nome() + ": " + this.getStrCampo2Valor();
     }
     catch (Exception ex) {
-      new Erro(App.getI().getStrTextoPadrao(0), ex);
+      new AndroidErro(AppAndroid.getI().getStrTextoPadrao(0), ex);
     }
     finally {
     }
@@ -141,14 +141,14 @@ public class ItmConsulta extends Objeto {
 
     try {
 
-      if (!Utils.getBooStrVazia(_strCampo2Valor)) {
+      if (!UtilsAndroid.getBooStrVazia(_strCampo2Valor)) {
         return _strCampo2Valor;
       }
 
       _strCampo2Valor = this.formatarValor(_strCampo2Valor);
     }
     catch (Exception ex) {
-      new Erro(App.getI().getStrTextoPadrao(0), ex);
+      new AndroidErro(AppAndroid.getI().getStrTextoPadrao(0), ex);
     }
     finally {
     }
@@ -160,14 +160,14 @@ public class ItmConsulta extends Objeto {
 
     try {
 
-      if (!Utils.getBooStrVazia(_strCampo3)) {
+      if (!UtilsAndroid.getBooStrVazia(_strCampo3)) {
         return _strCampo3;
       }
 
       _strCampo3 = this.getStrCampo3Nome() + ": " + this.getStrCampo3Valor();
     }
     catch (Exception ex) {
-      new Erro(App.getI().getStrTextoPadrao(0), ex);
+      new AndroidErro(AppAndroid.getI().getStrTextoPadrao(0), ex);
     }
     finally {
     }
@@ -184,14 +184,14 @@ public class ItmConsulta extends Objeto {
 
     try {
 
-      if (!Utils.getBooStrVazia(_strCampo3Valor)) {
+      if (!UtilsAndroid.getBooStrVazia(_strCampo3Valor)) {
         return _strCampo3Valor;
       }
 
       _strCampo3Valor = this.formatarValor(_strCampo3Valor);
     }
     catch (Exception ex) {
-      new Erro(App.getI().getStrTextoPadrao(0), ex);
+      new AndroidErro(AppAndroid.getI().getStrTextoPadrao(0), ex);
     }
     finally {
     }

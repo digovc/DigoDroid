@@ -8,7 +8,8 @@ import android.net.Uri;
 import android.provider.Settings.Secure;
 import android.telephony.TelephonyManager;
 
-import com.digosofter.digodroid.erro.Erro;
+import com.digosofter.digodroid.erro.AndroidErro;
+import com.digosofter.digojava.Objeto;
 
 public class Aparelho extends Objeto {
 
@@ -25,7 +26,7 @@ public class Aparelho extends Objeto {
       i = new Aparelho();
     }
     catch (Exception ex) {
-      new Erro(App.getI().getStrTextoPadrao(0), ex);
+      new AndroidErro(AppAndroid.getI().getStrTextoPadrao(0), ex);
     }
     finally {
     }
@@ -50,7 +51,7 @@ public class Aparelho extends Objeto {
       this.getCnt().getApplicationContext().getApplicationContext().startActivity(itt);
     }
     catch (Exception ex) {
-      new Erro(App.getI().getStrTextoPadrao(0), ex);
+      new AndroidErro(AppAndroid.getI().getStrTextoPadrao(0), ex);
     }
     finally {
     }
@@ -64,7 +65,7 @@ public class Aparelho extends Objeto {
     Uri uri;
     Intent itt;
     try {
-      if (Utils.getBooStrVazia(strEmail)) {
+      if (UtilsAndroid.getBooStrVazia(strEmail)) {
         return;
       }
       uri = Uri.parse("mailto:" + strEmail);
@@ -74,7 +75,7 @@ public class Aparelho extends Objeto {
       this.getCnt().startActivity(itt);
     }
     catch (Exception ex) {
-      new Erro(App.getI().getStrTextoPadrao(0), ex);
+      new AndroidErro(AppAndroid.getI().getStrTextoPadrao(0), ex);
     }
     finally {
     }
@@ -91,7 +92,7 @@ public class Aparelho extends Objeto {
       booResultado = objNetworkInfo == null;
     }
     catch (Exception ex) {
-      new Erro(App.getI().getStrTextoPadrao(0), ex);
+      new AndroidErro(AppAndroid.getI().getStrTextoPadrao(0), ex);
     }
     finally {
     }
@@ -104,10 +105,10 @@ public class Aparelho extends Objeto {
       if (_cnt != null) {
         return _cnt;
       }
-      _cnt = App.getI().getCnt();
+      _cnt = AppAndroid.getI().getCnt();
     }
     catch (Exception ex) {
-      new Erro(App.getI().getStrTextoPadrao(0), ex);
+      new AndroidErro(AppAndroid.getI().getStrTextoPadrao(0), ex);
     }
     finally {
     }
@@ -123,7 +124,7 @@ public class Aparelho extends Objeto {
       _objTelManager = (TelephonyManager) this.getCnt().getSystemService(Context.TELEPHONY_SERVICE);
     }
     catch (Exception ex) {
-      new Erro(App.getI().getStrTextoPadrao(0), ex);
+      new AndroidErro(AppAndroid.getI().getStrTextoPadrao(0), ex);
     }
     finally {
     }
@@ -136,13 +137,13 @@ public class Aparelho extends Objeto {
   public String getStrId() {
 
     try {
-      if (!Utils.getBooStrVazia(_strId)) {
+      if (!UtilsAndroid.getBooStrVazia(_strId)) {
         return _strId;
       }
       _strId = Secure.getString(this.getCnt().getContentResolver(), Secure.ANDROID_ID);
     }
     catch (Exception ex) {
-      new Erro(App.getI().getStrTextoPadrao(0), ex);
+      new AndroidErro(AppAndroid.getI().getStrTextoPadrao(0), ex);
     }
     finally {
     }
@@ -152,13 +153,13 @@ public class Aparelho extends Objeto {
   public String getStrImei() {
 
     try {
-      if (!Utils.getBooStrVazia(_strImei)) {
+      if (!UtilsAndroid.getBooStrVazia(_strImei)) {
         return _strImei;
       }
       _strImei = this.getObjTelManager().getDeviceId();
     }
     catch (Exception ex) {
-      new Erro(App.getI().getStrMsgUsuarioPadrao(100), ex);
+      new AndroidErro(AppAndroid.getI().getStrMsgUsuarioPadrao(100), ex);
     }
     finally {
     }
@@ -175,7 +176,7 @@ public class Aparelho extends Objeto {
       this.getCnt().startActivity(objIntent);
     }
     catch (Exception ex) {
-      new Erro(App.getI().getStrTextoPadrao(0), ex);
+      new AndroidErro(AppAndroid.getI().getStrTextoPadrao(0), ex);
     }
     finally {
     }

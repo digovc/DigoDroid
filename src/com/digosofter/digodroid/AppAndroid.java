@@ -7,42 +7,38 @@ import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.widget.Toast;
 
-import com.digosofter.digodroid.MsgUsuario.EnmLingua;
 import com.digosofter.digodroid.activity.ActMain;
-import com.digosofter.digodroid.database.DataBase;
-import com.digosofter.digodroid.database.DbTabela;
-import com.digosofter.digodroid.erro.Erro;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
+import com.digosofter.digodroid.database.DataBaseAndroid;
+import com.digosofter.digodroid.database.DbTabelaAndroid;
+import com.digosofter.digodroid.erro.AndroidErro;
+import com.digosofter.digojava.App;
+import com.digosofter.digojava.MsgUsuario;
+import com.digosofter.digojava.database.DbTabela;
+import com.digosofter.digojava.erro.Erro;
 
-public abstract class App extends Objeto {
+public abstract class AppAndroid extends App {
 
-  private static App i;
+  private static AppAndroid i;
 
-  public static App getI() {
+  public static AppAndroid getI() {
 
     return i;
   }
 
   private ActMain _actMain;
-
   private boolean _booDebug;
   private Context _cnt;
-  private int _intVersao;
   private List<MsgUsuario> _lstMsgUsuarioPadrao;
-  private List<DbTabela> _lstTbl;
-  private DataBase _objDbPrincipal;
-  private Gson _objGson;
-  private String _strVersao;
-  private DbTabela _tblSelec;
+  private DataBaseAndroid _objDbPrincipal;
 
-  public App() {
+  protected AppAndroid() {
 
     try {
+
       this.setI(this);
     }
     catch (Exception ex) {
-      new Erro("Erro inesperado.\n", ex);
+      new AndroidErro("Erro inesperado.\n", ex);
     }
     finally {
     }
@@ -53,6 +49,7 @@ public abstract class App extends Objeto {
     return _actMain;
   }
 
+  @Override
   public boolean getBooDebug() {
 
     try {
@@ -62,7 +59,7 @@ public abstract class App extends Objeto {
     }
     catch (Exception ex) {
 
-      new Erro("Erro inesperado.\n", ex);
+      new AndroidErro("Erro inesperado.\n", ex);
 
     }
     finally {
@@ -77,26 +74,23 @@ public abstract class App extends Objeto {
       _cnt = this.getActMain().getApplicationContext();
     }
     catch (Exception ex) {
-      new Erro(this.getStrMsgUsuarioPadrao(101), ex);
+      new AndroidErro(this.getStrMsgUsuarioPadrao(101), ex);
     }
     finally {
     }
     return _cnt;
   }
 
-  public int getIntVersao() {
-
-    return _intVersao;
-  }
-
-  public abstract List<MsgUsuario> getLstMsgUsuario();
-
-  private List<MsgUsuario> getLstMsgUsuarioPadrao() {
+  @Override
+  protected List<MsgUsuario> getLstMsgUsuarioPadrao() {
 
     try {
+
       if (_lstMsgUsuarioPadrao != null) {
+
         return _lstMsgUsuarioPadrao;
       }
+
       _lstMsgUsuarioPadrao = new ArrayList<MsgUsuario>();
       _lstMsgUsuarioPadrao.add(new MsgUsuario("Erro inesperado..", 0));
       _lstMsgUsuarioPadrao.add(new MsgUsuario("Erro ao recuperar o IMEI do aparelho.", 100));
@@ -106,8 +100,7 @@ public abstract class App extends Objeto {
       _lstMsgUsuarioPadrao.add(new MsgUsuario("Erro ao mostrar notificação na tela.", 104));
       _lstMsgUsuarioPadrao.add(new MsgUsuario("Erro ao criar objeto do tipo 'FtpClient'.", 105));
       _lstMsgUsuarioPadrao.add(new MsgUsuario("Erro ao criar objeto do tipo 'Ftp'.", 106));
-      _lstMsgUsuarioPadrao.add(new MsgUsuario("Erro ao criar objeto do tipo 'MensagemUsuario'.",
-          107));
+      _lstMsgUsuarioPadrao.add(new MsgUsuario("Erro ao criar objeto do tipo 'MensagemUsuario'.", 107));
       _lstMsgUsuarioPadrao.add(new MsgUsuario("Erro ao criar objeto do tipo 'Objeto'.", 108));
       _lstMsgUsuarioPadrao.add(new MsgUsuario("Erro ao arredondar valor.", 109));
       _lstMsgUsuarioPadrao.add(new MsgUsuario("Erro ao recuperar data atual.", 110));
@@ -128,14 +121,11 @@ public abstract class App extends Objeto {
       _lstMsgUsuarioPadrao.add(new MsgUsuario("Erro ao buscar registro no banco de dados.", 124));
       _lstMsgUsuarioPadrao.add(new MsgUsuario("Erro ao criar tabela no banco de dados.", 125));
       _lstMsgUsuarioPadrao.add(new MsgUsuario("Erro ao excluir registro.", 126));
-      _lstMsgUsuarioPadrao.add(new MsgUsuario(
-          "Erro ao verificar se tabela existe no banco de dados.", 127));
+      _lstMsgUsuarioPadrao.add(new MsgUsuario("Erro ao verificar se tabela existe no banco de dados.", 127));
       _lstMsgUsuarioPadrao.add(new MsgUsuario("Erro ao recuperar tabela no banco de dados.", 128));
       _lstMsgUsuarioPadrao.add(new MsgUsuario("Erro ao inserir registro no banco de dados.", 129));
-      _lstMsgUsuarioPadrao.add(new MsgUsuario(
-          "Erro ao inserir registro aleatório no banco de dados.", 130));
-      _lstMsgUsuarioPadrao
-      .add(new MsgUsuario("Erro ao zerar valores das colunas no registro.", 131));
+      _lstMsgUsuarioPadrao.add(new MsgUsuario("Erro ao inserir registro aleatório no banco de dados.", 130));
+      _lstMsgUsuarioPadrao.add(new MsgUsuario("Erro ao zerar valores das colunas no registro.", 131));
       _lstMsgUsuarioPadrao.add(new MsgUsuario("Erro ao verificar filtro no item da lista.", 132));
       _lstMsgUsuarioPadrao.add(new MsgUsuario("Erro ao criar objeto do tipo 'TblCliente'.", 133));
       _lstMsgUsuarioPadrao.add(new MsgUsuario("Erro ao criar objeto do tipo 'TblMain'.", 134));
@@ -144,133 +134,35 @@ public abstract class App extends Objeto {
       _lstMsgUsuarioPadrao.add(new MsgUsuario("Erro ao criar objeto do tipo 'ConfigItem'.", 137));
     }
     catch (Exception ex) {
-      new Erro(this.getStrMsgUsuarioPadrao(0), ex);
+      new AndroidErro(this.getStrMsgUsuarioPadrao(0), ex);
     }
     finally {
     }
+
     return _lstMsgUsuarioPadrao;
   }
 
-  public List<DbTabela> getLstTbl() {
+  @Override
+  public DataBaseAndroid getObjDbPrincipal() {
 
     try {
-      if (_lstTbl != null) {
-        return _lstTbl;
-      }
-      _lstTbl = new ArrayList<DbTabela>();
-    }
-    catch (Exception ex) {
-      new Erro(App.getI().getStrTextoPadrao(0), ex);
-    }
-    finally {
-    }
-    return _lstTbl;
-  }
 
-  public DataBase getObjDbPrincipal() {
-
-    try {
       if (_objDbPrincipal != null) {
+
         return _objDbPrincipal;
       }
-      _objDbPrincipal = new DataBase(this.getStrNomeSimplificado(), this.getCnt());
+
+      _objDbPrincipal = new DataBaseAndroid();
     }
     catch (Exception ex) {
-      new Erro(App.getI().getStrTextoPadrao(102), ex);
-    }
-    finally {
-    }
-    return _objDbPrincipal;
-  }
 
-  public Gson getObjGson() {
-
-    try {
-      if (_objGson != null) {
-        return _objGson;
-      }
-      _objGson = new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ssZ").create();
-    }
-    catch (Exception ex) {
       new Erro("Erro inesperado.\n", ex);
+
     }
     finally {
     }
-    return _objGson;
-  }
 
-  public String getStrMsgUsuario(int intId) {
-
-    return this.getStrMsgUsuario(intId, EnmLingua.PORTUGUES, false);
-  }
-
-  public String getStrMsgUsuario(int intId, EnmLingua enmLingua, boolean booMsgPadrao) {
-
-    List<MsgUsuario> lstMsgUsuarioTemp;
-    String strResultado = Utils.STR_VAZIA;
-    try {
-      if (booMsgPadrao) {
-        lstMsgUsuarioTemp = this.getLstMsgUsuarioPadrao();
-      }
-      else {
-        lstMsgUsuarioTemp = this.getLstMsgUsuario();
-      }
-      for (MsgUsuario msgUsuario : lstMsgUsuarioTemp) {
-        if (msgUsuario.getIntId() == intId && msgUsuario.getEnmLingua() == enmLingua) {
-          strResultado = msgUsuario.getStrTexto();
-          break;
-        }
-      }
-    }
-    catch (Exception ex) {
-      new Erro(this.getStrTextoPadrao(103), ex);
-    }
-    finally {
-    }
-    return strResultado;
-  }
-
-  public String getStrMsgUsuarioPadrao(int intId) {
-
-    return this.getStrMsgUsuario(intId, EnmLingua.PORTUGUES, true);
-  }
-
-  public String getStrTexto(int intId) {
-
-    return this.getStrMsgUsuario(intId);
-  }
-
-  public String getStrTextoPadrao(int intId) {
-
-    return this.getStrMsgUsuarioPadrao(intId);
-  }
-
-  public String getStrVersao() {
-
-    return _strVersao;
-  }
-
-  public DbTabela getTblSelec() {
-
-    return _tblSelec;
-  }
-
-  /**
-   * Limpa o "cache" com a lista de de ítens das telas de consultas das tabelas
-   * do app.
-   */
-  public void limparTblListaConsulta() {
-
-    try {
-      for (DbTabela tbl : this.getLstTbl()) {
-        tbl.limparListaConsulta();
-      }
-    }
-    catch (Exception ex) {
-      new Erro(App.getI().getStrTextoPadrao(0), ex);
-    }
-    finally {
-    }
+    return _objDbPrincipal;
   }
 
   public void mostrarNoficacao(final String strMensagem) {
@@ -284,10 +176,10 @@ public abstract class App extends Objeto {
           int intTempo;
           try {
             intTempo = strMensagem.length() > 25 ? Toast.LENGTH_LONG : Toast.LENGTH_SHORT;
-            Toast.makeText(App.this.getCnt(), strMensagem, intTempo).show();
+            Toast.makeText(AppAndroid.this.getCnt(), strMensagem, intTempo).show();
           }
           catch (Exception ex) {
-            new Erro(App.getI().getStrTextoPadrao(0), ex);
+            new AndroidErro(AppAndroid.getI().getStrTextoPadrao(0), ex);
           }
           finally {
           }
@@ -295,7 +187,7 @@ public abstract class App extends Objeto {
       });
     }
     catch (Exception ex) {
-      new Erro(this.getStrTextoPadrao(104), ex);
+      new AndroidErro(this.getStrTextoPadrao(104), ex);
     }
     finally {
     }
@@ -306,32 +198,42 @@ public abstract class App extends Objeto {
     _actMain = actMain;
   }
 
-  private void setI(App _i) {
+  private void setI(AppAndroid _i) {
 
     try {
-      if (i == null) {
-        i = _i;
+
+      if (i != null) {
+
+        return;
       }
+
+      i = _i;
     }
     catch (Exception ex) {
-      new Erro(App.getI().getStrTextoPadrao(0), ex);
+      new AndroidErro(AppAndroid.getI().getStrTextoPadrao(0), ex);
     }
     finally {
     }
   }
 
-  public void setIntVersao(int intVersao) {
+  /**
+   * Limpa o "cache" com a lista de de ítens das telas de consultas das tabelas
+   * do app.
+   */
+  public void limparTblListaConsulta() {
 
-    _intVersao = intVersao;
+    try {
+
+      for (DbTabela tbl : this.getLstTbl()) {
+
+        ((DbTabelaAndroid)tbl).limparListaConsulta();
+      }
+    }
+    catch (Exception ex) {
+      new Erro("Erro inesperado.\n", ex);
+    }
+    finally {
+    }
   }
 
-  public void setStrVersao(String strVersao) {
-
-    _strVersao = strVersao;
-  }
-
-  public void setTblSelec(DbTabela tblSelec) {
-
-    _tblSelec = tblSelec;
-  }
 }

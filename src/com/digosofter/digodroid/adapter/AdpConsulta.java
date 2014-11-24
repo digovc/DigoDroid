@@ -12,10 +12,10 @@ import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.TextView;
 
-import com.digosofter.digodroid.App;
+import com.digosofter.digodroid.AppAndroid;
 import com.digosofter.digodroid.R;
-import com.digosofter.digodroid.Utils;
-import com.digosofter.digodroid.erro.Erro;
+import com.digosofter.digodroid.UtilsAndroid;
+import com.digosofter.digodroid.erro.AndroidErro;
 import com.digosofter.digodroid.item.ItmConsulta;
 
 public class AdpConsulta extends BaseAdapter implements Filterable {
@@ -32,7 +32,7 @@ public class AdpConsulta extends BaseAdapter implements Filterable {
       this.setObjLayoutInflater(LayoutInflater.from(cnt));
     }
     catch (Exception ex) {
-      new Erro(App.getI().getStrTextoPadrao(0), ex);
+      new AndroidErro(AppAndroid.getI().getStrTextoPadrao(0), ex);
     }
     finally {
     }
@@ -151,24 +151,24 @@ public class AdpConsulta extends BaseAdapter implements Filterable {
       txtRegistroNome.setText(itmCadastro.getStrNomeExibicao());
       txtRegistroCampo001.setText(itmCadastro.getStrCampo001());
 
-      if (Utils.getBooStrVazia(itmCadastro.getStrCampo1Valor())) {
+      if (UtilsAndroid.getBooStrVazia(itmCadastro.getStrCampo1Valor())) {
         txtRegistroCampo001.setVisibility(View.GONE);
       }
 
       txtRegistroCampo002.setText(itmCadastro.getstrCampo2());
 
-      if (Utils.getBooStrVazia(itmCadastro.getStrCampo2Valor())) {
+      if (UtilsAndroid.getBooStrVazia(itmCadastro.getStrCampo2Valor())) {
         txtRegistroCampo002.setVisibility(View.GONE);
       }
 
       txtRegistroCampo003.setText(itmCadastro.getstrCampo3());
 
-      if (Utils.getBooStrVazia(itmCadastro.getStrCampo3Valor())) {
+      if (UtilsAndroid.getBooStrVazia(itmCadastro.getStrCampo3Valor())) {
         txtRegistroCampo003.setVisibility(View.GONE);
       }
     }
     catch (Exception ex) {
-      new Erro(App.getI().getStrTextoPadrao(0), ex);
+      new AndroidErro(AppAndroid.getI().getStrTextoPadrao(0), ex);
     }
     finally {
     }
@@ -187,7 +187,7 @@ public class AdpConsulta extends BaseAdapter implements Filterable {
       }
     }
     catch (Exception ex) {
-      new Erro(App.getI().getStrTextoPadrao(0), ex);
+      new AndroidErro(AppAndroid.getI().getStrTextoPadrao(0), ex);
     }
     finally {
     }

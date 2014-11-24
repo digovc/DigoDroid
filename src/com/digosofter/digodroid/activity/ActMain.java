@@ -18,8 +18,8 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.VideoView;
 
-import com.digosofter.digodroid.App;
-import com.digosofter.digodroid.erro.Erro;
+import com.digosofter.digodroid.AppAndroid;
+import com.digosofter.digodroid.erro.AndroidErro;
 
 public abstract class ActMain extends Activity {
 
@@ -33,7 +33,7 @@ public abstract class ActMain extends Activity {
     }
     catch (Exception ex) {
 
-      new Erro("Erro inesperado.\n", ex);
+      new AndroidErro("Erro inesperado.\n", ex);
 
     }
     finally {
@@ -47,7 +47,7 @@ public abstract class ActMain extends Activity {
       this.getFragmentManager().beginTransaction().add(intPnlId, frg).commit();
     }
     catch (Exception ex) {
-      new Erro(App.getI().getStrTextoPadrao(113), ex);
+      new AndroidErro(AppAndroid.getI().getStrTextoPadrao(113), ex);
     }
     finally {
     }
@@ -124,7 +124,7 @@ public abstract class ActMain extends Activity {
       viwResultado = this.findViewById(intId);
     }
     catch (Exception ex) {
-      new Erro(App.getI().getStrTextoPadrao(0), ex);
+      new AndroidErro(AppAndroid.getI().getStrTextoPadrao(0), ex);
     }
     finally {
     }
@@ -143,7 +143,7 @@ public abstract class ActMain extends Activity {
       this.getActionBar().setDisplayHomeAsUpEnabled(true);
     }
     catch (Exception ex) {
-      new Erro(App.getI().getStrTextoPadrao(0), ex);
+      new AndroidErro(AppAndroid.getI().getStrTextoPadrao(0), ex);
     }
     finally {
     }
@@ -160,7 +160,7 @@ public abstract class ActMain extends Activity {
       this.setEventos();
     }
     catch (Exception ex) {
-      new Erro(App.getI().getStrTextoPadrao(0), ex);
+      new AndroidErro(AppAndroid.getI().getStrTextoPadrao(0), ex);
     }
     finally {
     }
@@ -176,7 +176,7 @@ public abstract class ActMain extends Activity {
       this.setBooVisivel(true);
     }
     catch (Exception ex) {
-      new Erro(App.getI().getStrTextoPadrao(0), ex);
+      new AndroidErro(AppAndroid.getI().getStrTextoPadrao(0), ex);
     }
     finally {
     }
@@ -192,7 +192,7 @@ public abstract class ActMain extends Activity {
       this.setBooVisivel(false);
     }
     catch (Exception ex) {
-      new Erro(App.getI().getStrTextoPadrao(0), ex);
+      new AndroidErro(AppAndroid.getI().getStrTextoPadrao(0), ex);
     }
     finally {
     }
@@ -221,7 +221,7 @@ public abstract class ActMain extends Activity {
     }
     catch (Exception ex) {
 
-      new Erro("Erro inesperado.\n", ex);
+      new AndroidErro("Erro inesperado.\n", ex);
 
     }
     finally {
@@ -235,7 +235,7 @@ public abstract class ActMain extends Activity {
     try {
     }
     catch (Exception ex) {
-      new Erro(App.getI().getStrTextoPadrao(0), ex);
+      new AndroidErro(AppAndroid.getI().getStrTextoPadrao(0), ex);
     }
     finally {
     }

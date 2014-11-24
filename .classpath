@@ -8,5 +8,6 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="src" path="gen"/>
 	<classpathentry kind="lib" path="lib/gson-2.2.4.jar"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/DigoJava"/>
 	<classpathentry kind="output" path="bin/classes"/>
 </classpath>

@@ -1,18 +1,18 @@
 package com.digosofter.digodroid.arquivo;
 
-import com.digosofter.digodroid.App;
-import com.digosofter.digodroid.database.DataBase;
-import com.digosofter.digodroid.erro.Erro;
+import com.digosofter.digodroid.AppAndroid;
+import com.digosofter.digodroid.database.DataBaseAndroid;
+import com.digosofter.digodroid.erro.AndroidErro;
 
-public class ArquivoDb extends Arquivo {
+public class ArquivoDb extends AndroidArquivo {
 
-  public ArquivoDb(DataBase objDataBase) {
+  public ArquivoDb(DataBaseAndroid objDataBase) {
 
     try {
-      this.setDirCompleto(App.getI().getCnt().getDatabasePath(objDataBase.getStrNome()).getPath());
+      this.setDirCompleto(AppAndroid.getI().getCnt().getDatabasePath(objDataBase.getStrNome()).getPath());
     }
     catch (Exception ex) {
-      new Erro(App.getI().getStrTextoPadrao(0), ex);
+      new AndroidErro(AppAndroid.getI().getStrTextoPadrao(0), ex);
     }
     finally {
     }
