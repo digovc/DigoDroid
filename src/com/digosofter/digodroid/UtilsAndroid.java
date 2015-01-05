@@ -7,7 +7,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.widget.EditText;
 
-import com.digosofter.digodroid.erro.AndroidErro;
+import com.digosofter.digodroid.erro.ErroAndroid;
 import com.digosofter.digojava.Utils;
 
 public abstract class UtilsAndroid extends Utils {
@@ -21,7 +21,7 @@ public abstract class UtilsAndroid extends Utils {
       intResultado = Color.argb(255, objR.nextInt(256), objR.nextInt(256), objR.nextInt(256));
     }
     catch (Exception ex) {
-      new AndroidErro(AppAndroid.getI().getStrTextoPadrao(110), ex);
+      new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(110), ex);
     }
     finally {
     }

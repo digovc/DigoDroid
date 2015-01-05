@@ -2,7 +2,7 @@ package com.digosofter.digodroid.item;
 
 import com.digosofter.digodroid.AppAndroid;
 import com.digosofter.digodroid.UtilsAndroid;
-import com.digosofter.digodroid.erro.AndroidErro;
+import com.digosofter.digodroid.erro.ErroAndroid;
 import com.digosofter.digojava.Objeto;
 
 public class ItmConsulta extends Objeto {
@@ -30,7 +30,7 @@ public class ItmConsulta extends Objeto {
       strValor = strValor.replace("false", "Não");
     }
     catch (Exception ex) {
-      new AndroidErro("Erro inesperado.\n", ex);
+      new ErroAndroid("Erro inesperado.\n", ex);
     }
     finally {
     }
@@ -62,7 +62,7 @@ public class ItmConsulta extends Objeto {
       }
     }
     catch (Exception ex) {
-      new AndroidErro(AppAndroid.getI().getStrTextoPadrao(132), ex);
+      new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(132), ex);
     }
     finally {
     }
@@ -81,7 +81,7 @@ public class ItmConsulta extends Objeto {
       _strCampo1 = this.getStrCampo1Nome() + ": " + this.getStrCampo1Valor();
     }
     catch (Exception ex) {
-      new AndroidErro(AppAndroid.getI().getStrTextoPadrao(0), ex);
+      new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(0), ex);
     }
     finally {
     }
@@ -105,7 +105,7 @@ public class ItmConsulta extends Objeto {
       _strCampo1Valor = this.formatarValor(_strCampo1Valor);
     }
     catch (Exception ex) {
-      new AndroidErro(AppAndroid.getI().getStrTextoPadrao(0), ex);
+      new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(0), ex);
     }
     finally {
     }
@@ -124,7 +124,7 @@ public class ItmConsulta extends Objeto {
       _strCampo2 = this.getStrCampo2Nome() + ": " + this.getStrCampo2Valor();
     }
     catch (Exception ex) {
-      new AndroidErro(AppAndroid.getI().getStrTextoPadrao(0), ex);
+      new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(0), ex);
     }
     finally {
     }
@@ -148,7 +148,7 @@ public class ItmConsulta extends Objeto {
       _strCampo2Valor = this.formatarValor(_strCampo2Valor);
     }
     catch (Exception ex) {
-      new AndroidErro(AppAndroid.getI().getStrTextoPadrao(0), ex);
+      new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(0), ex);
     }
     finally {
     }
@@ -167,7 +167,7 @@ public class ItmConsulta extends Objeto {
       _strCampo3 = this.getStrCampo3Nome() + ": " + this.getStrCampo3Valor();
     }
     catch (Exception ex) {
-      new AndroidErro(AppAndroid.getI().getStrTextoPadrao(0), ex);
+      new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(0), ex);
     }
     finally {
     }
@@ -191,7 +191,7 @@ public class ItmConsulta extends Objeto {
       _strCampo3Valor = this.formatarValor(_strCampo3Valor);
     }
     catch (Exception ex) {
-      new AndroidErro(AppAndroid.getI().getStrTextoPadrao(0), ex);
+      new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(0), ex);
     }
     finally {
     }

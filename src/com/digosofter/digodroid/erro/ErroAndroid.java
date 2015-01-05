@@ -8,12 +8,12 @@ import com.digosofter.digodroid.AppAndroid;
 import com.digosofter.digodroid.activity.ActErro;
 import com.digosofter.digojava.erro.Erro;
 
-public class AndroidErro extends Erro implements Serializable {
+public class ErroAndroid extends Erro implements Serializable {
 
   private static final long serialVersionUID = 1L;
   private boolean _booMostrarUsuario = true;
 
-  public AndroidErro(String strMsg, Exception ex) {
+  public ErroAndroid(String strMsg, Exception ex) {
 
     super(strMsg, ex);
 

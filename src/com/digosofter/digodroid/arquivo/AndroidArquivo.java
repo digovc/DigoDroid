@@ -1,7 +1,7 @@
 package com.digosofter.digodroid.arquivo;
 
 import com.digosofter.digodroid.AppAndroid;
-import com.digosofter.digodroid.erro.AndroidErro;
+import com.digosofter.digodroid.erro.ErroAndroid;
 import com.digosofter.digojava.arquivo.Arquivo;
 
 public abstract class AndroidArquivo extends Arquivo {
@@ -17,7 +17,7 @@ public abstract class AndroidArquivo extends Arquivo {
       AppAndroid.getI().mostrarNoficacao(msg);
     }
     catch (Exception ex) {
-      new AndroidErro(AppAndroid.getI().getStrTextoPadrao(0), ex);
+      new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(0), ex);
     }
     finally {
     }
@@ -33,7 +33,7 @@ public abstract class AndroidArquivo extends Arquivo {
       this.mostrarMensagemSalvo();
     }
     catch (Exception ex) {
-      new AndroidErro(AppAndroid.getI().getStrTextoPadrao(0), ex);
+      new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(0), ex);
     }
     finally {
     }

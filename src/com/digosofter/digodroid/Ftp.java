@@ -2,7 +2,7 @@ package com.digosofter.digodroid;
 
 import org.apache.commons.net.ftp.FTPClient;
 
-import com.digosofter.digodroid.erro.AndroidErro;
+import com.digosofter.digodroid.erro.ErroAndroid;
 import com.digosofter.digojava.Objeto;
 
 public class Ftp extends Objeto {
@@ -20,7 +20,7 @@ public class Ftp extends Objeto {
       this.setStrPassword(strPassword);
     }
     catch (Exception ex) {
-      new AndroidErro("Erro inesperado.\n", ex);
+      new ErroAndroid("Erro inesperado.\n", ex);
     }
     finally {
     }
@@ -35,7 +35,7 @@ public class Ftp extends Objeto {
       _ftpClient = new FTPClient();
     }
     catch (Exception ex) {
-      new AndroidErro(AppAndroid.getI().getStrTextoPadrao(105), ex);
+      new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(105), ex);
     }
     finally {
     }

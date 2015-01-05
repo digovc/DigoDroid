@@ -8,7 +8,7 @@ import org.apache.http.util.EntityUtils;
 
 import com.digosofter.digodroid.AppAndroid;
 import com.digosofter.digodroid.UtilsAndroid;
-import com.digosofter.digodroid.erro.AndroidErro;
+import com.digosofter.digodroid.erro.ErroAndroid;
 import com.digosofter.digojava.Objeto;
 
 public class HttpCliente extends Objeto {
@@ -49,7 +49,7 @@ public class HttpCliente extends Objeto {
       _strResposta = EntityUtils.toString(this.getObjHttpResponse().getEntity());
     }
     catch (Exception ex) {
-      new AndroidErro(AppAndroid.getI().getStrTextoPadrao(0), ex);
+      new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(0), ex);
     }
     finally {
     }
@@ -85,7 +85,7 @@ public class HttpCliente extends Objeto {
             HttpCliente.this.setObjHttpResponse(objHttpClient.execute(objHttppost));
           }
           catch (Exception ex) {
-            new AndroidErro(AppAndroid.getI().getStrTextoPadrao(0), ex);
+            new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(0), ex);
           }
           finally {
             HttpCliente.this.setEnmStatus(EnmStatus.CONCLUIDO);
@@ -100,7 +100,7 @@ public class HttpCliente extends Objeto {
       while (HttpCliente.this.getEnmStatus() == EnmStatus.EM_ANDAMENTO);
     }
     catch (Exception ex) {
-      new AndroidErro(AppAndroid.getI().getStrTextoPadrao(0), ex);
+      new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(0), ex);
     }
     finally {
     }

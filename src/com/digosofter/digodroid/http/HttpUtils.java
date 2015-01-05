@@ -10,7 +10,7 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 
 import com.digosofter.digodroid.AppAndroid;
-import com.digosofter.digodroid.erro.AndroidErro;
+import com.digosofter.digodroid.erro.ErroAndroid;
 import com.digosofter.digojava.Objeto;
 
 public abstract class HttpUtils extends Objeto {
@@ -37,7 +37,7 @@ public abstract class HttpUtils extends Objeto {
       // FIM AÇÕES
     } catch (Exception ex) {
 
-      new AndroidErro(AppAndroid.getI().getStrTextoPadrao(0), ex);
+      new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(0), ex);
 
     } finally {
     }

@@ -6,11 +6,11 @@ import android.widget.TextView;
 import com.digosofter.digodroid.AppAndroid;
 import com.digosofter.digodroid.R;
 import com.digosofter.digodroid.UtilsAndroid;
-import com.digosofter.digodroid.erro.AndroidErro;
+import com.digosofter.digodroid.erro.ErroAndroid;
 
 public class ActErro extends ActMain {
 
-  private AndroidErro _err;
+  private ErroAndroid _err;
   private TextView _txtAppNome;
   private TextView _txtErroMensagem;
   private TextView _txtErroTitulo;
@@ -21,22 +21,22 @@ public class ActErro extends ActMain {
       this.finish();
     }
     catch (Exception ex) {
-      new AndroidErro(AppAndroid.getI().getStrTextoPadrao(0), ex);
+      new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(0), ex);
     }
     finally {
     }
   }
 
-  public AndroidErro getErr() {
+  public ErroAndroid getErr() {
 
     try {
       if (_err != null) {
         return _err;
       }
-      _err = (AndroidErro) this.getIntent().getSerializableExtra("Erro");
+      _err = (ErroAndroid) this.getIntent().getSerializableExtra("Erro");
     }
     catch (Exception ex) {
-      new AndroidErro(AppAndroid.getI().getStrTextoPadrao(0), ex);
+      new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(0), ex);
     }
     finally {
     }
@@ -58,7 +58,7 @@ public class ActErro extends ActMain {
       _txtAppNome = this.getTextView(R.id.actErro_txtAppNome);
     }
     catch (Exception ex) {
-      new AndroidErro(AppAndroid.getI().getStrTextoPadrao(0), ex);
+      new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(0), ex);
     }
     finally {
     }
@@ -74,7 +74,7 @@ public class ActErro extends ActMain {
       _txtErroMensagem = this.getTextView(R.id.actErro_txtErroMensagem);
     }
     catch (Exception ex) {
-      new AndroidErro(AppAndroid.getI().getStrTextoPadrao(0), ex);
+      new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(0), ex);
     }
     finally {
     }
@@ -90,7 +90,7 @@ public class ActErro extends ActMain {
       _txtErroTitulo = this.getTextView(R.id.actErro_txtErroTitulo);
     }
     catch (Exception ex) {
-      new AndroidErro(AppAndroid.getI().getStrTextoPadrao(0), ex);
+      new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(0), ex);
     }
     finally {
     }
@@ -115,7 +115,7 @@ public class ActErro extends ActMain {
       this.getTxtErroMensagem().setText(strFormatada);
     }
     catch (Exception ex) {
-      new AndroidErro(AppAndroid.getI().getStrTextoPadrao(0), ex);
+      new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(0), ex);
     }
     finally {
     }

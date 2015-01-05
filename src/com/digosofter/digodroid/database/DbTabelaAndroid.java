@@ -10,7 +10,7 @@ import android.database.Cursor;
 import com.digosofter.digodroid.AppAndroid;
 import com.digosofter.digodroid.activity.ActConsulta;
 import com.digosofter.digodroid.activity.ActMain;
-import com.digosofter.digodroid.erro.AndroidErro;
+import com.digosofter.digodroid.erro.ErroAndroid;
 import com.digosofter.digodroid.item.ItmConsulta;
 import com.digosofter.digojava.Utils;
 import com.digosofter.digojava.Utils.EnmStrTipo;
@@ -35,7 +35,7 @@ public abstract class DbTabelaAndroid extends DbTabela {
       this.criarTabela();
     }
     catch (Exception ex) {
-      new AndroidErro(AppAndroid.getI().getStrTextoPadrao(122), ex);
+      new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(122), ex);
     }
     finally {
     }
@@ -53,7 +53,7 @@ public abstract class DbTabelaAndroid extends DbTabela {
       actPai.startActivityForResult(objIntent, 0);
     }
     catch (Exception ex) {
-      new AndroidErro(AppAndroid.getI().getStrTextoPadrao(123), ex);
+      new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(123), ex);
     }
     finally {
     }
@@ -76,7 +76,7 @@ public abstract class DbTabelaAndroid extends DbTabela {
       this.buscarReg(lstObjDbFiltro);
     }
     catch (Exception ex) {
-      new AndroidErro("Erro inesperado.\n", ex);
+      new ErroAndroid("Erro inesperado.\n", ex);
     }
     finally {
     }
@@ -105,7 +105,7 @@ public abstract class DbTabelaAndroid extends DbTabela {
       this.carregarDados(crs);
     }
     catch (Exception ex) {
-      new AndroidErro("Erro inesperado.\n", ex);
+      new ErroAndroid("Erro inesperado.\n", ex);
     }
     finally {
     }
@@ -132,7 +132,7 @@ public abstract class DbTabelaAndroid extends DbTabela {
       }
     }
     catch (Exception ex) {
-      new AndroidErro("Erro inesperado.\n", ex);
+      new ErroAndroid("Erro inesperado.\n", ex);
     }
     finally {
     }
@@ -155,7 +155,7 @@ public abstract class DbTabelaAndroid extends DbTabela {
       this.getObjDb().execSqlSemRetorno(sql);
     }
     catch (Exception ex) {
-      new AndroidErro(AppAndroid.getI().getStrTextoPadrao(124), ex);
+      new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(124), ex);
     }
     finally {
     }
@@ -179,7 +179,7 @@ public abstract class DbTabelaAndroid extends DbTabela {
       this.getObjDb().execSqlSemRetorno(sql);
     }
     catch (Exception ex) {
-      new AndroidErro(AppAndroid.getI().getStrTextoPadrao(126), ex);
+      new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(126), ex);
     }
     finally {
     }
@@ -206,7 +206,7 @@ public abstract class DbTabelaAndroid extends DbTabela {
       booResultado = crs != null && crs.moveToFirst() && crs.getCount() > 0;
     }
     catch (Exception ex) {
-      new AndroidErro(AppAndroid.getI().getStrTextoPadrao(127), ex);
+      new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(127), ex);
     }
     finally {
       crs = null;
@@ -235,7 +235,7 @@ public abstract class DbTabelaAndroid extends DbTabela {
       lstCln.add(cln);
     }
     catch (Exception ex) {
-      new AndroidErro(AppAndroid.getI().getStrTextoPadrao(0), ex);
+      new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(0), ex);
     }
     finally {
     }
@@ -253,7 +253,7 @@ public abstract class DbTabelaAndroid extends DbTabela {
       lstCln.add(cln);
     }
     catch (Exception ex) {
-      new AndroidErro(AppAndroid.getI().getStrTextoPadrao(0), ex);
+      new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(0), ex);
     }
     finally {
     }
@@ -274,7 +274,7 @@ public abstract class DbTabelaAndroid extends DbTabela {
       crsResultado = this.getCrsDados(lstObjDbFiltro);
     }
     catch (Exception ex) {
-      new AndroidErro(AppAndroid.getI().getStrTextoPadrao(128), ex);
+      new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(128), ex);
     }
     finally {
     }
@@ -299,7 +299,7 @@ public abstract class DbTabelaAndroid extends DbTabela {
       crsResultado = this.getObjDb().execSqlComRetorno(sql);
     }
     catch (Exception ex) {
-      new AndroidErro(AppAndroid.getI().getStrTextoPadrao(128), ex);
+      new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(128), ex);
     }
     finally {
     }
@@ -329,7 +329,7 @@ public abstract class DbTabelaAndroid extends DbTabela {
       crsResultado = this.getObjDb().execSqlComRetorno(sql);
     }
     catch (Exception ex) {
-      new AndroidErro(AppAndroid.getI().getStrTextoPadrao(128), ex);
+      new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(128), ex);
     }
     finally {
     }
@@ -356,7 +356,7 @@ public abstract class DbTabelaAndroid extends DbTabela {
       }
     }
     catch (Exception ex) {
-      new AndroidErro(AppAndroid.getI().getStrTextoPadrao(0), ex);
+      new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(0), ex);
     }
     finally {
     }
@@ -400,7 +400,7 @@ public abstract class DbTabelaAndroid extends DbTabela {
       while (crs.moveToNext());
     }
     catch (Exception ex) {
-      new AndroidErro(AppAndroid.getI().getStrTextoPadrao(0), ex);
+      new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(0), ex);
     }
     finally {
     }
@@ -428,7 +428,7 @@ public abstract class DbTabelaAndroid extends DbTabela {
       while (crs.moveToNext());
     }
     catch (Exception ex) {
-      new AndroidErro(AppAndroid.getI().getStrTextoPadrao(0), ex);
+      new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(0), ex);
     }
     finally {
     }
@@ -449,7 +449,7 @@ public abstract class DbTabelaAndroid extends DbTabela {
       _objDb = AppAndroid.getI().getObjDbPrincipal();
     }
     catch (Exception ex) {
-      new AndroidErro(AppAndroid.getI().getStrTextoPadrao(0), ex);
+      new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(0), ex);
     }
     finally {
     }
@@ -482,7 +482,7 @@ public abstract class DbTabelaAndroid extends DbTabela {
       strResultado = Utils.removerUltimaLetra(strResultado);
     }
     catch (Exception ex) {
-      new AndroidErro("Erro inesperado.\n", ex);
+      new ErroAndroid("Erro inesperado.\n", ex);
     }
     finally {
     }
@@ -515,7 +515,7 @@ public abstract class DbTabelaAndroid extends DbTabela {
       strResultado = Utils.removerUltimaLetra(strResultado);
     }
     catch (Exception ex) {
-      new AndroidErro("Erro inesperado.\n", ex);
+      new ErroAndroid("Erro inesperado.\n", ex);
     }
     finally {
     }
@@ -551,7 +551,7 @@ public abstract class DbTabelaAndroid extends DbTabela {
       strResultado = Utils.removerUltimaLetra(strResultado);
     }
     catch (Exception ex) {
-      new AndroidErro("Erro inesperado.\n", ex);
+      new ErroAndroid("Erro inesperado.\n", ex);
     }
     finally {
     }
@@ -588,7 +588,7 @@ public abstract class DbTabelaAndroid extends DbTabela {
       strResultado = Utils.removerUltimaLetra(strResultado);
     }
     catch (Exception ex) {
-      new AndroidErro("Erro inesperado.\n", ex);
+      new ErroAndroid("Erro inesperado.\n", ex);
     }
     finally {
     }
@@ -622,7 +622,7 @@ public abstract class DbTabelaAndroid extends DbTabela {
       strResultado = Utils.removerUltimaLetra(strResultado);
     }
     catch (Exception ex) {
-      new AndroidErro("Erro inesperado.\n", ex);
+      new ErroAndroid("Erro inesperado.\n", ex);
     }
     finally {
     }
@@ -666,7 +666,7 @@ public abstract class DbTabelaAndroid extends DbTabela {
       strResultado = Utils.removerUltimaLetra(strResultado);
     }
     catch (Exception ex) {
-      new AndroidErro("Erro inesperado.\n", ex);
+      new ErroAndroid("Erro inesperado.\n", ex);
     }
     finally {
     }
@@ -699,7 +699,7 @@ public abstract class DbTabelaAndroid extends DbTabela {
       strResultado = Utils.removerUltimaLetra(strResultado);
     }
     catch (Exception ex) {
-      new AndroidErro("Erro inesperado.\n", ex);
+      new ErroAndroid("Erro inesperado.\n", ex);
     }
     finally {
     }
@@ -732,7 +732,7 @@ public abstract class DbTabelaAndroid extends DbTabela {
       this.salvar();
     }
     catch (Exception ex) {
-      new AndroidErro(AppAndroid.getI().getStrTextoPadrao(130), ex);
+      new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(130), ex);
     }
     finally {
     }
@@ -745,7 +745,7 @@ public abstract class DbTabelaAndroid extends DbTabela {
       this.setLstItmConsulta(null);
     }
     catch (Exception ex) {
-      new AndroidErro(AppAndroid.getI().getStrTextoPadrao(0), ex);
+      new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(0), ex);
     }
     finally {
     }
@@ -779,7 +779,7 @@ public abstract class DbTabelaAndroid extends DbTabela {
       this.buscarReg(strId);
     }
     catch (Exception ex) {
-      new AndroidErro(AppAndroid.getI().getStrTextoPadrao(129), ex);
+      new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(129), ex);
     }
     finally {
     }

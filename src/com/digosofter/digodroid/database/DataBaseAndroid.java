@@ -7,7 +7,7 @@ import android.os.Environment;
 
 import com.digosofter.digodroid.AppAndroid;
 import com.digosofter.digodroid.arquivo.ArquivoDb;
-import com.digosofter.digodroid.erro.AndroidErro;
+import com.digosofter.digodroid.erro.ErroAndroid;
 import com.digosofter.digojava.Utils;
 import com.digosofter.digojava.database.DataBase;
 import com.digosofter.digojava.erro.Erro;
@@ -31,7 +31,7 @@ public class DataBaseAndroid extends DataBase {
       this.setStrNome(AppAndroid.getI().getStrNomeSimplificado() + STR_FILE_PREFIXO);
     }
     catch (Exception ex) {
-      new AndroidErro(AppAndroid.getI().getStrTextoPadrao(118), ex);
+      new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(118), ex);
     }
     finally {
     }
@@ -47,7 +47,7 @@ public class DataBaseAndroid extends DataBase {
       this.getArq().copiar(Environment.getExternalStorageDirectory().getPath());
     }
     catch (Exception ex) {
-      new AndroidErro(AppAndroid.getI().getStrTextoPadrao(0), ex);
+      new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(0), ex);
     }
     finally {
     }
@@ -62,7 +62,7 @@ public class DataBaseAndroid extends DataBase {
       crsResultado = this.getObjDbLeitura().rawQuery(sql, null);
     }
     catch (Exception ex) {
-      new AndroidErro(AppAndroid.getI().getStrTextoPadrao(119), ex);
+      new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(119), ex);
     }
     finally {
     }
@@ -86,7 +86,7 @@ public class DataBaseAndroid extends DataBase {
       }
     }
     catch (Exception ex) {
-      new AndroidErro(AppAndroid.getI().getStrTextoPadrao(0), ex);
+      new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(0), ex);
     }
     finally {
     }
@@ -101,7 +101,7 @@ public class DataBaseAndroid extends DataBase {
       this.getObjDbEscrita().execSQL(sql);
     }
     catch (Exception ex) {
-      new AndroidErro(AppAndroid.getI().getStrTextoPadrao(119), ex);
+      new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(119), ex);
     }
     finally {
     }
@@ -119,7 +119,7 @@ public class DataBaseAndroid extends DataBase {
       _arq = new ArquivoDb(this);
     }
     catch (Exception ex) {
-      new AndroidErro(AppAndroid.getI().getStrTextoPadrao(0), ex);
+      new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(0), ex);
     }
     finally {
     }
@@ -138,7 +138,7 @@ public class DataBaseAndroid extends DataBase {
       _objDbEscrita = this.getObjSQLiteOpenHelper().getWritableDatabase();
     }
     catch (Exception ex) {
-      new AndroidErro(AppAndroid.getI().getStrTextoPadrao(0), ex);
+      new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(0), ex);
     }
     finally {
     }
@@ -153,10 +153,11 @@ public class DataBaseAndroid extends DataBase {
 
         return _objDbLeitura;
       }
+
       _objDbLeitura = this.getObjSQLiteOpenHelper().getReadableDatabase();
     }
     catch (Exception ex) {
-      new AndroidErro(AppAndroid.getI().getStrTextoPadrao(0), ex);
+      new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(0), ex);
     }
     finally {
     }

@@ -15,7 +15,7 @@ import android.widget.TextView;
 import com.digosofter.digodroid.AppAndroid;
 import com.digosofter.digodroid.R;
 import com.digosofter.digodroid.UtilsAndroid;
-import com.digosofter.digodroid.erro.AndroidErro;
+import com.digosofter.digodroid.erro.ErroAndroid;
 import com.digosofter.digodroid.item.ItmConsulta;
 
 public class AdpConsulta extends BaseAdapter implements Filterable {
@@ -32,7 +32,7 @@ public class AdpConsulta extends BaseAdapter implements Filterable {
       this.setObjLayoutInflater(LayoutInflater.from(cnt));
     }
     catch (Exception ex) {
-      new AndroidErro(AppAndroid.getI().getStrTextoPadrao(0), ex);
+      new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(0), ex);
     }
     finally {
     }
@@ -168,7 +168,7 @@ public class AdpConsulta extends BaseAdapter implements Filterable {
       }
     }
     catch (Exception ex) {
-      new AndroidErro(AppAndroid.getI().getStrTextoPadrao(0), ex);
+      new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(0), ex);
     }
     finally {
     }
@@ -187,7 +187,7 @@ public class AdpConsulta extends BaseAdapter implements Filterable {
       }
     }
     catch (Exception ex) {
-      new AndroidErro(AppAndroid.getI().getStrTextoPadrao(0), ex);
+      new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(0), ex);
     }
     finally {
     }

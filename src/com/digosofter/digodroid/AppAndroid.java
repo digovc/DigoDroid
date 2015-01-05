@@ -10,7 +10,7 @@ import android.widget.Toast;
 import com.digosofter.digodroid.activity.ActMain;
 import com.digosofter.digodroid.database.DataBaseAndroid;
 import com.digosofter.digodroid.database.DbTabelaAndroid;
-import com.digosofter.digodroid.erro.AndroidErro;
+import com.digosofter.digodroid.erro.ErroAndroid;
 import com.digosofter.digojava.App;
 import com.digosofter.digojava.MsgUsuario;
 import com.digosofter.digojava.database.DbTabela;
@@ -38,7 +38,7 @@ public abstract class AppAndroid extends App {
       this.setI(this);
     }
     catch (Exception ex) {
-      new AndroidErro("Erro inesperado.\n", ex);
+      new ErroAndroid("Erro inesperado.\n", ex);
     }
     finally {
     }
@@ -59,7 +59,7 @@ public abstract class AppAndroid extends App {
     }
     catch (Exception ex) {
 
-      new AndroidErro("Erro inesperado.\n", ex);
+      new ErroAndroid("Erro inesperado.\n", ex);
 
     }
     finally {
@@ -74,7 +74,7 @@ public abstract class AppAndroid extends App {
       _cnt = this.getActMain().getApplicationContext();
     }
     catch (Exception ex) {
-      new AndroidErro(this.getStrMsgUsuarioPadrao(101), ex);
+      new ErroAndroid(this.getStrMsgUsuarioPadrao(101), ex);
     }
     finally {
     }
@@ -134,7 +134,7 @@ public abstract class AppAndroid extends App {
       _lstMsgUsuarioPadrao.add(new MsgUsuario("Erro ao criar objeto do tipo 'ConfigItem'.", 137));
     }
     catch (Exception ex) {
-      new AndroidErro(this.getStrMsgUsuarioPadrao(0), ex);
+      new ErroAndroid(this.getStrMsgUsuarioPadrao(0), ex);
     }
     finally {
     }
@@ -179,7 +179,7 @@ public abstract class AppAndroid extends App {
             Toast.makeText(AppAndroid.this.getCnt(), strMensagem, intTempo).show();
           }
           catch (Exception ex) {
-            new AndroidErro(AppAndroid.getI().getStrTextoPadrao(0), ex);
+            new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(0), ex);
           }
           finally {
           }
@@ -187,7 +187,7 @@ public abstract class AppAndroid extends App {
       });
     }
     catch (Exception ex) {
-      new AndroidErro(this.getStrTextoPadrao(104), ex);
+      new ErroAndroid(this.getStrTextoPadrao(104), ex);
     }
     finally {
     }
@@ -210,7 +210,7 @@ public abstract class AppAndroid extends App {
       i = _i;
     }
     catch (Exception ex) {
-      new AndroidErro(AppAndroid.getI().getStrTextoPadrao(0), ex);
+      new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(0), ex);
     }
     finally {
     }
