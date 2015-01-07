@@ -106,7 +106,12 @@ public class Aparelho extends Objeto {
       objCm = (ConnectivityManager) this.getCnt().getSystemService(Context.CONNECTIVITY_SERVICE);
       objNetworkInfo = objCm.getActiveNetworkInfo();
 
-      booResultado = objNetworkInfo == null;
+      booResultado = objNetworkInfo != null ? objNetworkInfo.isConnected() : false;
+
+      if (!booResultado) {
+
+        AppAndroid.getI().mostrarNoficacao("Aparelho não conectado.");
+      }
     }
     catch (Exception ex) {
 
