@@ -2,7 +2,7 @@ package com.digosofter.digodroid.adapter;
 
 import java.util.ArrayList;
 import java.util.List;
-
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,7 +11,6 @@ import android.widget.BaseAdapter;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.TextView;
-
 import com.digosofter.digodroid.AppAndroid;
 import com.digosofter.digodroid.R;
 import com.digosofter.digodroid.UtilsAndroid;
@@ -32,6 +31,7 @@ public class AdpConsulta extends BaseAdapter implements Filterable {
       this.setObjLayoutInflater(LayoutInflater.from(cnt));
     }
     catch (Exception ex) {
+
       new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(0), ex);
     }
     finally {
@@ -67,6 +67,7 @@ public class AdpConsulta extends BaseAdapter implements Filterable {
           for (ItmConsulta itm : AdpConsulta.this.getLstItmConsulta()) {
 
             if (itm.getBooContemTermo(strFiltro.toString())) {
+
               lstItmConsulta.add(itm);
             }
           }
@@ -82,15 +83,25 @@ public class AdpConsulta extends BaseAdapter implements Filterable {
       @Override
       protected void publishResults(CharSequence constraint, FilterResults results) {
 
-        if (results.count == 0) {
+        try {
 
-          AdpConsulta.this.setLstItmConsulta(new ArrayList<ItmConsulta>());
-          notifyDataSetChanged();
-          return;
+          if (results.count == 0) {
+
+            AdpConsulta.this.setLstItmConsulta(new ArrayList<ItmConsulta>());
+            AdpConsulta.this.notifyDataSetChanged();
+
+            return;
+          }
+
+          AdpConsulta.this.setLstItmConsulta((ArrayList<ItmConsulta>) results.values);
+          AdpConsulta.this.notifyDataSetChanged();
         }
+        catch (Exception ex) {
 
-        AdpConsulta.this.setLstItmConsulta((ArrayList<ItmConsulta>) results.values);
-        notifyDataSetChanged();
+          new ErroAndroid("Erro inesperado.\n", ex);
+        }
+        finally {
+        }
       }
     };
   }
@@ -122,6 +133,7 @@ public class AdpConsulta extends BaseAdapter implements Filterable {
     return _objLayoutInflater;
   }
 
+  @SuppressLint("InflateParams")
   @Override
   public View getView(int position, View viwReciclada, ViewGroup viwParent) {
 
@@ -133,10 +145,13 @@ public class AdpConsulta extends BaseAdapter implements Filterable {
     View viwResultado = null;
 
     try {
+
       if (viwReciclada == null) {
-        viwResultado = this.getObjLayoutInflater().inflate(R.layout.itm_cadastro, viwParent);
+
+        viwResultado = this.getObjLayoutInflater().inflate(R.layout.itm_cadastro, null);
       }
       else {
+
         viwResultado = viwReciclada;
       }
 
@@ -152,22 +167,26 @@ public class AdpConsulta extends BaseAdapter implements Filterable {
       txtRegistroCampo001.setText(itmCadastro.getStrCampo001());
 
       if (UtilsAndroid.getBooStrVazia(itmCadastro.getStrCampo1Valor())) {
+
         txtRegistroCampo001.setVisibility(View.GONE);
       }
 
       txtRegistroCampo002.setText(itmCadastro.getstrCampo2());
 
       if (UtilsAndroid.getBooStrVazia(itmCadastro.getStrCampo2Valor())) {
+
         txtRegistroCampo002.setVisibility(View.GONE);
       }
 
       txtRegistroCampo003.setText(itmCadastro.getstrCampo3());
 
       if (UtilsAndroid.getBooStrVazia(itmCadastro.getStrCampo3Valor())) {
+
         txtRegistroCampo003.setVisibility(View.GONE);
       }
     }
     catch (Exception ex) {
+
       new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(0), ex);
     }
     finally {
@@ -183,10 +202,12 @@ public class AdpConsulta extends BaseAdapter implements Filterable {
       _lstItmConsulta = lstItmConsulta;
 
       if (this.getLstItmConsultaSemFiltro() == null) {
+
         this.setLstItmConsultaSemFiltro(_lstItmConsulta);
       }
     }
     catch (Exception ex) {
+
       new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(0), ex);
     }
     finally {

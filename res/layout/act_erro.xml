@@ -63,10 +63,20 @@
 
         <Button
             android:id="@+id/actErro_btnIgnorar"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:onClick="actErro_btnIgnorarOnClick"
+            android:layout_weight="1"
+            android:onClick="actErro_btnIgnorar_onClick"
             android:text="Ignorar" />
+
+        <Button
+            android:id="@+id/actErro_btnIgnorarTodos"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:onClick="actErro_btnIgnorarTodos_onClick"
+            android:text="Ignorar todos"
+            android:visibility="gone" />
 
     </LinearLayout>
 

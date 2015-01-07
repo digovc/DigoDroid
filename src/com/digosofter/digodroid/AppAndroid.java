@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.widget.Toast;
 
+import com.digosofter.digodroid.activity.ActErro;
 import com.digosofter.digodroid.activity.ActMain;
 import com.digosofter.digodroid.database.DataBaseAndroid;
 import com.digosofter.digodroid.database.DbTabelaAndroid;
@@ -14,7 +15,6 @@ import com.digosofter.digodroid.erro.ErroAndroid;
 import com.digosofter.digojava.App;
 import com.digosofter.digojava.MsgUsuario;
 import com.digosofter.digojava.database.DbTabela;
-import com.digosofter.digojava.erro.Erro;
 
 public abstract class AppAndroid extends App {
 
@@ -38,6 +38,7 @@ public abstract class AppAndroid extends App {
       this.setI(this);
     }
     catch (Exception ex) {
+
       new ErroAndroid("Erro inesperado.\n", ex);
     }
     finally {
@@ -60,7 +61,6 @@ public abstract class AppAndroid extends App {
     catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-
     }
     finally {
     }
@@ -71,13 +71,16 @@ public abstract class AppAndroid extends App {
   public Context getCnt() {
 
     try {
+
       _cnt = this.getActMain().getApplicationContext();
     }
     catch (Exception ex) {
+
       new ErroAndroid(this.getStrMsgUsuarioPadrao(101), ex);
     }
     finally {
     }
+
     return _cnt;
   }
 
@@ -92,6 +95,7 @@ public abstract class AppAndroid extends App {
       }
 
       _lstMsgUsuarioPadrao = new ArrayList<MsgUsuario>();
+
       _lstMsgUsuarioPadrao.add(new MsgUsuario("Erro inesperado..", 0));
       _lstMsgUsuarioPadrao.add(new MsgUsuario("Erro ao recuperar o IMEI do aparelho.", 100));
       _lstMsgUsuarioPadrao.add(new MsgUsuario("Erro ao recuperar contexto do aplicativo.", 101));
@@ -134,6 +138,7 @@ public abstract class AppAndroid extends App {
       _lstMsgUsuarioPadrao.add(new MsgUsuario("Erro ao criar objeto do tipo 'ConfigItem'.", 137));
     }
     catch (Exception ex) {
+
       new ErroAndroid(this.getStrMsgUsuarioPadrao(0), ex);
     }
     finally {
@@ -156,8 +161,7 @@ public abstract class AppAndroid extends App {
     }
     catch (Exception ex) {
 
-      new Erro("Erro inesperado.\n", ex);
-
+      new ErroAndroid("Erro inesperado.\n", ex);
     }
     finally {
     }
@@ -165,20 +169,45 @@ public abstract class AppAndroid extends App {
     return _objDbPrincipal;
   }
 
+  /**
+   * Limpa o "cache" com a lista de de ítens das telas de consultas das tabelas
+   * do app.
+   */
+  public void limparTblListaConsulta() {
+
+    try {
+
+      for (DbTabela tbl : this.getLstTbl()) {
+
+        ((DbTabelaAndroid) tbl).limparListaConsulta();
+      }
+    }
+    catch (Exception ex) {
+
+      new ErroAndroid("Erro inesperado.\n", ex);
+    }
+    finally {
+    }
+  }
+
   public void mostrarNoficacao(final String strMensagem) {
 
     try {
+
       this.getActMain().runOnUiThread(new Runnable() {
 
         @Override
         public void run() {
 
           int intTempo;
+
           try {
+
             intTempo = strMensagem.length() > 25 ? Toast.LENGTH_LONG : Toast.LENGTH_SHORT;
             Toast.makeText(AppAndroid.this.getCnt(), strMensagem, intTempo).show();
           }
           catch (Exception ex) {
+
             new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(0), ex);
           }
           finally {
@@ -187,6 +216,7 @@ public abstract class AppAndroid extends App {
       });
     }
     catch (Exception ex) {
+
       new ErroAndroid(this.getStrTextoPadrao(104), ex);
     }
     finally {
@@ -210,30 +240,10 @@ public abstract class AppAndroid extends App {
       i = _i;
     }
     catch (Exception ex) {
+
       new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(0), ex);
     }
     finally {
     }
   }
-
-  /**
-   * Limpa o "cache" com a lista de de ítens das telas de consultas das tabelas
-   * do app.
-   */
-  public void limparTblListaConsulta() {
-
-    try {
-
-      for (DbTabela tbl : this.getLstTbl()) {
-
-        ((DbTabelaAndroid)tbl).limparListaConsulta();
-      }
-    }
-    catch (Exception ex) {
-      new Erro("Erro inesperado.\n", ex);
-    }
-    finally {
-    }
-  }
-
 }

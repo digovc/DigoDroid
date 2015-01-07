@@ -10,7 +10,6 @@ import com.digosofter.digodroid.arquivo.ArquivoDb;
 import com.digosofter.digodroid.erro.ErroAndroid;
 import com.digosofter.digojava.Utils;
 import com.digosofter.digojava.database.DataBase;
-import com.digosofter.digojava.erro.Erro;
 
 public class DataBaseAndroid extends DataBase {
 
@@ -31,6 +30,7 @@ public class DataBaseAndroid extends DataBase {
       this.setStrNome(AppAndroid.getI().getStrNomeSimplificado() + STR_FILE_PREFIXO);
     }
     catch (Exception ex) {
+
       new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(118), ex);
     }
     finally {
@@ -47,6 +47,7 @@ public class DataBaseAndroid extends DataBase {
       this.getArq().copiar(Environment.getExternalStorageDirectory().getPath());
     }
     catch (Exception ex) {
+
       new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(0), ex);
     }
     finally {
@@ -62,6 +63,7 @@ public class DataBaseAndroid extends DataBase {
       crsResultado = this.getObjDbLeitura().rawQuery(sql, null);
     }
     catch (Exception ex) {
+
       new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(119), ex);
     }
     finally {
@@ -86,6 +88,7 @@ public class DataBaseAndroid extends DataBase {
       }
     }
     catch (Exception ex) {
+
       new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(0), ex);
     }
     finally {
@@ -101,6 +104,7 @@ public class DataBaseAndroid extends DataBase {
       this.getObjDbEscrita().execSQL(sql);
     }
     catch (Exception ex) {
+
       new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(119), ex);
     }
     finally {
@@ -119,6 +123,7 @@ public class DataBaseAndroid extends DataBase {
       _arq = new ArquivoDb(this);
     }
     catch (Exception ex) {
+
       new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(0), ex);
     }
     finally {
@@ -135,13 +140,16 @@ public class DataBaseAndroid extends DataBase {
 
         return _objDbEscrita;
       }
+
       _objDbEscrita = this.getObjSQLiteOpenHelper().getWritableDatabase();
     }
     catch (Exception ex) {
+
       new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(0), ex);
     }
     finally {
     }
+
     return _objDbEscrita;
   }
 
@@ -157,10 +165,12 @@ public class DataBaseAndroid extends DataBase {
       _objDbLeitura = this.getObjSQLiteOpenHelper().getReadableDatabase();
     }
     catch (Exception ex) {
+
       new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(0), ex);
     }
     finally {
     }
+
     return _objDbLeitura;
   }
 
@@ -185,12 +195,10 @@ public class DataBaseAndroid extends DataBase {
 
         }
       };
-
     }
     catch (Exception ex) {
 
-      new Erro("Erro inesperado.\n", ex);
-
+      new ErroAndroid("Erro inesperado.\n", ex);
     }
     finally {
     }
