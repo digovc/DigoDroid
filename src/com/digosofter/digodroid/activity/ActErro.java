@@ -33,23 +33,6 @@ public class ActErro extends ActMain {
     }
   }
 
-  @Override
-  protected void finalize() throws Throwable {
-
-    super.finalize();
-
-    try {
-
-      this.setIntQtdErroVisivel(this.getIntQtdErroVisivel() - 1);
-    }
-    catch (Exception ex) {
-
-      new Erro("Erro inesperado.\n", ex);
-    }
-    finally {
-    }
-  }
-
   public void actErro_btnIgnorar_onClick(View viw) {
 
     try {
@@ -224,6 +207,23 @@ public class ActErro extends ActMain {
     catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
+    }
+    finally {
+    }
+  }
+
+  @Override
+  protected void onDestroy() {
+
+    super.onDestroy();
+
+    try {
+
+      this.setIntQtdErroVisivel(this.getIntQtdErroVisivel() - 1);
+    }
+    catch (Exception ex) {
+
+      new Erro("Erro inesperado.\n", ex);
     }
     finally {
     }
