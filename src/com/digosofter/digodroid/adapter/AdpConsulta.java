@@ -148,7 +148,7 @@ public class AdpConsulta extends BaseAdapter implements Filterable {
 
       if (viwReciclada == null) {
 
-        viwResultado = this.getObjLayoutInflater().inflate(R.layout.itm_cadastro, null);
+        viwResultado = this.getObjLayoutInflater().inflate(R.layout.itm_consulta, null);
       }
       else {
 

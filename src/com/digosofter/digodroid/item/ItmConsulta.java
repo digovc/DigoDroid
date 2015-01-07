@@ -23,6 +23,7 @@ public class ItmConsulta extends Objeto {
     try {
 
       if (UtilsAndroid.getBooStrVazia(strValor)) {
+
         return UtilsAndroid.STR_VAZIA;
       }
 
@@ -30,6 +31,7 @@ public class ItmConsulta extends Objeto {
       strValor = strValor.replace("false", "Não");
     }
     catch (Exception ex) {
+
       new ErroAndroid("Erro inesperado.\n", ex);
     }
     finally {
@@ -45,23 +47,27 @@ public class ItmConsulta extends Objeto {
     try {
 
       if (this.getStrNome().contains(strTermo)) {
+
         booResultado = true;
       }
 
-      if (this.getStrCampo1Valor().contains(strTermo)
-          && this.getStrCampo1Valor().length() == strTermo.length()) {
+      if (this.getStrCampo1Valor().contains(strTermo) && this.getStrCampo1Valor().length() == strTermo.length()) {
+
         booResultado = true;
       }
 
       if (this.getStrCampo2Valor().contains(strTermo)) {
+
         booResultado = true;
       }
 
       if (this.getStrCampo3Valor().contains(strTermo)) {
+
         booResultado = true;
       }
     }
     catch (Exception ex) {
+
       new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(132), ex);
     }
     finally {
@@ -75,12 +81,14 @@ public class ItmConsulta extends Objeto {
     try {
 
       if (!UtilsAndroid.getBooStrVazia(_strCampo1)) {
+
         return _strCampo1;
       }
 
       _strCampo1 = this.getStrCampo1Nome() + ": " + this.getStrCampo1Valor();
     }
     catch (Exception ex) {
+
       new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(0), ex);
     }
     finally {
@@ -99,12 +107,14 @@ public class ItmConsulta extends Objeto {
     try {
 
       if (!UtilsAndroid.getBooStrVazia(_strCampo1Valor)) {
+
         return _strCampo1Valor;
       }
 
       _strCampo1Valor = this.formatarValor(_strCampo1Valor);
     }
     catch (Exception ex) {
+
       new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(0), ex);
     }
     finally {
@@ -118,12 +128,14 @@ public class ItmConsulta extends Objeto {
     try {
 
       if (!UtilsAndroid.getBooStrVazia(_strCampo2)) {
+
         return _strCampo2;
       }
 
       _strCampo2 = this.getStrCampo2Nome() + ": " + this.getStrCampo2Valor();
     }
     catch (Exception ex) {
+
       new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(0), ex);
     }
     finally {
@@ -142,12 +154,14 @@ public class ItmConsulta extends Objeto {
     try {
 
       if (!UtilsAndroid.getBooStrVazia(_strCampo2Valor)) {
+
         return _strCampo2Valor;
       }
 
       _strCampo2Valor = this.formatarValor(_strCampo2Valor);
     }
     catch (Exception ex) {
+
       new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(0), ex);
     }
     finally {
@@ -161,12 +175,14 @@ public class ItmConsulta extends Objeto {
     try {
 
       if (!UtilsAndroid.getBooStrVazia(_strCampo3)) {
+
         return _strCampo3;
       }
 
       _strCampo3 = this.getStrCampo3Nome() + ": " + this.getStrCampo3Valor();
     }
     catch (Exception ex) {
+
       new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(0), ex);
     }
     finally {
@@ -185,12 +201,14 @@ public class ItmConsulta extends Objeto {
     try {
 
       if (!UtilsAndroid.getBooStrVazia(_strCampo3Valor)) {
+
         return _strCampo3Valor;
       }
 
       _strCampo3Valor = this.formatarValor(_strCampo3Valor);
     }
     catch (Exception ex) {
+
       new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(0), ex);
     }
     finally {

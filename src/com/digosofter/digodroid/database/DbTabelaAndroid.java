@@ -335,7 +335,7 @@ public abstract class DbTabelaAndroid extends DbTabela {
     return this.getCrsDados(this.getLstCln(), lstObjDbFiltro);
   }
 
-  public Cursor getCrsDadosTelaCadastro() {
+  public Cursor getCrsDadosTelaConsulta() {
 
     Cursor crsResultado = null;
     String sql;
@@ -344,7 +344,7 @@ public abstract class DbTabelaAndroid extends DbTabela {
 
       sql = "select _clns_nome from _tbl_nome where _where order by _tbl_nome._order;";
 
-      sql = sql.replace("_clns_nome", this.getSqlSelectColunasNomesCadastro());
+      sql = sql.replace("_clns_nome", this.getSqlSelectColunasNomesConsulta());
       sql = sql.replace("_tbl_nome", this.getStrNomeSimplificado());
       sql = sql.replace("where _where", this.getLstDbFiltroTelaCadastro() != null && this.getLstDbFiltroTelaCadastro().size() > 0 ? "where _where" : Utils.STR_VAZIA);
       sql = sql.replace("_where", this.getSqlWhere(this.getLstDbFiltroTelaCadastro()));
@@ -406,7 +406,7 @@ public abstract class DbTabelaAndroid extends DbTabela {
 
       _lstItmConsulta = new ArrayList<ItmConsulta>();
 
-      crs = this.getCrsDadosTelaCadastro();
+      crs = this.getCrsDadosTelaConsulta();
 
       if (crs == null || !crs.moveToFirst()) {
 
@@ -419,12 +419,12 @@ public abstract class DbTabelaAndroid extends DbTabela {
 
         itmConsulta.setStrItemId(crs.getString(crs.getColumnIndex(this.getClnChavePrimaria().getStrNomeSimplificado())));
         itmConsulta.setStrNome(crs.getString(crs.getColumnIndex(this.getClnNome().getStrNomeSimplificado())));
-        itmConsulta.setStrCampo1Nome(this.getLstClnCadastro().get(0).getStrNomeExibicao());
-        itmConsulta.setStrCampo1Valor(crs.getString(crs.getColumnIndex(this.getLstClnCadastro().get(0).getStrNomeSimplificado())));
-        itmConsulta.setStrCampo2Nome(this.getLstClnCadastro().get(1).getStrNomeExibicao());
-        itmConsulta.setStrCampo2Valor(crs.getString(crs.getColumnIndex(this.getLstClnCadastro().get(1).getStrNomeSimplificado())));
-        itmConsulta.setStrCampo3Nome(this.getLstClnCadastro().get(2).getStrNomeExibicao());
-        itmConsulta.setStrCampo3Valor(crs.getString(crs.getColumnIndex(this.getLstClnCadastro().get(2).getStrNomeSimplificado())));
+        itmConsulta.setStrCampo1Nome(this.getLstClnConsulta().get(2).getStrNomeExibicao());
+        itmConsulta.setStrCampo1Valor(crs.getString(crs.getColumnIndex(this.getLstClnConsulta().get(2).getStrNomeSimplificado())));
+        itmConsulta.setStrCampo2Nome(this.getLstClnConsulta().get(3).getStrNomeExibicao());
+        itmConsulta.setStrCampo2Valor(crs.getString(crs.getColumnIndex(this.getLstClnConsulta().get(3).getStrNomeSimplificado())));
+        itmConsulta.setStrCampo3Nome(this.getLstClnConsulta().get(4).getStrNomeExibicao());
+        itmConsulta.setStrCampo3Valor(crs.getString(crs.getColumnIndex(this.getLstClnConsulta().get(4).getStrNomeSimplificado())));
 
         _lstItmConsulta.add(itmConsulta);
       }
@@ -517,8 +517,7 @@ public abstract class DbTabelaAndroid extends DbTabela {
         strResultado += str;
       }
 
-      strResultado = Utils.removerUltimaLetra(strResultado);
-      strResultado = Utils.removerUltimaLetra(strResultado);
+      strResultado = Utils.removerUltimaLetra(strResultado, 2);
     }
     catch (Exception ex) {
 
@@ -553,8 +552,7 @@ public abstract class DbTabelaAndroid extends DbTabela {
         strResultado += str;
       }
 
-      strResultado = Utils.removerUltimaLetra(strResultado);
-      strResultado = Utils.removerUltimaLetra(strResultado);
+      strResultado = Utils.removerUltimaLetra(strResultado, 2);
     }
     catch (Exception ex) {
 
@@ -592,8 +590,7 @@ public abstract class DbTabelaAndroid extends DbTabela {
         strResultado += str;
       }
 
-      strResultado = Utils.removerUltimaLetra(strResultado);
-      strResultado = Utils.removerUltimaLetra(strResultado);
+      strResultado = Utils.removerUltimaLetra(strResultado, 2);
     }
     catch (Exception ex) {
 
@@ -632,8 +629,7 @@ public abstract class DbTabelaAndroid extends DbTabela {
         strResultado += str;
       }
 
-      strResultado = Utils.removerUltimaLetra(strResultado);
-      strResultado = Utils.removerUltimaLetra(strResultado);
+      strResultado = Utils.removerUltimaLetra(strResultado, 2);
     }
     catch (Exception ex) {
 
@@ -668,8 +664,7 @@ public abstract class DbTabelaAndroid extends DbTabela {
         strResultado += str;
       }
 
-      strResultado = Utils.removerUltimaLetra(strResultado);
-      strResultado = Utils.removerUltimaLetra(strResultado);
+      strResultado = Utils.removerUltimaLetra(strResultado, 2);
     }
     catch (Exception ex) {
 
@@ -681,7 +676,7 @@ public abstract class DbTabelaAndroid extends DbTabela {
     return strResultado;
   }
 
-  private String getSqlSelectColunasNomesCadastro() {
+  private String getSqlSelectColunasNomesConsulta() {
 
     String strResultado = null;
     String str;
@@ -690,7 +685,7 @@ public abstract class DbTabelaAndroid extends DbTabela {
 
       strResultado = Utils.STR_VAZIA;
 
-      for (DbColuna cln : this.getLstClnCadastro()) {
+      for (DbColuna cln : this.getLstClnConsulta()) {
 
         if (cln.getClnRef() == null) {
 
@@ -715,8 +710,7 @@ public abstract class DbTabelaAndroid extends DbTabela {
         strResultado += str;
       }
 
-      strResultado = Utils.removerUltimaLetra(strResultado);
-      strResultado = Utils.removerUltimaLetra(strResultado);
+      strResultado = Utils.removerUltimaLetra(strResultado, 2);
     }
     catch (Exception ex) {
 

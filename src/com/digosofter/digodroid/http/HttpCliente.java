@@ -43,16 +43,21 @@ public class HttpCliente extends Objeto {
   public String getStrResposta() {
 
     try {
+
       if (this.getObjHttpResponse() == null) {
+
         return UtilsAndroid.STR_VAZIA;
       }
+
       _strResposta = EntityUtils.toString(this.getObjHttpResponse().getEntity());
     }
     catch (Exception ex) {
+
       new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(0), ex);
     }
     finally {
     }
+
     return _strResposta;
   }
 
@@ -68,9 +73,12 @@ public class HttpCliente extends Objeto {
   public void postJson(String jsn) {
 
     Thread thr;
+
     try {
+
       this.setEnmStatus(EnmStatus.EM_ANDAMENTO);
       this.setJsn(jsn);
+
       thr = new Thread() {
 
         @Override
@@ -78,21 +86,30 @@ public class HttpCliente extends Objeto {
 
           HttpClient objHttpClient;
           HttpPost objHttppost;
+
           try {
+
             objHttppost = new HttpPost(HttpCliente.this.getUrl());
+
             objHttppost.setHeader("json", HttpCliente.this.getJsn());
+
             objHttpClient = new DefaultHttpClient();
+
             HttpCliente.this.setObjHttpResponse(objHttpClient.execute(objHttppost));
           }
           catch (Exception ex) {
+
             new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(0), ex);
           }
           finally {
+
             HttpCliente.this.setEnmStatus(EnmStatus.CONCLUIDO);
           }
         };
       };
+
       thr.start();
+
       do {
         // TODO: Definir se fazer isso assíncrono seria melhor.
         Thread.sleep(10);
@@ -100,6 +117,7 @@ public class HttpCliente extends Objeto {
       while (HttpCliente.this.getEnmStatus() == EnmStatus.EM_ANDAMENTO);
     }
     catch (Exception ex) {
+
       new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(0), ex);
     }
     finally {
