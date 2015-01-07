@@ -9,9 +9,11 @@ public class ArquivoDb extends AndroidArquivo {
   public ArquivoDb(DataBaseAndroid objDataBase) {
 
     try {
+
       this.setDirCompleto(AppAndroid.getI().getCnt().getDatabasePath(objDataBase.getStrNome()).getPath());
     }
     catch (Exception ex) {
+
       new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(0), ex);
     }
     finally {

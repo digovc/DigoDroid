@@ -7,7 +7,6 @@ import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.widget.Toast;
 
-import com.digosofter.digodroid.activity.ActErro;
 import com.digosofter.digodroid.activity.ActMain;
 import com.digosofter.digodroid.database.DataBaseAndroid;
 import com.digosofter.digodroid.database.DbTabelaAndroid;

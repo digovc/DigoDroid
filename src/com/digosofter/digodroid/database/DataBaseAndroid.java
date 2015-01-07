@@ -13,12 +13,9 @@ import com.digosofter.digojava.database.DataBase;
 
 public class DataBaseAndroid extends DataBase {
 
-  // SQLiteOpenHelper
-
   public static final String STR_FILE_PREFIXO = ".sqlite";
 
   private ArquivoDb _arq;
-
   private SQLiteDatabase _objDbEscrita;
   private SQLiteDatabase _objDbLeitura;
   private SQLiteOpenHelper _objSQLiteOpenHelper;
@@ -27,7 +24,7 @@ public class DataBaseAndroid extends DataBase {
 
     try {
 
-      this.setStrNome(AppAndroid.getI().getStrNomeSimplificado() + STR_FILE_PREFIXO);
+      this.setStrNome(AppAndroid.getI().getStrNome() + STR_FILE_PREFIXO);
     }
     catch (Exception ex) {
 
@@ -42,9 +39,18 @@ public class DataBaseAndroid extends DataBase {
    */
   public void backup() {
 
+    String dir;
+
     try {
 
-      this.getArq().copiar(Environment.getExternalStorageDirectory().getPath());
+      dir = "_dir_completo/_app_nome";
+
+      dir = dir.replace("_dir_completo", Environment.getExternalStorageDirectory().getAbsolutePath());
+      dir = dir.replace("_app_nome", AppAndroid.getI().getStrNome());
+
+      this.getArq().copiar(dir);
+
+      AppAndroid.getI().mostrarNoficacao("Backup efetuado com sucesso.");
     }
     catch (Exception ex) {
 
