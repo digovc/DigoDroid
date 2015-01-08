@@ -45,28 +45,26 @@ public class ItmConsulta extends Objeto {
 
   public boolean getBooContemTermo(String strTermo) {
 
-    boolean booResultado = false;
-
     try {
 
       if (this.getStrNome().contains(strTermo)) {
 
-        booResultado = true;
+        return true;
       }
 
-      if (this.getStrCampo1Valor().contains(strTermo) && this.getStrCampo1Valor().length() == strTermo.length()) {
+      if (this.getStrCampo1Valor().contains(strTermo)) {
 
-        booResultado = true;
+        return true;
       }
 
       if (this.getStrCampo2Valor().contains(strTermo)) {
 
-        booResultado = true;
+        return true;
       }
 
       if (this.getStrCampo3Valor().contains(strTermo)) {
 
-        booResultado = true;
+        return true;
       }
     }
     catch (Exception ex) {
@@ -76,7 +74,7 @@ public class ItmConsulta extends Objeto {
     finally {
     }
 
-    return booResultado;
+    return false;
   }
 
   public String getStrCampo001() {
