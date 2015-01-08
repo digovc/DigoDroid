@@ -417,14 +417,7 @@ public abstract class DbTabelaAndroid extends DbTabela {
 
         itmConsulta = new ItmConsulta();
 
-        itmConsulta.setStrItemId(crs.getString(crs.getColumnIndex(this.getClnChavePrimaria().getStrNomeSimplificado())));
-        itmConsulta.setStrNome(crs.getString(crs.getColumnIndex(this.getClnNome().getStrNomeSimplificado())));
-        itmConsulta.setStrCampo1Nome(this.getLstClnConsulta().get(2).getStrNomeExibicao());
-        itmConsulta.setStrCampo1Valor(crs.getString(crs.getColumnIndex(this.getLstClnConsulta().get(2).getStrNomeSimplificado())));
-        itmConsulta.setStrCampo2Nome(this.getLstClnConsulta().get(3).getStrNomeExibicao());
-        itmConsulta.setStrCampo2Valor(crs.getString(crs.getColumnIndex(this.getLstClnConsulta().get(3).getStrNomeSimplificado())));
-        itmConsulta.setStrCampo3Nome(this.getLstClnConsulta().get(4).getStrNomeExibicao());
-        itmConsulta.setStrCampo3Valor(crs.getString(crs.getColumnIndex(this.getLstClnConsulta().get(4).getStrNomeSimplificado())));
+        itmConsulta.carregarDados(this, crs);
 
         _lstItmConsulta.add(itmConsulta);
       }

@@ -1,7 +1,10 @@
 package com.digosofter.digodroid.item;
 
+import android.database.Cursor;
+
 import com.digosofter.digodroid.AppAndroid;
 import com.digosofter.digodroid.UtilsAndroid;
+import com.digosofter.digodroid.database.DbTabelaAndroid;
 import com.digosofter.digodroid.erro.ErroAndroid;
 import com.digosofter.digojava.Objeto;
 
@@ -222,38 +225,64 @@ public class ItmConsulta extends Objeto {
     return _strItemId;
   }
 
-  public void setStrCampo1Nome(String strCampo1Nome) {
+  private void setStrCampo1Nome(String strCampo1Nome) {
 
     _strCampo1Nome = strCampo1Nome;
   }
 
-  public void setStrCampo1Valor(String strCampo1Valor) {
+  private void setStrCampo1Valor(String strCampo1Valor) {
 
     _strCampo1Valor = strCampo1Valor;
   }
 
-  public void setStrCampo2Nome(String strCampo2Nome) {
+  private void setStrCampo2Nome(String strCampo2Nome) {
 
     _strCampo2Nome = strCampo2Nome;
   }
 
-  public void setStrCampo2Valor(String strCampo2Valor) {
+  private void setStrCampo2Valor(String strCampo2Valor) {
 
     _strCampo2Valor = strCampo2Valor;
   }
 
-  public void setStrCampo3Nome(String strCampo3Nome) {
+  private void setStrCampo3Nome(String strCampo3Nome) {
 
     _strCampo3Nome = strCampo3Nome;
   }
 
-  public void setStrCampo3Valor(String strCampo3Valor) {
+  private void setStrCampo3Valor(String strCampo3Valor) {
 
     _strCampo3Valor = strCampo3Valor;
   }
 
-  public void setStrItemId(String strItemId) {
+  private void setStrItemId(String strItemId) {
 
     _strItemId = strItemId;
+  }
+
+  public void carregarDados(DbTabelaAndroid tbl, Cursor crs) {
+
+    try {
+
+      tbl.getClnNome().setStrValor(crs.getString(crs.getColumnIndex(tbl.getClnNome().getStrNomeSimplificado())));
+      tbl.getLstClnConsulta().get(2).setStrValor(crs.getString(crs.getColumnIndex(tbl.getLstClnConsulta().get(2).getStrNomeSimplificado())));
+      tbl.getLstClnConsulta().get(3).setStrValor(crs.getString(crs.getColumnIndex(tbl.getLstClnConsulta().get(3).getStrNomeSimplificado())));
+      tbl.getLstClnConsulta().get(4).setStrValor(crs.getString(crs.getColumnIndex(tbl.getLstClnConsulta().get(4).getStrNomeSimplificado())));
+
+      this.setStrItemId(crs.getString(crs.getColumnIndex(tbl.getClnChavePrimaria().getStrNomeSimplificado())));
+      this.setStrNome(tbl.getClnNome().getStrValorExibicao());
+      this.setStrCampo1Nome(tbl.getLstClnConsulta().get(2).getStrNomeExibicao());
+      this.setStrCampo1Valor(tbl.getLstClnConsulta().get(2).getStrValorExibicao());
+      this.setStrCampo2Nome(tbl.getLstClnConsulta().get(3).getStrNomeExibicao());
+      this.setStrCampo2Valor(tbl.getLstClnConsulta().get(3).getStrValorExibicao());
+      this.setStrCampo3Nome(tbl.getLstClnConsulta().get(4).getStrNomeExibicao());
+      this.setStrCampo3Valor(tbl.getLstClnConsulta().get(4).getStrValorExibicao());
+    }
+    catch (Exception ex) {
+
+      new ErroAndroid("Erro inesperado.\n", ex);
+    }
+    finally {
+    }
   }
 }
