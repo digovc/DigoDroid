@@ -3,11 +3,13 @@ package com.digosofter.digodroid.item;
 import android.database.Cursor;
 
 import com.digosofter.digodroid.AppAndroid;
-import com.digosofter.digodroid.UtilsAndroid;
 import com.digosofter.digodroid.database.DbTabelaAndroid;
 import com.digosofter.digodroid.erro.ErroAndroid;
 import com.digosofter.digojava.Objeto;
+import com.digosofter.digojava.Utils;
 
+// TODO: Tornar dinâmico o número de campo do item dependendo da
+// quantidade de colunas setadas para aparecer na consulta.
 public class ItmConsulta extends Objeto {
 
   private String _strCampo1;
@@ -21,13 +23,39 @@ public class ItmConsulta extends Objeto {
   private String _strCampo3Valor;
   private String _strItemId;
 
+  public void carregarDados(DbTabelaAndroid tbl, Cursor crs) {
+
+    try {
+
+      tbl.getClnNome().setStrValor(crs.getString(crs.getColumnIndex(tbl.getClnNome().getStrNomeSimplificado())));
+      tbl.getLstClnConsulta().get(2).setStrValor(crs.getString(crs.getColumnIndex(tbl.getLstClnConsulta().get(2).getStrNomeSimplificado())));
+      tbl.getLstClnConsulta().get(3).setStrValor(crs.getString(crs.getColumnIndex(tbl.getLstClnConsulta().get(3).getStrNomeSimplificado())));
+      tbl.getLstClnConsulta().get(4).setStrValor(crs.getString(crs.getColumnIndex(tbl.getLstClnConsulta().get(4).getStrNomeSimplificado())));
+
+      this.setStrItemId(crs.getString(crs.getColumnIndex(tbl.getClnChavePrimaria().getStrNomeSimplificado())));
+      this.setStrNome(tbl.getClnNome().getStrValorExibicao());
+      this.setStrCampo1Nome(tbl.getLstClnConsulta().get(2).getStrNomeExibicao());
+      this.setStrCampo1Valor(tbl.getLstClnConsulta().get(2).getStrValorExibicao());
+      this.setStrCampo2Nome(tbl.getLstClnConsulta().get(3).getStrNomeExibicao());
+      this.setStrCampo2Valor(tbl.getLstClnConsulta().get(3).getStrValorExibicao());
+      this.setStrCampo3Nome(tbl.getLstClnConsulta().get(4).getStrNomeExibicao());
+      this.setStrCampo3Valor(tbl.getLstClnConsulta().get(4).getStrValorExibicao());
+    }
+    catch (Exception ex) {
+
+      new ErroAndroid("Erro inesperado.\n", ex);
+    }
+    finally {
+    }
+  }
+
   private String formatarValor(String strValor) {
 
     try {
 
-      if (UtilsAndroid.getBooStrVazia(strValor)) {
+      if (Utils.getBooStrVazia(strValor)) {
 
-        return UtilsAndroid.STR_VAZIA;
+        return Utils.STR_VAZIA;
       }
 
       strValor = strValor.replace("true", "Sim");
@@ -46,6 +74,16 @@ public class ItmConsulta extends Objeto {
   public boolean getBooContemTermo(String strTermo) {
 
     try {
+
+      if (Utils.getBooStrVazia(strTermo)) {
+
+        return true;
+      }
+
+      if (strTermo.endsWith("%")) {
+
+        return this.getBooContemTermoInicio(strTermo);
+      }
 
       if (this.getStrNome().contains(strTermo)) {
 
@@ -77,11 +115,52 @@ public class ItmConsulta extends Objeto {
     return false;
   }
 
+  private boolean getBooContemTermoInicio(String strTermo) {
+
+    try {
+
+      if (Utils.getBooStrVazia(strTermo)) {
+
+        return true;
+      }
+
+      strTermo = strTermo.replace("%", "");
+
+      if (this.getStrNome().startsWith(strTermo)) {
+
+        return true;
+      }
+
+      if (this.getStrCampo1Valor().startsWith(strTermo)) {
+
+        return true;
+      }
+
+      if (this.getStrCampo2Valor().startsWith(strTermo)) {
+
+        return true;
+      }
+
+      if (this.getStrCampo3Valor().startsWith(strTermo)) {
+
+        return true;
+      }
+
+    }
+    catch (Exception ex) {
+
+      new ErroAndroid("Erro inesperado.\n", ex);
+    }
+    finally {
+    }
+    return false;
+  }
+
   public String getStrCampo001() {
 
     try {
 
-      if (!UtilsAndroid.getBooStrVazia(_strCampo1)) {
+      if (!Utils.getBooStrVazia(_strCampo1)) {
 
         return _strCampo1;
       }
@@ -107,7 +186,7 @@ public class ItmConsulta extends Objeto {
 
     try {
 
-      if (!UtilsAndroid.getBooStrVazia(_strCampo1Valor)) {
+      if (!Utils.getBooStrVazia(_strCampo1Valor)) {
 
         return _strCampo1Valor;
       }
@@ -128,7 +207,7 @@ public class ItmConsulta extends Objeto {
 
     try {
 
-      if (!UtilsAndroid.getBooStrVazia(_strCampo2)) {
+      if (!Utils.getBooStrVazia(_strCampo2)) {
 
         return _strCampo2;
       }
@@ -154,7 +233,7 @@ public class ItmConsulta extends Objeto {
 
     try {
 
-      if (!UtilsAndroid.getBooStrVazia(_strCampo2Valor)) {
+      if (!Utils.getBooStrVazia(_strCampo2Valor)) {
 
         return _strCampo2Valor;
       }
@@ -175,7 +254,7 @@ public class ItmConsulta extends Objeto {
 
     try {
 
-      if (!UtilsAndroid.getBooStrVazia(_strCampo3)) {
+      if (!Utils.getBooStrVazia(_strCampo3)) {
 
         return _strCampo3;
       }
@@ -201,7 +280,7 @@ public class ItmConsulta extends Objeto {
 
     try {
 
-      if (!UtilsAndroid.getBooStrVazia(_strCampo3Valor)) {
+      if (!Utils.getBooStrVazia(_strCampo3Valor)) {
 
         return _strCampo3Valor;
       }
@@ -256,31 +335,5 @@ public class ItmConsulta extends Objeto {
   private void setStrItemId(String strItemId) {
 
     _strItemId = strItemId;
-  }
-
-  public void carregarDados(DbTabelaAndroid tbl, Cursor crs) {
-
-    try {
-
-      tbl.getClnNome().setStrValor(crs.getString(crs.getColumnIndex(tbl.getClnNome().getStrNomeSimplificado())));
-      tbl.getLstClnConsulta().get(2).setStrValor(crs.getString(crs.getColumnIndex(tbl.getLstClnConsulta().get(2).getStrNomeSimplificado())));
-      tbl.getLstClnConsulta().get(3).setStrValor(crs.getString(crs.getColumnIndex(tbl.getLstClnConsulta().get(3).getStrNomeSimplificado())));
-      tbl.getLstClnConsulta().get(4).setStrValor(crs.getString(crs.getColumnIndex(tbl.getLstClnConsulta().get(4).getStrNomeSimplificado())));
-
-      this.setStrItemId(crs.getString(crs.getColumnIndex(tbl.getClnChavePrimaria().getStrNomeSimplificado())));
-      this.setStrNome(tbl.getClnNome().getStrValorExibicao());
-      this.setStrCampo1Nome(tbl.getLstClnConsulta().get(2).getStrNomeExibicao());
-      this.setStrCampo1Valor(tbl.getLstClnConsulta().get(2).getStrValorExibicao());
-      this.setStrCampo2Nome(tbl.getLstClnConsulta().get(3).getStrNomeExibicao());
-      this.setStrCampo2Valor(tbl.getLstClnConsulta().get(3).getStrValorExibicao());
-      this.setStrCampo3Nome(tbl.getLstClnConsulta().get(4).getStrNomeExibicao());
-      this.setStrCampo3Valor(tbl.getLstClnConsulta().get(4).getStrValorExibicao());
-    }
-    catch (Exception ex) {
-
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally {
-    }
   }
 }
