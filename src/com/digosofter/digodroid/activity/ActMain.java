@@ -58,59 +58,59 @@ public abstract class ActMain extends Activity {
     return _booVisivel;
   }
 
-  public Button getButton(int intId) {
+  protected Button getButton(int intId) {
 
     return (Button) this.getView(intId);
   }
 
-  public CheckBox getCheckBox(int intId) {
+  protected CheckBox getCheckBox(int intId) {
 
     return (CheckBox) this.getView(intId);
   }
 
-  public ProgressBar getProgressBar(int intId) {
+  protected ProgressBar getProgressBar(int intId) {
 
     return (ProgressBar) this.getView(intId);
   }
 
-  public EditText getEditText(int intId) {
+  protected EditText getEditText(int intId) {
 
     return (EditText) this.getView(intId);
   }
 
-  public ImageView getImageView(int intId) {
+  protected ImageView getImageView(int intId) {
 
     return (ImageView) this.getView(intId);
   }
 
   protected abstract int getIntLayoutId();
 
-  public LinearLayout getLinearLayout(int intId) {
+  protected LinearLayout getLinearLayout(int intId) {
 
     return (LinearLayout) this.getView(intId);
   }
 
-  public ListView getListView(int intId) {
+  protected ListView getListView(int intId) {
 
     return (ListView) this.getView(intId);
   }
 
-  public RadioButton getRadioButton(int intId) {
+  protected RadioButton getRadioButton(int intId) {
 
     return (RadioButton) this.getView(intId);
   }
 
-  public RadioGroup getRadioGroup(int intId) {
+  protected RadioGroup getRadioGroup(int intId) {
 
     return (RadioGroup) this.getView(intId);
   }
 
-  public TextView getTextView(int intId) {
+  protected TextView getTextView(int intId) {
 
     return (TextView) this.getView(intId);
   }
 
-  public VideoView getVideoView(int intId) {
+  protected VideoView getVideoView(int intId) {
 
     return (VideoView) this.getView(intId);
   }
@@ -144,6 +144,7 @@ public abstract class ActMain extends Activity {
       this.getActionBar().setDisplayHomeAsUpEnabled(true);
     }
     catch (Exception ex) {
+
       new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(0), ex);
     }
     finally {

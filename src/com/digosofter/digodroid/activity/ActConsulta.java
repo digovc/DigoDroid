@@ -27,6 +27,7 @@ import com.digosofter.digodroid.database.DbTabelaAndroid;
 import com.digosofter.digodroid.erro.ErroAndroid;
 import com.digosofter.digodroid.item.ItmConsulta;
 import com.digosofter.digojava.Utils;
+import com.digosofter.digojava.erro.Erro;
 
 public class ActConsulta extends ActMain {
 
@@ -336,19 +337,15 @@ public class ActConsulta extends ActMain {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-          ItmConsulta objItem;
-          Intent objIntent;
+          ItmConsulta itm;
 
           try {
 
             ActConsulta.this.getTbl().setStrPesquisaActConsulta(ActConsulta.this.getEdtPesquisa().getText().toString());
 
-            objItem = (ItmConsulta) ActConsulta.this.getPnlTblLista().getItemAtPosition(position);
-            objIntent = new Intent();
-            objIntent.putExtra("id", objItem.getStrItemId());
+            itm = (ItmConsulta) ActConsulta.this.getPnlTblLista().getItemAtPosition(position);
 
-            ActConsulta.this.setResult(ActConsulta.EnmResultadoTipo.REGISTRO_SELECIONADO.ordinal(), objIntent);
-            ActConsulta.this.finish();
+            ActConsulta.this.onItemClick(itm);
           }
 
           catch (Exception ex) {
@@ -421,6 +418,26 @@ public class ActConsulta extends ActMain {
     catch (Exception ex) {
 
       new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(116), ex);
+    }
+    finally {
+    }
+  }
+
+  protected void onItemClick(ItmConsulta itm) {
+
+    Intent objIntent;
+
+    try {
+
+      objIntent = new Intent();
+      objIntent.putExtra("id", itm.getStrItemId());
+
+      ActConsulta.this.setResult(ActConsulta.EnmResultadoTipo.REGISTRO_SELECIONADO.ordinal(), objIntent);
+      ActConsulta.this.finish();
+    }
+    catch (Exception ex) {
+
+      new Erro("Erro inesperado.\n", ex);
     }
     finally {
     }
