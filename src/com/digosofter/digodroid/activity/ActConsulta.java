@@ -216,7 +216,7 @@ public class ActConsulta extends ActMain {
 
     try {
 
-      AppAndroid.getI().mostrarNoficacao("Mais precisão? Utilize \"%\" no final da pesquisa.");
+      AppAndroid.getI().mostrarNoficacao("Para uma pesquisa generalizada utilize \"%\" no início.");
     }
     catch (Exception ex) {
 
