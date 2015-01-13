@@ -42,7 +42,7 @@ public abstract class DbTabelaAndroid extends DbTabela {
     }
   }
 
-  public void abrirActCadastro(Activity actPai) {
+  public void abrirActConsulta(Activity actPai) {
 
     Intent objIntent;
 
