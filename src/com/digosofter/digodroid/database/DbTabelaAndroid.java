@@ -42,6 +42,25 @@ public abstract class DbTabelaAndroid extends DbTabela {
     }
   }
 
+  public void abrirActCadastro(Activity actPai) {
+
+    Intent objIntent;
+
+    try {
+
+      AppAndroid.getI().setTblSelec(this);
+
+      objIntent = new Intent(actPai, ActConsulta.class);
+      actPai.startActivityForResult(objIntent, 0);
+    }
+    catch (Exception ex) {
+
+      new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(123), ex);
+    }
+    finally {
+    }
+  }
+
   public void abrirActConsulta(Activity actPai) {
 
     Intent objIntent;
