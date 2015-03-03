@@ -27,17 +27,120 @@ public class ItmConsulta extends Objeto {
 
     try {
 
+      if (tbl == null) {
+
+        return;
+      }
+
+      if (crs == null) {
+
+        return;
+      }
+
       tbl.getClnNome().setStrValor(crs.getString(crs.getColumnIndex(tbl.getClnNome().getStrNomeSimplificado())));
-      tbl.getLstClnConsulta().get(2).setStrValor(crs.getString(crs.getColumnIndex(tbl.getLstClnConsulta().get(2).getStrNomeSimplificado())));
-      tbl.getLstClnConsulta().get(3).setStrValor(crs.getString(crs.getColumnIndex(tbl.getLstClnConsulta().get(3).getStrNomeSimplificado())));
-      tbl.getLstClnConsulta().get(4).setStrValor(crs.getString(crs.getColumnIndex(tbl.getLstClnConsulta().get(4).getStrNomeSimplificado())));
 
       this.setStrItemId(crs.getString(crs.getColumnIndex(tbl.getClnChavePrimaria().getStrNomeSimplificado())));
       this.setStrNome(tbl.getClnNome().getStrValorExibicao());
+
+      this.carregarDadosCampo1(tbl, crs);
+      this.carregarDadosCampo2(tbl, crs);
+      this.carregarDadosCampo3(tbl, crs);
+    }
+    catch (Exception ex) {
+
+      new ErroAndroid("Erro inesperado.\n", ex);
+    }
+    finally {
+    }
+  }
+
+  private void carregarDadosCampo1(DbTabelaAndroid tbl, Cursor crs) {
+
+    try {
+
+      if (tbl == null) {
+
+        return;
+      }
+
+      if (crs == null) {
+
+        return;
+      }
+
+      if (tbl.getLstClnConsulta().size() < 3) {
+
+        return;
+      }
+
+      tbl.getLstClnConsulta().get(2).setStrValor(crs.getString(crs.getColumnIndex(tbl.getLstClnConsulta().get(2).getStrNomeSimplificado())));
+
       this.setStrCampo1Nome(tbl.getLstClnConsulta().get(2).getStrNomeExibicao());
       this.setStrCampo1Valor(tbl.getLstClnConsulta().get(2).getStrValorExibicao());
+    }
+    catch (Exception ex) {
+
+      new ErroAndroid("Erro inesperado.\n", ex);
+    }
+    finally {
+    }
+
+  }
+
+  private void carregarDadosCampo2(DbTabelaAndroid tbl, Cursor crs) {
+
+    try {
+
+      if (tbl == null) {
+
+        return;
+      }
+
+      if (crs == null) {
+
+        return;
+      }
+
+      if (tbl.getLstClnConsulta().size() < 4) {
+
+        return;
+      }
+
+      tbl.getLstClnConsulta().get(3).setStrValor(crs.getString(crs.getColumnIndex(tbl.getLstClnConsulta().get(3).getStrNomeSimplificado())));
+
       this.setStrCampo2Nome(tbl.getLstClnConsulta().get(3).getStrNomeExibicao());
       this.setStrCampo2Valor(tbl.getLstClnConsulta().get(3).getStrValorExibicao());
+    }
+    catch (Exception ex) {
+
+      new ErroAndroid("Erro inesperado.\n", ex);
+    }
+    finally {
+    }
+
+  }
+
+  private void carregarDadosCampo3(DbTabelaAndroid tbl, Cursor crs) {
+
+    try {
+
+      if (tbl == null) {
+
+        return;
+      }
+
+      if (crs == null) {
+
+        return;
+      }
+
+      if (tbl.getLstClnConsulta().size() < 5) {
+
+        return;
+      }
+
+      tbl.getLstClnConsulta().get(4).setStrValor(crs.getString(crs.getColumnIndex(tbl.getLstClnConsulta().get(4).getStrNomeSimplificado())));
+
       this.setStrCampo3Nome(tbl.getLstClnConsulta().get(4).getStrNomeExibicao());
       this.setStrCampo3Valor(tbl.getLstClnConsulta().get(4).getStrValorExibicao());
     }
@@ -47,6 +150,7 @@ public class ItmConsulta extends Objeto {
     }
     finally {
     }
+
   }
 
   private String formatarValor(String strValor) {
@@ -79,52 +183,6 @@ public class ItmConsulta extends Objeto {
 
         return true;
       }
-
-      if (strTermo.startsWith("%")) {
-
-        return this.getBooContemTermoQualquerLugar(strTermo);
-      }
-
-      if (this.getStrNome().startsWith(strTermo)) {
-
-        return true;
-      }
-
-      if (this.getStrCampo1Valor().startsWith(strTermo)) {
-
-        return true;
-      }
-
-      if (this.getStrCampo2Valor().startsWith(strTermo)) {
-
-        return true;
-      }
-
-      if (this.getStrCampo3Valor().startsWith(strTermo)) {
-
-        return true;
-      }
-    }
-    catch (Exception ex) {
-
-      new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(132), ex);
-    }
-    finally {
-    }
-
-    return false;
-  }
-
-  private boolean getBooContemTermoQualquerLugar(String strTermo) {
-
-    try {
-
-      if (Utils.getBooStrVazia(strTermo)) {
-
-        return true;
-      }
-
-      strTermo = strTermo.replace("%", "");
 
       if (this.getStrNome().contains(strTermo)) {
 

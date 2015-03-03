@@ -3,7 +3,6 @@ package com.digosofter.digodroid.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
-import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.Menu;
@@ -204,23 +203,6 @@ public class ActConsulta extends ActMain {
     catch (Exception ex) {
 
       new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(0), ex);
-    }
-    finally {
-    }
-  }
-
-  @Override
-  protected void onCreate(Bundle savedInstanceState) {
-
-    super.onCreate(savedInstanceState);
-
-    try {
-
-      AppAndroid.getI().mostrarNoficacao("Para uma pesquisa generalizada utilize \"%\" no início.");
-    }
-    catch (Exception ex) {
-
-      new ErroAndroid("Erro inesperado.\n", ex);
     }
     finally {
     }

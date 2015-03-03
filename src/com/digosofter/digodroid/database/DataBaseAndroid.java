@@ -60,6 +60,12 @@ public class DataBaseAndroid extends DataBase {
     }
   }
 
+  @Override
+  public void execSql(String sql) {
+
+    this.execSqlSemRetorno(sql);
+  }
+
   public Cursor execSqlComRetorno(String sql) {
 
     Cursor crsResultado = null;

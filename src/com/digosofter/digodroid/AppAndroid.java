@@ -146,7 +146,6 @@ public abstract class AppAndroid extends App {
     return _lstMsgUsuarioPadrao;
   }
 
-  @Override
   public DataBaseAndroid getObjDbPrincipal() {
 
     try {

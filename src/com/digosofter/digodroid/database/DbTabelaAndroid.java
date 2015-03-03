@@ -26,7 +26,7 @@ public abstract class DbTabelaAndroid extends DbTabela {
   private List<ItmConsulta> _lstItmConsulta;
   private DataBaseAndroid _objDb;
 
-  public DbTabelaAndroid(String strNome) {
+  protected DbTabelaAndroid(String strNome) {
 
     super(strNome);
 
@@ -365,8 +365,8 @@ public abstract class DbTabelaAndroid extends DbTabela {
 
       sql = sql.replace("_clns_nome", this.getSqlSelectColunasNomesConsulta());
       sql = sql.replace("_tbl_nome", this.getStrNomeSimplificado());
-      sql = sql.replace("where _where", this.getLstDbFiltroTelaCadastro() != null && this.getLstDbFiltroTelaCadastro().size() > 0 ? "where _where" : Utils.STR_VAZIA);
-      sql = sql.replace("_where", this.getSqlWhere(this.getLstDbFiltroTelaCadastro()));
+      sql = sql.replace("where _where", this.getLstObjDbFiltroConsulta() != null && this.getLstObjDbFiltroConsulta().size() > 0 ? "where _where" : Utils.STR_VAZIA);
+      sql = sql.replace("_where", this.getSqlWhere(this.getLstObjDbFiltroConsulta()));
       sql = sql.replace("_order", this.getClnOrdemCadastro().getStrNomeSimplificado());
 
       crsResultado = this.getObjDb().execSqlComRetorno(sql);
