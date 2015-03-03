@@ -18,12 +18,14 @@ import com.digosofter.digojava.database.DbColuna;
 import com.digosofter.digojava.database.DbColuna.EnmTipo;
 import com.digosofter.digojava.database.DbFiltro;
 import com.digosofter.digojava.database.DbTabela;
+import com.digosofter.digojava.erro.Erro;
 
 public abstract class DbTabelaAndroid extends DbTabela {
 
   private boolean _booSinc = true;
   private Class<? extends ActMain> _clsActCadastro;
   private List<ItmConsulta> _lstItmConsulta;
+  private List<DbViewAndroid> _lstViw;
   private DataBaseAndroid _objDb;
 
   protected DbTabelaAndroid(String strNome) {
@@ -32,7 +34,7 @@ public abstract class DbTabelaAndroid extends DbTabela {
 
     try {
 
-      this.criarTabela();
+      this.criar();
     }
     catch (Exception ex) {
 
@@ -44,14 +46,21 @@ public abstract class DbTabelaAndroid extends DbTabela {
 
   public void abrirActConsulta(Activity actPai) {
 
-    Intent objIntent;
+    Intent itt;
 
     try {
 
-      AppAndroid.getI().setTblSelec(this);
+      if (this.getLstViw().size() > 0) {
 
-      objIntent = new Intent(actPai, ActConsulta.class);
-      actPai.startActivityForResult(objIntent, 0);
+        AppAndroid.getI().setTblSelec(this.getLstViw().get(0));
+      }
+      else {
+
+        AppAndroid.getI().setTblSelec(this);
+      }
+
+      itt = new Intent(actPai, ActConsulta.class);
+      actPai.startActivityForResult(itt, 0);
     }
     catch (Exception ex) {
 
@@ -145,13 +154,13 @@ public abstract class DbTabelaAndroid extends DbTabela {
     }
   }
 
-  private void criarTabela() {
+  protected void criar() {
 
     String sql;
 
     try {
 
-      if (this.getBooTblExiste()) {
+      if (this.getBooExiste()) {
 
         return;
       }
@@ -198,12 +207,7 @@ public abstract class DbTabelaAndroid extends DbTabela {
     }
   }
 
-  public boolean getBooSinc() {
-
-    return _booSinc;
-  }
-
-  private boolean getBooTblExiste() {
+  protected boolean getBooExiste() {
 
     boolean booResultado = false;
     Cursor crs;
@@ -228,6 +232,11 @@ public abstract class DbTabelaAndroid extends DbTabela {
     }
 
     return booResultado;
+  }
+
+  public boolean getBooSinc() {
+
+    return _booSinc;
   }
 
   public Class<? extends ActMain> getClsActCadastro() {
@@ -462,6 +471,27 @@ public abstract class DbTabelaAndroid extends DbTabela {
     }
 
     return lstStrResultado;
+  }
+
+  public List<DbViewAndroid> getLstViw() {
+
+    try {
+
+      if (_lstViw != null) {
+
+        return _lstViw;
+      }
+
+      _lstViw = new ArrayList<DbViewAndroid>();
+    }
+    catch (Exception ex) {
+
+      new Erro("Erro inesperado.\n", ex);
+    }
+    finally {
+    }
+
+    return _lstViw;
   }
 
   @Override
