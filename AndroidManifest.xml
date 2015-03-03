@@ -20,8 +20,9 @@
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:theme="@style/AppBaseTheme" >
-        <activity android:name="com.digosofter.digodroid.activity.ActErro" />
-        <activity android:name="com.digosofter.digodroid.activity.ActConsulta" />
+        <activity android:name=".activity.ActErro" />
+        <activity android:name=".activity.ActCadastro" />
+        <activity android:name=".activity.ActConsulta" />
     </application>
 
 </manifest>

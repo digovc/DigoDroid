@@ -216,7 +216,8 @@ public class ActConsulta extends ActMain {
     try {
 
       objMenuInflater = this.getMenuInflater();
-      objMenuInflater.inflate(R.menu.act_cadastro_action_bar, objMenu);
+      objMenuInflater.inflate(R.menu.act_consulta_action_bar, objMenu);
+
       objMenu.getItem(0).setVisible(this.getTbl().getBooPermitirCadastroNovo());
     }
     catch (Exception ex) {

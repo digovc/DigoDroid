@@ -1,0 +1,7 @@
+<resources>
+
+    <string name="title_activity_act_cadastro">ActCadastro</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+
+</resources>
