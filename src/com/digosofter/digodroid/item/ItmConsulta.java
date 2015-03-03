@@ -80,52 +80,6 @@ public class ItmConsulta extends Objeto {
         return true;
       }
 
-      if (strTermo.startsWith("%")) {
-
-        return this.getBooContemTermoQualquerLugar(strTermo);
-      }
-
-      if (this.getStrNome().startsWith(strTermo)) {
-
-        return true;
-      }
-
-      if (this.getStrCampo1Valor().startsWith(strTermo)) {
-
-        return true;
-      }
-
-      if (this.getStrCampo2Valor().startsWith(strTermo)) {
-
-        return true;
-      }
-
-      if (this.getStrCampo3Valor().startsWith(strTermo)) {
-
-        return true;
-      }
-    }
-    catch (Exception ex) {
-
-      new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(132), ex);
-    }
-    finally {
-    }
-
-    return false;
-  }
-
-  private boolean getBooContemTermoQualquerLugar(String strTermo) {
-
-    try {
-
-      if (Utils.getBooStrVazia(strTermo)) {
-
-        return true;
-      }
-
-      strTermo = strTermo.replace("%", "");
-
       if (this.getStrNome().contains(strTermo)) {
 
         return true;

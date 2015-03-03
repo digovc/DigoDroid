@@ -210,23 +210,6 @@ public class ActConsulta extends ActMain {
   }
 
   @Override
-  protected void onCreate(Bundle savedInstanceState) {
-
-    super.onCreate(savedInstanceState);
-
-    try {
-
-      AppAndroid.getI().mostrarNoficacao("Para uma pesquisa generalizada utilize \"%\" no início.");
-    }
-    catch (Exception ex) {
-
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally {
-    }
-  }
-
-  @Override
   public boolean onCreateOptionsMenu(Menu objMenu) {
 
     MenuInflater objMenuInflater;
