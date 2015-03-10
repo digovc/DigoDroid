@@ -41,6 +41,13 @@
             android:text="campo003"
             android:textAppearance="?android:attr/textAppearanceSmall" />
 
+        <TextView
+            android:id="@+id/itmCadastro_txtCampo004"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="campo004"
+            android:textAppearance="?android:attr/textAppearanceSmall" />
+
     </LinearLayout>
 
 </LinearLayout>

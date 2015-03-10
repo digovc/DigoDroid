@@ -19,29 +19,17 @@ import com.digosofter.digodroid.item.ItmConsulta;
 public abstract class DbTabela extends Objeto {
 
   private boolean _booItmConsultaUsarCache = true;
-
   private boolean _booPermitirCadastroNovo;
-
   private boolean _booSincronizar = true;
-
   private DbColuna _clnChavePrimaria;
-
   private DbColuna _clnNome;
-
   private DbColuna _clnOrdemCadastro;
-
   private Class<?> _clsActFrm;
-
   private int _intQtdLinha;
-
   private List<DbColuna> _lstCln;
-
   private ArrayList<DbFiltro> _lstDbFiltroTelaCadastro;
-
   private List<ItmConsulta> _lstItmConsulta;
-
   private DataBase _objDataBase;
-
   private String _strPesquisaActConsulta;
 
   public DbTabela(String strNome) {
@@ -564,7 +552,7 @@ public abstract class DbTabela extends Objeto {
           intNumeroColuna++;
         }
 
-        if (intNumeroColuna == 3) {
+        if (intNumeroColuna == 4) {
           break;
         }
       }
@@ -725,7 +713,7 @@ public abstract class DbTabela extends Objeto {
           itmConsulta.setStrNome(crs.getString(crs.getColumnIndex(this.getClnNome().getStrNomeSimplificado())));
         }
 
-        for (int intColunaIndex = 0; intColunaIndex <= 4; intColunaIndex++) {
+        for (int intColunaIndex = 0; intColunaIndex <= 5; intColunaIndex++) {
 
           if (intColunaIndex < crs.getColumnCount()) {
 
@@ -741,6 +729,10 @@ public abstract class DbTabela extends Objeto {
               case 4:
                 itmConsulta.setStrCampo003Nome(this.getStrClnNomePeloNomeSimplificado(crs.getColumnName(intColunaIndex)));
                 itmConsulta.setStrCampo003Valor(crs.getString(intColunaIndex));
+                break;
+              case 5:
+                itmConsulta.setStrCampo004Nome(this.getStrClnNomePeloNomeSimplificado(crs.getColumnName(intColunaIndex)));
+                itmConsulta.setStrCampo004Valor(crs.getString(intColunaIndex));
                 break;
             }
           }

@@ -8,23 +8,17 @@ import com.digosofter.digodroid.erro.Erro;
 public class ItmConsulta extends Objeto {
 
   private String _strCampo001;
-
   private String _strCampo001Nome;
-
   private String _strCampo001Valor;
-
   private String _strCampo002;
-
   private String _strCampo002Nome;
-
   private String _strCampo002Valor;
-
   private String _strCampo003;
-
   private String _strCampo003Nome;
-
   private String _strCampo003Valor;
-
+  private String _strCampo004;
+  private String _strCampo004Nome;
+  private String _strCampo004Valor;
   private String _strItemId;
 
   public boolean getBooContemString(String strFiltro) {
@@ -147,7 +141,7 @@ public class ItmConsulta extends Objeto {
     return _strCampo002Valor.replace("true", "Sim").replace("false", "Não");
   }
 
-  public String getstrCampo003() {
+  public String getStrCampo003() {
 
     try {
 
@@ -190,6 +184,49 @@ public class ItmConsulta extends Objeto {
     return _strCampo003Valor.replace("true", "Sim").replace("false", "Não");
   }
 
+  public String getStrCampo004() {
+
+    try {
+
+      _strCampo004 = this.getStrCampo004Nome() + ": " + this.getStrCampo004Valor();
+
+    }
+    catch (Exception ex) {
+
+      new Erro(App.getI().getStrTextoPadrao(0), ex);
+
+    }
+    finally {
+    }
+
+    return _strCampo004;
+  }
+
+  public String getStrCampo004Nome() {
+
+    return _strCampo004Nome;
+  }
+
+  public String getStrCampo004Valor() {
+
+    try {
+
+      if (_strCampo004Valor == null) {
+        _strCampo004Valor = Utils.STRING_VAZIA;
+      }
+
+    }
+    catch (Exception ex) {
+
+      new Erro(App.getI().getStrTextoPadrao(0), ex);
+
+    }
+    finally {
+    }
+
+    return _strCampo004Valor.replace("true", "Sim").replace("false", "Não");
+  }
+
   public String getStrItemId() {
 
     return _strItemId;
@@ -223,6 +260,16 @@ public class ItmConsulta extends Objeto {
   public void setStrCampo003Valor(String strCampo003Valor) {
 
     _strCampo003Valor = strCampo003Valor;
+  }
+
+  public void setStrCampo004Nome(String strCampo004Nome) {
+
+    _strCampo004Nome = strCampo004Nome;
+  }
+
+  public void setStrCampo004Valor(String strCampo004Valor) {
+
+    _strCampo004Valor = strCampo004Valor;
   }
 
   public void setStrItemId(String strItemId) {

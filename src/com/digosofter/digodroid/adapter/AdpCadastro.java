@@ -138,6 +138,7 @@ public class AdpCadastro extends BaseAdapter implements Filterable {
       TextView txtRegistroCampo001 = (TextView) objView.findViewById(R.id.itmCadastro_txtCampo001);
       TextView txtRegistroCampo002 = (TextView) objView.findViewById(R.id.itmCadastro_txtCampo002);
       TextView txtRegistroCampo003 = (TextView) objView.findViewById(R.id.itmCadastro_txtCampo003);
+      TextView txtRegistroCampo004 = (TextView) objView.findViewById(R.id.itmCadastro_txtCampo004);
 
       txtRegistroNome.setText(objItmCadastro.getStrNomeExibicao());
 
@@ -151,9 +152,14 @@ public class AdpCadastro extends BaseAdapter implements Filterable {
         txtRegistroCampo002.setVisibility(View.GONE);
       }
 
-      txtRegistroCampo003.setText(objItmCadastro.getstrCampo003());
+      txtRegistroCampo003.setText(objItmCadastro.getStrCampo003());
       if (objItmCadastro.getStrCampo003Valor() == null || objItmCadastro.getStrCampo003Valor().equals(Utils.STRING_VAZIA)) {
         txtRegistroCampo003.setVisibility(View.GONE);
+      }
+
+      txtRegistroCampo004.setText(objItmCadastro.getStrCampo004());
+      if (objItmCadastro.getStrCampo004Valor() == null || objItmCadastro.getStrCampo004Valor().equals(Utils.STRING_VAZIA)) {
+        txtRegistroCampo004.setVisibility(View.GONE);
       }
 
     }
