@@ -10,6 +10,7 @@ import android.telephony.TelephonyManager;
 
 import com.digosofter.digodroid.erro.ErroAndroid;
 import com.digosofter.digojava.Objeto;
+import com.digosofter.digojava.Utils;
 
 public class Aparelho extends Objeto {
 
@@ -38,7 +39,7 @@ public class Aparelho extends Objeto {
 
   private Context _cnt;
   private TelephonyManager _objTelManager;
-  private String _strId;
+  private String _strDeviceId;
   private String _strImei;
 
   public void abrirMapa(String strEnderecoCompleto) {
@@ -74,7 +75,7 @@ public class Aparelho extends Objeto {
 
     try {
 
-      if (UtilsAndroid.getBooStrVazia(strEmail)) {
+      if (Utils.getBooStrVazia(strEmail)) {
 
         return;
       }
@@ -167,16 +168,16 @@ public class Aparelho extends Objeto {
   /**
    * Retorna uma "string 64-bit" única para cada aparelho.
    */
-  public String getStrId() {
+  public String getStrDeviceId() {
 
     try {
 
-      if (!UtilsAndroid.getBooStrVazia(_strId)) {
+      if (!Utils.getBooStrVazia(_strDeviceId)) {
 
-        return _strId;
+        return _strDeviceId;
       }
 
-      _strId = Secure.getString(this.getCnt().getContentResolver(), Secure.ANDROID_ID);
+      _strDeviceId = Secure.getString(this.getCnt().getContentResolver(), Secure.ANDROID_ID);
     }
     catch (Exception ex) {
 
@@ -185,14 +186,14 @@ public class Aparelho extends Objeto {
     finally {
     }
 
-    return _strId;
+    return _strDeviceId;
   }
 
   public String getStrImei() {
 
     try {
 
-      if (!UtilsAndroid.getBooStrVazia(_strImei)) {
+      if (!Utils.getBooStrVazia(_strImei)) {
 
         return _strImei;
       }
