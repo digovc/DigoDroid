@@ -4,40 +4,31 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Filter;
 import android.widget.Filterable;
-import android.widget.TextView;
 
 import com.digosofter.digodroid.AppAndroid;
 import com.digosofter.digodroid.R;
-import com.digosofter.digodroid.UtilsAndroid;
+import com.digosofter.digodroid.activity.ActConsulta;
+import com.digosofter.digodroid.database.DbTabelaAndroid;
 import com.digosofter.digodroid.erro.ErroAndroid;
 import com.digosofter.digodroid.item.ItmConsulta;
 
 public class AdpConsulta extends BaseAdapter implements Filterable {
 
+  private ActConsulta _actConsulta;
+  private LayoutInflater _lif;
   private List<ItmConsulta> _lstItmConsulta;
   private List<ItmConsulta> _lstItmConsultaSemFiltro;
-  private LayoutInflater _objLayoutInflater;
+  private DbTabelaAndroid _tbl;
 
-  public AdpConsulta(Context cnt, List<ItmConsulta> lstItmConsulta) {
+  private ActConsulta getActConsulta() {
 
-    try {
-
-      this.setLstItmConsulta(lstItmConsulta);
-      this.setObjLayoutInflater(LayoutInflater.from(cnt));
-    }
-    catch (Exception ex) {
-
-      new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(0), ex);
-    }
-    finally {
-    }
+    return _actConsulta;
   }
 
   @Override
@@ -50,6 +41,7 @@ public class AdpConsulta extends BaseAdapter implements Filterable {
   public Filter getFilter() {
 
     this.setLstItmConsulta(this.getLstItmConsultaSemFiltro());
+
     return new Filter() {
 
       @Override
@@ -109,9 +101,9 @@ public class AdpConsulta extends BaseAdapter implements Filterable {
   }
 
   @Override
-  public Object getItem(int position) {
+  public Object getItem(int intPosicao) {
 
-    return this.getLstItmConsulta().get(position);
+    return this.getLstItmConsulta().get(intPosicao);
   }
 
   @Override
@@ -120,7 +112,46 @@ public class AdpConsulta extends BaseAdapter implements Filterable {
     return position;
   }
 
+  private LayoutInflater getLif() {
+
+    try {
+
+      if (_lif != null) {
+
+        return _lif;
+      }
+
+      _lif = LayoutInflater.from(this.getActConsulta());
+    }
+    catch (Exception ex) {
+
+      new ErroAndroid("Erro inesperado.\n", ex);
+    }
+    finally {
+    }
+
+    return _lif;
+  }
+
   private List<ItmConsulta> getLstItmConsulta() {
+
+    try {
+
+      if (_lstItmConsulta != null) {
+
+        return _lstItmConsulta;
+      }
+
+      _lstItmConsulta = this.getTbl().getLstItmConsulta();
+
+      this.setLstItmConsultaSemFiltro(_lstItmConsulta);
+    }
+    catch (Exception ex) {
+
+      new ErroAndroid("Erro inesperado.\n", ex);
+    }
+    finally {
+    }
 
     return _lstItmConsulta;
   }
@@ -130,62 +161,47 @@ public class AdpConsulta extends BaseAdapter implements Filterable {
     return _lstItmConsultaSemFiltro;
   }
 
-  private LayoutInflater getObjLayoutInflater() {
+  private DbTabelaAndroid getTbl() {
 
-    return _objLayoutInflater;
+    try {
+
+      if (_tbl != null) {
+
+        return _tbl;
+      }
+
+      if (this.getActConsulta() == null) {
+
+        return (DbTabelaAndroid) AppAndroid.getI().getTblSelec();
+      }
+
+      _tbl = this.getActConsulta().getTbl();
+    }
+    catch (Exception ex) {
+
+      new ErroAndroid("Erro inesperado.\n", ex);
+    }
+    finally {
+    }
+
+    return _tbl;
   }
 
-  @SuppressLint("InflateParams")
   @Override
-  public View getView(int position, View viwReciclada, ViewGroup viwParent) {
+  @SuppressLint("InflateParams")
+  public View getView(int intPosicao, View viwReciclada, ViewGroup viwParent) {
 
-    ItmConsulta itmCadastro;
-    TextView txtRegistroCampo001;
-    TextView txtRegistroCampo002;
-    TextView txtRegistroCampo003;
-    TextView txtRegistroNome;
+    ItmConsulta itm;
     View viwResultado = null;
 
     try {
 
-      if (viwReciclada == null) {
+      viwResultado = viwReciclada == null ? this.getLif().inflate(R.layout.itm_consulta, null) : viwReciclada;
 
-        viwResultado = this.getObjLayoutInflater().inflate(R.layout.itm_consulta, null);
-      }
-      else {
+      itm = this.getLstItmConsulta().get(intPosicao);
 
-        viwResultado = viwReciclada;
-      }
-
-      txtRegistroNome = (TextView) viwResultado.findViewById(R.id.itmCadastro_txtNome);
-
-      txtRegistroCampo001 = (TextView) viwResultado.findViewById(R.id.itmCadastro_txtCampo001);
-      txtRegistroCampo002 = (TextView) viwResultado.findViewById(R.id.itmCadastro_txtCampo002);
-      txtRegistroCampo003 = (TextView) viwResultado.findViewById(R.id.itmCadastro_txtCampo003);
-
-      itmCadastro = this.getLstItmConsulta().get(position);
-
-      txtRegistroNome.setText(itmCadastro.getStrNomeExibicao());
-      txtRegistroCampo001.setText(itmCadastro.getStrCampo001());
-
-      if (UtilsAndroid.getBooStrVazia(itmCadastro.getStrCampo1Valor())) {
-
-        txtRegistroCampo001.setVisibility(View.GONE);
-      }
-
-      txtRegistroCampo002.setText(itmCadastro.getstrCampo2());
-
-      if (UtilsAndroid.getBooStrVazia(itmCadastro.getStrCampo2Valor())) {
-
-        txtRegistroCampo002.setVisibility(View.GONE);
-      }
-
-      txtRegistroCampo003.setText(itmCadastro.getstrCampo3());
-
-      if (UtilsAndroid.getBooStrVazia(itmCadastro.getStrCampo3Valor())) {
-
-        txtRegistroCampo003.setVisibility(View.GONE);
-      }
+      itm.setViw(viwResultado);
+      itm.montarLayout();
     }
     catch (Exception ex) {
 
@@ -197,16 +213,23 @@ public class AdpConsulta extends BaseAdapter implements Filterable {
     return viwResultado;
   }
 
+  public void setActConsulta(ActConsulta actConsulta) {
+
+    _actConsulta = actConsulta;
+  }
+
   private void setLstItmConsulta(List<ItmConsulta> lstItmConsulta) {
 
     try {
 
       _lstItmConsulta = lstItmConsulta;
 
-      if (this.getLstItmConsultaSemFiltro() == null) {
+      if (this.getLstItmConsultaSemFiltro() != null) {
 
-        this.setLstItmConsultaSemFiltro(_lstItmConsulta);
+        return;
       }
+
+      this.setLstItmConsultaSemFiltro(_lstItmConsulta);
     }
     catch (Exception ex) {
 
@@ -219,10 +242,5 @@ public class AdpConsulta extends BaseAdapter implements Filterable {
   private void setLstItmConsultaSemFiltro(List<ItmConsulta> lstItmConsultaSemFiltro) {
 
     _lstItmConsultaSemFiltro = lstItmConsultaSemFiltro;
-  }
-
-  private void setObjLayoutInflater(LayoutInflater objLayoutInflater) {
-
-    _objLayoutInflater = objLayoutInflater;
   }
 }

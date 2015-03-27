@@ -426,7 +426,8 @@ public abstract class DbTabelaAndroid extends DbTabela {
 
         itmConsulta = new ItmConsulta();
 
-        itmConsulta.carregarDados(this, crs);
+        itmConsulta.setTbl(this);
+        itmConsulta.carregarDados(crs);
 
         _lstItmConsulta.add(itmConsulta);
       }
@@ -701,36 +702,35 @@ public abstract class DbTabelaAndroid extends DbTabela {
 
   private String getSqlSelectColunasNomesConsulta() {
 
+    List<DbColuna> lstClnAdicionada;
     String strResultado = null;
-    String str;
 
     try {
 
+      lstClnAdicionada = new ArrayList<>();
       strResultado = Utils.STR_VAZIA;
 
       for (DbColuna cln : this.getLstClnConsulta()) {
 
-        if (cln.getClnRef() == null) {
-
-          str = "_tbl_nome._cln_nome, ";
-
-          str = str.replace("_tbl_nome", cln.getTbl().getStrNomeSimplificado());
-          str = str.replace("_cln_nome", cln.getStrNomeSimplificado());
-
-          strResultado += str;
+        if (cln == null) {
 
           continue;
         }
 
-        str = "(select _tbl_ref_nome._cln_ref_nome from _tbl_ref_nome where _tbl_ref_nome._cln_ref_pk = _tbl_nome._cln_nome) _cln_nome, ";
+        if (lstClnAdicionada.contains(cln)) {
 
-        str = str.replace("_tbl_ref_nome", cln.getClnRef().getTbl().getStrNomeSimplificado());
-        str = str.replace("_cln_ref_nome", cln.getClnRef().getTbl().getClnNome().getStrNomeSimplificado());
-        str = str.replace("_cln_ref_pk", cln.getClnRef().getTbl().getClnChavePrimaria().getStrNomeSimplificado());
-        str = str.replace("_tbl_nome", cln.getTbl().getStrNomeSimplificado());
-        str = str.replace("_cln_nome", cln.getStrNomeSimplificado());
+          continue;
+        }
 
-        strResultado += str;
+        if (cln.getClnRef() == null) {
+
+          strResultado += cln.getStrTblNomeClnNome();
+          lstClnAdicionada.add(cln);
+          continue;
+        }
+
+        strResultado += cln.getSqlSubSelectColunaRef();
+        lstClnAdicionada.add(cln);
       }
 
       strResultado = Utils.removerUltimaLetra(strResultado, 2);

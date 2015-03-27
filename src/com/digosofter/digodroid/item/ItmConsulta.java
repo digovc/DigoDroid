@@ -1,50 +1,48 @@
 package com.digosofter.digodroid.item;
 
-import android.database.Cursor;
+import java.util.ArrayList;
+import java.util.List;
 
-import com.digosofter.digodroid.AppAndroid;
+import android.database.Cursor;
+import android.view.View;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+
+import com.digosofter.digodroid.R;
 import com.digosofter.digodroid.database.DbTabelaAndroid;
 import com.digosofter.digodroid.erro.ErroAndroid;
 import com.digosofter.digojava.Objeto;
 import com.digosofter.digojava.Utils;
+import com.digosofter.digojava.database.DbColuna;
+import com.digosofter.digojava.erro.Erro;
 
-// TODO: Tornar dinâmico o número de campo do item dependendo da
-// quantidade de colunas setadas para aparecer na consulta.
 public class ItmConsulta extends Objeto {
 
-  private String _strCampo1;
-  private String _strCampo1Nome;
-  private String _strCampo1Valor;
-  private String _strCampo2;
-  private String _strCampo2Nome;
-  private String _strCampo2Valor;
-  private String _strCampo3;
-  private String _strCampo3Nome;
-  private String _strCampo3Valor;
-  private String _strItemId;
+  private int _intRegistroId;
+  private List<ItmCampo> _lstItmCampo;
+  private LinearLayout _pnlCampoContainer;
+  private DbTabelaAndroid _tbl;
+  private TextView _txtNome;
+  private View _viw;
 
-  public void carregarDados(DbTabelaAndroid tbl, Cursor crs) {
+  public void carregarDados(Cursor crs) {
 
     try {
-
-      if (tbl == null) {
-
-        return;
-      }
 
       if (crs == null) {
 
         return;
       }
 
-      tbl.getClnNome().setStrValor(crs.getString(crs.getColumnIndex(tbl.getClnNome().getStrNomeSimplificado())));
+      if (this.getTbl() == null) {
 
-      this.setStrItemId(crs.getString(crs.getColumnIndex(tbl.getClnChavePrimaria().getStrNomeSimplificado())));
-      this.setStrNome(tbl.getClnNome().getStrValorExibicao());
+        return;
+      }
 
-      this.carregarDadosCampo1(tbl, crs);
-      this.carregarDadosCampo2(tbl, crs);
-      this.carregarDadosCampo3(tbl, crs);
+      this.setStrNome(crs.getString(crs.getColumnIndex(this.getTbl().getClnNome().getStrNomeSimplificado())));
+      this.setIntRegistroId(crs.getInt(crs.getColumnIndex(this.getTbl().getClnChavePrimaria().getStrNomeSimplificado())));
+
+      this.carregarDadosItem(crs);
     }
     catch (Exception ex) {
 
@@ -54,29 +52,34 @@ public class ItmConsulta extends Objeto {
     }
   }
 
-  private void carregarDadosCampo1(DbTabelaAndroid tbl, Cursor crs) {
+  private void carregarDadosItem(Cursor crs) {
 
     try {
-
-      if (tbl == null) {
-
-        return;
-      }
 
       if (crs == null) {
 
         return;
       }
 
-      if (tbl.getLstClnConsulta().size() < 3) {
+      if (this.getTbl() == null) {
 
         return;
       }
 
-      tbl.getLstClnConsulta().get(2).setStrValor(crs.getString(crs.getColumnIndex(tbl.getLstClnConsulta().get(2).getStrNomeSimplificado())));
+      for (DbColuna cln : this.getTbl().getLstClnConsulta()) {
 
-      this.setStrCampo1Nome(tbl.getLstClnConsulta().get(2).getStrNomeExibicao());
-      this.setStrCampo1Valor(tbl.getLstClnConsulta().get(2).getStrValorExibicao());
+        if (cln == null) {
+
+          continue;
+        }
+
+        if (!cln.getBooVisivelConsulta()) {
+
+          continue;
+        }
+
+        this.carregarDadosItem(crs, cln);
+      }
     }
     catch (Exception ex) {
 
@@ -84,32 +87,35 @@ public class ItmConsulta extends Objeto {
     }
     finally {
     }
-
   }
 
-  private void carregarDadosCampo2(DbTabelaAndroid tbl, Cursor crs) {
+  private void carregarDadosItem(Cursor crs, DbColuna cln) {
+
+    ItmCampo itmCampo;
 
     try {
-
-      if (tbl == null) {
-
-        return;
-      }
 
       if (crs == null) {
 
         return;
       }
 
-      if (tbl.getLstClnConsulta().size() < 4) {
+      if (cln == null) {
 
         return;
       }
 
-      tbl.getLstClnConsulta().get(3).setStrValor(crs.getString(crs.getColumnIndex(tbl.getLstClnConsulta().get(3).getStrNomeSimplificado())));
+      if (!cln.getBooVisivelConsulta()) {
 
-      this.setStrCampo2Nome(tbl.getLstClnConsulta().get(3).getStrNomeExibicao());
-      this.setStrCampo2Valor(tbl.getLstClnConsulta().get(3).getStrValorExibicao());
+        return;
+      }
+
+      itmCampo = new ItmCampo();
+
+      itmCampo.setCln(cln);
+      itmCampo.carregarDados(crs);
+
+      this.getLstItmCampo().add(itmCampo);
     }
     catch (Exception ex) {
 
@@ -117,62 +123,6 @@ public class ItmConsulta extends Objeto {
     }
     finally {
     }
-
-  }
-
-  private void carregarDadosCampo3(DbTabelaAndroid tbl, Cursor crs) {
-
-    try {
-
-      if (tbl == null) {
-
-        return;
-      }
-
-      if (crs == null) {
-
-        return;
-      }
-
-      if (tbl.getLstClnConsulta().size() < 5) {
-
-        return;
-      }
-
-      tbl.getLstClnConsulta().get(4).setStrValor(crs.getString(crs.getColumnIndex(tbl.getLstClnConsulta().get(4).getStrNomeSimplificado())));
-
-      this.setStrCampo3Nome(tbl.getLstClnConsulta().get(4).getStrNomeExibicao());
-      this.setStrCampo3Valor(tbl.getLstClnConsulta().get(4).getStrValorExibicao());
-    }
-    catch (Exception ex) {
-
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally {
-    }
-
-  }
-
-  private String formatarValor(String strValor) {
-
-    try {
-
-      if (Utils.getBooStrVazia(strValor)) {
-
-        return Utils.STR_VAZIA;
-      }
-
-      strValor = strValor.replace("true", "Sim");
-      strValor = strValor.replace("false", "Não");
-    }
-    catch (Exception ex) {
-
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally {
-    }
-
-    return strValor;
   }
 
   public boolean getBooContemTermo(String strTermo) {
@@ -184,25 +134,7 @@ public class ItmConsulta extends Objeto {
         return true;
       }
 
-      if (this.getStrNome().contains(strTermo)) {
-
-        return true;
-      }
-
-      if (this.getStrCampo1Valor().contains(strTermo)) {
-
-        return true;
-      }
-
-      if (this.getStrCampo2Valor().contains(strTermo)) {
-
-        return true;
-      }
-
-      if (this.getStrCampo3Valor().contains(strTermo)) {
-
-        return true;
-      }
+      // TODO: Resolver.
     }
     catch (Exception ex) {
 
@@ -213,184 +145,141 @@ public class ItmConsulta extends Objeto {
     return false;
   }
 
-  public String getStrCampo001() {
+  public int getIntRegistroId() {
+
+    return _intRegistroId;
+  }
+
+  private List<ItmCampo> getLstItmCampo() {
 
     try {
 
-      if (!Utils.getBooStrVazia(_strCampo1)) {
+      if (_lstItmCampo != null) {
 
-        return _strCampo1;
+        return _lstItmCampo;
       }
 
-      _strCampo1 = this.getStrCampo1Nome() + ": " + this.getStrCampo1Valor();
+      _lstItmCampo = new ArrayList<ItmCampo>();
     }
     catch (Exception ex) {
 
-      new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(0), ex);
+      new Erro("Erro inesperado.\n", ex);
     }
     finally {
     }
 
-    return _strCampo1;
+    return _lstItmCampo;
   }
 
-  public String getStrCampo1Nome() {
-
-    return _strCampo1Nome;
-  }
-
-  public String getStrCampo1Valor() {
+  private LinearLayout getPnlCampoContainer() {
 
     try {
 
-      if (!Utils.getBooStrVazia(_strCampo1Valor)) {
+      if (_pnlCampoContainer != null) {
 
-        return _strCampo1Valor;
+        return _pnlCampoContainer;
       }
 
-      _strCampo1Valor = this.formatarValor(_strCampo1Valor);
+      _pnlCampoContainer = (LinearLayout) this.getViw().findViewById(R.id.itmConsulta_pnlCampoContainer);
     }
     catch (Exception ex) {
 
-      new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(0), ex);
+      new Erro("Erro inesperado.\n", ex);
     }
     finally {
     }
 
-    return _strCampo1Valor;
+    return _pnlCampoContainer;
   }
 
-  public String getstrCampo2() {
+  private DbTabelaAndroid getTbl() {
+
+    return _tbl;
+  }
+
+  private TextView getTxtNome() {
 
     try {
 
-      if (!Utils.getBooStrVazia(_strCampo2)) {
+      if (_txtNome != null) {
 
-        return _strCampo2;
+        return _txtNome;
       }
 
-      _strCampo2 = this.getStrCampo2Nome() + ": " + this.getStrCampo2Valor();
+      if (this.getViw() == null) {
+
+        return null;
+      }
+
+      _txtNome = (TextView) this.getViw().findViewById(R.id.itmConsulta_txtNome);
     }
     catch (Exception ex) {
 
-      new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(0), ex);
+      new ErroAndroid("Erro inesperado.\n", ex);
     }
     finally {
     }
 
-    return _strCampo2;
+    return _txtNome;
   }
 
-  public String getStrCampo2Nome() {
+  private View getViw() {
 
-    return _strCampo2Nome;
+    return _viw;
   }
 
-  public String getStrCampo2Valor() {
+  public void montarLayout() {
 
     try {
 
-      if (!Utils.getBooStrVazia(_strCampo2Valor)) {
+      if (this.getViw() == null) {
 
-        return _strCampo2Valor;
+        return;
       }
 
-      _strCampo2Valor = this.formatarValor(_strCampo2Valor);
+      this.getTxtNome().setText(this.getStrNome());
+
+      this.montarLayoutItem();
     }
     catch (Exception ex) {
 
-      new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(0), ex);
+      new ErroAndroid("Erro inesperado.\n", ex);
     }
     finally {
     }
-
-    return _strCampo2Valor;
   }
 
-  public String getstrCampo3() {
+  private void montarLayoutItem() {
 
     try {
 
-      if (!Utils.getBooStrVazia(_strCampo3)) {
+      if (this.getViw() == null) {
 
-        return _strCampo3;
+        return;
       }
 
-      _strCampo3 = this.getStrCampo3Nome() + ": " + this.getStrCampo3Valor();
+      // this.getViw().fin
     }
     catch (Exception ex) {
 
-      new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(0), ex);
+      new Erro("Erro inesperado.\n", ex);
     }
     finally {
     }
-
-    return _strCampo3;
   }
 
-  public String getStrCampo3Nome() {
+  private void setIntRegistroId(int intRegistroId) {
 
-    return _strCampo3Nome;
+    _intRegistroId = intRegistroId;
   }
 
-  public String getStrCampo3Valor() {
+  public void setTbl(DbTabelaAndroid tbl) {
 
-    try {
-
-      if (!Utils.getBooStrVazia(_strCampo3Valor)) {
-
-        return _strCampo3Valor;
-      }
-
-      _strCampo3Valor = this.formatarValor(_strCampo3Valor);
-    }
-    catch (Exception ex) {
-
-      new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(0), ex);
-    }
-    finally {
-    }
-
-    return _strCampo3Valor;
+    _tbl = tbl;
   }
 
-  public String getStrItemId() {
+  public void setViw(View viw) {
 
-    return _strItemId;
-  }
-
-  private void setStrCampo1Nome(String strCampo1Nome) {
-
-    _strCampo1Nome = strCampo1Nome;
-  }
-
-  private void setStrCampo1Valor(String strCampo1Valor) {
-
-    _strCampo1Valor = strCampo1Valor;
-  }
-
-  private void setStrCampo2Nome(String strCampo2Nome) {
-
-    _strCampo2Nome = strCampo2Nome;
-  }
-
-  private void setStrCampo2Valor(String strCampo2Valor) {
-
-    _strCampo2Valor = strCampo2Valor;
-  }
-
-  private void setStrCampo3Nome(String strCampo3Nome) {
-
-    _strCampo3Nome = strCampo3Nome;
-  }
-
-  private void setStrCampo3Valor(String strCampo3Valor) {
-
-    _strCampo3Valor = strCampo3Valor;
-  }
-
-  private void setStrItemId(String strItemId) {
-
-    _strItemId = strItemId;
+    _viw = viw;
   }
 }

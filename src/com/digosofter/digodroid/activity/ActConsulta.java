@@ -59,6 +59,24 @@ public class ActConsulta extends ActMain {
 
   private AdpConsulta getAdpCadastro() {
 
+    try {
+
+      if (_adpCadastro != null) {
+
+        return _adpCadastro;
+      }
+
+      _adpCadastro = new AdpConsulta();
+
+      _adpCadastro.setActConsulta(this);
+    }
+    catch (Exception ex) {
+
+      new Erro("Erro inesperado.\n", ex);
+    }
+    finally {
+    }
+
     return _adpCadastro;
   }
 
@@ -177,7 +195,6 @@ public class ActConsulta extends ActMain {
 
     try {
 
-      this.setAdpCadastro(new AdpConsulta(this, this.getTbl().getLstItmConsulta()));
       this.getPnlTblLista().setAdapter(this.getAdpCadastro());
     }
     catch (Exception ex) {
@@ -194,11 +211,13 @@ public class ActConsulta extends ActMain {
 
       this.setTitle(this.getTbl().getStrNomeExibicao());
 
-      if (!Utils.getBooStrVazia(this.getTbl().getStrDescricao())) {
+      if (Utils.getBooStrVazia(this.getTbl().getStrDescricao())) {
 
-        this.getTxtTblDescricao().setText(this.getTbl().getStrDescricao());
-        this.getTxtTblDescricao().setVisibility(View.VISIBLE);
+        return;
       }
+
+      this.getTxtTblDescricao().setText(this.getTbl().getStrDescricao());
+      this.getTxtTblDescricao().setVisibility(View.VISIBLE);
     }
     catch (Exception ex) {
 
@@ -228,6 +247,27 @@ public class ActConsulta extends ActMain {
     }
 
     return super.onCreateOptionsMenu(objMenu);
+  }
+
+  protected void onItemClick(ItmConsulta itm) {
+
+    Intent objIntent;
+
+    try {
+
+      objIntent = new Intent();
+      // TODO: Descomentar.
+      // objIntent.putExtra("id", itm.getStrItemId());
+
+      ActConsulta.this.setResult(ActConsulta.EnmResultadoTipo.REGISTRO_SELECIONADO.ordinal(), objIntent);
+      ActConsulta.this.finish();
+    }
+    catch (Exception ex) {
+
+      new Erro("Erro inesperado.\n", ex);
+    }
+    finally {
+    }
   }
 
   @Override
@@ -282,11 +322,6 @@ public class ActConsulta extends ActMain {
     }
     finally {
     }
-  }
-
-  private void setAdpCadastro(AdpConsulta adpCadastro) {
-
-    _adpCadastro = adpCadastro;
   }
 
   @Override
@@ -344,7 +379,6 @@ public class ActConsulta extends ActMain {
         @Override
         public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
 
-          ItmConsulta objItem;
           Intent objIntent;
 
           try {
@@ -354,9 +388,11 @@ public class ActConsulta extends ActMain {
               return false;
             }
 
-            objItem = (ItmConsulta) ActConsulta.this.getPnlTblLista().getItemAtPosition(position);
+            // (ItmConsulta)
+            // ActConsulta.this.getPnlTblLista().getItemAtPosition(position);
             objIntent = new Intent(ActConsulta.this.getApplicationContext(), ActConsulta.this.getTbl().getClsActCadastro());
-            objIntent.putExtra("id", objItem.getStrItemId());
+            // TODO: Descomentar.
+            // objIntent.putExtra("id", objItem.getStrItemId());
 
             ActConsulta.this.setResult(ActConsulta.EnmResultadoTipo.REGISTRO_SELECIONADO.ordinal(), objIntent);
             ActConsulta.this.startActivity(objIntent);
@@ -401,26 +437,6 @@ public class ActConsulta extends ActMain {
     catch (Exception ex) {
 
       new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(116), ex);
-    }
-    finally {
-    }
-  }
-
-  protected void onItemClick(ItmConsulta itm) {
-
-    Intent objIntent;
-
-    try {
-
-      objIntent = new Intent();
-      objIntent.putExtra("id", itm.getStrItemId());
-
-      ActConsulta.this.setResult(ActConsulta.EnmResultadoTipo.REGISTRO_SELECIONADO.ordinal(), objIntent);
-      ActConsulta.this.finish();
-    }
-    catch (Exception ex) {
-
-      new Erro("Erro inesperado.\n", ex);
     }
     finally {
     }
