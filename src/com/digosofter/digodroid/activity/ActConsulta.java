@@ -256,8 +256,7 @@ public class ActConsulta extends ActMain {
     try {
 
       objIntent = new Intent();
-      // TODO: Descomentar.
-      // objIntent.putExtra("id", itm.getStrItemId());
+      objIntent.putExtra("registro_id", itm.getIntRegistroId());
 
       ActConsulta.this.setResult(ActConsulta.EnmResultadoTipo.REGISTRO_SELECIONADO.ordinal(), objIntent);
       ActConsulta.this.finish();
