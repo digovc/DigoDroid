@@ -21,7 +21,6 @@ import com.digosofter.digodroid.item.ItmConsulta;
 public class AdpConsulta extends BaseAdapter implements Filterable {
 
   private ActConsulta _actConsulta;
-  private LayoutInflater _lif;
   private List<ItmConsulta> _lstItmConsulta;
   private List<ItmConsulta> _lstItmConsultaSemFiltro;
   private DbTabelaAndroid _tbl;
@@ -112,27 +111,6 @@ public class AdpConsulta extends BaseAdapter implements Filterable {
     return position;
   }
 
-  private LayoutInflater getLif() {
-
-    try {
-
-      if (_lif != null) {
-
-        return _lif;
-      }
-
-      _lif = LayoutInflater.from(this.getActConsulta());
-    }
-    catch (Exception ex) {
-
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally {
-    }
-
-    return _lif;
-  }
-
   private List<ItmConsulta> getLstItmConsulta() {
 
     try {
@@ -196,7 +174,7 @@ public class AdpConsulta extends BaseAdapter implements Filterable {
 
     try {
 
-      viwResultado = viwReciclada == null ? this.getLif().inflate(R.layout.itm_consulta, null) : viwReciclada;
+      viwResultado = viwReciclada == null ? LayoutInflater.from(this.getActConsulta()).inflate(R.layout.itm_consulta, null) : viwReciclada;
 
       itm = this.getLstItmConsulta().get(intPosicao);
 

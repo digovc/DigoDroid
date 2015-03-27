@@ -2,6 +2,7 @@ package com.digosofter.digodroid.activity;
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.app.ActionBar.LayoutParams;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;

@@ -280,7 +280,7 @@ public class ActConsulta extends ActMain {
         return true;
       }
 
-      if (itm.getItemId() == R.id.actCadastro_actionBar_itmNovo) {
+      if (itm.getItemId() == R.id.actConsultaAction_btnNovo) {
 
         this.startActivity(new Intent(this, this.getTbl().getClsActCadastro()));
         return true;

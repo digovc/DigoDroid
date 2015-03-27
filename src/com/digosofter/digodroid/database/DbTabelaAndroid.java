@@ -325,7 +325,7 @@ public abstract class DbTabelaAndroid extends DbTabela {
       sql = sql.replace("_tbl_nome", this.getStrNomeSimplificado());
       sql = sql.replace("where _where", lstObjDbFiltro != null && lstObjDbFiltro.size() > 0 ? "where _where" : Utils.STR_VAZIA);
       sql = sql.replace("_where", this.getSqlWhere(lstObjDbFiltro));
-      sql = sql.replace("_order", this.getClnOrdemCadastro().getStrNomeSimplificado());
+      sql = sql.replace("_order", this.getClnOrdem().getStrNomeSimplificado());
 
       crsResultado = this.getObjDb().execSqlComRetorno(sql);
     }
@@ -351,13 +351,13 @@ public abstract class DbTabelaAndroid extends DbTabela {
 
     try {
 
-      sql = "select _clns_nome from _tbl_nome where _where order by _tbl_nome._order;";
+      sql = "select _clns_nome from _tbl_nome where _where order by _order;";
 
       sql = sql.replace("_clns_nome", this.getSqlSelectColunasNomesConsulta());
       sql = sql.replace("_tbl_nome", this.getStrNomeSimplificado());
       sql = sql.replace("where _where", this.getLstObjDbFiltroConsulta() != null && this.getLstObjDbFiltroConsulta().size() > 0 ? "where _where" : Utils.STR_VAZIA);
       sql = sql.replace("_where", this.getSqlWhere(this.getLstObjDbFiltroConsulta()));
-      sql = sql.replace("_order", this.getClnOrdemCadastro().getStrNomeSimplificado());
+      sql = sql.replace("_order", this.getClnOrdem().getStrNomeSimplificado());
 
       crsResultado = this.getObjDb().execSqlComRetorno(sql);
     }

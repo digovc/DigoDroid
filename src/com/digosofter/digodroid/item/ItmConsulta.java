@@ -22,6 +22,7 @@ public class ItmConsulta extends Objeto {
   private List<ItmCampo> _lstItmCampo;
   private LinearLayout _pnlCampoContainer;
   private DbTabelaAndroid _tbl;
+  private TextView _txtId;
   private TextView _txtNome;
   private View _viw;
 
@@ -73,6 +74,16 @@ public class ItmConsulta extends Objeto {
           continue;
         }
 
+        if (cln.getBooChavePrimaria()) {
+
+          continue;
+        }
+
+        if (cln.getBooClnNome()) {
+
+          continue;
+        }
+
         if (!cln.getBooVisivelConsulta()) {
 
           continue;
@@ -96,11 +107,6 @@ public class ItmConsulta extends Objeto {
     try {
 
       if (crs == null) {
-
-        return;
-      }
-
-      if (cln == null) {
 
         return;
       }
@@ -197,6 +203,32 @@ public class ItmConsulta extends Objeto {
     return _tbl;
   }
 
+  private TextView getTxtId() {
+
+    try {
+
+      if (_txtId != null) {
+
+        return _txtId;
+      }
+
+      if (this.getViw() == null) {
+
+        return null;
+      }
+
+      _txtId = (TextView) this.getViw().findViewById(R.id.itmConsulta_txtId);
+    }
+    catch (Exception ex) {
+
+      new ErroAndroid("Erro inesperado.\n", ex);
+    }
+    finally {
+    }
+
+    return _txtId;
+  }
+
   private TextView getTxtNome() {
 
     try {
@@ -223,7 +255,7 @@ public class ItmConsulta extends Objeto {
     return _txtNome;
   }
 
-  private View getViw() {
+  public View getViw() {
 
     return _viw;
   }
@@ -237,6 +269,7 @@ public class ItmConsulta extends Objeto {
         return;
       }
 
+      this.getTxtId().setText(String.valueOf(this.getIntRegistroId()) + " ");
       this.getTxtNome().setText(this.getStrNome());
 
       this.montarLayoutItem();
@@ -258,7 +291,38 @@ public class ItmConsulta extends Objeto {
         return;
       }
 
-      // this.getViw().fin
+      this.getPnlCampoContainer().removeAllViews();
+
+      for (ItmCampo itmCampo : this.getLstItmCampo()) {
+
+        if (itmCampo == null) {
+
+          continue;
+        }
+
+        this.montarLayoutItem(itmCampo);
+      }
+    }
+    catch (Exception ex) {
+
+      new Erro("Erro inesperado.\n", ex);
+    }
+    finally {
+    }
+  }
+
+  private void montarLayoutItem(ItmCampo itmCampo) {
+
+    try {
+
+      if (itmCampo == null) {
+
+        return;
+      }
+
+      itmCampo.montarLayout();
+
+      this.getPnlCampoContainer().addView(itmCampo.getViw());
     }
     catch (Exception ex) {
 
@@ -273,13 +337,56 @@ public class ItmConsulta extends Objeto {
     _intRegistroId = intRegistroId;
   }
 
+  private void setPnlCampoContainer(LinearLayout pnlCampoContainer) {
+
+    _pnlCampoContainer = pnlCampoContainer;
+  }
+
   public void setTbl(DbTabelaAndroid tbl) {
 
     _tbl = tbl;
   }
 
+  private void setTxtId(TextView txtId) {
+
+    _txtId = txtId;
+
+  }
+
+  private void setTxtNome(TextView txtNome) {
+
+    _txtNome = txtNome;
+  }
+
   public void setViw(View viw) {
 
-    _viw = viw;
+    try {
+
+      _viw = viw;
+
+      this.zerarLayout();
+    }
+    catch (Exception ex) {
+
+      new Erro("Erro inesperado.\n", ex);
+    }
+    finally {
+    }
+  }
+
+  private void zerarLayout() {
+
+    try {
+
+      this.setPnlCampoContainer(null);
+      this.setTxtId(null);
+      this.setTxtNome(null);
+    }
+    catch (Exception ex) {
+
+      new Erro("Erro inesperado.\n", ex);
+    }
+    finally {
+    }
   }
 }

@@ -2,7 +2,7 @@
     xmlns:netzmobile="http://schemas.android.com/apk/res-auto" >
 
     <item
-        android:id="@+id/actCadastro_actionBar_itmNovo"
+        android:id="@+id/actConsultaAction_btnNovo"
         android:icon="@drawable/ic_novo"
         android:orderInCategory="100"
         android:showAsAction="always"
