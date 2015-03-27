@@ -37,6 +37,8 @@ public class ActConsulta extends ActMain {
     VOLTAR
   }
 
+  public static final String STR_RETORNO_REGISTRO_ID = "registro_id";
+
   private AdpConsulta _adpCadastro;
   private EditText _edtPesquisa;
   private ListView _pnlTblLista;
@@ -256,7 +258,7 @@ public class ActConsulta extends ActMain {
     try {
 
       objIntent = new Intent();
-      objIntent.putExtra("registro_id", itm.getIntRegistroId());
+      objIntent.putExtra(ActConsulta.STR_RETORNO_REGISTRO_ID, itm.getIntRegistroId());
 
       ActConsulta.this.setResult(ActConsulta.EnmResultadoTipo.REGISTRO_SELECIONADO.ordinal(), objIntent);
       ActConsulta.this.finish();
