@@ -16,6 +16,7 @@ import com.digosofter.digojava.Objeto;
 public abstract class HttpUtils extends Objeto {
 
   public static HttpResponse postData(String uri, List<NameValuePair> lstNameValuePair) {
+
     // VARIÁVEIS
 
     HttpClient objHttpclient;
@@ -35,11 +36,13 @@ public abstract class HttpUtils extends Objeto {
       objHttpResponseResultado = objHttpclient.execute(objHttppost);
 
       // FIM AÇÕES
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(0), ex);
 
-    } finally {
+    }
+    finally {
     }
 
     return objHttpResponseResultado;

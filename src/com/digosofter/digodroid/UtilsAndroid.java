@@ -48,7 +48,7 @@ public abstract class UtilsAndroid extends Utils {
       @Override
       public void onTextChanged(CharSequence s, int start, int before, int count) {
 
-        String str = UtilsAndroid.removerMascara(s.toString());
+        String str = Utils.removerMascara(s.toString());
         String mascara = "";
         if (isUpdating) {
           old = str;

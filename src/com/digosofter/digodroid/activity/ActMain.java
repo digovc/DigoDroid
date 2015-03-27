@@ -2,7 +2,6 @@ package com.digosofter.digodroid.activity;
 
 import android.app.Activity;
 import android.app.Fragment;
-import android.app.ActionBar.LayoutParams;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -69,11 +68,6 @@ public abstract class ActMain extends Activity {
     return (CheckBox) this.getView(intId);
   }
 
-  protected ProgressBar getProgressBar(int intId) {
-
-    return (ProgressBar) this.getView(intId);
-  }
-
   protected EditText getEditText(int intId) {
 
     return (EditText) this.getView(intId);
@@ -94,6 +88,11 @@ public abstract class ActMain extends Activity {
   protected ListView getListView(int intId) {
 
     return (ListView) this.getView(intId);
+  }
+
+  protected ProgressBar getProgressBar(int intId) {
+
+    return (ProgressBar) this.getView(intId);
   }
 
   protected RadioButton getRadioButton(int intId) {
@@ -170,6 +169,33 @@ public abstract class ActMain extends Activity {
   }
 
   @Override
+  public boolean onOptionsItemSelected(MenuItem itm) {
+
+    try {
+
+      if (super.onOptionsItemSelected(itm)) {
+        return true;
+      }
+
+      switch (itm.getItemId()) {
+
+        case android.R.id.home:
+          this.onBackPressed();
+          return true;
+      }
+    }
+    catch (Exception ex) {
+
+      new ErroAndroid("Erro inesperado.\n", ex);
+
+    }
+    finally {
+    }
+
+    return false;
+  }
+
+  @Override
   protected void onStart() {
 
     super.onStart();
@@ -204,33 +230,6 @@ public abstract class ActMain extends Activity {
   private void setBooVisivel(boolean booVisivel) {
 
     _booVisivel = booVisivel;
-  }
-
-  @Override
-  public boolean onOptionsItemSelected(MenuItem itm) {
-
-    try {
-
-      if (super.onOptionsItemSelected(itm)) {
-        return true;
-      }
-
-      switch (itm.getItemId()) {
-
-        case android.R.id.home:
-          this.onBackPressed();
-          return true;
-      }
-    }
-    catch (Exception ex) {
-
-      new ErroAndroid("Erro inesperado.\n", ex);
-
-    }
-    finally {
-    }
-
-    return false;
   }
 
   protected void setEventos() {

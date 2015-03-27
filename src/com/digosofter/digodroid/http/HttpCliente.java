@@ -7,9 +7,9 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.util.EntityUtils;
 
 import com.digosofter.digodroid.AppAndroid;
-import com.digosofter.digodroid.UtilsAndroid;
 import com.digosofter.digodroid.erro.ErroAndroid;
 import com.digosofter.digojava.Objeto;
+import com.digosofter.digojava.Utils;
 
 public class HttpCliente extends Objeto {
 
@@ -20,8 +20,8 @@ public class HttpCliente extends Objeto {
   }
 
   private EnmStatus _enmStatus = EnmStatus.NONE;
-  private HttpResponse _objHttpResponse;
   private String _jsn;
+  private HttpResponse _objHttpResponse;
   private String _strResposta;
   private String _url;
 
@@ -30,14 +30,14 @@ public class HttpCliente extends Objeto {
     return _enmStatus;
   }
 
-  public HttpResponse getObjHttpResponse() {
-
-    return _objHttpResponse;
-  }
-
   private String getJsn() {
 
     return _jsn;
+  }
+
+  public HttpResponse getObjHttpResponse() {
+
+    return _objHttpResponse;
   }
 
   public String getStrResposta() {
@@ -46,7 +46,7 @@ public class HttpCliente extends Objeto {
 
       if (this.getObjHttpResponse() == null) {
 
-        return UtilsAndroid.STR_VAZIA;
+        return Utils.STR_VAZIA;
       }
 
       _strResposta = EntityUtils.toString(this.getObjHttpResponse().getEntity());
@@ -129,14 +129,14 @@ public class HttpCliente extends Objeto {
     _enmStatus = enmStatus;
   }
 
-  private void setObjHttpResponse(HttpResponse objHttpResponse) {
-
-    _objHttpResponse = objHttpResponse;
-  }
-
   private void setJsn(String jsn) {
 
     _jsn = jsn;
+  }
+
+  private void setObjHttpResponse(HttpResponse objHttpResponse) {
+
+    _objHttpResponse = objHttpResponse;
   }
 
   public void setUrl(String url) {
