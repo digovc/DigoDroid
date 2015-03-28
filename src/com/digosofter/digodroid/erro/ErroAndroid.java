@@ -17,7 +17,7 @@ public class ErroAndroid extends Erro implements Serializable {
 
     super(strMsg, ex);
 
-    Intent objIntent;
+    Intent itt;
 
     try {
 
@@ -26,10 +26,10 @@ public class ErroAndroid extends Erro implements Serializable {
         return;
       }
 
-      objIntent = new Intent(AppAndroid.getI().getCnt(), ActErro.class);
-      objIntent.putExtra("Erro", this);
+      itt = new Intent(AppAndroid.getI().getCnt(), ActErro.class);
+      itt.putExtra(ActErro.EXTRA_IN_OBJ_ERRO, this);
 
-      AppAndroid.getI().getActMain().startActivity(objIntent);
+      AppAndroid.getI().getActMain().startActivity(itt);
     }
     catch (Exception e) {
     }

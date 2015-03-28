@@ -37,7 +37,7 @@ public class ActConsulta extends ActMain {
     VOLTAR
   }
 
-  public static final String STR_RETORNO_REGISTRO_ID = "registro_id";
+  public static final String EXTRA_OUT_REGISTRO_ID = "registro_id";
 
   private AdpConsulta _adpCadastro;
   private EditText _edtPesquisa;
@@ -258,7 +258,7 @@ public class ActConsulta extends ActMain {
     try {
 
       objIntent = new Intent();
-      objIntent.putExtra(ActConsulta.STR_RETORNO_REGISTRO_ID, itm.getIntRegistroId());
+      objIntent.putExtra(ActConsulta.EXTRA_OUT_REGISTRO_ID, itm.getIntRegistroId());
 
       ActConsulta.this.setResult(ActConsulta.EnmResultadoTipo.REGISTRO_SELECIONADO.ordinal(), objIntent);
       ActConsulta.this.finish();
@@ -354,7 +354,7 @@ public class ActConsulta extends ActMain {
       this.getPnlTblLista().setOnItemClickListener(new OnItemClickListener() {
 
         @Override
-        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        public void onItemClick(AdapterView<?> advParent, View viw, int intPosition, long intId) {
 
           ItmConsulta itm;
 
@@ -362,7 +362,7 @@ public class ActConsulta extends ActMain {
 
             ActConsulta.this.getTbl().setStrPesquisaActConsulta(ActConsulta.this.getEdtPesquisa().getText().toString());
 
-            itm = (ItmConsulta) ActConsulta.this.getPnlTblLista().getItemAtPosition(position);
+            itm = (ItmConsulta) ActConsulta.this.getPnlTblLista().getItemAtPosition(intPosition);
 
             ActConsulta.this.onItemClick(itm);
           }
@@ -378,9 +378,10 @@ public class ActConsulta extends ActMain {
       this.getPnlTblLista().setOnItemLongClickListener(new OnItemLongClickListener() {
 
         @Override
-        public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+        public boolean onItemLongClick(AdapterView<?> advParent, View viw, int intPosition, long intId) {
 
-          Intent objIntent;
+          Intent itt;
+          ItmConsulta itm;
 
           try {
 
@@ -389,14 +390,13 @@ public class ActConsulta extends ActMain {
               return false;
             }
 
-            // (ItmConsulta)
-            // ActConsulta.this.getPnlTblLista().getItemAtPosition(position);
-            objIntent = new Intent(ActConsulta.this.getApplicationContext(), ActConsulta.this.getTbl().getClsActCadastro());
-            // TODO: Descomentar.
-            // objIntent.putExtra("id", objItem.getStrItemId());
+            itm = (ItmConsulta) ActConsulta.this.getPnlTblLista().getItemAtPosition(intPosition);
 
-            ActConsulta.this.setResult(ActConsulta.EnmResultadoTipo.REGISTRO_SELECIONADO.ordinal(), objIntent);
-            ActConsulta.this.startActivity(objIntent);
+            itt = new Intent(ActConsulta.this, ActConsulta.this.getTbl().getClsActCadastro());
+            itt.putExtra(ActCadastroMain.EXTRA_IN_INT_REGISTRO_ID, itm.getIntRegistroId());
+
+            ActConsulta.this.setResult(ActConsulta.EnmResultadoTipo.REGISTRO_SELECIONADO.ordinal(), itt);
+            ActConsulta.this.startActivity(itt);
           }
           catch (Exception ex) {
 
@@ -412,19 +412,19 @@ public class ActConsulta extends ActMain {
       this.getPnlTblLista().setOnScrollListener(new OnScrollListener() {
 
         @Override
-        public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+        public void onScroll(AbsListView viw, int intFirstVisibleItem, int intVisibleItemCount, int intTotalItemCount) {
 
         }
 
         @Override
-        public void onScrollStateChanged(AbsListView view, int scrollState) {
+        public void onScrollStateChanged(AbsListView viw, int intScrollState) {
 
-          InputMethodManager objIm;
+          InputMethodManager imm;
 
           try {
 
-            objIm = (InputMethodManager) ActConsulta.this.getSystemService(Context.INPUT_METHOD_SERVICE);
-            objIm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+            imm = (InputMethodManager) ActConsulta.this.getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
           }
           catch (Exception ex) {
 

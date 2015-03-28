@@ -269,6 +269,16 @@ public abstract class DbTabelaAndroid extends DbTabela {
     return this.getCrsDados(lstCln, null);
   }
 
+  public Cursor getCrsDados(DbColuna clnFiltro, double dblFiltro) {
+
+    return this.getCrsDados(clnFiltro, String.valueOf(dblFiltro));
+  }
+
+  public Cursor getCrsDados(DbColuna clnFiltro, int intFiltro) {
+
+    return this.getCrsDados(clnFiltro, Double.valueOf(intFiltro));
+  }
+
   public Cursor getCrsDados(DbColuna cln, List<DbFiltro> lstObjDbFiltro) {
 
     List<DbColuna> lstCln = null;
@@ -360,6 +370,8 @@ public abstract class DbTabelaAndroid extends DbTabela {
       sql = sql.replace("_order", this.getClnOrdem().getStrNomeSimplificado());
 
       crsResultado = this.getObjDb().execSqlComRetorno(sql);
+
+      this.getLstObjDbFiltroConsulta().clear();
     }
     catch (Exception ex) {
 
