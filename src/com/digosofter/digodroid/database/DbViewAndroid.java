@@ -8,6 +8,8 @@ import com.digosofter.digojava.Utils;
 
 public abstract class DbViewAndroid extends DbTabelaAndroid {
 
+  private int _intOrdem;
+
   protected DbViewAndroid(String strNome) {
 
     super(strNome);
@@ -26,12 +28,12 @@ public abstract class DbViewAndroid extends DbTabelaAndroid {
       }
 
       sql = "drop view if exists _viw_nome;";
-      sql = sql.replace("_viw_nome", this.getStrNomeSimplificado());
+      sql = sql.replace("_viw_nome", this.getStrNomeSql());
 
       AppAndroid.getI().getObjDbPrincipal().execSqlSemRetorno(sql);
 
       sql = "create view if not exists _viw_nome as _select;";
-      sql = sql.replace("_viw_nome", this.getStrNomeSimplificado());
+      sql = sql.replace("_viw_nome", this.getStrNomeSql());
       sql = sql.replace("_select", this.getSqlSelect());
 
       AppAndroid.getI().getObjDbPrincipal().execSqlSemRetorno(sql);
@@ -42,6 +44,11 @@ public abstract class DbViewAndroid extends DbTabelaAndroid {
     }
     finally {
     }
+  }
+
+  private int getIntOrdem() {
+
+    return _intOrdem;
   }
 
   protected abstract int getIntRawFileId();
@@ -67,5 +74,10 @@ public abstract class DbViewAndroid extends DbTabelaAndroid {
     }
 
     return strResultado;
+  }
+
+  public void setIntOrdem(int intOrdem) {
+
+    _intOrdem = intOrdem;
   }
 }

@@ -31,7 +31,7 @@ public class ItmCampo extends Objeto {
       }
 
       this.setStrNome(this.getCln().getStrNomeExibicao() + ": ");
-      this.setStrValor(crs.getString(crs.getColumnIndex(this.getCln().getStrNomeSimplificado())));
+      this.setStrValor(crs.getString(crs.getColumnIndex(this.getCln().getStrNomeSql())));
     }
     catch (Exception ex) {
 

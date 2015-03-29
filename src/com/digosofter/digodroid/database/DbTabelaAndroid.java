@@ -3,7 +3,6 @@ package com.digosofter.digodroid.database;
 import java.util.ArrayList;
 import java.util.List;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
 
@@ -25,7 +24,7 @@ public abstract class DbTabelaAndroid extends DbTabela {
   private boolean _booSinc = true;
   private Class<? extends ActMain> _clsActCadastro;
   private List<ItmConsulta> _lstItmConsulta;
-  private List<DbViewAndroid> _lstViw;
+  private List<DbViewAndroid> _lstViwAndroid;
   private DataBaseAndroid _objDb;
 
   protected DbTabelaAndroid(String strNome) {
@@ -35,6 +34,7 @@ public abstract class DbTabelaAndroid extends DbTabela {
     try {
 
       this.criar();
+      this.inicializarViews(this.getLstViwAndroid());
     }
     catch (Exception ex) {
 
@@ -44,23 +44,23 @@ public abstract class DbTabelaAndroid extends DbTabela {
     }
   }
 
-  public void abrirActConsulta(Activity actPai) {
+  public void abrirActConsulta(ActMain act) {
 
     Intent itt;
 
     try {
 
-      if (this.getLstViw().size() > 0) {
+      if (this.getLstViwAndroid().size() > 0) {
 
-        AppAndroid.getI().setTblSelec(this.getLstViw().get(0));
+        AppAndroid.getI().setTblSelec(this.getLstViwAndroid().get(0));
       }
       else {
 
         AppAndroid.getI().setTblSelec(this);
       }
 
-      itt = new Intent(actPai, ActConsulta.class);
-      actPai.startActivityForResult(itt, 0);
+      itt = new Intent(act, ActConsulta.class);
+      act.startActivityForResult(itt, 0);
     }
     catch (Exception ex) {
 
@@ -70,12 +70,12 @@ public abstract class DbTabelaAndroid extends DbTabela {
     }
   }
 
-  public void buscarReg(DbColuna clnFiltro, int intFiltro) {
+  public void buscar(DbColuna clnFiltro, int intFiltro) {
 
-    this.buscarReg(clnFiltro, String.valueOf(intFiltro));
+    this.buscar(clnFiltro, String.valueOf(intFiltro));
   }
 
-  public void buscarReg(DbColuna clnFiltro, String strFiltro) {
+  public void buscar(DbColuna clnFiltro, String strFiltro) {
 
     List<DbFiltro> lstObjDbFiltro;
 
@@ -84,7 +84,7 @@ public abstract class DbTabelaAndroid extends DbTabela {
       lstObjDbFiltro = new ArrayList<DbFiltro>();
       lstObjDbFiltro.add(new DbFiltro(clnFiltro, strFiltro));
 
-      this.buscarReg(lstObjDbFiltro);
+      this.buscar(lstObjDbFiltro);
     }
     catch (Exception ex) {
 
@@ -94,12 +94,12 @@ public abstract class DbTabelaAndroid extends DbTabela {
     }
   }
 
-  public void buscarReg(int intId) {
+  public void buscar(int intId) {
 
-    this.buscarReg(this.getClnChavePrimaria(), intId);
+    this.buscar(this.getClnChavePrimaria(), intId);
   }
 
-  public void buscarReg(List<DbFiltro> lstObjDbFiltro) {
+  public void buscar(List<DbFiltro> lstObjDbFiltro) {
 
     Cursor crs;
     String sql;
@@ -109,9 +109,9 @@ public abstract class DbTabelaAndroid extends DbTabela {
       sql = "select _clns_nome from _tbl_nome where _where order by _tbl_nome._order;";
 
       sql = sql.replace("_clns_nome", this.getSqlColunasNomes());
-      sql = sql.replace("_tbl_nome", this.getStrNomeSimplificado());
+      sql = sql.replace("_tbl_nome", this.getStrNomeSql());
       sql = sql.replace("_where", this.getSqlWhere(lstObjDbFiltro));
-      sql = sql.replace("_order", this.getClnChavePrimaria().getStrNomeSimplificado());
+      sql = sql.replace("_order", this.getClnChavePrimaria().getStrNomeSql());
 
       crs = this.getObjDb().execSqlComRetorno(sql);
 
@@ -125,9 +125,9 @@ public abstract class DbTabelaAndroid extends DbTabela {
     }
   }
 
-  public void buscarReg(String strId) {
+  public void buscar(String strId) {
 
-    this.buscarReg(this.getClnChavePrimaria(), strId);
+    this.buscar(this.getClnChavePrimaria(), strId);
   }
 
   private void carregarDados(Cursor crs) {
@@ -143,7 +143,7 @@ public abstract class DbTabelaAndroid extends DbTabela {
 
       for (DbColuna cln : this.getLstCln()) {
 
-        cln.setStrValor(crs.getString(crs.getColumnIndex(cln.getStrNomeSimplificado())));
+        cln.setStrValor(crs.getString(crs.getColumnIndex(cln.getStrNomeSql())));
       }
     }
     catch (Exception ex) {
@@ -167,7 +167,7 @@ public abstract class DbTabelaAndroid extends DbTabela {
 
       sql = "create table if not exists _tbl_nome(_clns);";
 
-      sql = sql.replace("_tbl_nome", this.getStrNomeSimplificado());
+      sql = sql.replace("_tbl_nome", this.getStrNomeSql());
       sql = sql.replace("_clns", this.getSqlColunasNomesCreateTable());
 
       this.getObjDb().execSqlSemRetorno(sql);
@@ -193,7 +193,7 @@ public abstract class DbTabelaAndroid extends DbTabela {
 
       sql = "delete from _tbl_nome where _tbl_nome._cln_nome='_id';";
 
-      sql = sql.replace("_tbl_nome", this.getStrNomeSimplificado());
+      sql = sql.replace("_tbl_nome", this.getStrNomeSql());
       sql = sql.replace("_cln_nome", this.getClnChavePrimaria().getStrNomeExibicao());
       sql = sql.replace("_id", strId);
 
@@ -216,7 +216,7 @@ public abstract class DbTabelaAndroid extends DbTabela {
     try {
 
       sql = "select name from sqlite_master where type='table' and name='_tbl_nome';";
-      sql = sql.replace("_tbl_nome", this.getStrNomeSimplificado());
+      sql = sql.replace("_tbl_nome", this.getStrNomeSql());
 
       crs = this.getObjDb().execSqlComRetorno(sql);
 
@@ -332,10 +332,10 @@ public abstract class DbTabelaAndroid extends DbTabela {
       sql = "select _clns_nome from _tbl_nome where _where order by _tbl_nome._order;";
 
       sql = sql.replace("_clns_nome", this.getSqlSelectColunasNomes(lstCln));
-      sql = sql.replace("_tbl_nome", this.getStrNomeSimplificado());
+      sql = sql.replace("_tbl_nome", this.getStrNomeSql());
       sql = sql.replace("where _where", lstObjDbFiltro != null && lstObjDbFiltro.size() > 0 ? "where _where" : Utils.STR_VAZIA);
       sql = sql.replace("_where", this.getSqlWhere(lstObjDbFiltro));
-      sql = sql.replace("_order", this.getClnOrdem().getStrNomeSimplificado());
+      sql = sql.replace("_order", this.getClnOrdem().getStrNomeSql());
 
       crsResultado = this.getObjDb().execSqlComRetorno(sql);
     }
@@ -364,10 +364,10 @@ public abstract class DbTabelaAndroid extends DbTabela {
       sql = "select _clns_nome from _tbl_nome where _where order by _order;";
 
       sql = sql.replace("_clns_nome", this.getSqlSelectColunasNomesConsulta());
-      sql = sql.replace("_tbl_nome", this.getStrNomeSimplificado());
+      sql = sql.replace("_tbl_nome", this.getStrNomeSql());
       sql = sql.replace("where _where", this.getLstObjDbFiltroConsulta() != null && this.getLstObjDbFiltroConsulta().size() > 0 ? "where _where" : Utils.STR_VAZIA);
       sql = sql.replace("_where", this.getSqlWhere(this.getLstObjDbFiltroConsulta()));
-      sql = sql.replace("_order", this.getClnOrdem().getStrNomeSimplificado());
+      sql = sql.replace("_order", this.getClnOrdem().getStrNomeSql());
 
       crsResultado = this.getObjDb().execSqlComRetorno(sql);
 
@@ -486,16 +486,16 @@ public abstract class DbTabelaAndroid extends DbTabela {
     return lstStrResultado;
   }
 
-  public List<DbViewAndroid> getLstViw() {
+  protected List<DbViewAndroid> getLstViwAndroid() {
 
     try {
 
-      if (_lstViw != null) {
+      if (_lstViwAndroid != null) {
 
-        return _lstViw;
+        return _lstViwAndroid;
       }
 
-      _lstViw = new ArrayList<DbViewAndroid>();
+      _lstViwAndroid = new ArrayList<DbViewAndroid>();
     }
     catch (Exception ex) {
 
@@ -504,7 +504,7 @@ public abstract class DbTabelaAndroid extends DbTabela {
     finally {
     }
 
-    return _lstViw;
+    return _lstViwAndroid;
   }
 
   @Override
@@ -547,8 +547,8 @@ public abstract class DbTabelaAndroid extends DbTabela {
 
         str = "_tbl_nome._cln_nome, ";
 
-        str = str.replace("_tbl_nome", cln.getTbl().getStrNomeSimplificado());
-        str = str.replace("_cln_nome", cln.getStrNomeSimplificado());
+        str = str.replace("_tbl_nome", cln.getTbl().getStrNomeSql());
+        str = str.replace("_cln_nome", cln.getStrNomeSql());
 
         strResultado += str;
       }
@@ -578,7 +578,7 @@ public abstract class DbTabelaAndroid extends DbTabela {
 
         str = "_cln_nome _cln_tipo _pk default _default, ";
 
-        str = str.replace("_cln_nome", cln.getStrNomeSimplificado());
+        str = str.replace("_cln_nome", cln.getStrNomeSql());
         str = str.replace("_cln_tipo", cln.getSqlTipo());
         str = str.replace("_pk", cln.getBooChavePrimaria() ? "primary key autoincrement" : Utils.STR_VAZIA);
         str = str.replace("autoincrement", cln.getEnmTipo() != EnmTipo.TEXT ? "autoincrement" : Utils.STR_VAZIA);
@@ -621,7 +621,7 @@ public abstract class DbTabelaAndroid extends DbTabela {
         }
 
         str = "_cln_nome, ";
-        str = str.replace("_cln_nome", cln.getStrNomeSimplificado());
+        str = str.replace("_cln_nome", cln.getStrNomeSql());
 
         strResultado += str;
       }
@@ -694,8 +694,8 @@ public abstract class DbTabelaAndroid extends DbTabela {
       for (DbColuna cln : lstCln) {
 
         str = "_tbl_nome._cln_nome, ";
-        str = str.replace("_tbl_nome", cln.getTbl().getStrNomeSimplificado());
-        str = str.replace("_cln_nome", cln.getStrNomeSimplificado());
+        str = str.replace("_tbl_nome", cln.getTbl().getStrNomeSql());
+        str = str.replace("_cln_nome", cln.getStrNomeSql());
 
         strResultado += str;
       }
@@ -796,6 +796,10 @@ public abstract class DbTabelaAndroid extends DbTabela {
     return strResultado;
   }
 
+  protected void inicializarViews(List<DbViewAndroid> lstViwAndroid) {
+
+  }
+
   public void inserirAleatorio() {
 
     try {
@@ -853,7 +857,7 @@ public abstract class DbTabelaAndroid extends DbTabela {
 
       sql = "replace into _tbl_nome (_clns_nome) values (_values);";
 
-      sql = sql.replace("_tbl_nome", this.getStrNomeSimplificado());
+      sql = sql.replace("_tbl_nome", this.getStrNomeSql());
       sql = sql.replace("_clns_nome", this.getSqlColunasNomesInsert());
       sql = sql.replace("_values", this.getSqlColunasValoresInsert());
 
@@ -869,7 +873,7 @@ public abstract class DbTabelaAndroid extends DbTabela {
         strId = this.getClnChavePrimaria().getStrValor();
       }
 
-      this.buscarReg(strId);
+      this.buscar(strId);
     }
     catch (Exception ex) {
 
