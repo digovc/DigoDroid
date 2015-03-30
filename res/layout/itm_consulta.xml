@@ -1,43 +1,63 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/itmConsulta_pnlConteudo"
+    android:id="@+id/itmConsulta_pnlConteudoGeral"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:minHeight="100dp"
     android:orientation="vertical"
-    android:padding="5dp" >
+    android:paddingBottom="0dp"
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp"
+    android:paddingTop="10dp" >
 
     <LinearLayout
-        android:id="@+id/itmConsulta_pnlCabecalho"
+        android:id="@+id/itmConsulta_pnlConteudo"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="horizontal" >
-
-        <TextView
-            android:id="@+id/itmConsulta_txtId"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:maxLines="1"
-            android:text="CampoId "
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textColor="#0D47A1"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/itmConsulta_txtNome"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:maxLines="1"
-            android:text="CampoNome"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textColor="#0D47A1" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/itmConsulta_pnlCampoContainer"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/borda_simples"
+        android:minHeight="100dp"
         android:orientation="vertical" >
+
+        <LinearLayout
+            android:id="@+id/itmConsulta_pnlCabecalho"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:padding="5dp" >
+
+            <TextView
+                android:id="@+id/itmConsulta_txtId"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:maxLines="1"
+                android:text="CampoId "
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textColor="#0D47A1"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/itmConsulta_txtNome"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:maxLines="1"
+                android:text="CampoNome"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="#0D47A1" />
+        </LinearLayout>
+
+        <View
+            android:id="@+id/itmConsulta_lin1"
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:background="@android:color/darker_gray" />
+
+        <LinearLayout
+            android:id="@+id/itmConsulta_pnlCampoContainer"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="5dp" >
+
+        </LinearLayout>
     </LinearLayout>
 
 </LinearLayout>

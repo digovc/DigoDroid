@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="horizontal"
+    android:paddingLeft="5dp"
     android:textColor="#000" >
 
     <TextView
@@ -11,13 +12,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Nome: "
-        android:textColor="#1E88E5" />
+        android:textColor="#283593" />
 
     <TextView
         android:id="@+id/itmCampo_txtValor"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Valor"
-        android:textColor="#1E88E5" />
+        android:textColor="#283593" />
 
 </LinearLayout>

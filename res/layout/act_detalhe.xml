@@ -8,8 +8,8 @@
     <LinearLayout
         android:id="@+id/actDetalhe_pnlTitulo"
         android:layout_width="match_parent"
-        android:layout_height="150dp"
-        android:background="#2196F3"
+        android:layout_height="100dp"
+        android:background="#3949AB"
         android:gravity="bottom"
         android:orientation="vertical" >
 
@@ -26,7 +26,8 @@
     <ScrollView
         android:id="@+id/actDetalhe_pnlCamposScroll"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent" >
+        android:layout_height="fill_parent"
+        android:background="#EEEEEE" >
 
         <LinearLayout
             android:id="@+id/actDetalhe_pnlCampos"

@@ -40,7 +40,7 @@ public class ItmCampo extends ItmMain {
     }
   }
 
-  private DbColuna getCln() {
+  public DbColuna getCln() {
 
     return _cln;
   }

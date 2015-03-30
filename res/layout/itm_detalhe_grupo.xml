@@ -1,29 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/itmDetalheGrupo_pnlConteudo"
+    android:id="@+id/itmDetalheGrupo_pnlConteudoGeral"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" >
-
-    <TextView
-        android:id="@+id/itmDetalheGrupo_txtGrupoNome"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:padding="5dp"
-        android:text="GrupoNome"
-        android:textColor="#F44336" />
-
-    <View
-        android:layout_width="fill_parent"
-        android:layout_height="1px"
-        android:background="@android:color/darker_gray" />
+    android:orientation="vertical"
+    android:padding="5dp"
+    android:paddingBottom="5dp" >
 
     <LinearLayout
-        android:id="@+id/itmDetalheGrupo_pnlCampos"
+        android:id="@+id/itmDetalheGrupo_pnlConteudo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@drawable/borda_simples"
         android:orientation="vertical" >
 
+        <TextView
+            android:id="@+id/itmDetalheGrupo_txtGrupoNome"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:text="GrupoNome"
+            android:textColor="#F44336" />
+
+        <View
+            android:id="@+id/itmConsulta_lin1"
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:background="@android:color/darker_gray" />
+
+        <LinearLayout
+            android:id="@+id/itmDetalheGrupo_pnlCampos"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="5dp" >
+        </LinearLayout>
     </LinearLayout>
 
 </LinearLayout>

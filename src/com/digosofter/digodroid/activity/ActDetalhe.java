@@ -1,8 +1,10 @@
 package com.digosofter.digodroid.activity;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import android.database.Cursor;
 import android.widget.LinearLayout;
-import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.digosofter.digodroid.AppAndroid;
@@ -11,6 +13,8 @@ import com.digosofter.digodroid.database.DbTabelaAndroid;
 import com.digosofter.digodroid.erro.ErroAndroid;
 import com.digosofter.digodroid.item.ItmCampo;
 import com.digosofter.digodroid.item.ItmConsulta;
+import com.digosofter.digodroid.item.ItmDetalheGrupo;
+import com.digosofter.digojava.Utils;
 
 public class ActDetalhe extends ActMain {
 
@@ -18,6 +22,7 @@ public class ActDetalhe extends ActMain {
 
   private int _intRegistroId;
   private ItmConsulta _itmConsulta;
+  private List<ItmDetalheGrupo> _lstItmDetalheGrupo;
   private LinearLayout _pnlCampos;
   private DbTabelaAndroid _tbl;
   private TextView _txtNome;
@@ -80,6 +85,89 @@ public class ActDetalhe extends ActMain {
     }
 
     return _itmConsulta;
+  }
+
+  private ItmDetalheGrupo getItmDetalheGrupo(ItmCampo itmCampo) {
+
+    ItmDetalheGrupo itmResultado = null;
+
+    try {
+
+      if (itmCampo == null) {
+
+        return null;
+      }
+
+      if (itmCampo.getCln() == null) {
+
+        return null;
+      }
+
+      if (Utils.getBooStrVazia(itmCampo.getCln().getStrGrupoNome())) {
+
+        return this.getLstItmDetalheGrupo().get(0);
+      }
+
+      for (ItmDetalheGrupo itm : this.getLstItmDetalheGrupo()) {
+
+        if (itm == null) {
+
+          continue;
+        }
+
+        if (!itm.getStrNome().equals(itmCampo.getCln().getStrGrupoNome())) {
+
+          continue;
+        }
+
+        itmResultado = itm;
+        break;
+      }
+
+      if (itmResultado != null) {
+
+        return itmResultado;
+      }
+
+      itmResultado = new ItmDetalheGrupo();
+      itmResultado.setStrNome(itmCampo.getCln().getStrGrupoNome());
+    }
+    catch (Exception ex) {
+
+      new ErroAndroid("Erro inesperado.\n", ex);
+    }
+    finally {
+    }
+
+    return itmResultado;
+  }
+
+  private List<ItmDetalheGrupo> getLstItmDetalheGrupo() {
+
+    ItmDetalheGrupo itm;
+
+    try {
+
+      if (_lstItmDetalheGrupo != null) {
+
+        return _lstItmDetalheGrupo;
+      }
+
+      itm = new ItmDetalheGrupo();
+
+      itm.setStrNome("Geral");
+
+      _lstItmDetalheGrupo = new ArrayList<ItmDetalheGrupo>();
+      _lstItmDetalheGrupo.add(itm);
+    }
+    catch (Exception ex) {
+
+      new ErroAndroid("Erro inesperado.\n", ex);
+    }
+    finally {
+    }
+
+    return _lstItmDetalheGrupo;
   }
 
   private LinearLayout getPnlCampos() {
@@ -145,6 +233,44 @@ public class ActDetalhe extends ActMain {
     return _txtNome;
   }
 
+  private void iniciarlizarLstItmDetalheGrupo() {
+
+    ItmDetalheGrupo itmDetalheGrupo;
+
+    try {
+
+      for (ItmCampo itmCampo : this.getItmConsulta().getLstItmCampo()) {
+
+        if (itmCampo == null) {
+
+          continue;
+        }
+
+        itmDetalheGrupo = this.getItmDetalheGrupo(itmCampo);
+
+        if (itmDetalheGrupo.getLstItmCampo().contains(itmCampo)) {
+
+          continue;
+        }
+
+        itmDetalheGrupo.getLstItmCampo().add(itmCampo);
+
+        if (this.getLstItmDetalheGrupo().contains(itmDetalheGrupo)) {
+
+          continue;
+        }
+
+        this.getLstItmDetalheGrupo().add(itmDetalheGrupo);
+      }
+    }
+    catch (Exception ex) {
+
+      new ErroAndroid("Erro inesperado.\n", ex);
+    }
+    finally {
+    }
+  }
+
   @Override
   protected void montarLayout() {
 
@@ -152,7 +278,8 @@ public class ActDetalhe extends ActMain {
 
     try {
 
-      this.montarLayoutTitulo();
+      this.setTitle(this.getTbl().getStrNomeExibicao());
+      this.getTxtNome().setText(this.getItmConsulta().getStrNome());
       this.montarLayoutItem();
     }
     catch (Exception ex) {
@@ -167,14 +294,16 @@ public class ActDetalhe extends ActMain {
 
     try {
 
-      for (ItmCampo itmCampo : this.getItmConsulta().getLstItmCampo()) {
+      this.iniciarlizarLstItmDetalheGrupo();
 
-        if (itmCampo == null) {
+      for (ItmDetalheGrupo itmDetalheGrupo : this.getLstItmDetalheGrupo()) {
 
-          continue;
+        if (itmDetalheGrupo == null) {
+
+          return;
         }
 
-        this.montarLayoutItem(itmCampo);
+        this.montarLayoutItem(itmDetalheGrupo);
       }
     }
     catch (Exception ex) {
@@ -185,32 +314,23 @@ public class ActDetalhe extends ActMain {
     }
   }
 
-  private void montarLayoutItem(ItmCampo itmCampo) {
+  private void montarLayoutItem(ItmDetalheGrupo itmDetalheGrupo) {
 
     try {
 
-      if (itmCampo == null) {
+      if (itmDetalheGrupo == null) {
 
         return;
       }
 
-      itmCampo.montarLayout();
+      if (itmDetalheGrupo.getLstItmCampo().size() == 0) {
 
-      this.getPnlCampos().addView(itmCampo.getViw());
-    }
-    catch (Exception ex) {
+        return;
+      }
 
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally {
-    }
-  }
+      itmDetalheGrupo.montarLayout();
 
-  private void montarLayoutTitulo() {
-
-    try {
-
-      this.getTxtNome().setText(this.getItmConsulta().getStrNome());
+      this.getPnlCampos().addView(itmDetalheGrupo.getViw());
     }
     catch (Exception ex) {
 

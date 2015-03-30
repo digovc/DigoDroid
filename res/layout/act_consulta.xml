@@ -3,7 +3,7 @@
     android:id="@+id/actConsulta_pnlGeral"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@layout/bkg_gradiente_002"
+    android:background="#EEEEEE"
     android:orientation="vertical"
     tools:context=".activitys.ActCadastro" >
 
@@ -43,8 +43,10 @@
             android:id="@+id/actConsulta_pnlTblLista"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:divider="#ECECEC"
-            android:dividerHeight="2sp" >
+            android:cacheColorHint="@android:color/transparent"
+            android:divider="@null"
+            android:dividerHeight="0dp"
+            android:listSelector="@android:color/transparent" >
         </ListView>
     </LinearLayout>
 
