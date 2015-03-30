@@ -4,6 +4,7 @@ import org.apache.commons.io.IOUtils;
 
 import com.digosofter.digodroid.AppAndroid;
 import com.digosofter.digodroid.erro.ErroAndroid;
+import com.digosofter.digojava.App;
 import com.digosofter.digojava.Utils;
 
 public abstract class DbViewAndroid extends DbTabelaAndroid {
@@ -13,6 +14,17 @@ public abstract class DbViewAndroid extends DbTabelaAndroid {
   protected DbViewAndroid(String strNome) {
 
     super(strNome);
+
+    try {
+
+      App.getI().getLstTbl().remove(this);
+    }
+    catch (Exception ex) {
+
+      new ErroAndroid("Erro inesperado.\n", ex);
+    }
+    finally {
+    }
   }
 
   @Override

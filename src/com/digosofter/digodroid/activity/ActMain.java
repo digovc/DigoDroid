@@ -15,6 +15,7 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.VideoView;
 
@@ -103,6 +104,11 @@ public abstract class ActMain extends Activity {
   protected RadioGroup getRadioGroup(int intId) {
 
     return (RadioGroup) this.getView(intId);
+  }
+
+  protected ScrollView getScrollView(int intId) {
+
+    return (ScrollView) this.getView(intId);
   }
 
   protected TextView getTextView(int intId) {

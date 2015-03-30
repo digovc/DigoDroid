@@ -9,11 +9,10 @@ import android.widget.TextView;
 import com.digosofter.digodroid.AppAndroid;
 import com.digosofter.digodroid.R;
 import com.digosofter.digodroid.erro.ErroAndroid;
-import com.digosofter.digojava.Objeto;
 import com.digosofter.digojava.Utils;
 import com.digosofter.digojava.database.DbColuna;
 
-public class ItmCampo extends Objeto {
+public class ItmCampo extends ItmMain {
 
   private DbColuna _cln;
   private String _strValor;

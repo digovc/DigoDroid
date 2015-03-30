@@ -11,6 +11,7 @@ import com.digosofter.digodroid.activity.ActConsulta;
 import com.digosofter.digodroid.activity.ActMain;
 import com.digosofter.digodroid.erro.ErroAndroid;
 import com.digosofter.digodroid.item.ItmConsulta;
+import com.digosofter.digodroid.item.ItmDetalheGrupo;
 import com.digosofter.digojava.Utils;
 import com.digosofter.digojava.Utils.EnmStrTipo;
 import com.digosofter.digojava.database.DbColuna;
@@ -26,6 +27,34 @@ public abstract class DbTabelaAndroid extends DbTabela {
   private List<ItmConsulta> _lstItmConsulta;
   private List<DbViewAndroid> _lstViwAndroid;
   private DataBaseAndroid _objDb;
+  private List<ItmDetalheGrupo> _lstItmDetalheGrupo;
+
+  public List<ItmDetalheGrupo> getLstItmDetalheGrupo() {
+
+    try {
+
+      if (_lstItmDetalheGrupo != null) {
+
+        return _lstItmDetalheGrupo;
+      }
+
+      _lstItmDetalheGrupo = new ArrayList<ItmDetalheGrupo>();
+
+      this.inicializar(_lstItmDetalheGrupo);
+    }
+    catch (Exception ex) {
+
+      new Erro("Erro inesperado.\n", ex);
+    }
+    finally {
+    }
+
+    return _lstItmDetalheGrupo;
+  }
+
+  protected void inicializar(List<ItmDetalheGrupo> lstItmDetalheGrupo) {
+
+  }
 
   protected DbTabelaAndroid(String strNome) {
 
@@ -165,6 +194,7 @@ public abstract class DbTabelaAndroid extends DbTabela {
         return;
       }
 
+      // TODO: Revisar sql pronto, há inconsistências.
       sql = "create table if not exists _tbl_nome(_clns);";
 
       sql = sql.replace("_tbl_nome", this.getStrNomeSql());
@@ -439,7 +469,7 @@ public abstract class DbTabelaAndroid extends DbTabela {
         itmConsulta = new ItmConsulta();
 
         itmConsulta.setTbl(this);
-        itmConsulta.carregarDados(crs);
+        itmConsulta.carregarDados(crs, true);
 
         _lstItmConsulta.add(itmConsulta);
       }

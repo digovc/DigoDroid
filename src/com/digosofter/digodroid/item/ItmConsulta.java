@@ -11,12 +11,11 @@ import android.widget.TextView;
 import com.digosofter.digodroid.R;
 import com.digosofter.digodroid.database.DbTabelaAndroid;
 import com.digosofter.digodroid.erro.ErroAndroid;
-import com.digosofter.digojava.Objeto;
 import com.digosofter.digojava.Utils;
 import com.digosofter.digojava.database.DbColuna;
 import com.digosofter.digojava.erro.Erro;
 
-public class ItmConsulta extends Objeto {
+public class ItmConsulta extends ItmMain {
 
   private int _intRegistroId;
   private List<ItmCampo> _lstItmCampo;
@@ -26,7 +25,7 @@ public class ItmConsulta extends Objeto {
   private TextView _txtNome;
   private View _viw;
 
-  public void carregarDados(Cursor crs) {
+  public void carregarDados(Cursor crs, boolean booSomenteClnConsulta) {
 
     try {
 
@@ -43,7 +42,7 @@ public class ItmConsulta extends Objeto {
       this.setStrNome(crs.getString(crs.getColumnIndex(this.getTbl().getClnNome().getStrNomeSql())));
       this.setIntRegistroId(crs.getInt(crs.getColumnIndex(this.getTbl().getClnChavePrimaria().getStrNomeSql())));
 
-      this.carregarDadosItem(crs);
+      this.carregarDadosItem(crs, booSomenteClnConsulta);
     }
     catch (Exception ex) {
 
@@ -53,7 +52,7 @@ public class ItmConsulta extends Objeto {
     }
   }
 
-  private void carregarDadosItem(Cursor crs) {
+  private void carregarDadosItem(Cursor crs, boolean booSomenteClnConsulta) {
 
     try {
 
@@ -67,7 +66,7 @@ public class ItmConsulta extends Objeto {
         return;
       }
 
-      for (DbColuna cln : this.getTbl().getLstClnConsulta()) {
+      for (DbColuna cln : this.getTbl().getLstCln()) {
 
         if (cln == null) {
 
@@ -84,12 +83,12 @@ public class ItmConsulta extends Objeto {
           continue;
         }
 
-        if (!cln.getBooVisivelConsulta()) {
+        if (!cln.getBooVisivelConsulta() && booSomenteClnConsulta) {
 
           continue;
         }
 
-        this.carregarDadosItem(crs, cln);
+        this.carregarDadosItem(crs, cln, booSomenteClnConsulta);
       }
     }
     catch (Exception ex) {
@@ -100,7 +99,7 @@ public class ItmConsulta extends Objeto {
     }
   }
 
-  private void carregarDadosItem(Cursor crs, DbColuna cln) {
+  private void carregarDadosItem(Cursor crs, DbColuna cln, boolean booSomenteClnConsulta) {
 
     ItmCampo itmCampo;
 
@@ -111,7 +110,7 @@ public class ItmConsulta extends Objeto {
         return;
       }
 
-      if (!cln.getBooVisivelConsulta()) {
+      if (!cln.getBooVisivelConsulta() && booSomenteClnConsulta) {
 
         return;
       }
@@ -156,7 +155,7 @@ public class ItmConsulta extends Objeto {
     return _intRegistroId;
   }
 
-  private List<ItmCampo> getLstItmCampo() {
+  public List<ItmCampo> getLstItmCampo() {
 
     try {
 
