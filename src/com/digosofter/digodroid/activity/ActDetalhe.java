@@ -25,6 +25,7 @@ public class ActDetalhe extends ActMain {
   private List<ItmDetalheGrupo> _lstItmDetalheGrupo;
   private LinearLayout _pnlCampos;
   private DbTabelaAndroid _tbl;
+  private TextView _txtId;
   private TextView _txtNome;
 
   @Override
@@ -212,6 +213,27 @@ public class ActDetalhe extends ActMain {
     return _tbl;
   }
 
+  private TextView getTxtId() {
+
+    try {
+
+      if (_txtId != null) {
+
+        return _txtId;
+      }
+
+      _txtId = this.getTextView(R.id.actDetalhe_txtId);
+    }
+    catch (Exception ex) {
+
+      new ErroAndroid("Erro inesperado.\n", ex);
+    }
+    finally {
+    }
+
+    return _txtId;
+  }
+
   private TextView getTxtNome() {
 
     try {
@@ -279,6 +301,7 @@ public class ActDetalhe extends ActMain {
     try {
 
       this.setTitle(this.getTbl().getStrNomeExibicao());
+      this.getTxtId().setText(String.valueOf(this.getItmConsulta().getIntRegistroId()));
       this.getTxtNome().setText(this.getItmConsulta().getStrNome());
       this.montarLayoutItem();
     }
