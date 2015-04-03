@@ -18,7 +18,6 @@ import com.digosofter.digojava.database.DbColuna;
 import com.digosofter.digojava.database.DbColuna.EnmTipo;
 import com.digosofter.digojava.database.DbFiltro;
 import com.digosofter.digojava.database.DbTabela;
-import com.digosofter.digojava.erro.Erro;
 
 public abstract class DbTabelaAndroid extends DbTabela {
 
@@ -44,7 +43,7 @@ public abstract class DbTabelaAndroid extends DbTabela {
     }
     catch (Exception ex) {
 
-      new Erro("Erro inesperado.\n", ex);
+      new ErroAndroid("Erro inesperado.\n", ex);
     }
     finally {
     }
@@ -528,7 +527,7 @@ public abstract class DbTabelaAndroid extends DbTabela {
     }
     catch (Exception ex) {
 
-      new Erro("Erro inesperado.\n", ex);
+      new ErroAndroid("Erro inesperado.\n", ex);
     }
     finally {
     }
@@ -881,15 +880,40 @@ public abstract class DbTabelaAndroid extends DbTabela {
     }
   }
 
-  public void limparListaConsulta() {
+  private void limparListaConsulta() {
 
     try {
 
       this.setLstItmConsulta(null);
+      this.limparListaConsultaViw();
+
     }
     catch (Exception ex) {
 
       new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(0), ex);
+    }
+    finally {
+    }
+  }
+
+  private void limparListaConsultaViw() {
+
+    try {
+
+      for (DbViewAndroid viw : this.getLstViwAndroid()) {
+
+        if (viw == null) {
+
+          continue;
+        }
+
+        viw.setLstItmConsulta(null);
+      }
+
+    }
+    catch (Exception ex) {
+
+      new ErroAndroid("Erro inesperado.\n", ex);
     }
     finally {
     }
@@ -942,7 +966,7 @@ public abstract class DbTabelaAndroid extends DbTabela {
     _clsActCadastro = clsActFrm;
   }
 
-  private void setLstItmConsulta(List<ItmConsulta> lstItmConsulta) {
+  public void setLstItmConsulta(List<ItmConsulta> lstItmConsulta) {
 
     _lstItmConsulta = lstItmConsulta;
   }
