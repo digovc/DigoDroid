@@ -194,8 +194,7 @@ public abstract class DbTabelaAndroid extends DbTabela {
         return;
       }
 
-      // TODO: Revisar sql pronto, há inconsistências.
-      sql = "create table if not exists _tbl_nome(_clns);";
+      sql = "create table if not exists _tbl_nome (_clns);";
 
       sql = sql.replace("_tbl_nome", this.getStrNomeSql());
       sql = sql.replace("_clns", this.getSqlColunasNomesCreateTable());
@@ -606,12 +605,12 @@ public abstract class DbTabelaAndroid extends DbTabela {
 
       for (DbColuna cln : this.getLstCln()) {
 
-        str = "_cln_nome _cln_tipo _pk default _default, ";
+        str = "_cln_nome _cln_tipo _cln_pk default _default, ";
 
         str = str.replace("_cln_nome", cln.getStrNomeSql());
         str = str.replace("_cln_tipo", cln.getSqlTipo());
-        str = str.replace("_pk", cln.getBooChavePrimaria() ? "primary key autoincrement" : Utils.STR_VAZIA);
-        str = str.replace("autoincrement", cln.getEnmTipo() != EnmTipo.TEXT ? "autoincrement" : Utils.STR_VAZIA);
+        str = str.replace(" _cln_pk", cln.getBooChavePrimaria() ? " primary key on conflict replace autoincrement" : Utils.STR_VAZIA);
+        str = str.replace(" autoincrement", cln.getEnmTipo() != EnmTipo.TEXT ? " autoincrement" : Utils.STR_VAZIA);
         str = str.replace(" default _default", !Utils.getBooStrVazia(cln.getStrValorDefault()) ? " default _default" : Utils.STR_VAZIA);
         str = str.replace("_default", cln.getStrValorDefault());
 
@@ -640,7 +639,17 @@ public abstract class DbTabelaAndroid extends DbTabela {
 
       for (DbColuna cln : this.getLstCln()) {
 
+        if (cln == null) {
+
+          continue;
+        }
+
         if (Utils.getBooStrVazia(cln.getStrValor())) {
+
+          continue;
+        }
+
+        if (cln.getBooChavePrimaria() && cln.getIntValor() < 1) {
 
           continue;
         }
@@ -679,7 +688,17 @@ public abstract class DbTabelaAndroid extends DbTabela {
 
       for (DbColuna cln : this.getLstCln()) {
 
+        if (cln == null) {
+
+          continue;
+        }
+
         if (Utils.getBooStrVazia(cln.getStrValor())) {
+
+          continue;
+        }
+
+        if (cln.getBooChavePrimaria() && cln.getIntValor() < 1) {
 
           continue;
         }
