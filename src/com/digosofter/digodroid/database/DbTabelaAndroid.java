@@ -880,13 +880,12 @@ public abstract class DbTabelaAndroid extends DbTabela {
     }
   }
 
-  private void limparListaConsulta() {
+  public void limparListaConsulta() {
 
     try {
 
       this.setLstItmConsulta(null);
       this.limparListaConsultaViw();
-
     }
     catch (Exception ex) {
 
@@ -909,7 +908,6 @@ public abstract class DbTabelaAndroid extends DbTabela {
 
         viw.setLstItmConsulta(null);
       }
-
     }
     catch (Exception ex) {
 
