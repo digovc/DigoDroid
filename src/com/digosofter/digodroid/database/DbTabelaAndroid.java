@@ -919,7 +919,7 @@ public abstract class DbTabelaAndroid extends DbTabela {
 
   public void salvar() {
 
-    String strId;
+    int intId;
     String sql;
 
     try {
@@ -934,17 +934,17 @@ public abstract class DbTabelaAndroid extends DbTabela {
 
       this.getObjDb().execSqlSemRetorno(sql);
 
-      if (Utils.getBooStrVazia(this.getClnChavePrimaria().getStrValor())) {
+      if (this.getClnChavePrimaria().getIntValor() < 1) {
 
-        sql = "SELECT last_insert_rowid();";
-        strId = this.getObjDb().execSqlGetStr(sql);
+        sql = "select last_insert_rowid();";
+        intId = this.getObjDb().execSqlGetInt(sql);
       }
       else {
 
-        strId = this.getClnChavePrimaria().getStrValor();
+        intId = this.getClnChavePrimaria().getIntValor();
       }
 
-      this.buscar(strId);
+      this.buscar(intId);
     }
     catch (Exception ex) {
 
