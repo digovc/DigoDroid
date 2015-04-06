@@ -201,7 +201,7 @@ public abstract class AppAndroid extends App {
 
           try {
 
-            intTempo = strMensagem.length() > 25 ? Toast.LENGTH_LONG : Toast.LENGTH_SHORT;
+            intTempo = strMensagem.length() > 50 ? Toast.LENGTH_LONG : Toast.LENGTH_SHORT;
             Toast.makeText(AppAndroid.this.getCnt(), strMensagem, intTempo).show();
           }
           catch (Exception ex) {
