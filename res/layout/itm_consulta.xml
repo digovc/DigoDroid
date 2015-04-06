@@ -5,16 +5,15 @@
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:paddingBottom="0dp"
-    android:paddingLeft="10dp"
-    android:paddingRight="10dp"
-    android:paddingTop="10dp" >
+    android:paddingLeft="5dp"
+    android:paddingRight="5dp"
+    android:paddingTop="5dp" >
 
     <LinearLayout
         android:id="@+id/itmConsulta_pnlConteudo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/borda_simples"
-        android:minHeight="100dp"
         android:orientation="vertical" >
 
         <LinearLayout
@@ -58,6 +57,37 @@
             android:padding="5dp" >
 
         </LinearLayout>
+
+        <View
+            android:id="@+id/itmConsulta_lin2"
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:background="@android:color/darker_gray" />
+
+        <LinearLayout
+            android:id="@+id/itmConsulta_pnlComando"
+            android:layout_width="match_parent"
+            android:layout_height="50dp" >
+
+            <ImageView
+                android:id="@+id/itmConsulta_imgAlterar"
+                android:layout_width="0dp"
+                android:layout_height="fill_parent"
+                android:layout_weight="1"
+                android:paddingBottom="5dp"
+                android:paddingTop="5dp"
+                android:src="@drawable/ic_alterar" />
+
+            <ImageView
+                android:id="@+id/itmConsulta_imgDetalhe"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="#999"
+                android:src="@drawable/ic_detalhe" />
+
+        </LinearLayout>
+
     </LinearLayout>
 
 </LinearLayout>
