@@ -40,7 +40,7 @@ public class ActConsulta extends ActMain {
 
   private AdpConsulta _adpCadastro;
   private EditText _edtPesquisa;
-  private TextWatcher _evtEdtPesquisa_TextWatcherPesquisa;
+  private TextWatcher _evtEdtPesquisa_TextWatcher;
   private OnItemClickListener _evtPnlTblLista_OnItemClickListener;
   private OnItemLongClickListener _evtPnlTblLista_OnItemLongClickListener;
   private OnScrollListener _evtPnlTblLista_OnScrollListener;
@@ -130,16 +130,16 @@ public class ActConsulta extends ActMain {
     return _edtPesquisa;
   }
 
-  private TextWatcher getEvtEdtPesquisa_TextWatcherPesquisa() {
+  private TextWatcher getEvtEdtPesquisa_TextWatcher() {
 
     try {
 
-      if (_evtEdtPesquisa_TextWatcherPesquisa != null) {
+      if (_evtEdtPesquisa_TextWatcher != null) {
 
-        return _evtEdtPesquisa_TextWatcherPesquisa;
+        return _evtEdtPesquisa_TextWatcher;
       }
 
-      _evtEdtPesquisa_TextWatcherPesquisa = new TextWatcher() {
+      _evtEdtPesquisa_TextWatcher = new TextWatcher() {
 
         @Override
         public void afterTextChanged(Editable s) {
@@ -165,7 +165,7 @@ public class ActConsulta extends ActMain {
     finally {
     }
 
-    return _evtEdtPesquisa_TextWatcherPesquisa;
+    return _evtEdtPesquisa_TextWatcher;
   }
 
   private OnItemClickListener getEvtPnlTblLista_OnItemClickListener() {
@@ -534,7 +534,7 @@ public class ActConsulta extends ActMain {
 
     try {
 
-      this.getEdtPesquisa().addTextChangedListener(this.getEvtEdtPesquisa_TextWatcherPesquisa());
+      this.getEdtPesquisa().addTextChangedListener(this.getEvtEdtPesquisa_TextWatcher());
       this.getPnlTblLista().setOnItemClickListener(this.getEvtPnlTblLista_OnItemClickListener());
       this.getPnlTblLista().setOnItemLongClickListener(this.getEvtPnlTblLista_OnItemLongClickListener());
       this.getPnlTblLista().setOnScrollListener(this.getEvtPnlTblLista_OnScrollListener());
