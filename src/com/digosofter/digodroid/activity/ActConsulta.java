@@ -535,9 +535,9 @@ public class ActConsulta extends ActMain {
     try {
 
       this.getEdtPesquisa().addTextChangedListener(this.getEvtEdtPesquisa_TextWatcher());
-      this.getPnlTblLista().setOnItemClickListener(this.getEvtPnlTblLista_OnItemClickListener());
-      this.getPnlTblLista().setOnItemLongClickListener(this.getEvtPnlTblLista_OnItemLongClickListener());
-      this.getPnlTblLista().setOnScrollListener(this.getEvtPnlTblLista_OnScrollListener());
+      // this.getPnlTblLista().setOnItemClickListener(this.getEvtPnlTblLista_OnItemClickListener());
+      // this.getPnlTblLista().setOnItemLongClickListener(this.getEvtPnlTblLista_OnItemLongClickListener());
+      // this.getPnlTblLista().setOnScrollListener(this.getEvtPnlTblLista_OnScrollListener());
     }
     catch (Exception ex) {
 

@@ -78,12 +78,17 @@
                 android:paddingTop="5dp"
                 android:src="@drawable/ic_alterar" />
 
+            <View
+                android:id="@+id/itmConsulta_lin3"
+                android:layout_width="1dp"
+                android:layout_height="fill_parent"
+                android:background="@android:color/darker_gray" />
+
             <ImageView
                 android:id="@+id/itmConsulta_imgDetalhe"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:background="#999"
                 android:src="@drawable/ic_detalhe" />
 
         </LinearLayout>

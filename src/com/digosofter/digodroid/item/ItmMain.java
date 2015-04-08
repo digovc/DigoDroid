@@ -9,6 +9,7 @@ public class ItmMain extends Objeto {
 
     try {
 
+      this.setEventos();
     }
     catch (Exception ex) {
 
@@ -18,4 +19,16 @@ public class ItmMain extends Objeto {
     }
   }
 
+  protected void setEventos() {
+
+    try {
+
+    }
+    catch (Exception ex) {
+
+      new ErroAndroid("Erro inesperado.\n", ex);
+    }
+    finally {
+    }
+  }
 }
