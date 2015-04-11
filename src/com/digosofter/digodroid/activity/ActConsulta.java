@@ -455,14 +455,14 @@ public class ActConsulta extends ActMain {
 
   protected void onItemClick(ItmConsulta itm) {
 
-    Intent objIntent;
+    Intent itt;
 
     try {
 
-      objIntent = new Intent();
-      objIntent.putExtra(ActConsulta.EXTRA_OUT_REGISTRO_ID, itm.getIntRegistroId());
+      itt = new Intent();
+      itt.putExtra(ActConsulta.EXTRA_OUT_REGISTRO_ID, itm.getIntRegistroId());
 
-      ActConsulta.this.setResult(ActConsulta.EnmResultadoTipo.REGISTRO_SELECIONADO.ordinal(), objIntent);
+      ActConsulta.this.setResult(ActConsulta.EnmResultadoTipo.REGISTRO_SELECIONADO.ordinal(), itt);
       ActConsulta.this.finish();
     }
     catch (Exception ex) {
@@ -535,9 +535,7 @@ public class ActConsulta extends ActMain {
     try {
 
       this.getEdtPesquisa().addTextChangedListener(this.getEvtEdtPesquisa_TextWatcher());
-      // this.getPnlTblLista().setOnItemClickListener(this.getEvtPnlTblLista_OnItemClickListener());
-      // this.getPnlTblLista().setOnItemLongClickListener(this.getEvtPnlTblLista_OnItemLongClickListener());
-      // this.getPnlTblLista().setOnScrollListener(this.getEvtPnlTblLista_OnScrollListener());
+      this.getPnlTblLista().setOnItemClickListener(this.getEvtPnlTblLista_OnItemClickListener());
     }
     catch (Exception ex) {
 

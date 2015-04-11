@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.database.Cursor;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -361,5 +363,140 @@ public class ActDetalhe extends ActMain {
     }
     finally {
     }
+  }
+
+  private void montarMenu(Menu mnu) {
+
+    try {
+
+      if (mnu == null) {
+
+        return;
+      }
+
+      this.montarMenuAlterar(mnu);
+      this.montarMenuTblAcao(mnu);
+    }
+    catch (Exception ex) {
+
+      new ErroAndroid("Erro inesperado.\n", ex);
+    }
+    finally {
+    }
+  }
+
+  private void montarMenuAlterar(Menu mnu) {
+
+    try {
+
+      if (mnu == null) {
+
+        return;
+      }
+
+      if (this.getTbl() == null) {
+
+        return;
+      }
+
+      if (this.getTbl().getClsActCadastro() == null) {
+
+        return;
+      }
+
+      mnu.add("Alterar");
+    }
+    catch (Exception ex) {
+
+      new ErroAndroid("Erro inesperado.\n", ex);
+    }
+    finally {
+    }
+  }
+
+  private void montarMenuTblAcao(Menu mnu) {
+
+    try {
+
+      if (this.getTbl() == null) {
+
+        return;
+      }
+
+      if (this.getTbl().getLstStrAcao() == null) {
+
+        return;
+      }
+
+      if (this.getTbl().getLstStrAcao().isEmpty()) {
+
+        return;
+      }
+
+      for (String strAcao : this.getTbl().getLstStrAcao()) {
+
+        if (Utils.getBooStrVazia(strAcao)) {
+
+          continue;
+        }
+
+        mnu.add(strAcao);
+      }
+    }
+    catch (Exception ex) {
+
+      new ErroAndroid("Erro inesperado.\n", ex);
+    }
+    finally {
+    }
+  }
+
+  @Override
+  public boolean onOptionsItemSelected(MenuItem itm) {
+
+    try {
+
+      if (itm == null) {
+
+        return super.onOptionsItemSelected(itm);
+      }
+
+      if (this.getTbl() == null) {
+
+        return super.onOptionsItemSelected(itm);
+      }
+
+      this.getTbl().processarAcao(this, itm.getTitle().toString(), this.getIntRegistroId());
+    }
+    catch (Exception ex) {
+
+      new ErroAndroid("Erro inesperado.\n", ex);
+    }
+    finally {
+    }
+
+    return super.onOptionsItemSelected(itm);
+  }
+
+  @Override
+  public boolean onCreateOptionsMenu(Menu mnu) {
+
+    try {
+
+      if (mnu == null) {
+
+        return super.onCreateOptionsMenu(mnu);
+      }
+
+      this.montarMenu(mnu);
+    }
+    catch (Exception ex) {
+
+      new ErroAndroid("Erro inesperado.\n", ex);
+    }
+    finally {
+    }
+
+    return super.onCreateOptionsMenu(mnu);
   }
 }

@@ -8,6 +8,7 @@ import android.database.Cursor;
 
 import com.digosofter.digodroid.AppAndroid;
 import com.digosofter.digodroid.activity.ActConsulta;
+import com.digosofter.digodroid.activity.ActDetalhe;
 import com.digosofter.digodroid.activity.ActMain;
 import com.digosofter.digodroid.erro.ErroAndroid;
 import com.digosofter.digodroid.item.ItmConsulta;
@@ -24,36 +25,10 @@ public abstract class DbTabelaAndroid extends DbTabela {
   private boolean _booSinc = true;
   private Class<? extends ActMain> _clsActCadastro;
   private List<ItmConsulta> _lstItmConsulta;
+  private List<ItmDetalheGrupo> _lstItmDetalheGrupo;
+  private List<String> _lstStrAcao;
   private List<DbViewAndroid> _lstViwAndroid;
   private DataBaseAndroid _objDb;
-  private List<ItmDetalheGrupo> _lstItmDetalheGrupo;
-
-  public List<ItmDetalheGrupo> getLstItmDetalheGrupo() {
-
-    try {
-
-      if (_lstItmDetalheGrupo != null) {
-
-        return _lstItmDetalheGrupo;
-      }
-
-      _lstItmDetalheGrupo = new ArrayList<ItmDetalheGrupo>();
-
-      this.inicializar(_lstItmDetalheGrupo);
-    }
-    catch (Exception ex) {
-
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally {
-    }
-
-    return _lstItmDetalheGrupo;
-  }
-
-  protected void inicializar(List<ItmDetalheGrupo> lstItmDetalheGrupo) {
-
-  }
 
   protected DbTabelaAndroid(String strNome) {
 
@@ -62,7 +37,8 @@ public abstract class DbTabelaAndroid extends DbTabela {
     try {
 
       this.criar();
-      this.inicializarViews(this.getLstViwAndroid());
+      this.inicializarView(this.getLstViwAndroid());
+      this.inicializarAcao(this.getLstStrAcao());
     }
     catch (Exception ex) {
 
@@ -393,13 +369,13 @@ public abstract class DbTabelaAndroid extends DbTabela {
 
       sql = sql.replace("_clns_nome", this.getSqlSelectColunasNomesConsulta());
       sql = sql.replace("_tbl_nome", this.getStrNomeSql());
-      sql = sql.replace("where _where", this.getLstObjDbFiltroConsulta() != null && this.getLstObjDbFiltroConsulta().size() > 0 ? "where _where" : Utils.STR_VAZIA);
-      sql = sql.replace("_where", this.getSqlWhere(this.getLstObjDbFiltroConsulta()));
+      sql = sql.replace("where _where", this.getLstFilConsulta() != null && this.getLstFilConsulta().size() > 0 ? "where _where" : Utils.STR_VAZIA);
+      sql = sql.replace("_where", this.getSqlWhere(this.getLstFilConsulta()));
       sql = sql.replace("_order", this.getClnOrdem().getStrNomeSql());
 
       crsResultado = this.getObjDb().execSqlComRetorno(sql);
 
-      this.getLstObjDbFiltroConsulta().clear();
+      this.getLstFilConsulta().clear();
     }
     catch (Exception ex) {
 
@@ -483,6 +459,29 @@ public abstract class DbTabelaAndroid extends DbTabela {
     return _lstItmConsulta;
   }
 
+  public List<ItmDetalheGrupo> getLstItmDetalheGrupo() {
+
+    try {
+
+      if (_lstItmDetalheGrupo != null) {
+
+        return _lstItmDetalheGrupo;
+      }
+
+      _lstItmDetalheGrupo = new ArrayList<ItmDetalheGrupo>();
+
+      this.inicializar(_lstItmDetalheGrupo);
+    }
+    catch (Exception ex) {
+
+      new ErroAndroid("Erro inesperado.\n", ex);
+    }
+    finally {
+    }
+
+    return _lstItmDetalheGrupo;
+  }
+
   public List<String> getLstStr(DbColuna cln, List<DbFiltro> lstObjDbFiltro) {
 
     Cursor crs;
@@ -512,6 +511,27 @@ public abstract class DbTabelaAndroid extends DbTabela {
     }
 
     return lstStrResultado;
+  }
+
+  public List<String> getLstStrAcao() {
+
+    try {
+
+      if (_lstStrAcao != null) {
+
+        return _lstStrAcao;
+      }
+
+      _lstStrAcao = new ArrayList<String>();
+    }
+    catch (Exception ex) {
+
+      new ErroAndroid("Erro inesperado.\n", ex);
+    }
+    finally {
+    }
+
+    return _lstStrAcao;
   }
 
   protected List<DbViewAndroid> getLstViwAndroid() {
@@ -844,7 +864,15 @@ public abstract class DbTabelaAndroid extends DbTabela {
     return strResultado;
   }
 
-  protected void inicializarViews(List<DbViewAndroid> lstViwAndroid) {
+  protected void inicializar(List<ItmDetalheGrupo> lstItmDetalheGrupo) {
+
+  }
+
+  protected void inicializarAcao(List<String> lstStrAcao) {
+
+  }
+
+  protected void inicializarView(List<DbViewAndroid> lstViwAndroid) {
 
   }
 
@@ -915,6 +943,14 @@ public abstract class DbTabelaAndroid extends DbTabela {
     }
     finally {
     }
+  }
+
+  public void processarAcao(ActDetalhe actDetalhe, String strAcao, int intRegistroId) {
+
+  }
+
+  public void processarAcao(ActConsulta actConsulta, String strAcao, int intRegistroId) {
+
   }
 
   public void salvar() {
