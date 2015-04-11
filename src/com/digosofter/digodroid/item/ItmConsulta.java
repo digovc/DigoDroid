@@ -211,7 +211,15 @@ public class ItmConsulta extends ItmMain {
         return true;
       }
 
-      // TODO: Resolver.
+      if (this.getBooContemTermoNome(strTermo)) {
+
+        return true;
+      }
+
+      if (this.getBooContemTermoItem(strTermo)) {
+
+        return true;
+      }
     }
     catch (Exception ex) {
 
@@ -219,6 +227,68 @@ public class ItmConsulta extends ItmMain {
     }
     finally {
     }
+
+    return false;
+  }
+
+  private boolean getBooContemTermoItem(String strTermo) {
+
+    try {
+
+      if (Utils.getBooStrVazia(strTermo)) {
+
+        return false;
+      }
+
+      for (ItmCampo itmCampo : this.getLstItmCampo()) {
+
+        if (itmCampo == null) {
+
+          continue;
+        }
+
+        if (itmCampo.getBooContemTermo(strTermo)) {
+
+          return true;
+        }
+      }
+    }
+    catch (Exception ex) {
+
+      new ErroAndroid("Erro inesperado.\n", ex);
+    }
+    finally {
+    }
+
+    return false;
+  }
+
+  private boolean getBooContemTermoNome(String strTermo) {
+
+    try {
+
+      if (Utils.getBooStrVazia(strTermo)) {
+
+        return false;
+      }
+
+      if (Utils.getBooStrVazia(this.getStrNome())) {
+
+        return false;
+      }
+
+      if (this.getStrNome().contains(strTermo)) {
+
+        return true;
+      }
+    }
+    catch (Exception ex) {
+
+      new ErroAndroid("Erro inesperado.\n", ex);
+    }
+    finally {
+    }
+
     return false;
   }
 
@@ -545,6 +615,16 @@ public class ItmConsulta extends ItmMain {
     }
   }
 
+  private void setImgAlterar(ImageView imgAlterar) {
+
+    _imgAlterar = imgAlterar;
+  }
+
+  private void setImgDetalhe(ImageView imgDetalhe) {
+
+    _imgDetalhe = imgDetalhe;
+  }
+
   private void setIntRegistroId(int intRegistroId) {
 
     _intRegistroId = intRegistroId;
@@ -591,6 +671,8 @@ public class ItmConsulta extends ItmMain {
 
     try {
 
+      this.setImgAlterar(null);
+      this.setImgDetalhe(null);
       this.setPnlCampoContainer(null);
       this.setTxtId(null);
       this.setTxtNome(null);

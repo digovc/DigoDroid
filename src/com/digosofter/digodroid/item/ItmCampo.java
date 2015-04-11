@@ -40,6 +40,35 @@ public class ItmCampo extends ItmMain {
     }
   }
 
+  public boolean getBooContemTermo(String strTermo) {
+
+    try {
+
+      if (Utils.getBooStrVazia(strTermo)) {
+
+        return false;
+      }
+
+      if (Utils.getBooStrVazia(this.getStrValor())) {
+
+        return false;
+      }
+
+      if (this.getStrValor().contains(strTermo)) {
+
+        return true;
+      }
+    }
+    catch (Exception ex) {
+
+      new ErroAndroid("Erro inesperado.\n", ex);
+    }
+    finally {
+    }
+
+    return false;
+  }
+
   public DbColuna getCln() {
 
     return _cln;
@@ -114,6 +143,7 @@ public class ItmCampo extends ItmMain {
     return _viw;
   }
 
+  @Override
   public void montarLayout() {
 
     try {
