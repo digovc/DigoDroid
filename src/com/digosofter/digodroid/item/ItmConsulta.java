@@ -32,6 +32,7 @@ public class ItmConsulta extends ItmMain {
   private TextView _txtId;
   private TextView _txtNome;
   private View _viw;
+  private View _viwLinha1;
 
   private void alterar(View viw) {
 
@@ -517,6 +518,27 @@ public class ItmConsulta extends ItmMain {
     return _viw;
   }
 
+  private View getViwLinha1() {
+
+    try {
+
+      if (_viwLinha1 != null) {
+
+        return _viwLinha1;
+      }
+
+      _viwLinha1 = this.getViw().findViewById(R.id.itmConsulta_lin1);
+    }
+    catch (Exception ex) {
+
+      new ErroAndroid("Erro inesperado.\n", ex);
+    }
+    finally {
+    }
+
+    return _viwLinha1;
+  }
+
   @Override
   public void montarLayout() {
 
@@ -557,6 +579,13 @@ public class ItmConsulta extends ItmMain {
       }
 
       this.getPnlCampoContainer().removeAllViews();
+
+      if (this.getLstItmCampo().size() < 1) {
+
+        this.getPnlCampoContainer().setVisibility(View.GONE);
+        this.getViwLinha1().setVisibility(View.GONE);
+        return;
+      }
 
       for (ItmCampo itmCampo : this.getLstItmCampo()) {
 
@@ -667,6 +696,11 @@ public class ItmConsulta extends ItmMain {
     }
   }
 
+  private void setViwLinha1(View viwLinha1) {
+
+    _viwLinha1 = viwLinha1;
+  }
+
   private void zerarLayout() {
 
     try {
@@ -676,6 +710,7 @@ public class ItmConsulta extends ItmMain {
       this.setPnlCampoContainer(null);
       this.setTxtId(null);
       this.setTxtNome(null);
+      this.setViwLinha1(null);
     }
     catch (Exception ex) {
 
