@@ -22,6 +22,8 @@ public class ActDetalhe extends ActMain {
 
   public static final String EXTRA_IN_INT_REGISTRO_ID = "registro_id";
 
+  public static final CharSequence STR_DETALHE_ACAO_ALTERAR = "Alterar";
+
   private int _intRegistroId;
   private ItmConsulta _itmConsulta;
   private List<ItmDetalheGrupo> _lstItmDetalheGrupo;
@@ -404,7 +406,7 @@ public class ActDetalhe extends ActMain {
         return;
       }
 
-      mnu.add("Alterar");
+      mnu.add(ActDetalhe.STR_DETALHE_ACAO_ALTERAR);
     }
     catch (Exception ex) {
 

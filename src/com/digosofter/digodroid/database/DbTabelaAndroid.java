@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.database.Cursor;
 
 import com.digosofter.digodroid.AppAndroid;
+import com.digosofter.digodroid.activity.ActCadastroMain;
 import com.digosofter.digodroid.activity.ActConsulta;
 import com.digosofter.digodroid.activity.ActDetalhe;
 import com.digosofter.digodroid.activity.ActMain;
@@ -945,12 +946,78 @@ public abstract class DbTabelaAndroid extends DbTabela {
     }
   }
 
-  public void processarAcao(ActDetalhe actDetalhe, String strAcao, int intRegistroId) {
+  public void processarAcao(ActConsulta actConsulta, String strAcao, int intRegistroId) {
 
   }
 
-  public void processarAcao(ActConsulta actConsulta, String strAcao, int intRegistroId) {
+  public void processarAcao(ActDetalhe actDetalhe, String strAcao, int intRegistroId) {
 
+    try {
+
+      if (actDetalhe == null) {
+
+        return;
+      }
+
+      if (Utils.getBooStrVazia(strAcao)) {
+
+        return;
+      }
+
+      if (intRegistroId < 1) {
+
+        return;
+      }
+
+      if (this.getClsActCadastro() == null) {
+
+        return;
+      }
+
+      if (strAcao.equals(ActDetalhe.STR_DETALHE_ACAO_ALTERAR)) {
+
+        this.processarAcaoAlterar(actDetalhe, intRegistroId);
+      }
+    }
+    catch (Exception ex) {
+
+      new ErroAndroid("Erro inesperado.\n", ex);
+    }
+    finally {
+    }
+  }
+
+  private void processarAcaoAlterar(ActDetalhe actDetalhe, int intRegistroId) {
+
+    Intent itt;
+    try {
+
+      if (actDetalhe == null) {
+
+        return;
+      }
+
+      if (intRegistroId < 1) {
+
+        return;
+      }
+
+      if (this.getClsActCadastro() == null) {
+
+        return;
+      }
+
+      itt = new Intent(actDetalhe, this.getClsActCadastro());
+      itt.putExtra(ActCadastroMain.EXTRA_IN_INT_REGISTRO_ID, intRegistroId);
+
+      actDetalhe.startActivity(itt);
+    }
+    catch (Exception ex) {
+
+      new ErroAndroid("Erro inesperado.\n", ex);
+    }
+    finally {
+    }
   }
 
   public void salvar() {
