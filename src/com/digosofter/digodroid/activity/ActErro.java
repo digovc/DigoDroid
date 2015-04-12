@@ -13,7 +13,7 @@ public class ActErro extends ActMain {
 
   private static boolean _booIgnorarTodos;
   private static int _intQtdErroVisivel;
-  public static final String EXTRA_IN_OBJ_ERRO = "obj_erro";
+  public static final String STR_EXTRA_IN_OBJ_ERRO = "obj_erro";
 
   private ErroAndroid _err;
   private TextView _txtAppNome;
@@ -77,7 +77,7 @@ public class ActErro extends ActMain {
         return _err;
       }
 
-      _err = (ErroAndroid) this.getIntent().getSerializableExtra(ActErro.EXTRA_IN_OBJ_ERRO);
+      _err = (ErroAndroid) this.getIntent().getSerializableExtra(ActErro.STR_EXTRA_IN_OBJ_ERRO);
     }
     catch (Exception ex) {
 

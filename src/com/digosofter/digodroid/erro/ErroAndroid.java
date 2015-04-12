@@ -27,7 +27,7 @@ public class ErroAndroid extends Erro implements Serializable {
       }
 
       itt = new Intent(AppAndroid.getI().getCnt(), ActErro.class);
-      itt.putExtra(ActErro.EXTRA_IN_OBJ_ERRO, this);
+      itt.putExtra(ActErro.STR_EXTRA_IN_OBJ_ERRO, this);
 
       AppAndroid.getI().getActMain().startActivity(itt);
     }

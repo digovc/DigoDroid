@@ -5,6 +5,7 @@ import java.util.List;
 
 import android.content.Intent;
 import android.database.Cursor;
+import android.view.Menu;
 
 import com.digosofter.digodroid.AppAndroid;
 import com.digosofter.digodroid.activity.ActCadastroMain;
@@ -23,11 +24,15 @@ import com.digosofter.digojava.database.DbTabela;
 
 public abstract class DbTabelaAndroid extends DbTabela {
 
+  private static final String STR_OPCAO_ALTERAR = "Alterar";
+  private static final String STR_OPCAO_DETALHAR = "Ver detalhes";
+  public static final String STR_OPCAO_SELECIONAR = "Selecionar";
+
   private boolean _booSinc = true;
   private Class<? extends ActMain> _clsActCadastro;
   private List<ItmConsulta> _lstItmConsulta;
   private List<ItmDetalheGrupo> _lstItmDetalheGrupo;
-  private List<String> _lstStrAcao;
+  private List<String> _lstStrOpcao;
   private List<DbViewAndroid> _lstViwAndroid;
   private DataBaseAndroid _objDb;
 
@@ -39,7 +44,7 @@ public abstract class DbTabelaAndroid extends DbTabela {
 
       this.criar();
       this.inicializarView(this.getLstViwAndroid());
-      this.inicializarAcao(this.getLstStrAcao());
+      this.inicializarAcao(this.getLstStrOpcao());
     }
     catch (Exception ex) {
 
@@ -514,16 +519,16 @@ public abstract class DbTabelaAndroid extends DbTabela {
     return lstStrResultado;
   }
 
-  public List<String> getLstStrAcao() {
+  public List<String> getLstStrOpcao() {
 
     try {
 
-      if (_lstStrAcao != null) {
+      if (_lstStrOpcao != null) {
 
-        return _lstStrAcao;
+        return _lstStrOpcao;
       }
 
-      _lstStrAcao = new ArrayList<String>();
+      _lstStrOpcao = new ArrayList<String>();
     }
     catch (Exception ex) {
 
@@ -532,7 +537,7 @@ public abstract class DbTabelaAndroid extends DbTabela {
     finally {
     }
 
-    return _lstStrAcao;
+    return _lstStrOpcao;
   }
 
   protected List<DbViewAndroid> getLstViwAndroid() {
@@ -946,25 +951,33 @@ public abstract class DbTabelaAndroid extends DbTabela {
     }
   }
 
-  public void processarAcao(ActConsulta actConsulta, String strAcao, int intRegistroId) {
-
-  }
-
-  public void processarAcao(ActDetalhe actDetalhe, String strAcao, int intRegistroId) {
+  public void montarMenu(Menu mnu, int intRegistroId) {
 
     try {
 
-      if (actDetalhe == null) {
+      if (mnu == null) {
 
         return;
       }
 
-      if (Utils.getBooStrVazia(strAcao)) {
+      this.montarMenuSelecionar(mnu);
+      this.montarMenuDetalhar(mnu);
+      this.montarMenuAlterar(mnu);
+      this.montarMenuOpcao(mnu);
+    }
+    catch (Exception ex) {
 
-        return;
-      }
+      new ErroAndroid("Erro inesperado.\n", ex);
+    }
+    finally {
+    }
+  }
 
-      if (intRegistroId < 1) {
+  private void montarMenuAlterar(Menu mnu) {
+
+    try {
+
+      if (mnu == null) {
 
         return;
       }
@@ -974,9 +987,57 @@ public abstract class DbTabelaAndroid extends DbTabela {
         return;
       }
 
-      if (strAcao.equals(ActDetalhe.STR_DETALHE_ACAO_ALTERAR)) {
+      mnu.add(DbTabelaAndroid.STR_OPCAO_ALTERAR);
+    }
+    catch (Exception ex) {
 
-        this.processarAcaoAlterar(actDetalhe, intRegistroId);
+      new ErroAndroid("Erro inesperado.\n", ex);
+    }
+    finally {
+    }
+  }
+
+  private void montarMenuDetalhar(Menu mnu) {
+
+    try {
+
+      if (mnu == null) {
+
+        return;
+      }
+
+      mnu.add(DbTabelaAndroid.STR_OPCAO_DETALHAR);
+    }
+    catch (Exception ex) {
+
+      new ErroAndroid("Erro inesperado.\n", ex);
+    }
+    finally {
+    }
+  }
+
+  private void montarMenuOpcao(Menu mnu) {
+
+    try {
+
+      if (this.getLstStrOpcao() == null) {
+
+        return;
+      }
+
+      if (this.getLstStrOpcao().isEmpty()) {
+
+        return;
+      }
+
+      for (String strAcao : this.getLstStrOpcao()) {
+
+        if (Utils.getBooStrVazia(strAcao)) {
+
+          continue;
+        }
+
+        mnu.add(strAcao);
       }
     }
     catch (Exception ex) {
@@ -987,12 +1048,68 @@ public abstract class DbTabelaAndroid extends DbTabela {
     }
   }
 
-  private void processarAcaoAlterar(ActDetalhe actDetalhe, int intRegistroId) {
+  private void montarMenuSelecionar(Menu mnu) {
 
-    Intent itt;
     try {
 
-      if (actDetalhe == null) {
+      if (mnu == null) {
+
+        return;
+      }
+
+      mnu.add(DbTabelaAndroid.STR_OPCAO_SELECIONAR);
+    }
+    catch (Exception ex) {
+
+      new ErroAndroid("Erro inesperado.\n", ex);
+    }
+    finally {
+    }
+  }
+
+  public void processarOpcao(ActMain act, String strOpcao, int intRegistroId) {
+
+    try {
+
+      if (act == null) {
+
+        return;
+      }
+
+      if (Utils.getBooStrVazia(strOpcao)) {
+
+        return;
+      }
+
+      if (intRegistroId < 1) {
+
+        return;
+      }
+
+      switch (strOpcao) {
+        case DbTabelaAndroid.STR_OPCAO_ALTERAR:
+          this.processarOpcaoAlterar(act, intRegistroId);
+          break;
+        case DbTabelaAndroid.STR_OPCAO_DETALHAR:
+          this.processarOpcaoDetalhar(act, intRegistroId);
+          break;
+      }
+    }
+    catch (Exception ex) {
+
+      new ErroAndroid("Erro inesperado.\n", ex);
+    }
+    finally {
+    }
+  }
+
+  private void processarOpcaoAlterar(ActMain act, int intRegistroId) {
+
+    Intent itt;
+
+    try {
+
+      if (act == null) {
 
         return;
       }
@@ -1007,10 +1124,43 @@ public abstract class DbTabelaAndroid extends DbTabela {
         return;
       }
 
-      itt = new Intent(actDetalhe, this.getClsActCadastro());
-      itt.putExtra(ActCadastroMain.EXTRA_IN_INT_REGISTRO_ID, intRegistroId);
+      AppAndroid.getI().setTblSelec(this);
 
-      actDetalhe.startActivity(itt);
+      itt = new Intent(act, this.getClsActCadastro());
+      itt.putExtra(ActCadastroMain.STR_EXTRA_IN_INT_REGISTRO_ID, intRegistroId);
+
+      act.startActivity(itt);
+    }
+    catch (Exception ex) {
+
+      new ErroAndroid("Erro inesperado.\n", ex);
+    }
+    finally {
+    }
+  }
+
+  private void processarOpcaoDetalhar(ActMain act, int intRegistroId) {
+
+    Intent itt;
+
+    try {
+
+      if (act == null) {
+
+        return;
+      }
+
+      if (intRegistroId < 1) {
+
+        return;
+      }
+
+      AppAndroid.getI().setTblSelec(this);
+
+      itt = new Intent(act, ActDetalhe.class);
+      itt.putExtra(ActDetalhe.STR_EXTRA_IN_INT_REGISTRO_ID, intRegistroId);
+
+      act.startActivity(itt);
     }
     catch (Exception ex) {
 
@@ -1076,4 +1226,5 @@ public abstract class DbTabelaAndroid extends DbTabela {
 
     _objDb = objDb;
   }
+
 }

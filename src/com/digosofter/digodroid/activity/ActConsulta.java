@@ -1,20 +1,17 @@
 package com.digosofter.digodroid.activity;
 
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.ContextMenu;
+import android.view.ContextMenu.ContextMenuInfo;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.AbsListView;
-import android.widget.AbsListView.OnScrollListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -36,15 +33,14 @@ public class ActConsulta extends ActMain {
     VOLTAR
   }
 
-  public static final String EXTRA_OUT_REGISTRO_ID = "registro_id";
+  public static final String STR_EXTRA_OUT_REGISTRO_ID = "registro_id";
 
   private AdpConsulta _adpCadastro;
   private EditText _edtPesquisa;
   private TextWatcher _evtEdtPesquisa_TextWatcher;
   private OnItemClickListener _evtPnlTblLista_OnItemClickListener;
-  private OnItemLongClickListener _evtPnlTblLista_OnItemLongClickListener;
-  private OnScrollListener _evtPnlTblLista_OnScrollListener;
-  private ListView _pnlTblLista;
+  private ItmConsulta _itmSelec;
+  private ListView _pnlLista;
   private DbTabelaAndroid _tbl;
   private TextView _txtTblDescricao;
 
@@ -74,7 +70,7 @@ public class ActConsulta extends ActMain {
       }
 
       itt = new Intent(this, ActDetalhe.class);
-      itt.putExtra(ActDetalhe.EXTRA_IN_INT_REGISTRO_ID, intRegistroId);
+      itt.putExtra(ActDetalhe.STR_EXTRA_IN_INT_REGISTRO_ID, intRegistroId);
 
       this.startActivity(itt);
     }
@@ -186,11 +182,8 @@ public class ActConsulta extends ActMain {
 
           try {
 
-            ActConsulta.this.getTbl().setStrPesquisaActConsulta(ActConsulta.this.getEdtPesquisa().getText().toString());
-
-            itm = (ItmConsulta) ActConsulta.this.getPnlTblLista().getItemAtPosition(intPosition);
-
-            ActConsulta.this.onItemClick(itm);
+            itm = (ItmConsulta) ActConsulta.this.getPnlLista().getItemAtPosition(intPosition);
+            ActConsulta.this.onItemClick(viw, itm);
           }
 
           catch (Exception ex) {
@@ -212,117 +205,29 @@ public class ActConsulta extends ActMain {
     return _evtPnlTblLista_OnItemClickListener;
   }
 
-  private OnItemLongClickListener getEvtPnlTblLista_OnItemLongClickListener() {
-
-    try {
-
-      if (_evtPnlTblLista_OnItemLongClickListener != null) {
-
-        return _evtPnlTblLista_OnItemLongClickListener;
-      }
-
-      _evtPnlTblLista_OnItemLongClickListener = new OnItemLongClickListener() {
-
-        @Override
-        public boolean onItemLongClick(AdapterView<?> advParent, View viw, int intPosition, long intId) {
-
-          ItmConsulta itm;
-
-          try {
-
-            itm = (ItmConsulta) ActConsulta.this.getPnlTblLista().getItemAtPosition(intPosition);
-
-            if (itm.getIntRegistroId() < 1) {
-
-              return true;
-            }
-
-            ActConsulta.this.abrirActDetalhe(itm.getIntRegistroId());
-          }
-          catch (Exception ex) {
-
-            new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(115), ex);
-          }
-          finally {
-          }
-
-          return true;
-        }
-      };
-    }
-    catch (Exception ex) {
-
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally {
-    }
-
-    return _evtPnlTblLista_OnItemLongClickListener;
-  }
-
-  private OnScrollListener getEvtPnlTblLista_OnScrollListener() {
-
-    try {
-
-      if (_evtPnlTblLista_OnScrollListener != null) {
-
-        return _evtPnlTblLista_OnScrollListener;
-      }
-
-      _evtPnlTblLista_OnScrollListener = new OnScrollListener() {
-
-        @Override
-        public void onScroll(AbsListView viw, int intFirstVisibleItem, int intVisibleItemCount, int intTotalItemCount) {
-
-        }
-
-        @Override
-        public void onScrollStateChanged(AbsListView viw, int intScrollState) {
-
-          InputMethodManager imm;
-
-          try {
-
-            imm = (InputMethodManager) ActConsulta.this.getSystemService(Context.INPUT_METHOD_SERVICE);
-            imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
-          }
-          catch (Exception ex) {
-
-            new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(0), ex);
-          }
-          finally {
-          }
-        }
-      };
-    }
-    catch (Exception ex) {
-
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally {
-    }
-
-    return _evtPnlTblLista_OnScrollListener;
-  }
-
   @Override
   protected int getIntLayoutId() {
 
     return R.layout.act_consulta;
   }
 
-  public ListView getPnlTblLista() {
+  private ItmConsulta getItmSelec() {
+
+    return _itmSelec;
+  }
+
+  public ListView getPnlLista() {
 
     try {
 
-      if (_pnlTblLista != null) {
+      if (_pnlLista != null) {
 
-        return _pnlTblLista;
+        return _pnlLista;
       }
 
-      _pnlTblLista = this.getListView(R.id.actConsulta_pnlTblLista);
+      _pnlLista = this.getListView(R.id.actConsulta_pnlLista);
 
-      _pnlTblLista.setCacheColorHint(Color.TRANSPARENT);
+      _pnlLista.setCacheColorHint(Color.TRANSPARENT);
     }
     catch (Exception ex) {
 
@@ -331,7 +236,7 @@ public class ActConsulta extends ActMain {
     finally {
     }
 
-    return _pnlTblLista;
+    return _pnlLista;
   }
 
   public DbTabelaAndroid getTbl() {
@@ -399,7 +304,7 @@ public class ActConsulta extends ActMain {
 
     try {
 
-      this.getPnlTblLista().setAdapter(this.getAdpCadastro());
+      this.getPnlLista().setAdapter(this.getAdpCadastro());
     }
     catch (Exception ex) {
 
@@ -432,6 +337,73 @@ public class ActConsulta extends ActMain {
   }
 
   @Override
+  public boolean onContextItemSelected(MenuItem itmMenu) {
+
+    try {
+
+      if (itmMenu == null) {
+
+        return true;
+      }
+
+      if (this.getTbl() == null) {
+
+        return true;
+      }
+
+      if (itmMenu.getTitle().equals(DbTabelaAndroid.STR_OPCAO_SELECIONAR)) {
+
+        this.processarOpcaoSelecionar();
+        return true;
+      }
+
+      this.getTbl().processarOpcao(this, itmMenu.getTitle().toString(), this.getItmSelec().getIntRegistroId());
+    }
+    catch (Exception ex) {
+
+      new ErroAndroid("Erro inesperado.\n", ex);
+    }
+    finally {
+    }
+
+    return super.onContextItemSelected(itmMenu);
+  }
+
+  @Override
+  public void onCreateContextMenu(ContextMenu mnu, View viw, ContextMenuInfo objContextMenuInfo) {
+
+    super.onCreateContextMenu(mnu, viw, objContextMenuInfo);
+
+    try {
+
+      if (this.getTbl() == null) {
+
+        return;
+      }
+
+      if (this.getItmSelec() == null) {
+
+        return;
+      }
+
+      if (this.getItmSelec().getIntRegistroId() < 1) {
+
+        return;
+      }
+
+      mnu.setHeaderTitle(this.getItmSelec().getStrNome());
+
+      this.getTbl().montarMenu(mnu, this.getItmSelec().getIntRegistroId());
+    }
+    catch (Exception ex) {
+
+      new ErroAndroid("Erro inesperado.\n", ex);
+    }
+    finally {
+    }
+  }
+
+  @Override
   public boolean onCreateOptionsMenu(Menu objMenu) {
 
     MenuInflater objMenuInflater;
@@ -453,17 +425,27 @@ public class ActConsulta extends ActMain {
     return super.onCreateOptionsMenu(objMenu);
   }
 
-  protected void onItemClick(ItmConsulta itm) {
-
-    Intent itt;
+  protected void onItemClick(View viw, ItmConsulta itm) {
 
     try {
 
-      itt = new Intent();
-      itt.putExtra(ActConsulta.EXTRA_OUT_REGISTRO_ID, itm.getIntRegistroId());
+      if (viw == null) {
 
-      ActConsulta.this.setResult(ActConsulta.EnmResultadoTipo.REGISTRO_SELECIONADO.ordinal(), itt);
-      ActConsulta.this.finish();
+        return;
+      }
+
+      if (itm == null) {
+
+        return;
+      }
+
+      if (itm.getIntRegistroId() < 1) {
+
+        return;
+      }
+
+      this.setItmSelec(itm);
+      this.openContextMenu(viw);
     }
     catch (Exception ex) {
 
@@ -505,19 +487,47 @@ public class ActConsulta extends ActMain {
     return false;
   }
 
-  /**
-   * Recupera a última pesquisa feita na tabela da tela de consulta.
-   */
-  private void recuperarUltimaPesquisa() {
+  private void processarOpcaoSelecionar() {
+
+    Intent itt;
 
     try {
 
-      if (Utils.getBooStrVazia(this.getTbl().getStrPesquisaActConsulta())) {
+      if (this.getItmSelec() == null) {
 
         return;
       }
 
-      this.getEdtPesquisa().setText(this.getTbl().getStrPesquisaActConsulta());
+      if (this.getItmSelec().getIntRegistroId() < 1) {
+
+        return;
+      }
+
+      itt = new Intent();
+      itt.putExtra(ActConsulta.STR_EXTRA_OUT_REGISTRO_ID, this.getItmSelec().getIntRegistroId());
+
+      this.getTbl().setStrPesquisa(this.getEdtPesquisa().getText().toString());
+      this.setResult(ActConsulta.EnmResultadoTipo.REGISTRO_SELECIONADO.ordinal(), itt);
+      this.finish();
+    }
+    catch (Exception ex) {
+
+      new ErroAndroid("Erro inesperado.\n", ex);
+    }
+    finally {
+    }
+  }
+
+  private void recuperarUltimaPesquisa() {
+
+    try {
+
+      if (Utils.getBooStrVazia(this.getTbl().getStrPesquisa())) {
+
+        return;
+      }
+
+      this.getEdtPesquisa().setText(this.getTbl().getStrPesquisa());
     }
     catch (Exception ex) {
 
@@ -534,8 +544,11 @@ public class ActConsulta extends ActMain {
 
     try {
 
+      this.registerForContextMenu(this.getPnlLista());
+
+      this.getPnlLista().setLongClickable(false);
       this.getEdtPesquisa().addTextChangedListener(this.getEvtEdtPesquisa_TextWatcher());
-      this.getPnlTblLista().setOnItemClickListener(this.getEvtPnlTblLista_OnItemClickListener());
+      this.getPnlLista().setOnItemClickListener(this.getEvtPnlTblLista_OnItemClickListener());
     }
     catch (Exception ex) {
 
@@ -543,5 +556,10 @@ public class ActConsulta extends ActMain {
     }
     finally {
     }
+  }
+
+  private void setItmSelec(ItmConsulta itmSelec) {
+
+    _itmSelec = itmSelec;
   }
 }

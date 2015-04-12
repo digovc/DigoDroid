@@ -106,9 +106,9 @@ public class AdpConsulta extends BaseAdapter implements Filterable {
   }
 
   @Override
-  public long getItemId(int position) {
+  public long getItemId(int intPosicao) {
 
-    return position;
+    return this.getLstItmConsulta().get(intPosicao).getIntRegistroId();
   }
 
   private List<ItmConsulta> getLstItmConsulta() {

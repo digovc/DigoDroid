@@ -33,14 +33,14 @@
         </LinearLayout>
 
         <View
-            android:id="@+id/separator"
+            android:id="@+id/actConsulta_viwLinha1"
             android:layout_width="fill_parent"
             android:layout_height="2dp"
             android:background="#33b5e5"
             android:visibility="visible" />
 
         <ListView
-            android:id="@+id/actConsulta_pnlTblLista"
+            android:id="@+id/actConsulta_pnlLista"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:cacheColorHint="@android:color/transparent"

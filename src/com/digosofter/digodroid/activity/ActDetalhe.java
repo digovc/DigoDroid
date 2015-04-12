@@ -20,9 +20,7 @@ import com.digosofter.digojava.Utils;
 
 public class ActDetalhe extends ActMain {
 
-  public static final String EXTRA_IN_INT_REGISTRO_ID = "registro_id";
-
-  public static final CharSequence STR_DETALHE_ACAO_ALTERAR = "Alterar";
+  public static final String STR_EXTRA_IN_INT_REGISTRO_ID = "registro_id";
 
   private int _intRegistroId;
   private ItmConsulta _itmConsulta;
@@ -47,7 +45,7 @@ public class ActDetalhe extends ActMain {
         return _intRegistroId;
       }
 
-      _intRegistroId = this.getIntent().getExtras().getInt(ActDetalhe.EXTRA_IN_INT_REGISTRO_ID);
+      _intRegistroId = this.getIntent().getExtras().getInt(ActDetalhe.STR_EXTRA_IN_INT_REGISTRO_ID);
     }
     catch (Exception ex) {
 
@@ -367,46 +365,32 @@ public class ActDetalhe extends ActMain {
     }
   }
 
-  private void montarMenu(Menu mnu) {
+  @Override
+  public boolean onCreateOptionsMenu(Menu mnu) {
 
     try {
 
       if (mnu == null) {
 
-        return;
-      }
-
-      this.montarMenuAlterar(mnu);
-      this.montarMenuTblAcao(mnu);
-    }
-    catch (Exception ex) {
-
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally {
-    }
-  }
-
-  private void montarMenuAlterar(Menu mnu) {
-
-    try {
-
-      if (mnu == null) {
-
-        return;
+        return super.onCreateOptionsMenu(mnu);
       }
 
       if (this.getTbl() == null) {
 
-        return;
+        return super.onCreateOptionsMenu(mnu);
       }
 
-      if (this.getTbl().getClsActCadastro() == null) {
+      if (this.getItmConsulta() == null) {
 
-        return;
+        return super.onCreateOptionsMenu(mnu);
       }
 
-      mnu.add(ActDetalhe.STR_DETALHE_ACAO_ALTERAR);
+      if (this.getItmConsulta().getIntRegistroId() < 1) {
+
+        return super.onCreateOptionsMenu(mnu);
+      }
+
+      this.getTbl().montarMenu(mnu, this.getItmConsulta().getIntRegistroId());
     }
     catch (Exception ex) {
 
@@ -414,43 +398,8 @@ public class ActDetalhe extends ActMain {
     }
     finally {
     }
-  }
 
-  private void montarMenuTblAcao(Menu mnu) {
-
-    try {
-
-      if (this.getTbl() == null) {
-
-        return;
-      }
-
-      if (this.getTbl().getLstStrAcao() == null) {
-
-        return;
-      }
-
-      if (this.getTbl().getLstStrAcao().isEmpty()) {
-
-        return;
-      }
-
-      for (String strAcao : this.getTbl().getLstStrAcao()) {
-
-        if (Utils.getBooStrVazia(strAcao)) {
-
-          continue;
-        }
-
-        mnu.add(strAcao);
-      }
-    }
-    catch (Exception ex) {
-
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally {
-    }
+    return super.onCreateOptionsMenu(mnu);
   }
 
   @Override
@@ -468,7 +417,7 @@ public class ActDetalhe extends ActMain {
         return super.onOptionsItemSelected(itm);
       }
 
-      this.getTbl().processarAcao(this, itm.getTitle().toString(), this.getIntRegistroId());
+      this.getTbl().processarOpcao(this, itm.getTitle().toString(), this.getIntRegistroId());
     }
     catch (Exception ex) {
 
@@ -478,27 +427,5 @@ public class ActDetalhe extends ActMain {
     }
 
     return super.onOptionsItemSelected(itm);
-  }
-
-  @Override
-  public boolean onCreateOptionsMenu(Menu mnu) {
-
-    try {
-
-      if (mnu == null) {
-
-        return super.onCreateOptionsMenu(mnu);
-      }
-
-      this.montarMenu(mnu);
-    }
-    catch (Exception ex) {
-
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally {
-    }
-
-    return super.onCreateOptionsMenu(mnu);
   }
 }

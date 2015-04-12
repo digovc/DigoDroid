@@ -3,17 +3,12 @@ package com.digosofter.digodroid.item;
 import java.util.ArrayList;
 import java.util.List;
 
-import android.content.Intent;
 import android.database.Cursor;
 import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.digosofter.digodroid.R;
-import com.digosofter.digodroid.activity.ActCadastroMain;
-import com.digosofter.digodroid.activity.ActDetalhe;
 import com.digosofter.digodroid.database.DbTabelaAndroid;
 import com.digosofter.digodroid.erro.ErroAndroid;
 import com.digosofter.digojava.Utils;
@@ -21,10 +16,6 @@ import com.digosofter.digojava.database.DbColuna;
 
 public class ItmConsulta extends ItmMain {
 
-  private OnClickListener _evtImgAlterar_OnClickListener;
-  private OnClickListener _evtImgDetalhe_OnClickListener;
-  private ImageView _imgAlterar;
-  private ImageView _imgDetalhe;
   private int _intRegistroId;
   private List<ItmCampo> _lstItmCampo;
   private LinearLayout _pnlCampoContainer;
@@ -33,40 +24,6 @@ public class ItmConsulta extends ItmMain {
   private TextView _txtNome;
   private View _viw;
   private View _viwLinha1;
-
-  private void alterar(View viw) {
-
-    Intent itt;
-
-    try {
-
-      if (viw == null) {
-
-        return;
-      }
-
-      if (this.getIntRegistroId() < 1) {
-
-        return;
-      }
-
-      if (this.getTbl().getClsActCadastro() == null) {
-
-        return;
-      }
-
-      itt = new Intent(viw.getContext(), this.getTbl().getClsActCadastro());
-      itt.putExtra(ActCadastroMain.EXTRA_IN_INT_REGISTRO_ID, this.getIntRegistroId());
-
-      viw.getContext().startActivity(itt);
-    }
-    catch (Exception ex) {
-
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally {
-    }
-  }
 
   public void carregarDados(Cursor crs, boolean booSomenteClnConsulta) {
 
@@ -173,36 +130,6 @@ public class ItmConsulta extends ItmMain {
     }
   }
 
-  private void detalhar(View viw) {
-
-    Intent itt;
-
-    try {
-
-      if (viw == null) {
-
-        return;
-      }
-
-      if (this.getIntRegistroId() < 1) {
-
-        return;
-      }
-
-      itt = new Intent(viw.getContext(), ActDetalhe.class);
-      itt.putExtra(ActDetalhe.EXTRA_IN_INT_REGISTRO_ID, this.getIntRegistroId());
-
-      viw.getContext().startActivity(itt);
-    }
-    catch (Exception ex) {
-
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally {
-    }
-
-  }
-
   public boolean getBooContemTermo(String strTermo) {
 
     try {
@@ -291,122 +218,6 @@ public class ItmConsulta extends ItmMain {
     }
 
     return false;
-  }
-
-  private OnClickListener getEvtImgAlterar_OnClickListener() {
-
-    try {
-
-      if (_evtImgAlterar_OnClickListener != null) {
-
-        return _evtImgAlterar_OnClickListener;
-      }
-
-      _evtImgAlterar_OnClickListener = new OnClickListener() {
-
-        @Override
-        public void onClick(View viw) {
-
-          try {
-
-            ItmConsulta.this.alterar(viw);
-          }
-          catch (Exception ex) {
-
-            new ErroAndroid("Erro inesperado.\n", ex);
-          }
-          finally {
-          }
-        }
-      };
-    }
-    catch (Exception ex) {
-
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally {
-    }
-
-    return _evtImgAlterar_OnClickListener;
-  }
-
-  private OnClickListener getEvtImgDetalhe_OnClickListener() {
-
-    try {
-
-      if (_evtImgDetalhe_OnClickListener != null) {
-
-        return _evtImgDetalhe_OnClickListener;
-      }
-
-      _evtImgDetalhe_OnClickListener = new OnClickListener() {
-
-        @Override
-        public void onClick(View viw) {
-
-          try {
-
-            ItmConsulta.this.detalhar(viw);
-          }
-          catch (Exception ex) {
-
-            new ErroAndroid("Erro inesperado.\n", ex);
-          }
-          finally {
-          }
-        }
-      };
-    }
-    catch (Exception ex) {
-
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally {
-    }
-
-    return _evtImgDetalhe_OnClickListener;
-  }
-
-  private ImageView getImgAlterar() {
-
-    try {
-
-      if (_imgAlterar != null) {
-
-        return _imgAlterar;
-      }
-
-      _imgAlterar = (ImageView) this.getViw().findViewById(R.id.itmConsulta_imgAlterar);
-    }
-    catch (Exception ex) {
-
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally {
-    }
-
-    return _imgAlterar;
-  }
-
-  private ImageView getImgDetalhe() {
-
-    try {
-
-      if (_imgDetalhe != null) {
-
-        return _imgDetalhe;
-      }
-
-      _imgDetalhe = (ImageView) this.getViw().findViewById(R.id.itmConsulta_imgDetalhe);
-    }
-    catch (Exception ex) {
-
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally {
-    }
-
-    return _imgDetalhe;
   }
 
   public int getIntRegistroId() {
@@ -551,11 +362,6 @@ public class ItmConsulta extends ItmMain {
         return;
       }
 
-      if (this.getTbl().getClsActCadastro() == null) {
-
-        this.getImgAlterar().setVisibility(View.GONE);
-      }
-
       this.getTxtId().setText(String.valueOf(this.getIntRegistroId()) + " ");
       this.getTxtNome().setText(this.getStrNome());
 
@@ -626,34 +432,6 @@ public class ItmConsulta extends ItmMain {
     }
   }
 
-  @Override
-  protected void setEventos() {
-
-    super.setEventos();
-
-    try {
-
-      this.getImgAlterar().setOnClickListener(this.getEvtImgAlterar_OnClickListener());
-      this.getImgDetalhe().setOnClickListener(this.getEvtImgDetalhe_OnClickListener());
-    }
-    catch (Exception ex) {
-
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally {
-    }
-  }
-
-  private void setImgAlterar(ImageView imgAlterar) {
-
-    _imgAlterar = imgAlterar;
-  }
-
-  private void setImgDetalhe(ImageView imgDetalhe) {
-
-    _imgDetalhe = imgDetalhe;
-  }
-
   private void setIntRegistroId(int intRegistroId) {
 
     _intRegistroId = intRegistroId;
@@ -705,8 +483,6 @@ public class ItmConsulta extends ItmMain {
 
     try {
 
-      this.setImgAlterar(null);
-      this.setImgDetalhe(null);
       this.setPnlCampoContainer(null);
       this.setTxtId(null);
       this.setTxtNome(null);
