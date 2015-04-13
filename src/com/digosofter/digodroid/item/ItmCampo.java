@@ -74,7 +74,7 @@ public class ItmCampo extends ItmMain {
     return _cln;
   }
 
-  private String getStrValor() {
+  public String getStrValor() {
 
     return _strValor;
   }

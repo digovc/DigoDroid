@@ -420,6 +420,11 @@ public class ItmConsulta extends ItmMain {
         return;
       }
 
+      if (Utils.getBooStrVazia(itmCampo.getStrValor())) {
+
+        return;
+      }
+
       itmCampo.montarLayout();
 
       this.getPnlCampoContainer().addView(itmCampo.getViw());

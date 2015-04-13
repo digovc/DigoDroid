@@ -270,6 +270,11 @@ public class ActDetalhe extends ActMain {
           continue;
         }
 
+        if (Utils.getBooStrVazia(itmCampo.getStrValor())) {
+
+          continue;
+        }
+
         itmDetalheGrupo = this.getItmDetalheGrupo(itmCampo);
 
         if (itmDetalheGrupo.getLstItmCampo().contains(itmCampo)) {
