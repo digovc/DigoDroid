@@ -254,12 +254,12 @@ public abstract class DbTabelaAndroid extends DbTabela {
     return _clsActCadastro;
   }
 
-  public Cursor getCrsDados() {
+  public Cursor getCrs() {
 
-    return this.getCrsDados(this.getLstCln(), null);
+    return this.getCrs(this.getLstCln(), null);
   }
 
-  public Cursor getCrsDados(DbColuna cln) {
+  public Cursor getCrs(DbColuna cln) {
 
     List<DbColuna> lstCln = null;
 
@@ -276,20 +276,20 @@ public abstract class DbTabelaAndroid extends DbTabela {
     finally {
     }
 
-    return this.getCrsDados(lstCln, null);
+    return this.getCrs(lstCln, null);
   }
 
-  public Cursor getCrsDados(DbColuna clnFiltro, double dblFiltro) {
+  public Cursor getCrs(DbColuna clnFiltro, double dblFiltro) {
 
-    return this.getCrsDados(clnFiltro, String.valueOf(dblFiltro));
+    return this.getCrs(clnFiltro, String.valueOf(dblFiltro));
   }
 
-  public Cursor getCrsDados(DbColuna clnFiltro, int intFiltro) {
+  public Cursor getCrs(DbColuna clnFiltro, int intFiltro) {
 
-    return this.getCrsDados(clnFiltro, Double.valueOf(intFiltro));
+    return this.getCrs(clnFiltro, Double.valueOf(intFiltro));
   }
 
-  public Cursor getCrsDados(DbColuna cln, List<DbFiltro> lstObjDbFiltro) {
+  public Cursor getCrs(DbColuna cln, List<DbFiltro> lstObjDbFiltro) {
 
     List<DbColuna> lstCln = null;
 
@@ -306,10 +306,10 @@ public abstract class DbTabelaAndroid extends DbTabela {
     finally {
     }
 
-    return this.getCrsDados(lstCln, lstObjDbFiltro);
+    return this.getCrs(lstCln, lstObjDbFiltro);
   }
 
-  public Cursor getCrsDados(DbColuna clnFiltro, String strFiltro) {
+  public Cursor getCrs(DbColuna clnFiltro, String strFiltro) {
 
     ArrayList<DbFiltro> lstObjDbFiltro;
     Cursor crsResultado = null;
@@ -320,7 +320,7 @@ public abstract class DbTabelaAndroid extends DbTabela {
 
       lstObjDbFiltro.add(new DbFiltro(clnFiltro, strFiltro));
 
-      crsResultado = this.getCrsDados(lstObjDbFiltro);
+      crsResultado = this.getCrs(lstObjDbFiltro);
     }
     catch (Exception ex) {
 
@@ -332,7 +332,7 @@ public abstract class DbTabelaAndroid extends DbTabela {
     return crsResultado;
   }
 
-  public Cursor getCrsDados(List<DbColuna> lstCln, List<DbFiltro> lstObjDbFiltro) {
+  public Cursor getCrs(List<DbColuna> lstCln, List<DbFiltro> lstObjDbFiltro) {
 
     Cursor crsResultado = null;
     String sql;
@@ -359,12 +359,12 @@ public abstract class DbTabelaAndroid extends DbTabela {
     return crsResultado;
   }
 
-  public Cursor getCrsDados(List<DbFiltro> lstObjDbFiltro) {
+  public Cursor getCrs(List<DbFiltro> lstObjDbFiltro) {
 
-    return this.getCrsDados(this.getLstCln(), lstObjDbFiltro);
+    return this.getCrs(this.getLstCln(), lstObjDbFiltro);
   }
 
-  public Cursor getCrsDadosTelaConsulta() {
+  public Cursor getCrsTelaConsulta() {
 
     Cursor crsResultado = null;
     String sql;
@@ -437,7 +437,7 @@ public abstract class DbTabelaAndroid extends DbTabela {
 
       _lstItmConsulta = new ArrayList<ItmConsulta>();
 
-      crs = this.getCrsDadosTelaConsulta();
+      crs = this.getCrsTelaConsulta();
 
       if (crs == null || !crs.moveToFirst()) {
 
@@ -495,7 +495,7 @@ public abstract class DbTabelaAndroid extends DbTabela {
 
     try {
 
-      crs = this.getCrsDados(cln, lstObjDbFiltro);
+      crs = this.getCrs(cln, lstObjDbFiltro);
       lstStrResultado = new ArrayList<String>();
 
       if (crs == null || !crs.moveToFirst()) {

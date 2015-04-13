@@ -68,7 +68,7 @@ public class ActDetalhe extends ActMain {
         return _itmConsulta;
       }
 
-      crs = this.getTbl().getCrsDados(this.getTbl().getClnChavePrimaria(), this.getIntRegistroId());
+      crs = this.getTbl().getCrs(this.getTbl().getClnChavePrimaria(), this.getIntRegistroId());
 
       if (crs == null || !crs.moveToFirst()) {
 
