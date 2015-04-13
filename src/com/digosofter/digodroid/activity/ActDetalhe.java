@@ -390,7 +390,7 @@ public class ActDetalhe extends ActMain {
         return super.onCreateOptionsMenu(mnu);
       }
 
-      this.getTbl().montarMenu(mnu, this.getItmConsulta().getIntRegistroId());
+      this.getTbl().montarMenuDetalhe(mnu, this.getItmConsulta().getIntRegistroId());
     }
     catch (Exception ex) {
 

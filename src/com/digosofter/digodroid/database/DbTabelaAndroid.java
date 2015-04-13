@@ -951,7 +951,7 @@ public abstract class DbTabelaAndroid extends DbTabela {
     }
   }
 
-  public void montarMenu(Menu mnu, int intRegistroId) {
+  public void montarMenuConsulta(Menu mnu, int intRegistroId) {
 
     try {
 
@@ -960,8 +960,37 @@ public abstract class DbTabelaAndroid extends DbTabela {
         return;
       }
 
+      if (intRegistroId < 1) {
+
+        return;
+      }
+
       this.montarMenuSelecionar(mnu);
       this.montarMenuDetalhar(mnu);
+      this.montarMenuDetalhe(mnu, intRegistroId);
+    }
+    catch (Exception ex) {
+
+      new ErroAndroid("Erro inesperado.\n", ex);
+    }
+    finally {
+    }
+  }
+
+  public void montarMenuDetalhe(Menu mnu, int intRegistroId) {
+
+    try {
+
+      if (mnu == null) {
+
+        return;
+      }
+
+      if (intRegistroId < 1) {
+
+        return;
+      }
+
       this.montarMenuAlterar(mnu);
       this.montarMenuOpcao(mnu);
     }

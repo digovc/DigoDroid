@@ -393,7 +393,7 @@ public class ActConsulta extends ActMain {
 
       mnu.setHeaderTitle(this.getItmSelec().getStrNome());
 
-      this.getTbl().montarMenu(mnu, this.getItmSelec().getIntRegistroId());
+      this.getTbl().montarMenuConsulta(mnu, this.getItmSelec().getIntRegistroId());
     }
     catch (Exception ex) {
 
