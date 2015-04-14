@@ -1169,11 +1169,6 @@ public abstract class DbTabelaAndroid extends DbTabela {
         return;
       }
 
-      if (intRegistroId < 1) {
-
-        return;
-      }
-
       switch (strOpcao) {
         case DbTabelaAndroid.STR_OPCAO_ADICIONAR:
           this.processarOpcaoAdicionar(act, intRegistroId);
@@ -1204,11 +1199,6 @@ public abstract class DbTabelaAndroid extends DbTabela {
     try {
 
       if (act == null) {
-
-        return;
-      }
-
-      if (intRegistroId < 1) {
 
         return;
       }

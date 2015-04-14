@@ -497,17 +497,7 @@ public class ActConsulta extends ActMain {
         return true;
       }
 
-      if (itm.getItemId() == R.id.actConsultaAction_btnNovo) {
-
-        this.startActivity(new Intent(this, this.getTbl().getClsActCadastro()));
-        return true;
-      }
-
-      if (itm.getItemId() == android.R.id.home) {
-
-        this.onBackPressed();
-        return true;
-      }
+      this.getTbl().processarOpcao(this, itm.getTitle().toString(), 0);
     }
     catch (Exception ex) {
 
