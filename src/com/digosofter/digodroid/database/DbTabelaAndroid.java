@@ -966,6 +966,11 @@ public abstract class DbTabelaAndroid extends DbTabela {
         return;
       }
 
+      if (this.getBooPermitirAdicionar()) {
+
+        return;
+      }
+
       mnu.add(DbTabelaAndroid.STR_OPCAO_ALTERAR);
     }
     catch (Exception ex) {

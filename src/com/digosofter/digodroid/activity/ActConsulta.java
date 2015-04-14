@@ -409,7 +409,7 @@ public class ActConsulta extends ActMain {
 
     try {
 
-      this.onCreateOptionsMenuAlterar(mnu);
+      this.onCreateOptionsMenuAdicionar(mnu);
     }
     catch (Exception ex) {
 
@@ -421,7 +421,7 @@ public class ActConsulta extends ActMain {
     return true;
   }
 
-  private void onCreateOptionsMenuAlterar(Menu mnu) {
+  private void onCreateOptionsMenuAdicionar(Menu mnu) {
 
     try {
 
@@ -446,7 +446,7 @@ public class ActConsulta extends ActMain {
       }
 
       mnu.add(DbTabelaAndroid.STR_OPCAO_ADICIONAR);
-      mnu.getItem(0).setIcon(R.drawable.ic_novo);
+      mnu.getItem(0).setIcon(R.drawable.ic_adicionar);
       mnu.getItem(0).setVisible(true);
     }
     catch (Exception ex) {

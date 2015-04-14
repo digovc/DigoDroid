@@ -3,7 +3,7 @@
 
     <item
         android:id="@+id/actConsultaAction_btnNovo"
-        android:icon="@drawable/ic_novo"
+        android:icon="@drawable/ic_adicionar"
         android:orderInCategory="100"
         android:showAsAction="always"
         android:title="Novo"/>
