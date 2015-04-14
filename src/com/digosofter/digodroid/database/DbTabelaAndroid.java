@@ -24,6 +24,7 @@ import com.digosofter.digojava.database.DbTabela;
 
 public abstract class DbTabelaAndroid extends DbTabela {
 
+  public static final String STR_OPCAO_ADICIONAR = "Adicionar";
   private static final String STR_OPCAO_ALTERAR = "Alterar";
   private static final String STR_OPCAO_DETALHAR = "Ver detalhes";
   public static final String STR_OPCAO_SELECIONAR = "Selecionar";
@@ -951,6 +952,30 @@ public abstract class DbTabelaAndroid extends DbTabela {
     }
   }
 
+  private void montarMenuAlterar(Menu mnu) {
+
+    try {
+
+      if (mnu == null) {
+
+        return;
+      }
+
+      if (this.getClsActCadastro() == null) {
+
+        return;
+      }
+
+      mnu.add(DbTabelaAndroid.STR_OPCAO_ALTERAR);
+    }
+    catch (Exception ex) {
+
+      new ErroAndroid("Erro inesperado.\n", ex);
+    }
+    finally {
+    }
+  }
+
   public void montarMenuConsulta(Menu mnu, int intRegistroId) {
 
     try {
@@ -977,6 +1002,25 @@ public abstract class DbTabelaAndroid extends DbTabela {
     }
   }
 
+  private void montarMenuDetalhar(Menu mnu) {
+
+    try {
+
+      if (mnu == null) {
+
+        return;
+      }
+
+      mnu.add(DbTabelaAndroid.STR_OPCAO_DETALHAR);
+    }
+    catch (Exception ex) {
+
+      new ErroAndroid("Erro inesperado.\n", ex);
+    }
+    finally {
+    }
+  }
+
   public void montarMenuDetalhe(Menu mnu, int intRegistroId) {
 
     try {
@@ -993,49 +1037,6 @@ public abstract class DbTabelaAndroid extends DbTabela {
 
       this.montarMenuAlterar(mnu);
       this.montarMenuOpcao(mnu);
-    }
-    catch (Exception ex) {
-
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally {
-    }
-  }
-
-  private void montarMenuAlterar(Menu mnu) {
-
-    try {
-
-      if (mnu == null) {
-
-        return;
-      }
-
-      if (this.getClsActCadastro() == null) {
-
-        return;
-      }
-
-      mnu.add(DbTabelaAndroid.STR_OPCAO_ALTERAR);
-    }
-    catch (Exception ex) {
-
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally {
-    }
-  }
-
-  private void montarMenuDetalhar(Menu mnu) {
-
-    try {
-
-      if (mnu == null) {
-
-        return;
-      }
-
-      mnu.add(DbTabelaAndroid.STR_OPCAO_DETALHAR);
     }
     catch (Exception ex) {
 
@@ -1116,6 +1117,9 @@ public abstract class DbTabelaAndroid extends DbTabela {
       }
 
       switch (strOpcao) {
+        case DbTabelaAndroid.STR_OPCAO_ADICIONAR:
+//          this.processarOpcaoAdicionar(act, intRegistroId);
+          break;
         case DbTabelaAndroid.STR_OPCAO_ALTERAR:
           this.processarOpcaoAlterar(act, intRegistroId);
           break;

@@ -7,7 +7,6 @@ import android.text.TextWatcher;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -404,16 +403,13 @@ public class ActConsulta extends ActMain {
   }
 
   @Override
-  public boolean onCreateOptionsMenu(Menu objMenu) {
+  public boolean onCreateOptionsMenu(Menu mnu) {
 
-    MenuInflater objMenuInflater;
+    super.onCreateOptionsMenu(mnu);
 
     try {
 
-      objMenuInflater = this.getMenuInflater();
-      objMenuInflater.inflate(R.menu.act_consulta_action_bar, objMenu);
-
-      objMenu.getItem(0).setVisible(this.getTbl().getBooPermitirCadastroNovo());
+      this.onCreateOptionsMenuAlterar(mnu);
     }
     catch (Exception ex) {
 
@@ -422,7 +418,43 @@ public class ActConsulta extends ActMain {
     finally {
     }
 
-    return super.onCreateOptionsMenu(objMenu);
+    return true;
+  }
+
+  private void onCreateOptionsMenuAlterar(Menu mnu) {
+
+    try {
+
+      if (mnu == null) {
+
+        return;
+      }
+
+      if (this.getTbl() == null) {
+
+        return;
+      }
+
+      if (this.getTbl().getClsActCadastro() == null) {
+
+        return;
+      }
+
+      if (!this.getTbl().getBooPermitirAdicionar()) {
+
+        return;
+      }
+
+      mnu.add(DbTabelaAndroid.STR_OPCAO_ADICIONAR);
+      mnu.getItem(0).setIcon(R.drawable.ic_novo);
+      mnu.getItem(0).setVisible(true);
+    }
+    catch (Exception ex) {
+
+      new ErroAndroid("Erro inesperado.\n", ex);
+    }
+    finally {
+    }
   }
 
   protected void onItemClick(View viw, ItmConsulta itm) {
