@@ -289,7 +289,7 @@ public class ActConsulta extends ActMain {
 
       this.montarLayoutTitulo();
       this.montarLayoutLista();
-      this.recuperarUltimaPesquisa();
+      this.registerForContextMenu(this.getPnlLista());
     }
     catch (Exception ex) {
 
@@ -598,11 +598,10 @@ public class ActConsulta extends ActMain {
 
     try {
 
-      this.registerForContextMenu(this.getPnlLista());
-
       this.getPnlLista().setLongClickable(false);
       this.getEdtPesquisa().addTextChangedListener(this.getEvtEdtPesquisa_TextWatcher());
       this.getPnlLista().setOnItemClickListener(this.getEvtPnlTblLista_OnItemClickListener());
+      this.recuperarUltimaPesquisa();
     }
     catch (Exception ex) {
 
