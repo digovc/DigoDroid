@@ -26,6 +26,7 @@ public abstract class DbTabelaAndroid extends DbTabela {
 
   public static final String STR_OPCAO_ADICIONAR = "Adicionar";
   private static final String STR_OPCAO_ALTERAR = "Alterar";
+  public static final String STR_OPCAO_APAGAR = "Apagar";
   private static final String STR_OPCAO_DETALHAR = "Ver detalhes";
   public static final String STR_OPCAO_SELECIONAR = "Selecionar";
 
@@ -44,8 +45,8 @@ public abstract class DbTabelaAndroid extends DbTabela {
     try {
 
       this.criar();
-      this.inicializarView(this.getLstViwAndroid());
       this.inicializarAcao(this.getLstStrOpcao());
+      this.inicializarView();
     }
     catch (Exception ex) {
 
@@ -76,6 +77,33 @@ public abstract class DbTabelaAndroid extends DbTabela {
     catch (Exception ex) {
 
       new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(123), ex);
+    }
+    finally {
+    }
+  }
+
+  public void apagar(int intRegistroId) {
+
+    String sql;
+
+    try {
+
+      if (intRegistroId < 1) {
+
+        return;
+      }
+
+      sql = "delete from _tbl_nome where _tbl_nome._cln_pk_nome = '_int_registro_id';";
+
+      sql = sql.replace("_tbl_nome", this.getStrNomeSql());
+      sql = sql.replace("_cln_pk_nome", this.getClnChavePrimaria().getStrNomeSql());
+      sql = sql.replace("_int_registro_id", String.valueOf(intRegistroId));
+
+      this.getObjDb().execSql(sql);
+    }
+    catch (Exception ex) {
+
+      new ErroAndroid("Erro inesperado.\n", ex);
     }
     finally {
     }
@@ -879,7 +907,7 @@ public abstract class DbTabelaAndroid extends DbTabela {
 
   }
 
-  protected void inicializarView(List<DbViewAndroid> lstViwAndroid) {
+  protected void inicializarView() {
 
   }
 
@@ -966,12 +994,36 @@ public abstract class DbTabelaAndroid extends DbTabela {
         return;
       }
 
-      if (!this.getBooPermitirAlterar()) {
+      if (!this.getBooMenuAlterar()) {
 
         return;
       }
 
       mnu.add(DbTabelaAndroid.STR_OPCAO_ALTERAR);
+    }
+    catch (Exception ex) {
+
+      new ErroAndroid("Erro inesperado.\n", ex);
+    }
+    finally {
+    }
+  }
+
+  private void montarMenuApagar(Menu mnu) {
+
+    try {
+
+      if (mnu == null) {
+
+        return;
+      }
+
+      if (!this.getBooMenuApagar()) {
+
+        return;
+      }
+
+      mnu.add(DbTabelaAndroid.STR_OPCAO_APAGAR);
     }
     catch (Exception ex) {
 
@@ -1041,6 +1093,7 @@ public abstract class DbTabelaAndroid extends DbTabela {
       }
 
       this.montarMenuAlterar(mnu);
+      this.montarMenuApagar(mnu);
       this.montarMenuOpcao(mnu);
     }
     catch (Exception ex) {
@@ -1123,15 +1176,52 @@ public abstract class DbTabelaAndroid extends DbTabela {
 
       switch (strOpcao) {
         case DbTabelaAndroid.STR_OPCAO_ADICIONAR:
-//          this.processarOpcaoAdicionar(act, intRegistroId);
+          this.processarOpcaoAdicionar(act, intRegistroId);
           break;
         case DbTabelaAndroid.STR_OPCAO_ALTERAR:
           this.processarOpcaoAlterar(act, intRegistroId);
+          break;
+        case DbTabelaAndroid.STR_OPCAO_APAGAR:
+          this.processarOpcaoApagar(act, intRegistroId);
           break;
         case DbTabelaAndroid.STR_OPCAO_DETALHAR:
           this.processarOpcaoDetalhar(act, intRegistroId);
           break;
       }
+    }
+    catch (Exception ex) {
+
+      new ErroAndroid("Erro inesperado.\n", ex);
+    }
+    finally {
+    }
+  }
+
+  private void processarOpcaoAdicionar(ActMain act, int intRegistroId) {
+
+    Intent itt;
+
+    try {
+
+      if (act == null) {
+
+        return;
+      }
+
+      if (intRegistroId < 1) {
+
+        return;
+      }
+
+      if (this.getClsActCadastro() == null) {
+
+        return;
+      }
+
+      itt = new Intent(act, this.getClsActCadastro());
+      itt.putExtra(ActCadastroMain.STR_EXTRA_IN_INT_REGISTRO_ID, intRegistroId);
+
+      act.startActivity(itt);
     }
     catch (Exception ex) {
 
@@ -1168,6 +1258,32 @@ public abstract class DbTabelaAndroid extends DbTabela {
       itt.putExtra(ActCadastroMain.STR_EXTRA_IN_INT_REGISTRO_ID, intRegistroId);
 
       act.startActivity(itt);
+    }
+    catch (Exception ex) {
+
+      new ErroAndroid("Erro inesperado.\n", ex);
+    }
+    finally {
+    }
+  }
+
+  private void processarOpcaoApagar(ActMain act, int intRegistroId) {
+
+    try {
+
+      if (act == null) {
+
+        return;
+      }
+
+      if (intRegistroId < 1) {
+
+        return;
+      }
+
+      this.apagar(intRegistroId);
+
+      act.processarOpcaoApagar(intRegistroId);
     }
     catch (Exception ex) {
 

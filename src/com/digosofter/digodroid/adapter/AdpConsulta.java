@@ -25,6 +25,41 @@ public class AdpConsulta extends BaseAdapter implements Filterable {
   private List<ItmConsulta> _lstItmConsultaSemFiltro;
   private DbTabelaAndroid _tbl;
 
+  public void apagar(int intRegistroId) {
+
+    try {
+
+      if (intRegistroId < 1) {
+
+        return;
+      }
+
+      for (ItmConsulta itm : this.getLstItmConsulta()) {
+
+        if (itm == null) {
+
+          continue;
+        }
+
+        if (itm.getIntRegistroId() != intRegistroId) {
+
+          continue;
+        }
+
+        this.getLstItmConsulta().remove(itm);
+        break;
+      }
+
+      this.notifyDataSetChanged();
+    }
+    catch (Exception ex) {
+
+      new ErroAndroid("Erro inesperado.\n", ex);
+    }
+    finally {
+    }
+  }
+
   private ActConsulta getActConsulta() {
 
     return _actConsulta;

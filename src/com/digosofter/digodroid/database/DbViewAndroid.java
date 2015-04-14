@@ -9,7 +9,7 @@ import com.digosofter.digojava.Utils;
 
 public abstract class DbViewAndroid extends DbTabelaAndroid {
 
-  private int _intOrdem;
+  private DbTabelaAndroid _tbl;
 
   protected DbViewAndroid(String strNome) {
 
@@ -18,6 +18,26 @@ public abstract class DbViewAndroid extends DbTabelaAndroid {
     try {
 
       App.getI().getLstTbl().remove(this);
+    }
+    catch (Exception ex) {
+
+      new ErroAndroid("Erro inesperado.\n", ex);
+    }
+    finally {
+    }
+  }
+
+  @Override
+  public void apagar(int intRegistroId) {
+
+    try {
+
+      if (this.getTbl() == null) {
+
+        return;
+      }
+
+      this.getTbl().apagar(intRegistroId);
     }
     catch (Exception ex) {
 
@@ -58,11 +78,6 @@ public abstract class DbViewAndroid extends DbTabelaAndroid {
     }
   }
 
-  private int getIntOrdem() {
-
-    return _intOrdem;
-  }
-
   protected abstract int getIntRawFileId();
 
   private String getSqlSelect() {
@@ -88,8 +103,34 @@ public abstract class DbViewAndroid extends DbTabelaAndroid {
     return strResultado;
   }
 
-  public void setIntOrdem(int intOrdem) {
+  protected DbTabelaAndroid getTbl() {
 
-    _intOrdem = intOrdem;
+    return _tbl;
+  }
+
+  public void setTbl(DbTabelaAndroid tbl) {
+
+    try {
+
+      _tbl = tbl;
+
+      if (_tbl == null) {
+
+        return;
+      }
+
+      if (_tbl.getLstViwAndroid().contains(this)) {
+
+        return;
+      }
+
+      _tbl.getLstViwAndroid().add(this);
+    }
+    catch (Exception ex) {
+
+      new ErroAndroid("Erro inesperado.\n", ex);
+    }
+    finally {
+    }
   }
 }

@@ -440,7 +440,7 @@ public class ActConsulta extends ActMain {
         return;
       }
 
-      if (!this.getTbl().getBooPermitirAdicionar()) {
+      if (!this.getTbl().getBooMenuAdicionar()) {
 
         return;
       }
@@ -541,6 +541,28 @@ public class ActConsulta extends ActMain {
       this.getTbl().setStrPesquisa(this.getEdtPesquisa().getText().toString());
       this.setResult(ActConsulta.EnmResultadoTipo.REGISTRO_SELECIONADO.ordinal(), itt);
       this.finish();
+    }
+    catch (Exception ex) {
+
+      new ErroAndroid("Erro inesperado.\n", ex);
+    }
+    finally {
+    }
+  }
+
+  @Override
+  public void processarOpcaoApagar(int intRegistroId) {
+
+    super.processarOpcaoApagar(intRegistroId);
+
+    try {
+
+      if (intRegistroId < 1) {
+
+        return;
+      }
+
+      this.getAdpCadastro().apagar(intRegistroId);
     }
     catch (Exception ex) {
 

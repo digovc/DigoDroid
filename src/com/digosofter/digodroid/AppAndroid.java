@@ -221,6 +221,20 @@ public abstract class AppAndroid extends App {
     }
   }
 
+  public void mostrarPergunta(final String strMensagem) {
+
+    try {
+
+      // Implementar.
+    }
+    catch (Exception ex) {
+
+      new ErroAndroid("Erro inesperado.\n", ex);
+    }
+    finally {
+    }
+  }
+
   public void setActMain(ActMain actMain) {
 
     _actMain = actMain;
