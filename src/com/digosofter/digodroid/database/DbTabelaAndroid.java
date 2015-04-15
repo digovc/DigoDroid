@@ -28,7 +28,6 @@ public abstract class DbTabelaAndroid extends DbTabela {
   private static final String STR_OPCAO_ALTERAR = "Alterar";
   public static final String STR_OPCAO_APAGAR = "Apagar";
   private static final String STR_OPCAO_DETALHAR = "Ver detalhes";
-  public static final String STR_OPCAO_SELECIONAR = "Selecionar";
 
   private boolean _booSinc = true;
   private Class<? extends ActMain> _clsActCadastro;
@@ -1047,7 +1046,6 @@ public abstract class DbTabelaAndroid extends DbTabela {
         return;
       }
 
-      this.montarMenuSelecionar(mnu);
       this.montarMenuDetalhar(mnu);
       this.montarMenuDetalhe(mnu, intRegistroId);
     }
@@ -1127,25 +1125,6 @@ public abstract class DbTabelaAndroid extends DbTabela {
 
         mnu.add(strAcao);
       }
-    }
-    catch (Exception ex) {
-
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally {
-    }
-  }
-
-  private void montarMenuSelecionar(Menu mnu) {
-
-    try {
-
-      if (mnu == null) {
-
-        return;
-      }
-
-      mnu.add(DbTabelaAndroid.STR_OPCAO_SELECIONAR);
     }
     catch (Exception ex) {
 

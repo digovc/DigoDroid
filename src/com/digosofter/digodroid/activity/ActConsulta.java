@@ -11,6 +11,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -23,7 +24,7 @@ import com.digosofter.digodroid.erro.ErroAndroid;
 import com.digosofter.digodroid.item.ItmConsulta;
 import com.digosofter.digojava.Utils;
 
-public class ActConsulta extends ActMain {
+public class ActConsulta extends ActMain implements OnItemClickListener, OnItemLongClickListener {
 
   public enum EnmResultadoTipo {
 
@@ -37,7 +38,6 @@ public class ActConsulta extends ActMain {
   private AdpConsulta _adpCadastro;
   private EditText _edtPesquisa;
   private TextWatcher _evtEdtPesquisa_TextWatcher;
-  private OnItemClickListener _evtPnlTblLista_OnItemClickListener;
   private ItmConsulta _itmSelec;
   private ListView _pnlLista;
   private DbTabelaAndroid _tbl;
@@ -163,47 +163,6 @@ public class ActConsulta extends ActMain {
     return _evtEdtPesquisa_TextWatcher;
   }
 
-  private OnItemClickListener getEvtPnlTblLista_OnItemClickListener() {
-
-    try {
-
-      if (_evtPnlTblLista_OnItemClickListener != null) {
-
-        return _evtPnlTblLista_OnItemClickListener;
-      }
-
-      _evtPnlTblLista_OnItemClickListener = new OnItemClickListener() {
-
-        @Override
-        public void onItemClick(AdapterView<?> advParent, View viw, int intPosition, long intId) {
-
-          ItmConsulta itm;
-
-          try {
-
-            itm = (ItmConsulta) ActConsulta.this.getPnlLista().getItemAtPosition(intPosition);
-            ActConsulta.this.onItemClick(viw, itm);
-          }
-
-          catch (Exception ex) {
-
-            new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(115), ex);
-          }
-          finally {
-          }
-        }
-      };
-    }
-    catch (Exception ex) {
-
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally {
-    }
-
-    return _evtPnlTblLista_OnItemClickListener;
-  }
-
   @Override
   protected int getIntLayoutId() {
 
@@ -289,7 +248,6 @@ public class ActConsulta extends ActMain {
 
       this.montarLayoutTitulo();
       this.montarLayoutLista();
-      this.registerForContextMenu(this.getPnlLista());
     }
     catch (Exception ex) {
 
@@ -347,12 +305,6 @@ public class ActConsulta extends ActMain {
 
       if (this.getTbl() == null) {
 
-        return true;
-      }
-
-      if (itmMenu.getTitle().equals(DbTabelaAndroid.STR_OPCAO_SELECIONAR)) {
-
-        this.processarOpcaoSelecionar();
         return true;
       }
 
@@ -457,27 +409,67 @@ public class ActConsulta extends ActMain {
     }
   }
 
-  protected void onItemClick(View viw, ItmConsulta itm) {
+  @Override
+  public void onItemClick(AdapterView<?> viwParent, View viw, int intPosition, long intId) {
+
+    Intent itt;
+    ItmConsulta itmConsulta;
 
     try {
 
+      itmConsulta = (ItmConsulta) this.getAdpCadastro().getItem(intPosition);
+
+      if (itmConsulta == null) {
+
+        return;
+      }
+
+      if (itmConsulta.getIntRegistroId() < 1) {
+
+        return;
+      }
+
+      itt = new Intent();
+      itt.putExtra(ActConsulta.STR_EXTRA_OUT_REGISTRO_ID, itmConsulta.getIntRegistroId());
+
+      this.getTbl().setStrPesquisa(this.getEdtPesquisa().getText().toString());
+      this.setResult(ActConsulta.EnmResultadoTipo.REGISTRO_SELECIONADO.ordinal(), itt);
+      this.finish();
+
+    }
+    catch (Exception ex) {
+
+      new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(115), ex);
+    }
+    finally {
+    }
+  }
+
+  @Override
+  public boolean onItemLongClick(AdapterView<?> viwParent, View viw, int intPosition, long intId) {
+
+    ItmConsulta itmConsulta;
+
+    try {
+
+      itmConsulta = (ItmConsulta) this.getPnlLista().getItemAtPosition(intPosition);
+
       if (viw == null) {
 
-        return;
+        return false;
       }
 
-      if (itm == null) {
+      if (itmConsulta == null) {
 
-        return;
+        return false;
       }
 
-      if (itm.getIntRegistroId() < 1) {
+      if (itmConsulta.getIntRegistroId() < 1) {
 
-        return;
+        return false;
       }
 
-      this.setItmSelec(itm);
-      this.openContextMenu(viw);
+      this.setItmSelec(itmConsulta);
     }
     catch (Exception ex) {
 
@@ -485,6 +477,8 @@ public class ActConsulta extends ActMain {
     }
     finally {
     }
+
+    return false;
   }
 
   @Override
@@ -507,37 +501,6 @@ public class ActConsulta extends ActMain {
     }
 
     return false;
-  }
-
-  private void processarOpcaoSelecionar() {
-
-    Intent itt;
-
-    try {
-
-      if (this.getItmSelec() == null) {
-
-        return;
-      }
-
-      if (this.getItmSelec().getIntRegistroId() < 1) {
-
-        return;
-      }
-
-      itt = new Intent();
-      itt.putExtra(ActConsulta.STR_EXTRA_OUT_REGISTRO_ID, this.getItmSelec().getIntRegistroId());
-
-      this.getTbl().setStrPesquisa(this.getEdtPesquisa().getText().toString());
-      this.setResult(ActConsulta.EnmResultadoTipo.REGISTRO_SELECIONADO.ordinal(), itt);
-      this.finish();
-    }
-    catch (Exception ex) {
-
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally {
-    }
   }
 
   @Override
@@ -588,9 +551,14 @@ public class ActConsulta extends ActMain {
 
     try {
 
-      this.getPnlLista().setLongClickable(false);
       this.getEdtPesquisa().addTextChangedListener(this.getEvtEdtPesquisa_TextWatcher());
-      this.getPnlLista().setOnItemClickListener(this.getEvtPnlTblLista_OnItemClickListener());
+
+      this.getPnlLista().setLongClickable(true);
+      this.getPnlLista().setOnItemClickListener(this);
+      this.getPnlLista().setOnItemLongClickListener(this);
+
+      this.registerForContextMenu(this.getPnlLista());
+
       this.recuperarUltimaPesquisa();
     }
     catch (Exception ex) {
