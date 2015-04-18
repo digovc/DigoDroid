@@ -9,6 +9,8 @@ import android.view.ContextMenu.ContextMenuInfo;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AbsListView;
+import android.widget.AbsListView.OnScrollListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
@@ -23,8 +25,10 @@ import com.digosofter.digodroid.database.DbTabelaAndroid;
 import com.digosofter.digodroid.erro.ErroAndroid;
 import com.digosofter.digodroid.item.ItmConsulta;
 import com.digosofter.digojava.Utils;
+import com.digosofter.digojava.database.TblOnChangeArg;
+import com.digosofter.digojava.database.TblOnChangeListener;
 
-public class ActConsulta extends ActMain implements OnItemClickListener, OnItemLongClickListener {
+public class ActConsulta extends ActMain implements OnItemClickListener, OnItemLongClickListener, OnScrollListener, TblOnChangeListener {
 
   public enum EnmResultadoTipo {
 
@@ -207,6 +211,7 @@ public class ActConsulta extends ActMain implements OnItemClickListener, OnItemL
       }
 
       _tbl = (DbTabelaAndroid) AppAndroid.getI().getTblSelec();
+      _tbl.addEvtTblOnChangeListener(this);
     }
     catch (Exception ex) {
 
@@ -288,6 +293,56 @@ public class ActConsulta extends ActMain implements OnItemClickListener, OnItemL
     catch (Exception ex) {
 
       new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(0), ex);
+    }
+    finally {
+    }
+  }
+
+  @Override
+  public void OnAdicionarReg(TblOnChangeArg arg) {
+
+    try {
+
+      this.getAdpCadastro().atualizarLista();
+    }
+    catch (Exception ex) {
+
+      new ErroAndroid("Erro inesperado.\n", ex);
+    }
+    finally {
+    }
+  }
+
+  @Override
+  public void OnApagarReg(TblOnChangeArg arg) {
+
+    try {
+
+      if (arg.getIntRegistroId() < 1) {
+
+        return;
+      }
+
+      this.getAdpCadastro().apagar(arg.getIntRegistroId());
+    }
+    catch (Exception ex) {
+
+      new ErroAndroid("Erro inesperado.\n", ex);
+    }
+    finally {
+    }
+  }
+
+  @Override
+  public void OnAtualizarReg(TblOnChangeArg arg) {
+
+    try {
+
+      this.getAdpCadastro().atualizarLista();
+    }
+    catch (Exception ex) {
+
+      new ErroAndroid("Erro inesperado.\n", ex);
     }
     finally {
     }
@@ -397,9 +452,27 @@ public class ActConsulta extends ActMain implements OnItemClickListener, OnItemL
         return;
       }
 
-      mnu.add(DbTabelaAndroid.STR_OPCAO_ADICIONAR);
-      mnu.getItem(0).setIcon(R.drawable.ic_adicionar);
+      this.getMenuInflater().inflate(R.menu.act_consulta_menu, mnu);
+
+      mnu.getItem(0).setTitle(DbTabelaAndroid.STR_OPCAO_ADICIONAR);
       mnu.getItem(0).setVisible(true);
+    }
+    catch (Exception ex) {
+
+      new ErroAndroid("Erro inesperado.\n", ex);
+    }
+    finally {
+    }
+  }
+
+  @Override
+  protected void onDestroy() {
+
+    super.onDestroy();
+
+    try {
+
+      this.getTbl().removeEvtTblOnChangeListener(this);
     }
     catch (Exception ex) {
 
@@ -504,18 +577,11 @@ public class ActConsulta extends ActMain implements OnItemClickListener, OnItemL
   }
 
   @Override
-  public void processarOpcaoApagar(int intRegistroId) {
-
-    super.processarOpcaoApagar(intRegistroId);
+  public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
 
     try {
 
-      if (intRegistroId < 1) {
-
-        return;
-      }
-
-      this.getAdpCadastro().apagar(intRegistroId);
+      AppAndroid.getI().esconderTeclado();
     }
     catch (Exception ex) {
 
@@ -523,6 +589,12 @@ public class ActConsulta extends ActMain implements OnItemClickListener, OnItemL
     }
     finally {
     }
+
+  }
+
+  @Override
+  public void onScrollStateChanged(AbsListView view, int scrollState) {
+
   }
 
   private void recuperarUltimaPesquisa() {
@@ -556,6 +628,7 @@ public class ActConsulta extends ActMain implements OnItemClickListener, OnItemL
       this.getPnlLista().setLongClickable(true);
       this.getPnlLista().setOnItemClickListener(this);
       this.getPnlLista().setOnItemLongClickListener(this);
+      this.getPnlLista().setOnScrollListener(this);
 
       this.registerForContextMenu(this.getPnlLista());
 

@@ -2,10 +2,10 @@
     xmlns:netzmobile="http://schemas.android.com/apk/res-auto" >
 
     <item
-        android:id="@+id/actConsultaAction_btnNovo"
+        android:id="@+id/actConsultaMenu_btnAdicionar"
         android:icon="@drawable/ic_adicionar"
         android:orderInCategory="100"
         android:showAsAction="always"
-        android:title="Novo"/>
+        android:title="Adicionar"/>
 
 </menu>

@@ -6,6 +6,7 @@ import com.digosofter.digodroid.AppAndroid;
 import com.digosofter.digodroid.erro.ErroAndroid;
 import com.digosofter.digojava.App;
 import com.digosofter.digojava.Utils;
+import com.digosofter.digojava.database.TblOnChangeArg;
 
 public abstract class DbViewAndroid extends DbTabelaAndroid {
 
@@ -30,6 +31,8 @@ public abstract class DbViewAndroid extends DbTabelaAndroid {
   @Override
   public void apagar(int intRegistroId) {
 
+    TblOnChangeArg arg;
+
     try {
 
       if (this.getTbl() == null) {
@@ -38,6 +41,11 @@ public abstract class DbViewAndroid extends DbTabelaAndroid {
       }
 
       this.getTbl().apagar(intRegistroId);
+
+      arg = new TblOnChangeArg();
+      arg.setIntRegistroId(intRegistroId);
+
+      this.OnApagarRegDispatcher(arg);
     }
     catch (Exception ex) {
 

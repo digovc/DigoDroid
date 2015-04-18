@@ -5,6 +5,7 @@ import java.util.List;
 
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
 import com.digosofter.digodroid.activity.ActMain;
@@ -35,6 +36,21 @@ public abstract class AppAndroid extends App {
     try {
 
       this.setI(this);
+    }
+    catch (Exception ex) {
+
+      new ErroAndroid("Erro inesperado.\n", ex);
+    }
+    finally {
+    }
+  }
+
+  public void esconderTeclado() {
+
+    try {
+
+      InputMethodManager imm = (InputMethodManager) this.getCnt().getSystemService(Context.INPUT_METHOD_SERVICE);
+      imm.hideSoftInputFromWindow(null, 0);
     }
     catch (Exception ex) {
 

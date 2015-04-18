@@ -248,8 +248,4 @@ public abstract class ActMain extends Activity {
     finally {
     }
   }
-
-  public void processarOpcaoApagar(int intRegistroId) {
-
-  }
 }
