@@ -25,6 +25,14 @@
         <activity android:name="com.digosofter.digodroid.activity.ActConsulta" />
         <activity android:name="com.digosofter.digodroid.activity.ActDetalhe" />
         <activity android:name="com.digosofter.digodroid.activity.ActErro" />
+        <activity android:name="com.digosofter.digodroid.activity.ActMap" />
+
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyCHlHnG30WeElBMFMl_XH31g90S4URD44M" />
     </application>
 
 </manifest>
