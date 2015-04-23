@@ -107,7 +107,7 @@ public class AdpConsulta extends BaseAdapter implements Filterable {
         }
         else {
 
-          ArrayList<ItmConsulta> lstItmConsulta = new ArrayList<ItmConsulta>();
+          List<ItmConsulta> lstItmConsulta = new ArrayList<ItmConsulta>();
 
           for (ItmConsulta itm : AdpConsulta.this.getLstItmConsulta()) {
 

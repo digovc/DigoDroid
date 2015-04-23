@@ -318,7 +318,7 @@ public abstract class DbTabelaAndroid extends DbTabela {
 
   public Cursor getCrs(DbColuna clnFiltro, String strFiltro) {
 
-    ArrayList<DbFiltro> lstObjDbFiltro;
+    List<DbFiltro> lstObjDbFiltro;
     Cursor crsResultado = null;
 
     try {
