@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
+import android.os.Vibrator;
 import android.provider.Settings.Secure;
 import android.telephony.TelephonyManager;
 
@@ -38,7 +39,7 @@ public class Aparelho extends Objeto {
   }
 
   private Context _cnt;
-  private TelephonyManager _objTelManager;
+  private TelephonyManager _objTelephonyManager;
   private String _strDeviceId;
   private String _strImei;
 
@@ -145,16 +146,16 @@ public class Aparelho extends Objeto {
     return _cnt;
   }
 
-  private TelephonyManager getObjTelManager() {
+  private TelephonyManager getObjTelephonyManager() {
 
     try {
 
-      if (_objTelManager != null) {
+      if (_objTelephonyManager != null) {
 
-        return _objTelManager;
+        return _objTelephonyManager;
       }
 
-      _objTelManager = (TelephonyManager) this.getCnt().getSystemService(Context.TELEPHONY_SERVICE);
+      _objTelephonyManager = (TelephonyManager) this.getCnt().getSystemService(Context.TELEPHONY_SERVICE);
     }
     catch (Exception ex) {
 
@@ -162,7 +163,7 @@ public class Aparelho extends Objeto {
     }
     finally {
     }
-    return _objTelManager;
+    return _objTelephonyManager;
   }
 
   /**
@@ -198,7 +199,7 @@ public class Aparelho extends Objeto {
         return _strImei;
       }
 
-      _strImei = this.getObjTelManager().getDeviceId();
+      _strImei = this.getObjTelephonyManager().getDeviceId();
     }
     catch (Exception ex) {
 
@@ -226,6 +227,33 @@ public class Aparelho extends Objeto {
     catch (Exception ex) {
 
       new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(0), ex);
+    }
+    finally {
+    }
+  }
+
+  /**
+   * Vibra o aparelho caso exista hardware para tal.
+   *
+   * @param arrIntMs
+   *          Array de inteiros que representam os milissegundos que o aparelho
+   *          irá virar e parar.
+   *
+   */
+  public void vibrar(long[] arrIntMs) {
+
+    try {
+
+      if (arrIntMs == null) {
+
+        return;
+      }
+
+      ((Vibrator) this.getCnt().getSystemService(Context.VIBRATOR_SERVICE)).vibrate(arrIntMs, -1);
+    }
+    catch (Exception ex) {
+
+      new ErroAndroid("Erro inesperado.\n", ex);
     }
     finally {
     }

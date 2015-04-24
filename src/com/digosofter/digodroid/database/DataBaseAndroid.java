@@ -63,7 +63,16 @@ public class DataBaseAndroid extends DataBase {
   @Override
   public void execSql(String sql) {
 
-    this.execSqlSemRetorno(sql);
+    try {
+
+      this.getObjDbEscrita().execSQL(sql);
+    }
+    catch (Exception ex) {
+
+      new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(119), ex);
+    }
+    finally {
+    }
   }
 
   public Cursor execSqlComRetorno(String sql) {
@@ -107,20 +116,6 @@ public class DataBaseAndroid extends DataBase {
     }
 
     return strResultado;
-  }
-
-  public void execSqlSemRetorno(String sql) {
-
-    try {
-
-      this.getObjDbEscrita().execSQL(sql);
-    }
-    catch (Exception ex) {
-
-      new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(119), ex);
-    }
-    finally {
-    }
   }
 
   private ArquivoDb getArq() {

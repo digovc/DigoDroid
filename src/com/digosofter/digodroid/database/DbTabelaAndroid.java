@@ -25,16 +25,18 @@ import com.digosofter.digojava.database.TblOnChangeArg;
 
 public abstract class DbTabelaAndroid extends DbTabela {
 
-  public static final String STR_OPCAO_ADICIONAR = "Adicionar";
-  private static final String STR_OPCAO_ALTERAR = "Alterar";
-  public static final String STR_OPCAO_APAGAR = "Apagar";
-  private static final String STR_OPCAO_DETALHAR = "Ver detalhes";
+  public static final String STR_MENU_ADICIONAR = "Adicionar";
+  private static final String STR_MENU_ALTERAR = "Alterar";
+  public static final String STR_MENU_APAGAR = "Apagar";
+  private static final String STR_MENU_DETALHAR = "Ver detalhes";
+  public static final String STR_MENU_PESQUISAR = "Pesquisar";
 
+  private boolean _booItmListaCache = true;
   private boolean _booSinc = true;
   private Class<? extends ActMain> _clsActCadastro;
   private List<ItmConsulta> _lstItmConsulta;
   private List<ItmDetalheGrupo> _lstItmDetalheGrupo;
-  private List<String> _lstStrOpcao;
+  private List<String> _lstStrMenu;
   private List<DbViewAndroid> _lstViwAndroid;
   private DataBaseAndroid _objDb;
 
@@ -45,8 +47,8 @@ public abstract class DbTabelaAndroid extends DbTabela {
     try {
 
       this.criar();
-      this.inicializarAcao(this.getLstStrOpcao());
-      this.inicializarView();
+      this.inicializarMenu(this.getLstStrMenu());
+      this.inicializarViews();
     }
     catch (Exception ex) {
 
@@ -100,7 +102,7 @@ public abstract class DbTabelaAndroid extends DbTabela {
       sql = sql.replace("_cln_nome", this.getClnChavePrimaria().getStrNomeSql());
       sql = sql.replace("_registro_id", String.valueOf(intId));
 
-      this.getObjDb().execSqlSemRetorno(sql);
+      this.getObjDb().execSql(sql);
 
       this.viwOnApagarDispatcher(intId);
 
@@ -214,7 +216,7 @@ public abstract class DbTabelaAndroid extends DbTabela {
       sql = sql.replace("_tbl_nome", this.getStrNomeSql());
       sql = sql.replace("_clns", this.getSqlColunasNomesCreateTable());
 
-      this.getObjDb().execSqlSemRetorno(sql);
+      this.getObjDb().execSql(sql);
     }
     catch (Exception ex) {
 
@@ -249,6 +251,11 @@ public abstract class DbTabelaAndroid extends DbTabela {
     }
 
     return booResultado;
+  }
+
+  private boolean getBooItmListaCache() {
+
+    return _booItmListaCache;
   }
 
   public boolean getBooSinc() {
@@ -437,7 +444,7 @@ public abstract class DbTabelaAndroid extends DbTabela {
 
     try {
 
-      if (_lstItmConsulta != null) {
+      if (_lstItmConsulta != null && this.getBooItmListaCache()) {
 
         return _lstItmConsulta;
       }
@@ -526,16 +533,16 @@ public abstract class DbTabelaAndroid extends DbTabela {
     return lstStrResultado;
   }
 
-  public List<String> getLstStrOpcao() {
+  public List<String> getLstStrMenu() {
 
     try {
 
-      if (_lstStrOpcao != null) {
+      if (_lstStrMenu != null) {
 
-        return _lstStrOpcao;
+        return _lstStrMenu;
       }
 
-      _lstStrOpcao = new ArrayList<String>();
+      _lstStrMenu = new ArrayList<String>();
     }
     catch (Exception ex) {
 
@@ -544,7 +551,7 @@ public abstract class DbTabelaAndroid extends DbTabela {
     finally {
     }
 
-    return _lstStrOpcao;
+    return _lstStrMenu;
   }
 
   protected List<DbViewAndroid> getLstViwAndroid() {
@@ -881,11 +888,11 @@ public abstract class DbTabelaAndroid extends DbTabela {
 
   }
 
-  protected void inicializarAcao(List<String> lstStrAcao) {
+  protected void inicializarMenu(List<String> lstStrMenu) {
 
   }
 
-  protected void inicializarView() {
+  public void inicializarViews() {
 
   }
 
@@ -977,7 +984,7 @@ public abstract class DbTabelaAndroid extends DbTabela {
         return;
       }
 
-      mnu.add(DbTabelaAndroid.STR_OPCAO_ALTERAR);
+      mnu.add(DbTabelaAndroid.STR_MENU_ALTERAR);
     }
     catch (Exception ex) {
 
@@ -1001,7 +1008,7 @@ public abstract class DbTabelaAndroid extends DbTabela {
         return;
       }
 
-      mnu.add(DbTabelaAndroid.STR_OPCAO_APAGAR);
+      mnu.add(DbTabelaAndroid.STR_MENU_APAGAR);
     }
     catch (Exception ex) {
 
@@ -1045,7 +1052,7 @@ public abstract class DbTabelaAndroid extends DbTabela {
         return;
       }
 
-      mnu.add(DbTabelaAndroid.STR_OPCAO_DETALHAR);
+      mnu.add(DbTabelaAndroid.STR_MENU_DETALHAR);
     }
     catch (Exception ex) {
 
@@ -1085,17 +1092,17 @@ public abstract class DbTabelaAndroid extends DbTabela {
 
     try {
 
-      if (this.getLstStrOpcao() == null) {
+      if (this.getLstStrMenu() == null) {
 
         return;
       }
 
-      if (this.getLstStrOpcao().isEmpty()) {
+      if (this.getLstStrMenu().isEmpty()) {
 
         return;
       }
 
-      for (String strAcao : this.getLstStrOpcao()) {
+      for (String strAcao : this.getLstStrMenu()) {
 
         if (Utils.getBooStrVazia(strAcao)) {
 
@@ -1126,7 +1133,7 @@ public abstract class DbTabelaAndroid extends DbTabela {
 
       if (arg.getIntRegistroId() < 1) {
 
-        this.OnApagarRegDispatcher(arg);
+        this.OnAdicionarRegDispatcher(arg);
         return;
       }
 
@@ -1140,7 +1147,7 @@ public abstract class DbTabelaAndroid extends DbTabela {
     }
   }
 
-  public void processarOpcao(ActMain act, String strOpcao, int intRegistroId) {
+  public void processarMenu(ActMain act, String strMenuTitulo, int intRegistroId) {
 
     try {
 
@@ -1149,23 +1156,23 @@ public abstract class DbTabelaAndroid extends DbTabela {
         return;
       }
 
-      if (Utils.getBooStrVazia(strOpcao)) {
+      if (Utils.getBooStrVazia(strMenuTitulo)) {
 
         return;
       }
 
-      switch (strOpcao) {
-        case DbTabelaAndroid.STR_OPCAO_ADICIONAR:
-          this.processarOpcaoAdicionar(act, intRegistroId);
+      switch (strMenuTitulo) {
+        case DbTabelaAndroid.STR_MENU_ADICIONAR:
+          this.processarMenuAdicionar(act, intRegistroId);
           break;
-        case DbTabelaAndroid.STR_OPCAO_ALTERAR:
-          this.processarOpcaoAlterar(act, intRegistroId);
+        case DbTabelaAndroid.STR_MENU_ALTERAR:
+          this.processarMenuAlterar(act, intRegistroId);
           break;
-        case DbTabelaAndroid.STR_OPCAO_APAGAR:
-          this.processarOpcaoApagar(act, intRegistroId);
+        case DbTabelaAndroid.STR_MENU_APAGAR:
+          this.processarMenuApagar(act, intRegistroId);
           break;
-        case DbTabelaAndroid.STR_OPCAO_DETALHAR:
-          this.processarOpcaoDetalhar(act, intRegistroId);
+        case DbTabelaAndroid.STR_MENU_DETALHAR:
+          this.processarMenuDetalhar(act, intRegistroId);
           break;
       }
     }
@@ -1177,7 +1184,7 @@ public abstract class DbTabelaAndroid extends DbTabela {
     }
   }
 
-  protected void processarOpcaoAdicionar(ActMain act, int intRegistroId) {
+  protected void processarMenuAdicionar(ActMain act, int intRegistroId) {
 
     Intent itt;
 
@@ -1206,7 +1213,7 @@ public abstract class DbTabelaAndroid extends DbTabela {
     }
   }
 
-  private void processarOpcaoAlterar(ActMain act, int intRegistroId) {
+  private void processarMenuAlterar(ActMain act, int intRegistroId) {
 
     Intent itt;
 
@@ -1242,7 +1249,7 @@ public abstract class DbTabelaAndroid extends DbTabela {
     }
   }
 
-  private void processarOpcaoApagar(ActMain act, int intRegistroId) {
+  private void processarMenuApagar(ActMain act, int intRegistroId) {
 
     try {
 
@@ -1266,7 +1273,7 @@ public abstract class DbTabelaAndroid extends DbTabela {
     }
   }
 
-  private void processarOpcaoDetalhar(ActMain act, int intRegistroId) {
+  private void processarMenuDetalhar(ActMain act, int intRegistroId) {
 
     Intent itt;
 
@@ -1305,7 +1312,6 @@ public abstract class DbTabelaAndroid extends DbTabela {
     try {
 
       this.limparListaConsulta();
-      this.onAdicionarAtualizarDispatcher();
 
       sql = "replace into _tbl_nome (_clns_nome) values (_values);";
 
@@ -1313,7 +1319,8 @@ public abstract class DbTabelaAndroid extends DbTabela {
       sql = sql.replace("_clns_nome", this.getSqlColunasNomesInsert());
       sql = sql.replace("_values", this.getSqlColunasValoresInsert());
 
-      this.getObjDb().execSqlSemRetorno(sql);
+      this.getObjDb().execSql(sql);
+      this.onAdicionarAtualizarDispatcher();
 
       if (this.getClnChavePrimaria().getIntValor() < 1) {
 
@@ -1333,6 +1340,11 @@ public abstract class DbTabelaAndroid extends DbTabela {
     }
     finally {
     }
+  }
+
+  protected void setBooItmListaCache(boolean booItmListaCache) {
+
+    _booItmListaCache = booItmListaCache;
   }
 
   public void setBooSinc(boolean booSinc) {

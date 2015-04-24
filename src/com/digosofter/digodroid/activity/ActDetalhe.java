@@ -422,7 +422,7 @@ public class ActDetalhe extends ActMain {
         return super.onOptionsItemSelected(itm);
       }
 
-      this.getTbl().processarOpcao(this, itm.getTitle().toString(), this.getIntRegistroId());
+      this.getTbl().processarMenu(this, itm.getTitle().toString(), this.getIntRegistroId());
     }
     catch (Exception ex) {
 

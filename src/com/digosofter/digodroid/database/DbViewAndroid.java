@@ -70,13 +70,13 @@ public abstract class DbViewAndroid extends DbTabelaAndroid {
       sql = "drop view if exists _viw_nome;";
       sql = sql.replace("_viw_nome", this.getStrNomeSql());
 
-      AppAndroid.getI().getObjDbPrincipal().execSqlSemRetorno(sql);
+      AppAndroid.getI().getObjDbPrincipal().execSql(sql);
 
       sql = "create view if not exists _viw_nome as _select;";
       sql = sql.replace("_viw_nome", this.getStrNomeSql());
       sql = sql.replace("_select", this.getSqlSelect());
 
-      AppAndroid.getI().getObjDbPrincipal().execSqlSemRetorno(sql);
+      AppAndroid.getI().getObjDbPrincipal().execSql(sql);
     }
     catch (Exception ex) {
 

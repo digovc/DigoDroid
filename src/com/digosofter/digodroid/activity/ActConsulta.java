@@ -15,6 +15,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -44,8 +45,10 @@ public class ActConsulta extends ActMain implements OnItemClickListener, OnItemL
   private TextWatcher _evtEdtPesquisa_TextWatcher;
   private ItmConsulta _itmSelec;
   private ListView _pnlLista;
+  private LinearLayout _pnlPesquisa;
   private DbTabelaAndroid _tbl;
   private TextView _txtTblDescricao;
+  private TextView _txtVazio;
 
   public ActConsulta() {
 
@@ -178,7 +181,7 @@ public class ActConsulta extends ActMain implements OnItemClickListener, OnItemL
     return _itmSelec;
   }
 
-  public ListView getPnlLista() {
+  private ListView getPnlLista() {
 
     try {
 
@@ -199,6 +202,27 @@ public class ActConsulta extends ActMain implements OnItemClickListener, OnItemL
     }
 
     return _pnlLista;
+  }
+
+  private LinearLayout getPnlPesquisa() {
+
+    try {
+
+      if (_pnlPesquisa != null) {
+
+        return _pnlPesquisa;
+      }
+
+      _pnlPesquisa = this.getLinearLayout(R.id.actConsulta_pnlPesquisa);
+    }
+    catch (Exception ex) {
+
+      new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(0), ex);
+    }
+    finally {
+    }
+
+    return _pnlPesquisa;
   }
 
   public DbTabelaAndroid getTbl() {
@@ -244,6 +268,27 @@ public class ActConsulta extends ActMain implements OnItemClickListener, OnItemL
     return _txtTblDescricao;
   }
 
+  private TextView getTxtVazio() {
+
+    try {
+
+      if (_txtVazio != null) {
+
+        return _txtVazio;
+      }
+
+      _txtVazio = this.getTextView(R.id.actConsulta_txtVazio);
+    }
+    catch (Exception ex) {
+
+      new ErroAndroid("Erro inesperado.\n", ex);
+    }
+    finally {
+    }
+
+    return _txtVazio;
+  }
+
   @Override
   protected void montarLayout() {
 
@@ -253,6 +298,7 @@ public class ActConsulta extends ActMain implements OnItemClickListener, OnItemL
 
       this.montarLayoutTitulo();
       this.montarLayoutLista();
+      this.montarLayoutVazio();
     }
     catch (Exception ex) {
 
@@ -293,6 +339,26 @@ public class ActConsulta extends ActMain implements OnItemClickListener, OnItemL
     catch (Exception ex) {
 
       new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(0), ex);
+    }
+    finally {
+    }
+  }
+
+  private void montarLayoutVazio() {
+
+    try {
+
+      if (this.getAdpCadastro().getCount() > 0) {
+
+        return;
+      }
+
+      this.getPnlLista().setVisibility(View.GONE);
+      this.getTxtVazio().setVisibility(View.VISIBLE);
+    }
+    catch (Exception ex) {
+
+      new ErroAndroid("Erro inesperado.\n", ex);
     }
     finally {
     }
@@ -349,11 +415,11 @@ public class ActConsulta extends ActMain implements OnItemClickListener, OnItemL
   }
 
   @Override
-  public boolean onContextItemSelected(MenuItem itmMenu) {
+  public boolean onContextItemSelected(MenuItem mni) {
 
     try {
 
-      if (itmMenu == null) {
+      if (mni == null) {
 
         return true;
       }
@@ -363,7 +429,7 @@ public class ActConsulta extends ActMain implements OnItemClickListener, OnItemL
         return true;
       }
 
-      this.getTbl().processarOpcao(this, itmMenu.getTitle().toString(), this.getItmSelec().getIntRegistroId());
+      this.getTbl().processarMenu(this, mni.getTitle().toString(), this.getItmSelec().getIntRegistroId());
     }
     catch (Exception ex) {
 
@@ -372,7 +438,7 @@ public class ActConsulta extends ActMain implements OnItemClickListener, OnItemL
     finally {
     }
 
-    return super.onContextItemSelected(itmMenu);
+    return super.onContextItemSelected(mni);
   }
 
   @Override
@@ -416,6 +482,7 @@ public class ActConsulta extends ActMain implements OnItemClickListener, OnItemL
 
     try {
 
+      this.onCreateOptionsMenuPesquisar(mnu);
       this.onCreateOptionsMenuAdicionar(mnu);
     }
     catch (Exception ex) {
@@ -429,6 +496,8 @@ public class ActConsulta extends ActMain implements OnItemClickListener, OnItemL
   }
 
   private void onCreateOptionsMenuAdicionar(Menu mnu) {
+
+    MenuItem mni;
 
     try {
 
@@ -452,10 +521,33 @@ public class ActConsulta extends ActMain implements OnItemClickListener, OnItemL
         return;
       }
 
-      this.getMenuInflater().inflate(R.menu.act_consulta_menu, mnu);
+      mni = mnu.add(DbTabelaAndroid.STR_MENU_ADICIONAR);
+      mni.setIcon(R.drawable.ic_adicionar);
+      mni.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+    }
+    catch (Exception ex) {
 
-      mnu.getItem(0).setTitle(DbTabelaAndroid.STR_OPCAO_ADICIONAR);
-      mnu.getItem(0).setVisible(true);
+      new ErroAndroid("Erro inesperado.\n", ex);
+    }
+    finally {
+    }
+  }
+
+  private void onCreateOptionsMenuPesquisar(Menu mnu) {
+
+    MenuItem mni;
+
+    try {
+
+      if (mnu == null) {
+
+        return;
+      }
+
+      mni = mnu.add(DbTabelaAndroid.STR_MENU_PESQUISAR);
+      mni.setCheckable(true);
+      mni.setIcon(R.drawable.ic_pesquisar);
+      mni.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
     }
     catch (Exception ex) {
 
@@ -555,16 +647,22 @@ public class ActConsulta extends ActMain implements OnItemClickListener, OnItemL
   }
 
   @Override
-  public boolean onOptionsItemSelected(MenuItem itm) {
+  public boolean onOptionsItemSelected(MenuItem mni) {
 
     try {
 
-      if (super.onOptionsItemSelected(itm)) {
+      if (super.onOptionsItemSelected(mni)) {
 
         return true;
       }
 
-      this.getTbl().processarOpcao(this, itm.getTitle().toString(), 0);
+      if (DbTabelaAndroid.STR_MENU_PESQUISAR.equals(mni.getTitle())) {
+
+        this.onOptionsItemSelectedPesquisar(mni);
+        return true;
+      }
+
+      this.getTbl().processarMenu(this, mni.getTitle().toString(), 0);
     }
     catch (Exception ex) {
 
@@ -574,6 +672,22 @@ public class ActConsulta extends ActMain implements OnItemClickListener, OnItemL
     }
 
     return false;
+  }
+
+  private void onOptionsItemSelectedPesquisar(MenuItem mni) {
+
+    try {
+
+      this.getPnlPesquisa().setVisibility(mni.isChecked() ? View.GONE : View.VISIBLE);
+
+      mni.setCheckable(!mni.isChecked());
+    }
+    catch (Exception ex) {
+
+      new ErroAndroid("Erro inesperado.\n", ex);
+    }
+    finally {
+    }
   }
 
   @Override
