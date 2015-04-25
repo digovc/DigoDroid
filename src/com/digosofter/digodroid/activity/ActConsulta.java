@@ -88,6 +88,21 @@ public class ActConsulta extends ActMain implements OnItemClickListener, OnItemL
     }
   }
 
+  public void atualizarLista() {
+
+    try {
+
+      this.getAdpCadastro().atualizarLista();
+    }
+    catch (Exception ex) {
+
+      new ErroAndroid("Erro inesperado.\n", ex);
+    }
+    finally {
+    }
+
+  }
+
   private AdpConsulta getAdpCadastro() {
 
     try {
@@ -429,7 +444,7 @@ public class ActConsulta extends ActMain implements OnItemClickListener, OnItemL
         return true;
       }
 
-      this.getTbl().processarMenu(this, mni.getTitle().toString(), this.getItmSelec().getIntRegistroId());
+      this.getTbl().processarMenuContexto(this, mni, this.getItmSelec().getIntRegistroId());
     }
     catch (Exception ex) {
 
@@ -465,7 +480,7 @@ public class ActConsulta extends ActMain implements OnItemClickListener, OnItemL
 
       mnu.setHeaderTitle(this.getItmSelec().getStrNome());
 
-      this.getTbl().montarMenuConsulta(mnu, this.getItmSelec().getIntRegistroId());
+      this.getTbl().montarMenuContexto(mnu, this.getItmSelec().getIntRegistroId(), true);
     }
     catch (Exception ex) {
 
@@ -484,6 +499,7 @@ public class ActConsulta extends ActMain implements OnItemClickListener, OnItemL
 
       this.onCreateOptionsMenuPesquisar(mnu);
       this.onCreateOptionsMenuAdicionar(mnu);
+      this.getTbl().montarMenu(mnu);
     }
     catch (Exception ex) {
 
@@ -662,7 +678,7 @@ public class ActConsulta extends ActMain implements OnItemClickListener, OnItemL
         return true;
       }
 
-      this.getTbl().processarMenu(this, mni.getTitle().toString(), 0);
+      this.getTbl().processarMenu(this, mni);
     }
     catch (Exception ex) {
 
@@ -680,7 +696,7 @@ public class ActConsulta extends ActMain implements OnItemClickListener, OnItemL
 
       this.getPnlPesquisa().setVisibility(mni.isChecked() ? View.GONE : View.VISIBLE);
 
-      mni.setCheckable(!mni.isChecked());
+      mni.setChecked(!mni.isChecked());
     }
     catch (Exception ex) {
 

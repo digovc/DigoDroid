@@ -5,6 +5,7 @@
     android:layout_height="match_parent"
     android:background="#EEEEEE"
     android:orientation="vertical"
+    android:paddingBottom="5dp"
     tools:context=".activitys.ActCadastro" >
 
     <LinearLayout

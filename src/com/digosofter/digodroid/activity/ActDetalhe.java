@@ -395,7 +395,7 @@ public class ActDetalhe extends ActMain {
         return super.onCreateOptionsMenu(mnu);
       }
 
-      this.getTbl().montarMenuDetalhe(mnu, this.getItmConsulta().getIntRegistroId());
+      this.getTbl().montarMenuContexto(mnu, this.getItmConsulta().getIntRegistroId(), false);
     }
     catch (Exception ex) {
 
@@ -408,21 +408,21 @@ public class ActDetalhe extends ActMain {
   }
 
   @Override
-  public boolean onOptionsItemSelected(MenuItem itm) {
+  public boolean onOptionsItemSelected(MenuItem mni) {
 
     try {
 
-      if (itm == null) {
+      if (mni == null) {
 
-        return super.onOptionsItemSelected(itm);
+        return super.onOptionsItemSelected(mni);
       }
 
       if (this.getTbl() == null) {
 
-        return super.onOptionsItemSelected(itm);
+        return super.onOptionsItemSelected(mni);
       }
 
-      this.getTbl().processarMenu(this, itm.getTitle().toString(), this.getIntRegistroId());
+      this.getTbl().processarMenu(this, mni);
     }
     catch (Exception ex) {
 
@@ -431,6 +431,6 @@ public class ActDetalhe extends ActMain {
     finally {
     }
 
-    return super.onOptionsItemSelected(itm);
+    return super.onOptionsItemSelected(mni);
   }
 }

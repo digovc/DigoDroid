@@ -65,8 +65,9 @@ public class AdpConsulta extends BaseAdapter implements Filterable {
     try {
 
       this.setLstItmConsulta(null);
-      this.setLstItmConsultaSemFiltro(null);
       this.getTbl().limparListaConsulta();
+
+      this.getLstItmConsulta();
       this.notifyDataSetChanged();
     }
     catch (Exception ex) {

@@ -23,7 +23,7 @@
             android:textColor="#F44336" />
 
         <View
-            android:id="@+id/itmConsulta_lin1"
+            android:id="@+id/itmDetalheGrupo_lin1"
             android:layout_width="fill_parent"
             android:layout_height="1dp"
             android:background="@android:color/darker_gray" />

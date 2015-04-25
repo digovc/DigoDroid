@@ -6,8 +6,11 @@ import java.util.List;
 import android.content.Intent;
 import android.database.Cursor;
 import android.view.Menu;
+import android.view.MenuItem;
+import android.view.SubMenu;
 
 import com.digosofter.digodroid.AppAndroid;
+import com.digosofter.digodroid.R;
 import com.digosofter.digodroid.activity.ActCadastroMain;
 import com.digosofter.digodroid.activity.ActConsulta;
 import com.digosofter.digodroid.activity.ActDetalhe;
@@ -38,6 +41,7 @@ public abstract class DbTabelaAndroid extends DbTabela {
   private List<ItmDetalheGrupo> _lstItmDetalheGrupo;
   private List<String> _lstStrMenu;
   private List<DbViewAndroid> _lstViwAndroid;
+  private MenuItem _mniOrdemDecrescente;
   private DataBaseAndroid _objDb;
 
   protected DbTabelaAndroid(String strNome) {
@@ -385,13 +389,14 @@ public abstract class DbTabelaAndroid extends DbTabela {
 
     try {
 
-      sql = "select _clns_nome from _tbl_nome where _where order by _order;";
+      sql = "select _clns_nome from _tbl_nome where _where order by _order _asc_desc;";
 
       sql = sql.replace("_clns_nome", this.getSqlSelectColunasNomesConsulta());
       sql = sql.replace("_tbl_nome", this.getStrNomeSql());
       sql = sql.replace("where _where", this.getLstFilConsulta() != null && this.getLstFilConsulta().size() > 0 ? "where _where" : Utils.STR_VAZIA);
       sql = sql.replace("_where", this.getSqlWhere(this.getLstFilConsulta()));
       sql = sql.replace("_order", this.getClnOrdem().getStrNomeSql());
+      sql = sql.replace("_asc_desc", !this.getClnOrdem().getBooOrdemDecrescente() ? "asc" : "desc");
 
       crsResultado = this.getObjDb().execSqlComRetorno(sql);
 
@@ -573,6 +578,11 @@ public abstract class DbTabelaAndroid extends DbTabela {
     }
 
     return _lstViwAndroid;
+  }
+
+  MenuItem getMniOrdemDecrescente() {
+
+    return _mniOrdemDecrescente;
   }
 
   @Override
@@ -965,7 +975,57 @@ public abstract class DbTabelaAndroid extends DbTabela {
     }
   }
 
-  private void montarMenuAlterar(Menu mnu) {
+  public void montarMenu(Menu mnu) {
+
+    try {
+
+      if (mnu == null) {
+
+        return;
+      }
+
+      this.montarMenuOrdenar(mnu);
+    }
+    catch (Exception ex) {
+
+      new ErroAndroid("Erro inesperado.\n", ex);
+    }
+    finally {
+    }
+  }
+
+  public void montarMenuContexto(Menu mnu, int intRegistroId, boolean booDetalhar) {
+
+    try {
+
+      if (mnu == null) {
+
+        return;
+      }
+
+      if (intRegistroId < 1) {
+
+        return;
+      }
+
+      if (booDetalhar) {
+
+        this.montarMenuContextoDetalhar(mnu);
+      }
+
+      this.montarMenuContextoAlterar(mnu);
+      this.montarMenuContextoApagar(mnu);
+      this.montarMenuContextoOpcao(mnu);
+    }
+    catch (Exception ex) {
+
+      new ErroAndroid("Erro inesperado.\n", ex);
+    }
+    finally {
+    }
+  }
+
+  private void montarMenuContextoAlterar(Menu mnu) {
 
     try {
 
@@ -994,7 +1054,7 @@ public abstract class DbTabelaAndroid extends DbTabela {
     }
   }
 
-  private void montarMenuApagar(Menu mnu) {
+  private void montarMenuContextoApagar(Menu mnu) {
 
     try {
 
@@ -1018,32 +1078,7 @@ public abstract class DbTabelaAndroid extends DbTabela {
     }
   }
 
-  public void montarMenuConsulta(Menu mnu, int intRegistroId) {
-
-    try {
-
-      if (mnu == null) {
-
-        return;
-      }
-
-      if (intRegistroId < 1) {
-
-        return;
-      }
-
-      this.montarMenuDetalhar(mnu);
-      this.montarMenuDetalhe(mnu, intRegistroId);
-    }
-    catch (Exception ex) {
-
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally {
-    }
-  }
-
-  private void montarMenuDetalhar(Menu mnu) {
+  private void montarMenuContextoDetalhar(Menu mnu) {
 
     try {
 
@@ -1062,33 +1097,7 @@ public abstract class DbTabelaAndroid extends DbTabela {
     }
   }
 
-  public void montarMenuDetalhe(Menu mnu, int intRegistroId) {
-
-    try {
-
-      if (mnu == null) {
-
-        return;
-      }
-
-      if (intRegistroId < 1) {
-
-        return;
-      }
-
-      this.montarMenuAlterar(mnu);
-      this.montarMenuApagar(mnu);
-      this.montarMenuOpcao(mnu);
-    }
-    catch (Exception ex) {
-
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally {
-    }
-  }
-
-  private void montarMenuOpcao(Menu mnu) {
+  private void montarMenuContextoOpcao(Menu mnu) {
 
     try {
 
@@ -1111,6 +1120,88 @@ public abstract class DbTabelaAndroid extends DbTabela {
 
         mnu.add(strAcao);
       }
+    }
+    catch (Exception ex) {
+
+      new ErroAndroid("Erro inesperado.\n", ex);
+    }
+    finally {
+    }
+  }
+
+  private void montarMenuOrdenar(Menu mnu) {
+
+    SubMenu smn;
+
+    try {
+
+      if (mnu == null) {
+
+        return;
+      }
+
+      smn = mnu.addSubMenu("Ordenar");
+      smn.getItem().setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
+      smn.setIcon(R.drawable.ic_ordenar);
+
+      this.montarMenuOrdenarColuna(smn);
+      this.montarMenuOrdenarDecrescente(smn);
+    }
+    catch (Exception ex) {
+
+      new ErroAndroid("Erro inesperado.\n", ex);
+    }
+    finally {
+    }
+  }
+
+  private void montarMenuOrdenarColuna(SubMenu smn) {
+
+    try {
+
+      if (smn == null) {
+
+        return;
+      }
+
+      ((DbColunaAndroid) this.getClnChavePrimaria()).montarMenuOrdenar(smn);
+      ((DbColunaAndroid) this.getClnNome()).montarMenuOrdenar(smn);
+
+      for (DbColuna cln : this.getLstClnConsulta()) {
+
+        if (cln == null) {
+
+          continue;
+        }
+
+        if (!cln.getBooVisivelConsulta()) {
+
+          continue;
+        }
+
+        ((DbColunaAndroid) cln).montarMenuOrdenar(smn);
+      }
+    }
+    catch (Exception ex) {
+
+      new ErroAndroid("Erro inesperado.\n", ex);
+    }
+    finally {
+    }
+  }
+
+  private void montarMenuOrdenarDecrescente(SubMenu smn) {
+
+    try {
+
+      if (smn == null) {
+
+        return;
+      }
+
+      this.setMniOrdemDecrescente(smn.add("Ordem decrescente"));
+      this.getMniOrdemDecrescente().setChecked(this.getClnOrdem().getBooOrdemDecrescente());
+      this.getMniOrdemDecrescente().setCheckable(true);
     }
     catch (Exception ex) {
 
@@ -1147,7 +1238,7 @@ public abstract class DbTabelaAndroid extends DbTabela {
     }
   }
 
-  public void processarMenu(ActMain act, String strMenuTitulo, int intRegistroId) {
+  public void processarMenu(ActMain act, MenuItem mni) {
 
     try {
 
@@ -1156,24 +1247,28 @@ public abstract class DbTabelaAndroid extends DbTabela {
         return;
       }
 
-      if (Utils.getBooStrVazia(strMenuTitulo)) {
+      if (mni == null) {
 
         return;
       }
 
-      switch (strMenuTitulo) {
+      if (this.processarMenuOrdenar(act, mni)) {
+
+        ((ActConsulta) act).atualizarLista();
+        return;
+      }
+
+      if (mni.equals(this.getMniOrdemDecrescente())) {
+
+        this.processarMenuOrdenarDecrescente((ActConsulta) act);
+        return;
+      }
+
+      switch (mni.getTitle().toString()) {
+
         case DbTabelaAndroid.STR_MENU_ADICIONAR:
-          this.processarMenuAdicionar(act, intRegistroId);
-          break;
-        case DbTabelaAndroid.STR_MENU_ALTERAR:
-          this.processarMenuAlterar(act, intRegistroId);
-          break;
-        case DbTabelaAndroid.STR_MENU_APAGAR:
-          this.processarMenuApagar(act, intRegistroId);
-          break;
-        case DbTabelaAndroid.STR_MENU_DETALHAR:
-          this.processarMenuDetalhar(act, intRegistroId);
-          break;
+          this.processarMenuAdicionar(act);
+          return;
       }
     }
     catch (Exception ex) {
@@ -1184,7 +1279,7 @@ public abstract class DbTabelaAndroid extends DbTabela {
     }
   }
 
-  protected void processarMenuAdicionar(ActMain act, int intRegistroId) {
+  protected void processarMenuAdicionar(ActMain act) {
 
     Intent itt;
 
@@ -1201,7 +1296,6 @@ public abstract class DbTabelaAndroid extends DbTabela {
       }
 
       itt = new Intent(act, this.getClsActCadastro());
-      itt.putExtra(ActCadastroMain.STR_EXTRA_IN_INT_REGISTRO_ID, intRegistroId);
 
       act.startActivity(itt);
     }
@@ -1213,7 +1307,42 @@ public abstract class DbTabelaAndroid extends DbTabela {
     }
   }
 
-  private void processarMenuAlterar(ActMain act, int intRegistroId) {
+  public void processarMenuContexto(ActMain act, MenuItem mnu, int intRegistroId) {
+
+    try {
+
+      if (act == null) {
+
+        return;
+      }
+
+      if (mnu == null) {
+
+        return;
+      }
+
+      switch (mnu.getTitle().toString()) {
+
+        case DbTabelaAndroid.STR_MENU_ALTERAR:
+          this.processarMenuContextoAlterar(act, intRegistroId);
+          return;
+        case DbTabelaAndroid.STR_MENU_APAGAR:
+          this.processarMenuContextoApagar(act, intRegistroId);
+          return;
+        case DbTabelaAndroid.STR_MENU_DETALHAR:
+          this.processarMenuContextoDetalhar(act, intRegistroId);
+          return;
+      }
+    }
+    catch (Exception ex) {
+
+      new ErroAndroid("Erro inesperado.\n", ex);
+    }
+    finally {
+    }
+  }
+
+  private void processarMenuContextoAlterar(ActMain act, int intRegistroId) {
 
     Intent itt;
 
@@ -1249,7 +1378,7 @@ public abstract class DbTabelaAndroid extends DbTabela {
     }
   }
 
-  private void processarMenuApagar(ActMain act, int intRegistroId) {
+  private void processarMenuContextoApagar(ActMain act, int intRegistroId) {
 
     try {
 
@@ -1273,7 +1402,7 @@ public abstract class DbTabelaAndroid extends DbTabela {
     }
   }
 
-  private void processarMenuDetalhar(ActMain act, int intRegistroId) {
+  private void processarMenuContextoDetalhar(ActMain act, int intRegistroId) {
 
     Intent itt;
 
@@ -1295,6 +1424,85 @@ public abstract class DbTabelaAndroid extends DbTabela {
       itt.putExtra(ActDetalhe.STR_EXTRA_IN_INT_REGISTRO_ID, intRegistroId);
 
       act.startActivity(itt);
+    }
+    catch (Exception ex) {
+
+      new ErroAndroid("Erro inesperado.\n", ex);
+    }
+    finally {
+    }
+  }
+
+  private boolean processarMenuOrdenar(ActMain act, MenuItem mni) {
+
+    try {
+
+      if (act == null) {
+
+        return false;
+      }
+
+      if (mni == null) {
+
+        return false;
+      }
+
+      if (mni.isChecked()) {
+
+        return false;
+      }
+
+      if (((DbColunaAndroid) this.getClnChavePrimaria()).getMniOrdenar().equals(mni)) {
+
+        ((DbColunaAndroid) this.getClnChavePrimaria()).processarMenuOrdenar(mni);
+        return true;
+      }
+
+      if (((DbColunaAndroid) this.getClnNome()).getMniOrdenar().equals(mni)) {
+
+        ((DbColunaAndroid) this.getClnNome()).processarMenuOrdenar(mni);
+        return true;
+      }
+
+      for (DbColuna cln : this.getLstClnConsulta()) {
+
+        if (cln == null) {
+
+          continue;
+        }
+
+        if (!((DbColunaAndroid) cln).getMniOrdenar().equals(mni)) {
+
+          continue;
+        }
+
+        ((DbColunaAndroid) cln).processarMenuOrdenar(mni);
+        return true;
+      }
+    }
+    catch (Exception ex) {
+
+      new ErroAndroid("Erro inesperado.\n", ex);
+    }
+    finally {
+    }
+
+    return false;
+  }
+
+  private void processarMenuOrdenarDecrescente(ActConsulta actConsulta) {
+
+    try {
+
+      if (actConsulta == null) {
+
+        return;
+      }
+
+      this.getMniOrdemDecrescente().setChecked(!this.getMniOrdemDecrescente().isChecked());
+      this.getClnOrdem().setBooOrdemDecrescente(this.getMniOrdemDecrescente().isChecked());
+
+      actConsulta.atualizarLista();
     }
     catch (Exception ex) {
 
@@ -1360,6 +1568,11 @@ public abstract class DbTabelaAndroid extends DbTabela {
   public void setLstItmConsulta(List<ItmConsulta> lstItmConsulta) {
 
     _lstItmConsulta = lstItmConsulta;
+  }
+
+  private void setMniOrdemDecrescente(MenuItem mniOrdemDecrescente) {
+
+    _mniOrdemDecrescente = mniOrdemDecrescente;
   }
 
   public void setObjDb(DataBaseAndroid objDb) {

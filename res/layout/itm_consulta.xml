@@ -14,14 +14,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/borda_simples"
-        android:orientation="vertical" >
+        android:orientation="vertical"
+        android:padding="10dp" >
 
         <LinearLayout
             android:id="@+id/itmConsulta_pnlCabecalho"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="horizontal"
-            android:padding="10dp" >
+            android:orientation="horizontal" >
 
             <TextView
                 android:id="@+id/itmConsulta_txtId"
@@ -55,8 +55,7 @@
             android:id="@+id/itmConsulta_pnlCampoContainer"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:padding="5dp" >
+            android:orientation="vertical" >
 
         </LinearLayout>
 
