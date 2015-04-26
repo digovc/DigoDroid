@@ -99,8 +99,8 @@ public class Aparelho extends Objeto {
    */
   public void enviarEmail(String strEmail) {
 
-    Uri uri;
     Intent itt;
+    Uri uri;
 
     try {
 
@@ -113,7 +113,6 @@ public class Aparelho extends Objeto {
 
       itt = new Intent(Intent.ACTION_SENDTO, uri);
       itt.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-      itt.putExtra(Intent.EXTRA_SUBJECT, "Customer comments/questions");
 
       this.getCnt().startActivity(itt);
     }
