@@ -444,7 +444,7 @@ public class ActConsulta extends ActMain implements OnItemClickListener, OnItemL
         return true;
       }
 
-      this.getTbl().processarMenuContexto(this, mni, this.getItmSelec().getIntRegistroId());
+      this.getTbl().processarMenuItem(this, mni, this.getItmSelec().getIntRegistroId());
     }
     catch (Exception ex) {
 
@@ -480,7 +480,7 @@ public class ActConsulta extends ActMain implements OnItemClickListener, OnItemL
 
       mnu.setHeaderTitle(this.getItmSelec().getStrNome());
 
-      this.getTbl().montarMenuContexto(mnu, this.getItmSelec().getIntRegistroId(), true);
+      this.getTbl().montarMenuItem(mnu, this.getItmSelec().getIntRegistroId(), true);
     }
     catch (Exception ex) {
 

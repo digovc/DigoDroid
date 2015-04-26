@@ -66,6 +66,34 @@ public class Aparelho extends Objeto {
     }
   }
 
+  public void discar(String strNumero) {
+
+    Intent itt;
+
+    try {
+
+      if (Utils.getBooStrVazia(strNumero)) {
+
+        return;
+      }
+
+      strNumero = Utils.getStrSimplificada(strNumero);
+
+      itt = new Intent(Intent.ACTION_DIAL);
+
+      itt.setData(Uri.parse("tel:" + strNumero));
+      itt.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
+      this.getCnt().startActivity(itt);
+    }
+    catch (Exception ex) {
+
+      new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(0), ex);
+    }
+    finally {
+    }
+  }
+
   /**
    * Abre o aplicativo padrão para envio de email.
    */
@@ -211,18 +239,25 @@ public class Aparelho extends Objeto {
     return _strImei;
   }
 
-  public void ligarNumero(String strNumero) {
+  public void ligar(String strNumero) {
 
-    Intent objIntent;
+    Intent itt;
 
     try {
 
-      objIntent = new Intent(Intent.ACTION_CALL);
+      if (Utils.getBooStrVazia(strNumero)) {
 
-      objIntent.setData(Uri.parse("tel:" + strNumero));
-      objIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        return;
+      }
 
-      this.getCnt().startActivity(objIntent);
+      strNumero = Utils.getStrSimplificada(strNumero);
+
+      itt = new Intent(Intent.ACTION_CALL);
+
+      itt.setData(Uri.parse("tel:" + strNumero));
+      itt.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
+      this.getCnt().startActivity(itt);
     }
     catch (Exception ex) {
 

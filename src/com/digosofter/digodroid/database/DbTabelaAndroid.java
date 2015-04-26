@@ -39,7 +39,6 @@ public abstract class DbTabelaAndroid extends DbTabela {
   private Class<? extends ActMain> _clsActCadastro;
   private List<ItmConsulta> _lstItmConsulta;
   private List<ItmDetalheGrupo> _lstItmDetalheGrupo;
-  private List<String> _lstStrMenu;
   private List<DbViewAndroid> _lstViwAndroid;
   private MenuItem _mniOrdemDecrescente;
   private DataBaseAndroid _objDb;
@@ -51,7 +50,6 @@ public abstract class DbTabelaAndroid extends DbTabela {
     try {
 
       this.criar();
-      this.inicializarMenu(this.getLstStrMenu());
       this.inicializarViews();
     }
     catch (Exception ex) {
@@ -538,27 +536,6 @@ public abstract class DbTabelaAndroid extends DbTabela {
     return lstStrResultado;
   }
 
-  public List<String> getLstStrMenu() {
-
-    try {
-
-      if (_lstStrMenu != null) {
-
-        return _lstStrMenu;
-      }
-
-      _lstStrMenu = new ArrayList<String>();
-    }
-    catch (Exception ex) {
-
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally {
-    }
-
-    return _lstStrMenu;
-  }
-
   protected List<DbViewAndroid> getLstViwAndroid() {
 
     try {
@@ -898,10 +875,6 @@ public abstract class DbTabelaAndroid extends DbTabela {
 
   }
 
-  protected void inicializarMenu(List<String> lstStrMenu) {
-
-  }
-
   public void inicializarViews() {
 
   }
@@ -1047,7 +1020,7 @@ public abstract class DbTabelaAndroid extends DbTabela {
     }
   }
 
-  public void montarMenuContexto(Menu mnu, int intRegistroId, boolean booDetalhar) {
+  public void montarMenuItem(Menu mnu, int intRegistroId, boolean booDetalhar) {
 
     try {
 
@@ -1063,12 +1036,11 @@ public abstract class DbTabelaAndroid extends DbTabela {
 
       if (booDetalhar) {
 
-        this.montarMenuContextoDetalhar(mnu);
+        this.montarMenuItemDetalhar(mnu);
       }
 
-      this.montarMenuContextoAlterar(mnu);
-      this.montarMenuContextoApagar(mnu);
-      this.montarMenuContextoOpcao(mnu);
+      this.montarMenuItemAlterar(mnu);
+      this.montarMenuItemApagar(mnu);
     }
     catch (Exception ex) {
 
@@ -1078,7 +1050,7 @@ public abstract class DbTabelaAndroid extends DbTabela {
     }
   }
 
-  private void montarMenuContextoAlterar(Menu mnu) {
+  private void montarMenuItemAlterar(Menu mnu) {
 
     try {
 
@@ -1107,7 +1079,7 @@ public abstract class DbTabelaAndroid extends DbTabela {
     }
   }
 
-  private void montarMenuContextoApagar(Menu mnu) {
+  private void montarMenuItemApagar(Menu mnu) {
 
     try {
 
@@ -1131,7 +1103,7 @@ public abstract class DbTabelaAndroid extends DbTabela {
     }
   }
 
-  private void montarMenuContextoDetalhar(Menu mnu) {
+  private void montarMenuItemDetalhar(Menu mnu) {
 
     try {
 
@@ -1141,38 +1113,6 @@ public abstract class DbTabelaAndroid extends DbTabela {
       }
 
       mnu.add(DbTabelaAndroid.STR_MENU_DETALHAR);
-    }
-    catch (Exception ex) {
-
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally {
-    }
-  }
-
-  private void montarMenuContextoOpcao(Menu mnu) {
-
-    try {
-
-      if (this.getLstStrMenu() == null) {
-
-        return;
-      }
-
-      if (this.getLstStrMenu().isEmpty()) {
-
-        return;
-      }
-
-      for (String strAcao : this.getLstStrMenu()) {
-
-        if (Utils.getBooStrVazia(strAcao)) {
-
-          continue;
-        }
-
-        mnu.add(strAcao);
-      }
     }
     catch (Exception ex) {
 
@@ -1411,7 +1351,7 @@ public abstract class DbTabelaAndroid extends DbTabela {
     return false;
   }
 
-  public void processarMenuContexto(ActMain act, MenuItem mnu, int intRegistroId) {
+  public void processarMenuItem(ActMain act, MenuItem mnu, int intRegistroId) {
 
     try {
 
@@ -1428,13 +1368,13 @@ public abstract class DbTabelaAndroid extends DbTabela {
       switch (mnu.getTitle().toString()) {
 
         case DbTabelaAndroid.STR_MENU_ALTERAR:
-          this.processarMenuContextoAlterar(act, intRegistroId);
+          this.processarMenuItemAlterar(act, intRegistroId);
           return;
         case DbTabelaAndroid.STR_MENU_APAGAR:
-          this.processarMenuContextoApagar(act, intRegistroId);
+          this.processarMenuItemApagar(act, intRegistroId);
           return;
         case DbTabelaAndroid.STR_MENU_DETALHAR:
-          this.processarMenuContextoDetalhar(act, intRegistroId);
+          this.processarMenuItemDetalhar(act, intRegistroId);
           return;
       }
     }
@@ -1446,7 +1386,7 @@ public abstract class DbTabelaAndroid extends DbTabela {
     }
   }
 
-  private void processarMenuContextoAlterar(ActMain act, int intRegistroId) {
+  private void processarMenuItemAlterar(ActMain act, int intRegistroId) {
 
     Intent itt;
 
@@ -1482,7 +1422,7 @@ public abstract class DbTabelaAndroid extends DbTabela {
     }
   }
 
-  private void processarMenuContextoApagar(ActMain act, int intRegistroId) {
+  private void processarMenuItemApagar(ActMain act, int intRegistroId) {
 
     try {
 
@@ -1506,7 +1446,7 @@ public abstract class DbTabelaAndroid extends DbTabela {
     }
   }
 
-  private void processarMenuContextoDetalhar(ActMain act, int intRegistroId) {
+  private void processarMenuItemDetalhar(ActMain act, int intRegistroId) {
 
     Intent itt;
 

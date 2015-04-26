@@ -395,7 +395,7 @@ public class ActDetalhe extends ActMain {
         return super.onCreateOptionsMenu(mnu);
       }
 
-      this.getTbl().montarMenuContexto(mnu, this.getItmConsulta().getIntRegistroId(), false);
+      this.getTbl().montarMenuItem(mnu, this.getItmConsulta().getIntRegistroId(), false);
     }
     catch (Exception ex) {
 
@@ -422,7 +422,12 @@ public class ActDetalhe extends ActMain {
         return super.onOptionsItemSelected(mni);
       }
 
-      this.getTbl().processarMenu(this, mni);
+      if (this.getIntRegistroId() < 1) {
+
+        return super.onOptionsItemSelected(mni);
+      }
+
+      this.getTbl().processarMenuItem(this, mni, this.getIntRegistroId());
     }
     catch (Exception ex) {
 
