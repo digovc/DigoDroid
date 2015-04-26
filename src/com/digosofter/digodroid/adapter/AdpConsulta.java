@@ -66,8 +66,6 @@ public class AdpConsulta extends BaseAdapter implements Filterable {
 
       this.setLstItmConsulta(null);
       this.getTbl().limparListaConsulta();
-
-      this.getLstItmConsulta();
       this.notifyDataSetChanged();
     }
     catch (Exception ex) {
@@ -219,19 +217,16 @@ public class AdpConsulta extends BaseAdapter implements Filterable {
   }
 
   @Override
-  @SuppressLint("InflateParams")
+  @SuppressLint({ "InflateParams", "ViewHolder" })
   public View getView(int intPosicao, View viwReciclada, ViewGroup viwParent) {
 
-    ItmConsulta itm;
-    View viwResultado = null;
+    ItmConsulta itm = null;
 
     try {
 
-      viwResultado = viwReciclada == null ? LayoutInflater.from(this.getActConsulta()).inflate(R.layout.itm_consulta, null) : viwReciclada;
-
       itm = this.getLstItmConsulta().get(intPosicao);
 
-      itm.setViw(viwResultado);
+      itm.setViw(LayoutInflater.from(this.getActConsulta()).inflate(R.layout.itm_consulta, null));
       itm.montarLayout();
     }
     catch (Exception ex) {
@@ -241,7 +236,7 @@ public class AdpConsulta extends BaseAdapter implements Filterable {
     finally {
     }
 
-    return viwResultado;
+    return itm.getViw();
   }
 
   public void setActConsulta(ActConsulta actConsulta) {

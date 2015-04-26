@@ -984,7 +984,60 @@ public abstract class DbTabelaAndroid extends DbTabela {
         return;
       }
 
+      this.montarMenuCampo(mnu);
       this.montarMenuOrdenar(mnu);
+    }
+    catch (Exception ex) {
+
+      new ErroAndroid("Erro inesperado.\n", ex);
+    }
+    finally {
+    }
+  }
+
+  private void montarMenuCampo(Menu mnu) {
+
+    SubMenu smn;
+
+    try {
+
+      if (mnu == null) {
+
+        return;
+      }
+
+      smn = mnu.addSubMenu("Campos");
+      smn.getItem().setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
+      smn.setIcon(R.drawable.ic_campo);
+
+      this.montarMenuCampoColuna(smn);
+    }
+    catch (Exception ex) {
+
+      new ErroAndroid("Erro inesperado.\n", ex);
+    }
+    finally {
+    }
+  }
+
+  private void montarMenuCampoColuna(SubMenu smn) {
+
+    try {
+
+      if (smn == null) {
+
+        return;
+      }
+
+      for (DbColuna cln : this.getLstCln()) {
+
+        if (cln == null) {
+
+          continue;
+        }
+
+        ((DbColunaAndroid) cln).montarMenuCampo(smn);
+      }
     }
     catch (Exception ex) {
 
@@ -1252,6 +1305,12 @@ public abstract class DbTabelaAndroid extends DbTabela {
         return;
       }
 
+      if (this.processarMenuCampo(act, mni)) {
+
+        ((ActConsulta) act).atualizarLista();
+        return;
+      }
+
       if (this.processarMenuOrdenar(act, mni)) {
 
         ((ActConsulta) act).atualizarLista();
@@ -1305,6 +1364,51 @@ public abstract class DbTabelaAndroid extends DbTabela {
     }
     finally {
     }
+  }
+
+  private boolean processarMenuCampo(ActMain act, MenuItem mni) {
+
+    try {
+
+      if (act == null) {
+
+        return false;
+      }
+
+      if (!(act instanceof ActConsulta)) {
+
+        return false;
+      }
+
+      if (mni == null) {
+
+        return false;
+      }
+
+      for (DbColuna cln : this.getLstCln()) {
+
+        if (cln == null) {
+
+          continue;
+        }
+
+        if (!mni.equals(((DbColunaAndroid) cln).getMniCampo())) {
+
+          continue;
+        }
+
+        ((DbColunaAndroid) cln).processarMenuCampo(mni);
+        return true;
+      }
+    }
+    catch (Exception ex) {
+
+      new ErroAndroid("Erro inesperado.\n", ex);
+    }
+    finally {
+    }
+
+    return false;
   }
 
   public void processarMenuContexto(ActMain act, MenuItem mnu, int intRegistroId) {
@@ -1442,6 +1546,11 @@ public abstract class DbTabelaAndroid extends DbTabela {
         return false;
       }
 
+      if (!(act instanceof ActConsulta)) {
+
+        return false;
+      }
+
       if (mni == null) {
 
         return false;
@@ -1452,13 +1561,13 @@ public abstract class DbTabelaAndroid extends DbTabela {
         return false;
       }
 
-      if (((DbColunaAndroid) this.getClnChavePrimaria()).getMniOrdenar().equals(mni)) {
+      if (mni.equals(((DbColunaAndroid) this.getClnChavePrimaria()).getMniOrdenar())) {
 
         ((DbColunaAndroid) this.getClnChavePrimaria()).processarMenuOrdenar(mni);
         return true;
       }
 
-      if (((DbColunaAndroid) this.getClnNome()).getMniOrdenar().equals(mni)) {
+      if (mni.equals(((DbColunaAndroid) this.getClnNome()).getMniOrdenar())) {
 
         ((DbColunaAndroid) this.getClnNome()).processarMenuOrdenar(mni);
         return true;
@@ -1471,7 +1580,7 @@ public abstract class DbTabelaAndroid extends DbTabela {
           continue;
         }
 
-        if (!((DbColunaAndroid) cln).getMniOrdenar().equals(mni)) {
+        if (!mni.equals(((DbColunaAndroid) cln).getMniOrdenar())) {
 
           continue;
         }
