@@ -77,7 +77,7 @@ public class Aparelho extends Objeto {
         return;
       }
 
-      strNumero = Utils.getStrSimplificada(strNumero);
+      strNumero = Utils.simplificar(strNumero);
 
       itt = new Intent(Intent.ACTION_DIAL);
 
@@ -249,7 +249,7 @@ public class Aparelho extends Objeto {
         return;
       }
 
-      strNumero = Utils.getStrSimplificada(strNumero);
+      strNumero = Utils.simplificar(strNumero);
 
       itt = new Intent(Intent.ACTION_CALL);
 
