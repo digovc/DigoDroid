@@ -4,12 +4,17 @@ import android.view.MenuItem;
 import android.view.SubMenu;
 
 import com.digosofter.digodroid.erro.ErroAndroid;
+import com.digosofter.digojava.App;
+import com.digosofter.digojava.Utils;
 import com.digosofter.digojava.database.DbColuna;
+import com.digosofter.digojava.erro.Erro;
 
 public class DbColunaAndroid extends DbColuna {
 
   private MenuItem _mniCampo;
   private MenuItem _mniOrdenar;
+
+  private String _sqlTipo;
 
   public DbColunaAndroid(String strNome, DbTabelaAndroid tbl, EnmTipo enmTipo) {
 
@@ -24,6 +29,78 @@ public class DbColunaAndroid extends DbColuna {
   MenuItem getMniOrdenar() {
 
     return _mniOrdenar;
+  }
+
+  String getSqlCreateTable() {
+
+    String strResultado;
+
+    try {
+
+      strResultado = "_cln_nome _cln_tipo _cln_pk default _default, ";
+
+      strResultado = strResultado.replace("_cln_nome", this.getStrNomeSql());
+      strResultado = strResultado.replace("_cln_tipo", this.getSqlTipo());
+      strResultado = strResultado.replace(" _cln_pk", this.getBooChavePrimaria() ? " primary key on conflict replace autoincrement" : Utils.STR_VAZIA);
+      strResultado = strResultado.replace(" autoincrement", this.getEnmTipo() != EnmTipo.TEXT ? " autoincrement" : Utils.STR_VAZIA);
+      strResultado = strResultado.replace(" default _default", !Utils.getBooStrVazia(this.getStrValorDefault()) ? " default _default" : Utils.STR_VAZIA);
+      strResultado = strResultado.replace("_default", this.getStrValorDefault());
+
+      return strResultado;
+    }
+    catch (Exception ex) {
+
+      new ErroAndroid("Erro inesperado.\n", ex);
+    }
+    finally {
+    }
+
+    return null;
+  }
+
+  private String getSqlTipo() {
+
+    try {
+
+      if (!Utils.getBooStrVazia(_sqlTipo)) {
+
+        return _sqlTipo;
+      }
+
+      switch (this.getEnmTipo()) {
+
+        case BIGINT:
+        case BOOLEAN:
+        case INTEGER:
+        case SMALLINT:
+          _sqlTipo = "integer";
+          break;
+
+        case DECIMAL:
+        case MONEY:
+        case NUMERIC:
+        case PERCENTUAL:
+          _sqlTipo = "numeric";
+          break;
+
+        case DOUBLE:
+        case FLOAT:
+        case REAL:
+          _sqlTipo = "real";
+          break;
+
+        default:
+          _sqlTipo = "text";
+      }
+    }
+    catch (Exception ex) {
+
+      new Erro(App.getI().getStrTextoPadrao(0), ex);
+    }
+    finally {
+    }
+
+    return _sqlTipo;
   }
 
   void montarMenuCampo(SubMenu smn) {

@@ -18,7 +18,7 @@
             android:id="@+id/actConsulta_pnlPesquisa"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@layout/bkg_gradiente_002"
+            android:background="@drawable/bkg_gradiente_002"
             android:orientation="vertical"
             android:visibility="gone" >
 
@@ -29,8 +29,6 @@
                 android:layout_margin="3dp"
                 android:hint="Pesquisa"
                 android:inputType="textCapCharacters" >
-
-                <requestFocus />
             </EditText>
 
             <View
@@ -39,7 +37,6 @@
                 android:layout_height="2dp"
                 android:background="#33b5e5"
                 android:visibility="visible" />
-
         </LinearLayout>
 
         <ListView
@@ -50,7 +47,6 @@
             android:divider="@null"
             android:dividerHeight="0dp"
             android:listSelector="@android:color/transparent" >
-
         </ListView>
 
         <TextView
@@ -62,7 +58,6 @@
             android:textColor="#33b5e5"
             android:textSize="20sp"
             android:visibility="gone" />
-
     </LinearLayout>
 
 </RelativeLayout>

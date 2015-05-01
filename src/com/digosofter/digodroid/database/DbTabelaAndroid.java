@@ -21,7 +21,6 @@ import com.digosofter.digodroid.item.ItmDetalheGrupo;
 import com.digosofter.digojava.Utils;
 import com.digosofter.digojava.Utils.EnmStrTipo;
 import com.digosofter.digojava.database.DbColuna;
-import com.digosofter.digojava.database.DbColuna.EnmTipo;
 import com.digosofter.digojava.database.DbFiltro;
 import com.digosofter.digojava.database.DbTabela;
 import com.digosofter.digojava.database.TblOnChangeArg;
@@ -623,7 +622,6 @@ public abstract class DbTabelaAndroid extends DbTabela {
   private String getSqlColunasNomesCreateTable() {
 
     String strResultado = null;
-    String str;
 
     try {
 
@@ -631,16 +629,12 @@ public abstract class DbTabelaAndroid extends DbTabela {
 
       for (DbColuna cln : this.getLstCln()) {
 
-        str = "_cln_nome _cln_tipo _cln_pk default _default, ";
+        if (cln == null) {
 
-        str = str.replace("_cln_nome", cln.getStrNomeSql());
-        str = str.replace("_cln_tipo", cln.getSqlTipo());
-        str = str.replace(" _cln_pk", cln.getBooChavePrimaria() ? " primary key on conflict replace autoincrement" : Utils.STR_VAZIA);
-        str = str.replace(" autoincrement", cln.getEnmTipo() != EnmTipo.TEXT ? " autoincrement" : Utils.STR_VAZIA);
-        str = str.replace(" default _default", !Utils.getBooStrVazia(cln.getStrValorDefault()) ? " default _default" : Utils.STR_VAZIA);
-        str = str.replace("_default", cln.getStrValorDefault());
+          continue;
+        }
 
-        strResultado += str;
+        strResultado += ((DbColunaAndroid) cln).getSqlCreateTable();
       }
 
       strResultado = Utils.removerUltimaLetra(strResultado, 2);
@@ -1370,9 +1364,11 @@ public abstract class DbTabelaAndroid extends DbTabela {
         case DbTabelaAndroid.STR_MENU_ALTERAR:
           this.processarMenuItemAlterar(act, intRegistroId);
           return;
+
         case DbTabelaAndroid.STR_MENU_APAGAR:
           this.processarMenuItemApagar(act, intRegistroId);
           return;
+
         case DbTabelaAndroid.STR_MENU_DETALHAR:
           this.processarMenuItemDetalhar(act, intRegistroId);
           return;

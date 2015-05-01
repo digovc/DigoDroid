@@ -29,7 +29,7 @@ import com.digosofter.digojava.Utils;
 import com.digosofter.digojava.database.TblOnChangeArg;
 import com.digosofter.digojava.database.TblOnChangeListener;
 
-public class ActConsulta extends ActMain implements OnItemClickListener, OnItemLongClickListener, OnScrollListener, TblOnChangeListener {
+public class ActConsulta extends ActMain implements OnItemClickListener, OnItemLongClickListener, TblOnChangeListener {
 
   public enum EnmResultadoTipo {
 
@@ -706,27 +706,6 @@ public class ActConsulta extends ActMain implements OnItemClickListener, OnItemL
     }
   }
 
-  @Override
-  public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-
-    try {
-
-      AppAndroid.getI().esconderTeclado();
-    }
-    catch (Exception ex) {
-
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally {
-    }
-
-  }
-
-  @Override
-  public void onScrollStateChanged(AbsListView view, int scrollState) {
-
-  }
-
   private void recuperarUltimaPesquisa() {
 
     try {
@@ -758,7 +737,6 @@ public class ActConsulta extends ActMain implements OnItemClickListener, OnItemL
       this.getPnlLista().setLongClickable(true);
       this.getPnlLista().setOnItemClickListener(this);
       this.getPnlLista().setOnItemLongClickListener(this);
-      this.getPnlLista().setOnScrollListener(this);
 
       this.registerForContextMenu(this.getPnlLista());
 

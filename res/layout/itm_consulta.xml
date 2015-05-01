@@ -13,7 +13,7 @@
         android:id="@+id/itmConsulta_pnlConteudo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/borda_simples"
+        android:background="@color/cor_botao_normal"
         android:orientation="vertical"
         android:padding="10dp" >
 
