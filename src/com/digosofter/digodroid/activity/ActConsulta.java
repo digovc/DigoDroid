@@ -9,8 +9,6 @@ import android.view.ContextMenu.ContextMenuInfo;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AbsListView;
-import android.widget.AbsListView.OnScrollListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
@@ -365,6 +363,8 @@ public class ActConsulta extends ActMain implements OnItemClickListener, OnItemL
 
       if (this.getAdpCadastro().getCount() > 0) {
 
+        this.getPnlLista().setVisibility(View.VISIBLE);
+        this.getTxtVazio().setVisibility(View.GONE);
         return;
       }
 
@@ -385,6 +385,7 @@ public class ActConsulta extends ActMain implements OnItemClickListener, OnItemL
     try {
 
       this.getAdpCadastro().atualizarLista();
+      this.montarLayoutVazio();
     }
     catch (Exception ex) {
 
@@ -405,6 +406,7 @@ public class ActConsulta extends ActMain implements OnItemClickListener, OnItemL
       }
 
       this.getAdpCadastro().apagar(arg.getIntRegistroId());
+      this.montarLayoutVazio();
     }
     catch (Exception ex) {
 
@@ -420,6 +422,7 @@ public class ActConsulta extends ActMain implements OnItemClickListener, OnItemL
     try {
 
       this.getAdpCadastro().atualizarLista();
+      this.montarLayoutVazio();
     }
     catch (Exception ex) {
 
@@ -712,10 +715,12 @@ public class ActConsulta extends ActMain implements OnItemClickListener, OnItemL
 
       if (Utils.getBooStrVazia(this.getTbl().getStrPesquisa())) {
 
+        this.getPnlPesquisa().setVisibility(View.GONE);
         return;
       }
 
       this.getEdtPesquisa().setText(this.getTbl().getStrPesquisa());
+      this.getPnlPesquisa().setVisibility(View.VISIBLE);
     }
     catch (Exception ex) {
 
