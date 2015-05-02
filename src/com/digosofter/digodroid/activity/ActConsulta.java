@@ -514,6 +514,26 @@ public class ActConsulta extends ActMain implements OnItemClickListener, OnItemL
     return true;
   }
 
+  @Override
+  public boolean onPrepareOptionsMenu(Menu mnu) {
+
+    super.onPrepareOptionsMenu(mnu);
+
+    try {
+
+      mnu.clear();
+      this.getTbl().montarMenu(mnu);
+    }
+    catch (Exception ex) {
+
+      new ErroAndroid("Erro inesperado.\n", ex);
+    }
+    finally {
+    }
+
+    return true;
+  }
+
   private void onCreateOptionsMenuAdicionar(Menu mnu) {
 
     MenuItem mni;

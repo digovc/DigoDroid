@@ -996,7 +996,7 @@ public abstract class DbTabelaAndroid extends DbTabela {
         return;
       }
 
-      for (DbColuna cln : this.getLstCln()) {
+      for (DbColuna cln : this.getLstClnOrdenado()) {
 
         if (cln == null) {
 
@@ -1034,7 +1034,7 @@ public abstract class DbTabelaAndroid extends DbTabela {
       }
 
       this.montarMenuItemAlterar(mnu);
-      this.montarMenuItemApagar(mnu);
+      this.montarMenuItemApagar(mnu, intRegistroId);
     }
     catch (Exception ex) {
 
@@ -1073,11 +1073,16 @@ public abstract class DbTabelaAndroid extends DbTabela {
     }
   }
 
-  private void montarMenuItemApagar(Menu mnu) {
+  protected void montarMenuItemApagar(Menu mnu, int intRegistroId) {
 
     try {
 
       if (mnu == null) {
+
+        return;
+      }
+
+      if (intRegistroId < 1) {
 
         return;
       }
@@ -1154,7 +1159,7 @@ public abstract class DbTabelaAndroid extends DbTabela {
       ((DbColunaAndroid) this.getClnChavePrimaria()).montarMenuOrdenar(smn);
       ((DbColunaAndroid) this.getClnNome()).montarMenuOrdenar(smn);
 
-      for (DbColuna cln : this.getLstClnConsulta()) {
+      for (DbColuna cln : this.getLstClnConsultaOrdenado()) {
 
         if (cln == null) {
 
@@ -1332,6 +1337,7 @@ public abstract class DbTabelaAndroid extends DbTabela {
         }
 
         ((DbColunaAndroid) cln).processarMenuCampo(mni);
+        act.invalidateOptionsMenu();
         return true;
       }
     }
@@ -1433,6 +1439,13 @@ public abstract class DbTabelaAndroid extends DbTabela {
       }
 
       this.apagar(intRegistroId);
+
+      if (!(act instanceof ActDetalhe)) {
+
+        return;
+      }
+
+      act.finish();
     }
     catch (Exception ex) {
 
