@@ -36,6 +36,7 @@ public class ActConsulta extends ActMain implements OnItemClickListener, OnItemL
     VOLTAR
   }
 
+  public static final String STR_EXTRA_IN_LIMPAR_LISTA_AO_SAIR = "limpar_lista_ao_sair";
   public static final String STR_EXTRA_OUT_REGISTRO_ID = "registro_id";
 
   private AdpConsulta _adpCadastro;
@@ -302,6 +303,30 @@ public class ActConsulta extends ActMain implements OnItemClickListener, OnItemL
     return _txtVazio;
   }
 
+  private void limparListaAoSair() {
+
+    try {
+
+      if (this.getTbl() == null) {
+
+        return;
+      }
+
+      if (!this.getIntent().getBooleanExtra(ActConsulta.STR_EXTRA_IN_LIMPAR_LISTA_AO_SAIR, false)) {
+
+        return;
+      }
+
+      this.getTbl().limparListaConsulta();
+    }
+    catch (Exception ex) {
+
+      new ErroAndroid("Erro inesperado.\n", ex);
+    }
+    finally {
+    }
+  }
+
   @Override
   protected void montarLayout() {
 
@@ -493,47 +518,6 @@ public class ActConsulta extends ActMain implements OnItemClickListener, OnItemL
     }
   }
 
-  @Override
-  public boolean onCreateOptionsMenu(Menu mnu) {
-
-    super.onCreateOptionsMenu(mnu);
-
-    try {
-
-      this.onCreateOptionsMenuPesquisar(mnu);
-      this.onCreateOptionsMenuAdicionar(mnu);
-      this.getTbl().montarMenu(mnu);
-    }
-    catch (Exception ex) {
-
-      new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(117), ex);
-    }
-    finally {
-    }
-
-    return true;
-  }
-
-  @Override
-  public boolean onPrepareOptionsMenu(Menu mnu) {
-
-    super.onPrepareOptionsMenu(mnu);
-
-    try {
-
-      mnu.clear();
-      this.getTbl().montarMenu(mnu);
-    }
-    catch (Exception ex) {
-
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally {
-    }
-
-    return true;
-  }
-
   private void onCreateOptionsMenuAdicionar(Menu mnu) {
 
     MenuItem mni;
@@ -604,6 +588,7 @@ public class ActConsulta extends ActMain implements OnItemClickListener, OnItemL
     try {
 
       this.getTbl().removeEvtTblOnChangeListener(this);
+      this.limparListaAoSair();
     }
     catch (Exception ex) {
 
@@ -727,6 +712,29 @@ public class ActConsulta extends ActMain implements OnItemClickListener, OnItemL
     }
     finally {
     }
+  }
+
+  @Override
+  public boolean onPrepareOptionsMenu(Menu mnu) {
+
+    super.onPrepareOptionsMenu(mnu);
+
+    try {
+
+      mnu.clear();
+
+      this.onCreateOptionsMenuPesquisar(mnu);
+      this.onCreateOptionsMenuAdicionar(mnu);
+      this.getTbl().montarMenu(mnu);
+    }
+    catch (Exception ex) {
+
+      new ErroAndroid("Erro inesperado.\n", ex);
+    }
+    finally {
+    }
+
+    return true;
   }
 
   private void recuperarUltimaPesquisa() {

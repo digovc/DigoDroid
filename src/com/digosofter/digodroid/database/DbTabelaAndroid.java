@@ -85,6 +85,34 @@ public abstract class DbTabelaAndroid extends DbTabela {
     }
   }
 
+  public void abrirActConsultaLimparCacheAoSair(ActMain act) {
+
+    Intent itt;
+
+    try {
+
+      if (this.getLstViwAndroid().size() > 0) {
+
+        AppAndroid.getI().setTblSelec(this.getLstViwAndroid().get(0));
+      }
+      else {
+
+        AppAndroid.getI().setTblSelec(this);
+      }
+
+      itt = new Intent(act, ActConsulta.class);
+      itt.putExtra(ActConsulta.STR_EXTRA_IN_LIMPAR_LISTA_AO_SAIR, true);
+
+      act.startActivityForResult(itt, 0);
+    }
+    catch (Exception ex) {
+
+      new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(123), ex);
+    }
+    finally {
+    }
+  }
+
   @Override
   public void apagar(int intId) {
 
