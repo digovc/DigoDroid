@@ -12,28 +12,9 @@ import com.digosofter.digojava.Utils;
 
 public abstract class UtilsAndroid extends Utils {
 
-  public static int getIntCorAleatoria() {
-
-    int intResultado = 0;
-    Random objR;
-    try {
-      objR = new Random();
-      intResultado = Color.argb(255, objR.nextInt(256), objR.nextInt(256), objR.nextInt(256));
-    }
-    catch (Exception ex) {
-      new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(110), ex);
-    }
-    finally {
-    }
-    return intResultado;
-  }
-
-  public static TextWatcher inserirMascara(final String strMascara, final EditText ediTxt) {
+  public static TextWatcher addMascara(final EditText ediTxt, final String strMascara) {
 
     return new TextWatcher() {
-
-      boolean isUpdating;
-      String old = "";
 
       @Override
       public void afterTextChanged(Editable s) {
@@ -48,31 +29,24 @@ public abstract class UtilsAndroid extends Utils {
       @Override
       public void onTextChanged(CharSequence s, int start, int before, int count) {
 
-        String str = Utils.removerMascara(s.toString());
-        String mascara = "";
-        if (isUpdating) {
-          old = str;
-          isUpdating = false;
-          return;
-        }
-        int i = 0;
-        for (char m : strMascara.toCharArray()) {
-          if (m != '#' && str.length() > old.length()) {
-            mascara += m;
-            continue;
-          }
-          try {
-            mascara += str.charAt(i);
-          }
-          catch (Exception e) {
-            break;
-          }
-          i++;
-        }
-        isUpdating = true;
-        ediTxt.setText(mascara);
-        ediTxt.setSelection(mascara.length());
+        // TODO: Refazer.
       }
     };
+  }
+
+  public static int getIntCorAleatoria() {
+
+    int intResultado = 0;
+    Random objR;
+    try {
+      objR = new Random();
+      intResultado = Color.argb(255, objR.nextInt(256), objR.nextInt(256), objR.nextInt(256));
+    }
+    catch (Exception ex) {
+      new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(110), ex);
+    }
+    finally {
+    }
+    return intResultado;
   }
 }

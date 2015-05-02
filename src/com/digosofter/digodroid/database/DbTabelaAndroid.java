@@ -65,6 +65,11 @@ public abstract class DbTabelaAndroid extends DbTabela {
 
     try {
 
+      if (act == null) {
+
+        return;
+      }
+
       if (this.getLstViwAndroid().size() > 0) {
 
         AppAndroid.getI().setTblSelec(this.getLstViwAndroid().get(0));
@@ -75,7 +80,7 @@ public abstract class DbTabelaAndroid extends DbTabela {
       }
 
       itt = new Intent(act, ActConsulta.class);
-      act.startActivityForResult(itt, 0);
+      act.startActivity(itt);
     }
     catch (Exception ex) {
 
@@ -91,6 +96,11 @@ public abstract class DbTabelaAndroid extends DbTabela {
 
     try {
 
+      if (act == null) {
+
+        return;
+      }
+
       if (this.getLstViwAndroid().size() > 0) {
 
         AppAndroid.getI().setTblSelec(this.getLstViwAndroid().get(0));
@@ -101,9 +111,47 @@ public abstract class DbTabelaAndroid extends DbTabela {
       }
 
       itt = new Intent(act, ActConsulta.class);
-      itt.putExtra(ActConsulta.STR_EXTRA_IN_LIMPAR_LISTA_AO_SAIR, true);
+      itt.putExtra(ActConsulta.STR_EXTRA_IN_BOO_LIMPAR_LISTA_AO_SAIR, true);
 
-      act.startActivityForResult(itt, 0);
+      act.startActivity(itt);
+    }
+    catch (Exception ex) {
+
+      new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(123), ex);
+    }
+    finally {
+    }
+  }
+
+  public void abrirActDetalhe(ActMain act, int intRegistroId) {
+
+    Intent itt;
+
+    try {
+
+      if (act == null) {
+
+        return;
+      }
+
+      if (intRegistroId < 1) {
+
+        return;
+      }
+
+      if (this.getLstViwAndroid().size() > 0) {
+
+        AppAndroid.getI().setTblSelec(this.getLstViwAndroid().get(0));
+      }
+      else {
+
+        AppAndroid.getI().setTblSelec(this);
+      }
+
+      itt = new Intent(act, ActDetalhe.class);
+      itt.putExtra(ActDetalhe.STR_EXTRA_IN_INT_REGISTRO_ID, intRegistroId);
+
+      act.startActivity(itt);
     }
     catch (Exception ex) {
 

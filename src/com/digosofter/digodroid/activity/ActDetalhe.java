@@ -20,7 +20,7 @@ import com.digosofter.digojava.Utils;
 
 public class ActDetalhe extends ActMain {
 
-  public static final String STR_EXTRA_IN_INT_REGISTRO_ID = "registro_id";
+  public static final String STR_EXTRA_IN_INT_REGISTRO_ID = "int_registro_id";
 
   private int _intRegistroId;
   private ItmConsulta _itmConsulta;

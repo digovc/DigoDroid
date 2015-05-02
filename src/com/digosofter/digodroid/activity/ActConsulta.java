@@ -36,8 +36,8 @@ public class ActConsulta extends ActMain implements OnItemClickListener, OnItemL
     VOLTAR
   }
 
-  public static final String STR_EXTRA_IN_LIMPAR_LISTA_AO_SAIR = "limpar_lista_ao_sair";
-  public static final String STR_EXTRA_OUT_REGISTRO_ID = "registro_id";
+  public static final String STR_EXTRA_IN_BOO_LIMPAR_LISTA_AO_SAIR = "boo_limpar_lista_ao_sair";
+  public static final String STR_EXTRA_OUT_INT_REGISTRO_ID = "int_registro_id";
 
   private AdpConsulta _adpCadastro;
   private EditText _edtPesquisa;
@@ -312,7 +312,7 @@ public class ActConsulta extends ActMain implements OnItemClickListener, OnItemL
         return;
       }
 
-      if (!this.getIntent().getBooleanExtra(ActConsulta.STR_EXTRA_IN_LIMPAR_LISTA_AO_SAIR, false)) {
+      if (!this.getIntent().getBooleanExtra(ActConsulta.STR_EXTRA_IN_BOO_LIMPAR_LISTA_AO_SAIR, false)) {
 
         return;
       }
@@ -619,7 +619,7 @@ public class ActConsulta extends ActMain implements OnItemClickListener, OnItemL
       }
 
       itt = new Intent();
-      itt.putExtra(ActConsulta.STR_EXTRA_OUT_REGISTRO_ID, itmConsulta.getIntRegistroId());
+      itt.putExtra(ActConsulta.STR_EXTRA_OUT_INT_REGISTRO_ID, itmConsulta.getIntRegistroId());
 
       this.getTbl().setStrPesquisa(this.getEdtPesquisa().getText().toString());
       this.setResult(ActConsulta.EnmResultadoTipo.REGISTRO_SELECIONADO.ordinal(), itt);
@@ -702,9 +702,14 @@ public class ActConsulta extends ActMain implements OnItemClickListener, OnItemL
 
     try {
 
-      this.getPnlPesquisa().setVisibility(mni.isChecked() ? View.GONE : View.VISIBLE);
+      this.getPnlPesquisa().setVisibility(!mni.isChecked() ? View.VISIBLE : View.GONE);
 
       mni.setChecked(!mni.isChecked());
+
+      if (this.getPnlPesquisa().getVisibility() == View.VISIBLE) {
+
+        this.getEdtPesquisa().requestFocus();
+      }
     }
     catch (Exception ex) {
 
