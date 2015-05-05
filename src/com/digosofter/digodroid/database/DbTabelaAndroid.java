@@ -80,7 +80,7 @@ public abstract class DbTabelaAndroid extends DbTabela {
       }
 
       itt = new Intent(act, ActConsulta.class);
-      act.startActivity(itt);
+      act.startActivityForResult(itt, 0);
     }
     catch (Exception ex) {
 
@@ -146,6 +146,14 @@ public abstract class DbTabelaAndroid extends DbTabela {
       else {
 
         AppAndroid.getI().setTblSelec(this);
+      }
+
+      ((DbTabelaAndroid) AppAndroid.getI().getTblSelec()).buscar(intRegistroId);
+
+      if (AppAndroid.getI().getTblSelec().getClnChavePrimaria().getIntValor() < 1) {
+
+        AppAndroid.getI().mostrarNotificacao("Registro não econtrado.");
+        return;
       }
 
       itt = new Intent(act, ActDetalhe.class);
@@ -538,10 +546,10 @@ public abstract class DbTabelaAndroid extends DbTabela {
 
       do {
 
-        itmConsulta = new ItmConsulta();
+        itmConsulta = new ItmConsulta(true);
 
         itmConsulta.setTbl(this);
-        itmConsulta.carregarDados(crs, true);
+        itmConsulta.carregarDados(crs);
 
         _lstItmConsulta.add(itmConsulta);
       }

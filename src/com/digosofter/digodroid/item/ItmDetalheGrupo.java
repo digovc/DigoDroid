@@ -3,12 +3,9 @@ package com.digosofter.digodroid.item;
 import java.util.ArrayList;
 import java.util.List;
 
-import android.view.LayoutInflater;
-import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.digosofter.digodroid.AppAndroid;
 import com.digosofter.digodroid.R;
 import com.digosofter.digodroid.erro.ErroAndroid;
 
@@ -17,7 +14,12 @@ public class ItmDetalheGrupo extends ItmMain {
   private List<ItmCampo> _lstItmCampo;
   private LinearLayout _pnlCampos;
   private TextView _txtGrupoNome;
-  private View _viw;
+
+  @Override
+  protected int getIntLayoutId() {
+
+    return R.layout.itm_detalhe_grupo;
+  }
 
   public List<ItmCampo> getLstItmCampo() {
 
@@ -80,27 +82,6 @@ public class ItmDetalheGrupo extends ItmMain {
     }
 
     return _txtGrupoNome;
-  }
-
-  public View getViw() {
-
-    try {
-
-      if (_viw != null) {
-
-        return _viw;
-      }
-
-      _viw = LayoutInflater.from(AppAndroid.getI().getCnt()).inflate(R.layout.itm_detalhe_grupo, null);
-    }
-    catch (Exception ex) {
-
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally {
-    }
-
-    return _viw;
   }
 
   @Override

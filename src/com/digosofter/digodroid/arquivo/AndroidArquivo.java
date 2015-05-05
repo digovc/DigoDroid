@@ -14,7 +14,7 @@ public abstract class AndroidArquivo extends Arquivo {
 
       msg = "Arquivo '_arq_nome' salvo com sucesso.";
       msg = msg.replace("_arq_nome", this.getDirCompleto());
-      AppAndroid.getI().mostrarNoficacao(msg);
+      AppAndroid.getI().mostrarNotificacao(msg);
     }
     catch (Exception ex) {
       new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(0), ex);

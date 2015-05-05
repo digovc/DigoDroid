@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.annotation.SuppressLint;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -12,7 +11,6 @@ import android.widget.Filter;
 import android.widget.Filterable;
 
 import com.digosofter.digodroid.AppAndroid;
-import com.digosofter.digodroid.R;
 import com.digosofter.digodroid.activity.ActConsulta;
 import com.digosofter.digodroid.database.DbTabelaAndroid;
 import com.digosofter.digodroid.erro.ErroAndroid;
@@ -226,7 +224,6 @@ public class AdpConsulta extends BaseAdapter implements Filterable {
 
       itm = this.getLstItmConsulta().get(intPosicao);
 
-      itm.setViw(LayoutInflater.from(this.getActConsulta()).inflate(R.layout.itm_consulta, null));
       itm.montarLayout();
     }
     catch (Exception ex) {

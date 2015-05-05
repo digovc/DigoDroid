@@ -3,6 +3,8 @@ package com.digosofter.digodroid;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.app.Notification;
+import android.app.NotificationManager;
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.view.inputmethod.InputMethodManager;
@@ -29,7 +31,9 @@ public abstract class AppAndroid extends App {
   private boolean _booDebug;
   private Context _cnt;
   private List<MsgUsuario> _lstMsgUsuarioPadrao;
+  private List<Toast> _lstObjToast;
   private DataBaseAndroid _objDbPrincipal;
+  private NotificationManager _objNotificationManager;
 
   protected AppAndroid() {
 
@@ -162,6 +166,27 @@ public abstract class AppAndroid extends App {
     return _lstMsgUsuarioPadrao;
   }
 
+  private List<Toast> getLstObjToast() {
+
+    try {
+
+      if (_lstObjToast != null) {
+
+        return _lstObjToast;
+      }
+
+      _lstObjToast = new ArrayList<Toast>();
+    }
+    catch (Exception ex) {
+
+      new ErroAndroid("Erro inesperado.\n", ex);
+    }
+    finally {
+    }
+
+    return _lstObjToast;
+  }
+
   public DataBaseAndroid getObjDbPrincipal() {
 
     try {
@@ -181,6 +206,46 @@ public abstract class AppAndroid extends App {
     }
 
     return _objDbPrincipal;
+  }
+
+  private NotificationManager getObjNotificationManager() {
+
+    try {
+
+      if (_objNotificationManager != null) {
+
+        return _objNotificationManager;
+      }
+
+      _objNotificationManager = (NotificationManager) this.getCnt().getSystemService(Context.NOTIFICATION_SERVICE);
+    }
+    catch (Exception ex) {
+
+      new ErroAndroid("Erro inesperado.\n", ex);
+    }
+    finally {
+    }
+
+    return _objNotificationManager;
+  }
+
+  protected void limparNotificacao() {
+
+    try {
+
+      for (Toast objToast : this.getLstObjToast()) {
+
+        objToast.cancel();
+      }
+
+      this.getLstObjToast().clear();
+    }
+    catch (Exception ex) {
+
+      new ErroAndroid("Erro inesperado.\n", ex);
+    }
+    finally {
+    }
   }
 
   /**
@@ -204,7 +269,7 @@ public abstract class AppAndroid extends App {
     }
   }
 
-  public void mostrarNoficacao(final String strMensagem) {
+  public void mostrarNotificacao(final String strMensagem) {
 
     try {
 
@@ -214,11 +279,18 @@ public abstract class AppAndroid extends App {
         public void run() {
 
           int intTempo;
+          Toast objToast;
 
           try {
 
+            AppAndroid.this.limparNotificacao();
+
             intTempo = strMensagem.length() > 50 ? Toast.LENGTH_LONG : Toast.LENGTH_SHORT;
-            Toast.makeText(AppAndroid.this.getCnt(), strMensagem, intTempo).show();
+
+            objToast = Toast.makeText(AppAndroid.this.getCnt(), strMensagem, intTempo);
+            objToast.show();
+
+            AppAndroid.this.getLstObjToast().add(objToast);
           }
           catch (Exception ex) {
 
@@ -242,6 +314,25 @@ public abstract class AppAndroid extends App {
     try {
 
       // Implementar.
+    }
+    catch (Exception ex) {
+
+      new ErroAndroid("Erro inesperado.\n", ex);
+    }
+    finally {
+    }
+  }
+
+  public void notificar(int id, Notification ntf) {
+
+    try {
+
+      if (ntf == null) {
+
+        return;
+      }
+
+      this.getObjNotificationManager().notify(id, ntf);
     }
     catch (Exception ex) {
 

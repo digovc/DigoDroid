@@ -1,9 +1,8 @@
 package com.digosofter.digodroid.item;
 
-import android.annotation.SuppressLint;
 import android.database.Cursor;
-import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.TextView;
 
 import com.digosofter.digodroid.AppAndroid;
@@ -12,13 +11,26 @@ import com.digosofter.digodroid.erro.ErroAndroid;
 import com.digosofter.digojava.Utils;
 import com.digosofter.digojava.database.DbColuna;
 
-public class ItmCampo extends ItmMain {
+public class ItmCampo extends ItmMain implements OnClickListener {
 
   private DbColuna _cln;
   private String _strValor;
   private TextView _txtNome;
   private TextView _txtValor;
-  private View _viw;
+
+  public ItmCampo(boolean booTelaConsulta) {
+
+    try {
+
+      this.setBooTelaConsulta(booTelaConsulta);
+    }
+    catch (Exception ex) {
+
+      new ErroAndroid("Erro inesperado.\n", ex);
+    }
+    finally {
+    }
+  }
 
   public void carregarDados(Cursor crs) {
 
@@ -74,6 +86,12 @@ public class ItmCampo extends ItmMain {
     return _cln;
   }
 
+  @Override
+  protected int getIntLayoutId() {
+
+    return R.layout.itm_campo;
+  }
+
   public String getStrValor() {
 
     return _strValor;
@@ -121,17 +139,15 @@ public class ItmCampo extends ItmMain {
     return _txtValor;
   }
 
-  @SuppressLint("InflateParams")
-  public View getViw() {
+  @Override
+  protected void limparLayout() {
+
+    super.limparLayout();
 
     try {
 
-      if (_viw != null) {
-
-        return _viw;
-      }
-
-      _viw = LayoutInflater.from(AppAndroid.getI().getCnt()).inflate(R.layout.itm_campo, null);
+      _txtNome = null;
+      _txtValor = null;
     }
     catch (Exception ex) {
 
@@ -139,18 +155,41 @@ public class ItmCampo extends ItmMain {
     }
     finally {
     }
-
-    return _viw;
   }
 
   @Override
   public void montarLayout() {
 
+    super.montarLayout();
+
     try {
 
-      this.setViw(null);
       this.getTxtNome().setText(this.getStrNome());
       this.getTxtValor().setText(this.getStrValor());
+    }
+    catch (Exception ex) {
+
+      new ErroAndroid("Erro inesperado.\n", ex);
+    }
+    finally {
+    }
+  }
+
+  @Override
+  public void onClick(View v) {
+
+    String str;
+
+    try {
+
+      str = ((TextView) v.findViewById(R.id.itmCampo_txtValor)).getText().toString();
+
+      if (Utils.getBooStrVazia(str)) {
+
+        return;
+      }
+
+      AppAndroid.getI().mostrarNotificacao(str);
     }
     catch (Exception ex) {
 
@@ -163,6 +202,28 @@ public class ItmCampo extends ItmMain {
   public void setCln(DbColuna cln) {
 
     _cln = cln;
+  }
+
+  @Override
+  protected void setEventos() {
+
+    super.setEventos();
+
+    try {
+
+      if (this.getBooTelaConsulta()) {
+
+        return;
+      }
+
+      this.getTxtValor().setOnClickListener(this);
+    }
+    catch (Exception ex) {
+
+      new ErroAndroid("Erro inesperado.\n", ex);
+    }
+    finally {
+    }
   }
 
   private void setStrValor(String strValor) {
@@ -184,33 +245,6 @@ public class ItmCampo extends ItmMain {
       this.getCln().setStrValor(_strValor);
 
       _strValor = this.getCln().getStrValorExibicao();
-    }
-    catch (Exception ex) {
-
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally {
-    }
-  }
-
-  private void setTxtNome(TextView txtNome) {
-
-    _txtNome = txtNome;
-  }
-
-  private void setTxtValor(TextView txtValor) {
-
-    _txtValor = txtValor;
-  }
-
-  private void setViw(View viw) {
-
-    try {
-
-      _viw = viw;
-
-      this.setTxtNome(null);
-      this.setTxtValor(null);
     }
     catch (Exception ex) {
 

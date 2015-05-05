@@ -22,10 +22,23 @@ public class ItmConsulta extends ItmMain {
   private DbTabelaAndroid _tbl;
   private TextView _txtId;
   private TextView _txtNome;
-  private View _viw;
   private View _viwLinha1;
 
-  public void carregarDados(Cursor crs, boolean booSomenteClnConsulta) {
+  public ItmConsulta(boolean booTelaConsulta) {
+
+    try {
+
+      this.setBooTelaConsulta(booTelaConsulta);
+    }
+    catch (Exception ex) {
+
+      new ErroAndroid("Erro inesperado.\n", ex);
+    }
+    finally {
+    }
+  }
+
+  public void carregarDados(Cursor crs) {
 
     try {
 
@@ -42,7 +55,7 @@ public class ItmConsulta extends ItmMain {
       this.setStrNome(crs.getString(crs.getColumnIndex(this.getTbl().getClnNome().getStrNomeSql())));
       this.setIntRegistroId(crs.getInt(crs.getColumnIndex(this.getTbl().getClnChavePrimaria().getStrNomeSql())));
 
-      this.carregarDadosItem(crs, booSomenteClnConsulta);
+      this.carregarDadosItem(crs);
     }
     catch (Exception ex) {
 
@@ -52,7 +65,7 @@ public class ItmConsulta extends ItmMain {
     }
   }
 
-  private void carregarDadosItem(Cursor crs, boolean booSomenteClnConsulta) {
+  private void carregarDadosItem(Cursor crs) {
 
     try {
 
@@ -83,12 +96,12 @@ public class ItmConsulta extends ItmMain {
           continue;
         }
 
-        if (!cln.getBooVisivelConsulta() && booSomenteClnConsulta) {
+        if (!cln.getBooVisivelConsulta() && this.getBooTelaConsulta()) {
 
           continue;
         }
 
-        this.carregarDadosItem(crs, cln, booSomenteClnConsulta);
+        this.carregarDadosItem(crs, cln, this.getBooTelaConsulta());
       }
     }
     catch (Exception ex) {
@@ -115,7 +128,7 @@ public class ItmConsulta extends ItmMain {
         return;
       }
 
-      itmCampo = new ItmCampo();
+      itmCampo = new ItmCampo(this.getBooTelaConsulta());
 
       itmCampo.setCln(cln);
       itmCampo.carregarDados(crs);
@@ -218,6 +231,12 @@ public class ItmConsulta extends ItmMain {
     }
 
     return false;
+  }
+
+  @Override
+  protected int getIntLayoutId() {
+
+    return R.layout.itm_consulta;
   }
 
   public int getIntRegistroId() {
@@ -324,11 +343,6 @@ public class ItmConsulta extends ItmMain {
     return _txtNome;
   }
 
-  public View getViw() {
-
-    return _viw;
-  }
-
   private View getViwLinha1() {
 
     try {
@@ -348,6 +362,26 @@ public class ItmConsulta extends ItmMain {
     }
 
     return _viwLinha1;
+  }
+
+  @Override
+  protected void limparLayout() {
+
+    super.limparLayout();
+
+    try {
+
+      _pnlCampoContainer = null;
+      _txtId = null;
+      _txtNome = null;
+      _viwLinha1 = null;
+    }
+    catch (Exception ex) {
+
+      new ErroAndroid("Erro inesperado.\n", ex);
+    }
+    finally {
+    }
   }
 
   @Override
@@ -442,62 +476,8 @@ public class ItmConsulta extends ItmMain {
     _intRegistroId = intRegistroId;
   }
 
-  private void setPnlCampoContainer(LinearLayout pnlCampoContainer) {
-
-    _pnlCampoContainer = pnlCampoContainer;
-  }
-
   public void setTbl(DbTabelaAndroid tbl) {
 
     _tbl = tbl;
-  }
-
-  private void setTxtId(TextView txtId) {
-
-    _txtId = txtId;
-
-  }
-
-  private void setTxtNome(TextView txtNome) {
-
-    _txtNome = txtNome;
-  }
-
-  public void setViw(View viw) {
-
-    try {
-
-      _viw = viw;
-
-      this.zerarLayout();
-    }
-    catch (Exception ex) {
-
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally {
-    }
-  }
-
-  private void setViwLinha1(View viwLinha1) {
-
-    _viwLinha1 = viwLinha1;
-  }
-
-  private void zerarLayout() {
-
-    try {
-
-      this.setPnlCampoContainer(null);
-      this.setTxtId(null);
-      this.setTxtNome(null);
-      this.setViwLinha1(null);
-    }
-    catch (Exception ex) {
-
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally {
-    }
   }
 }

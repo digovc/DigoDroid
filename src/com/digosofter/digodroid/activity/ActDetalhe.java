@@ -75,10 +75,10 @@ public class ActDetalhe extends ActMain {
         return null;
       }
 
-      _itmConsulta = new ItmConsulta();
+      _itmConsulta = new ItmConsulta(false);
 
       _itmConsulta.setTbl(this.getTbl());
-      _itmConsulta.carregarDados(crs, false);
+      _itmConsulta.carregarDados(crs);
     }
     catch (Exception ex) {
 
@@ -306,6 +306,14 @@ public class ActDetalhe extends ActMain {
     super.montarLayout();
 
     try {
+
+      if (this.getItmConsulta() == null) {
+
+        AppAndroid.getI().mostrarNotificacao("Registro não encontrado.");
+        this.finish();
+
+        return;
+      }
 
       this.setTitle(this.getTbl().getStrNomeExibicao());
       this.getTxtId().setText(String.valueOf(this.getItmConsulta().getIntRegistroId()));

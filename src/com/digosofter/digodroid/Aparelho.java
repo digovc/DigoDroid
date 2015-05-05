@@ -139,7 +139,7 @@ public class Aparelho extends Objeto {
 
       if (!booResultado) {
 
-        AppAndroid.getI().mostrarNoficacao("Aparelho não conectado.");
+        AppAndroid.getI().mostrarNotificacao("Aparelho não conectado.");
       }
     }
     catch (Exception ex) {
