@@ -7,6 +7,7 @@ import android.app.Notification;
 import android.app.NotificationManager;
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
@@ -16,6 +17,7 @@ import com.digosofter.digodroid.database.DbTabelaAndroid;
 import com.digosofter.digodroid.erro.ErroAndroid;
 import com.digosofter.digojava.App;
 import com.digosofter.digojava.MsgUsuario;
+import com.digosofter.digojava.Utils;
 import com.digosofter.digojava.database.DbTabela;
 
 public abstract class AppAndroid extends App {
@@ -34,6 +36,8 @@ public abstract class AppAndroid extends App {
   private List<Toast> _lstObjToast;
   private DataBaseAndroid _objDbPrincipal;
   private NotificationManager _objNotificationManager;
+  private PackageInfo _objPackageInfo;
+  private String _strVersao;
 
   protected AppAndroid() {
 
@@ -227,6 +231,49 @@ public abstract class AppAndroid extends App {
     }
 
     return _objNotificationManager;
+  }
+
+  private PackageInfo getObjPackageInfo() {
+
+    try {
+
+      if (_objPackageInfo != null) {
+
+        return _objPackageInfo;
+      }
+
+      _objPackageInfo = this.getCnt().getPackageManager().getPackageInfo(this.getCnt().getPackageName(), 0);
+    }
+    catch (Exception ex) {
+
+      new ErroAndroid("Erro inesperado.\n", ex);
+    }
+    finally {
+    }
+
+    return _objPackageInfo;
+  }
+
+  @Override
+  public String getStrVersao() {
+
+    try {
+
+      if (!Utils.getBooStrVazia(_strVersao)) {
+
+        return _strVersao;
+      }
+
+      _strVersao = this.getObjPackageInfo().versionName;
+    }
+    catch (Exception ex) {
+
+      new ErroAndroid("Erro inesperado.\n", ex);
+    }
+    finally {
+    }
+
+    return _strVersao;
   }
 
   protected void limparNotificacao() {
