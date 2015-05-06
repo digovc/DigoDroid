@@ -734,7 +734,7 @@ public abstract class DbTabelaAndroid extends DbTabela {
 
   private String getSqlColunasNomesInsert() {
 
-    String strResultado = null;
+    String strResultado;
     String str;
 
     try {
@@ -770,6 +770,8 @@ public abstract class DbTabelaAndroid extends DbTabela {
       }
 
       strResultado = Utils.removerUltimaLetra(strResultado, 2);
+
+      return strResultado;
     }
     catch (Exception ex) {
 
@@ -778,7 +780,7 @@ public abstract class DbTabelaAndroid extends DbTabela {
     finally {
     }
 
-    return strResultado;
+    return null;
   }
 
   private String getSqlColunasValoresInsert() {
@@ -1287,7 +1289,7 @@ public abstract class DbTabelaAndroid extends DbTabela {
     }
   }
 
-  private void onAdicionarAtualizarDispatcher() {
+  private void onAdicionarAtualizarDispatcher(boolean booAdicionar) {
 
     TblOnChangeArg arg;
 
@@ -1296,9 +1298,9 @@ public abstract class DbTabelaAndroid extends DbTabela {
       arg = new TblOnChangeArg();
       arg.setIntRegistroId(this.getClnChavePrimaria().getIntValor());
 
-      this.viwOnAdicionarAtualizarDispatcher(arg);
+      this.viwOnAdicionarAtualizarDispatcher(arg, booAdicionar);
 
-      if (arg.getIntRegistroId() < 1) {
+      if (booAdicionar) {
 
         this.OnAdicionarRegDispatcher(arg);
         return;
@@ -1656,37 +1658,130 @@ public abstract class DbTabelaAndroid extends DbTabela {
 
   public void salvar() {
 
+    try {
+
+      this.limparListaConsulta();
+
+      if (this.getClnChavePrimaria().getIntValor() < 1) {
+
+        this.salvarInsert();
+        return;
+      }
+
+      this.salvarUpdate();
+    }
+    catch (Exception ex) {
+
+      new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(129), ex);
+    }
+    finally {
+
+      this.buscar(this.getClnChavePrimaria().getIntValor());
+    }
+  }
+
+  private void salvarUpdate() {
+
+    String sql;
+
+    try {
+
+      sql = "update _tbl_nome set _clns_nome_valor where _cln_pk_nome = '_registro_id';";
+
+      sql = sql.replace("_tbl_nome", this.getStrNomeSql());
+      sql = sql.replace("_clns_nome_valor", this.getSqlColunasNomesValorUpdate());
+      sql = sql.replace("_cln_pk_nome", this.getClnChavePrimaria().getStrNomeSql());
+      sql = sql.replace("_registro_id", this.getClnChavePrimaria().getStrValorSql());
+
+      this.getObjDb().execSql(sql);
+
+      this.onAdicionarAtualizarDispatcher(false);
+    }
+    catch (Exception ex) {
+
+      new ErroAndroid("Erro inesperado.\n", ex);
+    }
+    finally {
+    }
+  }
+
+  private String getSqlColunasNomesValorUpdate() {
+
+    String strResultado;
+    String str;
+
+    try {
+
+      strResultado = Utils.STR_VAZIA;
+
+      for (DbColuna cln : this.getLstCln()) {
+
+        if (cln == null) {
+
+          continue;
+        }
+
+        if (Utils.getBooStrVazia(cln.getStrValor())) {
+
+          continue;
+        }
+
+        if (cln.getBooChavePrimaria()) {
+
+          continue;
+        }
+
+        if (cln.getClnRef() != null && cln.getIntValor() < 1) {
+
+          continue;
+        }
+
+        str = "_cln_nome = '_cln_valor', ";
+        str = str.replace("_cln_nome", cln.getStrNomeSql());
+        str = str.replace("_cln_valor", cln.getStrValorSql());
+
+        strResultado += str;
+      }
+
+      strResultado = Utils.removerUltimaLetra(strResultado, 2);
+
+      return strResultado;
+    }
+    catch (Exception ex) {
+
+      new ErroAndroid("Erro inesperado.\n", ex);
+    }
+    finally {
+    }
+
+    return null;
+  }
+
+  private void salvarInsert() {
+
     int intId;
     String sql;
 
     try {
 
-      this.limparListaConsulta();
-
-      sql = "replace into _tbl_nome (_clns_nome) values (_values);";
+      sql = "insert into _tbl_nome (_clns_nome) values (_values);";
 
       sql = sql.replace("_tbl_nome", this.getStrNomeSql());
       sql = sql.replace("_clns_nome", this.getSqlColunasNomesInsert());
       sql = sql.replace("_values", this.getSqlColunasValoresInsert());
 
       this.getObjDb().execSql(sql);
-      this.onAdicionarAtualizarDispatcher();
 
-      if (this.getClnChavePrimaria().getIntValor() < 1) {
+      sql = "select last_insert_rowid();";
+      intId = this.getObjDb().execSqlGetInt(sql);
 
-        sql = "select last_insert_rowid();";
-        intId = this.getObjDb().execSqlGetInt(sql);
-      }
-      else {
+      this.getClnChavePrimaria().setIntValor(intId);
 
-        intId = this.getClnChavePrimaria().getIntValor();
-      }
-
-      this.buscar(intId);
+      this.onAdicionarAtualizarDispatcher(true);
     }
     catch (Exception ex) {
 
-      new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(129), ex);
+      new ErroAndroid("Erro inesperado.\n", ex);
     }
     finally {
     }
@@ -1722,7 +1817,7 @@ public abstract class DbTabelaAndroid extends DbTabela {
     _objDb = objDb;
   }
 
-  private void viwOnAdicionarAtualizarDispatcher(TblOnChangeArg arg) {
+  private void viwOnAdicionarAtualizarDispatcher(TblOnChangeArg arg, boolean booAdicionar) {
 
     try {
 
@@ -1738,7 +1833,7 @@ public abstract class DbTabelaAndroid extends DbTabela {
           continue;
         }
 
-        if (arg.getIntRegistroId() < 1) {
+        if (booAdicionar) {
 
           viw.OnAdicionarRegDispatcher(arg);
           continue;
@@ -1746,7 +1841,6 @@ public abstract class DbTabelaAndroid extends DbTabela {
 
         viw.OnAtualizarRegDispatcher(arg);
       }
-
     }
     catch (Exception ex) {
 
