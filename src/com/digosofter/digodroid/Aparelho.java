@@ -230,7 +230,7 @@ public class Aparelho extends Objeto {
     }
     catch (Exception ex) {
 
-      new ErroAndroid(AppAndroid.getI().getStrMsgUsuarioPadrao(100), ex);
+      new ErroAndroid(AppAndroid.getI().getStrMsgUsrPadrao(100), ex);
     }
     finally {
     }

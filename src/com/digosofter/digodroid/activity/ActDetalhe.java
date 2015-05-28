@@ -79,6 +79,8 @@ public class ActDetalhe extends ActMain {
 
       _itmConsulta.setTbl(this.getTbl());
       _itmConsulta.carregarDados(crs);
+
+      crs.close();
     }
     catch (Exception ex) {
 

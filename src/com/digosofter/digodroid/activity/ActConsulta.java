@@ -405,7 +405,7 @@ public class ActConsulta extends ActMain implements OnItemClickListener, OnItemL
   }
 
   @Override
-  public void OnAdicionarReg(TblOnChangeArg arg) {
+  public void onAdicionarReg(TblOnChangeArg arg) {
 
     try {
 
@@ -421,7 +421,7 @@ public class ActConsulta extends ActMain implements OnItemClickListener, OnItemL
   }
 
   @Override
-  public void OnApagarReg(TblOnChangeArg arg) {
+  public void onApagarReg(TblOnChangeArg arg) {
 
     try {
 
@@ -442,7 +442,7 @@ public class ActConsulta extends ActMain implements OnItemClickListener, OnItemL
   }
 
   @Override
-  public void OnAtualizarReg(TblOnChangeArg arg) {
+  public void onAtualizarReg(TblOnChangeArg arg) {
 
     try {
 

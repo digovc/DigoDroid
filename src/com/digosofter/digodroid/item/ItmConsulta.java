@@ -91,7 +91,7 @@ public class ItmConsulta extends ItmMain {
           continue;
         }
 
-        if (cln.getBooClnNome()) {
+        if (cln.getBooNome()) {
 
           continue;
         }

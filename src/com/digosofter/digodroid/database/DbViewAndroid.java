@@ -45,7 +45,7 @@ public abstract class DbViewAndroid extends DbTabelaAndroid {
       arg = new TblOnChangeArg();
       arg.setIntRegistroId(intRegistroId);
 
-      this.OnApagarRegDispatcher(arg);
+      this.onApagarRegDispatcher(arg);
     }
     catch (Exception ex) {
 

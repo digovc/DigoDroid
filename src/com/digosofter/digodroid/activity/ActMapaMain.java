@@ -25,14 +25,40 @@ public abstract class ActMapaMain extends ActMain implements OnLocationChangedLi
   private GoogleMap _objGoogleMap;
   private LocationManager _objLocationManager;
 
-  @Override
-  public void onMarkerDrag(Marker mrk) {
+  protected void addMarca(MarkerOptions objMarkerOptions) {
 
-  }
+    Marker mrk;
 
-  @Override
-  public void onMarkerDragStart(Marker mrk) {
+    try {
 
+      if (objMarkerOptions == null) {
+
+        return;
+      }
+
+      mrk = this.getObjGoogleMap().addMarker(objMarkerOptions);
+
+      if (mrk == null) {
+
+        return;
+      }
+
+      this.getLstObjMarker().add(mrk);
+
+      if (mrk.getPosition().latitude + mrk.getPosition().longitude == 0) {
+
+        AppAndroid.getI().mostrarNotificacao("Localização desconhecida.");
+        return;
+      }
+
+      this.getObjGoogleMap().animateCamera(CameraUpdateFactory.newLatLngZoom(mrk.getPosition(), 15));
+    }
+    catch (Exception ex) {
+
+      new ErroAndroid("Erro inesperado.\n", ex);
+    }
+    finally {
+    }
   }
 
   private MapFragment getFrgMap() {
@@ -82,42 +108,6 @@ public abstract class ActMapaMain extends ActMain implements OnLocationChangedLi
   protected GoogleMap getObjGoogleMap() {
 
     return _objGoogleMap;
-  }
-
-  protected void addMarca(MarkerOptions objMarkerOptions) {
-
-    Marker mrk;
-
-    try {
-
-      if (objMarkerOptions == null) {
-
-        return;
-      }
-
-      mrk = this.getObjGoogleMap().addMarker(objMarkerOptions);
-
-      if (mrk == null) {
-
-        return;
-      }
-
-      this.getLstObjMarker().add(mrk);
-
-      if ((mrk.getPosition().latitude + mrk.getPosition().longitude) == 0) {
-
-        AppAndroid.getI().mostrarNotificacao("Localização desconhecida.");
-        return;
-      }
-
-      this.getObjGoogleMap().animateCamera(CameraUpdateFactory.newLatLngZoom(mrk.getPosition(), 15));
-    }
-    catch (Exception ex) {
-
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally {
-    }
   }
 
   protected LocationManager getObjLocationManager() {
@@ -174,40 +164,6 @@ public abstract class ActMapaMain extends ActMain implements OnLocationChangedLi
     }
   }
 
-  protected void setEventosMapa() {
-
-    try {
-
-      this.getObjGoogleMap().setOnMarkerDragListener(this);
-    }
-    catch (Exception ex) {
-
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally {
-    }
-  }
-
-  @Override
-  public void onMarkerDragEnd(Marker mrk) {
-
-    try {
-
-      if (mrk == null) {
-
-        return;
-      }
-
-      mrk.setPosition(mrk.getPosition());
-    }
-    catch (Exception ex) {
-
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally {
-    }
-  }
-
   @Override
   protected void onCreate(Bundle savedInstanceState) {
 
@@ -238,6 +194,50 @@ public abstract class ActMapaMain extends ActMain implements OnLocationChangedLi
       this.setObjGoogleMap(objGoogleMap);
 
       this.montarLayoutMapa();
+    }
+    catch (Exception ex) {
+
+      new ErroAndroid("Erro inesperado.\n", ex);
+    }
+    finally {
+    }
+  }
+
+  @Override
+  public void onMarkerDrag(Marker mrk) {
+
+  }
+
+  @Override
+  public void onMarkerDragEnd(Marker mrk) {
+
+    try {
+
+      if (mrk == null) {
+
+        return;
+      }
+
+      mrk.setPosition(mrk.getPosition());
+    }
+    catch (Exception ex) {
+
+      new ErroAndroid("Erro inesperado.\n", ex);
+    }
+    finally {
+    }
+  }
+
+  @Override
+  public void onMarkerDragStart(Marker mrk) {
+
+  }
+
+  protected void setEventosMapa() {
+
+    try {
+
+      this.getObjGoogleMap().setOnMarkerDragListener(this);
     }
     catch (Exception ex) {
 

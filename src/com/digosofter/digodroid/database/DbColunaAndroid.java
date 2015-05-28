@@ -44,7 +44,7 @@ public class DbColunaAndroid extends DbColuna {
       strResultado = strResultado.replace(" _cln_pk", this.getBooChavePrimaria() ? " primary key on conflict replace autoincrement" : Utils.STR_VAZIA);
       strResultado = strResultado.replace(" autoincrement", this.getEnmTipo() != EnmTipo.TEXT ? " autoincrement" : Utils.STR_VAZIA);
       strResultado = strResultado.replace(" default _default", !Utils.getBooStrVazia(this.getStrValorDefault()) ? " default _default" : Utils.STR_VAZIA);
-      strResultado = strResultado.replace("_default", this.getStrValorDefault());
+      strResultado = strResultado.replace("_default", !Utils.getBooStrVazia(this.getStrValorDefault()) ? this.getStrValorDefault() : Utils.STR_VAZIA);
 
       return strResultado;
     }
@@ -117,7 +117,7 @@ public class DbColunaAndroid extends DbColuna {
         return;
       }
 
-      if (this.getBooClnNome()) {
+      if (this.getBooNome()) {
 
         return;
       }

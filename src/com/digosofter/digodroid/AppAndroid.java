@@ -3,6 +3,7 @@ package com.digosofter.digodroid;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.app.AlertDialog;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.content.Context;
@@ -99,7 +100,7 @@ public abstract class AppAndroid extends App {
     }
     catch (Exception ex) {
 
-      new ErroAndroid(this.getStrMsgUsuarioPadrao(101), ex);
+      new ErroAndroid(this.getStrMsgUsrPadrao(101), ex);
     }
     finally {
     }
@@ -108,7 +109,7 @@ public abstract class AppAndroid extends App {
   }
 
   @Override
-  protected List<MsgUsuario> getLstMsgUsuarioPadrao() {
+  protected List<MsgUsuario> getLstMsgUsrPadrao() {
 
     try {
 
@@ -162,7 +163,7 @@ public abstract class AppAndroid extends App {
     }
     catch (Exception ex) {
 
-      new ErroAndroid(this.getStrMsgUsuarioPadrao(0), ex);
+      new ErroAndroid(this.getStrMsgUsrPadrao(0), ex);
     }
     finally {
     }
@@ -307,6 +308,43 @@ public abstract class AppAndroid extends App {
 
         ((DbTabelaAndroid) tbl).limparListaConsulta();
       }
+    }
+    catch (Exception ex) {
+
+      new ErroAndroid("Erro inesperado.\n", ex);
+    }
+    finally {
+    }
+  }
+
+  public void mostrarDialogo(ActMain act, String strTitulo, final String strMensagem) {
+
+    AlertDialog.Builder dlgAlert;
+
+    try {
+
+      if (act == null) {
+
+        return;
+      }
+
+      if (Utils.getBooStrVazia(strMensagem)) {
+
+        return;
+      }
+
+      if (Utils.getBooStrVazia(strTitulo)) {
+
+        strTitulo = this.getStrNomeExibicao();
+      }
+
+      dlgAlert = new AlertDialog.Builder(act);
+
+      dlgAlert.setMessage(strMensagem);
+      dlgAlert.setTitle(strTitulo);
+      dlgAlert.setPositiveButton("Ok", null);
+      dlgAlert.setCancelable(true);
+      dlgAlert.create().show();
     }
     catch (Exception ex) {
 

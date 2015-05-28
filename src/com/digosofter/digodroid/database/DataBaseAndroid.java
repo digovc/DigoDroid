@@ -77,36 +77,29 @@ public class DataBaseAndroid extends DataBase {
 
   public Cursor execSqlComRetorno(String sql) {
 
-    Cursor crsResultado = null;
-
-    try {
-
-      crsResultado = this.getObjDbLeitura().rawQuery(sql, null);
-    }
-    catch (Exception ex) {
-
-      new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(119), ex);
-    }
-    finally {
-    }
-
-    return crsResultado;
+    return this.getObjDbLeitura().rawQuery(sql, null);
   }
 
   @Override
   public String execSqlGetStr(String sql) {
 
     Cursor crs;
-    String strResultado = Utils.STR_VAZIA;
+    String strResultado;
 
     try {
 
       crs = this.execSqlComRetorno(sql);
 
-      if (crs != null && crs.moveToFirst()) {
+      if (crs == null || !crs.moveToFirst()) {
 
-        strResultado = crs.getString(0);
+        return null;
       }
+
+      strResultado = crs.getString(0);
+
+      crs.close();
+
+      return strResultado;
     }
     catch (Exception ex) {
 
@@ -115,7 +108,7 @@ public class DataBaseAndroid extends DataBase {
     finally {
     }
 
-    return strResultado;
+    return null;
   }
 
   private ArquivoDb getArq() {
