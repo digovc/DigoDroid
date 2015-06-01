@@ -8,7 +8,6 @@ import android.os.Environment;
 import com.digosofter.digodroid.AppAndroid;
 import com.digosofter.digodroid.arquivo.ArquivoDb;
 import com.digosofter.digodroid.erro.ErroAndroid;
-import com.digosofter.digojava.Utils;
 import com.digosofter.digojava.database.DataBase;
 
 public class DataBaseAndroid extends DataBase {

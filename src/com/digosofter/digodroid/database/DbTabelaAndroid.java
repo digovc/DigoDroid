@@ -33,6 +33,7 @@ public abstract class DbTabelaAndroid extends DbTabela {
   private static final String STR_MENU_DETALHAR = "Ver detalhes";
   public static final String STR_MENU_PESQUISAR = "Pesquisar";
 
+  private boolean _booAbrirCadastroAuto;
   private boolean _booItmListaCache = true;
   private boolean _booSinc = true;
   private Class<? extends ActMain> _clsActCadastro;
@@ -313,6 +314,11 @@ public abstract class DbTabelaAndroid extends DbTabela {
     }
   }
 
+  public boolean getBooAbrirCadastroAuto() {
+
+    return _booAbrirCadastroAuto;
+  }
+
   protected boolean getBooExiste() {
 
     boolean booResultado;
@@ -326,7 +332,7 @@ public abstract class DbTabelaAndroid extends DbTabela {
 
       crs = this.getObjDb().execSqlComRetorno(sql);
 
-      booResultado = (crs != null && crs.moveToFirst() && crs.getCount() > 0);
+      booResultado = crs != null && crs.moveToFirst() && crs.getCount() > 0;
 
       crs.close();
 
@@ -590,6 +596,8 @@ public abstract class DbTabelaAndroid extends DbTabela {
         _lstItmConsulta.add(itmConsulta);
       }
       while (crs.moveToNext());
+
+      crs.close();
     }
     catch (Exception ex) {
 
@@ -644,6 +652,8 @@ public abstract class DbTabelaAndroid extends DbTabela {
         lstStrResultado.add(crs.getString(0));
       }
       while (crs.moveToNext());
+
+      crs.close();
     }
     catch (Exception ex) {
 
@@ -1821,6 +1831,11 @@ public abstract class DbTabelaAndroid extends DbTabela {
     }
     finally {
     }
+  }
+
+  protected void setBooAbrirCadastroAuto(boolean booAbrirCadastroAuto) {
+
+    _booAbrirCadastroAuto = booAbrirCadastroAuto;
   }
 
   protected void setBooItmListaCache(boolean booItmListaCache) {

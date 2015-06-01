@@ -337,10 +337,50 @@ public class ActConsulta extends ActMain implements OnItemClickListener, OnItemL
       this.montarLayoutTitulo();
       this.montarLayoutLista();
       this.montarLayoutVazio();
+
+      this.montarLayoutAbrirCadastro();
     }
     catch (Exception ex) {
 
       new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(114), ex);
+    }
+    finally {
+    }
+  }
+
+  private void montarLayoutAbrirCadastro() {
+
+    Intent itt;
+
+    try {
+
+      if (this.getTbl() == null) {
+
+        return;
+      }
+
+      if (!this.getTbl().getBooMenuAdicionar()) {
+
+        return;
+      }
+
+      if (this.getTbl().getClsActCadastro() == null) {
+
+        return;
+      }
+
+      if (this.getTbl().getBooAbrirCadastroAuto()) {
+
+        return;
+      }
+
+      itt = new Intent(this, this.getTbl().getClsActCadastro());
+
+      this.startActivity(itt);
+    }
+    catch (Exception ex) {
+
+      new ErroAndroid("Erro inesperado.\n", ex);
     }
     finally {
     }

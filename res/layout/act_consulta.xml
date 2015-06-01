@@ -20,7 +20,8 @@
             android:layout_height="wrap_content"
             android:background="@drawable/bkg_gradiente_002"
             android:orientation="vertical"
-            android:visibility="gone" >
+            android:visibility="gone"
+            android:windowSoftInputMode="stateVisible" >
 
             <EditText
                 android:id="@+id/actConsulta_edtPesquisa"
