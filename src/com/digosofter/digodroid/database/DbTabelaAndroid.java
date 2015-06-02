@@ -62,6 +62,11 @@ public abstract class DbTabelaAndroid extends DbTabela {
 
   public void abrirActConsulta(ActMain act) {
 
+    this.abrirActConsulta(act, 0);
+  }
+
+  public void abrirActConsulta(ActMain act, int intRegistroRefId) {
+
     Intent itt;
 
     try {
@@ -81,6 +86,9 @@ public abstract class DbTabelaAndroid extends DbTabela {
       }
 
       itt = new Intent(act, ActConsulta.class);
+
+      itt.putExtra(ActConsulta.STR_EXTRA_IN_INT_REGISTRO_REF_ID, intRegistroRefId);
+
       act.startActivityForResult(itt, 0);
     }
     catch (Exception ex) {

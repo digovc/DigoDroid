@@ -37,16 +37,19 @@ public class ActConsulta extends ActMain implements OnItemClickListener, OnItemL
   }
 
   public static final String STR_EXTRA_IN_BOO_LIMPAR_LISTA_AO_SAIR = "boo_limpar_lista_ao_sair";
+  public static final String STR_EXTRA_IN_INT_REGISTRO_REF_ID = "int_registro_ref_id";
   public static final String STR_EXTRA_OUT_INT_REGISTRO_ID = "int_registro_id";
 
   private AdpConsulta _adpCadastro;
   private EditText _edtPesquisa;
   private TextWatcher _evtEdtPesquisa_TextWatcher;
+  private int _intRegistroRefId = -1;
   private ItmConsulta _itmSelec;
   private ListView _pnlLista;
   private LinearLayout _pnlPesquisa;
   private DbTabelaAndroid _tbl;
   private TextView _txtTblDescricao;
+
   private TextView _txtVazio;
 
   public ActConsulta() {
@@ -188,6 +191,27 @@ public class ActConsulta extends ActMain implements OnItemClickListener, OnItemL
   protected int getIntLayoutId() {
 
     return R.layout.act_consulta;
+  }
+
+  private int getIntRegistroRefId() {
+
+    try {
+
+      if (_intRegistroRefId > -1) {
+
+        return _intRegistroRefId;
+      }
+
+      _intRegistroRefId = this.getIntent().getIntExtra(ActConsulta.STR_EXTRA_IN_INT_REGISTRO_REF_ID, 0);
+    }
+    catch (Exception ex) {
+
+      new ErroAndroid("Erro inesperado.\n", ex);
+    }
+    finally {
+    }
+
+    return _intRegistroRefId;
   }
 
   private ItmConsulta getItmSelec() {
@@ -369,12 +393,14 @@ public class ActConsulta extends ActMain implements OnItemClickListener, OnItemL
         return;
       }
 
-      if (this.getTbl().getBooAbrirCadastroAuto()) {
+      if (!this.getTbl().getBooAbrirCadastroAuto()) {
 
         return;
       }
 
       itt = new Intent(this, this.getTbl().getClsActCadastro());
+
+      itt.putExtra(ActCadastroMain.STR_EXTRA_IN_INT_REGISTRO_REF_ID, this.getIntent().getIntExtra(ActConsulta.STR_EXTRA_IN_INT_REGISTRO_REF_ID, this.getIntRegistroRefId()));
 
       this.startActivity(itt);
     }
