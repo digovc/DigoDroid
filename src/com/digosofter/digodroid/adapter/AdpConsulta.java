@@ -62,9 +62,30 @@ public class AdpConsulta extends BaseAdapter implements Filterable {
 
     try {
 
-      this.setLstItmConsulta(null);
-      this.getTbl().limparListaConsulta();
-      this.notifyDataSetChanged();
+      this.getActConsulta().runOnUiThread(new Runnable() {
+
+        @Override
+        public void run() {
+
+          AdpConsulta.this.atualizarListaLocal();
+        }
+      });
+    }
+    catch (Exception ex) {
+
+      new ErroAndroid("Erro inesperado.\n", ex);
+    }
+    finally {
+    }
+  }
+
+  private void atualizarListaLocal() {
+
+    try {
+
+      AdpConsulta.this.setLstItmConsulta(null);
+      AdpConsulta.this.getTbl().limparListaConsulta();
+      AdpConsulta.this.notifyDataSetChanged();
     }
     catch (Exception ex) {
 

@@ -452,6 +452,27 @@ public class ActConsulta extends ActMain implements OnItemClickListener, OnItemL
 
     try {
 
+      this.runOnUiThread(new Runnable() {
+
+        @Override
+        public void run() {
+
+          ActConsulta.this.montarLayoutVazioLocal();
+        }
+      });
+    }
+    catch (Exception ex) {
+
+      new ErroAndroid("Erro inesperado.\n", ex);
+    }
+    finally {
+    }
+  }
+
+  protected void montarLayoutVazioLocal() {
+
+    try {
+
       if (this.getAdpCadastro().getCount() > 0) {
 
         this.getPnlLista().setVisibility(View.VISIBLE);

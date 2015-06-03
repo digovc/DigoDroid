@@ -1,6 +1,7 @@
 package com.digosofter.digodroid.database;
 
 import java.util.ArrayList;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 import android.content.Intent;
@@ -19,6 +20,7 @@ import com.digosofter.digodroid.erro.ErroAndroid;
 import com.digosofter.digodroid.item.ItmConsulta;
 import com.digosofter.digodroid.item.ItmDetalheGrupo;
 import com.digosofter.digojava.Utils;
+import com.digosofter.digojava.Utils.EnmDataFormato;
 import com.digosofter.digojava.Utils.EnmStrTipo;
 import com.digosofter.digojava.database.DbColuna;
 import com.digosofter.digojava.database.DbFiltro;
@@ -205,6 +207,25 @@ public abstract class DbTabelaAndroid extends DbTabela {
     catch (Exception ex) {
 
       new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(126), ex);
+    }
+    finally {
+    }
+  }
+
+  public void buscar(DbColuna clnFiltro, GregorianCalendar dttFiltro) {
+
+    try {
+
+      if (dttFiltro == null) {
+
+        return;
+      }
+
+      this.buscar(clnFiltro, Utils.getStrDataFormatada(dttFiltro, EnmDataFormato.YYYY_MM_DD_HH_MM_SS));
+    }
+    catch (Exception ex) {
+
+      new ErroAndroid("Erro inesperado.\n", ex);
     }
     finally {
     }
@@ -1841,7 +1862,7 @@ public abstract class DbTabelaAndroid extends DbTabela {
     }
   }
 
-  protected void setBooAbrirCadastroAuto(boolean booAbrirCadastroAuto) {
+  public void setBooAbrirCadastroAuto(boolean booAbrirCadastroAuto) {
 
     _booAbrirCadastroAuto = booAbrirCadastroAuto;
   }
