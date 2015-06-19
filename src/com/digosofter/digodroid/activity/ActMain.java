@@ -2,10 +2,12 @@ package com.digosofter.digodroid.activity;
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -152,6 +154,26 @@ public abstract class ActMain extends Activity {
     catch (Exception ex) {
 
       new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(0), ex);
+    }
+    finally {
+    }
+  }
+
+  protected void mostrarTeclado(EditText txt) {
+
+    try {
+
+      if (txt == null) {
+
+        return;
+      }
+
+      txt.requestFocus();
+      ((InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE)).toggleSoftInput(0, 0);
+    }
+    catch (Exception ex) {
+
+      new ErroAndroid("Erro inesperado.\n", ex);
     }
     finally {
     }

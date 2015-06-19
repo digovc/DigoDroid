@@ -103,7 +103,16 @@ public class AdpConsulta extends BaseAdapter implements Filterable {
   @Override
   public int getCount() {
 
-    return this.getLstItmConsulta().size();
+    try {
+
+      return this.getLstItmConsulta().size();
+    }
+    catch (Exception ex) {
+
+      return 0;
+    }
+    finally {
+    }
   }
 
   @Override

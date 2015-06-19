@@ -49,7 +49,6 @@ public class ActConsulta extends ActMain implements OnItemClickListener, OnItemL
   private LinearLayout _pnlPesquisa;
   private DbTabelaAndroid _tbl;
   private TextView _txtTblDescricao;
-
   private TextView _txtVazio;
 
   public ActConsulta() {
@@ -795,7 +794,7 @@ public class ActConsulta extends ActMain implements OnItemClickListener, OnItemL
 
       if (this.getPnlPesquisa().getVisibility() == View.VISIBLE) {
 
-        this.getEdtPesquisa().requestFocus();
+        this.mostrarTeclado(this.getEdtPesquisa());
       }
     }
     catch (Exception ex) {

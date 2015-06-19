@@ -37,12 +37,14 @@ public abstract class DbTabelaAndroid extends DbTabela {
 
   private boolean _booAbrirCadastroAuto;
   private boolean _booItmListaCache = true;
+  private boolean _booLockLstItmConsulta;
   private boolean _booSinc = true;
   private Class<? extends ActMain> _clsActCadastro;
   private List<ItmConsulta> _lstItmConsulta;
   private List<ItmDetalheGrupo> _lstItmDetalheGrupo;
   private List<DbViewAndroid> _lstViwAndroid;
   private MenuItem _mniOrdemDecrescente;
+
   private DataBaseAndroid _objDb;
 
   protected DbTabelaAndroid(String strNome) {
@@ -382,6 +384,11 @@ public abstract class DbTabelaAndroid extends DbTabela {
     return _booItmListaCache;
   }
 
+  private boolean getBooLockLstItmConsulta() {
+
+    return _booLockLstItmConsulta;
+  }
+
   public boolean getBooRegistroExiste(int intId) {
 
     String sql;
@@ -601,6 +608,8 @@ public abstract class DbTabelaAndroid extends DbTabela {
 
     try {
 
+      this.setBooLockLstItmConsulta(true);
+
       if (_lstItmConsulta != null && this.getBooItmListaCache()) {
 
         return _lstItmConsulta;
@@ -633,6 +642,8 @@ public abstract class DbTabelaAndroid extends DbTabela {
       new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(0), ex);
     }
     finally {
+
+      this.setBooLockLstItmConsulta(false);
     }
 
     return _lstItmConsulta;
@@ -1872,6 +1883,11 @@ public abstract class DbTabelaAndroid extends DbTabela {
     _booItmListaCache = booItmListaCache;
   }
 
+  private void setBooLockLstItmConsulta(boolean booLockLstItmConsulta) {
+
+    _booLockLstItmConsulta = booLockLstItmConsulta;
+  }
+
   public void setBooSinc(boolean booSinc) {
 
     _booSinc = booSinc;
@@ -1884,7 +1900,21 @@ public abstract class DbTabelaAndroid extends DbTabela {
 
   public void setLstItmConsulta(List<ItmConsulta> lstItmConsulta) {
 
-    _lstItmConsulta = lstItmConsulta;
+    try {
+
+      while (this.getBooLockLstItmConsulta()) {
+
+        Thread.sleep(100);
+      }
+
+      _lstItmConsulta = lstItmConsulta;
+    }
+    catch (Exception ex) {
+
+      new ErroAndroid("Erro inesperado.\n", ex);
+    }
+    finally {
+    }
   }
 
   private void setMniOrdemDecrescente(MenuItem mniOrdemDecrescente) {
