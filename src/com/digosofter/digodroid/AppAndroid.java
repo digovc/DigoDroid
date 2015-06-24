@@ -3,15 +3,6 @@ package com.digosofter.digodroid;
 import java.util.ArrayList;
 import java.util.List;
 
-import android.app.AlertDialog;
-import android.app.Notification;
-import android.app.NotificationManager;
-import android.content.Context;
-import android.content.pm.ApplicationInfo;
-import android.content.pm.PackageInfo;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.Toast;
-
 import com.digosofter.digodroid.activity.ActMain;
 import com.digosofter.digodroid.database.DataBaseAndroid;
 import com.digosofter.digodroid.database.DbTabelaAndroid;
@@ -20,6 +11,15 @@ import com.digosofter.digojava.App;
 import com.digosofter.digojava.MsgUsuario;
 import com.digosofter.digojava.Utils;
 import com.digosofter.digojava.database.DbTabela;
+
+import android.app.AlertDialog;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.content.Context;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageInfo;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.Toast;
 
 public abstract class AppAndroid extends App {
 
