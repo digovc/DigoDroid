@@ -19,7 +19,7 @@ public class ItmConsulta extends ItmMain {
   private int _intRegistroId;
   private List<ItmCampo> _lstItmCampo;
   private LinearLayout _pnlCampoContainer;
-  private DbTabelaAndroid _tbl;
+  private DbTabelaAndroid<?> _tbl;
   private TextView _txtId;
   private TextView _txtNome;
   private View _viwLinha1;
@@ -286,7 +286,7 @@ public class ItmConsulta extends ItmMain {
     return _pnlCampoContainer;
   }
 
-  private DbTabelaAndroid getTbl() {
+  private DbTabelaAndroid<?> getTbl() {
 
     return _tbl;
   }
@@ -476,7 +476,7 @@ public class ItmConsulta extends ItmMain {
     _intRegistroId = intRegistroId;
   }
 
-  public void setTbl(DbTabelaAndroid tbl) {
+  public void setTbl(DbTabelaAndroid<?> tbl) {
 
     _tbl = tbl;
   }

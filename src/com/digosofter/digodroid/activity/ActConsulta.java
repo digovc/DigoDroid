@@ -47,7 +47,7 @@ public class ActConsulta extends ActMain implements OnItemClickListener, OnItemL
   private ItmConsulta _itmSelec;
   private ListView _pnlLista;
   private LinearLayout _pnlPesquisa;
-  private DbTabelaAndroid _tbl;
+  private DbTabelaAndroid<?> _tbl;
   private TextView _txtTblDescricao;
   private TextView _txtVazio;
 
@@ -262,7 +262,7 @@ public class ActConsulta extends ActMain implements OnItemClickListener, OnItemL
     return _pnlPesquisa;
   }
 
-  public DbTabelaAndroid getTbl() {
+  public DbTabelaAndroid<?> getTbl() {
 
     try {
 
@@ -271,7 +271,7 @@ public class ActConsulta extends ActMain implements OnItemClickListener, OnItemL
         return _tbl;
       }
 
-      _tbl = (DbTabelaAndroid) AppAndroid.getI().getTblSelec();
+      _tbl = (DbTabelaAndroid<?>) AppAndroid.getI().getTblSelec();
       _tbl.addEvtTblOnChangeListener(this);
     }
     catch (Exception ex) {

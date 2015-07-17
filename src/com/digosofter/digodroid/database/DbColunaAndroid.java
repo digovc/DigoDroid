@@ -1,13 +1,16 @@
 package com.digosofter.digodroid.database;
 
-import android.view.MenuItem;
-import android.view.SubMenu;
+import java.lang.reflect.Field;
 
 import com.digosofter.digodroid.erro.ErroAndroid;
 import com.digosofter.digojava.App;
 import com.digosofter.digojava.Utils;
 import com.digosofter.digojava.database.DbColuna;
-import com.digosofter.digojava.erro.Erro;
+import com.digosofter.digojava.database.Dominio;
+
+import android.database.Cursor;
+import android.view.MenuItem;
+import android.view.SubMenu;
 
 public class DbColunaAndroid extends DbColuna {
 
@@ -16,9 +19,198 @@ public class DbColunaAndroid extends DbColuna {
 
   private String _sqlTipo;
 
-  public DbColunaAndroid(String strNome, DbTabelaAndroid tbl, EnmTipo enmTipo) {
+  public DbColunaAndroid(String strNome, DbTabelaAndroid<?> tbl, EnmTipo enmTipo) {
 
     super(strNome, tbl, enmTipo);
+  }
+
+  public <T extends Dominio> void carregarDominio(Cursor crs, T objDominio) {
+
+    try {
+
+      if (crs == null) {
+
+        return;
+      }
+
+      if (crs.getColumnIndex(this.getStrNomeSql()) < 0) {
+
+        return;
+      }
+
+      if (objDominio == null) {
+
+        return;
+      }
+
+      for (Field objField : objDominio.getClass().getFields()) {
+
+        if (objField == null) {
+
+          continue;
+        }
+
+        if (!objField.getName().toLowerCase().equals(this.getStrDominioNome())) {
+
+          continue;
+        }
+
+        this.carregarDominio(crs, objDominio, objField);
+      }
+    }
+    catch (Exception ex) {
+
+      new ErroAndroid("Erro inesperado.\n", ex);
+    }
+    finally {
+    }
+  }
+
+  private <T extends Dominio> void carregarDominio(Cursor crs, T objDominio, Field objField) {
+
+    try {
+
+      if (crs == null) {
+
+        return;
+      }
+
+      if (objDominio == null) {
+
+        return;
+      }
+
+      if (objField == null) {
+
+        return;
+      }
+
+      if ("boolean".equals(objField.getType().getSimpleName().toLowerCase(Utils.LOCAL_BRASIL))) {
+
+        this.carregarDominioBoolean(crs, objDominio, objField);
+        return;
+      }
+
+      if ("double".equals(objField.getType().getSimpleName().toLowerCase(Utils.LOCAL_BRASIL))) {
+
+        this.carregarDominioDouble(crs, objDominio, objField);
+        return;
+      }
+
+      if ("gregoriancalendar".equals(objField.getType().getSimpleName().toLowerCase(Utils.LOCAL_BRASIL))) {
+
+        this.carregarDominioDateTime(crs, objDominio, objField);
+        return;
+      }
+
+      if ("int".equals(objField.getType().getSimpleName().toLowerCase(Utils.LOCAL_BRASIL))) {
+
+        this.carregarDominioInt(crs, objDominio, objField);
+        return;
+      }
+
+      if ("string".equals(objField.getType().getSimpleName().toLowerCase(Utils.LOCAL_BRASIL))) {
+
+        this.carregarDominioString(crs, objDominio, objField);
+        return;
+      }
+    }
+    catch (Exception ex) {
+
+      new ErroAndroid("Erro inesperado.\n", ex);
+    }
+    finally {
+    }
+  }
+
+  private <T extends Dominio> void carregarDominioBoolean(Cursor crs, T objDominio, Field objField) {
+
+    int intValor;
+
+    try {
+
+      intValor = crs.getInt(crs.getColumnIndex(this.getStrNomeSql()));
+
+      objField.set(objDominio, (intValor == 1 ? true : false));
+    }
+    catch (Exception ex) {
+
+      new ErroAndroid("Erro inesperado.\n", ex);
+    }
+    finally {
+    }
+  }
+
+  private <T extends Dominio> void carregarDominioDateTime(Cursor crs, T objDominio, Field objField) {
+
+    String strValor;
+
+    try {
+
+      strValor = crs.getString(crs.getColumnIndex(this.getStrNomeSql()));
+
+      objField.set(objDominio, Utils.strToDtt(strValor));
+    }
+    catch (Exception ex) {
+
+      new ErroAndroid("Erro inesperado.\n", ex);
+    }
+    finally {
+    }
+  }
+
+  private <T extends Dominio> void carregarDominioDouble(Cursor crs, T objDominio, Field objField) {
+
+    double dblValor;
+
+    try {
+
+      dblValor = crs.getDouble(crs.getColumnIndex(this.getStrNomeSql()));
+
+      objField.set(objDominio, dblValor);
+    }
+    catch (Exception ex) {
+
+      new ErroAndroid("Erro inesperado.\n", ex);
+    }
+    finally {
+    }
+  }
+
+  private <T extends Dominio> void carregarDominioInt(Cursor crs, T objDominio, Field objField) {
+
+    int intValor;
+
+    try {
+
+      intValor = crs.getInt(crs.getColumnIndex(this.getStrNomeSql()));
+
+      objField.set(objDominio, intValor);
+    }
+    catch (Exception ex) {
+
+      new ErroAndroid("Erro inesperado.\n", ex);
+    }
+    finally {
+    }
+  }
+
+  private <T extends Dominio> void carregarDominioString(Cursor crs, T objDominio, Field objField) {
+
+    String strValor;
+
+    try {
+
+      strValor = crs.getString(crs.getColumnIndex(this.getStrNomeSql()));
+
+      objField.set(objDominio, strValor);
+    }
+    catch (Exception ex) {
+
+      new ErroAndroid("Erro inesperado.\n", ex);
+    }
+    finally {
+    }
   }
 
   MenuItem getMniCampo() {
@@ -95,7 +287,7 @@ public class DbColunaAndroid extends DbColuna {
     }
     catch (Exception ex) {
 
-      new Erro(App.getI().getStrTextoPadrao(0), ex);
+      new ErroAndroid(App.getI().getStrTextoPadrao(0), ex);
     }
     finally {
     }
@@ -199,7 +391,7 @@ public class DbColunaAndroid extends DbColuna {
       this.setBooOrdem(true);
       this.getMniOrdenar().setChecked(true);
 
-      ((DbTabelaAndroid) this.getTbl()).getMniOrdemDecrescente().setChecked(this.getBooOrdemDecrescente());
+      ((DbTabelaAndroid<?>) this.getTbl()).getMniOrdemDecrescente().setChecked(this.getBooOrdemDecrescente());
     }
     catch (Exception ex) {
 

@@ -6,15 +6,16 @@ import com.digosofter.digodroid.AppAndroid;
 import com.digosofter.digodroid.erro.ErroAndroid;
 import com.digosofter.digojava.App;
 import com.digosofter.digojava.Utils;
+import com.digosofter.digojava.database.Dominio;
 import com.digosofter.digojava.database.TblOnChangeArg;
 
-public abstract class DbViewAndroid extends DbTabelaAndroid {
+public abstract class DbViewAndroid extends DbTabelaAndroid<Dominio> {
 
-  private DbTabelaAndroid _tbl;
+  private DbTabelaAndroid<?> _tbl;
 
   protected DbViewAndroid(String strNome) {
 
-    super(strNome);
+    super(strNome, null);
 
     try {
 
@@ -111,12 +112,12 @@ public abstract class DbViewAndroid extends DbTabelaAndroid {
     return strResultado;
   }
 
-  protected DbTabelaAndroid getTbl() {
+  protected DbTabelaAndroid<?> getTbl() {
 
     return _tbl;
   }
 
-  public void setTbl(DbTabelaAndroid tbl) {
+  public void setTbl(DbTabelaAndroid<?> tbl) {
 
     try {
 

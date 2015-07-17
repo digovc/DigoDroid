@@ -304,9 +304,9 @@ public abstract class AppAndroid extends App {
 
     try {
 
-      for (DbTabela tbl : this.getLstTbl()) {
+      for (DbTabela<?> tbl : this.getLstTbl()) {
 
-        ((DbTabelaAndroid) tbl).limparListaConsulta();
+        ((DbTabelaAndroid<?>) tbl).limparListaConsulta();
       }
     }
     catch (Exception ex) {

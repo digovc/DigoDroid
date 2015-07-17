@@ -26,7 +26,7 @@ public class ActDetalhe extends ActMain {
   private ItmConsulta _itmConsulta;
   private List<ItmDetalheGrupo> _lstItmDetalheGrupo;
   private LinearLayout _pnlCampos;
-  private DbTabelaAndroid _tbl;
+  private DbTabelaAndroid<?> _tbl;
   private TextView _txtId;
   private TextView _txtNome;
 
@@ -68,7 +68,7 @@ public class ActDetalhe extends ActMain {
         return _itmConsulta;
       }
 
-      crs = this.getTbl().getCrs(this.getTbl().getClnChavePrimaria(), this.getIntRegistroId());
+      crs = this.getTbl().pesquisar(this.getTbl().getClnChavePrimaria(), this.getIntRegistroId());
 
       if (crs == null || !crs.moveToFirst()) {
 
@@ -196,7 +196,7 @@ public class ActDetalhe extends ActMain {
     return _pnlCampos;
   }
 
-  private DbTabelaAndroid getTbl() {
+  private DbTabelaAndroid<?> getTbl() {
 
     try {
 
@@ -205,7 +205,7 @@ public class ActDetalhe extends ActMain {
         return _tbl;
       }
 
-      _tbl = (DbTabelaAndroid) AppAndroid.getI().getTblSelec();
+      _tbl = (DbTabelaAndroid<?>) AppAndroid.getI().getTblSelec();
     }
     catch (Exception ex) {
 

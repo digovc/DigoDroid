@@ -21,7 +21,7 @@ public class AdpConsulta extends BaseAdapter implements Filterable {
   private ActConsulta _actConsulta;
   private List<ItmConsulta> _lstItmConsulta;
   private List<ItmConsulta> _lstItmConsultaSemFiltro;
-  private DbTabelaAndroid _tbl;
+  private DbTabelaAndroid<?> _tbl;
 
   public void apagar(int intRegistroId) {
 
@@ -218,7 +218,7 @@ public class AdpConsulta extends BaseAdapter implements Filterable {
     return _lstItmConsultaSemFiltro;
   }
 
-  private DbTabelaAndroid getTbl() {
+  private DbTabelaAndroid<?> getTbl() {
 
     try {
 
@@ -229,7 +229,7 @@ public class AdpConsulta extends BaseAdapter implements Filterable {
 
       if (this.getActConsulta() == null) {
 
-        return (DbTabelaAndroid) AppAndroid.getI().getTblSelec();
+        return (DbTabelaAndroid<?>) AppAndroid.getI().getTblSelec();
       }
 
       _tbl = this.getActConsulta().getTbl();
