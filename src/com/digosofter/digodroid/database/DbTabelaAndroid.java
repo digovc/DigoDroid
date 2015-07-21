@@ -1041,11 +1041,40 @@ public abstract class DbTabelaAndroid<T extends Dominio> extends DbTabela<T> {
         }
       }
 
-      this.salvar();
+      this.salvar(false);
     }
     catch (Exception ex) {
 
       new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(130), ex);
+    }
+    finally {
+    }
+  }
+
+  private void lerDominio(T objDominio) {
+
+    try {
+
+      this.limparColunas();
+
+      if (objDominio == null) {
+
+        return;
+      }
+
+      for (DbColuna cln : this.getLstCln()) {
+
+        if (cln == null) {
+
+          continue;
+        }
+
+        cln.lerDominio(objDominio);
+      }
+    }
+    catch (Exception ex) {
+
+      new ErroAndroid("Erro inesperado.\n", ex);
     }
     finally {
     }
@@ -1493,6 +1522,152 @@ public abstract class DbTabelaAndroid<T extends Dominio> extends DbTabela<T> {
     return this.pesquisar(this.getLstCln(), lstFil);
   }
 
+  private List<T> pesquisarDominio(Cursor crs) {
+
+    List<T> lstResultado;
+    T obj;
+
+    try {
+
+      if (crs == null) {
+
+        return null;
+      }
+
+      lstResultado = new ArrayList<T>();
+
+      do {
+
+        obj = this.carregarDominio(crs);
+
+        if (obj == null) {
+
+          continue;
+        }
+
+        if (obj.getIntId() < 1) {
+
+          continue;
+        }
+
+        lstResultado.add(obj);
+      }
+      while (crs.moveToNext());
+
+      return lstResultado;
+    }
+    catch (Exception ex) {
+
+      new ErroAndroid("Erro inesperado.\n", ex);
+    }
+    finally {
+    }
+
+    return null;
+  }
+
+  public List<T> pesquisarDominio(DbColuna clnFiltro, boolean booFiltro) {
+
+    return this.pesquisarDominio(clnFiltro, (booFiltro ? 1 : 0));
+  }
+
+  public List<T> pesquisarDominio(DbColuna clnFiltro, double dblFiltro) {
+
+    return this.pesquisarDominio(clnFiltro, String.valueOf(dblFiltro));
+  }
+
+  public List<T> pesquisarDominio(DbColuna clnFiltro, GregorianCalendar dttFiltro) {
+
+    try {
+
+      if (dttFiltro == null) {
+
+        return null;
+      }
+
+      return this.pesquisarDominio(clnFiltro, Utils.getStrDataFormatada(dttFiltro, EnmDataFormato.YYYY_MM_DD_HH_MM_SS));
+    }
+    catch (Exception ex) {
+
+      new ErroAndroid("Erro inesperado.\n", ex);
+    }
+    finally {
+    }
+
+    return null;
+  }
+
+  public List<T> pesquisarDominio(DbColuna clnFiltro, int intFiltro) {
+
+    return this.pesquisarDominio(clnFiltro, (double) intFiltro);
+  }
+
+  public List<T> pesquisarDominio(DbColuna clnFiltro, String strFiltro) {
+
+    return this.pesquisarDominio(new DbFiltro(clnFiltro, strFiltro));
+  }
+
+  public List<T> pesquisarDominio(DbFiltro fil) {
+
+    List<DbFiltro> lstFil;
+
+    try {
+
+      if (fil == null) {
+
+        return null;
+      }
+
+      lstFil = new ArrayList<DbFiltro>();
+
+      lstFil.add(fil);
+
+      return this.pesquisarDominio(lstFil);
+    }
+    catch (Exception ex) {
+
+      new ErroAndroid("Erro inesperado.\n", ex);
+    }
+    finally {
+    }
+
+    return null;
+  }
+
+  public List<T> pesquisarDominio(List<DbFiltro> lstFil) {
+
+    Cursor crs;
+    try {
+
+      if (lstFil == null) {
+
+        return null;
+      }
+
+      crs = this.pesquisar(lstFil);
+
+      if (crs == null) {
+
+        return null;
+      }
+
+      if (!crs.moveToFirst()) {
+
+        return null;
+      }
+
+      return this.pesquisarDominio(crs);
+    }
+    catch (Exception ex) {
+
+      new ErroAndroid("Erro inesperado.\n", ex);
+    }
+    finally {
+    }
+
+    return null;
+  }
+
   public Cursor pesquisarTelaConsulta() {
 
     Cursor crsResultado;
@@ -1901,14 +2076,24 @@ public abstract class DbTabelaAndroid<T extends Dominio> extends DbTabela<T> {
 
   public void recuperar(DbColuna clnFiltro, String strFiltro) {
 
-    List<DbFiltro> lstObjDbFiltro;
+    this.recuperar(new DbFiltro(clnFiltro, strFiltro));
+  }
+
+  public void recuperar(DbFiltro fil) {
+
+    List<DbFiltro> lstFil;
 
     try {
 
-      lstObjDbFiltro = new ArrayList<DbFiltro>();
-      lstObjDbFiltro.add(new DbFiltro(clnFiltro, strFiltro));
+      if (fil == null) {
 
-      this.recuperar(lstObjDbFiltro);
+        return;
+      }
+
+      lstFil = new ArrayList<DbFiltro>();
+      lstFil.add(fil);
+
+      this.recuperar(lstFil);
     }
     catch (Exception ex) {
 
@@ -1916,6 +2101,7 @@ public abstract class DbTabelaAndroid<T extends Dominio> extends DbTabela<T> {
     }
     finally {
     }
+
   }
 
   public void recuperar(int intId) {
@@ -1951,44 +2137,26 @@ public abstract class DbTabelaAndroid<T extends Dominio> extends DbTabela<T> {
     }
   }
 
-  public void recuperar(String strId) {
+  public T recuperarDominio(DbColuna clnFiltro, boolean booFiltro) {
 
-    this.recuperar(this.getClnChavePrimaria(), strId);
+    return this.recuperarDominio(clnFiltro, (booFiltro ? 1 : 0));
   }
 
-  private List<T> recuperarDominio(Cursor crs) {
+  public T recuperarDominio(DbColuna clnFiltro, double dblFiltro) {
 
-    List<T> lstResultado;
-    T obj;
+    return this.recuperarDominio(clnFiltro, String.valueOf(dblFiltro));
+  }
+
+  public T recuperarDominio(DbColuna clnFiltro, GregorianCalendar dttFiltro) {
 
     try {
 
-      if (crs == null) {
+      if (dttFiltro == null) {
 
         return null;
       }
 
-      lstResultado = new ArrayList<T>();
-
-      do {
-
-        obj = this.carregarDominio(crs);
-
-        if (obj == null) {
-
-          continue;
-        }
-
-        if (obj.getIntId() < 1) {
-
-          continue;
-        }
-
-        lstResultado.add(obj);
-      }
-      while (crs.moveToNext());
-
-      return lstResultado;
+      return this.recuperarDominio(clnFiltro, Utils.getStrDataFormatada(dttFiltro, EnmDataFormato.YYYY_MM_DD_HH_MM_SS));
     }
     catch (Exception ex) {
 
@@ -2000,24 +2168,31 @@ public abstract class DbTabelaAndroid<T extends Dominio> extends DbTabela<T> {
     return null;
   }
 
-  public List<T> recuperarDominio(List<DbFiltro> lstFil) {
+  public T recuperarDominio(DbColuna clnFiltro, int intFiltro) {
 
-    Cursor crs;
+    return this.recuperarDominio(clnFiltro, (double) intFiltro);
+  }
+
+  public T recuperarDominio(DbColuna clnFiltro, String strFiltro) {
+
+    return this.recuperarDominio(new DbFiltro(clnFiltro, strFiltro));
+  }
+
+  public T recuperarDominio(DbFiltro fil) {
+
+    List<DbFiltro> lstFil;
+
     try {
 
-      crs = this.pesquisar(lstFil);
-
-      if (crs == null) {
+      if (fil == null) {
 
         return null;
       }
 
-      if (!crs.moveToFirst()) {
+      lstFil = new ArrayList<DbFiltro>();
+      lstFil.add(fil);
 
-        return null;
-      }
-
-      return this.recuperarDominio(crs);
+      return this.recuperarDominio(lstFil);
     }
     catch (Exception ex) {
 
@@ -2029,16 +2204,61 @@ public abstract class DbTabelaAndroid<T extends Dominio> extends DbTabela<T> {
     return null;
   }
 
-  public void salvar() {
+  public T recuperarDominio(int intId) {
+
+    return this.recuperarDominio(this.getClnChavePrimaria(), intId);
+  }
+
+  public T recuperarDominio(List<DbFiltro> lstFil) {
+
+    List<T> lstObjDominio;
+
+    try {
+
+      if (lstFil == null) {
+
+        return null;
+      }
+
+      lstObjDominio = this.pesquisarDominio(lstFil);
+
+      if (lstObjDominio == null) {
+
+        return null;
+      }
+
+      if (lstObjDominio.size() < 1) {
+
+        return null;
+      }
+
+      return lstObjDominio.get(0);
+    }
+    catch (Exception ex) {
+
+      new ErroAndroid("Erro inesperado.\n", ex);
+    }
+    finally {
+    }
+
+    return null;
+  }
+
+  public boolean salvar(boolean booValidar) {
 
     try {
 
       this.limparListaConsulta();
 
+      if (booValidar && !this.validarDados()) {
+
+        return false;
+      }
+
       if (!this.getBooRegistroExiste(this.getClnChavePrimaria().getIntValor())) {
 
         this.salvarInsert();
-        return;
+        return true;
       }
 
       this.salvarUpdate();
@@ -2051,6 +2271,37 @@ public abstract class DbTabelaAndroid<T extends Dominio> extends DbTabela<T> {
 
       this.recuperar(this.getClnChavePrimaria().getIntValor());
     }
+
+    return true;
+  }
+
+  public boolean salvar(T objDominio, boolean booValidar) {
+
+    boolean booResultado;
+
+    try {
+
+      if (objDominio == null) {
+
+        return false;
+      }
+
+      this.lerDominio(objDominio);
+
+      booResultado = this.salvar(booValidar);
+
+      objDominio.setIntId(this.getClnChavePrimaria().getIntValor());
+
+      return booResultado;
+    }
+    catch (Exception ex) {
+
+      new ErroAndroid("Erro inesperado.\n", ex);
+    }
+    finally {
+    }
+
+    return false;
   }
 
   private void salvarInsert() {
@@ -2160,6 +2411,11 @@ public abstract class DbTabelaAndroid<T extends Dominio> extends DbTabela<T> {
   public void setObjDb(DataBaseAndroid objDb) {
 
     _objDb = objDb;
+  }
+
+  protected boolean validarDados() {
+
+    return true;
   }
 
   private void viwOnAdicionarAtualizarDispatcher(TblOnChangeArg arg, boolean booAdicionar) {

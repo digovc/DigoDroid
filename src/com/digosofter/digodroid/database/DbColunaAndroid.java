@@ -11,13 +11,14 @@ import com.digosofter.digojava.database.Dominio;
 import android.database.Cursor;
 import android.view.MenuItem;
 import android.view.SubMenu;
+import android.view.View;
 
 public class DbColunaAndroid extends DbColuna {
 
   private MenuItem _mniCampo;
   private MenuItem _mniOrdenar;
-
   private String _sqlTipo;
+  private View _viw;
 
   public DbColunaAndroid(String strNome, DbTabelaAndroid<?> tbl, EnmTipo enmTipo) {
 
@@ -50,7 +51,7 @@ public class DbColunaAndroid extends DbColuna {
           continue;
         }
 
-        if (!objField.getName().toLowerCase().equals(this.getStrDominioNome())) {
+        if (!Utils.simplificar(objField.getName()).equals(this.getStrDominioNome())) {
 
           continue;
         }
@@ -87,19 +88,19 @@ public class DbColunaAndroid extends DbColuna {
 
       if ("boolean".equals(objField.getType().getSimpleName().toLowerCase(Utils.LOCAL_BRASIL))) {
 
-        this.carregarDominioBoolean(crs, objDominio, objField);
+        this.carregarDominioBoo(crs, objDominio, objField);
         return;
       }
 
       if ("double".equals(objField.getType().getSimpleName().toLowerCase(Utils.LOCAL_BRASIL))) {
 
-        this.carregarDominioDouble(crs, objDominio, objField);
+        this.carregarDominioDbl(crs, objDominio, objField);
         return;
       }
 
       if ("gregoriancalendar".equals(objField.getType().getSimpleName().toLowerCase(Utils.LOCAL_BRASIL))) {
 
-        this.carregarDominioDateTime(crs, objDominio, objField);
+        this.carregarDominioDtt(crs, objDominio, objField);
         return;
       }
 
@@ -111,7 +112,7 @@ public class DbColunaAndroid extends DbColuna {
 
       if ("string".equals(objField.getType().getSimpleName().toLowerCase(Utils.LOCAL_BRASIL))) {
 
-        this.carregarDominioString(crs, objDominio, objField);
+        this.carregarDominioStr(crs, objDominio, objField);
         return;
       }
     }
@@ -123,7 +124,7 @@ public class DbColunaAndroid extends DbColuna {
     }
   }
 
-  private <T extends Dominio> void carregarDominioBoolean(Cursor crs, T objDominio, Field objField) {
+  private <T extends Dominio> void carregarDominioBoo(Cursor crs, T objDominio, Field objField) {
 
     int intValor;
 
@@ -141,15 +142,15 @@ public class DbColunaAndroid extends DbColuna {
     }
   }
 
-  private <T extends Dominio> void carregarDominioDateTime(Cursor crs, T objDominio, Field objField) {
+  private <T extends Dominio> void carregarDominioDbl(Cursor crs, T objDominio, Field objField) {
 
-    String strValor;
+    double dblValor;
 
     try {
 
-      strValor = crs.getString(crs.getColumnIndex(this.getStrNomeSql()));
+      dblValor = crs.getDouble(crs.getColumnIndex(this.getStrNomeSql()));
 
-      objField.set(objDominio, Utils.strToDtt(strValor));
+      objField.set(objDominio, dblValor);
     }
     catch (Exception ex) {
 
@@ -159,15 +160,15 @@ public class DbColunaAndroid extends DbColuna {
     }
   }
 
-  private <T extends Dominio> void carregarDominioDouble(Cursor crs, T objDominio, Field objField) {
+  private <T extends Dominio> void carregarDominioDtt(Cursor crs, T objDominio, Field objField) {
 
-    double dblValor;
+    String strValor;
 
     try {
 
-      dblValor = crs.getDouble(crs.getColumnIndex(this.getStrNomeSql()));
+      strValor = crs.getString(crs.getColumnIndex(this.getStrNomeSql()));
 
-      objField.set(objDominio, dblValor);
+      objField.set(objDominio, Utils.strToDtt(strValor));
     }
     catch (Exception ex) {
 
@@ -195,7 +196,7 @@ public class DbColunaAndroid extends DbColuna {
     }
   }
 
-  private <T extends Dominio> void carregarDominioString(Cursor crs, T objDominio, Field objField) {
+  private <T extends Dominio> void carregarDominioStr(Cursor crs, T objDominio, Field objField) {
 
     String strValor;
 
@@ -293,6 +294,11 @@ public class DbColunaAndroid extends DbColuna {
     }
 
     return _sqlTipo;
+  }
+
+  public View getViw() {
+
+    return _viw;
   }
 
   void montarMenuCampo(SubMenu smn) {
@@ -409,5 +415,10 @@ public class DbColunaAndroid extends DbColuna {
   private void setMniOrdenar(MenuItem mniOrdenar) {
 
     _mniOrdenar = mniOrdenar;
+  }
+
+  public void setViw(View viw) {
+
+    _viw = viw;
   }
 }
