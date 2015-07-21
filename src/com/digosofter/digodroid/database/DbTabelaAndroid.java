@@ -345,6 +345,8 @@ public abstract class DbTabelaAndroid<T extends Dominio> extends DbTabela<T> {
 
         ((DbColunaAndroid) cln).carregarDominio(crs, objDominio);
       }
+
+      return objDominio;
     }
     catch (Exception ex) {
 
@@ -833,8 +835,8 @@ public abstract class DbTabelaAndroid<T extends Dominio> extends DbTabela<T> {
 
   private String getSqlColunasValoresInsert() {
 
-    String strResultado = null;
     String str;
+    String strResultado;
 
     try {
 
@@ -857,7 +859,7 @@ public abstract class DbTabelaAndroid<T extends Dominio> extends DbTabela<T> {
           continue;
         }
 
-        if (cln.getClnRef() != null && "0".equals(cln.getStrValor())) {
+        if (cln.getClnRef() != null && (cln.getIntValor() < 1)) {
 
           continue;
         }
@@ -869,6 +871,8 @@ public abstract class DbTabelaAndroid<T extends Dominio> extends DbTabela<T> {
       }
 
       strResultado = Utils.removerUltimaLetra(strResultado, 2);
+
+      return strResultado;
     }
     catch (Exception ex) {
 
@@ -877,7 +881,7 @@ public abstract class DbTabelaAndroid<T extends Dominio> extends DbTabela<T> {
     finally {
     }
 
-    return strResultado;
+    return null;
   }
 
   private String getSqlSelectColunasNomes(List<DbColuna> lstCln) {
@@ -1525,7 +1529,7 @@ public abstract class DbTabelaAndroid<T extends Dominio> extends DbTabela<T> {
   private List<T> pesquisarDominio(Cursor crs) {
 
     List<T> lstResultado;
-    T obj;
+    T objDominio;
 
     try {
 
@@ -1538,19 +1542,19 @@ public abstract class DbTabelaAndroid<T extends Dominio> extends DbTabela<T> {
 
       do {
 
-        obj = this.carregarDominio(crs);
+        objDominio = this.carregarDominio(crs);
 
-        if (obj == null) {
-
-          continue;
-        }
-
-        if (obj.getIntId() < 1) {
+        if (objDominio == null) {
 
           continue;
         }
 
-        lstResultado.add(obj);
+        if (objDominio.getIntId() < 1) {
+
+          continue;
+        }
+
+        lstResultado.add(objDominio);
       }
       while (crs.moveToNext());
 
@@ -1637,6 +1641,8 @@ public abstract class DbTabelaAndroid<T extends Dominio> extends DbTabela<T> {
   public List<T> pesquisarDominio(List<DbFiltro> lstFil) {
 
     Cursor crs;
+    List<T> lstObjDominioResultado;
+
     try {
 
       if (lstFil == null) {
@@ -1656,7 +1662,11 @@ public abstract class DbTabelaAndroid<T extends Dominio> extends DbTabela<T> {
         return null;
       }
 
-      return this.pesquisarDominio(crs);
+      lstObjDominioResultado = this.pesquisarDominio(crs);
+
+      crs.close();
+
+      return lstObjDominioResultado;
     }
     catch (Exception ex) {
 
@@ -2311,11 +2321,11 @@ public abstract class DbTabelaAndroid<T extends Dominio> extends DbTabela<T> {
 
     try {
 
-      sql = "insert into _tbl_nome (_clns_nome) values (_values);";
+      sql = "insert into _tbl_nome (_cln_nome) values (_cln_valor);";
 
       sql = sql.replace("_tbl_nome", this.getStrNomeSql());
-      sql = sql.replace("_clns_nome", this.getSqlColunasNomesInsert());
-      sql = sql.replace("_values", this.getSqlColunasValoresInsert());
+      sql = sql.replace("_cln_nome", this.getSqlColunasNomesInsert());
+      sql = sql.replace("_cln_valor", this.getSqlColunasValoresInsert());
 
       this.getObjDb().execSql(sql);
 
@@ -2340,10 +2350,10 @@ public abstract class DbTabelaAndroid<T extends Dominio> extends DbTabela<T> {
 
     try {
 
-      sql = "update _tbl_nome set _clns_nome_valor where _cln_pk_nome = '_registro_id';";
+      sql = "update _tbl_nome set _cln_nome_valor where _cln_pk_nome = '_registro_id';";
 
       sql = sql.replace("_tbl_nome", this.getStrNomeSql());
-      sql = sql.replace("_clns_nome_valor", this.getSqlColunasNomesValorUpdate());
+      sql = sql.replace("_cln_nome_valor", this.getSqlColunasNomesValorUpdate());
       sql = sql.replace("_cln_pk_nome", this.getClnChavePrimaria().getStrNomeSql());
       sql = sql.replace("_registro_id", this.getClnChavePrimaria().getStrValorSql());
 

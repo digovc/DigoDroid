@@ -44,20 +44,7 @@ public class DbColunaAndroid extends DbColuna {
         return;
       }
 
-      for (Field objField : objDominio.getClass().getFields()) {
-
-        if (objField == null) {
-
-          continue;
-        }
-
-        if (!Utils.simplificar(objField.getName()).equals(this.getStrDominioNome())) {
-
-          continue;
-        }
-
-        this.carregarDominio(crs, objDominio, objField);
-      }
+      this.carregarDominio(crs, objDominio, objDominio.getClass());
     }
     catch (Exception ex) {
 
@@ -67,7 +54,7 @@ public class DbColunaAndroid extends DbColuna {
     }
   }
 
-  private <T extends Dominio> void carregarDominio(Cursor crs, T objDominio, Field objField) {
+  private <T extends Dominio> void carregarDominio(Cursor crs, T objDominio, Class<?> cls) {
 
     try {
 
@@ -81,39 +68,29 @@ public class DbColunaAndroid extends DbColuna {
         return;
       }
 
-      if (objField == null) {
+      if (cls == null) {
 
         return;
       }
 
-      if ("boolean".equals(objField.getType().getSimpleName().toLowerCase(Utils.LOCAL_BRASIL))) {
+      this.carregarDominio(crs, objDominio, cls.getSuperclass());
 
-        this.carregarDominioBoo(crs, objDominio, objField);
-        return;
-      }
+      for (Field objField : cls.getDeclaredFields()) {
 
-      if ("double".equals(objField.getType().getSimpleName().toLowerCase(Utils.LOCAL_BRASIL))) {
+        if (objField == null) {
 
-        this.carregarDominioDbl(crs, objDominio, objField);
-        return;
-      }
+          continue;
+        }
 
-      if ("gregoriancalendar".equals(objField.getType().getSimpleName().toLowerCase(Utils.LOCAL_BRASIL))) {
+        if (!Utils.simplificar(objField.getName().replace("_", Utils.STR_VAZIA)).equals(this.getStrDominioNome())) {
 
-        this.carregarDominioDtt(crs, objDominio, objField);
-        return;
-      }
+          continue;
+        }
 
-      if ("int".equals(objField.getType().getSimpleName().toLowerCase(Utils.LOCAL_BRASIL))) {
+        if (this.carregarDominio(crs, objDominio, objField)) {
 
-        this.carregarDominioInt(crs, objDominio, objField);
-        return;
-      }
-
-      if ("string".equals(objField.getType().getSimpleName().toLowerCase(Utils.LOCAL_BRASIL))) {
-
-        this.carregarDominioStr(crs, objDominio, objField);
-        return;
+          return;
+        }
       }
     }
     catch (Exception ex) {
@@ -124,6 +101,69 @@ public class DbColunaAndroid extends DbColuna {
     }
   }
 
+  private <T extends Dominio> boolean carregarDominio(Cursor crs, T objDominio, Field objField) {
+
+    try {
+
+      if (crs == null) {
+
+        return false;
+      }
+
+      if (objDominio == null) {
+
+        return false;
+      }
+
+      if (objField == null) {
+
+        return false;
+      }
+
+      objField.setAccessible(true);
+
+      if ("boolean".equals(objField.getType().getSimpleName().toLowerCase(Utils.LOCAL_BRASIL))) {
+
+        this.carregarDominioBoo(crs, objDominio, objField);
+        return true;
+      }
+
+      if ("double".equals(objField.getType().getSimpleName().toLowerCase(Utils.LOCAL_BRASIL))) {
+
+        this.carregarDominioDbl(crs, objDominio, objField);
+        return true;
+      }
+
+      if ("gregoriancalendar".equals(objField.getType().getSimpleName().toLowerCase(Utils.LOCAL_BRASIL))) {
+
+        this.carregarDominioDtt(crs, objDominio, objField);
+        return true;
+      }
+
+      if ("int".equals(objField.getType().getSimpleName().toLowerCase(Utils.LOCAL_BRASIL))) {
+
+        this.carregarDominioInt(crs, objDominio, objField);
+        return true;
+      }
+
+      if ("string".equals(objField.getType().getSimpleName().toLowerCase(Utils.LOCAL_BRASIL))) {
+
+        this.carregarDominioStr(crs, objDominio, objField);
+        return true;
+      }
+    }
+    catch (Exception ex) {
+
+      new ErroAndroid("Erro inesperado.\n", ex);
+    }
+    finally {
+
+      objField.setAccessible(false);
+    }
+
+    return false;
+  }
+
   private <T extends Dominio> void carregarDominioBoo(Cursor crs, T objDominio, Field objField) {
 
     int intValor;
@@ -132,7 +172,7 @@ public class DbColunaAndroid extends DbColuna {
 
       intValor = crs.getInt(crs.getColumnIndex(this.getStrNomeSql()));
 
-      objField.set(objDominio, (intValor == 1 ? true : false));
+      objField.set(objDominio, ((intValor == 1) ? true : false));
     }
     catch (Exception ex) {
 
