@@ -1,7 +1,12 @@
 package com.digosofter.digodroid.adapter;
 
-import java.util.ArrayList;
 import java.util.List;
+
+import com.digosofter.digodroid.AppAndroid;
+import com.digosofter.digodroid.activity.ActConsulta;
+import com.digosofter.digodroid.database.DbTabelaAndroid;
+import com.digosofter.digodroid.erro.ErroAndroid;
+import com.digosofter.digodroid.item.ItmConsulta;
 
 import android.annotation.SuppressLint;
 import android.view.View;
@@ -10,17 +15,12 @@ import android.widget.BaseAdapter;
 import android.widget.Filter;
 import android.widget.Filterable;
 
-import com.digosofter.digodroid.AppAndroid;
-import com.digosofter.digodroid.activity.ActConsulta;
-import com.digosofter.digodroid.database.DbTabelaAndroid;
-import com.digosofter.digodroid.erro.ErroAndroid;
-import com.digosofter.digodroid.item.ItmConsulta;
-
 public class AdpConsulta extends BaseAdapter implements Filterable {
 
   private ActConsulta _actConsulta;
   private List<ItmConsulta> _lstItmConsulta;
   private List<ItmConsulta> _lstItmConsultaSemFiltro;
+  private ConsultaFilter _objConsultaFilter;
   private DbTabelaAndroid<?> _tbl;
 
   public void apagar(int intRegistroId) {
@@ -118,64 +118,20 @@ public class AdpConsulta extends BaseAdapter implements Filterable {
   @Override
   public Filter getFilter() {
 
-    this.setLstItmConsulta(this.getLstItmConsultaSemFiltro());
+    try {
 
-    return new Filter() {
+      this.setLstItmConsulta(this.getLstItmConsultaSemFiltro());
 
-      @Override
-      protected FilterResults performFiltering(CharSequence strFiltro) {
+      return this.getObjConsultaFilter();
+    }
+    catch (Exception ex) {
 
-        FilterResults objFilterResults = new FilterResults();
+      new ErroAndroid("Erro inesperado.\n", ex);
+    }
+    finally {
+    }
 
-        if (strFiltro == null || strFiltro.length() == 0) {
-
-          objFilterResults.values = AdpConsulta.this.getLstItmConsultaSemFiltro();
-          objFilterResults.count = AdpConsulta.this.getLstItmConsultaSemFiltro().size();
-        }
-        else {
-
-          List<ItmConsulta> lstItmConsulta = new ArrayList<ItmConsulta>();
-
-          for (ItmConsulta itm : AdpConsulta.this.getLstItmConsulta()) {
-
-            if (itm.getBooContemTermo(strFiltro.toString())) {
-
-              lstItmConsulta.add(itm);
-            }
-          }
-
-          objFilterResults.values = lstItmConsulta;
-          objFilterResults.count = lstItmConsulta.size();
-        }
-
-        return objFilterResults;
-      }
-
-      @SuppressWarnings("unchecked")
-      @Override
-      protected void publishResults(CharSequence constraint, FilterResults results) {
-
-        try {
-
-          if (results.count == 0) {
-
-            AdpConsulta.this.setLstItmConsulta(new ArrayList<ItmConsulta>());
-            AdpConsulta.this.notifyDataSetChanged();
-
-            return;
-          }
-
-          AdpConsulta.this.setLstItmConsulta((ArrayList<ItmConsulta>) results.values);
-          AdpConsulta.this.notifyDataSetChanged();
-        }
-        catch (Exception ex) {
-
-          new ErroAndroid("Erro inesperado.\n", ex);
-        }
-        finally {
-        }
-      }
-    };
+    return null;
   }
 
   @Override
@@ -190,7 +146,7 @@ public class AdpConsulta extends BaseAdapter implements Filterable {
     return this.getLstItmConsulta().get(intPosicao).getIntRegistroId();
   }
 
-  private List<ItmConsulta> getLstItmConsulta() {
+  List<ItmConsulta> getLstItmConsulta() {
 
     try {
 
@@ -213,9 +169,30 @@ public class AdpConsulta extends BaseAdapter implements Filterable {
     return _lstItmConsulta;
   }
 
-  private List<ItmConsulta> getLstItmConsultaSemFiltro() {
+  List<ItmConsulta> getLstItmConsultaSemFiltro() {
 
     return _lstItmConsultaSemFiltro;
+  }
+
+  private ConsultaFilter getObjConsultaFilter() {
+
+    try {
+
+      if (_objConsultaFilter != null) {
+
+        return _objConsultaFilter;
+      }
+
+      _objConsultaFilter = new ConsultaFilter(this);
+    }
+    catch (Exception ex) {
+
+      new ErroAndroid("Erro inesperado.\n", ex);
+    }
+    finally {
+    }
+
+    return _objConsultaFilter;
   }
 
   private DbTabelaAndroid<?> getTbl() {
@@ -271,7 +248,7 @@ public class AdpConsulta extends BaseAdapter implements Filterable {
     _actConsulta = actConsulta;
   }
 
-  private void setLstItmConsulta(List<ItmConsulta> lstItmConsulta) {
+  void setLstItmConsulta(List<ItmConsulta> lstItmConsulta) {
 
     try {
 

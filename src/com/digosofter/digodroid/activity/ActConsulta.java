@@ -1,5 +1,15 @@
 package com.digosofter.digodroid.activity;
 
+import com.digosofter.digodroid.AppAndroid;
+import com.digosofter.digodroid.R;
+import com.digosofter.digodroid.adapter.AdpConsulta;
+import com.digosofter.digodroid.database.DbTabelaAndroid;
+import com.digosofter.digodroid.erro.ErroAndroid;
+import com.digosofter.digodroid.item.ItmConsulta;
+import com.digosofter.digojava.Utils;
+import com.digosofter.digojava.database.TblOnChangeArg;
+import com.digosofter.digojava.database.TblOnChangeListener;
+
 import android.content.Intent;
 import android.graphics.Color;
 import android.text.Editable;
@@ -17,17 +27,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.digosofter.digodroid.AppAndroid;
-import com.digosofter.digodroid.R;
-import com.digosofter.digodroid.adapter.AdpConsulta;
-import com.digosofter.digodroid.database.DbTabelaAndroid;
-import com.digosofter.digodroid.erro.ErroAndroid;
-import com.digosofter.digodroid.item.ItmConsulta;
-import com.digosofter.digojava.Utils;
-import com.digosofter.digojava.database.TblOnChangeArg;
-import com.digosofter.digojava.database.TblOnChangeListener;
-
-public class ActConsulta extends ActMain implements OnItemClickListener, OnItemLongClickListener, TblOnChangeListener {
+public class ActConsulta extends ActMain implements OnItemClickListener, OnItemLongClickListener, TblOnChangeListener, TextWatcher {
 
   public enum EnmResultadoTipo {
 
@@ -37,12 +37,13 @@ public class ActConsulta extends ActMain implements OnItemClickListener, OnItemL
   }
 
   public static final String STR_EXTRA_IN_BOO_LIMPAR_LISTA_AO_SAIR = "boo_limpar_lista_ao_sair";
+  public static final String STR_EXTRA_IN_BOO_REGISTRO_SELECIONAVEL = "boo_registro_selecionavel";
   public static final String STR_EXTRA_IN_INT_REGISTRO_REF_ID = "int_registro_ref_id";
   public static final String STR_EXTRA_OUT_INT_REGISTRO_ID = "int_registro_id";
 
   private AdpConsulta _adpCadastro;
+  private boolean _booRegistroSelecionavel;
   private EditText _edtPesquisa;
-  private TextWatcher _evtEdtPesquisa_TextWatcher;
   private int _intRegistroRefId = -1;
   private ItmConsulta _itmSelec;
   private ListView _pnlLista;
@@ -89,6 +90,11 @@ public class ActConsulta extends ActMain implements OnItemClickListener, OnItemL
     }
   }
 
+  @Override
+  public void afterTextChanged(Editable s) {
+
+  }
+
   public void atualizarLista() {
 
     try {
@@ -101,6 +107,11 @@ public class ActConsulta extends ActMain implements OnItemClickListener, OnItemL
     }
     finally {
     }
+
+  }
+
+  @Override
+  public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
   }
 
@@ -127,6 +138,22 @@ public class ActConsulta extends ActMain implements OnItemClickListener, OnItemL
     return _adpCadastro;
   }
 
+  private boolean getBooRegistroSelecionavel() {
+
+    try {
+
+      _booRegistroSelecionavel = this.getIntent().getBooleanExtra(ActConsulta.STR_EXTRA_IN_BOO_REGISTRO_SELECIONAVEL, true);
+    }
+    catch (Exception ex) {
+
+      new ErroAndroid("Erro inesperado.\n", ex);
+    }
+    finally {
+    }
+
+    return _booRegistroSelecionavel;
+  }
+
   private EditText getEdtPesquisa() {
 
     try {
@@ -146,44 +173,6 @@ public class ActConsulta extends ActMain implements OnItemClickListener, OnItemL
     }
 
     return _edtPesquisa;
-  }
-
-  private TextWatcher getEvtEdtPesquisa_TextWatcher() {
-
-    try {
-
-      if (_evtEdtPesquisa_TextWatcher != null) {
-
-        return _evtEdtPesquisa_TextWatcher;
-      }
-
-      _evtEdtPesquisa_TextWatcher = new TextWatcher() {
-
-        @Override
-        public void afterTextChanged(Editable s) {
-
-        }
-
-        @Override
-        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-        }
-
-        @Override
-        public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-          ActConsulta.this.getAdpCadastro().getFilter().filter(s);
-        }
-      };
-    }
-    catch (Exception ex) {
-
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally {
-    }
-
-    return _evtEdtPesquisa_TextWatcher;
   }
 
   @Override
@@ -685,36 +674,61 @@ public class ActConsulta extends ActMain implements OnItemClickListener, OnItemL
   }
 
   @Override
-  public void onItemClick(AdapterView<?> viwParent, View viw, int intPosition, long intId) {
-
-    Intent itt;
-    ItmConsulta itmConsulta;
+  public void onItemClick(AdapterView<?> objAdapterView, View viw, int intPosicao, long intRegistroId) {
 
     try {
 
-      itmConsulta = (ItmConsulta) this.getAdpCadastro().getItem(intPosition);
+      if (this.getBooRegistroSelecionavel()) {
 
-      if (itmConsulta == null) {
-
+        this.onItemClickRegistroSelecionar((int) intRegistroId);
         return;
       }
 
-      if (itmConsulta.getIntRegistroId() < 1) {
+      this.onItemClickDetalhar((int) intRegistroId);
+    }
+    catch (Exception ex) {
+
+      new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(115), ex);
+    }
+    finally {
+    }
+  }
+
+  private void onItemClickDetalhar(int intRegistroId) {
+
+    try {
+
+      this.getTbl().abrirActDetalhe(this, intRegistroId);
+    }
+    catch (Exception ex) {
+
+      new ErroAndroid("Erro inesperado.\n", ex);
+    }
+    finally {
+    }
+  }
+
+  private void onItemClickRegistroSelecionar(int intRegistroId) {
+
+    Intent itt;
+
+    try {
+
+      if (intRegistroId < 1) {
 
         return;
       }
 
       itt = new Intent();
-      itt.putExtra(ActConsulta.STR_EXTRA_OUT_INT_REGISTRO_ID, itmConsulta.getIntRegistroId());
+      itt.putExtra(ActConsulta.STR_EXTRA_OUT_INT_REGISTRO_ID, intRegistroId);
 
       this.getTbl().setStrPesquisa(this.getEdtPesquisa().getText().toString());
       this.setResult(ActConsulta.EnmResultadoTipo.REGISTRO_SELECIONADO.ordinal(), itt);
       this.finish();
-
     }
     catch (Exception ex) {
 
-      new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(115), ex);
+      new ErroAndroid("Erro inesperado.\n", ex);
     }
     finally {
     }
@@ -828,6 +842,21 @@ public class ActConsulta extends ActMain implements OnItemClickListener, OnItemL
     return true;
   }
 
+  @Override
+  public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+    try {
+
+      this.getAdpCadastro().getFilter().filter(s);
+    }
+    catch (Exception ex) {
+
+      new ErroAndroid("Erro inesperado.\n", ex);
+    }
+    finally {
+    }
+  }
+
   private void recuperarUltimaPesquisa() {
 
     try {
@@ -856,8 +885,7 @@ public class ActConsulta extends ActMain implements OnItemClickListener, OnItemL
 
     try {
 
-      this.getEdtPesquisa().addTextChangedListener(this.getEvtEdtPesquisa_TextWatcher());
-
+      this.getEdtPesquisa().addTextChangedListener(this);
       this.getPnlLista().setLongClickable(true);
       this.getPnlLista().setOnItemClickListener(this);
       this.getPnlLista().setOnItemLongClickListener(this);

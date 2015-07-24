@@ -15,6 +15,7 @@ import android.view.View;
 
 public class DbColunaAndroid extends DbColuna {
 
+  private boolean _booDominioFieldCarregado;
   private MenuItem _mniCampo;
   private MenuItem _mniOrdenar;
   private String _sqlTipo;
@@ -44,6 +45,7 @@ public class DbColunaAndroid extends DbColuna {
         return;
       }
 
+      this.setBooDominioFieldCarregado(false);
       this.carregarDominio(crs, objDominio, objDominio.getClass());
     }
     catch (Exception ex) {
@@ -75,6 +77,11 @@ public class DbColunaAndroid extends DbColuna {
 
       this.carregarDominio(crs, objDominio, cls.getSuperclass());
 
+      if (this.getBooDominioFieldCarregado()) {
+
+        return;
+      }
+
       for (Field objField : cls.getDeclaredFields()) {
 
         if (objField == null) {
@@ -89,6 +96,7 @@ public class DbColunaAndroid extends DbColuna {
 
         if (this.carregarDominio(crs, objDominio, objField)) {
 
+          this.setBooDominioFieldCarregado(true);
           return;
         }
       }
@@ -252,6 +260,11 @@ public class DbColunaAndroid extends DbColuna {
     }
     finally {
     }
+  }
+
+  private boolean getBooDominioFieldCarregado() {
+
+    return _booDominioFieldCarregado;
   }
 
   MenuItem getMniCampo() {
@@ -445,6 +458,11 @@ public class DbColunaAndroid extends DbColuna {
     }
     finally {
     }
+  }
+
+  private void setBooDominioFieldCarregado(boolean booDominioFieldCarregado) {
+
+    _booDominioFieldCarregado = booDominioFieldCarregado;
   }
 
   private void setMniCampo(MenuItem mniCampo) {

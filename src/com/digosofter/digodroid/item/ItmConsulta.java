@@ -3,16 +3,16 @@ package com.digosofter.digodroid.item;
 import java.util.ArrayList;
 import java.util.List;
 
-import android.database.Cursor;
-import android.view.View;
-import android.widget.LinearLayout;
-import android.widget.TextView;
-
 import com.digosofter.digodroid.R;
 import com.digosofter.digodroid.database.DbTabelaAndroid;
 import com.digosofter.digodroid.erro.ErroAndroid;
 import com.digosofter.digojava.Utils;
 import com.digosofter.digojava.database.DbColuna;
+
+import android.database.Cursor;
+import android.view.View;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 public class ItmConsulta extends ItmMain {
 
@@ -145,19 +145,59 @@ public class ItmConsulta extends ItmMain {
 
   public boolean getBooContemTermo(String strTermo) {
 
+    boolean booResultado;
+
     try {
+
+      booResultado = false;
 
       if (Utils.getBooStrVazia(strTermo)) {
 
         return true;
       }
 
+      if (this.getBooContemTermoId(strTermo)) {
+
+        booResultado = true;
+      }
+
       if (this.getBooContemTermoNome(strTermo)) {
 
-        return true;
+        booResultado = true;
       }
 
       if (this.getBooContemTermoItem(strTermo)) {
+
+        booResultado = true;
+      }
+
+      return booResultado;
+    }
+    catch (Exception ex) {
+
+      new ErroAndroid("Erro inesperado.\n", ex);
+    }
+    finally {
+    }
+
+    return false;
+  }
+
+  private boolean getBooContemTermoId(String strTermo) {
+
+    try {
+
+      if (Utils.getBooStrVazia(strTermo)) {
+
+        return false;
+      }
+
+      if (!Utils.getBooNumeral(strTermo)) {
+
+        return false;
+      }
+
+      if (this.getIntRegistroId() == Integer.valueOf(strTermo)) {
 
         return true;
       }

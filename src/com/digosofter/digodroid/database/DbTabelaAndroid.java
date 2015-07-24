@@ -90,44 +90,36 @@ public abstract class DbTabelaAndroid<T extends Dominio> extends DbTabela<T> {
   }
 
   /**
-   * Abre uma nova tela (Activity) com a lista com a representação dos registros
-   * retornados, levando em consideração os filtros carregados em
-   * {@link #getLstFilConsulta()}. Esta lista de filtros será limpada logo que a
-   * tela seja apresentada para o usuário, necessitando que os filtros sejam
-   * carregados novamente na próxima vez que a tela seja necessária. A lista de
-   * registros será guardada em cache dentro da instância desta tabela para
-   * otimizar a montagem da tela em próximas chamadas da tela de consulta.
-   *
-   * @param act
-   *          Activity "parent" (que vem antes na hierarquia de chamadas) da
-   *          tela de consulta que será aberta.
+   * Apenas um atalho para {@link #abrirActConsulta(ActMain, Intent)}.
    */
   public void abrirActConsulta(ActMain act) {
 
-    this.abrirActConsulta(act, 0);
+    this.abrirActConsulta(act, null);
   }
 
   /**
-   * Faz o mesmo que {@link #abrirActConsulta(ActMain)}, porém com o aditivo de
-   * passar o id de um registro de uma tabela referenciada, apresentando apenas
-   * os registros detalhe desta tabela.
+   * Abre uma nova tela (Activity) com uma lista que representa os registros
+   * retornados, levando em consideração os filtros carregados em
+   * {@link #getLstFilConsulta()}. Esta lista de filtros será limpada logo que a
+   * tela seja apresentada para o usuário, necessitando que os filtros sejam
+   * carregados novamente na próxima vez que este método for chamado.<br/>
    *
    * @param act
    *          Activity "parent" (que vem antes na hierarquia de chamadas) da
    *          tela de consulta que será aberta.
-   * @param intRegistroRefId
-   *          Id do registro na tabela de capa que filtrará os registros desta
-   *          tabela de itens.
+   * @param itt
+   *          Intent com parâmetros de entrada da tela ActConsulta para
+   *          configurar sua aparência e comportamento.<br/>
+   *          O valor "null" pode ser passado para que a tela tenha o seu
+   *          comportamento padrão.
    */
-  public void abrirActConsulta(ActMain act, int intRegistroRefId) {
-
-    Intent itt;
+  public void abrirActConsulta(ActMain act, Intent itt) {
 
     try {
 
-      if (act == null) {
+      if (itt == null) {
 
-        return;
+        itt = new Intent();
       }
 
       if (this.getLstViwAndroid().size() > 0) {
@@ -139,53 +131,9 @@ public abstract class DbTabelaAndroid<T extends Dominio> extends DbTabela<T> {
         AppAndroid.getI().setTblSelec(this);
       }
 
-      itt = new Intent(act, ActConsulta.class);
+      itt.setClass(act, ActConsulta.class);
 
-      itt.putExtra(ActConsulta.STR_EXTRA_IN_INT_REGISTRO_REF_ID, intRegistroRefId);
-
-      act.startActivityForResult(itt, 0);
-    }
-    catch (Exception ex) {
-
-      new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(123), ex);
-    }
-    finally {
-    }
-  }
-
-  /**
-   * Faz o mesmo que {@link #abrirActConsulta(ActMain)}, porém, quando o usuário
-   * sair da tela de consulta a lista não será guardada em cache. Ideal para
-   * montar listas dinâmicas onde os itens são alterados constantemente.
-   *
-   * @param act
-   *          Activity "parent" (que vem antes na hierarquia de chamadas) da
-   *          tela de consulta que será aberta.
-   */
-  public void abrirActConsultaLimparCacheAoSair(ActMain act) {
-
-    Intent itt;
-
-    try {
-
-      if (act == null) {
-
-        return;
-      }
-
-      if (this.getLstViwAndroid().size() > 0) {
-
-        AppAndroid.getI().setTblSelec(this.getLstViwAndroid().get(0));
-      }
-      else {
-
-        AppAndroid.getI().setTblSelec(this);
-      }
-
-      itt = new Intent(act, ActConsulta.class);
-      itt.putExtra(ActConsulta.STR_EXTRA_IN_BOO_LIMPAR_LISTA_AO_SAIR, true);
-
-      act.startActivity(itt);
+      act.startActivityForResult(itt, ActConsulta.EnmResultadoTipo.REGISTRO_SELECIONADO.ordinal());
     }
     catch (Exception ex) {
 
@@ -1937,8 +1885,6 @@ public abstract class DbTabelaAndroid<T extends Dominio> extends DbTabela<T> {
 
   private void processarMenuItemDetalhar(ActMain act, int intId) {
 
-    Intent itt;
-
     try {
 
       if (act == null) {
@@ -1951,12 +1897,7 @@ public abstract class DbTabelaAndroid<T extends Dominio> extends DbTabela<T> {
         return;
       }
 
-      AppAndroid.getI().setTblSelec(this);
-
-      itt = new Intent(act, ActDetalhe.class);
-      itt.putExtra(ActDetalhe.STR_EXTRA_IN_INT_REGISTRO_ID, intId);
-
-      act.startActivity(itt);
+      this.abrirActDetalhe(act, intId);
     }
     catch (Exception ex) {
 
