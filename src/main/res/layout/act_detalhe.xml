@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/actDetalhe_pnlConteudo"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:id="@+id/actDetalhe_pnlTitulo"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:background="#3949AB"
+        android:gravity="bottom"
+        android:orientation="vertical" >
+
+        <TextView
+            android:id="@+id/actDetalhe_txtId"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:text="000"
+            android:textColor="@android:color/white"
+            android:textSize="40dp" />
+
+        <TextView
+            android:id="@+id/actDetalhe_txtNome"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:text="Nome"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="@android:color/white" />
+    </LinearLayout>
+
+    <ScrollView
+        android:id="@+id/actDetalhe_pnlCamposScroll"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:background="#EEEEEE" >
+
+        <LinearLayout
+            android:id="@+id/actDetalhe_pnlCampos"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="5dp" >
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

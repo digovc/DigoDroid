@@ -1,0 +1,64 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/actConsulta_pnlGeral"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#EEEEEE"
+    android:orientation="vertical"
+    android:paddingBottom="5dp"
+    tools:context=".activitys.ActCadastro" >
+
+    <LinearLayout
+        android:id="@+id/actConsulta_pnlInfo"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical" >
+
+        <LinearLayout
+            android:id="@+id/actConsulta_pnlPesquisa"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bkg_gradiente_002"
+            android:orientation="vertical"
+            android:visibility="gone"
+            android:windowSoftInputMode="stateVisible" >
+
+            <EditText
+                android:id="@+id/actConsulta_edtPesquisa"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="3dp"
+                android:hint="Pesquisa"
+                android:inputType="textCapCharacters" >
+            </EditText>
+
+            <View
+                android:id="@+id/actConsulta_viwLinha1"
+                android:layout_width="fill_parent"
+                android:layout_height="2dp"
+                android:background="#33b5e5"
+                android:visibility="visible" />
+        </LinearLayout>
+
+        <ListView
+            android:id="@+id/actConsulta_pnlLista"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:cacheColorHint="@android:color/transparent"
+            android:divider="@null"
+            android:dividerHeight="0dp"
+            android:listSelector="@android:color/transparent" >
+        </ListView>
+
+        <TextView
+            android:id="@+id/actConsulta_txtVazio"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:gravity="center"
+            android:text="Lista vazia"
+            android:textColor="#33b5e5"
+            android:textSize="20sp"
+            android:visibility="gone" />
+    </LinearLayout>
+
+</RelativeLayout>
