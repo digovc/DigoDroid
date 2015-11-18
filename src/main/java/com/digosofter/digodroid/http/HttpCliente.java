@@ -1,11 +1,15 @@
 package com.digosofter.digodroid.http;
 
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.util.EntityUtils;
+
 import com.digosofter.digodroid.AppAndroid;
 import com.digosofter.digodroid.erro.ErroAndroid;
 import com.digosofter.digojava.Objeto;
 import com.digosofter.digojava.Utils;
-
-import java.net.HttpURLConnection;
 
 public class HttpCliente extends Objeto {
 
@@ -17,7 +21,7 @@ public class HttpCliente extends Objeto {
 
   private EnmStatus _enmStatus = EnmStatus.NONE;
   private String _jsn;
-  //private HttpResponse _objHttpResponse;
+  private HttpResponse _objHttpResponse;
   private String _strResposta;
   private String _url;
 
@@ -31,25 +35,27 @@ public class HttpCliente extends Objeto {
     return _jsn;
   }
 
-//  public HttpResponse getObjHttpResponse() {
-//
-//    return _objHttpResponse;
-//  }
+  public HttpResponse getObjHttpResponse() {
+
+    return _objHttpResponse;
+  }
 
   public String getStrResposta() {
 
     try {
 
-//      if (this.getObjHttpResponse() == null) {
-//
-//        return Utils.STR_VAZIA;
-//      }
-//
-//      _strResposta = EntityUtils.toString(this.getObjHttpResponse().getEntity());
-    } catch (Exception ex) {
+      if (this.getObjHttpResponse() == null) {
+
+        return Utils.STR_VAZIA;
+      }
+
+      _strResposta = EntityUtils.toString(this.getObjHttpResponse().getEntity());
+    }
+    catch (Exception ex) {
 
       new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(0), ex);
-    } finally {
+    }
+    finally {
     }
 
     return _strResposta;
@@ -78,28 +84,28 @@ public class HttpCliente extends Objeto {
         @Override
         public void run() {
 
-          HttpURLConnection objHttpURLConnection;
-//          HttpPost objHttppost;
+          HttpClient objHttpClient;
+          HttpPost objHttppost;
 
           try {
 
-//            objHttppost = new HttpPost(HttpCliente.this.getUrl());
-//
-//            objHttppost.setHeader("json", HttpCliente.this.getJsn());
-//
-//            objHttpURLConnection = new DefaultHttpClient();
-//
-//            HttpCliente.this.setObjHttpResponse(objHttpURLConnection.execute(objHttppost));
-          } catch (Exception ex) {
+            objHttppost = new HttpPost(HttpCliente.this.getUrl());
+
+            objHttppost.setHeader("json", HttpCliente.this.getJsn());
+
+            objHttpClient = new DefaultHttpClient();
+
+            HttpCliente.this.setObjHttpResponse(objHttpClient.execute(objHttppost));
+          }
+          catch (Exception ex) {
 
             new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(0), ex);
-          } finally {
+          }
+          finally {
 
             HttpCliente.this.setEnmStatus(EnmStatus.CONCLUIDO);
           }
-        }
-
-        ;
+        };
       };
 
       thr.start();
@@ -109,10 +115,12 @@ public class HttpCliente extends Objeto {
         Thread.sleep(10);
       }
       while (HttpCliente.this.getEnmStatus() == EnmStatus.EM_ANDAMENTO);
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(0), ex);
-    } finally {
+    }
+    finally {
     }
   }
 
@@ -124,6 +132,11 @@ public class HttpCliente extends Objeto {
   private void setJsn(String jsn) {
 
     _jsn = jsn;
+  }
+
+  private void setObjHttpResponse(HttpResponse objHttpResponse) {
+
+    _objHttpResponse = objHttpResponse;
   }
 
   public void setUrl(String url) {
