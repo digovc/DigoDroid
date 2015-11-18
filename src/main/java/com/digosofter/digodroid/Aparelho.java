@@ -135,7 +135,7 @@ public class Aparelho extends Objeto {
       objCm = (ConnectivityManager) this.getCnt().getSystemService(Context.CONNECTIVITY_SERVICE);
       objNetworkInfo = objCm.getActiveNetworkInfo();
 
-      booResultado = objNetworkInfo != null ? objNetworkInfo.isConnected() : false;
+      booResultado = objNetworkInfo != null && objNetworkInfo.isConnected();
 
       if (!booResultado) {
 
