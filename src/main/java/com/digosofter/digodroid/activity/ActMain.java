@@ -33,13 +33,11 @@ public abstract class ActMain extends Activity {
     try {
 
       this.startActivity(new Intent(this.getApplicationContext(), cls));
-    }
-    catch (Exception ex) {
+    } catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
 
-    }
-    finally {
+    } finally {
     }
   }
 
@@ -48,11 +46,9 @@ public abstract class ActMain extends Activity {
     try {
 
       this.getFragmentManager().beginTransaction().add(intPnlId, frg).commit();
-    }
-    catch (Exception ex) {
+    } catch (Exception ex) {
       new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(113), ex);
-    }
-    finally {
+    } finally {
     }
   }
 
@@ -130,11 +126,9 @@ public abstract class ActMain extends Activity {
     try {
 
       viwResultado = this.findViewById(intId);
-    }
-    catch (Exception ex) {
+    } catch (Exception ex) {
       new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(0), ex);
-    }
-    finally {
+    } finally {
     }
 
     return viwResultado;
@@ -150,12 +144,10 @@ public abstract class ActMain extends Activity {
       }
 
       this.getActionBar().setDisplayHomeAsUpEnabled(true);
-    }
-    catch (Exception ex) {
+    } catch (Exception ex) {
 
       new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(0), ex);
-    }
-    finally {
+    } finally {
     }
   }
 
@@ -170,12 +162,10 @@ public abstract class ActMain extends Activity {
 
       txt.requestFocus();
       ((InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE)).toggleSoftInput(0, 0);
-    }
-    catch (Exception ex) {
+    } catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally {
+    } finally {
     }
   }
 
@@ -188,11 +178,9 @@ public abstract class ActMain extends Activity {
 
       this.montarLayout();
       this.setEventos();
-    }
-    catch (Exception ex) {
+    } catch (Exception ex) {
       new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(0), ex);
-    }
-    finally {
+    } finally {
     }
   }
 
@@ -211,13 +199,11 @@ public abstract class ActMain extends Activity {
           this.onBackPressed();
           return true;
       }
-    }
-    catch (Exception ex) {
+    } catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
 
-    }
-    finally {
+    } finally {
     }
 
     return false;
@@ -231,11 +217,9 @@ public abstract class ActMain extends Activity {
     try {
 
       this.setBooVisivel(true);
-    }
-    catch (Exception ex) {
+    } catch (Exception ex) {
       new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(0), ex);
-    }
-    finally {
+    } finally {
     }
   }
 
@@ -247,11 +231,9 @@ public abstract class ActMain extends Activity {
     try {
 
       this.setBooVisivel(false);
-    }
-    catch (Exception ex) {
+    } catch (Exception ex) {
       new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(0), ex);
-    }
-    finally {
+    } finally {
     }
   }
 
@@ -263,11 +245,9 @@ public abstract class ActMain extends Activity {
   protected void setEventos() {
 
     try {
-    }
-    catch (Exception ex) {
+    } catch (Exception ex) {
       new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(0), ex);
-    }
-    finally {
+    } finally {
     }
   }
 }

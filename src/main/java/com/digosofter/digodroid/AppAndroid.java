@@ -376,12 +376,10 @@ public abstract class AppAndroid extends App {
             objToast.show();
 
             AppAndroid.this.getLstObjToast().add(objToast);
-          }
-          catch (Exception ex) {
+          } catch (Exception ex) {
 
             new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(0), ex);
-          }
-          finally {
+          } finally {
           }
         }
       });
@@ -396,16 +394,6 @@ public abstract class AppAndroid extends App {
 
   public void mostrarPergunta(final String strMensagem) {
 
-    try {
-
-      // Implementar.
-    }
-    catch (Exception ex) {
-
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally {
-    }
   }
 
   public void notificar(int id, Notification ntf) {
