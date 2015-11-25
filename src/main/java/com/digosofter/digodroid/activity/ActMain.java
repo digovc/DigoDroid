@@ -144,6 +144,7 @@ public abstract class ActMain extends Activity {
       }
 
       this.getActionBar().setDisplayHomeAsUpEnabled(true);
+
     } catch (Exception ex) {
 
       new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(0), ex);
@@ -178,7 +179,9 @@ public abstract class ActMain extends Activity {
 
       this.montarLayout();
       this.setEventos();
+
     } catch (Exception ex) {
+
       new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(0), ex);
     } finally {
     }

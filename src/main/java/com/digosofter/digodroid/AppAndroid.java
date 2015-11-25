@@ -1,7 +1,13 @@
 package com.digosofter.digodroid;
 
-import java.util.ArrayList;
-import java.util.List;
+import android.app.AlertDialog;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.content.Context;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageInfo;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.Toast;
 
 import com.digosofter.digodroid.activity.ActMain;
 import com.digosofter.digodroid.database.DataBaseAndroid;
@@ -12,24 +18,12 @@ import com.digosofter.digojava.MsgUsuario;
 import com.digosofter.digojava.Utils;
 import com.digosofter.digojava.database.DbTabela;
 
-import android.app.AlertDialog;
-import android.app.Notification;
-import android.app.NotificationManager;
-import android.content.Context;
-import android.content.pm.ApplicationInfo;
-import android.content.pm.PackageInfo;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.Toast;
+import java.util.ArrayList;
+import java.util.List;
 
 public abstract class AppAndroid extends App {
 
   private static AppAndroid i;
-
-  public static AppAndroid getI() {
-
-    return i;
-  }
-
   private ActMain _actMain;
   private boolean _booDebug;
   private Context _cnt;
@@ -45,13 +39,17 @@ public abstract class AppAndroid extends App {
     try {
 
       this.setI(this);
-    }
-    catch (Exception ex) {
+
+    } catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
+    } finally {
     }
-    finally {
-    }
+  }
+
+  public static AppAndroid getI() {
+
+    return i;
   }
 
   public void esconderTeclado() {
@@ -60,12 +58,10 @@ public abstract class AppAndroid extends App {
 
       InputMethodManager imm = (InputMethodManager) this.getCnt().getSystemService(Context.INPUT_METHOD_SERVICE);
       imm.hideSoftInputFromWindow(null, 0);
-    }
-    catch (Exception ex) {
+    } catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally {
+    } finally {
     }
   }
 
@@ -81,12 +77,10 @@ public abstract class AppAndroid extends App {
 
       _booDebug = 0 != (this.getActMain().getApplicationInfo().flags & ApplicationInfo.FLAG_DEBUGGABLE);
 
-    }
-    catch (Exception ex) {
+    } catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally {
+    } finally {
     }
 
     return _booDebug;
@@ -97,12 +91,10 @@ public abstract class AppAndroid extends App {
     try {
 
       _cnt = this.getActMain().getApplicationContext();
-    }
-    catch (Exception ex) {
+    } catch (Exception ex) {
 
       new ErroAndroid(this.getStrMsgUsrPadrao(101), ex);
-    }
-    finally {
+    } finally {
     }
 
     return _cnt;
@@ -160,12 +152,10 @@ public abstract class AppAndroid extends App {
       _lstMsgUsuarioPadrao.add(new MsgUsuario("Erro ao criar objeto do tipo 'TblPessoa'.", 135));
       _lstMsgUsuarioPadrao.add(new MsgUsuario("Erro ao criar objeto do tipo 'TblUsuario'.", 136));
       _lstMsgUsuarioPadrao.add(new MsgUsuario("Erro ao criar objeto do tipo 'ConfigItem'.", 137));
-    }
-    catch (Exception ex) {
+    } catch (Exception ex) {
 
       new ErroAndroid(this.getStrMsgUsrPadrao(0), ex);
-    }
-    finally {
+    } finally {
     }
 
     return _lstMsgUsuarioPadrao;
@@ -181,12 +171,10 @@ public abstract class AppAndroid extends App {
       }
 
       _lstObjToast = new ArrayList<Toast>();
-    }
-    catch (Exception ex) {
+    } catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally {
+    } finally {
     }
 
     return _lstObjToast;
@@ -202,12 +190,10 @@ public abstract class AppAndroid extends App {
       }
 
       _objDbPrincipal = new DataBaseAndroid();
-    }
-    catch (Exception ex) {
+    } catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally {
+    } finally {
     }
 
     return _objDbPrincipal;
@@ -223,12 +209,10 @@ public abstract class AppAndroid extends App {
       }
 
       _objNotificationManager = (NotificationManager) this.getCnt().getSystemService(Context.NOTIFICATION_SERVICE);
-    }
-    catch (Exception ex) {
+    } catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally {
+    } finally {
     }
 
     return _objNotificationManager;
@@ -244,12 +228,10 @@ public abstract class AppAndroid extends App {
       }
 
       _objPackageInfo = this.getCnt().getPackageManager().getPackageInfo(this.getCnt().getPackageName(), 0);
-    }
-    catch (Exception ex) {
+    } catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally {
+    } finally {
     }
 
     return _objPackageInfo;
@@ -266,12 +248,10 @@ public abstract class AppAndroid extends App {
       }
 
       _strVersao = this.getObjPackageInfo().versionName;
-    }
-    catch (Exception ex) {
+    } catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally {
+    } finally {
     }
 
     return _strVersao;
@@ -287,12 +267,10 @@ public abstract class AppAndroid extends App {
       }
 
       this.getLstObjToast().clear();
-    }
-    catch (Exception ex) {
+    } catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally {
+    } finally {
     }
   }
 
@@ -308,12 +286,10 @@ public abstract class AppAndroid extends App {
 
         ((DbTabelaAndroid<?>) tbl).limparListaConsulta();
       }
-    }
-    catch (Exception ex) {
+    } catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally {
+    } finally {
     }
   }
 
@@ -345,12 +321,10 @@ public abstract class AppAndroid extends App {
       dlgAlert.setPositiveButton("Ok", null);
       dlgAlert.setCancelable(true);
       dlgAlert.create().show();
-    }
-    catch (Exception ex) {
+    } catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally {
+    } finally {
     }
   }
 
@@ -383,12 +357,10 @@ public abstract class AppAndroid extends App {
           }
         }
       });
-    }
-    catch (Exception ex) {
+    } catch (Exception ex) {
 
       new ErroAndroid(this.getStrTextoPadrao(104), ex);
-    }
-    finally {
+    } finally {
     }
   }
 
@@ -406,12 +378,10 @@ public abstract class AppAndroid extends App {
       }
 
       this.getObjNotificationManager().notify(id, ntf);
-    }
-    catch (Exception ex) {
+    } catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally {
+    } finally {
     }
   }
 
@@ -430,12 +400,10 @@ public abstract class AppAndroid extends App {
       }
 
       i = _i;
-    }
-    catch (Exception ex) {
+    } catch (Exception ex) {
 
       new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(0), ex);
-    }
-    finally {
+    } finally {
     }
   }
 }

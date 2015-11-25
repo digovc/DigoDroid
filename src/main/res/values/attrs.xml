@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="ControleMain">
+        <attr name="strTitulo" format="string"/>
+    </declare-styleable>
+
+    <declare-styleable name="PainelLinha">
+        <attr name="intNivelQuantidade" format="integer"/>
+    </declare-styleable>
+</resources>

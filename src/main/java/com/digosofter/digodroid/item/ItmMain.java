@@ -31,12 +31,10 @@ public abstract class ItmMain extends Objeto {
       }
 
       _viw = LayoutInflater.from(AppAndroid.getI().getCnt()).inflate(this.getIntLayoutId(), null);
-    }
-    catch (Exception ex) {
+    } catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally {
+    } finally {
     }
 
     return _viw;
@@ -47,12 +45,10 @@ public abstract class ItmMain extends Objeto {
     try {
 
       _viw = null;
-    }
-    catch (Exception ex) {
+    } catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally {
+    } finally {
     }
   }
 
@@ -62,12 +58,10 @@ public abstract class ItmMain extends Objeto {
 
       this.limparLayout();
       this.setEventos();
-    }
-    catch (Exception ex) {
+    } catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally {
+    } finally {
     }
   }
 
@@ -80,12 +74,10 @@ public abstract class ItmMain extends Objeto {
 
     try {
 
-    }
-    catch (Exception ex) {
+    } catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally {
+    } finally {
     }
   }
 }

@@ -1,52 +1,87 @@
 package com.digosofter.digodroid;
 
-import java.util.Random;
-
+import android.content.Context;
 import android.graphics.Color;
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.widget.EditText;
+import android.util.DisplayMetrics;
 
 import com.digosofter.digodroid.erro.ErroAndroid;
 import com.digosofter.digojava.Utils;
+import com.digosofter.digojava.erro.Erro;
+
+import java.util.Random;
 
 public abstract class UtilsAndroid extends Utils {
 
-  public static TextWatcher addMascara(final EditText ediTxt, final String strMascara) {
+  /**
+   * Converte um valor em "density pixels" para "pixels".
+   *
+   * @param intDp Quantidade que se espera converter para "pixels".
+   * @param cnt   Contexto do controle.
+   * @return Quantidade em "pixels".
+   */
+  public static int dpToPx(int intDp, Context cnt) {
 
-    return new TextWatcher() {
+    DisplayMetrics objDisplayMetrics;
 
-      @Override
-      public void afterTextChanged(Editable s) {
+    try {
 
-      }
+      objDisplayMetrics = cnt.getResources().getDisplayMetrics();
 
-      @Override
-      public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+      return Math.round(intDp * (objDisplayMetrics.xdpi / DisplayMetrics.DENSITY_DEFAULT));
 
-      }
+    } catch (Exception ex) {
 
-      @Override
-      public void onTextChanged(CharSequence s, int start, int before, int count) {
+      new Erro("Erro inesperado.\n", ex);
 
-        // TODO: Refazer.
-      }
-    };
+    } finally {
+    }
+
+    return 0;
   }
 
   public static int getIntCorAleatoria() {
 
-    int intResultado = 0;
-    Random objR;
+    Random objRandom;
+
     try {
-      objR = new Random();
-      intResultado = Color.argb(255, objR.nextInt(256), objR.nextInt(256), objR.nextInt(256));
-    }
-    catch (Exception ex) {
+
+      objRandom = new Random();
+
+      return Color.argb(255, objRandom.nextInt(256), objRandom.nextInt(256), objRandom.nextInt(256));
+
+    } catch (Exception ex) {
+
       new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(110), ex);
+    } finally {
     }
-    finally {
+
+    return 0;
+  }
+
+  /**
+   * Converte um valor em "pixels" para "density pixels".
+   *
+   * @param intPx Quantidade que se espera converter para "density pixels".
+   * @param cnt   Contexto do controle.
+   * @return Quantidade em "density pixels".
+   */
+  public static int pxToDp(int intPx, Context cnt) {
+
+    DisplayMetrics objDisplayMetrics;
+
+    try {
+
+      objDisplayMetrics = cnt.getResources().getDisplayMetrics();
+
+      return Math.round(intPx / (objDisplayMetrics.xdpi / DisplayMetrics.DENSITY_DEFAULT));
+
+    } catch (Exception ex) {
+
+      new Erro("Erro inesperado.\n", ex);
+
+    } finally {
     }
-    return intResultado;
+
+    return 0;
   }
 }
