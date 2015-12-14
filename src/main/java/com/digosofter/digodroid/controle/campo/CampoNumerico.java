@@ -3,8 +3,8 @@ package com.digosofter.digodroid.controle.campo;
 import android.content.Context;
 import android.util.AttributeSet;
 
-import com.digosofter.digodroid.controle.textbox.TextBoxMain;
-import com.digosofter.digojava.erro.Erro;
+import com.digosofter.digodroid.controle.textbox.TextBoxGeral;
+import com.digosofter.digodroid.erro.ErroAndroid;
 
 public class CampoNumerico extends CampoAlfanumerico {
 
@@ -24,17 +24,17 @@ public class CampoNumerico extends CampoAlfanumerico {
   }
 
   @Override
-  protected void inicializar() {
+  public void inicializar() {
 
     super.inicializar();
 
     try {
 
-      this.getTxt().setEnmFormato(TextBoxMain.EnmFormato.NUMERICO_INTEIRO);
+      this.getTxt().setEnmFormato(TextBoxGeral.EnmFormato.NUMERICO_INTEIRO);
 
     } catch (Exception ex) {
 
-      new Erro("Erro inesperado.\n", ex);
+      new ErroAndroid("Erro inesperado.\n", ex);
     } finally {
     }
   }

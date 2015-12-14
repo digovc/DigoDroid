@@ -3,17 +3,18 @@ package com.digosofter.digodroid.controle.campo;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.util.AttributeSet;
-import android.widget.TextView;
 
 import com.digosofter.digodroid.R;
 import com.digosofter.digodroid.UtilsAndroid;
-import com.digosofter.digodroid.controle.ControleMain;
+import com.digosofter.digodroid.controle.label.LabelGeral;
+import com.digosofter.digodroid.controle.painel.PainelLinha;
+import com.digosofter.digodroid.erro.ErroAndroid;
 import com.digosofter.digojava.Utils;
-import com.digosofter.digojava.erro.Erro;
 
-public abstract class CampoMain extends ControleMain {
+public abstract class CampoMain extends PainelLinha {
 
-  private TextView _lblTitulo;
+  public static final String STR_TITULO_DESCONHECIDO = "<desconhecido>";
+  private LabelGeral _lblTitulo;
   private String _strTitulo;
 
   public CampoMain(Context context) {
@@ -31,24 +32,7 @@ public abstract class CampoMain extends ControleMain {
     super(context, attrs, defStyleAttr);
   }
 
-  @Override
-  protected void finalizar() {
-
-    super.finalizar();
-
-    try {
-
-      this.getLayoutParams().height = LayoutParams.MATCH_PARENT;
-      this.getLayoutParams().width = LayoutParams.MATCH_PARENT;
-
-    } catch (Exception ex) {
-
-      new Erro("Erro inesperado.\n", ex);
-    } finally {
-    }
-  }
-
-  private TextView getLblTitulo() {
+  private LabelGeral getLblTitulo() {
 
     try {
 
@@ -57,11 +41,11 @@ public abstract class CampoMain extends ControleMain {
         return _lblTitulo;
       }
 
-      _lblTitulo = new TextView(this.getContext());
+      _lblTitulo = new LabelGeral(this.getContext());
 
     } catch (Exception ex) {
 
-      new Erro("Erro inesperado.\n", ex);
+      new ErroAndroid("Erro inesperado.\n", ex);
     } finally {
     }
 
@@ -73,7 +57,8 @@ public abstract class CampoMain extends ControleMain {
     return _strTitulo;
   }
 
-  protected void inicializar(AttributeSet ats) {
+  @Override
+  public void inicializar(AttributeSet ats) {
 
     super.inicializar(ats);
 
@@ -86,19 +71,19 @@ public abstract class CampoMain extends ControleMain {
         return;
       }
 
-      objTypedArray = this.getContext().obtainStyledAttributes(ats, R.styleable.ControleMain);
+      objTypedArray = this.getContext().obtainStyledAttributes(ats, R.styleable.strTitulo);
 
-      this.setStrTitulo(objTypedArray.getString(R.styleable.ControleMain_strTitulo));
+      this.setStrTitulo(objTypedArray.getString(R.styleable.strTitulo_strTitulo));
 
     } catch (Exception ex) {
 
-      new Erro("Erro inesperado.\n", ex);
+      new ErroAndroid("Erro inesperado.\n", ex);
     } finally {
     }
   }
 
   @Override
-  protected void inicializar() {
+  public void inicializar() {
 
     super.inicializar();
 
@@ -108,13 +93,13 @@ public abstract class CampoMain extends ControleMain {
 
     } catch (Exception ex) {
 
-      new Erro("Erro inesperado.\n", ex);
+      new ErroAndroid("Erro inesperado.\n", ex);
     } finally {
     }
   }
 
   @Override
-  protected void montarLayout() {
+  public void montarLayout() {
 
     super.montarLayout();
 
@@ -124,7 +109,7 @@ public abstract class CampoMain extends ControleMain {
 
     } catch (Exception ex) {
 
-      new Erro("Erro inesperado.\n", ex);
+      new ErroAndroid("Erro inesperado.\n", ex);
     } finally {
     }
   }
@@ -135,11 +120,11 @@ public abstract class CampoMain extends ControleMain {
 
       _strTitulo = strTitulo;
 
-      this.getLblTitulo().setText((!Utils.getBooStrVazia(_strTitulo)) ? _strTitulo : "Desconhecido");
+      this.getLblTitulo().setStrTexto((!Utils.getBooStrVazia(_strTitulo)) ? _strTitulo : "Desconhecido");
 
     } catch (Exception ex) {
 
-      new Erro("Erro inesperado.\n", ex);
+      new ErroAndroid("Erro inesperado.\n", ex);
     } finally {
     }
   }

@@ -127,19 +127,19 @@ public class Aparelho extends Objeto {
   public boolean getBooConectado() {
 
     boolean booResultado = false;
-    ConnectivityManager objCm;
+    ConnectivityManager objConnectivityManager;
     NetworkInfo objNetworkInfo;
 
     try {
 
-      objCm = (ConnectivityManager) this.getCnt().getSystemService(Context.CONNECTIVITY_SERVICE);
-      objNetworkInfo = objCm.getActiveNetworkInfo();
+      objConnectivityManager = (ConnectivityManager) this.getCnt().getSystemService(Context.CONNECTIVITY_SERVICE);
+      objNetworkInfo = objConnectivityManager.getActiveNetworkInfo();
 
       booResultado = objNetworkInfo != null && objNetworkInfo.isConnected();
 
       if (!booResultado) {
 
-        AppAndroid.getI().mostrarNotificacao("Aparelho não conectado.");
+        AppAndroid.getI().notificar("Aparelho não conectado.");
       }
     }
     catch (Exception ex) {

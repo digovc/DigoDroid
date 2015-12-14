@@ -1,6 +1,9 @@
 package com.digosofter.digodroid.database;
 
-import java.lang.reflect.Field;
+import android.database.Cursor;
+import android.view.MenuItem;
+import android.view.SubMenu;
+import android.view.View;
 
 import com.digosofter.digodroid.erro.ErroAndroid;
 import com.digosofter.digojava.App;
@@ -8,16 +11,15 @@ import com.digosofter.digojava.Utils;
 import com.digosofter.digojava.database.DbColuna;
 import com.digosofter.digojava.database.Dominio;
 
-import android.database.Cursor;
-import android.view.MenuItem;
-import android.view.SubMenu;
-import android.view.View;
+import java.lang.reflect.Field;
+import java.util.GregorianCalendar;
 
 public class DbColunaAndroid extends DbColuna {
 
   private boolean _booDominioFieldCarregado;
   private MenuItem _mniCampo;
   private MenuItem _mniOrdenar;
+  private DbGrupo _objDbGrupo;
   private String _sqlTipo;
   private View _viw;
 
@@ -47,12 +49,11 @@ public class DbColunaAndroid extends DbColuna {
 
       this.setBooDominioFieldCarregado(false);
       this.carregarDominio(crs, objDominio, objDominio.getClass());
-    }
-    catch (Exception ex) {
+
+    } catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally {
+    } finally {
     }
   }
 
@@ -100,12 +101,10 @@ public class DbColunaAndroid extends DbColuna {
           return;
         }
       }
-    }
-    catch (Exception ex) {
+    } catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally {
+    } finally {
     }
   }
 
@@ -130,41 +129,39 @@ public class DbColunaAndroid extends DbColuna {
 
       objField.setAccessible(true);
 
-      if ("boolean".equals(objField.getType().getSimpleName().toLowerCase(Utils.LOCAL_BRASIL))) {
+      if (boolean.class.equals(objField.getType())) {
 
         this.carregarDominioBoo(crs, objDominio, objField);
         return true;
       }
 
-      if ("double".equals(objField.getType().getSimpleName().toLowerCase(Utils.LOCAL_BRASIL))) {
+      if (double.class.equals(objField.getType())) {
 
         this.carregarDominioDbl(crs, objDominio, objField);
         return true;
       }
 
-      if ("gregoriancalendar".equals(objField.getType().getSimpleName().toLowerCase(Utils.LOCAL_BRASIL))) {
+      if (GregorianCalendar.class.equals(objField.getType())) {
 
         this.carregarDominioDtt(crs, objDominio, objField);
         return true;
       }
 
-      if ("int".equals(objField.getType().getSimpleName().toLowerCase(Utils.LOCAL_BRASIL))) {
+      if (int.class.equals(objField.getType())) {
 
         this.carregarDominioInt(crs, objDominio, objField);
         return true;
       }
 
-      if ("string".equals(objField.getType().getSimpleName().toLowerCase(Utils.LOCAL_BRASIL))) {
+      if (String.class.equals(objField.getType())) {
 
         this.carregarDominioStr(crs, objDominio, objField);
         return true;
       }
-    }
-    catch (Exception ex) {
+    } catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally {
+    } finally {
 
       objField.setAccessible(false);
     }
@@ -181,12 +178,10 @@ public class DbColunaAndroid extends DbColuna {
       intValor = crs.getInt(crs.getColumnIndex(this.getStrNomeSql()));
 
       objField.set(objDominio, ((intValor == 1) ? true : false));
-    }
-    catch (Exception ex) {
+    } catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally {
+    } finally {
     }
   }
 
@@ -199,12 +194,10 @@ public class DbColunaAndroid extends DbColuna {
       dblValor = crs.getDouble(crs.getColumnIndex(this.getStrNomeSql()));
 
       objField.set(objDominio, dblValor);
-    }
-    catch (Exception ex) {
+    } catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally {
+    } finally {
     }
   }
 
@@ -217,12 +210,10 @@ public class DbColunaAndroid extends DbColuna {
       strValor = crs.getString(crs.getColumnIndex(this.getStrNomeSql()));
 
       objField.set(objDominio, Utils.strToDtt(strValor));
-    }
-    catch (Exception ex) {
+    } catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally {
+    } finally {
     }
   }
 
@@ -235,12 +226,10 @@ public class DbColunaAndroid extends DbColuna {
       intValor = crs.getInt(crs.getColumnIndex(this.getStrNomeSql()));
 
       objField.set(objDominio, intValor);
-    }
-    catch (Exception ex) {
+    } catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally {
+    } finally {
     }
   }
 
@@ -253,12 +242,10 @@ public class DbColunaAndroid extends DbColuna {
       strValor = crs.getString(crs.getColumnIndex(this.getStrNomeSql()));
 
       objField.set(objDominio, strValor);
-    }
-    catch (Exception ex) {
+    } catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally {
+    } finally {
     }
   }
 
@@ -277,6 +264,11 @@ public class DbColunaAndroid extends DbColuna {
     return _mniOrdenar;
   }
 
+  public DbGrupo getObjDbGrupo() {
+
+    return _objDbGrupo;
+  }
+
   String getSqlCreateTable() {
 
     String strResultado;
@@ -293,12 +285,10 @@ public class DbColunaAndroid extends DbColuna {
       strResultado = strResultado.replace("_default", !Utils.getBooStrVazia(this.getStrValorDefault()) ? this.getStrValorDefault() : Utils.STR_VAZIA);
 
       return strResultado;
-    }
-    catch (Exception ex) {
+    } catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally {
+    } finally {
     }
 
     return null;
@@ -338,12 +328,10 @@ public class DbColunaAndroid extends DbColuna {
         default:
           _sqlTipo = "text";
       }
-    }
-    catch (Exception ex) {
+    } catch (Exception ex) {
 
       new ErroAndroid(App.getI().getStrTextoPadrao(0), ex);
-    }
-    finally {
+    } finally {
     }
 
     return _sqlTipo;
@@ -376,12 +364,10 @@ public class DbColunaAndroid extends DbColuna {
       this.setMniCampo(smn.add(this.getStrNomeExibicao()));
       this.getMniCampo().setChecked(this.getBooVisivelConsulta());
       this.getMniCampo().setCheckable(true);
-    }
-    catch (Exception ex) {
+    } catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally {
+    } finally {
     }
   }
 
@@ -397,12 +383,10 @@ public class DbColunaAndroid extends DbColuna {
       this.setMniOrdenar(smn.add(this.getStrNomeExibicao()));
       this.getMniOrdenar().setChecked(this.getBooOrdem());
       this.getMniOrdenar().setCheckable(true);
-    }
-    catch (Exception ex) {
+    } catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally {
+    } finally {
     }
   }
 
@@ -422,12 +406,10 @@ public class DbColunaAndroid extends DbColuna {
 
       this.getMniCampo().setChecked(!this.getMniCampo().isChecked());
       this.setBooVisivelConsulta(this.getMniCampo().isChecked());
-    }
-    catch (Exception ex) {
+    } catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally {
+    } finally {
     }
   }
 
@@ -451,12 +433,10 @@ public class DbColunaAndroid extends DbColuna {
       this.getMniOrdenar().setChecked(true);
 
       ((DbTabelaAndroid<?>) this.getTbl()).getMniOrdemDecrescente().setChecked(this.getBooOrdemDecrescente());
-    }
-    catch (Exception ex) {
+    } catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally {
+    } finally {
     }
   }
 
@@ -473,6 +453,16 @@ public class DbColunaAndroid extends DbColuna {
   private void setMniOrdenar(MenuItem mniOrdenar) {
 
     _mniOrdenar = mniOrdenar;
+  }
+
+  /**
+   * Este é o grupo que conterá esta coluna na tela de detalhes dos registros.
+   *
+   * @param objDbGrupo Grupo que conterá esta coluna na tela de detalhes dos registros.
+   */
+  public void setObjDbGrupo(DbGrupo objDbGrupo) {
+
+    _objDbGrupo = objDbGrupo;
   }
 
   public void setViw(View viw) {

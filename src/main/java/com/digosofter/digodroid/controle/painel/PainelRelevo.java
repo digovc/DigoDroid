@@ -5,7 +5,7 @@ import android.util.AttributeSet;
 
 import com.digosofter.digodroid.UtilsAndroid;
 import com.digosofter.digodroid.design.TemaDefault;
-import com.digosofter.digojava.erro.Erro;
+import com.digosofter.digodroid.erro.ErroAndroid;
 
 public class PainelRelevo extends PainelMain {
 
@@ -24,22 +24,6 @@ public class PainelRelevo extends PainelMain {
     super(context, attrs, defStyleAttr);
   }
 
-  @Override
-  protected void finalizar() {
-
-    super.finalizar();
-
-    try {
-
-      this.finalizarMargin();
-
-    } catch (Exception ex) {
-
-      new Erro("Erro inesperado.\n", ex);
-    } finally {
-    }
-  }
-
   private void finalizarMargin() {
 
     int intMarginDp;
@@ -49,7 +33,7 @@ public class PainelRelevo extends PainelMain {
 
       intMarginDp = UtilsAndroid.dpToPx(TemaDefault.getI().getIntMargin(), this.getContext());
 
-      objMarginLayoutParams = MarginLayoutParams.class.cast(this.getLayoutParams());
+      objMarginLayoutParams = new MarginLayoutParams(this.getWidth(), this.getHeight());
 
       objMarginLayoutParams.setMargins(intMarginDp, intMarginDp, intMarginDp, intMarginDp);
 
@@ -57,23 +41,24 @@ public class PainelRelevo extends PainelMain {
 
     } catch (Exception ex) {
 
-      new Erro("Erro inesperado.\n", ex);
+      new ErroAndroid("Erro inesperado.\n", ex);
     } finally {
     }
   }
 
   @Override
-  protected void inicializar() {
+  public void inicializar() {
 
     super.inicializar();
 
     try {
 
       this.setBackgroundColor(TemaDefault.getI().getCorFundo1());
+//      this.setIntPadding(TemaDefault.getI().getIntPadding());
 
     } catch (Exception ex) {
 
-      new Erro("Erro inesperado.\n", ex);
+      new ErroAndroid("Erro inesperado.\n", ex);
     } finally {
     }
   }

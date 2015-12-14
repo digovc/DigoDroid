@@ -1,13 +1,12 @@
 package com.digosofter.digodroid.database;
 
-import org.apache.commons.io.IOUtils;
-
 import com.digosofter.digodroid.AppAndroid;
 import com.digosofter.digodroid.erro.ErroAndroid;
-import com.digosofter.digojava.App;
 import com.digosofter.digojava.Utils;
 import com.digosofter.digojava.database.Dominio;
-import com.digosofter.digojava.database.TblOnChangeArg;
+import com.digosofter.digojava.database.OnChangeArg;
+
+import org.apache.commons.io.IOUtils;
 
 public abstract class DbViewAndroid extends DbTabelaAndroid<Dominio> {
 
@@ -16,23 +15,19 @@ public abstract class DbViewAndroid extends DbTabelaAndroid<Dominio> {
   protected DbViewAndroid(String strNome) {
 
     super(strNome, null);
+  }
 
-    try {
+  @Override
+  protected void addAppLstTbl() {
 
-      App.getI().getLstTbl().remove(this);
-    }
-    catch (Exception ex) {
-
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally {
-    }
+    // Impede que uma view seja adicionada para a lista de
+    // tabelas da aplicação.
   }
 
   @Override
   public void apagar(int intRegistroId) {
 
-    TblOnChangeArg arg;
+    OnChangeArg arg;
 
     try {
 
@@ -43,16 +38,33 @@ public abstract class DbViewAndroid extends DbTabelaAndroid<Dominio> {
 
       this.getTbl().apagar(intRegistroId);
 
-      arg = new TblOnChangeArg();
+      arg = new OnChangeArg();
       arg.setIntRegistroId(intRegistroId);
 
-      this.onApagarRegDispatcher(arg);
-    }
-    catch (Exception ex) {
+      this.dispararOnApagarReg(arg);
+
+    } catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
+    } finally {
     }
-    finally {
+  }
+
+  private void atualizarTbl() {
+
+    try {
+
+      if (this.getTbl() == null) {
+
+        return;
+      }
+
+      this.getTbl().addViw(this);
+
+    } catch (Exception ex) {
+
+      new ErroAndroid("Erro inesperado.\n", ex);
+    } finally {
     }
   }
 
@@ -78,12 +90,11 @@ public abstract class DbViewAndroid extends DbTabelaAndroid<Dominio> {
       sql = sql.replace("_select", this.getSqlSelect());
 
       AppAndroid.getI().getObjDbPrincipal().execSql(sql);
-    }
-    catch (Exception ex) {
+
+    } catch (Exception ex) {
 
       new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(124), ex);
-    }
-    finally {
+    } finally {
     }
   }
 
@@ -101,12 +112,11 @@ public abstract class DbViewAndroid extends DbTabelaAndroid<Dominio> {
       }
 
       strResultado = IOUtils.toString(AppAndroid.getI().getCnt().getResources().openRawResource(this.getIntRawFileId()), "UTF-8");
-    }
-    catch (Exception ex) {
+
+    } catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally {
+    } finally {
     }
 
     return strResultado;
@@ -123,23 +133,12 @@ public abstract class DbViewAndroid extends DbTabelaAndroid<Dominio> {
 
       _tbl = tbl;
 
-      if (_tbl == null) {
+      this.atualizarTbl();
 
-        return;
-      }
-
-      if (_tbl.getLstViwAndroid().contains(this)) {
-
-        return;
-      }
-
-      _tbl.getLstViwAndroid().add(this);
-    }
-    catch (Exception ex) {
+    } catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally {
+    } finally {
     }
   }
 }

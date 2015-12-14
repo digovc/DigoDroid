@@ -4,24 +4,18 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.ListView;
-import android.widget.ProgressBar;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
-import android.widget.ScrollView;
-import android.widget.TextView;
-import android.widget.VideoView;
+import android.widget.FrameLayout;
 
 import com.digosofter.digodroid.AppAndroid;
+import com.digosofter.digodroid.R;
+import com.digosofter.digodroid.controle.drawermenu.DrawerMenu;
+import com.digosofter.digodroid.controle.painel.PainelDrawerMenu;
+import com.digosofter.digodroid.design.TemaDefault;
 import com.digosofter.digodroid.erro.ErroAndroid;
 
 public abstract class ActMain extends Activity {
@@ -32,7 +26,13 @@ public abstract class ActMain extends Activity {
 
     try {
 
-      this.startActivity(new Intent(this.getApplicationContext(), cls));
+      if (cls == null) {
+
+        return;
+      }
+
+      this.startActivity(new Intent(this, cls));
+
     } catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
@@ -41,15 +41,21 @@ public abstract class ActMain extends Activity {
     }
   }
 
-  protected void addFragmento(int intPnlId, Fragment frg) {
+  protected void addFragmento(int intViewGroupConteinerId, Fragment frg) {
 
     try {
 
-      this.getFragmentManager().beginTransaction().add(intPnlId, frg).commit();
+      this.getFragmentManager().beginTransaction().add(intViewGroupConteinerId, frg).commit();
+
     } catch (Exception ex) {
+
       new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(113), ex);
     } finally {
     }
+  }
+
+  protected void finalizar() {
+
   }
 
   public boolean getBooVisivel() {
@@ -57,112 +63,111 @@ public abstract class ActMain extends Activity {
     return _booVisivel;
   }
 
-  protected Button getButton(int intId) {
+  private int getIntDrawerMenuLayoutId() {
 
-    return (Button) this.getView(intId);
-  }
-
-  protected CheckBox getCheckBox(int intId) {
-
-    return (CheckBox) this.getView(intId);
-  }
-
-  protected EditText getEditText(int intId) {
-
-    return (EditText) this.getView(intId);
-  }
-
-  protected ImageView getImageView(int intId) {
-
-    return (ImageView) this.getView(intId);
+    return AppAndroid.getI().getIntDrawerMenuLayoutId();
   }
 
   protected abstract int getIntLayoutId();
 
-  protected LinearLayout getLinearLayout(int intId) {
+  protected <T extends View> T getView(int intViewId, Class<T> t) {
 
-    return (LinearLayout) this.getView(intId);
+    return (T) this.findViewById(intViewId);
   }
 
-  protected ListView getListView(int intId) {
-
-    return (ListView) this.getView(intId);
-  }
-
-  protected ProgressBar getProgressBar(int intId) {
-
-    return (ProgressBar) this.getView(intId);
-  }
-
-  protected RadioButton getRadioButton(int intId) {
-
-    return (RadioButton) this.getView(intId);
-  }
-
-  protected RadioGroup getRadioGroup(int intId) {
-
-    return (RadioGroup) this.getView(intId);
-  }
-
-  protected ScrollView getScrollView(int intId) {
-
-    return (ScrollView) this.getView(intId);
-  }
-
-  protected TextView getTextView(int intId) {
-
-    return (TextView) this.getView(intId);
-  }
-
-  protected VideoView getVideoView(int intId) {
-
-    return (VideoView) this.getView(intId);
-  }
-
-  protected View getView(int intId) {
-
-    View viwResultado = null;
+  protected void inicializar() {
 
     try {
 
-      viwResultado = this.findViewById(intId);
+      this.inicializarActionBar();
+      this.inicializarContentView();
+
     } catch (Exception ex) {
-      new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(0), ex);
+
+      new ErroAndroid("Erro inesperado.\n", ex);
     } finally {
     }
-
-    return viwResultado;
   }
 
-  protected void montarLayout() {
+  private void inicializarActionBar() {
 
     try {
 
-      if (this.getIntLayoutId() > 0) {
-
-        this.setContentView(this.getIntLayoutId());
-      }
-
+      this.getActionBar().setBackgroundDrawable(new ColorDrawable(TemaDefault.getI().getCorTema()));
       this.getActionBar().setDisplayHomeAsUpEnabled(true);
+      this.getActionBar().setHomeButtonEnabled(true);
 
     } catch (Exception ex) {
 
-      new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(0), ex);
+      new ErroAndroid("Erro inesperado.\n", ex);
     } finally {
     }
   }
 
-  protected void mostrarTeclado(EditText txt) {
+  private void inicializarContentView() {
+
+    DrawerMenu objDrawerMenu;
+    FrameLayout objFrameLayout;
+    PainelDrawerMenu pnlDrawerMenu;
 
     try {
 
-      if (txt == null) {
+      if (this.getIntLayoutId() < 1) {
 
         return;
       }
 
-      txt.requestFocus();
-      ((InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE)).toggleSoftInput(0, 0);
+      objDrawerMenu = (DrawerMenu) this.getLayoutInflater().inflate(R.layout.act_main, null);
+
+      objFrameLayout = (FrameLayout) objDrawerMenu.findViewById(R.id.actMain_viwConteudo);
+      pnlDrawerMenu = (PainelDrawerMenu) objDrawerMenu.findViewById(R.id.actMain_pnlDrawerMenu);
+
+      this.getLayoutInflater().inflate(this.getIntLayoutId(), objFrameLayout, true);
+      this.getLayoutInflater().inflate(this.getIntDrawerMenuLayoutId(), pnlDrawerMenu, true);
+
+      this.setContentView(objDrawerMenu);
+
+    } catch (Exception ex) {
+
+      new ErroAndroid("Erro inesperado.\n", ex);
+    } finally {
+    }
+  }
+
+  private void inicializarLocal() {
+
+    try {
+
+      this.inicializar();
+      this.montarLayout();
+      this.setEventos();
+      this.finalizar();
+
+    } catch (Exception ex) {
+
+      new ErroAndroid("Erro inesperado.\n", ex);
+    } finally {
+    }
+
+  }
+
+  protected void montarLayout() {
+
+  }
+
+  protected void mostrarTeclado(View viw) {
+
+    try {
+
+      if (viw == null) {
+
+        return;
+      }
+
+      viw.requestFocus();
+
+      ((InputMethodManager) this.getSystemService(Context.INPUT_METHOD_SERVICE)).toggleSoftInput(0, 0);
+
     } catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
@@ -177,12 +182,27 @@ public abstract class ActMain extends Activity {
 
     try {
 
-      this.montarLayout();
-      this.setEventos();
+      this.inicializarLocal();
 
     } catch (Exception ex) {
 
       new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(0), ex);
+    } finally {
+    }
+  }
+
+  @Override
+  protected void onDestroy() {
+
+    super.onDestroy();
+
+    try {
+
+      this.finalizar();
+
+    } catch (Exception ex) {
+
+      new ErroAndroid("Erro inesperado.\n", ex);
     } finally {
     }
   }
@@ -193,6 +213,7 @@ public abstract class ActMain extends Activity {
     try {
 
       if (super.onOptionsItemSelected(itm)) {
+
         return true;
       }
 
@@ -205,7 +226,6 @@ public abstract class ActMain extends Activity {
     } catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-
     } finally {
     }
 
@@ -220,7 +240,9 @@ public abstract class ActMain extends Activity {
     try {
 
       this.setBooVisivel(true);
+
     } catch (Exception ex) {
+
       new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(0), ex);
     } finally {
     }
@@ -234,7 +256,9 @@ public abstract class ActMain extends Activity {
     try {
 
       this.setBooVisivel(false);
+
     } catch (Exception ex) {
+
       new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(0), ex);
     } finally {
     }
@@ -247,10 +271,5 @@ public abstract class ActMain extends Activity {
 
   protected void setEventos() {
 
-    try {
-    } catch (Exception ex) {
-      new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(0), ex);
-    } finally {
-    }
   }
 }

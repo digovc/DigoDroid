@@ -47,7 +47,7 @@ public abstract class ActMapaMain extends ActMain implements OnLocationChangedLi
 
       if (mrk.getPosition().latitude + mrk.getPosition().longitude == 0) {
 
-        AppAndroid.getI().mostrarNotificacao("Localização desconhecida.");
+        AppAndroid.getI().notificar("Localização desconhecida.");
         return;
       }
 

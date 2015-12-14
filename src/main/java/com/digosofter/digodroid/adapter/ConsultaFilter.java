@@ -1,12 +1,12 @@
 package com.digosofter.digodroid.adapter;
 
+import android.widget.Filter;
+
+import com.digosofter.digodroid.controle.item.ItemConsulta;
+import com.digosofter.digodroid.erro.ErroAndroid;
+
 import java.util.ArrayList;
 import java.util.List;
-
-import com.digosofter.digodroid.erro.ErroAndroid;
-import com.digosofter.digodroid.item.ItmConsulta;
-
-import android.widget.Filter;
 
 class ConsultaFilter extends Filter {
 
@@ -17,12 +17,11 @@ class ConsultaFilter extends Filter {
     try {
 
       this.setAdpConsulta(adpConsulta);
-    }
-    catch (Exception ex) {
+
+    } catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally {
+    } finally {
     }
   }
 
@@ -40,39 +39,38 @@ class ConsultaFilter extends Filter {
 
       if (strFiltro == null || strFiltro.length() == 0) {
 
-        objFilterResults.values = this.getAdpConsulta().getLstItmConsultaSemFiltro();
-        objFilterResults.count = this.getAdpConsulta().getLstItmConsultaSemFiltro().size();
-      }
-      else {
+        //        objFilterResults.values = this.getAdpConsulta().getLstItmConsultaSemFiltro();
+        //        objFilterResults.count = this.getAdpConsulta().getLstItmConsultaSemFiltro().size();
 
-        List<ItmConsulta> lstItmConsulta = new ArrayList<ItmConsulta>();
+      } else {
 
-        for (ItmConsulta itm : this.getAdpConsulta().getLstItmConsulta()) {
+        List<ItemConsulta> lstItmConsulta = new ArrayList<ItemConsulta>();
 
-          if (itm == null) {
-
-            continue;
-          }
-
-          if (!itm.getBooContemTermo(strFiltro.toString())) {
-
-            continue;
-          }
-
-          lstItmConsulta.add(itm);
-        }
-
-        objFilterResults.values = lstItmConsulta;
-        objFilterResults.count = lstItmConsulta.size();
+        //        for (ItemConsulta itm : this.getAdpConsulta().getLstItmConsulta()) {
+        //
+        //          if (itm == null) {
+        //
+        //            continue;
+        //          }
+        //
+        //          if (!itm.getBooContemTermo(strFiltro.toString())) {
+        //
+        //            continue;
+        //          }
+        //
+        //          lstItmConsulta.add(itm);
+        //        }
+        //
+        //        objFilterResults.values = lstItmConsulta;
+        //        objFilterResults.count = lstItmConsulta.size();
       }
 
       return objFilterResults;
-    }
-    catch (Exception ex) {
+
+    } catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally {
+    } finally {
     }
 
     return null;
@@ -86,20 +84,19 @@ class ConsultaFilter extends Filter {
 
       if (objFilterResults.count == 0) {
 
-        this.getAdpConsulta().setLstItmConsulta(new ArrayList<ItmConsulta>());
-        this.getAdpConsulta().notifyDataSetChanged();
+        //        this.getAdpConsulta().setLstItmConsulta(new ArrayList<ItemConsulta>());
+        this.getAdpConsulta().atualizarLista();
 
         return;
       }
 
-      this.getAdpConsulta().setLstItmConsulta((ArrayList<ItmConsulta>) objFilterResults.values);
-      this.getAdpConsulta().notifyDataSetChanged();
-    }
-    catch (Exception ex) {
+      //      this.getAdpConsulta().setLstItmConsulta((ArrayList<ItemConsulta>) objFilterResults.values);
+      this.getAdpConsulta().atualizarLista();
+
+    } catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally {
+    } finally {
     }
   }
 

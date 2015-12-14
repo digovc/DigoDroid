@@ -1,8 +1,11 @@
 package com.digosofter.digodroid.database;
 
-import java.util.ArrayList;
-import java.util.GregorianCalendar;
-import java.util.List;
+import android.content.Intent;
+import android.database.Cursor;
+import android.support.annotation.Nullable;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.SubMenu;
 
 import com.digosofter.digodroid.AppAndroid;
 import com.digosofter.digodroid.R;
@@ -11,8 +14,6 @@ import com.digosofter.digodroid.activity.ActConsulta;
 import com.digosofter.digodroid.activity.ActDetalhe;
 import com.digosofter.digodroid.activity.ActMain;
 import com.digosofter.digodroid.erro.ErroAndroid;
-import com.digosofter.digodroid.item.ItmConsulta;
-import com.digosofter.digodroid.item.ItmDetalheGrupo;
 import com.digosofter.digojava.Utils;
 import com.digosofter.digojava.Utils.EnmDataFormato;
 import com.digosofter.digojava.Utils.EnmStrTipo;
@@ -20,13 +21,11 @@ import com.digosofter.digojava.database.DbColuna;
 import com.digosofter.digojava.database.DbFiltro;
 import com.digosofter.digojava.database.DbTabela;
 import com.digosofter.digojava.database.Dominio;
-import com.digosofter.digojava.database.TblOnChangeArg;
+import com.digosofter.digojava.database.OnChangeArg;
 
-import android.content.Intent;
-import android.database.Cursor;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.SubMenu;
+import java.util.ArrayList;
+import java.util.GregorianCalendar;
+import java.util.List;
 
 /**
  * Classe que faz a abstração de uma tabela do banco de dados SQLite no
@@ -48,16 +47,15 @@ public abstract class DbTabelaAndroid<T extends Dominio> extends DbTabela<T> {
   public static final String STR_MENU_PESQUISAR = "Pesquisar";
   private static final String STR_MENU_ALTERAR = "Alterar";
   private static final String STR_MENU_DETALHAR = "Ver detalhes";
+
   private boolean _booAbrirCadastroAuto;
-  private boolean _booItmListaCache = true;
-  private boolean _booLockLstItmConsulta;
+  private boolean _booManterCache = true;
   private boolean _booSinc = true;
   private Class<? extends ActMain> _clsActCadastro;
-  private List<ItmConsulta> _lstItmConsulta;
-  private List<ItmDetalheGrupo> _lstItmDetalheGrupo;
   private List<DbViewAndroid> _lstViwAndroid;
   private MenuItem _mniOrdemDecrescente;
   private DataBaseAndroid _objDb;
+  private DbTabelaAndroid<?> _viwPrincipal;
 
   /**
    * Constroe uma nova instância dessa tabela. Este processo cria também a
@@ -73,7 +71,7 @@ public abstract class DbTabelaAndroid<T extends Dominio> extends DbTabela<T> {
     try {
 
       this.criar();
-      this.inicializarViews();
+
     } catch (Exception ex) {
 
       new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(122), ex);
@@ -112,17 +110,12 @@ public abstract class DbTabelaAndroid<T extends Dominio> extends DbTabela<T> {
         itt = new Intent();
       }
 
-      if (this.getLstViwAndroid().size() > 0) {
-
-        AppAndroid.getI().setTblSelec(this.getLstViwAndroid().get(0));
-      } else {
-
-        AppAndroid.getI().setTblSelec(this);
-      }
-
       itt.setClass(act, ActConsulta.class);
 
+      itt.putExtra(ActConsulta.STR_EXTRA_IN_INT_TBL_OBJETO_ID, this.getViwPrincipal().getIntObjetoId());
+
       act.startActivityForResult(itt, ActConsulta.EnmResultadoTipo.REGISTRO_SELECIONADO.ordinal());
+
     } catch (Exception ex) {
 
       new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(123), ex);
@@ -154,31 +147,50 @@ public abstract class DbTabelaAndroid<T extends Dominio> extends DbTabela<T> {
         return;
       }
 
-      if (this.getLstViwAndroid().size() > 0) {
+      this.getViwPrincipal().recuperar(intRegistroId);
 
-        AppAndroid.getI().setTblSelec(this.getLstViwAndroid().get(0));
-      } else {
+      if (this.getViwPrincipal().getClnChavePrimaria().getIntValor() < 1) {
 
-        AppAndroid.getI().setTblSelec(this);
-      }
-
-      ((DbTabelaAndroid<?>) AppAndroid.getI().getTblSelec()).recuperar(intRegistroId);
-
-      if (AppAndroid.getI().getTblSelec().getClnChavePrimaria().getIntValor() < 1) {
-
-        AppAndroid.getI().mostrarNotificacao("Registro não econtrado.");
+        AppAndroid.getI().notificar("Registro não econtrado.");
         return;
       }
 
       itt = new Intent(act, ActDetalhe.class);
+
       itt.putExtra(ActDetalhe.STR_EXTRA_IN_INT_REGISTRO_ID, intRegistroId);
+      itt.putExtra(ActDetalhe.STR_EXTRA_IN_INT_TBL_OBJETO_ID, this.getViwPrincipal().getIntObjetoId());
 
       act.startActivity(itt);
+
     } catch (Exception ex) {
 
       new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(123), ex);
     } finally {
     }
+  }
+
+  protected void addViw(DbViewAndroid viwAndroid) {
+
+    try {
+
+      if (viwAndroid == null) {
+
+        return;
+      }
+
+      if (this.getLstViwAndroid().contains(viwAndroid)) {
+
+        return;
+      }
+
+      this.getLstViwAndroid().add(viwAndroid);
+
+    } catch (Exception ex) {
+
+      new ErroAndroid("Erro inesperado.\n", ex);
+    } finally {
+    }
+
   }
 
   /**
@@ -209,6 +221,7 @@ public abstract class DbTabelaAndroid<T extends Dominio> extends DbTabela<T> {
       this.viwOnApagarDispatcher(intId);
 
       super.apagar(intId);
+
     } catch (Exception ex) {
 
       new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(126), ex);
@@ -272,6 +285,7 @@ public abstract class DbTabelaAndroid<T extends Dominio> extends DbTabela<T> {
       }
 
       return objDominio;
+
     } catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
@@ -297,6 +311,7 @@ public abstract class DbTabelaAndroid<T extends Dominio> extends DbTabela<T> {
       sql = sql.replace("_clns", this.getSqlColunasNomesCreateTable());
 
       this.getObjDb().execSql(sql);
+
     } catch (Exception ex) {
 
       new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(124), ex);
@@ -327,6 +342,7 @@ public abstract class DbTabelaAndroid<T extends Dominio> extends DbTabela<T> {
       crs.close();
 
       return booResultado;
+
     } catch (Exception ex) {
 
       new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(127), ex);
@@ -336,14 +352,9 @@ public abstract class DbTabelaAndroid<T extends Dominio> extends DbTabela<T> {
     return false;
   }
 
-  private boolean getBooItmListaCache() {
+  private boolean getBooManterCache() {
 
-    return _booItmListaCache;
-  }
-
-  private boolean getBooLockLstItmConsulta() {
-
-    return _booLockLstItmConsulta;
+    return _booManterCache;
   }
 
   public boolean getBooRegistroExiste(int intId) {
@@ -363,6 +374,7 @@ public abstract class DbTabelaAndroid<T extends Dominio> extends DbTabela<T> {
       sql = sql.replace("_registro_id", String.valueOf(intId));
 
       return this.getObjDb().execSqlGetBoo(sql);
+
     } catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
@@ -391,7 +403,7 @@ public abstract class DbTabelaAndroid<T extends Dominio> extends DbTabela<T> {
 
       lstStr = this.getLstStr(cln, lstFil);
 
-      lstIntResultado = new ArrayList<Integer>();
+      lstIntResultado = new ArrayList<>();
 
       if (lstStr == null) {
 
@@ -409,6 +421,7 @@ public abstract class DbTabelaAndroid<T extends Dominio> extends DbTabela<T> {
       }
 
       return lstIntResultado;
+
     } catch (Exception ex) {
 
       new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(0), ex);
@@ -416,72 +429,6 @@ public abstract class DbTabelaAndroid<T extends Dominio> extends DbTabela<T> {
     }
 
     return null;
-  }
-
-  public List<ItmConsulta> getLstItmConsulta() {
-
-    Cursor crs;
-    ItmConsulta itmConsulta;
-
-    try {
-
-      this.setBooLockLstItmConsulta(true);
-
-      if (_lstItmConsulta != null && this.getBooItmListaCache()) {
-
-        return _lstItmConsulta;
-      }
-
-      _lstItmConsulta = new ArrayList<ItmConsulta>();
-
-      crs = this.pesquisarTelaConsulta();
-
-      if (crs == null || !crs.moveToFirst()) {
-
-        return _lstItmConsulta;
-      }
-
-      do {
-
-        itmConsulta = new ItmConsulta(true);
-
-        itmConsulta.setTbl(this);
-        itmConsulta.carregarDados(crs);
-
-        _lstItmConsulta.add(itmConsulta);
-      } while (crs.moveToNext());
-
-      crs.close();
-    } catch (Exception ex) {
-
-      new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(0), ex);
-    } finally {
-
-      this.setBooLockLstItmConsulta(false);
-    }
-
-    return _lstItmConsulta;
-  }
-
-  public List<ItmDetalheGrupo> getLstItmDetalheGrupo() {
-
-    try {
-
-      if (_lstItmDetalheGrupo != null) {
-
-        return _lstItmDetalheGrupo;
-      }
-
-      _lstItmDetalheGrupo = new ArrayList<ItmDetalheGrupo>();
-
-      this.inicializar(_lstItmDetalheGrupo);
-    } catch (Exception ex) {
-
-      new ErroAndroid("Erro inesperado.\n", ex);
-    } finally {
-    }
-
-    return _lstItmDetalheGrupo;
   }
 
   public List<String> getLstStr(DbColuna cln, List<DbFiltro> lstFil) {
@@ -492,7 +439,7 @@ public abstract class DbTabelaAndroid<T extends Dominio> extends DbTabela<T> {
     try {
 
       crs = this.pesquisar(cln, lstFil);
-      lstStrResultado = new ArrayList<String>();
+      lstStrResultado = new ArrayList<>();
 
       if (crs == null) {
 
@@ -510,6 +457,7 @@ public abstract class DbTabelaAndroid<T extends Dominio> extends DbTabela<T> {
       } while (crs.moveToNext());
 
       crs.close();
+
     } catch (Exception ex) {
 
       new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(0), ex);
@@ -519,7 +467,12 @@ public abstract class DbTabelaAndroid<T extends Dominio> extends DbTabela<T> {
     return lstStrResultado;
   }
 
-  protected List<DbViewAndroid> getLstViwAndroid() {
+  /**
+   * Lista de view que representam os dados desta tabela.
+   *
+   * @return Lista de view que representam os dados desta tabela.
+   */
+  public List<DbViewAndroid> getLstViwAndroid() {
 
     try {
 
@@ -528,7 +481,8 @@ public abstract class DbTabelaAndroid<T extends Dominio> extends DbTabela<T> {
         return _lstViwAndroid;
       }
 
-      _lstViwAndroid = new ArrayList<DbViewAndroid>();
+      _lstViwAndroid = new ArrayList<>();
+
     } catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
@@ -554,6 +508,7 @@ public abstract class DbTabelaAndroid<T extends Dominio> extends DbTabela<T> {
       }
 
       _objDb = AppAndroid.getI().getObjDbPrincipal();
+
     } catch (Exception ex) {
 
       new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(0), ex);
@@ -593,6 +548,7 @@ public abstract class DbTabelaAndroid<T extends Dominio> extends DbTabela<T> {
       }
 
       strResultado = Utils.removerUltimaLetra(strResultado, 2);
+
     } catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
@@ -621,6 +577,7 @@ public abstract class DbTabelaAndroid<T extends Dominio> extends DbTabela<T> {
       }
 
       strResultado = Utils.removerUltimaLetra(strResultado, 2);
+
     } catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
@@ -669,6 +626,7 @@ public abstract class DbTabelaAndroid<T extends Dominio> extends DbTabela<T> {
       strResultado = Utils.removerUltimaLetra(strResultado, 2);
 
       return strResultado;
+
     } catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
@@ -710,6 +668,7 @@ public abstract class DbTabelaAndroid<T extends Dominio> extends DbTabela<T> {
         }
 
         str = "_cln_nome = '_cln_valor', ";
+
         str = str.replace("_cln_nome", cln.getStrNomeSql());
         str = str.replace("_cln_valor", cln.getStrValorSql());
 
@@ -719,6 +678,7 @@ public abstract class DbTabelaAndroid<T extends Dominio> extends DbTabela<T> {
       strResultado = Utils.removerUltimaLetra(strResultado, 2);
 
       return strResultado;
+
     } catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
@@ -768,6 +728,29 @@ public abstract class DbTabelaAndroid<T extends Dominio> extends DbTabela<T> {
       strResultado = Utils.removerUltimaLetra(strResultado, 2);
 
       return strResultado;
+
+    } catch (Exception ex) {
+
+      new ErroAndroid("Erro inesperado.\n", ex);
+    } finally {
+    }
+
+    return null;
+  }
+
+  private String getSqlSelectColunaCursorAdapterId() {
+
+    String strResultado;
+
+    try {
+
+      strResultado = " _tbl_nome._cln_pk_nome _id";
+
+      strResultado = strResultado.replace("_tbl_nome", this.getStrNomeSql());
+      strResultado = strResultado.replace("_cln_pk_nome", this.getClnChavePrimaria().getStrNomeSql());
+
+      return strResultado;
+
     } catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
@@ -806,6 +789,7 @@ public abstract class DbTabelaAndroid<T extends Dominio> extends DbTabela<T> {
       }
 
       strResultado = Utils.removerUltimaLetra(strResultado, 2);
+
     } catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
@@ -818,7 +802,7 @@ public abstract class DbTabelaAndroid<T extends Dominio> extends DbTabela<T> {
   private String getSqlSelectColunasNomesConsulta() {
 
     List<DbColuna> lstClnAdicionada;
-    String strResultado = null;
+    String strResultado;
 
     try {
 
@@ -827,35 +811,53 @@ public abstract class DbTabelaAndroid<T extends Dominio> extends DbTabela<T> {
 
       for (DbColuna cln : this.getLstClnConsulta()) {
 
-        if (cln == null) {
-
-          continue;
-        }
-
-        if (lstClnAdicionada.contains(cln)) {
-
-          continue;
-        }
-
-        if (cln.getClnRef() == null) {
-
-          strResultado += cln.getStrTblNomeClnNome();
-          lstClnAdicionada.add(cln);
-          continue;
-        }
-
-        strResultado += cln.getSqlSubSelectClnRef();
-        lstClnAdicionada.add(cln);
+        strResultado += this.getSqlSelectColunasNomesConsulta(lstClnAdicionada, cln);
       }
 
-      strResultado = Utils.removerUltimaLetra(strResultado, 2);
+      strResultado += this.getSqlSelectColunaCursorAdapterId();
+
+      return strResultado;
+
     } catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
     } finally {
     }
 
-    return strResultado;
+    return null;
+  }
+
+  @Nullable
+  private String getSqlSelectColunasNomesConsulta(List<DbColuna> lstClnAdicionada, DbColuna cln) {
+
+    try {
+
+      if (cln == null) {
+
+        return null;
+      }
+
+      if (lstClnAdicionada.contains(cln)) {
+
+        return null;
+      }
+
+      lstClnAdicionada.add(cln);
+
+      if (cln.getClnRef() == null) {
+
+        return cln.getStrTblNomeClnNome();
+      }
+
+      return cln.getSqlSubSelectClnRef();
+
+    } catch (Exception ex) {
+
+      new ErroAndroid("Erro inesperado.\n", ex);
+    } finally {
+    }
+
+    return null;
   }
 
   private String getSqlWhere(List<DbFiltro> lstObjDbFiltro) {
@@ -893,6 +895,7 @@ public abstract class DbTabelaAndroid<T extends Dominio> extends DbTabela<T> {
       strResultado = Utils.removerUltimaLetra(strResultado);
 
       return strResultado;
+
     } catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
@@ -902,42 +905,48 @@ public abstract class DbTabelaAndroid<T extends Dominio> extends DbTabela<T> {
     return null;
   }
 
-  protected void inicializar(List<ItmDetalheGrupo> lstItmDetalheGrupo) {
+  /**
+   * Esta é a view que representa esta tabela. A primeira view da lista de views. Caso a
+   * lista não contenha nenhuma view, retorna a instância desta tabela.
+   *
+   * @return A view principal desta tabela.
+   */
+  public DbTabelaAndroid<?> getViwPrincipal() {
 
+    try {
+
+      if (_viwPrincipal != null) {
+
+        return _viwPrincipal;
+      }
+
+      if (this.getLstViwAndroid() == null) {
+
+        _viwPrincipal = this;
+
+        return _viwPrincipal;
+      }
+
+      if (this.getLstViwAndroid().isEmpty()) {
+
+        _viwPrincipal = this;
+
+        return _viwPrincipal;
+      }
+
+      _viwPrincipal = this.getLstViwAndroid().get(0);
+
+    } catch (Exception ex) {
+
+      new ErroAndroid("Erro inesperado.\n", ex);
+    } finally {
+    }
+
+    return _viwPrincipal;
   }
 
   public void inicializarViews() {
 
-  }
-
-  public void inserirAleatorio() {
-
-    try {
-
-      for (DbColuna cln : this.getLstCln()) {
-
-        switch (cln.getEnmTipo()) {
-          case INTEGER:
-            cln.setStrValor(Utils.getStrAleatoria(5, EnmStrTipo.NUMERICO));
-            break;
-          case REAL:
-            cln.setStrValor(Utils.getStrAleatoria(5, EnmStrTipo.NUMERICO));
-            break;
-          case NUMERIC:
-            cln.setStrValor(Utils.getStrAleatoria(5, EnmStrTipo.NUMERICO));
-            break;
-          default:
-            cln.setStrValor(Utils.getStrAleatoria(5, EnmStrTipo.ALPHA));
-            break;
-        }
-      }
-
-      this.salvar(false);
-    } catch (Exception ex) {
-
-      new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(130), ex);
-    } finally {
-    }
   }
 
   private void lerDominio(T objDominio) {
@@ -967,39 +976,6 @@ public abstract class DbTabelaAndroid<T extends Dominio> extends DbTabela<T> {
     }
   }
 
-  public void limparListaConsulta() {
-
-    try {
-
-      this.setLstItmConsulta(null);
-      this.limparListaConsultaViw();
-    } catch (Exception ex) {
-
-      new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(0), ex);
-    } finally {
-    }
-  }
-
-  private void limparListaConsultaViw() {
-
-    try {
-
-      for (DbViewAndroid viw : this.getLstViwAndroid()) {
-
-        if (viw == null) {
-
-          continue;
-        }
-
-        viw.setLstItmConsulta(null);
-      }
-    } catch (Exception ex) {
-
-      new ErroAndroid("Erro inesperado.\n", ex);
-    } finally {
-    }
-  }
-
   public void montarMenu(Menu mnu) {
 
     try {
@@ -1011,6 +987,7 @@ public abstract class DbTabelaAndroid<T extends Dominio> extends DbTabela<T> {
 
       this.montarMenuCampo(mnu);
       this.montarMenuOrdenar(mnu);
+
     } catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
@@ -1034,6 +1011,7 @@ public abstract class DbTabelaAndroid<T extends Dominio> extends DbTabela<T> {
       smn.setIcon(R.drawable.ic_campo);
 
       this.montarMenuCampoColuna(smn);
+
     } catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
@@ -1087,6 +1065,7 @@ public abstract class DbTabelaAndroid<T extends Dominio> extends DbTabela<T> {
 
       this.montarMenuItemAlterar(mnu, intRegistroId);
       this.montarMenuItemApagar(mnu, intRegistroId);
+
     } catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
@@ -1114,6 +1093,7 @@ public abstract class DbTabelaAndroid<T extends Dominio> extends DbTabela<T> {
       }
 
       mnu.add(DbTabelaAndroid.STR_MENU_ALTERAR);
+
     } catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
@@ -1141,6 +1121,7 @@ public abstract class DbTabelaAndroid<T extends Dominio> extends DbTabela<T> {
       }
 
       mnu.add(DbTabelaAndroid.STR_MENU_APAGAR);
+
     } catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
@@ -1158,6 +1139,7 @@ public abstract class DbTabelaAndroid<T extends Dominio> extends DbTabela<T> {
       }
 
       mnu.add(DbTabelaAndroid.STR_MENU_DETALHAR);
+
     } catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
@@ -1182,6 +1164,7 @@ public abstract class DbTabelaAndroid<T extends Dominio> extends DbTabela<T> {
 
       this.montarMenuOrdenarColuna(smn);
       this.montarMenuOrdenarDecrescente(smn);
+
     } catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
@@ -1234,6 +1217,7 @@ public abstract class DbTabelaAndroid<T extends Dominio> extends DbTabela<T> {
       this.setMniOrdemDecrescente(smn.add("Ordem decrescente"));
       this.getMniOrdemDecrescente().setChecked(this.getClnOrdem().getBooOrdemDecrescente());
       this.getMniOrdemDecrescente().setCheckable(true);
+
     } catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
@@ -1243,22 +1227,23 @@ public abstract class DbTabelaAndroid<T extends Dominio> extends DbTabela<T> {
 
   private void onAdicionarAtualizarDispatcher(boolean booAdicionar) {
 
-    TblOnChangeArg arg;
+    OnChangeArg arg;
 
     try {
 
-      arg = new TblOnChangeArg();
+      arg = new OnChangeArg();
       arg.setIntRegistroId(this.getClnChavePrimaria().getIntValor());
 
       this.viwOnAdicionarAtualizarDispatcher(arg, booAdicionar);
 
       if (booAdicionar) {
 
-        this.onAdicionarRegDispatcher(arg);
+        this.dispararOnAdicionarReg(arg);
         return;
       }
 
-      this.onAtualizarRegDispatcher(arg);
+      this.dispararOnAtualizarReg(arg);
+
     } catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
@@ -1277,11 +1262,12 @@ public abstract class DbTabelaAndroid<T extends Dominio> extends DbTabela<T> {
 
     try {
 
-      lstCln = new ArrayList<DbColuna>();
+      lstCln = new ArrayList<>();
 
       lstCln.add(cln);
 
       return this.pesquisar(lstCln, null);
+
     } catch (Exception ex) {
 
       new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(0), ex);
@@ -1312,11 +1298,12 @@ public abstract class DbTabelaAndroid<T extends Dominio> extends DbTabela<T> {
 
     try {
 
-      lstCln = new ArrayList<DbColuna>();
+      lstCln = new ArrayList<>();
 
       lstCln.add(cln);
 
       return this.pesquisar(lstCln, lstFil);
+
     } catch (Exception ex) {
 
       new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(0), ex);
@@ -1332,11 +1319,12 @@ public abstract class DbTabelaAndroid<T extends Dominio> extends DbTabela<T> {
 
     try {
 
-      lstObjDbFiltro = new ArrayList<DbFiltro>();
+      lstObjDbFiltro = new ArrayList<>();
 
       lstObjDbFiltro.add(new DbFiltro(clnFiltro, strFiltro));
 
       return this.pesquisar(lstObjDbFiltro);
+
     } catch (Exception ex) {
 
       new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(128), ex);
@@ -1361,6 +1349,7 @@ public abstract class DbTabelaAndroid<T extends Dominio> extends DbTabela<T> {
       sql = sql.replace("_order", this.getClnOrdem().getStrNomeSql());
 
       return this.getObjDb().execSqlComRetorno(sql);
+
     } catch (Exception ex) {
 
       new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(128), ex);
@@ -1375,6 +1364,42 @@ public abstract class DbTabelaAndroid<T extends Dominio> extends DbTabela<T> {
     return this.pesquisar(this.getLstCln(), lstFil);
   }
 
+  /**
+   * Retorna os dados que serão mostrados na tela de consulta.
+   *
+   * @return Os dados que serão mostrados na tela de consulta.
+   */
+  public Cursor pesquisarConsulta() {
+
+    Cursor crsResultado;
+    String sql;
+
+    try {
+
+      sql = "select _clns_nome from _tbl_nome where _where order by _order _asc_desc;";
+
+      sql = sql.replace("_clns_nome", this.getSqlSelectColunasNomesConsulta());
+      sql = sql.replace("_tbl_nome", this.getStrNomeSql());
+      sql = sql.replace("where _where", this.getLstFilConsulta() != null && this.getLstFilConsulta().size() > 0 ? "where _where" : Utils.STR_VAZIA);
+      sql = sql.replace("_where", this.getSqlWhere(this.getLstFilConsulta()));
+      sql = sql.replace("_order", this.getClnOrdem().getStrNomeSql());
+      sql = sql.replace("_asc_desc", !this.getClnOrdem().getBooOrdemDecrescente() ? "asc" : "desc");
+
+      crsResultado = this.getObjDb().execSqlComRetorno(sql);
+
+      this.getLstFilConsulta().clear();
+
+      return crsResultado;
+
+    } catch (Exception ex) {
+
+      new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(128), ex);
+    } finally {
+    }
+
+    return null;
+  }
+
   private List<T> pesquisarDominio(Cursor crs) {
 
     List<T> lstResultado;
@@ -1387,7 +1412,7 @@ public abstract class DbTabelaAndroid<T extends Dominio> extends DbTabela<T> {
         return null;
       }
 
-      lstResultado = new ArrayList<T>();
+      lstResultado = new ArrayList<>();
 
       do {
 
@@ -1404,9 +1429,11 @@ public abstract class DbTabelaAndroid<T extends Dominio> extends DbTabela<T> {
         }
 
         lstResultado.add(objDominio);
+
       } while (crs.moveToNext());
 
       return lstResultado;
+
     } catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
@@ -1436,6 +1463,7 @@ public abstract class DbTabelaAndroid<T extends Dominio> extends DbTabela<T> {
       }
 
       return this.pesquisarDominio(clnFiltro, Utils.getStrDataFormatada(dttFiltro, EnmDataFormato.YYYY_MM_DD_HH_MM_SS));
+
     } catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
@@ -1466,11 +1494,12 @@ public abstract class DbTabelaAndroid<T extends Dominio> extends DbTabela<T> {
         return null;
       }
 
-      lstFil = new ArrayList<DbFiltro>();
+      lstFil = new ArrayList<>();
 
       lstFil.add(fil);
 
       return this.pesquisarDominio(lstFil);
+
     } catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
@@ -1509,39 +1538,10 @@ public abstract class DbTabelaAndroid<T extends Dominio> extends DbTabela<T> {
       crs.close();
 
       return lstObjDominioResultado;
+
     } catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    } finally {
-    }
-
-    return null;
-  }
-
-  public Cursor pesquisarTelaConsulta() {
-
-    Cursor crsResultado;
-    String sql;
-
-    try {
-
-      sql = "select _clns_nome from _tbl_nome where _where order by _order _asc_desc;";
-
-      sql = sql.replace("_clns_nome", this.getSqlSelectColunasNomesConsulta());
-      sql = sql.replace("_tbl_nome", this.getStrNomeSql());
-      sql = sql.replace("where _where", this.getLstFilConsulta() != null && this.getLstFilConsulta().size() > 0 ? "where _where" : Utils.STR_VAZIA);
-      sql = sql.replace("_where", this.getSqlWhere(this.getLstFilConsulta()));
-      sql = sql.replace("_order", this.getClnOrdem().getStrNomeSql());
-      sql = sql.replace("_asc_desc", !this.getClnOrdem().getBooOrdemDecrescente() ? "asc" : "desc");
-
-      crsResultado = this.getObjDb().execSqlComRetorno(sql);
-
-      this.getLstFilConsulta().clear();
-
-      return crsResultado;
-    } catch (Exception ex) {
-
-      new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(128), ex);
     } finally {
     }
 
@@ -1612,6 +1612,7 @@ public abstract class DbTabelaAndroid<T extends Dominio> extends DbTabela<T> {
       itt = new Intent(act, this.getClsActCadastro());
 
       act.startActivity(itt);
+
     } catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
@@ -1719,12 +1720,13 @@ public abstract class DbTabelaAndroid<T extends Dominio> extends DbTabela<T> {
         return;
       }
 
-      AppAndroid.getI().setTblSelec(this);
-
       itt = new Intent(act, this.getClsActCadastro());
+
       itt.putExtra(ActCadastroMain.STR_EXTRA_IN_INT_REGISTRO_ID, intId);
+      itt.putExtra(ActCadastroMain.STR_EXTRA_IN_INT_TBL_OBJETO_ID, this.getIntObjetoId());
 
       act.startActivity(itt);
+
     } catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
@@ -1754,6 +1756,7 @@ public abstract class DbTabelaAndroid<T extends Dominio> extends DbTabela<T> {
       }
 
       act.finish();
+
     } catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
@@ -1776,6 +1779,7 @@ public abstract class DbTabelaAndroid<T extends Dominio> extends DbTabela<T> {
       }
 
       this.abrirActDetalhe(act, intId);
+
     } catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
@@ -1856,6 +1860,7 @@ public abstract class DbTabelaAndroid<T extends Dominio> extends DbTabela<T> {
       this.getClnOrdem().setBooOrdemDecrescente(this.getMniOrdemDecrescente().isChecked());
 
       actConsulta.atualizarLista();
+
     } catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
@@ -1883,6 +1888,7 @@ public abstract class DbTabelaAndroid<T extends Dominio> extends DbTabela<T> {
       }
 
       this.recuperar(clnFiltro, Utils.getStrDataFormatada(dttFiltro, EnmDataFormato.YYYY_MM_DD_HH_MM_SS));
+
     } catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
@@ -1911,10 +1917,11 @@ public abstract class DbTabelaAndroid<T extends Dominio> extends DbTabela<T> {
         return;
       }
 
-      lstFil = new ArrayList<DbFiltro>();
+      lstFil = new ArrayList<>();
       lstFil.add(fil);
 
       this.recuperar(lstFil);
+
     } catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
@@ -1947,6 +1954,7 @@ public abstract class DbTabelaAndroid<T extends Dominio> extends DbTabela<T> {
       this.carregarDados(crs);
 
       crs.close();
+
     } catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
@@ -1974,6 +1982,7 @@ public abstract class DbTabelaAndroid<T extends Dominio> extends DbTabela<T> {
       }
 
       return this.recuperarDominio(clnFiltro, Utils.getStrDataFormatada(dttFiltro, EnmDataFormato.YYYY_MM_DD_HH_MM_SS));
+
     } catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
@@ -2004,10 +2013,11 @@ public abstract class DbTabelaAndroid<T extends Dominio> extends DbTabela<T> {
         return null;
       }
 
-      lstFil = new ArrayList<DbFiltro>();
+      lstFil = new ArrayList<>();
       lstFil.add(fil);
 
       return this.recuperarDominio(lstFil);
+
     } catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
@@ -2046,6 +2056,7 @@ public abstract class DbTabelaAndroid<T extends Dominio> extends DbTabela<T> {
       }
 
       return lstObjDominio.get(0);
+
     } catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
@@ -2059,8 +2070,6 @@ public abstract class DbTabelaAndroid<T extends Dominio> extends DbTabela<T> {
 
     try {
 
-      this.limparListaConsulta();
-
       if (booValidar && !this.validarDados()) {
 
         return false;
@@ -2073,6 +2082,7 @@ public abstract class DbTabelaAndroid<T extends Dominio> extends DbTabela<T> {
       }
 
       this.salvarUpdate();
+
     } catch (Exception ex) {
 
       new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(129), ex);
@@ -2102,6 +2112,7 @@ public abstract class DbTabelaAndroid<T extends Dominio> extends DbTabela<T> {
       objDominio.setIntId(this.getClnChavePrimaria().getIntValor());
 
       return booResultado;
+
     } catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
@@ -2109,6 +2120,37 @@ public abstract class DbTabelaAndroid<T extends Dominio> extends DbTabela<T> {
     }
 
     return false;
+  }
+
+  public void salvarAleatorio() {
+
+    try {
+
+      for (DbColuna cln : this.getLstCln()) {
+
+        switch (cln.getEnmTipo()) {
+          case INTEGER:
+            cln.setStrValor(Utils.getStrAleatoria(5, EnmStrTipo.NUMERICO));
+            break;
+          case REAL:
+            cln.setStrValor(Utils.getStrAleatoria(5, EnmStrTipo.NUMERICO));
+            break;
+          case NUMERIC:
+            cln.setStrValor(Utils.getStrAleatoria(5, EnmStrTipo.NUMERICO));
+            break;
+          default:
+            cln.setStrValor(Utils.getStrAleatoria(5, EnmStrTipo.ALPHA));
+            break;
+        }
+      }
+
+      this.salvar(false);
+
+    } catch (Exception ex) {
+
+      new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(130), ex);
+    } finally {
+    }
   }
 
   private void salvarInsert() {
@@ -2132,6 +2174,7 @@ public abstract class DbTabelaAndroid<T extends Dominio> extends DbTabela<T> {
       this.getClnChavePrimaria().setIntValor(intId);
 
       this.onAdicionarAtualizarDispatcher(true);
+
     } catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
@@ -2155,6 +2198,7 @@ public abstract class DbTabelaAndroid<T extends Dominio> extends DbTabela<T> {
       this.getObjDb().execSql(sql);
 
       this.onAdicionarAtualizarDispatcher(false);
+
     } catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
@@ -2167,14 +2211,9 @@ public abstract class DbTabelaAndroid<T extends Dominio> extends DbTabela<T> {
     _booAbrirCadastroAuto = booAbrirCadastroAuto;
   }
 
-  protected void setBooItmListaCache(boolean booItmListaCache) {
+  protected void setBooManterCache(boolean booManterCache) {
 
-    _booItmListaCache = booItmListaCache;
-  }
-
-  private void setBooLockLstItmConsulta(boolean booLockLstItmConsulta) {
-
-    _booLockLstItmConsulta = booLockLstItmConsulta;
+    _booManterCache = booManterCache;
   }
 
   public void setBooSinc(boolean booSinc) {
@@ -2185,23 +2224,6 @@ public abstract class DbTabelaAndroid<T extends Dominio> extends DbTabela<T> {
   protected void setClsActCadastro(Class<? extends ActMain> clsActFrm) {
 
     _clsActCadastro = clsActFrm;
-  }
-
-  public void setLstItmConsulta(List<ItmConsulta> lstItmConsulta) {
-
-    try {
-
-      while (this.getBooLockLstItmConsulta()) {
-
-        Thread.sleep(100);
-      }
-
-      _lstItmConsulta = lstItmConsulta;
-    } catch (Exception ex) {
-
-      new ErroAndroid("Erro inesperado.\n", ex);
-    } finally {
-    }
   }
 
   private void setMniOrdemDecrescente(MenuItem mniOrdemDecrescente) {
@@ -2219,7 +2241,7 @@ public abstract class DbTabelaAndroid<T extends Dominio> extends DbTabela<T> {
     return true;
   }
 
-  private void viwOnAdicionarAtualizarDispatcher(TblOnChangeArg arg, boolean booAdicionar) {
+  private void viwOnAdicionarAtualizarDispatcher(OnChangeArg arg, boolean booAdicionar) {
 
     try {
 
@@ -2237,11 +2259,11 @@ public abstract class DbTabelaAndroid<T extends Dominio> extends DbTabela<T> {
 
         if (booAdicionar) {
 
-          viw.onAdicionarRegDispatcher(arg);
+          viw.dispararOnAdicionarReg(arg);
           continue;
         }
 
-        viw.onAtualizarRegDispatcher(arg);
+        viw.dispararOnAtualizarReg(arg);
       }
     } catch (Exception ex) {
 
@@ -2252,7 +2274,7 @@ public abstract class DbTabelaAndroid<T extends Dominio> extends DbTabela<T> {
 
   private void viwOnApagarDispatcher(int intId) {
 
-    TblOnChangeArg arg;
+    OnChangeArg arg;
 
     try {
 
@@ -2261,7 +2283,7 @@ public abstract class DbTabelaAndroid<T extends Dominio> extends DbTabela<T> {
         return;
       }
 
-      arg = new TblOnChangeArg();
+      arg = new OnChangeArg();
       arg.setIntRegistroId(intId);
 
       for (DbViewAndroid viw : this.getLstViwAndroid()) {
@@ -2271,7 +2293,7 @@ public abstract class DbTabelaAndroid<T extends Dominio> extends DbTabela<T> {
           continue;
         }
 
-        viw.onApagarRegDispatcher(arg);
+        viw.dispararOnApagarReg(arg);
       }
     } catch (Exception ex) {
 

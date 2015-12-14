@@ -31,7 +31,7 @@ public abstract class UtilsAndroid extends Utils {
 
     } catch (Exception ex) {
 
-      new Erro("Erro inesperado.\n", ex);
+      new ErroAndroid("Erro inesperado.\n", ex);
 
     } finally {
     }
@@ -77,7 +77,7 @@ public abstract class UtilsAndroid extends Utils {
 
     } catch (Exception ex) {
 
-      new Erro("Erro inesperado.\n", ex);
+      new ErroAndroid("Erro inesperado.\n", ex);
 
     } finally {
     }

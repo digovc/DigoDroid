@@ -3,10 +3,12 @@ package com.digosofter.digodroid.controle.painel;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.util.AttributeSet;
+import android.view.ViewGroup;
 
 import com.digosofter.digodroid.R;
 import com.digosofter.digodroid.UtilsAndroid;
 import com.digosofter.digodroid.design.TemaDefault;
+import com.digosofter.digodroid.erro.ErroAndroid;
 import com.digosofter.digojava.erro.Erro;
 
 public class PainelLinha extends PainelMain {
@@ -29,17 +31,18 @@ public class PainelLinha extends PainelMain {
   }
 
   @Override
-  protected void finalizar() {
+  public void finalizar() {
 
     super.finalizar();
 
     try {
 
       this.getLayoutParams().height = UtilsAndroid.dpToPx(this.getIntNivelQuantidade() * TemaDefault.getI().getIntHeightNivel(), this.getContext());
+      this.getLayoutParams().width = LayoutParams.MATCH_PARENT;
 
     } catch (Exception ex) {
 
-      new Erro("Erro inesperado.\n", ex);
+      new ErroAndroid("Erro inesperado.\n", ex);
     } finally {
     }
   }
@@ -50,7 +53,7 @@ public class PainelLinha extends PainelMain {
   }
 
   @Override
-  protected void inicializar() {
+  public void inicializar() {
 
     super.inicializar();
 
@@ -64,13 +67,13 @@ public class PainelLinha extends PainelMain {
 
     } catch (Exception ex) {
 
-      new Erro("Erro inesperado.\n", ex);
+      new ErroAndroid("Erro inesperado.\n", ex);
     } finally {
     }
   }
 
   @Override
-  protected void inicializar(AttributeSet ats) {
+  public void inicializar(AttributeSet ats) {
 
     super.inicializar(ats);
 
@@ -89,7 +92,7 @@ public class PainelLinha extends PainelMain {
 
     } catch (Exception ex) {
 
-      new Erro("Erro inesperado.\n", ex);
+      new ErroAndroid("Erro inesperado.\n", ex);
     } finally {
     }
   }

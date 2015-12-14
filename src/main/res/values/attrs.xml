@@ -1,10 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <declare-styleable name="ControleMain">
-        <attr name="strTitulo" format="string"/>
+
+    <declare-styleable name="CampoMain">
+
+        <attr name="clnNomeSql" format="string"/>
+
+
+    </declare-styleable>
+
+    <declare-styleable name="LabelGeral">
+
+        <attr name="enmFonteTamanho" format="enum">
+            <enum name="GRANDE" value="4"/>
+            <enum name="MEDIO" value="3"/>
+            <enum name="MINIM0" value="0"/>
+            <enum name="NORMAL" value="2"/>
+            <enum name="PEQUENO" value="1"/>
+        </attr>
+
+    </declare-styleable>
+
+    <declare-styleable name="LinhaGeral">
+
+        <attr name="enmDisposicao" format="enum">
+
+            <enum name="HORIZONTAL" value="0"/>
+            <enum name="VERTICAL" value="1"/>
+
+        </attr>
+
+    </declare-styleable>
+
+    <declare-styleable name="MenuItem">
+
+        <attr name="srcIcone" format="integer"/>
+
     </declare-styleable>
 
     <declare-styleable name="PainelLinha">
+
         <attr name="intNivelQuantidade" format="integer"/>
+
     </declare-styleable>
+
+    <declare-styleable name="strTitulo">
+
+        <attr name="strTitulo" format="string"/>
+
+    </declare-styleable>
+
 </resources>

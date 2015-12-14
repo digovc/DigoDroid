@@ -49,7 +49,7 @@ public class DataBaseAndroid extends DataBase {
 
       this.getArq().copiar(dir);
 
-      AppAndroid.getI().mostrarNotificacao("Backup efetuado com sucesso.");
+      AppAndroid.getI().notificar("Backup efetuado com sucesso.");
     }
     catch (Exception ex) {
 

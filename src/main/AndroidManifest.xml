@@ -22,10 +22,10 @@
         android:allowBackup="true" >
 
         <!-- Activities da biblioteca DigoDroid -->
-        <activity android:name="com.digosofter.digodroid.activity.ActConsulta" />
-        <activity android:name="com.digosofter.digodroid.activity.ActDetalhe" />
-        <activity android:name="com.digosofter.digodroid.activity.ActErro" />
-        <activity android:name="com.digosofter.digodroid.activity.ActMapaMain" />
+        <activity android:name=".activity.ActConsulta" />
+        <activity android:name=".activity.ActDetalhe" />
+        <activity android:name=".activity.ActErro" />
+        <activity android:name=".activity.ActMapaMain" />
 
         <meta-data
             android:name="com.google.android.gms.version"

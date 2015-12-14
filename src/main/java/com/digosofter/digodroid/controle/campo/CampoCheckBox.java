@@ -4,7 +4,7 @@ import android.content.Context;
 import android.util.AttributeSet;
 
 import com.digosofter.digodroid.controle.checkbox.CheckBoxGeral;
-import com.digosofter.digojava.erro.Erro;
+import com.digosofter.digodroid.erro.ErroAndroid;
 
 public class CampoCheckBox extends CampoMain {
 
@@ -38,7 +38,7 @@ public class CampoCheckBox extends CampoMain {
 
     } catch (Exception ex) {
 
-      new Erro("Erro inesperado.\n", ex);
+      new ErroAndroid("Erro inesperado.\n", ex);
     } finally {
     }
 
@@ -46,7 +46,7 @@ public class CampoCheckBox extends CampoMain {
   }
 
   @Override
-  protected void inicializar() {
+  public void inicializar() {
 
     super.inicializar();
 
@@ -56,7 +56,7 @@ public class CampoCheckBox extends CampoMain {
 
     } catch (Exception ex) {
 
-      new Erro("Erro inesperado.\n", ex);
+      new ErroAndroid("Erro inesperado.\n", ex);
     } finally {
     }
   }
@@ -69,13 +69,13 @@ public class CampoCheckBox extends CampoMain {
 
     } catch (Exception ex) {
 
-      new Erro("Erro inesperado.\n", ex);
+      new ErroAndroid("Erro inesperado.\n", ex);
     } finally {
     }
   }
 
   @Override
-  protected void montarLayout() {
+  public void montarLayout() {
 
     super.montarLayout();
 
@@ -85,7 +85,7 @@ public class CampoCheckBox extends CampoMain {
 
     } catch (Exception ex) {
 
-      new Erro("Erro inesperado.\n", ex);
+      new ErroAndroid("Erro inesperado.\n", ex);
     } finally {
     }
   }
