@@ -9,13 +9,13 @@ import android.widget.Filterable;
 
 import com.digosofter.digodroid.activity.ActConsulta;
 import com.digosofter.digodroid.controle.item.ItemConsulta;
-import com.digosofter.digodroid.database.DbTabelaAndroid;
+import com.digosofter.digodroid.database.TabelaAndroid;
 import com.digosofter.digodroid.erro.ErroAndroid;
 
 public class AdpConsulta extends CursorAdapter implements Filterable {
 
   private ActConsulta _actConsulta;
-  private DbTabelaAndroid<?> _tbl;
+  private TabelaAndroid<?> _tbl;
 
   public AdpConsulta(ActConsulta actConsulta, Cursor crs) {
 
@@ -88,7 +88,7 @@ public class AdpConsulta extends CursorAdapter implements Filterable {
     return _actConsulta;
   }
 
-  private DbTabelaAndroid<?> getTbl() {
+  private TabelaAndroid<?> getTbl() {
 
     return _tbl;
   }
@@ -116,7 +116,7 @@ public class AdpConsulta extends CursorAdapter implements Filterable {
     }
   }
 
-  private void setTbl(DbTabelaAndroid<?> tbl) {
+  private void setTbl(TabelaAndroid<?> tbl) {
 
     _tbl = tbl;
   }

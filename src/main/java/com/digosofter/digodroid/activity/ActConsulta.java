@@ -21,7 +21,7 @@ import com.digosofter.digodroid.AppAndroid;
 import com.digosofter.digodroid.R;
 import com.digosofter.digodroid.adapter.AdpConsulta;
 import com.digosofter.digodroid.controle.item.ItemConsulta;
-import com.digosofter.digodroid.database.DbTabelaAndroid;
+import com.digosofter.digodroid.database.TabelaAndroid;
 import com.digosofter.digodroid.erro.ErroAndroid;
 import com.digosofter.digojava.Utils;
 import com.digosofter.digojava.database.OnChangeArg;
@@ -51,7 +51,7 @@ public class ActConsulta extends ActMain implements OnItemClickListener, OnItemL
   private ItemConsulta _itmSelec;
   private ListView _pnlLista;
   private LinearLayout _pnlPesquisa;
-  private DbTabelaAndroid<?> _tbl;
+  private TabelaAndroid<?> _tbl;
   private TextView _txtTblDescricao;
   private TextView _txtVazio;
 
@@ -266,7 +266,7 @@ public class ActConsulta extends ActMain implements OnItemClickListener, OnItemL
     return _pnlPesquisa;
   }
 
-  public DbTabelaAndroid<?> getTbl() {
+  public TabelaAndroid<?> getTbl() {
 
     int intTblObjetoId;
 
@@ -649,7 +649,7 @@ public class ActConsulta extends ActMain implements OnItemClickListener, OnItemL
         return;
       }
 
-      mni = mnu.add(DbTabelaAndroid.STR_MENU_ADICIONAR);
+      mni = mnu.add(TabelaAndroid.STR_MENU_ADICIONAR);
       mni.setIcon(R.drawable.ic_adicionar);
       mni.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
 
@@ -673,7 +673,7 @@ public class ActConsulta extends ActMain implements OnItemClickListener, OnItemL
         return;
       }
 
-      mni = mnu.add(DbTabelaAndroid.STR_MENU_PESQUISAR);
+      mni = mnu.add(TabelaAndroid.STR_MENU_PESQUISAR);
       mni.setCheckable(true);
       mni.setIcon(R.drawable.ic_pesquisar);
       mni.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
@@ -819,7 +819,7 @@ public class ActConsulta extends ActMain implements OnItemClickListener, OnItemL
         return true;
       }
 
-      if (DbTabelaAndroid.STR_MENU_PESQUISAR.equals(mni.getTitle())) {
+      if (TabelaAndroid.STR_MENU_PESQUISAR.equals(mni.getTitle())) {
 
         this.onOptionsItemSelectedPesquisar(mni);
         return true;

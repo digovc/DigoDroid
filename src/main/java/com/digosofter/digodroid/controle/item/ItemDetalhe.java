@@ -3,13 +3,13 @@ package com.digosofter.digodroid.controle.item;
 import android.content.Context;
 import android.database.Cursor;
 
-import com.digosofter.digodroid.database.DbColunaAndroid;
+import com.digosofter.digodroid.database.ColunaAndroid;
 import com.digosofter.digodroid.erro.ErroAndroid;
 import com.digosofter.digojava.Utils;
 
 public class ItemDetalhe extends ItemCampo {
 
-  public ItemDetalhe(Context cnt, DbColunaAndroid cln) {
+  public ItemDetalhe(Context cnt, ColunaAndroid cln) {
 
     super(cnt, cln, null);
   }

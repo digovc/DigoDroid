@@ -13,13 +13,13 @@ import com.digosofter.digodroid.activity.ActMain;
 import com.digosofter.digodroid.controle.drawermenu.DrawerMenu;
 import com.digosofter.digodroid.controle.drawermenu.MenuItem;
 import com.digosofter.digodroid.database.DataBaseAndroid;
-import com.digosofter.digodroid.database.DbTabelaAndroid;
-import com.digosofter.digodroid.database.DbViewAndroid;
+import com.digosofter.digodroid.database.TabelaAndroid;
+import com.digosofter.digodroid.database.ViewAndroid;
 import com.digosofter.digodroid.erro.ErroAndroid;
 import com.digosofter.digojava.App;
 import com.digosofter.digojava.MsgUsuario;
 import com.digosofter.digojava.Utils;
-import com.digosofter.digojava.database.DbTabela;
+import com.digosofter.digojava.database.Tabela;
 import com.digosofter.digojava.erro.Erro;
 
 import java.util.ArrayList;
@@ -293,8 +293,8 @@ public abstract class AppAndroid extends App {
       _lstMsgUsuarioPadrao.add(new MsgUsuario("Erro ao criar tela.", 117));
       _lstMsgUsuarioPadrao.add(new MsgUsuario("Erro ao criar objeto do tipo 'DataBase'.", 118));
       _lstMsgUsuarioPadrao.add(new MsgUsuario("Erro ao executar SQL.", 119));
-      _lstMsgUsuarioPadrao.add(new MsgUsuario("Erro ao criar objeto do tipo 'DbColuna'.", 120));
-      _lstMsgUsuarioPadrao.add(new MsgUsuario("Erro ao criar objeto do tipo 'DbFiltro'.", 121));
+      _lstMsgUsuarioPadrao.add(new MsgUsuario("Erro ao criar objeto do tipo 'Coluna'.", 120));
+      _lstMsgUsuarioPadrao.add(new MsgUsuario("Erro ao criar objeto do tipo 'Filtro'.", 121));
       _lstMsgUsuarioPadrao.add(new MsgUsuario("Erro ao criar objeto do tipo 'dbTabela'.", 122));
       _lstMsgUsuarioPadrao.add(new MsgUsuario("Erro ao abrir tela.", 123));
       _lstMsgUsuarioPadrao.add(new MsgUsuario("Erro ao buscar registro no banco de dados.", 124));
@@ -433,9 +433,9 @@ public abstract class AppAndroid extends App {
    *
    * @param intTblObjetoId Código do objeto da tabela que se deseja retornar.
    */
-  public DbTabelaAndroid getTbl(int intTblObjetoId) {
+  public TabelaAndroid getTbl(int intTblObjetoId) {
 
-    DbTabelaAndroid tblResultado;
+    TabelaAndroid tblResultado;
 
     try {
 
@@ -444,9 +444,9 @@ public abstract class AppAndroid extends App {
         return null;
       }
 
-      for (DbTabela tbl : this.getLstTbl()) {
+      for (Tabela tbl : this.getLstTbl()) {
 
-        tblResultado = this.getTbl(intTblObjetoId, (DbTabelaAndroid) tbl);
+        tblResultado = this.getTbl(intTblObjetoId, (TabelaAndroid) tbl);
 
         if (tblResultado == null) {
 
@@ -466,7 +466,7 @@ public abstract class AppAndroid extends App {
     return null;
   }
 
-  private DbTabelaAndroid getTbl(int intTblObjetoId, DbTabelaAndroid tbl) {
+  private TabelaAndroid getTbl(int intTblObjetoId, TabelaAndroid tbl) {
 
     try {
 
@@ -480,7 +480,7 @@ public abstract class AppAndroid extends App {
         return tbl;
       }
 
-      for (DbViewAndroid viw : (List<DbViewAndroid>) tbl.getLstViwAndroid()) {
+      for (ViewAndroid viw : (List<ViewAndroid>) tbl.getLstViwAndroid()) {
 
         if (viw == null) {
 

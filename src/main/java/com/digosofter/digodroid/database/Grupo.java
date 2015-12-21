@@ -2,7 +2,7 @@ package com.digosofter.digodroid.database;
 
 import com.digosofter.digojava.Objeto;
 
-public class DbGrupo extends Objeto {
+public class Grupo extends Objeto {
 
   private int _intImagemResId;
 

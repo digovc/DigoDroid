@@ -17,9 +17,9 @@ import com.digosofter.digodroid.erro.ErroAndroid;
 import com.digosofter.digojava.Utils;
 import com.digosofter.digojava.Utils.EnmDataFormato;
 import com.digosofter.digojava.Utils.EnmStrTipo;
-import com.digosofter.digojava.database.DbColuna;
-import com.digosofter.digojava.database.DbFiltro;
-import com.digosofter.digojava.database.DbTabela;
+import com.digosofter.digojava.database.Coluna;
+import com.digosofter.digojava.database.Filtro;
+import com.digosofter.digojava.database.Tabela;
 import com.digosofter.digojava.database.Dominio;
 import com.digosofter.digojava.database.OnChangeArg;
 
@@ -37,7 +37,7 @@ import java.util.List;
  * @param <T>
  * @author r-vieira
  */
-public abstract class DbTabelaAndroid<T extends Dominio> extends DbTabela<T> {
+public abstract class TabelaAndroid<T extends Dominio> extends Tabela<T> {
 
   public static final String STR_MENU_ADICIONAR = "Adicionar";
   public static final String STR_MENU_APAGAR = "Apagar";
@@ -49,10 +49,10 @@ public abstract class DbTabelaAndroid<T extends Dominio> extends DbTabela<T> {
   private boolean _booManterCache = true;
   private boolean _booSinc = true;
   private Class<? extends ActMain> _clsActCadastro;
-  private List<DbViewAndroid> _lstViwAndroid;
+  private List<ViewAndroid> _lstViwAndroid;
   private MenuItem _mniOrdemDecrescente;
   private DataBaseAndroid _objDb;
-  private DbTabelaAndroid<?> _viwPrincipal;
+  private TabelaAndroid<?> _viwPrincipal;
 
   /**
    * Constroe uma nova instância dessa tabela. Este processo cria também a tabela e suas colunas no banco de dados
@@ -61,7 +61,7 @@ public abstract class DbTabelaAndroid<T extends Dominio> extends DbTabela<T> {
    * @param strNome    Nome da tabela no banco de dados.
    * @param clsDominio Classe que representa o domínio desta tabela.
    */
-  protected DbTabelaAndroid(String strNome, Class<T> clsDominio) {
+  protected TabelaAndroid(String strNome, Class<T> clsDominio) {
 
     super(strNome, clsDominio);
 
@@ -164,7 +164,7 @@ public abstract class DbTabelaAndroid<T extends Dominio> extends DbTabela<T> {
     }
   }
 
-  void addViw(DbViewAndroid viwAndroid) {
+  void addViw(ViewAndroid viwAndroid) {
 
     try {
 
@@ -242,7 +242,7 @@ public abstract class DbTabelaAndroid<T extends Dominio> extends DbTabela<T> {
         return;
       }
 
-      for (DbColuna cln : this.getLstCln()) {
+      for (Coluna cln : this.getLstCln()) {
 
         cln.setStrValor(crs.getString(crs.getColumnIndex(cln.getStrNomeSql())));
       }
@@ -268,19 +268,19 @@ public abstract class DbTabelaAndroid<T extends Dominio> extends DbTabela<T> {
 
       objDominio = this.getClsDominio().newInstance();
 
-      for (DbColuna cln : this.getLstCln()) {
+      for (Coluna cln : this.getLstCln()) {
 
         if (cln == null) {
 
           continue;
         }
 
-        if (!(cln instanceof DbColunaAndroid)) {
+        if (!(cln instanceof ColunaAndroid)) {
 
           continue;
         }
 
-        ((DbColunaAndroid) cln).carregarDominio(crs, objDominio);
+        ((ColunaAndroid) cln).carregarDominio(crs, objDominio);
       }
 
       return objDominio;
@@ -397,7 +397,7 @@ public abstract class DbTabelaAndroid<T extends Dominio> extends DbTabela<T> {
     return _clsActCadastro;
   }
 
-  public List<Integer> getLstInt(DbColuna cln, List<DbFiltro> lstFil) {
+  public List<Integer> getLstInt(Coluna cln, List<Filtro> lstFil) {
 
     List<Integer> lstIntResultado;
     List<String> lstStr;
@@ -435,7 +435,7 @@ public abstract class DbTabelaAndroid<T extends Dominio> extends DbTabela<T> {
     return null;
   }
 
-  public List<String> getLstStr(DbColuna cln, List<DbFiltro> lstFil) {
+  public List<String> getLstStr(Coluna cln, List<Filtro> lstFil) {
 
     Cursor crs;
     List<String> lstStrResultado = null;
@@ -478,7 +478,7 @@ public abstract class DbTabelaAndroid<T extends Dominio> extends DbTabela<T> {
    *
    * @return Lista de view que representam os dados desta tabela.
    */
-  public List<DbViewAndroid> getLstViwAndroid() {
+  public List<ViewAndroid> getLstViwAndroid() {
 
     try {
 
@@ -547,7 +547,7 @@ public abstract class DbTabelaAndroid<T extends Dominio> extends DbTabela<T> {
 
       strResultado = Utils.STR_VAZIA;
 
-      for (DbColuna cln : this.getLstCln()) {
+      for (Coluna cln : this.getLstCln()) {
 
         str = "_tbl_nome._cln_nome, ";
 
@@ -577,14 +577,14 @@ public abstract class DbTabelaAndroid<T extends Dominio> extends DbTabela<T> {
 
       strResultado = Utils.STR_VAZIA;
 
-      for (DbColuna cln : this.getLstCln()) {
+      for (Coluna cln : this.getLstCln()) {
 
         if (cln == null) {
 
           continue;
         }
 
-        strResultado += ((DbColunaAndroid) cln).getSqlCreateTable();
+        strResultado += ((ColunaAndroid) cln).getSqlCreateTable();
       }
 
       strResultado = Utils.removerUltimaLetra(strResultado, 2);
@@ -608,7 +608,7 @@ public abstract class DbTabelaAndroid<T extends Dominio> extends DbTabela<T> {
 
       strResultado = Utils.STR_VAZIA;
 
-      for (DbColuna cln : this.getLstCln()) {
+      for (Coluna cln : this.getLstCln()) {
 
         if (cln == null) {
 
@@ -659,7 +659,7 @@ public abstract class DbTabelaAndroid<T extends Dominio> extends DbTabela<T> {
 
       strResultado = Utils.STR_VAZIA;
 
-      for (DbColuna cln : this.getLstCln()) {
+      for (Coluna cln : this.getLstCln()) {
 
         if (cln == null) {
 
@@ -712,7 +712,7 @@ public abstract class DbTabelaAndroid<T extends Dominio> extends DbTabela<T> {
 
       strResultado = Utils.STR_VAZIA;
 
-      for (DbColuna cln : this.getLstCln()) {
+      for (Coluna cln : this.getLstCln()) {
 
         if (cln == null) {
 
@@ -777,7 +777,7 @@ public abstract class DbTabelaAndroid<T extends Dominio> extends DbTabela<T> {
     return null;
   }
 
-  private String getSqlSelectColunasNomes(List<DbColuna> lstCln) {
+  private String getSqlSelectColunasNomes(List<Coluna> lstCln) {
 
     String strResultado = null;
     String str;
@@ -796,7 +796,7 @@ public abstract class DbTabelaAndroid<T extends Dominio> extends DbTabela<T> {
 
       strResultado = Utils.STR_VAZIA;
 
-      for (DbColuna cln : lstCln) {
+      for (Coluna cln : lstCln) {
 
         str = "_tbl_nome._cln_nome, ";
         str = str.replace("_tbl_nome", cln.getTbl().getStrNomeSql());
@@ -819,7 +819,7 @@ public abstract class DbTabelaAndroid<T extends Dominio> extends DbTabela<T> {
 
   private String getSqlSelectColunasNomesConsulta() {
 
-    List<DbColuna> lstClnAdicionada;
+    List<Coluna> lstClnAdicionada;
     String strResultado;
 
     try {
@@ -827,7 +827,7 @@ public abstract class DbTabelaAndroid<T extends Dominio> extends DbTabela<T> {
       lstClnAdicionada = new ArrayList<>();
       strResultado = Utils.STR_VAZIA;
 
-      for (DbColuna cln : this.getLstClnConsulta()) {
+      for (Coluna cln : this.getLstClnConsulta()) {
 
         strResultado += this.getSqlSelectColunasNomesConsulta(lstClnAdicionada, cln);
       }
@@ -849,7 +849,7 @@ public abstract class DbTabelaAndroid<T extends Dominio> extends DbTabela<T> {
   }
 
   @Nullable
-  private String getSqlSelectColunasNomesConsulta(List<DbColuna> lstClnAdicionada, DbColuna cln) {
+  private String getSqlSelectColunasNomesConsulta(List<Coluna> lstClnAdicionada, Coluna cln) {
 
     try {
 
@@ -882,7 +882,7 @@ public abstract class DbTabelaAndroid<T extends Dominio> extends DbTabela<T> {
     return null;
   }
 
-  private String getSqlWhere(List<DbFiltro> lstObjDbFiltro) {
+  private String getSqlWhere(List<Filtro> lstFil) {
 
     boolean booPrimeiroTermo;
     String str;
@@ -890,12 +890,12 @@ public abstract class DbTabelaAndroid<T extends Dominio> extends DbTabela<T> {
 
     try {
 
-      if (lstObjDbFiltro == null) {
+      if (lstFil == null) {
 
         return Utils.STR_VAZIA;
       }
 
-      if (lstObjDbFiltro.isEmpty()) {
+      if (lstFil.isEmpty()) {
 
         return Utils.STR_VAZIA;
       }
@@ -903,7 +903,7 @@ public abstract class DbTabelaAndroid<T extends Dominio> extends DbTabela<T> {
       booPrimeiroTermo = true;
       strResultado = Utils.STR_VAZIA;
 
-      for (DbFiltro fil : lstObjDbFiltro) {
+      for (Filtro fil : lstFil) {
 
         str = "_filtro ";
 
@@ -934,7 +934,7 @@ public abstract class DbTabelaAndroid<T extends Dominio> extends DbTabela<T> {
    *
    * @return A view principal desta tabela.
    */
-  public DbTabelaAndroid<?> getViwPrincipal() {
+  public TabelaAndroid<?> getViwPrincipal() {
 
     try {
 
@@ -989,7 +989,7 @@ public abstract class DbTabelaAndroid<T extends Dominio> extends DbTabela<T> {
         return;
       }
 
-      for (DbColuna cln : this.getLstCln()) {
+      for (Coluna cln : this.getLstCln()) {
 
         if (cln == null) {
 
@@ -1061,14 +1061,14 @@ public abstract class DbTabelaAndroid<T extends Dominio> extends DbTabela<T> {
         return;
       }
 
-      for (DbColuna cln : this.getLstClnOrdenado()) {
+      for (Coluna cln : this.getLstClnOrdenado()) {
 
         if (cln == null) {
 
           continue;
         }
 
-        ((DbColunaAndroid) cln).montarMenuCampo(smn);
+        ((ColunaAndroid) cln).montarMenuCampo(smn);
       }
     }
     catch (Exception ex) {
@@ -1128,7 +1128,7 @@ public abstract class DbTabelaAndroid<T extends Dominio> extends DbTabela<T> {
         return;
       }
 
-      mnu.add(DbTabelaAndroid.STR_MENU_ALTERAR);
+      mnu.add(TabelaAndroid.STR_MENU_ALTERAR);
     }
     catch (Exception ex) {
 
@@ -1157,7 +1157,7 @@ public abstract class DbTabelaAndroid<T extends Dominio> extends DbTabela<T> {
         return;
       }
 
-      mnu.add(DbTabelaAndroid.STR_MENU_APAGAR);
+      mnu.add(TabelaAndroid.STR_MENU_APAGAR);
     }
     catch (Exception ex) {
 
@@ -1176,7 +1176,7 @@ public abstract class DbTabelaAndroid<T extends Dominio> extends DbTabela<T> {
         return;
       }
 
-      mnu.add(DbTabelaAndroid.STR_MENU_DETALHAR);
+      mnu.add(TabelaAndroid.STR_MENU_DETALHAR);
     }
     catch (Exception ex) {
 
@@ -1221,10 +1221,10 @@ public abstract class DbTabelaAndroid<T extends Dominio> extends DbTabela<T> {
         return;
       }
 
-      ((DbColunaAndroid) this.getClnChavePrimaria()).montarMenuOrdenar(smn);
-      ((DbColunaAndroid) this.getClnNome()).montarMenuOrdenar(smn);
+      ((ColunaAndroid) this.getClnChavePrimaria()).montarMenuOrdenar(smn);
+      ((ColunaAndroid) this.getClnNome()).montarMenuOrdenar(smn);
 
-      for (DbColuna cln : this.getLstClnConsultaOrdenado()) {
+      for (Coluna cln : this.getLstClnConsultaOrdenado()) {
 
         if (cln == null) {
 
@@ -1236,7 +1236,7 @@ public abstract class DbTabelaAndroid<T extends Dominio> extends DbTabela<T> {
           continue;
         }
 
-        ((DbColunaAndroid) cln).montarMenuOrdenar(smn);
+        ((ColunaAndroid) cln).montarMenuOrdenar(smn);
       }
     }
     catch (Exception ex) {
@@ -1300,9 +1300,9 @@ public abstract class DbTabelaAndroid<T extends Dominio> extends DbTabela<T> {
     return this.pesquisar(this.getLstCln(), null);
   }
 
-  public Cursor pesquisar(DbColuna cln) {
+  public Cursor pesquisar(Coluna cln) {
 
-    List<DbColuna> lstCln;
+    List<Coluna> lstCln;
 
     try {
 
@@ -1322,24 +1322,24 @@ public abstract class DbTabelaAndroid<T extends Dominio> extends DbTabela<T> {
     return null;
   }
 
-  public Cursor pesquisar(DbColuna clnFiltro, boolean booFiltro) {
+  public Cursor pesquisar(Coluna clnFiltro, boolean booFiltro) {
 
     return this.pesquisar(clnFiltro, (booFiltro ? 1 : 0));
   }
 
-  public Cursor pesquisar(DbColuna clnFiltro, double dblFiltro) {
+  public Cursor pesquisar(Coluna clnFiltro, double dblFiltro) {
 
     return this.pesquisar(clnFiltro, String.valueOf(dblFiltro));
   }
 
-  public Cursor pesquisar(DbColuna clnFiltro, int intFiltro) {
+  public Cursor pesquisar(Coluna clnFiltro, int intFiltro) {
 
     return this.pesquisar(clnFiltro, (double) intFiltro);
   }
 
-  public Cursor pesquisar(DbColuna cln, List<DbFiltro> lstFil) {
+  public Cursor pesquisar(Coluna cln, List<Filtro> lstFil) {
 
-    List<DbColuna> lstCln;
+    List<Coluna> lstCln;
 
     try {
 
@@ -1359,17 +1359,17 @@ public abstract class DbTabelaAndroid<T extends Dominio> extends DbTabela<T> {
     return null;
   }
 
-  public Cursor pesquisar(DbColuna clnFiltro, String strFiltro) {
+  public Cursor pesquisar(Coluna clnFiltro, String strFiltro) {
 
-    List<DbFiltro> lstObjDbFiltro;
+    List<Filtro> lstFil;
 
     try {
 
-      lstObjDbFiltro = new ArrayList<>();
+      lstFil = new ArrayList<>();
 
-      lstObjDbFiltro.add(new DbFiltro(clnFiltro, strFiltro));
+      lstFil.add(new Filtro(clnFiltro, strFiltro));
 
-      return this.pesquisar(lstObjDbFiltro);
+      return this.pesquisar(lstFil);
     }
     catch (Exception ex) {
 
@@ -1381,7 +1381,7 @@ public abstract class DbTabelaAndroid<T extends Dominio> extends DbTabela<T> {
     return null;
   }
 
-  public Cursor pesquisar(List<DbColuna> lstCln, List<DbFiltro> lstFil) {
+  public Cursor pesquisar(List<Coluna> lstCln, List<Filtro> lstFil) {
 
     String sql;
 
@@ -1407,7 +1407,7 @@ public abstract class DbTabelaAndroid<T extends Dominio> extends DbTabela<T> {
     return null;
   }
 
-  public Cursor pesquisar(List<DbFiltro> lstFil) {
+  public Cursor pesquisar(List<Filtro> lstFil) {
 
     return this.pesquisar(this.getLstCln(), lstFil);
   }
@@ -1494,17 +1494,17 @@ public abstract class DbTabelaAndroid<T extends Dominio> extends DbTabela<T> {
     return null;
   }
 
-  public List<T> pesquisarDominio(DbColuna clnFiltro, boolean booFiltro) {
+  public List<T> pesquisarDominio(Coluna clnFiltro, boolean booFiltro) {
 
     return this.pesquisarDominio(clnFiltro, (booFiltro ? 1 : 0));
   }
 
-  public List<T> pesquisarDominio(DbColuna clnFiltro, double dblFiltro) {
+  public List<T> pesquisarDominio(Coluna clnFiltro, double dblFiltro) {
 
     return this.pesquisarDominio(clnFiltro, String.valueOf(dblFiltro));
   }
 
-  public List<T> pesquisarDominio(DbColuna clnFiltro, GregorianCalendar dttFiltro) {
+  public List<T> pesquisarDominio(Coluna clnFiltro, GregorianCalendar dttFiltro) {
 
     try {
 
@@ -1525,19 +1525,19 @@ public abstract class DbTabelaAndroid<T extends Dominio> extends DbTabela<T> {
     return null;
   }
 
-  public List<T> pesquisarDominio(DbColuna clnFiltro, int intFiltro) {
+  public List<T> pesquisarDominio(Coluna clnFiltro, int intFiltro) {
 
     return this.pesquisarDominio(clnFiltro, (double) intFiltro);
   }
 
-  public List<T> pesquisarDominio(DbColuna clnFiltro, String strFiltro) {
+  public List<T> pesquisarDominio(Coluna clnFiltro, String strFiltro) {
 
-    return this.pesquisarDominio(new DbFiltro(clnFiltro, strFiltro));
+    return this.pesquisarDominio(new Filtro(clnFiltro, strFiltro));
   }
 
-  public List<T> pesquisarDominio(DbFiltro fil) {
+  public List<T> pesquisarDominio(Filtro fil) {
 
-    List<DbFiltro> lstFil;
+    List<Filtro> lstFil;
 
     try {
 
@@ -1562,7 +1562,7 @@ public abstract class DbTabelaAndroid<T extends Dominio> extends DbTabela<T> {
     return null;
   }
 
-  public List<T> pesquisarDominio(List<DbFiltro> lstFil) {
+  public List<T> pesquisarDominio(List<Filtro> lstFil) {
 
     Cursor crs;
     List<T> lstObjDominioResultado;
@@ -1636,7 +1636,7 @@ public abstract class DbTabelaAndroid<T extends Dominio> extends DbTabela<T> {
 
       switch (mni.getTitle().toString()) {
 
-        case DbTabelaAndroid.STR_MENU_ADICIONAR:
+        case TabelaAndroid.STR_MENU_ADICIONAR:
           this.processarMenuAdicionar(act);
           return;
       }
@@ -1696,19 +1696,19 @@ public abstract class DbTabelaAndroid<T extends Dominio> extends DbTabela<T> {
         return false;
       }
 
-      for (DbColuna cln : this.getLstCln()) {
+      for (Coluna cln : this.getLstCln()) {
 
         if (cln == null) {
 
           continue;
         }
 
-        if (!mni.equals(((DbColunaAndroid) cln).getMniCampo())) {
+        if (!mni.equals(((ColunaAndroid) cln).getMniCampo())) {
 
           continue;
         }
 
-        ((DbColunaAndroid) cln).processarMenuCampo(mni);
+        ((ColunaAndroid) cln).processarMenuCampo(mni);
         act.invalidateOptionsMenu();
         return true;
       }
@@ -1739,15 +1739,15 @@ public abstract class DbTabelaAndroid<T extends Dominio> extends DbTabela<T> {
 
       switch (mnu.getTitle().toString()) {
 
-        case DbTabelaAndroid.STR_MENU_ALTERAR:
+        case TabelaAndroid.STR_MENU_ALTERAR:
           this.processarMenuItemAlterar(act, intId);
           return;
 
-        case DbTabelaAndroid.STR_MENU_APAGAR:
+        case TabelaAndroid.STR_MENU_APAGAR:
           this.processarMenuItemApagar(act, intId);
           return;
 
-        case DbTabelaAndroid.STR_MENU_DETALHAR:
+        case TabelaAndroid.STR_MENU_DETALHAR:
           this.processarMenuItemDetalhar(act, intId);
           return;
       }
@@ -1875,31 +1875,31 @@ public abstract class DbTabelaAndroid<T extends Dominio> extends DbTabela<T> {
         return false;
       }
 
-      if (mni.equals(((DbColunaAndroid) this.getClnChavePrimaria()).getMniOrdenar())) {
+      if (mni.equals(((ColunaAndroid) this.getClnChavePrimaria()).getMniOrdenar())) {
 
-        ((DbColunaAndroid) this.getClnChavePrimaria()).processarMenuOrdenar(mni);
+        ((ColunaAndroid) this.getClnChavePrimaria()).processarMenuOrdenar(mni);
         return true;
       }
 
-      if (mni.equals(((DbColunaAndroid) this.getClnNome()).getMniOrdenar())) {
+      if (mni.equals(((ColunaAndroid) this.getClnNome()).getMniOrdenar())) {
 
-        ((DbColunaAndroid) this.getClnNome()).processarMenuOrdenar(mni);
+        ((ColunaAndroid) this.getClnNome()).processarMenuOrdenar(mni);
         return true;
       }
 
-      for (DbColuna cln : this.getLstClnConsulta()) {
+      for (Coluna cln : this.getLstClnConsulta()) {
 
         if (cln == null) {
 
           continue;
         }
 
-        if (!mni.equals(((DbColunaAndroid) cln).getMniOrdenar())) {
+        if (!mni.equals(((ColunaAndroid) cln).getMniOrdenar())) {
 
           continue;
         }
 
-        ((DbColunaAndroid) cln).processarMenuOrdenar(mni);
+        ((ColunaAndroid) cln).processarMenuOrdenar(mni);
         return true;
       }
     }
@@ -1935,17 +1935,17 @@ public abstract class DbTabelaAndroid<T extends Dominio> extends DbTabela<T> {
     }
   }
 
-  public DbTabelaAndroid recuperar(DbColuna clnFiltro, boolean booFiltro) {
+  public TabelaAndroid recuperar(Coluna clnFiltro, boolean booFiltro) {
 
     return this.recuperar(clnFiltro, (booFiltro ? 1 : 0));
   }
 
-  public DbTabelaAndroid recuperar(DbColuna clnFiltro, double dblFiltro) {
+  public TabelaAndroid recuperar(Coluna clnFiltro, double dblFiltro) {
 
     return this.recuperar(clnFiltro, String.valueOf(dblFiltro));
   }
 
-  public DbTabelaAndroid recuperar(DbColuna clnFiltro, GregorianCalendar dttFiltro) {
+  public TabelaAndroid recuperar(Coluna clnFiltro, GregorianCalendar dttFiltro) {
 
     try {
 
@@ -1966,19 +1966,19 @@ public abstract class DbTabelaAndroid<T extends Dominio> extends DbTabela<T> {
     return this;
   }
 
-  public DbTabelaAndroid recuperar(DbColuna clnFiltro, int intFiltro) {
+  public TabelaAndroid recuperar(Coluna clnFiltro, int intFiltro) {
 
     return this.recuperar(clnFiltro, (double) intFiltro);
   }
 
-  public DbTabelaAndroid recuperar(DbColuna clnFiltro, String strFiltro) {
+  public TabelaAndroid recuperar(Coluna clnFiltro, String strFiltro) {
 
-    return this.recuperar(new DbFiltro(clnFiltro, strFiltro));
+    return this.recuperar(new Filtro(clnFiltro, strFiltro));
   }
 
-  public DbTabelaAndroid recuperar(DbFiltro fil) {
+  public TabelaAndroid recuperar(Filtro fil) {
 
-    List<DbFiltro> lstFil;
+    List<Filtro> lstFil;
 
     try {
 
@@ -2002,12 +2002,12 @@ public abstract class DbTabelaAndroid<T extends Dominio> extends DbTabela<T> {
     return this;
   }
 
-  public DbTabelaAndroid recuperar(int intId) {
+  public TabelaAndroid recuperar(int intId) {
 
     return this.recuperar(this.getClnChavePrimaria(), intId);
   }
 
-  public DbTabelaAndroid recuperar(List<DbFiltro> lstFil) {
+  public TabelaAndroid recuperar(List<Filtro> lstFil) {
 
     Cursor crs;
     String sql;
@@ -2037,17 +2037,17 @@ public abstract class DbTabelaAndroid<T extends Dominio> extends DbTabela<T> {
     return this;
   }
 
-  public T recuperarDominio(DbColuna clnFiltro, boolean booFiltro) {
+  public T recuperarDominio(Coluna clnFiltro, boolean booFiltro) {
 
     return this.recuperarDominio(clnFiltro, (booFiltro ? 1 : 0));
   }
 
-  public T recuperarDominio(DbColuna clnFiltro, double dblFiltro) {
+  public T recuperarDominio(Coluna clnFiltro, double dblFiltro) {
 
     return this.recuperarDominio(clnFiltro, String.valueOf(dblFiltro));
   }
 
-  public T recuperarDominio(DbColuna clnFiltro, GregorianCalendar dttFiltro) {
+  public T recuperarDominio(Coluna clnFiltro, GregorianCalendar dttFiltro) {
 
     try {
 
@@ -2068,19 +2068,19 @@ public abstract class DbTabelaAndroid<T extends Dominio> extends DbTabela<T> {
     return null;
   }
 
-  public T recuperarDominio(DbColuna clnFiltro, int intFiltro) {
+  public T recuperarDominio(Coluna clnFiltro, int intFiltro) {
 
     return this.recuperarDominio(clnFiltro, (double) intFiltro);
   }
 
-  public T recuperarDominio(DbColuna clnFiltro, String strFiltro) {
+  public T recuperarDominio(Coluna clnFiltro, String strFiltro) {
 
-    return this.recuperarDominio(new DbFiltro(clnFiltro, strFiltro));
+    return this.recuperarDominio(new Filtro(clnFiltro, strFiltro));
   }
 
-  public T recuperarDominio(DbFiltro fil) {
+  public T recuperarDominio(Filtro fil) {
 
-    List<DbFiltro> lstFil;
+    List<Filtro> lstFil;
 
     try {
 
@@ -2109,7 +2109,7 @@ public abstract class DbTabelaAndroid<T extends Dominio> extends DbTabela<T> {
     return this.recuperarDominio(this.getClnChavePrimaria(), intId);
   }
 
-  public T recuperarDominio(List<DbFiltro> lstFil) {
+  public T recuperarDominio(List<Filtro> lstFil) {
 
     List<T> lstObjDominio;
 
@@ -2206,7 +2206,7 @@ public abstract class DbTabelaAndroid<T extends Dominio> extends DbTabela<T> {
 
     try {
 
-      for (DbColuna cln : this.getLstCln()) {
+      for (Coluna cln : this.getLstCln()) {
 
         switch (cln.getEnmTipo()) {
 
@@ -2337,7 +2337,7 @@ public abstract class DbTabelaAndroid<T extends Dominio> extends DbTabela<T> {
         return;
       }
 
-      for (DbViewAndroid viw : this.getLstViwAndroid()) {
+      for (ViewAndroid viw : this.getLstViwAndroid()) {
 
         if (viw == null) {
 
@@ -2375,7 +2375,7 @@ public abstract class DbTabelaAndroid<T extends Dominio> extends DbTabela<T> {
       arg = new OnChangeArg();
       arg.setIntRegistroId(intId);
 
-      for (DbViewAndroid viw : this.getLstViwAndroid()) {
+      for (ViewAndroid viw : this.getLstViwAndroid()) {
 
         if (viw == null) {
 

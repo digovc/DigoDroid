@@ -8,11 +8,11 @@ import com.digosofter.digojava.database.OnChangeArg;
 
 import org.apache.commons.io.IOUtils;
 
-public abstract class DbViewAndroid extends DbTabelaAndroid<Dominio> {
+public abstract class ViewAndroid extends TabelaAndroid<Dominio> {
 
-  private DbTabelaAndroid<?> _tbl;
+  private TabelaAndroid<?> _tbl;
 
-  protected DbViewAndroid(String strNome, DbTabelaAndroid tbl) {
+  protected ViewAndroid(String strNome, TabelaAndroid tbl) {
 
     super(strNome, null);
 
@@ -137,12 +137,12 @@ public abstract class DbViewAndroid extends DbTabelaAndroid<Dominio> {
     return strResultado;
   }
 
-  protected DbTabelaAndroid<?> getTbl() {
+  protected TabelaAndroid<?> getTbl() {
 
     return _tbl;
   }
 
-  private void setTbl(DbTabelaAndroid<?> tbl) {
+  private void setTbl(TabelaAndroid<?> tbl) {
 
     try {
 

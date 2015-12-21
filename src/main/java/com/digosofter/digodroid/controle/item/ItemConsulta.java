@@ -7,11 +7,11 @@ import android.util.AttributeSet;
 import com.digosofter.digodroid.UtilsAndroid;
 import com.digosofter.digodroid.controle.label.LabelGeral;
 import com.digosofter.digodroid.controle.painel.PainelGeral;
-import com.digosofter.digodroid.database.DbColunaAndroid;
-import com.digosofter.digodroid.database.DbTabelaAndroid;
+import com.digosofter.digodroid.database.ColunaAndroid;
+import com.digosofter.digodroid.database.TabelaAndroid;
 import com.digosofter.digodroid.design.TemaDefault;
 import com.digosofter.digodroid.erro.ErroAndroid;
-import com.digosofter.digojava.database.DbColuna;
+import com.digosofter.digojava.database.Coluna;
 
 public class ItemConsulta extends ItemMain {
 
@@ -19,14 +19,14 @@ public class ItemConsulta extends ItemMain {
   private LabelGeral _lblRegistroNome;
   private PainelGeral _pnlCampoContainer;
   private PainelGeral _pnlConteudo;
-  private DbTabelaAndroid<?> _tbl;
+  private TabelaAndroid<?> _tbl;
 
   public ItemConsulta(Context context, AttributeSet attrs) {
 
     super(context, attrs);
   }
 
-  public ItemConsulta(Context context, DbTabelaAndroid tbl, Cursor crs) {
+  public ItemConsulta(Context context, TabelaAndroid tbl, Cursor crs) {
 
     super(context);
 
@@ -91,9 +91,9 @@ public class ItemConsulta extends ItemMain {
         return;
       }
 
-      for (DbColuna cln : this.getTbl().getLstClnConsultaOrdenado()) {
+      for (Coluna cln : this.getTbl().getLstClnConsultaOrdenado()) {
 
-        this.carregarDadosItem(crs, (DbColunaAndroid) cln, booReciclar);
+        this.carregarDadosItem(crs, (ColunaAndroid) cln, booReciclar);
       }
     }
     catch (Exception ex) {
@@ -104,7 +104,7 @@ public class ItemConsulta extends ItemMain {
     }
   }
 
-  private void carregarDadosItem(Cursor crs, DbColunaAndroid cln, boolean booReciclar) {
+  private void carregarDadosItem(Cursor crs, ColunaAndroid cln, boolean booReciclar) {
 
     try {
 
@@ -155,7 +155,7 @@ public class ItemConsulta extends ItemMain {
     return this.getLblRegistroId().getIntTexto();
   }
 
-  private ItemCampo getItmCampo(DbColunaAndroid cln) {
+  private ItemCampo getItmCampo(ColunaAndroid cln) {
 
     try {
 
@@ -287,7 +287,7 @@ public class ItemConsulta extends ItemMain {
     return this.getLblRegistroNome().getStrTexto();
   }
 
-  private DbTabelaAndroid<?> getTbl() {
+  private TabelaAndroid<?> getTbl() {
 
     return _tbl;
   }
@@ -356,7 +356,7 @@ public class ItemConsulta extends ItemMain {
     }
   }
 
-  private void reciclarItem(Cursor crs, DbColunaAndroid cln) {
+  private void reciclarItem(Cursor crs, ColunaAndroid cln) {
 
     ItemCampo itmCampo;
 
@@ -391,7 +391,7 @@ public class ItemConsulta extends ItemMain {
 
   }
 
-  private void setTbl(DbTabelaAndroid<?> tbl) {
+  private void setTbl(TabelaAndroid<?> tbl) {
 
     _tbl = tbl;
   }

@@ -12,12 +12,12 @@ import com.digosofter.digodroid.controle.item.ItemCampo;
 import com.digosofter.digodroid.controle.item.ItemDetalhe;
 import com.digosofter.digodroid.controle.label.LabelGeral;
 import com.digosofter.digodroid.controle.painel.PainelGrupoDetalhe;
-import com.digosofter.digodroid.database.DbColunaAndroid;
-import com.digosofter.digodroid.database.DbGrupo;
-import com.digosofter.digodroid.database.DbTabelaAndroid;
+import com.digosofter.digodroid.database.ColunaAndroid;
+import com.digosofter.digodroid.database.Grupo;
+import com.digosofter.digodroid.database.TabelaAndroid;
 import com.digosofter.digodroid.erro.ErroAndroid;
 import com.digosofter.digojava.Utils;
-import com.digosofter.digojava.database.DbColuna;
+import com.digosofter.digojava.database.Coluna;
 
 public class ActDetalhe extends ActMain {
 
@@ -27,9 +27,9 @@ public class ActDetalhe extends ActMain {
   private int _intRegistroId;
   private LabelGeral _lblIntRegistroId;
   private LabelGeral _lblStrRegistroNome;
-  private DbGrupo _objDbGrupoGeral;
+  private Grupo _grpGeral;
   private LinearLayout _pnlCampos;
-  private DbTabelaAndroid<?> _tbl;
+  private TabelaAndroid<?> _tbl;
 
   @Override
   protected int getIntLayoutId() {
@@ -103,18 +103,18 @@ public class ActDetalhe extends ActMain {
     return _lblStrRegistroNome;
   }
 
-  private DbGrupo getObjDbGrupoGeral() {
+  private Grupo getObjDbGrupoGeral() {
 
     try {
 
-      if (_objDbGrupoGeral != null) {
+      if (_grpGeral != null) {
 
-        return _objDbGrupoGeral;
+        return _grpGeral;
       }
 
-      _objDbGrupoGeral = new DbGrupo();
+      _grpGeral = new Grupo();
 
-      _objDbGrupoGeral.setStrNome("Geral");
+      _grpGeral.setStrNome("Geral");
 
     }
     catch (Exception ex) {
@@ -124,10 +124,10 @@ public class ActDetalhe extends ActMain {
     finally {
     }
 
-    return _objDbGrupoGeral;
+    return _grpGeral;
   }
 
-  private ItemCampo getObjItemCampo(DbColunaAndroid cln) {
+  private ItemCampo getObjItemCampo(ColunaAndroid cln) {
 
     ItemCampo itmCampoResposta;
 
@@ -176,13 +176,13 @@ public class ActDetalhe extends ActMain {
     return _pnlCampos;
   }
 
-  private PainelGrupoDetalhe getPnlGrupoDetalhe(DbGrupo objDbGrupo) {
+  private PainelGrupoDetalhe getPnlGrupoDetalhe(Grupo grp) {
 
     PainelGrupoDetalhe pnlGrupoDetalheResultado;
 
     try {
 
-      if (objDbGrupo == null) {
+      if (grp == null) {
 
         return null;
       }
@@ -204,7 +204,7 @@ public class ActDetalhe extends ActMain {
           continue;
         }
 
-        if (!((PainelGrupoDetalhe) this.getPnlCampos().getChildAt(i)).getStrTitulo().equals(objDbGrupo.getStrNomeExibicao())) {
+        if (!((PainelGrupoDetalhe) this.getPnlCampos().getChildAt(i)).getStrTitulo().equals(grp.getStrNomeExibicao())) {
 
           continue;
         }
@@ -214,7 +214,7 @@ public class ActDetalhe extends ActMain {
 
       pnlGrupoDetalheResultado = new PainelGrupoDetalhe(this);
 
-      pnlGrupoDetalheResultado.setStrTitulo(objDbGrupo.getStrNomeExibicao());
+      pnlGrupoDetalheResultado.setStrTitulo(grp.getStrNomeExibicao());
 
       this.getPnlCampos().addView(pnlGrupoDetalheResultado);
 
@@ -231,7 +231,7 @@ public class ActDetalhe extends ActMain {
     return null;
   }
 
-  private DbTabelaAndroid<?> getTbl() {
+  private TabelaAndroid<?> getTbl() {
 
     int intTblObjetoId;
 
@@ -349,9 +349,9 @@ public class ActDetalhe extends ActMain {
         return;
       }
 
-      for (DbColuna cln : this.getTbl().getLstCln()) {
+      for (Coluna cln : this.getTbl().getLstCln()) {
 
-        this.montarLayoutItem((DbColunaAndroid) cln);
+        this.montarLayoutItem((ColunaAndroid) cln);
       }
     }
     catch (Exception ex) {
@@ -363,7 +363,7 @@ public class ActDetalhe extends ActMain {
 
   }
 
-  private void montarLayoutItem(DbColunaAndroid cln) {
+  private void montarLayoutItem(ColunaAndroid cln) {
 
     ItemDetalhe itmDetalhe;
 

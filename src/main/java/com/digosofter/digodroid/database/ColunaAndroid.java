@@ -8,22 +8,22 @@ import android.view.View;
 import com.digosofter.digodroid.erro.ErroAndroid;
 import com.digosofter.digojava.App;
 import com.digosofter.digojava.Utils;
-import com.digosofter.digojava.database.DbColuna;
+import com.digosofter.digojava.database.Coluna;
 import com.digosofter.digojava.database.Dominio;
 
 import java.lang.reflect.Field;
 import java.util.GregorianCalendar;
 
-public class DbColunaAndroid extends DbColuna {
+public class ColunaAndroid extends Coluna {
 
   private boolean _booDominioFieldCarregado;
   private MenuItem _mniCampo;
   private MenuItem _mniOrdenar;
-  private DbGrupo _objDbGrupo;
+  private Grupo _grp;
   private String _sqlTipo;
   private View _viw;
 
-  public DbColunaAndroid(String strNome, DbTabelaAndroid<?> tbl, EnmTipo enmTipo) {
+  public ColunaAndroid(String strNome, TabelaAndroid<?> tbl, EnmTipo enmTipo) {
 
     super(strNome, tbl, enmTipo);
   }
@@ -280,9 +280,9 @@ public class DbColunaAndroid extends DbColuna {
     return _mniOrdenar;
   }
 
-  public DbGrupo getObjDbGrupo() {
+  public Grupo getObjDbGrupo() {
 
-    return _objDbGrupo;
+    return _grp;
   }
 
   String getSqlCreateTable() {
@@ -453,12 +453,12 @@ public class DbColunaAndroid extends DbColuna {
         return;
       }
 
-      ((DbColunaAndroid) this.getTbl().getClnOrdem()).getMniOrdenar().setChecked(false);
+      ((ColunaAndroid) this.getTbl().getClnOrdem()).getMniOrdenar().setChecked(false);
 
       this.setBooOrdem(true);
       this.getMniOrdenar().setChecked(true);
 
-      ((DbTabelaAndroid<?>) this.getTbl()).getMniOrdemDecrescente().setChecked(this.getBooOrdemDecrescente());
+      ((TabelaAndroid<?>) this.getTbl()).getMniOrdemDecrescente().setChecked(this.getBooOrdemDecrescente());
     }
     catch (Exception ex) {
 
@@ -486,11 +486,11 @@ public class DbColunaAndroid extends DbColuna {
   /**
    * Este é o grupo que conterá esta coluna na tela de detalhes dos registros.
    *
-   * @param objDbGrupo Grupo que conterá esta coluna na tela de detalhes dos registros.
+   * @param grp Grupo que conterá esta coluna na tela de detalhes dos registros.
    */
-  public void setObjDbGrupo(DbGrupo objDbGrupo) {
+  public void setObjDbGrupo(Grupo grp) {
 
-    _objDbGrupo = objDbGrupo;
+    _grp = grp;
   }
 
   public void setViw(View viw) {

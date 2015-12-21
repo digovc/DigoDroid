@@ -8,18 +8,18 @@ import android.view.View.OnClickListener;
 
 import com.digosofter.digodroid.AppAndroid;
 import com.digosofter.digodroid.controle.label.LabelGeral;
-import com.digosofter.digodroid.database.DbColunaAndroid;
+import com.digosofter.digodroid.database.ColunaAndroid;
 import com.digosofter.digodroid.design.TemaDefault;
 import com.digosofter.digodroid.erro.ErroAndroid;
 import com.digosofter.digojava.Utils;
 
 public class ItemCampo extends ItemMain implements OnClickListener {
 
-  private DbColunaAndroid _cln;
+  private ColunaAndroid _cln;
   private LabelGeral _lblRegistroNome;
   private LabelGeral _lblRegistroValor;
 
-  public ItemCampo(Context context, DbColunaAndroid cln, Cursor crs) {
+  public ItemCampo(Context context, ColunaAndroid cln, Cursor crs) {
 
     super(context);
 
@@ -84,7 +84,7 @@ public class ItemCampo extends ItemMain implements OnClickListener {
     }
   }
 
-  public DbColunaAndroid getCln() {
+  public ColunaAndroid getCln() {
 
     return _cln;
   }
@@ -213,7 +213,7 @@ public class ItemCampo extends ItemMain implements OnClickListener {
     }
   }
 
-  private void setCln(DbColunaAndroid cln) {
+  private void setCln(ColunaAndroid cln) {
 
     _cln = cln;
   }
