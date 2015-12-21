@@ -43,10 +43,12 @@ public abstract class CampoMain extends PainelLinha {
 
       _lblTitulo = new LabelGeral(this.getContext());
 
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    } finally {
+    }
+    finally {
     }
 
     return _lblTitulo;
@@ -75,10 +77,12 @@ public abstract class CampoMain extends PainelLinha {
 
       this.setStrTitulo(objTypedArray.getString(R.styleable.strTitulo_strTitulo));
 
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    } finally {
+    }
+    finally {
     }
   }
 
@@ -91,10 +95,12 @@ public abstract class CampoMain extends PainelLinha {
 
       this.getLblTitulo().setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, UtilsAndroid.dpToPx(30, this.getContext())));
 
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    } finally {
+    }
+    finally {
     }
   }
 
@@ -107,10 +113,12 @@ public abstract class CampoMain extends PainelLinha {
 
       this.addView(this.getLblTitulo());
 
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    } finally {
+    }
+    finally {
     }
   }
 
@@ -122,10 +130,12 @@ public abstract class CampoMain extends PainelLinha {
 
       this.getLblTitulo().setStrTexto((!Utils.getBooStrVazia(_strTitulo)) ? _strTitulo : "Desconhecido");
 
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    } finally {
+    }
+    finally {
     }
   }
 }

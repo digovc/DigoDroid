@@ -1,7 +1,6 @@
 package com.digosofter.digodroid.design;
 
 import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 
 import com.digosofter.digodroid.erro.ErroAndroid;
 import com.digosofter.digojava.Objeto;
@@ -19,20 +18,6 @@ public class TemaDefault extends Objeto {
 
   private static TemaDefault i;
 
-  private final int INT_FONTE_TAMANHO_FATOR = 12;
-
-  private int _corBorda1;
-  private int _corFundo1;
-  private int _corTema;
-  private int _intFontGrande;
-  private int _intFontMedio;
-  private int _intFontMinimo;
-  private int _intFontNormal;
-  private int _intFontPequeno;
-  private int _intHeightNivel;
-  private int _intMargin;
-  private int _intPadding;
-
   public static TemaDefault getI() {
 
     try {
@@ -44,14 +29,29 @@ public class TemaDefault extends Objeto {
 
       i = new TemaDefault();
 
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    } finally {
+    }
+    finally {
     }
 
     return i;
   }
+
+  private final int INT_FONTE_TAMANHO_FATOR = 12;
+  private int _corBorda1;
+  private int _corFundo1;
+  private int _corTema;
+  private int _intFontGrande;
+  private int _intFontMedio;
+  private int _intFontMinimo;
+  private int _intFontNormal;
+  private int _intFontPequeno;
+  private int _intHeightNivel;
+  private int _intMargin;
+  private int _intPadding;
 
   public float enmFonteTamanhoToInt(EnmFonteTamanho enmFonteTamanho) {
 
@@ -88,10 +88,12 @@ public class TemaDefault extends Objeto {
 
       _corBorda1 = Color.BLACK;
 
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    } finally {
+    }
+    finally {
     }
 
     return _corBorda1;
@@ -111,10 +113,12 @@ public class TemaDefault extends Objeto {
 
       _corFundo1 = Color.parseColor("#e3e3e3");
 
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    } finally {
+    }
+    finally {
     }
 
     return _corFundo1;
@@ -134,10 +138,12 @@ public class TemaDefault extends Objeto {
 
       _corTema = Color.parseColor("#004d7e");
 
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    } finally {
+    }
+    finally {
     }
 
     return _corTema;
@@ -157,10 +163,12 @@ public class TemaDefault extends Objeto {
 
       _intFontGrande = (INT_FONTE_TAMANHO_FATOR * 3);
 
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    } finally {
+    }
+    finally {
     }
 
     return _intFontGrande;
@@ -180,10 +188,12 @@ public class TemaDefault extends Objeto {
 
       _intFontMedio = (int) (INT_FONTE_TAMANHO_FATOR * 2.5);
 
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    } finally {
+    }
+    finally {
     }
 
     return _intFontMedio;
@@ -203,10 +213,12 @@ public class TemaDefault extends Objeto {
 
       _intFontMinimo = INT_FONTE_TAMANHO_FATOR;
 
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    } finally {
+    }
+    finally {
     }
 
     return _intFontMinimo;
@@ -224,12 +236,14 @@ public class TemaDefault extends Objeto {
         return _intFontNormal;
       }
 
-      _intFontNormal = (INT_FONTE_TAMANHO_FATOR * 2);
+      _intFontNormal = (int) (INT_FONTE_TAMANHO_FATOR * 1.75f);
 
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    } finally {
+    }
+    finally {
     }
 
     return _intFontNormal;
@@ -249,10 +263,12 @@ public class TemaDefault extends Objeto {
 
       _intFontPequeno = (int) (INT_FONTE_TAMANHO_FATOR * 1.3);
 
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    } finally {
+    }
+    finally {
     }
 
     return _intFontPequeno;
@@ -272,10 +288,12 @@ public class TemaDefault extends Objeto {
 
       _intHeightNivel = 100;
 
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    } finally {
+    }
+    finally {
     }
 
     return _intHeightNivel;
@@ -295,10 +313,12 @@ public class TemaDefault extends Objeto {
 
       _intMargin = 5;
 
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    } finally {
+    }
+    finally {
     }
 
     return _intMargin;
@@ -318,10 +338,12 @@ public class TemaDefault extends Objeto {
 
       _intPadding = 10;
 
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    } finally {
+    }
+    finally {
     }
 
     return _intPadding;

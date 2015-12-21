@@ -25,10 +25,12 @@ public class AdpConsulta extends CursorAdapter implements Filterable {
 
       this.setActConsulta(actConsulta);
 
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    } finally {
+    }
+    finally {
     }
   }
 
@@ -43,10 +45,12 @@ public class AdpConsulta extends CursorAdapter implements Filterable {
 
       this.setTbl(this.getActConsulta().getTbl());
 
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    } finally {
+    }
+    finally {
     }
   }
 
@@ -64,10 +68,12 @@ public class AdpConsulta extends CursorAdapter implements Filterable {
 
       this.swapCursor(this.getTbl().pesquisarConsulta());
 
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    } finally {
+    }
+    finally {
     }
   }
 
@@ -101,10 +107,12 @@ public class AdpConsulta extends CursorAdapter implements Filterable {
 
       this.atualizarActConsulta();
 
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    } finally {
+    }
+    finally {
     }
   }
 

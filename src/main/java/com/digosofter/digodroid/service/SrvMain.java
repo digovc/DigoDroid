@@ -50,10 +50,12 @@ public abstract class SrvMain extends IntentService {
 
       this.servico();
 
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid(App.getI().getStrTextoPadrao(0), ex);
-    } finally {
+    }
+    finally {
 
       this.finalizar();
     }

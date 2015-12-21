@@ -3,13 +3,11 @@ package com.digosofter.digodroid.controle.painel;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.util.AttributeSet;
-import android.view.ViewGroup;
 
 import com.digosofter.digodroid.R;
 import com.digosofter.digodroid.UtilsAndroid;
 import com.digosofter.digodroid.design.TemaDefault;
 import com.digosofter.digodroid.erro.ErroAndroid;
-import com.digosofter.digojava.erro.Erro;
 
 public class PainelLinha extends PainelMain {
 
@@ -40,10 +38,12 @@ public class PainelLinha extends PainelMain {
       this.getLayoutParams().height = UtilsAndroid.dpToPx(this.getIntNivelQuantidade() * TemaDefault.getI().getIntHeightNivel(), this.getContext());
       this.getLayoutParams().width = LayoutParams.MATCH_PARENT;
 
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    } finally {
+    }
+    finally {
     }
   }
 
@@ -65,10 +65,12 @@ public class PainelLinha extends PainelMain {
 
       this.setPadding(intPaddingDp, intPaddingDp, intPaddingDp, intPaddingDp);
 
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    } finally {
+    }
+    finally {
     }
   }
 
@@ -90,10 +92,12 @@ public class PainelLinha extends PainelMain {
 
       this.setIntNivelQuantidade(objTypedArray.getInt(R.styleable.PainelLinha_intNivelQuantidade, 1));
 
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    } finally {
+    }
+    finally {
     }
   }
 

@@ -27,10 +27,12 @@ public class LinhaGeral extends PainelGeral {
 
       this.iniciar(null);
 
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    } finally {
+    }
+    finally {
     }
   }
 
@@ -42,10 +44,12 @@ public class LinhaGeral extends PainelGeral {
 
       this.iniciar(attrs);
 
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    } finally {
+    }
+    finally {
     }
   }
 
@@ -57,10 +61,12 @@ public class LinhaGeral extends PainelGeral {
 
       this.iniciar(attrs);
 
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    } finally {
+    }
+    finally {
     }
   }
 
@@ -78,10 +84,12 @@ public class LinhaGeral extends PainelGeral {
 
       this.getLayoutParams().width = 1;
 
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    } finally {
+    }
+    finally {
     }
   }
 
@@ -94,10 +102,12 @@ public class LinhaGeral extends PainelGeral {
 
       this.atualizarEnmDisposicao();
 
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    } finally {
+    }
+    finally {
     }
   }
 
@@ -124,10 +134,12 @@ public class LinhaGeral extends PainelGeral {
 
       this.setEnmDisposicao(this.intToEnmDisposicao(objTypedArray.getInt(R.styleable.LinhaGeral_enmDisposicao, 0)));
 
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    } finally {
+    }
+    finally {
     }
   }
 
@@ -141,10 +153,12 @@ public class LinhaGeral extends PainelGeral {
       this.setBackgroundColor(TemaDefault.getI().getCorBorda1());
       this.setEnmDisposicao(EnmDisposicao.HORIZONTAL);
 
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    } finally {
+    }
+    finally {
     }
   }
 

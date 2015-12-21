@@ -4,7 +4,6 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.widget.ImageView;
 
-import com.digosofter.digodroid.animacao.Animar;
 import com.digosofter.digodroid.controle.IControleMain;
 import com.digosofter.digodroid.erro.ErroAndroid;
 
@@ -18,10 +17,12 @@ public class ImagemGeral extends ImageView implements IControleMain {
 
       this.iniciar(null);
 
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    } finally {
+    }
+    finally {
     }
   }
 
@@ -33,10 +34,12 @@ public class ImagemGeral extends ImageView implements IControleMain {
 
       this.iniciar(attrs);
 
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    } finally {
+    }
+    finally {
     }
   }
 
@@ -48,10 +51,12 @@ public class ImagemGeral extends ImageView implements IControleMain {
 
       this.iniciar(attrs);
 
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    } finally {
+    }
+    finally {
     }
   }
 
@@ -72,10 +77,12 @@ public class ImagemGeral extends ImageView implements IControleMain {
 
       this.setScaleType(ScaleType.FIT_XY);
 
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    } finally {
+    }
+    finally {
     }
   }
 

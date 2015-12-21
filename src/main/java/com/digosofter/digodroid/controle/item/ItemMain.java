@@ -5,7 +5,6 @@ import android.database.Cursor;
 import android.util.AttributeSet;
 
 import com.digosofter.digodroid.controle.painel.PainelGeral;
-import com.digosofter.digodroid.controle.painel.PainelRelevo;
 import com.digosofter.digodroid.erro.ErroAndroid;
 
 public abstract class ItemMain extends PainelGeral {
@@ -34,10 +33,12 @@ public abstract class ItemMain extends PainelGeral {
 
       this.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
 
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    } finally {
+    }
+    finally {
     }
   }
 

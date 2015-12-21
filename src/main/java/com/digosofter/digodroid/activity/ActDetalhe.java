@@ -48,10 +48,12 @@ public class ActDetalhe extends ActMain {
 
       _intRegistroId = this.getIntent().getIntExtra(ActDetalhe.STR_EXTRA_IN_INT_REGISTRO_ID, 0);
 
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    } finally {
+    }
+    finally {
     }
 
     return _intRegistroId;
@@ -68,10 +70,12 @@ public class ActDetalhe extends ActMain {
 
       _lblIntRegistroId = this.getView(R.id.actDetalhe_lblIntRegistroId, LabelGeral.class);
 
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    } finally {
+    }
+    finally {
     }
 
     return _lblIntRegistroId;
@@ -88,10 +92,12 @@ public class ActDetalhe extends ActMain {
 
       _lblStrRegistroNome = this.getView(R.id.actDetalhe_lblStrRegistroNome, LabelGeral.class);
 
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    } finally {
+    }
+    finally {
     }
 
     return _lblStrRegistroNome;
@@ -110,10 +116,12 @@ public class ActDetalhe extends ActMain {
 
       _objDbGrupoGeral.setStrNome("Geral");
 
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    } finally {
+    }
+    finally {
     }
 
     return _objDbGrupoGeral;
@@ -135,10 +143,12 @@ public class ActDetalhe extends ActMain {
         cln.setObjDbGrupo(this.getObjDbGrupoGeral());
       }
 
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    } finally {
+    }
+    finally {
     }
 
     return null;
@@ -155,10 +165,12 @@ public class ActDetalhe extends ActMain {
 
       _pnlCampos = this.getView(R.id.actDetalhe_pnlCampos, LinearLayout.class);
 
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    } finally {
+    }
+    finally {
     }
 
     return _pnlCampos;
@@ -208,10 +220,12 @@ public class ActDetalhe extends ActMain {
 
       return pnlGrupoDetalheResultado;
 
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    } finally {
+    }
+    finally {
     }
 
     return null;
@@ -242,10 +256,12 @@ public class ActDetalhe extends ActMain {
 
       _tbl = AppAndroid.getI().getTbl(intTblObjetoId);
 
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    } finally {
+    }
+    finally {
     }
 
     return _tbl;
@@ -272,10 +288,12 @@ public class ActDetalhe extends ActMain {
       this.getLblStrRegistroNome().setCorTexto(Color.WHITE);
       this.getLblStrRegistroNome().setStrTexto(this.getTbl().getClnNome().getStrValorExibicao());
 
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    } finally {
+    }
+    finally {
     }
   }
 
@@ -293,10 +311,12 @@ public class ActDetalhe extends ActMain {
         return false;
       }
 
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    } finally {
+    }
+    finally {
     }
 
     return true;
@@ -311,10 +331,12 @@ public class ActDetalhe extends ActMain {
 
       this.montarLayoutItem();
 
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    } finally {
+    }
+    finally {
     }
   }
 
@@ -331,10 +353,12 @@ public class ActDetalhe extends ActMain {
 
         this.montarLayoutItem((DbColunaAndroid) cln);
       }
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    } finally {
+    }
+    finally {
     }
 
   }
@@ -369,10 +393,12 @@ public class ActDetalhe extends ActMain {
 
       this.montarLayoutItem(itmDetalhe);
 
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    } finally {
+    }
+    finally {
     }
 
   }
@@ -397,10 +423,12 @@ public class ActDetalhe extends ActMain {
 
       pnlGrupoDetalhe.addView(itmDetalhe);
 
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    } finally {
+    }
+    finally {
     }
 
   }
@@ -427,10 +455,12 @@ public class ActDetalhe extends ActMain {
 
       this.getTbl().montarMenuItem(mnu, this.getIntRegistroId(), false);
 
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    } finally {
+    }
+    finally {
     }
 
     return super.onCreateOptionsMenu(mnu);
@@ -458,10 +488,12 @@ public class ActDetalhe extends ActMain {
 
       this.getTbl().processarMenuItem(this, mni, this.getIntRegistroId());
 
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    } finally {
+    }
+    finally {
     }
 
     return super.onOptionsItemSelected(mni);

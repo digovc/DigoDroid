@@ -22,10 +22,12 @@ public class RadioButtonGeral extends RadioButton implements IControleMain {
 
       this.iniciar(null);
 
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    } finally {
+    }
+    finally {
     }
   }
 
@@ -37,10 +39,12 @@ public class RadioButtonGeral extends RadioButton implements IControleMain {
 
       this.iniciar(attrs);
 
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    } finally {
+    }
+    finally {
     }
   }
 
@@ -52,10 +56,12 @@ public class RadioButtonGeral extends RadioButton implements IControleMain {
 
       this.iniciar(attrs);
 
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    } finally {
+    }
+    finally {
     }
   }
 
@@ -65,10 +71,12 @@ public class RadioButtonGeral extends RadioButton implements IControleMain {
 
       this.setText((!Utils.getBooStrVazia(this.getStrTitulo())) ? this.getStrTitulo() : CampoMain.STR_TITULO_DESCONHECIDO);
 
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    } finally {
+    }
+    finally {
     }
 
   }
@@ -97,10 +105,12 @@ public class RadioButtonGeral extends RadioButton implements IControleMain {
 
       this.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
 
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    } finally {
+    }
+    finally {
     }
   }
 
@@ -114,10 +124,12 @@ public class RadioButtonGeral extends RadioButton implements IControleMain {
       this.montarLayout();
       this.setEventos();
 
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    } finally {
+    }
+    finally {
     }
   }
 
@@ -135,10 +147,12 @@ public class RadioButtonGeral extends RadioButton implements IControleMain {
 
       this.finalizar();
 
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    } finally {
+    }
+    finally {
     }
   }
 
@@ -160,10 +174,12 @@ public class RadioButtonGeral extends RadioButton implements IControleMain {
 
       this.atualizarStrTitulo();
 
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    } finally {
+    }
+    finally {
     }
   }
 }

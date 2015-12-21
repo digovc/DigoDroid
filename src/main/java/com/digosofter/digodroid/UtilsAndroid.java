@@ -6,7 +6,6 @@ import android.util.DisplayMetrics;
 
 import com.digosofter.digodroid.erro.ErroAndroid;
 import com.digosofter.digojava.Utils;
-import com.digosofter.digojava.erro.Erro;
 
 import java.util.Random;
 
@@ -29,11 +28,13 @@ public abstract class UtilsAndroid extends Utils {
 
       return Math.round(intDp * (objDisplayMetrics.xdpi / DisplayMetrics.DENSITY_DEFAULT));
 
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
 
-    } finally {
+    }
+    finally {
     }
 
     return 0;
@@ -49,10 +50,12 @@ public abstract class UtilsAndroid extends Utils {
 
       return Color.argb(255, objRandom.nextInt(256), objRandom.nextInt(256), objRandom.nextInt(256));
 
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(110), ex);
-    } finally {
+    }
+    finally {
     }
 
     return 0;
@@ -75,11 +78,13 @@ public abstract class UtilsAndroid extends Utils {
 
       return Math.round(intPx / (objDisplayMetrics.xdpi / DisplayMetrics.DENSITY_DEFAULT));
 
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
 
-    } finally {
+    }
+    finally {
     }
 
     return 0;

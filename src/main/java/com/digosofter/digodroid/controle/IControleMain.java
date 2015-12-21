@@ -1,9 +1,6 @@
 package com.digosofter.digodroid.controle;
 
 import android.util.AttributeSet;
-import android.view.View;
-
-import com.digosofter.digodroid.animacao.Animar;
 
 public interface IControleMain {
 

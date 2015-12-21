@@ -1,6 +1,8 @@
 package com.digosofter.digodroid.http;
 
-import java.util.List;
+import com.digosofter.digodroid.AppAndroid;
+import com.digosofter.digodroid.erro.ErroAndroid;
+import com.digosofter.digojava.Objeto;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -9,9 +11,7 @@ import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 
-import com.digosofter.digodroid.AppAndroid;
-import com.digosofter.digodroid.erro.ErroAndroid;
-import com.digosofter.digojava.Objeto;
+import java.util.List;
 
 public abstract class HttpUtils extends Objeto {
 

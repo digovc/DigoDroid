@@ -36,10 +36,12 @@ public class CampoCheckBox extends CampoMain {
 
       _ckb = new CheckBoxGeral(this.getContext());
 
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    } finally {
+    }
+    finally {
     }
 
     return _ckb;
@@ -54,10 +56,12 @@ public class CampoCheckBox extends CampoMain {
 
       this.inicializarCkb();
 
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    } finally {
+    }
+    finally {
     }
   }
 
@@ -67,10 +71,12 @@ public class CampoCheckBox extends CampoMain {
 
       this.getCkb().setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
 
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    } finally {
+    }
+    finally {
     }
   }
 
@@ -83,10 +89,12 @@ public class CampoCheckBox extends CampoMain {
 
       this.addView(this.getCkb());
 
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    } finally {
+    }
+    finally {
     }
   }
 }

@@ -36,10 +36,12 @@ public class CampoAlfanumerico extends CampoMain {
 
       _txt = new TextBoxGeral(this.getContext());
 
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    } finally {
+    }
+    finally {
     }
 
     return _txt;
@@ -54,10 +56,12 @@ public class CampoAlfanumerico extends CampoMain {
 
       this.inicializarTxt();
 
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    } finally {
+    }
+    finally {
     }
   }
 
@@ -67,10 +71,12 @@ public class CampoAlfanumerico extends CampoMain {
 
       this.getTxt().setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
 
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    } finally {
+    }
+    finally {
     }
   }
 
@@ -83,10 +89,12 @@ public class CampoAlfanumerico extends CampoMain {
 
       this.addView(this.getTxt());
 
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    } finally {
+    }
+    finally {
     }
   }
 }

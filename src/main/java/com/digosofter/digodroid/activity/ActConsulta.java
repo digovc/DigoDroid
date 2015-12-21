@@ -61,10 +61,12 @@ public class ActConsulta extends ActMain implements OnItemClickListener, OnItemL
 
       this.setResult(EnmResultadoTipo.NONE.ordinal());
 
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(0), ex);
-    } finally {
+    }
+    finally {
     }
   }
 
@@ -84,10 +86,12 @@ public class ActConsulta extends ActMain implements OnItemClickListener, OnItemL
 
       this.startActivity(itt);
 
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    } finally {
+    }
+    finally {
     }
   }
 
@@ -102,10 +106,12 @@ public class ActConsulta extends ActMain implements OnItemClickListener, OnItemL
 
       this.getAdpCadastro().atualizarLista();
 
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    } finally {
+    }
+    finally {
     }
 
   }
@@ -131,10 +137,12 @@ public class ActConsulta extends ActMain implements OnItemClickListener, OnItemL
 
       _adpCadastro = new AdpConsulta(this, this.getTbl().pesquisarConsulta());
 
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    } finally {
+    }
+    finally {
     }
 
     return _adpCadastro;
@@ -146,10 +154,12 @@ public class ActConsulta extends ActMain implements OnItemClickListener, OnItemL
 
       _booRegistroSelecionavel = this.getIntent().getBooleanExtra(ActConsulta.STR_EXTRA_IN_BOO_REGISTRO_SELECIONAVEL, true);
 
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    } finally {
+    }
+    finally {
     }
 
     return _booRegistroSelecionavel;
@@ -166,10 +176,12 @@ public class ActConsulta extends ActMain implements OnItemClickListener, OnItemL
 
       _edtPesquisa = this.getView(R.id.actConsulta_edtPesquisa, EditText.class);
 
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(0), ex);
-    } finally {
+    }
+    finally {
     }
 
     return _edtPesquisa;
@@ -192,10 +204,12 @@ public class ActConsulta extends ActMain implements OnItemClickListener, OnItemL
 
       _intRegistroRefId = this.getIntent().getIntExtra(ActConsulta.STR_EXTRA_IN_INT_REGISTRO_REF_ID, 0);
 
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    } finally {
+    }
+    finally {
     }
 
     return _intRegistroRefId;
@@ -219,10 +233,12 @@ public class ActConsulta extends ActMain implements OnItemClickListener, OnItemL
 
       _pnlLista.setCacheColorHint(Color.TRANSPARENT);
 
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(0), ex);
-    } finally {
+    }
+    finally {
     }
 
     return _pnlLista;
@@ -239,10 +255,12 @@ public class ActConsulta extends ActMain implements OnItemClickListener, OnItemL
 
       _pnlPesquisa = this.getView(R.id.actConsulta_pnlPesquisa, LinearLayout.class);
 
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(0), ex);
-    } finally {
+    }
+    finally {
     }
 
     return _pnlPesquisa;
@@ -275,10 +293,12 @@ public class ActConsulta extends ActMain implements OnItemClickListener, OnItemL
 
       _tbl.addOnChangeListener(this);
 
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(0), ex);
-    } finally {
+    }
+    finally {
     }
 
     return _tbl;
@@ -295,10 +315,12 @@ public class ActConsulta extends ActMain implements OnItemClickListener, OnItemL
 
       _txtTblDescricao = this.getView(R.id.actConsulta_pnlPesquisa, TextView.class);
 
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(0), ex);
-    } finally {
+    }
+    finally {
     }
 
     return _txtTblDescricao;
@@ -315,10 +337,12 @@ public class ActConsulta extends ActMain implements OnItemClickListener, OnItemL
 
       _txtVazio = this.getView(R.id.actConsulta_txtVazio, TextView.class);
 
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    } finally {
+    }
+    finally {
     }
 
     return _txtVazio;
@@ -337,10 +361,12 @@ public class ActConsulta extends ActMain implements OnItemClickListener, OnItemL
 
       this.montarLayoutAbrirCadastro();
 
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(114), ex);
-    } finally {
+    }
+    finally {
     }
   }
 
@@ -376,10 +402,12 @@ public class ActConsulta extends ActMain implements OnItemClickListener, OnItemL
 
       this.startActivity(itt);
 
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    } finally {
+    }
+    finally {
     }
   }
 
@@ -389,10 +417,12 @@ public class ActConsulta extends ActMain implements OnItemClickListener, OnItemL
 
       this.getPnlLista().setAdapter(this.getAdpCadastro());
 
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(0), ex);
-    } finally {
+    }
+    finally {
     }
   }
 
@@ -416,10 +446,12 @@ public class ActConsulta extends ActMain implements OnItemClickListener, OnItemL
       this.getTxtTblDescricao().setText(this.getTbl().getStrDescricao());
       this.getTxtTblDescricao().setVisibility(View.VISIBLE);
 
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(0), ex);
-    } finally {
+    }
+    finally {
     }
   }
 
@@ -436,10 +468,12 @@ public class ActConsulta extends ActMain implements OnItemClickListener, OnItemL
         }
       });
 
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    } finally {
+    }
+    finally {
     }
   }
 
@@ -457,10 +491,12 @@ public class ActConsulta extends ActMain implements OnItemClickListener, OnItemL
       this.getPnlLista().setVisibility(View.GONE);
       this.getTxtVazio().setVisibility(View.VISIBLE);
 
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    } finally {
+    }
+    finally {
     }
   }
 
@@ -471,10 +507,12 @@ public class ActConsulta extends ActMain implements OnItemClickListener, OnItemL
 
       this.montarLayoutVazio();
 
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    } finally {
+    }
+    finally {
     }
   }
 
@@ -491,10 +529,12 @@ public class ActConsulta extends ActMain implements OnItemClickListener, OnItemL
       this.atualizarLista();
       this.montarLayoutVazio();
 
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    } finally {
+    }
+    finally {
     }
   }
 
@@ -506,10 +546,12 @@ public class ActConsulta extends ActMain implements OnItemClickListener, OnItemL
       this.atualizarLista();
       this.montarLayoutVazio();
 
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    } finally {
+    }
+    finally {
     }
   }
 
@@ -535,10 +577,12 @@ public class ActConsulta extends ActMain implements OnItemClickListener, OnItemL
 
       this.getTbl().processarMenuItem(this, mni, this.getItmSelec().getIntRegistroId());
 
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    } finally {
+    }
+    finally {
     }
 
     return super.onContextItemSelected(mni);
@@ -570,10 +614,12 @@ public class ActConsulta extends ActMain implements OnItemClickListener, OnItemL
 
       this.getTbl().montarMenuItem(mnu, this.getItmSelec().getIntRegistroId(), true);
 
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    } finally {
+    }
+    finally {
     }
   }
 
@@ -607,10 +653,12 @@ public class ActConsulta extends ActMain implements OnItemClickListener, OnItemL
       mni.setIcon(R.drawable.ic_adicionar);
       mni.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
 
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    } finally {
+    }
+    finally {
     }
   }
 
@@ -630,10 +678,12 @@ public class ActConsulta extends ActMain implements OnItemClickListener, OnItemL
       mni.setIcon(R.drawable.ic_pesquisar);
       mni.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
 
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    } finally {
+    }
+    finally {
     }
   }
 
@@ -646,10 +696,12 @@ public class ActConsulta extends ActMain implements OnItemClickListener, OnItemL
 
       this.getTbl().removerOnChangeListener(this);
 
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    } finally {
+    }
+    finally {
     }
   }
 
@@ -666,10 +718,12 @@ public class ActConsulta extends ActMain implements OnItemClickListener, OnItemL
 
       this.onItemClickDetalhar((int) intRegistroId);
 
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(115), ex);
-    } finally {
+    }
+    finally {
     }
   }
 
@@ -679,10 +733,12 @@ public class ActConsulta extends ActMain implements OnItemClickListener, OnItemL
 
       this.getTbl().abrirActDetalhe(this, intRegistroId);
 
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    } finally {
+    }
+    finally {
     }
   }
 
@@ -711,10 +767,12 @@ public class ActConsulta extends ActMain implements OnItemClickListener, OnItemL
       this.setResult(ActConsulta.EnmResultadoTipo.REGISTRO_SELECIONADO.ordinal(), itt);
       this.finish();
 
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    } finally {
+    }
+    finally {
     }
   }
 
@@ -740,10 +798,12 @@ public class ActConsulta extends ActMain implements OnItemClickListener, OnItemL
 
       this.setItmSelec((ItemConsulta) viw);
 
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    } finally {
+    }
+    finally {
     }
 
     return false;
@@ -767,10 +827,12 @@ public class ActConsulta extends ActMain implements OnItemClickListener, OnItemL
 
       this.getTbl().processarMenu(this, mni);
 
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(0), ex);
-    } finally {
+    }
+    finally {
     }
 
     return false;
@@ -788,10 +850,12 @@ public class ActConsulta extends ActMain implements OnItemClickListener, OnItemL
 
         this.mostrarTeclado(this.getEdtPesquisa());
       }
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    } finally {
+    }
+    finally {
     }
   }
 
@@ -808,10 +872,12 @@ public class ActConsulta extends ActMain implements OnItemClickListener, OnItemL
       this.onCreateOptionsMenuAdicionar(mnu);
       this.onPrepareOptionsMenuTbl(mnu);
 
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    } finally {
+    }
+    finally {
     }
 
     return true;
@@ -828,10 +894,12 @@ public class ActConsulta extends ActMain implements OnItemClickListener, OnItemL
 
       this.getTbl().montarMenu(mnu);
 
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    } finally {
+    }
+    finally {
     }
   }
 
@@ -842,10 +910,12 @@ public class ActConsulta extends ActMain implements OnItemClickListener, OnItemL
 
       this.getAdpCadastro().getFilter().filter(s);
 
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    } finally {
+    }
+    finally {
     }
   }
 
@@ -862,10 +932,12 @@ public class ActConsulta extends ActMain implements OnItemClickListener, OnItemL
       this.getEdtPesquisa().setText(this.getTbl().getStrPesquisa());
       this.getPnlPesquisa().setVisibility(View.VISIBLE);
 
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(0), ex);
-    } finally {
+    }
+    finally {
     }
   }
 
@@ -885,10 +957,12 @@ public class ActConsulta extends ActMain implements OnItemClickListener, OnItemL
 
       this.recuperarUltimaPesquisa();
 
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(116), ex);
-    } finally {
+    }
+    finally {
     }
   }
 

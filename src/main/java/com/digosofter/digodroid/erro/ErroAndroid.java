@@ -25,8 +25,10 @@ public class ErroAndroid extends Erro implements Serializable {
 
       AppAndroid.getI().getActPrincipal().startActivity(itt);
 
-    } catch (Exception e) {
-    } finally {
+    }
+    catch (Exception e) {
+    }
+    finally {
     }
   }
 

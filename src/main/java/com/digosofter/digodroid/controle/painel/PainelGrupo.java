@@ -39,10 +39,12 @@ public class PainelGrupo extends PainelRelevo {
 
       this.getLblTitulo().setStrTexto((!Utils.getBooStrVazia(_strTitulo)) ? _strTitulo : "<desconhecido>");
 
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    } finally {
+    }
+    finally {
     }
 
   }
@@ -58,10 +60,12 @@ public class PainelGrupo extends PainelRelevo {
 
       _lblTitulo = new LabelGeral(this.getContext());
 
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    } finally {
+    }
+    finally {
     }
 
     return _lblTitulo;
@@ -83,10 +87,12 @@ public class PainelGrupo extends PainelRelevo {
 
       this.inicializarLblTitulo();
 
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    } finally {
+    }
+    finally {
     }
   }
 
@@ -108,10 +114,12 @@ public class PainelGrupo extends PainelRelevo {
 
       this.setStrTitulo(objTypedArray.getString(R.styleable.strTitulo_strTitulo));
 
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    } finally {
+    }
+    finally {
     }
   }
 
@@ -129,10 +137,12 @@ public class PainelGrupo extends PainelRelevo {
       this.getLblTitulo().setPadding(intPadding, 0, intPadding, 0);
       this.getLblTitulo().setCorTexto(Color.WHITE);
 
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    } finally {
+    }
+    finally {
     }
   }
 
@@ -145,10 +155,12 @@ public class PainelGrupo extends PainelRelevo {
 
       this.addView(this.getLblTitulo());
 
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    } finally {
+    }
+    finally {
     }
   }
 
@@ -160,10 +172,12 @@ public class PainelGrupo extends PainelRelevo {
 
       this.atualizarStrTitulo();
 
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    } finally {
+    }
+    finally {
     }
   }
 }

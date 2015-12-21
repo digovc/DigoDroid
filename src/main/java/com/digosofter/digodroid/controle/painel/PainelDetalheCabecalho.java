@@ -35,10 +35,12 @@ public class PainelDetalheCabecalho extends PainelGeral {
 
       this.setBackgroundColor(TemaDefault.getI().getCorTema());
 
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    } finally {
+    }
+    finally {
     }
   }
 }

@@ -35,10 +35,12 @@ public class ItemConsulta extends ItemMain {
       this.setTbl(tbl);
       this.carregarDados(crs, false);
 
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    } finally {
+    }
+    finally {
     }
   }
 
@@ -66,10 +68,12 @@ public class ItemConsulta extends ItemMain {
 
       this.carregarDadosItem(crs, booReciclar);
 
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    } finally {
+    }
+    finally {
     }
   }
 
@@ -91,10 +95,12 @@ public class ItemConsulta extends ItemMain {
 
         this.carregarDadosItem(crs, (DbColunaAndroid) cln, booReciclar);
       }
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    } finally {
+    }
+    finally {
     }
   }
 
@@ -130,10 +136,12 @@ public class ItemConsulta extends ItemMain {
 
       this.getPnlCampoContainer().addView(new ItemCampo(this.getContext(), cln, crs));
 
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    } finally {
+    }
+    finally {
     }
   }
 
@@ -171,10 +179,12 @@ public class ItemConsulta extends ItemMain {
         return (ItemCampo) this.getPnlCampoContainer().getChildAt(i);
       }
 
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    } finally {
+    }
+    finally {
     }
 
     return null;
@@ -191,10 +201,12 @@ public class ItemConsulta extends ItemMain {
 
       _lblRegistroId = new LabelGeral(this.getContext());
 
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    } finally {
+    }
+    finally {
     }
 
     return _lblRegistroId;
@@ -211,10 +223,12 @@ public class ItemConsulta extends ItemMain {
 
       _lblRegistroNome = new LabelGeral(this.getContext());
 
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    } finally {
+    }
+    finally {
     }
 
     return _lblRegistroNome;
@@ -231,10 +245,12 @@ public class ItemConsulta extends ItemMain {
 
       _pnlCampoContainer = new PainelGeral(this.getContext());
 
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    } finally {
+    }
+    finally {
     }
 
     return _pnlCampoContainer;
@@ -250,10 +266,12 @@ public class ItemConsulta extends ItemMain {
       }
 
       _pnlConteudo = new PainelGeral(this.getContext());
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    } finally {
+    }
+    finally {
     }
 
     return _pnlConteudo;
@@ -289,10 +307,12 @@ public class ItemConsulta extends ItemMain {
       this.getLblRegistroId().setEnmFonteTamanho(TemaDefault.EnmFonteTamanho.PEQUENO);
       this.getLblRegistroId().setIntTexto(9999999);
 
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    } finally {
+    }
+    finally {
     }
   }
 
@@ -309,10 +329,12 @@ public class ItemConsulta extends ItemMain {
       this.getPnlConteudo().addView(this.getLblRegistroNome());
       this.getPnlConteudo().addView(this.getPnlCampoContainer());
 
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    } finally {
+    }
+    finally {
     }
   }
 
@@ -325,10 +347,12 @@ public class ItemConsulta extends ItemMain {
 
       this.carregarDados(crs, true);
 
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    } finally {
+    }
+    finally {
     }
   }
 
@@ -357,10 +381,12 @@ public class ItemConsulta extends ItemMain {
 
       itmCampo.reciclar(crs);
 
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    } finally {
+    }
+    finally {
     }
 
   }

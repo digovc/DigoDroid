@@ -25,10 +25,12 @@ public class ActErro extends ActMain {
 
       this.setIntQtdErroVisivel(this.getIntQtdErroVisivel() + 1);
 
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    } finally {
+    }
+    finally {
     }
   }
 
@@ -39,10 +41,12 @@ public class ActErro extends ActMain {
       this.setbooIgnorarTodos(true);
       this.finish();
 
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(0), ex);
-    } finally {
+    }
+    finally {
     }
   }
 
@@ -52,10 +56,12 @@ public class ActErro extends ActMain {
 
       this.finish();
 
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(0), ex);
-    } finally {
+    }
+    finally {
     }
   }
 
@@ -70,10 +76,12 @@ public class ActErro extends ActMain {
 
       this.setbooIgnorarTodos(false);
 
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    } finally {
+    }
+    finally {
     }
   }
 
@@ -93,10 +101,12 @@ public class ActErro extends ActMain {
 
       _err = (ErroAndroid) this.getIntent().getSerializableExtra(ActErro.STR_EXTRA_IN_OBJ_ERRO);
 
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(0), ex);
-    } finally {
+    }
+    finally {
     }
     return _err;
   }
@@ -123,10 +133,12 @@ public class ActErro extends ActMain {
 
       _txtAppNome = this.getView(R.id.actErro_txtAppNome, TextView.class);
 
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(0), ex);
-    } finally {
+    }
+    finally {
     }
 
     return _txtAppNome;
@@ -143,10 +155,12 @@ public class ActErro extends ActMain {
 
       _txtErroMensagem = this.getView(R.id.actErro_txtErroMensagem, TextView.class);
 
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(0), ex);
-    } finally {
+    }
+    finally {
     }
 
     return _txtErroMensagem;
@@ -163,10 +177,12 @@ public class ActErro extends ActMain {
 
       _txtErroTitulo = this.getView(R.id.actErro_txtErroTitulo, TextView.class);
 
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(0), ex);
-    } finally {
+    }
+    finally {
     }
 
     return _txtErroTitulo;
@@ -198,10 +214,12 @@ public class ActErro extends ActMain {
 
       this.getTxtErroMensagem().setText(strFormatada);
 
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(0), ex);
-    } finally {
+    }
+    finally {
     }
   }
 
@@ -216,10 +234,12 @@ public class ActErro extends ActMain {
 
       this.getView(R.id.actErro_btnIgnorarTodos, Button.class).setVisibility(View.VISIBLE);
 
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    } finally {
+    }
+    finally {
     }
   }
 
@@ -232,10 +252,12 @@ public class ActErro extends ActMain {
 
       this.setIntQtdErroVisivel(this.getIntQtdErroVisivel() - 1);
 
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    } finally {
+    }
+    finally {
     }
   }
 
@@ -253,10 +275,12 @@ public class ActErro extends ActMain {
 
       this.finish();
 
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    } finally {
+    }
+    finally {
     }
   }
 
@@ -268,10 +292,12 @@ public class ActErro extends ActMain {
 
       this.atualizarIntQtdErroVisivel();
 
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    } finally {
+    }
+    finally {
     }
   }
 

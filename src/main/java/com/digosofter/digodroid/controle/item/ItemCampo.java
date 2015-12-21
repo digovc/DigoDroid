@@ -28,10 +28,12 @@ public class ItemCampo extends ItemMain implements OnClickListener {
       this.setCln(cln);
       this.carregarDados(crs);
 
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    } finally {
+    }
+    finally {
     }
   }
 
@@ -48,10 +50,12 @@ public class ItemCampo extends ItemMain implements OnClickListener {
 
       this.carregarDadosValor(crs);
 
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    } finally {
+    }
+    finally {
     }
   }
 
@@ -71,10 +75,12 @@ public class ItemCampo extends ItemMain implements OnClickListener {
       this.getCln().setStrValor(strValor);
       this.getLblRegistroValor().setStrTexto(this.getCln().getStrValorExibicao());
 
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    } finally {
+    }
+    finally {
     }
   }
 
@@ -94,10 +100,12 @@ public class ItemCampo extends ItemMain implements OnClickListener {
 
       _lblRegistroNome = new LabelGeral(this.getContext());
 
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    } finally {
+    }
+    finally {
     }
 
     return _lblRegistroNome;
@@ -114,10 +122,12 @@ public class ItemCampo extends ItemMain implements OnClickListener {
 
       _lblRegistroValor = new LabelGeral(this.getContext());
 
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    } finally {
+    }
+    finally {
     }
 
     return _lblRegistroValor;
@@ -141,10 +151,12 @@ public class ItemCampo extends ItemMain implements OnClickListener {
       this.getLblRegistroValor().setIntLinhaQuantidade(1);
       this.getLblRegistroValor().setStrTexto("-");
 
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    } finally {
+    }
+    finally {
     }
   }
 
@@ -158,10 +170,12 @@ public class ItemCampo extends ItemMain implements OnClickListener {
       this.addView(this.getLblRegistroNome());
       this.addView(this.getLblRegistroValor());
 
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    } finally {
+    }
+    finally {
     }
   }
 
@@ -172,10 +186,12 @@ public class ItemCampo extends ItemMain implements OnClickListener {
 
       AppAndroid.getI().notificar(this.getLblRegistroValor().getStrTexto());
 
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    } finally {
+    }
+    finally {
     }
   }
 
@@ -188,10 +204,12 @@ public class ItemCampo extends ItemMain implements OnClickListener {
 
       this.carregarDadosValor(crs);
 
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    } finally {
+    }
+    finally {
     }
   }
 
@@ -214,10 +232,12 @@ public class ItemCampo extends ItemMain implements OnClickListener {
 
       this.getLblRegistroValor().setOnClickListener(this);
 
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    } finally {
+    }
+    finally {
     }
   }
 }

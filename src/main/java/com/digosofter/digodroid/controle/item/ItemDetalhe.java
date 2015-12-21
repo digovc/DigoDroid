@@ -33,10 +33,12 @@ public class ItemDetalhe extends ItemCampo {
       this.getLblRegistroValor().setStrTexto(strValorFormatado);
       this.getLblRegistroNome().setStrTexto(this.getCln().getStrNomeExibicao());
 
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    } finally {
+    }
+    finally {
     }
   }
 }

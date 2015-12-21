@@ -5,7 +5,6 @@ import android.util.AttributeSet;
 import android.view.ViewGroup;
 import android.widget.EditText;
 
-import com.digosofter.digodroid.animacao.Animar;
 import com.digosofter.digodroid.controle.IControleMain;
 import com.digosofter.digodroid.erro.ErroAndroid;
 
@@ -39,10 +38,12 @@ public class TextBoxGeral extends EditText implements IControleMain {
 
       this.iniciar(null);
 
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    } finally {
+    }
+    finally {
     }
   }
 
@@ -54,10 +55,12 @@ public class TextBoxGeral extends EditText implements IControleMain {
 
       this.iniciar(attrs);
 
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    } finally {
+    }
+    finally {
     }
   }
 
@@ -69,10 +72,12 @@ public class TextBoxGeral extends EditText implements IControleMain {
 
       this.iniciar(null);
 
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    } finally {
+    }
+    finally {
     }
   }
 
@@ -95,10 +100,12 @@ public class TextBoxGeral extends EditText implements IControleMain {
           return;
       }
 
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    } finally {
+    }
+    finally {
     }
   }
 
@@ -106,10 +113,12 @@ public class TextBoxGeral extends EditText implements IControleMain {
 
     try {
 
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    } finally {
+    }
+    finally {
     }
   }
 
@@ -117,10 +126,12 @@ public class TextBoxGeral extends EditText implements IControleMain {
 
     try {
 
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    } finally {
+    }
+    finally {
     }
   }
 
@@ -128,10 +139,12 @@ public class TextBoxGeral extends EditText implements IControleMain {
 
     try {
 
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    } finally {
+    }
+    finally {
     }
 
   }
@@ -159,10 +172,12 @@ public class TextBoxGeral extends EditText implements IControleMain {
       this.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
       this.setMaxLines(1);
 
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    } finally {
+    }
+    finally {
     }
   }
 
@@ -184,10 +199,12 @@ public class TextBoxGeral extends EditText implements IControleMain {
 
       this.atualizarEnmFormato();
 
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    } finally {
+    }
+    finally {
     }
   }
 

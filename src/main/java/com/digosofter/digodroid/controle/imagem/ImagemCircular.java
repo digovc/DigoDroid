@@ -3,16 +3,12 @@ package com.digosofter.digodroid.controle.imagem;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
-
-import com.digosofter.digodroid.erro.ErroAndroid;
 
 public class ImagemCircular extends ImagemGeral {
 

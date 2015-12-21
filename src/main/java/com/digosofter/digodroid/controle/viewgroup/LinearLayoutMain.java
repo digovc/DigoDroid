@@ -5,7 +5,6 @@ import android.util.AttributeSet;
 import android.widget.LinearLayout;
 
 import com.digosofter.digodroid.UtilsAndroid;
-import com.digosofter.digodroid.animacao.Animar;
 import com.digosofter.digodroid.controle.IControleMain;
 import com.digosofter.digodroid.design.TemaDefault;
 import com.digosofter.digodroid.erro.ErroAndroid;
@@ -20,10 +19,12 @@ public abstract class LinearLayoutMain extends LinearLayout implements IControle
 
       this.iniciar(null);
 
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    } finally {
+    }
+    finally {
     }
   }
 
@@ -35,10 +36,12 @@ public abstract class LinearLayoutMain extends LinearLayout implements IControle
 
       this.iniciar(attrs);
 
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    } finally {
+    }
+    finally {
     }
   }
 
@@ -50,10 +53,12 @@ public abstract class LinearLayoutMain extends LinearLayout implements IControle
 
       this.inicializar(attrs);
 
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    } finally {
+    }
+    finally {
     }
   }
 
@@ -90,10 +95,12 @@ public abstract class LinearLayoutMain extends LinearLayout implements IControle
       this.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
       this.setOrientation(LinearLayout.VERTICAL);
 
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    } finally {
+    }
+    finally {
     }
   }
 
@@ -106,10 +113,12 @@ public abstract class LinearLayoutMain extends LinearLayout implements IControle
       this.montarLayout();
       this.setEventos();
 
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    } finally {
+    }
+    finally {
     }
   }
 
@@ -126,10 +135,12 @@ public abstract class LinearLayoutMain extends LinearLayout implements IControle
 
       this.finalizar();
 
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    } finally {
+    }
+    finally {
     }
   }
 
@@ -150,10 +161,12 @@ public abstract class LinearLayoutMain extends LinearLayout implements IControle
 
       this.setPadding(intPaddingPx, intPaddingPx, intPaddingPx, intPaddingPx);
 
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    } finally {
+    }
+    finally {
     }
   }
 }

@@ -1,15 +1,15 @@
 package com.digosofter.digodroid.http;
 
+import com.digosofter.digodroid.AppAndroid;
+import com.digosofter.digodroid.erro.ErroAndroid;
+import com.digosofter.digojava.Objeto;
+import com.digosofter.digojava.Utils;
+
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.util.EntityUtils;
-
-import com.digosofter.digodroid.AppAndroid;
-import com.digosofter.digodroid.erro.ErroAndroid;
-import com.digosofter.digojava.Objeto;
-import com.digosofter.digojava.Utils;
 
 public class HttpCliente extends Objeto {
 
@@ -67,8 +67,8 @@ public class HttpCliente extends Objeto {
   }
 
   /**
-   * Envia um objeto "json" para o servidor indicado no atributo "url" e colocar
-   * deixa a resposta disponível no atributo "strResposta".
+   * Envia um objeto "json" para o servidor indicado no atributo "url" e colocar deixa a resposta disponível no atributo
+   * "strResposta".
    */
   public void postJson(String jsn) {
 
@@ -105,7 +105,9 @@ public class HttpCliente extends Objeto {
 
             HttpCliente.this.setEnmStatus(EnmStatus.CONCLUIDO);
           }
-        };
+        }
+
+        ;
       };
 
       thr.start();
@@ -113,8 +115,7 @@ public class HttpCliente extends Objeto {
       do {
         // TODO: Definir se fazer isso assíncrono seria melhor.
         Thread.sleep(10);
-      }
-      while (HttpCliente.this.getEnmStatus() == EnmStatus.EM_ANDAMENTO);
+      } while (HttpCliente.this.getEnmStatus() == EnmStatus.EM_ANDAMENTO);
     }
     catch (Exception ex) {
 

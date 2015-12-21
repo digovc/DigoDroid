@@ -1,6 +1,8 @@
 package com.digosofter.digodroid.controle.drawermenu;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.TypedArray;
 import android.util.AttributeSet;
 import android.view.Gravity;
@@ -11,6 +13,7 @@ import android.widget.LinearLayout;
 import com.digosofter.digodroid.AppAndroid;
 import com.digosofter.digodroid.R;
 import com.digosofter.digodroid.UtilsAndroid;
+import com.digosofter.digodroid.activity.ActMain;
 import com.digosofter.digodroid.controle.imagem.ImagemGeral;
 import com.digosofter.digodroid.controle.label.LabelGeral;
 import com.digosofter.digodroid.controle.painel.PainelGeral;
@@ -23,7 +26,6 @@ public class MenuItem extends PainelGeral implements View.OnClickListener {
 
   private ImagemGeral _imgIcone;
   private LabelGeral _lblTitulo;
-
   private String _strTitulo;
 
   public MenuItem(Context context) {
@@ -41,6 +43,54 @@ public class MenuItem extends PainelGeral implements View.OnClickListener {
     super(context, attrs, defStyleAttr);
   }
 
+  private void fecharActivity() {
+
+    try {
+
+      if (this.getContext().equals(AppAndroid.getI().getActPrincipal())) {
+
+        return;
+      }
+
+      ((Activity) this.getContext()).setResult(0, new Intent().putExtra(ActMain.STR_EXTRA_OUT_BOO_FECHAR, true));
+      ((Activity) this.getContext()).finish();
+    }
+    catch (Exception ex) {
+
+      new ErroAndroid("Erro inesperado.\n", ex);
+    }
+    finally {
+    }
+  }
+
+  private void fecharMenu() {
+
+    ActMain act;
+
+    try {
+
+      if (this.getContext() == null) {
+
+        return;
+      }
+
+      if (!ActMain.class.isAssignableFrom(this.getContext().getClass())) {
+
+        return;
+      }
+
+      act = (ActMain) this.getContext();
+
+      act.fecharMenu();
+    }
+    catch (Exception ex) {
+
+      new ErroAndroid("Erro inesperado.\n", ex);
+    }
+    finally {
+    }
+  }
+
   @Override
   public void finalizar() {
 
@@ -50,11 +100,12 @@ public class MenuItem extends PainelGeral implements View.OnClickListener {
 
       this.getLayoutParams().height = UtilsAndroid.dpToPx(INT_MENU_ITEM_HEIGHT, this.getContext());
       this.getLayoutParams().width = ViewGroup.LayoutParams.MATCH_PARENT;
-
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    } finally {
+    }
+    finally {
     }
   }
 
@@ -68,11 +119,12 @@ public class MenuItem extends PainelGeral implements View.OnClickListener {
       }
 
       _imgIcone = new ImagemGeral(this.getContext());
-
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    } finally {
+    }
+    finally {
     }
 
     return _imgIcone;
@@ -88,11 +140,12 @@ public class MenuItem extends PainelGeral implements View.OnClickListener {
       }
 
       _lblTitulo = new LabelGeral(this.getContext());
-
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    } finally {
+    }
+    finally {
     }
 
     return _lblTitulo;
@@ -112,11 +165,12 @@ public class MenuItem extends PainelGeral implements View.OnClickListener {
 
       this.inicializarImgIcone(ats);
       this.inicializarLblTitulo(ats);
-
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    } finally {
+    }
+    finally {
     }
   }
 
@@ -131,11 +185,12 @@ public class MenuItem extends PainelGeral implements View.OnClickListener {
 
       this.inicializarImgIcone();
       this.inicializarLblTitulo();
-
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    } finally {
+    }
+    finally {
     }
   }
 
@@ -153,11 +208,12 @@ public class MenuItem extends PainelGeral implements View.OnClickListener {
       objTypedArray = this.getContext().obtainStyledAttributes(ats, R.styleable.MenuItem);
 
       this.getImgIcone().setImageDrawable(objTypedArray.getDrawable(R.styleable.MenuItem_srcIcone));
-
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    } finally {
+    }
+    finally {
     }
   }
 
@@ -170,11 +226,12 @@ public class MenuItem extends PainelGeral implements View.OnClickListener {
       intTamanhoDp = UtilsAndroid.dpToPx(INT_MENU_ITEM_HEIGHT, this.getContext());
 
       this.getImgIcone().setLayoutParams(new ViewGroup.LayoutParams(intTamanhoDp, intTamanhoDp));
-
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    } finally {
+    }
+    finally {
     }
   }
 
@@ -192,11 +249,12 @@ public class MenuItem extends PainelGeral implements View.OnClickListener {
       objTypedArray = this.getContext().obtainStyledAttributes(ats, R.styleable.strTitulo);
 
       this.setStrTitulo(objTypedArray.getString(R.styleable.strTitulo_strTitulo));
-
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    } finally {
+    }
+    finally {
     }
   }
 
@@ -207,11 +265,12 @@ public class MenuItem extends PainelGeral implements View.OnClickListener {
       this.getLblTitulo().setEnmFonteTamanho(TemaDefault.EnmFonteTamanho.PEQUENO);
       this.getLblTitulo().setGravity(Gravity.CENTER_VERTICAL);
       this.getLblTitulo().setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
-
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    } finally {
+    }
+    finally {
     }
 
   }
@@ -225,11 +284,12 @@ public class MenuItem extends PainelGeral implements View.OnClickListener {
 
       this.addView(this.getImgIcone());
       this.addView(this.getLblTitulo());
-
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    } finally {
+    }
+    finally {
     }
   }
 
@@ -238,12 +298,15 @@ public class MenuItem extends PainelGeral implements View.OnClickListener {
 
     try {
 
-      AppAndroid.getI().onMenuItemClick(this);
-
-    } catch (Exception ex) {
+      this.fecharActivity();
+      this.fecharMenu();
+      AppAndroid.getI().dispararOnMenuItemClickListener((MenuItem) v);
+    }
+    catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    } finally {
+    }
+    finally {
     }
   }
 
@@ -255,11 +318,12 @@ public class MenuItem extends PainelGeral implements View.OnClickListener {
     try {
 
       this.setOnClickListener(this);
-
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    } finally {
+    }
+    finally {
     }
   }
 
@@ -270,11 +334,12 @@ public class MenuItem extends PainelGeral implements View.OnClickListener {
       _strTitulo = strTitulo;
 
       this.getLblTitulo().setText(_strTitulo);
-
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    } finally {
+    }
+    finally {
     }
   }
 }

@@ -10,6 +10,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
 import com.digosofter.digodroid.activity.ActMain;
+import com.digosofter.digodroid.controle.drawermenu.DrawerMenu;
 import com.digosofter.digodroid.controle.drawermenu.MenuItem;
 import com.digosofter.digodroid.database.DataBaseAndroid;
 import com.digosofter.digodroid.database.DbTabelaAndroid;
@@ -28,9 +29,16 @@ public abstract class AppAndroid extends App {
 
   private static AppAndroid i;
 
+  public static AppAndroid getI() {
+
+    return i;
+  }
+
   private ActMain _actPrincipal;
   private boolean _booDebug;
   private Context _cnt;
+  private List<OnMenuCreateListener> _lstEvtOnMenuCreateListener;
+  private List<OnMenuItemClickListener> _lstEvtOnMenuItemClickListener;
   private List<MsgUsuario> _lstMsgUsuarioPadrao;
   private List<Toast> _lstObjToast;
   private DataBaseAndroid _objDbPrincipal;
@@ -43,17 +51,105 @@ public abstract class AppAndroid extends App {
     try {
 
       this.setI(this);
-
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    } finally {
+    }
+    finally {
     }
   }
 
-  public static AppAndroid getI() {
+  public void addOnMenuCreateListener(OnMenuCreateListener evt) {
 
-    return i;
+    try {
+
+      if (evt == null) {
+
+        return;
+      }
+
+      if (this.getLstEvtOnMenuCreateListener().contains(evt)) {
+
+        return;
+      }
+
+      this.getLstEvtOnMenuCreateListener().add(evt);
+    }
+    catch (Exception ex) {
+
+      new Erro("Erro inesperado.\n", ex);
+    }
+    finally {
+    }
+  }
+
+  public void addOnMenuItemClickListener(OnMenuItemClickListener evt) {
+
+    try {
+
+      if (evt == null) {
+
+        return;
+      }
+
+      if (this.getLstEvtOnMenuItemClickListener().contains(evt)) {
+
+        return;
+      }
+
+      this.getLstEvtOnMenuItemClickListener().add(evt);
+    }
+    catch (Exception ex) {
+
+      new Erro("Erro inesperado.\n", ex);
+    }
+    finally {
+    }
+  }
+
+  public void dispararOnMenuCreateListener(ActMain act, DrawerMenu viwDrawerMenu) {
+
+    try {
+
+      if (this.getLstEvtOnMenuCreateListener().isEmpty()) {
+
+        return;
+      }
+
+      for (OnMenuCreateListener evt : this.getLstEvtOnMenuCreateListener()) {
+
+        evt.onMenuCreate(act, viwDrawerMenu);
+      }
+    }
+    catch (Exception ex) {
+
+      new Erro("Erro inesperado.\n", ex);
+    }
+    finally {
+    }
+  }
+
+  public void dispararOnMenuItemClickListener(MenuItem viwMenuItem) {
+
+    try {
+
+      if (this.getLstEvtOnMenuItemClickListener().isEmpty()) {
+
+        return;
+      }
+
+      for (OnMenuItemClickListener evt : this.getLstEvtOnMenuItemClickListener()) {
+
+        evt.onMenuItemClick(viwMenuItem);
+      }
+    }
+    catch (Exception ex) {
+
+      new Erro("Erro inesperado.\n", ex);
+    }
+    finally {
+    }
   }
 
   public void esconderTeclado() {
@@ -62,11 +158,12 @@ public abstract class AppAndroid extends App {
 
       InputMethodManager imm = (InputMethodManager) this.getCnt().getSystemService(Context.INPUT_METHOD_SERVICE);
       imm.hideSoftInputFromWindow(null, 0);
-
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    } finally {
+    }
+    finally {
     }
   }
 
@@ -81,11 +178,12 @@ public abstract class AppAndroid extends App {
     try {
 
       _booDebug = 0 != (this.getActPrincipal().getApplicationInfo().flags & ApplicationInfo.FLAG_DEBUGGABLE);
-
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    } finally {
+    }
+    finally {
     }
 
     return _booDebug;
@@ -95,12 +193,18 @@ public abstract class AppAndroid extends App {
 
     try {
 
-      _cnt = this.getActPrincipal().getApplicationContext();
+      if (this.getActPrincipal() == null) {
 
-    } catch (Exception ex) {
+        return null;
+      }
+
+      _cnt = this.getActPrincipal().getApplicationContext();
+    }
+    catch (Exception ex) {
 
       new ErroAndroid(this.getStrMsgUsrPadrao(101), ex);
-    } finally {
+    }
+    finally {
     }
 
     return _cnt;
@@ -112,6 +216,48 @@ public abstract class AppAndroid extends App {
    * @return Código do layout que guarda o menu principal da aplicação.
    */
   public abstract int getIntDrawerMenuLayoutId();
+
+  private List<OnMenuCreateListener> getLstEvtOnMenuCreateListener() {
+
+    try {
+
+      if (_lstEvtOnMenuCreateListener != null) {
+
+        return _lstEvtOnMenuCreateListener;
+      }
+
+      _lstEvtOnMenuCreateListener = new ArrayList<>();
+    }
+    catch (Exception ex) {
+
+      new Erro("Erro inesperado.\n", ex);
+    }
+    finally {
+    }
+
+    return _lstEvtOnMenuCreateListener;
+  }
+
+  private List<OnMenuItemClickListener> getLstEvtOnMenuItemClickListener() {
+
+    try {
+
+      if (_lstEvtOnMenuItemClickListener != null) {
+
+        return _lstEvtOnMenuItemClickListener;
+      }
+
+      _lstEvtOnMenuItemClickListener = new ArrayList<>();
+    }
+    catch (Exception ex) {
+
+      new Erro("Erro inesperado.\n", ex);
+    }
+    finally {
+    }
+
+    return _lstEvtOnMenuItemClickListener;
+  }
 
   @Override
   protected List<MsgUsuario> getLstMsgUsrPadrao() {
@@ -165,11 +311,12 @@ public abstract class AppAndroid extends App {
       _lstMsgUsuarioPadrao.add(new MsgUsuario("Erro ao criar objeto do tipo 'TblPessoa'.", 135));
       _lstMsgUsuarioPadrao.add(new MsgUsuario("Erro ao criar objeto do tipo 'TblUsuario'.", 136));
       _lstMsgUsuarioPadrao.add(new MsgUsuario("Erro ao criar objeto do tipo 'ConfigItem'.", 137));
-
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid(this.getStrMsgUsrPadrao(0), ex);
-    } finally {
+    }
+    finally {
     }
 
     return _lstMsgUsuarioPadrao;
@@ -185,11 +332,12 @@ public abstract class AppAndroid extends App {
       }
 
       _lstObjToast = new ArrayList<>();
-
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    } finally {
+    }
+    finally {
     }
 
     return _lstObjToast;
@@ -205,11 +353,12 @@ public abstract class AppAndroid extends App {
       }
 
       _objDbPrincipal = new DataBaseAndroid();
-
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    } finally {
+    }
+    finally {
     }
 
     return _objDbPrincipal;
@@ -225,11 +374,12 @@ public abstract class AppAndroid extends App {
       }
 
       _objNotificationManager = (NotificationManager) this.getCnt().getSystemService(Context.NOTIFICATION_SERVICE);
-
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    } finally {
+    }
+    finally {
     }
 
     return _objNotificationManager;
@@ -245,11 +395,12 @@ public abstract class AppAndroid extends App {
       }
 
       _objPackageInfo = this.getCnt().getPackageManager().getPackageInfo(this.getCnt().getPackageName(), 0);
-
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    } finally {
+    }
+    finally {
     }
 
     return _objPackageInfo;
@@ -266,11 +417,12 @@ public abstract class AppAndroid extends App {
       }
 
       _strVersao = this.getObjPackageInfo().versionName;
-
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    } finally {
+    }
+    finally {
     }
 
     return _strVersao;
@@ -303,11 +455,12 @@ public abstract class AppAndroid extends App {
 
         return tblResultado;
       }
-
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new Erro("Erro inesperado.\n", ex);
-    } finally {
+    }
+    finally {
     }
 
     return null;
@@ -341,54 +494,15 @@ public abstract class AppAndroid extends App {
 
         return viw;
       }
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new Erro("Erro inesperado.\n", ex);
-    } finally {
+    }
+    finally {
     }
 
     return null;
-  }
-
-  @Override
-  public void inicializar() {
-
-    super.inicializar();
-
-    try {
-
-      this.inicializarTabelas();
-      this.inicializarViews();
-
-    } catch (Exception ex) {
-
-      new Erro("Erro inesperado.\n", ex);
-    } finally {
-    }
-  }
-
-  protected void inicializarTabelas() {
-
-  }
-
-  private void inicializarViews() {
-
-    try {
-
-      for (DbTabela tbl : this.getLstTbl()) {
-
-        if (tbl == null) {
-
-          continue;
-        }
-
-        ((DbTabelaAndroid) tbl).inicializarViews();
-      }
-    } catch (Exception ex) {
-
-      new ErroAndroid("Erro inesperado.\n", ex);
-    } finally {
-    }
   }
 
   protected void limparNotificacao() {
@@ -401,11 +515,12 @@ public abstract class AppAndroid extends App {
       }
 
       this.getLstObjToast().clear();
-
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    } finally {
+    }
+    finally {
     }
   }
 
@@ -437,12 +552,17 @@ public abstract class AppAndroid extends App {
       dlgAlert.setPositiveButton("Ok", null);
       dlgAlert.setCancelable(true);
       dlgAlert.create().show();
-
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    } finally {
     }
+    finally {
+    }
+  }
+
+  public void mostrarPergunta(final String strMensagem) {
+
   }
 
   public void notificar(final String strMensagem) {
@@ -467,22 +587,22 @@ public abstract class AppAndroid extends App {
             objToast.show();
 
             AppAndroid.this.getLstObjToast().add(objToast);
-          } catch (Exception ex) {
+          }
+          catch (Exception ex) {
 
             new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(0), ex);
-          } finally {
+          }
+          finally {
           }
         }
       });
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid(this.getStrTextoPadrao(104), ex);
-    } finally {
     }
-  }
-
-  public void mostrarPergunta(final String strMensagem) {
-
+    finally {
+    }
   }
 
   public void notificar(int id, Notification ntf) {
@@ -495,22 +615,51 @@ public abstract class AppAndroid extends App {
       }
 
       this.getObjNotificationManager().notify(id, ntf);
-
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    } finally {
+    }
+    finally {
     }
   }
 
-  /**
-   * Disparado quando o usuário clica num dos itens do menu principal.
-   *
-   * @param mni Instância do item do menu que foi acionado pelo cliente.
-   */
-  public void onMenuItemClick(MenuItem mni) {
+  public void removerOnMenuCreateListener(OnMenuCreateListener evt) {
 
-    this.notificar(mni.getStrTitulo());
+    try {
+
+      if (evt == null) {
+
+        return;
+      }
+
+      this.getLstEvtOnMenuCreateListener().remove(evt);
+    }
+    catch (Exception ex) {
+
+      new Erro("Erro inesperado.\n", ex);
+    }
+    finally {
+    }
+  }
+
+  public void removerOnMenuItemClickListener(OnMenuItemClickListener evt) {
+
+    try {
+
+      if (evt == null) {
+
+        return;
+      }
+
+      this.getLstEvtOnMenuItemClickListener().remove(evt);
+    }
+    catch (Exception ex) {
+
+      new Erro("Erro inesperado.\n", ex);
+    }
+    finally {
+    }
   }
 
   public void setActPrincipal(ActMain actPrincipal) {
@@ -528,11 +677,12 @@ public abstract class AppAndroid extends App {
       }
 
       i = _i;
-
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(0), ex);
-    } finally {
+    }
+    finally {
     }
   }
 }

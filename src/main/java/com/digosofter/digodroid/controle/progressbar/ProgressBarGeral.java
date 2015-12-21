@@ -2,8 +2,10 @@ package com.digosofter.digodroid.controle.progressbar;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
+import com.digosofter.digodroid.UtilsAndroid;
 import com.digosofter.digodroid.controle.IControleMain;
 import com.digosofter.digodroid.erro.ErroAndroid;
 
@@ -16,11 +18,12 @@ public class ProgressBarGeral extends ProgressBar implements IControleMain {
     try {
 
       this.iniciar(null);
-
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    } finally {
+    }
+    finally {
     }
   }
 
@@ -31,11 +34,12 @@ public class ProgressBarGeral extends ProgressBar implements IControleMain {
     try {
 
       this.iniciar(attrs);
-
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    } finally {
+    }
+    finally {
     }
   }
 
@@ -54,8 +58,9 @@ public class ProgressBarGeral extends ProgressBar implements IControleMain {
 
     try {
 
-
-    } catch (Exception ex) {
+      this.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, UtilsAndroid.dpToPx(10, this.getContext())));
+    }
+    catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
     }
@@ -72,11 +77,12 @@ public class ProgressBarGeral extends ProgressBar implements IControleMain {
       this.inicializar(ats);
       this.montarLayout();
       this.setEventos();
-
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    } finally {
+    }
+    finally {
     }
   }
 
@@ -93,11 +99,12 @@ public class ProgressBarGeral extends ProgressBar implements IControleMain {
     try {
 
       this.finalizar();
-
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    } finally {
+    }
+    finally {
     }
   }
 

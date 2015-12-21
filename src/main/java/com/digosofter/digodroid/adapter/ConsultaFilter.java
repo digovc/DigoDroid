@@ -18,10 +18,12 @@ class ConsultaFilter extends Filter {
 
       this.setAdpConsulta(adpConsulta);
 
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    } finally {
+    }
+    finally {
     }
   }
 
@@ -67,10 +69,12 @@ class ConsultaFilter extends Filter {
 
       return objFilterResults;
 
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    } finally {
+    }
+    finally {
     }
 
     return null;
@@ -93,10 +97,12 @@ class ConsultaFilter extends Filter {
       //      this.getAdpConsulta().setLstItmConsulta((ArrayList<ItemConsulta>) objFilterResults.values);
       this.getAdpConsulta().atualizarLista();
 
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    } finally {
+    }
+    finally {
     }
   }
 

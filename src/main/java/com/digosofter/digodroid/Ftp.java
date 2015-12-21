@@ -1,9 +1,9 @@
 package com.digosofter.digodroid;
 
-import org.apache.commons.net.ftp.FTPClient;
-
 import com.digosofter.digodroid.erro.ErroAndroid;
 import com.digosofter.digojava.Objeto;
+
+import org.apache.commons.net.ftp.FTPClient;
 
 public class Ftp extends Objeto {
 

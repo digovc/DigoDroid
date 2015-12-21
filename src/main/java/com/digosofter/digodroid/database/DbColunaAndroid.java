@@ -50,10 +50,12 @@ public class DbColunaAndroid extends DbColuna {
       this.setBooDominioFieldCarregado(false);
       this.carregarDominio(crs, objDominio, objDominio.getClass());
 
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    } finally {
+    }
+    finally {
     }
   }
 
@@ -101,10 +103,12 @@ public class DbColunaAndroid extends DbColuna {
           return;
         }
       }
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    } finally {
+    }
+    finally {
     }
   }
 
@@ -158,10 +162,12 @@ public class DbColunaAndroid extends DbColuna {
         this.carregarDominioStr(crs, objDominio, objField);
         return true;
       }
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    } finally {
+    }
+    finally {
 
       objField.setAccessible(false);
     }
@@ -178,10 +184,12 @@ public class DbColunaAndroid extends DbColuna {
       intValor = crs.getInt(crs.getColumnIndex(this.getStrNomeSql()));
 
       objField.set(objDominio, ((intValor == 1) ? true : false));
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    } finally {
+    }
+    finally {
     }
   }
 
@@ -194,10 +202,12 @@ public class DbColunaAndroid extends DbColuna {
       dblValor = crs.getDouble(crs.getColumnIndex(this.getStrNomeSql()));
 
       objField.set(objDominio, dblValor);
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    } finally {
+    }
+    finally {
     }
   }
 
@@ -210,10 +220,12 @@ public class DbColunaAndroid extends DbColuna {
       strValor = crs.getString(crs.getColumnIndex(this.getStrNomeSql()));
 
       objField.set(objDominio, Utils.strToDtt(strValor));
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    } finally {
+    }
+    finally {
     }
   }
 
@@ -226,10 +238,12 @@ public class DbColunaAndroid extends DbColuna {
       intValor = crs.getInt(crs.getColumnIndex(this.getStrNomeSql()));
 
       objField.set(objDominio, intValor);
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    } finally {
+    }
+    finally {
     }
   }
 
@@ -242,10 +256,12 @@ public class DbColunaAndroid extends DbColuna {
       strValor = crs.getString(crs.getColumnIndex(this.getStrNomeSql()));
 
       objField.set(objDominio, strValor);
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    } finally {
+    }
+    finally {
     }
   }
 
@@ -285,10 +301,12 @@ public class DbColunaAndroid extends DbColuna {
       strResultado = strResultado.replace("_default", !Utils.getBooStrVazia(this.getStrValorDefault()) ? this.getStrValorDefault() : Utils.STR_VAZIA);
 
       return strResultado;
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    } finally {
+    }
+    finally {
     }
 
     return null;
@@ -328,10 +346,12 @@ public class DbColunaAndroid extends DbColuna {
         default:
           _sqlTipo = "text";
       }
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid(App.getI().getStrTextoPadrao(0), ex);
-    } finally {
+    }
+    finally {
     }
 
     return _sqlTipo;
@@ -364,10 +384,12 @@ public class DbColunaAndroid extends DbColuna {
       this.setMniCampo(smn.add(this.getStrNomeExibicao()));
       this.getMniCampo().setChecked(this.getBooVisivelConsulta());
       this.getMniCampo().setCheckable(true);
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    } finally {
+    }
+    finally {
     }
   }
 
@@ -383,10 +405,12 @@ public class DbColunaAndroid extends DbColuna {
       this.setMniOrdenar(smn.add(this.getStrNomeExibicao()));
       this.getMniOrdenar().setChecked(this.getBooOrdem());
       this.getMniOrdenar().setCheckable(true);
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    } finally {
+    }
+    finally {
     }
   }
 
@@ -406,10 +430,12 @@ public class DbColunaAndroid extends DbColuna {
 
       this.getMniCampo().setChecked(!this.getMniCampo().isChecked());
       this.setBooVisivelConsulta(this.getMniCampo().isChecked());
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    } finally {
+    }
+    finally {
     }
   }
 
@@ -433,10 +459,12 @@ public class DbColunaAndroid extends DbColuna {
       this.getMniOrdenar().setChecked(true);
 
       ((DbTabelaAndroid<?>) this.getTbl()).getMniOrdemDecrescente().setChecked(this.getBooOrdemDecrescente());
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    } finally {
+    }
+    finally {
     }
   }
 

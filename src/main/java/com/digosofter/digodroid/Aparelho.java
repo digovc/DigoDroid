@@ -269,10 +269,7 @@ public class Aparelho extends Objeto {
   /**
    * Vibra o aparelho caso exista hardware para tal.
    *
-   * @param arrIntMs
-   *          Array de inteiros que representam os milissegundos que o aparelho
-   *          irá virar e parar.
-   *
+   * @param arrIntMs Array de inteiros que representam os milissegundos que o aparelho irá virar e parar.
    */
   public void vibrar(long[] arrIntMs) {
 

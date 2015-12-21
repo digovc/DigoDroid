@@ -17,10 +17,12 @@ public class ScrollGeral extends ScrollView implements IControleMain {
 
       this.iniciar(null);
 
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    } finally {
+    }
+    finally {
     }
   }
 
@@ -32,10 +34,12 @@ public class ScrollGeral extends ScrollView implements IControleMain {
 
       this.iniciar(attrs);
 
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    } finally {
+    }
+    finally {
     }
   }
 
@@ -47,10 +51,12 @@ public class ScrollGeral extends ScrollView implements IControleMain {
 
       this.iniciar(attrs);
 
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    } finally {
+    }
+    finally {
     }
   }
 
@@ -79,10 +85,12 @@ public class ScrollGeral extends ScrollView implements IControleMain {
       this.montarLayout();
       this.setEventos();
 
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    } finally {
+    }
+    finally {
     }
   }
 
@@ -100,10 +108,12 @@ public class ScrollGeral extends ScrollView implements IControleMain {
 
       this.finalizar();
 
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    } finally {
+    }
+    finally {
     }
   }
 

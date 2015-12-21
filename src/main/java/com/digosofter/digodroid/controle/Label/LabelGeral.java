@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.util.AttributeSet;
 import android.util.TypedValue;
-import android.view.Gravity;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
@@ -13,7 +12,7 @@ import com.digosofter.digodroid.controle.IControleMain;
 import com.digosofter.digodroid.design.TemaDefault;
 import com.digosofter.digodroid.erro.ErroAndroid;
 
-public class LabelGeral extends TextView implements IControleMain {
+public class /**/LabelGeral extends TextView implements IControleMain {
 
   private int _corTexto;
   private TemaDefault.EnmFonteTamanho _enmFonteTamanho;
@@ -28,11 +27,12 @@ public class LabelGeral extends TextView implements IControleMain {
     try {
 
       this.iniciar(null);
-
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    } finally {
+    }
+    finally {
     }
   }
 
@@ -42,12 +42,13 @@ public class LabelGeral extends TextView implements IControleMain {
 
     try {
 
-      this.iniciar(null);
-
-    } catch (Exception ex) {
+      this.iniciar(attrs);
+    }
+    catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    } finally {
+    }
+    finally {
     }
   }
 
@@ -57,12 +58,13 @@ public class LabelGeral extends TextView implements IControleMain {
 
     try {
 
-      this.iniciar(null);
-
-    } catch (Exception ex) {
+      this.iniciar(attrs);
+    }
+    catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    } finally {
+    }
+    finally {
     }
   }
 
@@ -71,11 +73,12 @@ public class LabelGeral extends TextView implements IControleMain {
     try {
 
       this.setTextColor(this.getCorTexto());
-
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    } finally {
+    }
+    finally {
     }
   }
 
@@ -84,11 +87,12 @@ public class LabelGeral extends TextView implements IControleMain {
     try {
 
       this.setTextSize(TypedValue.COMPLEX_UNIT_SP, TemaDefault.getI().enmFonteTamanhoToInt(this.getEnmFonteTamanho()));
-
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    } finally {
+    }
+    finally {
     }
 
   }
@@ -98,11 +102,12 @@ public class LabelGeral extends TextView implements IControleMain {
     try {
 
       this.setMaxLines(this.getIntLinhaQuantidade());
-
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    } finally {
+    }
+    finally {
     }
   }
 
@@ -131,11 +136,12 @@ public class LabelGeral extends TextView implements IControleMain {
     try {
 
       _intTexto = Integer.valueOf(this.getStrTexto());
-
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       return 0;
-    } finally {
+    }
+    finally {
     }
 
     return _intTexto;
@@ -146,11 +152,12 @@ public class LabelGeral extends TextView implements IControleMain {
     try {
 
       _strTexto = this.getText().toString();
-
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    } finally {
+    }
+    finally {
     }
 
     return _strTexto;
@@ -162,13 +169,13 @@ public class LabelGeral extends TextView implements IControleMain {
     try {
 
       this.setEnmFonteTamanho(TemaDefault.EnmFonteTamanho.NORMAL);
-
       this.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    } finally {
+    }
+    finally {
     }
   }
 
@@ -186,15 +193,14 @@ public class LabelGeral extends TextView implements IControleMain {
       }
 
       objTypedArray = this.getContext().obtainStyledAttributes(ats, R.styleable.LabelGeral);
-
       intFonteTamanho = objTypedArray.getInt(R.styleable.LabelGeral_enmFonteTamanho, 2);
-
       this.setEnmFonteTamanho(TemaDefault.getI().intToEnmFonteTamanho(intFonteTamanho));
-
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    } finally {
+    }
+    finally {
     }
   }
 
@@ -207,11 +213,12 @@ public class LabelGeral extends TextView implements IControleMain {
       this.inicializar(ats);
       this.montarLayout();
       this.setEventos();
-
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    } finally {
+    }
+    finally {
     }
   }
 
@@ -228,11 +235,12 @@ public class LabelGeral extends TextView implements IControleMain {
     try {
 
       this.finalizar();
-
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    } finally {
+    }
+    finally {
     }
   }
 
@@ -248,11 +256,12 @@ public class LabelGeral extends TextView implements IControleMain {
       _corTexto = corTexto;
 
       this.atualizarCorTexto();
-
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    } finally {
+    }
+    finally {
     }
   }
 
@@ -263,11 +272,12 @@ public class LabelGeral extends TextView implements IControleMain {
       _enmFonteTamanho = enmFonteTamanho;
 
       this.atualizarEnmFonteTamanho();
-
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    } finally {
+    }
+    finally {
     }
   }
 
@@ -288,11 +298,12 @@ public class LabelGeral extends TextView implements IControleMain {
       _intLinhaQuantidade = intLinhaQuantidade;
 
       this.atualizarIntLinhaQuantidade();
-
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    } finally {
+    }
+    finally {
     }
   }
 
@@ -303,11 +314,12 @@ public class LabelGeral extends TextView implements IControleMain {
       _intTexto = intTexto;
 
       this.setStrTexto(String.valueOf(_intTexto));
-
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       this.setStrTexto(null);
-    } finally {
+    }
+    finally {
     }
   }
 
@@ -318,11 +330,12 @@ public class LabelGeral extends TextView implements IControleMain {
       _strTexto = strTexto;
 
       this.setText(_strTexto);
-
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    } finally {
+    }
+    finally {
     }
   }
 }

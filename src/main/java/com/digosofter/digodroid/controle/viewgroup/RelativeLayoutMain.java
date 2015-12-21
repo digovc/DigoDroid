@@ -17,10 +17,12 @@ public abstract class RelativeLayoutMain extends RelativeLayout implements ICont
 
       this.iniciar(null);
 
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    } finally {
+    }
+    finally {
     }
   }
 
@@ -32,10 +34,12 @@ public abstract class RelativeLayoutMain extends RelativeLayout implements ICont
 
       this.iniciar(attrs);
 
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    } finally {
+    }
+    finally {
     }
   }
 
@@ -47,10 +51,12 @@ public abstract class RelativeLayoutMain extends RelativeLayout implements ICont
 
       this.iniciar(attrs);
 
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    } finally {
+    }
+    finally {
     }
   }
 
@@ -97,10 +103,12 @@ public abstract class RelativeLayoutMain extends RelativeLayout implements ICont
       this.montarLayout();
       this.setEventos();
 
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    } finally {
+    }
+    finally {
     }
   }
 

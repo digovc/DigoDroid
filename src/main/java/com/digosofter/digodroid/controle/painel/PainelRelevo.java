@@ -39,10 +39,12 @@ public class PainelRelevo extends PainelMain {
 
       this.setLayoutParams(objMarginLayoutParams);
 
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    } finally {
+    }
+    finally {
     }
   }
 
@@ -54,12 +56,14 @@ public class PainelRelevo extends PainelMain {
     try {
 
       this.setBackgroundColor(TemaDefault.getI().getCorFundo1());
-//      this.setIntPadding(TemaDefault.getI().getIntPadding());
+      //      this.setIntPadding(TemaDefault.getI().getIntPadding());
 
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    } finally {
+    }
+    finally {
     }
   }
 }

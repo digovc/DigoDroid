@@ -9,8 +9,6 @@ import android.view.animation.TranslateAnimation;
 import com.digosofter.digodroid.erro.ErroAndroid;
 import com.digosofter.digojava.Objeto;
 
-import java.util.concurrent.Callable;
-
 public class Animar extends Objeto {
 
   private static final long INT_DURACAO_RAPIDO = 250;
@@ -27,11 +25,13 @@ public class Animar extends Objeto {
 
       i = new Animar();
 
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
 
-    } finally {
+    }
+    finally {
     }
 
     return i;
@@ -55,10 +55,12 @@ public class Animar extends Objeto {
       viwTarget.setVisibility(View.VISIBLE);
       viwTarget.animate().alpha(1);
 
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    } finally {
+    }
+    finally {
     }
   }
 
@@ -86,10 +88,12 @@ public class Animar extends Objeto {
       viwTarget.setVisibility(View.VISIBLE);
       viwTarget.startAnimation(anm);
 
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    } finally {
+    }
+    finally {
     }
   }
 
@@ -111,10 +115,12 @@ public class Animar extends Objeto {
       viwTarget.animate().alpha(0);
       viwTarget.setVisibility(View.INVISIBLE);
 
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    } finally {
+    }
+    finally {
     }
   }
 
@@ -149,10 +155,12 @@ public class Animar extends Objeto {
 
       viwTarget.startAnimation(anm);
 
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    } finally {
+    }
+    finally {
     }
   }
 
@@ -167,10 +175,12 @@ public class Animar extends Objeto {
 
       this.desaparecerMoverCima(viwTarget, null);
 
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    } finally {
+    }
+    finally {
     }
   }
 
@@ -197,10 +207,12 @@ public class Animar extends Objeto {
 
       viwTarget.startAnimation(anm);
 
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    } finally {
+    }
+    finally {
     }
   }
 }

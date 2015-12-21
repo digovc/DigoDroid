@@ -12,9 +12,20 @@ public abstract class DbViewAndroid extends DbTabelaAndroid<Dominio> {
 
   private DbTabelaAndroid<?> _tbl;
 
-  protected DbViewAndroid(String strNome) {
+  protected DbViewAndroid(String strNome, DbTabelaAndroid tbl) {
 
     super(strNome, null);
+
+    try {
+
+      this.setTbl(tbl);
+    }
+    catch (Exception ex) {
+
+      new ErroAndroid("Erro inesperado.\n", ex);
+    }
+    finally {
+    }
   }
 
   @Override
@@ -42,11 +53,12 @@ public abstract class DbViewAndroid extends DbTabelaAndroid<Dominio> {
       arg.setIntRegistroId(intRegistroId);
 
       this.dispararOnApagarReg(arg);
-
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    } finally {
+    }
+    finally {
     }
   }
 
@@ -60,11 +72,12 @@ public abstract class DbViewAndroid extends DbTabelaAndroid<Dominio> {
       }
 
       this.getTbl().addViw(this);
-
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    } finally {
+    }
+    finally {
     }
   }
 
@@ -90,11 +103,12 @@ public abstract class DbViewAndroid extends DbTabelaAndroid<Dominio> {
       sql = sql.replace("_select", this.getSqlSelect());
 
       AppAndroid.getI().getObjDbPrincipal().execSql(sql);
-
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(124), ex);
-    } finally {
+    }
+    finally {
     }
   }
 
@@ -112,11 +126,12 @@ public abstract class DbViewAndroid extends DbTabelaAndroid<Dominio> {
       }
 
       strResultado = IOUtils.toString(AppAndroid.getI().getCnt().getResources().openRawResource(this.getIntRawFileId()), "UTF-8");
-
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    } finally {
+    }
+    finally {
     }
 
     return strResultado;
@@ -127,18 +142,19 @@ public abstract class DbViewAndroid extends DbTabelaAndroid<Dominio> {
     return _tbl;
   }
 
-  public void setTbl(DbTabelaAndroid<?> tbl) {
+  private void setTbl(DbTabelaAndroid<?> tbl) {
 
     try {
 
       _tbl = tbl;
 
       this.atualizarTbl();
-
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    } finally {
+    }
+    finally {
     }
   }
 }

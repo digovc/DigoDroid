@@ -1,8 +1,5 @@
 package com.digosofter.digodroid.activity;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import android.content.Context;
 import android.location.LocationManager;
 import android.os.Bundle;
@@ -17,6 +14,9 @@ import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public abstract class ActMapaMain extends ActMain implements OnLocationChangedListener, OnMapReadyCallback, OnMarkerDragListener {
 

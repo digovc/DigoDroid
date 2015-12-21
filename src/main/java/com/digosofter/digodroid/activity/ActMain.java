@@ -14,13 +14,15 @@ import android.widget.FrameLayout;
 import com.digosofter.digodroid.AppAndroid;
 import com.digosofter.digodroid.R;
 import com.digosofter.digodroid.controle.drawermenu.DrawerMenu;
-import com.digosofter.digodroid.controle.painel.PainelDrawerMenu;
+import com.digosofter.digodroid.controle.painel.PainelMenuConteudo;
 import com.digosofter.digodroid.design.TemaDefault;
 import com.digosofter.digodroid.erro.ErroAndroid;
 
 public abstract class ActMain extends Activity {
 
+  public static final String STR_EXTRA_OUT_BOO_FECHAR = "boo_fechar";
   private boolean _booVisivel;
+  private DrawerMenu _viwDrawerMenu;
 
   public void abrirAct(Class<? extends ActMain> cls) {
 
@@ -32,12 +34,13 @@ public abstract class ActMain extends Activity {
       }
 
       this.startActivity(new Intent(this, cls));
-
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
 
-    } finally {
+    }
+    finally {
     }
   }
 
@@ -46,11 +49,26 @@ public abstract class ActMain extends Activity {
     try {
 
       this.getFragmentManager().beginTransaction().add(intViewGroupConteinerId, frg).commit();
-
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(113), ex);
-    } finally {
+    }
+    finally {
+    }
+  }
+
+  public void fecharMenu() {
+
+    try {
+
+      this.getViwDrawerMenu().closeDrawers();
+    }
+    catch (Exception ex) {
+
+      new ErroAndroid("Erro inesperado.\n", ex);
+    }
+    finally {
     }
   }
 
@@ -75,17 +93,39 @@ public abstract class ActMain extends Activity {
     return (T) this.findViewById(intViewId);
   }
 
+  private DrawerMenu getViwDrawerMenu() {
+
+    try {
+
+      if (_viwDrawerMenu != null) {
+
+        return _viwDrawerMenu;
+      }
+
+      _viwDrawerMenu = (DrawerMenu) this.findViewById(R.id.actMain_viwDrawerMenu);
+    }
+    catch (Exception ex) {
+
+      new ErroAndroid("Erro inesperado.\n", ex);
+    }
+    finally {
+    }
+
+    return _viwDrawerMenu;
+  }
+
   protected void inicializar() {
 
     try {
 
       this.inicializarActionBar();
       this.inicializarContentView();
-
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    } finally {
+    }
+    finally {
     }
   }
 
@@ -96,19 +136,20 @@ public abstract class ActMain extends Activity {
       this.getActionBar().setBackgroundDrawable(new ColorDrawable(TemaDefault.getI().getCorTema()));
       this.getActionBar().setDisplayHomeAsUpEnabled(true);
       this.getActionBar().setHomeButtonEnabled(true);
-
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    } finally {
+    }
+    finally {
     }
   }
 
   private void inicializarContentView() {
 
-    DrawerMenu objDrawerMenu;
-    FrameLayout objFrameLayout;
-    PainelDrawerMenu pnlDrawerMenu;
+    DrawerMenu viwDrawerMenu;
+    FrameLayout viwConteudo;
+    PainelMenuConteudo pnlMenuConteudo;
 
     try {
 
@@ -117,20 +158,23 @@ public abstract class ActMain extends Activity {
         return;
       }
 
-      objDrawerMenu = (DrawerMenu) this.getLayoutInflater().inflate(R.layout.act_main, null);
+      viwDrawerMenu = (DrawerMenu) this.getLayoutInflater().inflate(R.layout.act_main, null);
 
-      objFrameLayout = (FrameLayout) objDrawerMenu.findViewById(R.id.actMain_viwConteudo);
-      pnlDrawerMenu = (PainelDrawerMenu) objDrawerMenu.findViewById(R.id.actMain_pnlDrawerMenu);
+      viwConteudo = (FrameLayout) viwDrawerMenu.findViewById(R.id.actMain_viwConteudo);
+      pnlMenuConteudo = (PainelMenuConteudo) viwDrawerMenu.findViewById(R.id.actMain_pnlMenuConteudo);
 
-      this.getLayoutInflater().inflate(this.getIntLayoutId(), objFrameLayout, true);
-      this.getLayoutInflater().inflate(this.getIntDrawerMenuLayoutId(), pnlDrawerMenu, true);
+      this.getLayoutInflater().inflate(this.getIntLayoutId(), viwConteudo, true);
+      this.getLayoutInflater().inflate(this.getIntDrawerMenuLayoutId(), pnlMenuConteudo, true);
 
-      this.setContentView(objDrawerMenu);
+      AppAndroid.getI().dispararOnMenuCreateListener(this, viwDrawerMenu);
 
-    } catch (Exception ex) {
+      this.setContentView(viwDrawerMenu);
+    }
+    catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    } finally {
+    }
+    finally {
     }
   }
 
@@ -142,11 +186,12 @@ public abstract class ActMain extends Activity {
       this.montarLayout();
       this.setEventos();
       this.finalizar();
-
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    } finally {
+    }
+    finally {
     }
 
   }
@@ -167,11 +212,59 @@ public abstract class ActMain extends Activity {
       viw.requestFocus();
 
       ((InputMethodManager) this.getSystemService(Context.INPUT_METHOD_SERVICE)).toggleSoftInput(0, 0);
-
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    } finally {
+    }
+    finally {
+    }
+  }
+
+  @Override
+  protected void onActivityResult(final int intRequestCode, final int intResultCode, final Intent itt) {
+
+    super.onActivityResult(intRequestCode, intResultCode, itt);
+
+    try {
+
+      this.onActivityResultFechar(itt);
+    }
+    catch (Exception ex) {
+
+      new ErroAndroid("Erro inesperado.\n", ex);
+    }
+    finally {
+    }
+  }
+
+  private void onActivityResultFechar(final Intent itt) {
+
+    try {
+
+      if (itt == null) {
+
+        return;
+      }
+
+      if (!itt.getBooleanExtra(STR_EXTRA_OUT_BOO_FECHAR, false)) {
+
+        return;
+      }
+
+      if (this.equals(AppAndroid.getI().getActPrincipal())) {
+
+        return;
+      }
+
+      this.setResult(0, new Intent().putExtra(STR_EXTRA_OUT_BOO_FECHAR, true));
+      this.finish();
+    }
+    catch (Exception ex) {
+
+      new ErroAndroid("Erro inesperado.\n", ex);
+    }
+    finally {
     }
   }
 
@@ -183,11 +276,12 @@ public abstract class ActMain extends Activity {
     try {
 
       this.inicializarLocal();
-
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(0), ex);
-    } finally {
+    }
+    finally {
     }
   }
 
@@ -199,11 +293,12 @@ public abstract class ActMain extends Activity {
     try {
 
       this.finalizar();
-
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    } finally {
+    }
+    finally {
     }
   }
 
@@ -223,10 +318,12 @@ public abstract class ActMain extends Activity {
           this.onBackPressed();
           return true;
       }
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-    } finally {
+    }
+    finally {
     }
 
     return false;
@@ -240,11 +337,12 @@ public abstract class ActMain extends Activity {
     try {
 
       this.setBooVisivel(true);
-
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(0), ex);
-    } finally {
+    }
+    finally {
     }
   }
 
@@ -256,11 +354,12 @@ public abstract class ActMain extends Activity {
     try {
 
       this.setBooVisivel(false);
-
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
 
       new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(0), ex);
-    } finally {
+    }
+    finally {
     }
   }
 
