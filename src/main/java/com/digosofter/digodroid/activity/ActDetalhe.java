@@ -476,6 +476,11 @@ public class ActDetalhe extends ActMain {
         return super.onOptionsItemSelected(mni);
       }
 
+      if (mni.getTitle() == null) {
+
+        return super.onOptionsItemSelected(mni);
+      }
+
       if (this.getTbl() == null) {
 
         return super.onOptionsItemSelected(mni);
@@ -487,7 +492,6 @@ public class ActDetalhe extends ActMain {
       }
 
       this.getTbl().processarMenuItem(this, mni, this.getIntRegistroId());
-
     }
     catch (Exception ex) {
 

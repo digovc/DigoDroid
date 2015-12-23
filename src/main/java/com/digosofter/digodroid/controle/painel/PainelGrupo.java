@@ -110,9 +110,9 @@ public class PainelGrupo extends PainelRelevo {
         return;
       }
 
-      objTypedArray = this.getContext().obtainStyledAttributes(ats, R.styleable.strTitulo);
+      objTypedArray = this.getContext().obtainStyledAttributes(ats, R.styleable.View);
 
-      this.setStrTitulo(objTypedArray.getString(R.styleable.strTitulo_strTitulo));
+      this.setStrTitulo(objTypedArray.getString(R.styleable.View_strTitulo));
 
     }
     catch (Exception ex) {
@@ -131,12 +131,11 @@ public class PainelGrupo extends PainelRelevo {
 
       intPadding = UtilsAndroid.dpToPx(TemaDefault.getI().getIntPadding(), this.getContext());
 
-      this.getLblTitulo().setBackgroundColor(TemaDefault.getI().getCorTema());
+      this.getLblTitulo().setBackgroundColor(this.getContext().getResources().getColor(R.color.cor_tema, null));
       this.getLblTitulo().setGravity(Gravity.CENTER_VERTICAL);
       this.getLblTitulo().setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, UtilsAndroid.dpToPx(30, this.getContext())));
       this.getLblTitulo().setPadding(intPadding, 0, intPadding, 0);
       this.getLblTitulo().setCorTexto(Color.WHITE);
-
     }
     catch (Exception ex) {
 

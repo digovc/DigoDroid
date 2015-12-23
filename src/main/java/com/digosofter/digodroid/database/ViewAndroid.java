@@ -96,13 +96,8 @@ public abstract class ViewAndroid extends TabelaAndroid<Dominio> {
       sql = "drop view if exists _viw_nome;";
       sql = sql.replace("_viw_nome", this.getStrNomeSql());
 
-      AppAndroid.getI().getObjDbPrincipal().execSql(sql);
-
-      sql = "create view if not exists _viw_nome as _select;";
-      sql = sql.replace("_viw_nome", this.getStrNomeSql());
-      sql = sql.replace("_select", this.getSqlSelect());
-
-      AppAndroid.getI().getObjDbPrincipal().execSql(sql);
+      this.getObjDb().execSql(sql);
+      this.getObjDb().execSql(this.getSqlSelect());
     }
     catch (Exception ex) {
 

@@ -17,6 +17,7 @@ import com.digosofter.digodroid.activity.ActMain;
 import com.digosofter.digodroid.controle.imagem.ImagemGeral;
 import com.digosofter.digodroid.controle.label.LabelGeral;
 import com.digosofter.digodroid.controle.painel.PainelGeral;
+import com.digosofter.digodroid.controle.painel.PainelRipple;
 import com.digosofter.digodroid.design.TemaDefault;
 import com.digosofter.digodroid.erro.ErroAndroid;
 
@@ -26,7 +27,10 @@ public class MenuItem extends PainelGeral implements View.OnClickListener {
 
   private ImagemGeral _imgIcone;
   private LabelGeral _lblTitulo;
+  private PainelGeral _pnlConteudo;
+  private PainelRipple _pnlRipple;
   private String _strTitulo;
+  private DrawerMenu _viwDrawerMenu;
 
   public MenuItem(Context context) {
 
@@ -54,34 +58,6 @@ public class MenuItem extends PainelGeral implements View.OnClickListener {
 
       ((Activity) this.getContext()).setResult(0, new Intent().putExtra(ActMain.STR_EXTRA_OUT_BOO_FECHAR, true));
       ((Activity) this.getContext()).finish();
-    }
-    catch (Exception ex) {
-
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally {
-    }
-  }
-
-  private void fecharMenu() {
-
-    ActMain act;
-
-    try {
-
-      if (this.getContext() == null) {
-
-        return;
-      }
-
-      if (!ActMain.class.isAssignableFrom(this.getContext().getClass())) {
-
-        return;
-      }
-
-      act = (ActMain) this.getContext();
-
-      act.fecharMenu();
     }
     catch (Exception ex) {
 
@@ -151,9 +127,82 @@ public class MenuItem extends PainelGeral implements View.OnClickListener {
     return _lblTitulo;
   }
 
+  private PainelGeral getPnlConteudo() {
+
+    try {
+
+      if (_pnlConteudo != null) {
+
+        return _pnlConteudo;
+      }
+
+      _pnlConteudo = new PainelGeral(this.getContext());
+    }
+    catch (Exception ex) {
+
+      new ErroAndroid("Erro inesperado.\n", ex);
+    }
+    finally {
+    }
+
+    return _pnlConteudo;
+  }
+
+  private PainelRipple getPnlRipple() {
+
+    try {
+
+      if (_pnlRipple != null) {
+
+        return _pnlRipple;
+      }
+
+      _pnlRipple = new PainelRipple(this.getContext());
+    }
+    catch (Exception ex) {
+
+      new ErroAndroid("Erro inesperado.\n", ex);
+    }
+    finally {
+    }
+
+    return _pnlRipple;
+  }
+
   public String getStrTitulo() {
 
     return _strTitulo;
+  }
+
+  private DrawerMenu getViwDrawerMenu() {
+
+    try {
+
+      if (_viwDrawerMenu != null) {
+
+        return _viwDrawerMenu;
+      }
+
+      if (this.getContext() == null) {
+
+        return null;
+      }
+
+      if (!ActMain.class.isAssignableFrom(this.getContext().getClass())) {
+
+        return null;
+      }
+
+      _viwDrawerMenu = ((ActMain) this.getContext()).getViwDrawerMenu();
+    }
+    catch (Exception ex) {
+
+      new ErroAndroid("Erro inesperado.\n", ex);
+    }
+    finally {
+    }
+
+    return _viwDrawerMenu;
   }
 
   @Override
@@ -181,7 +230,7 @@ public class MenuItem extends PainelGeral implements View.OnClickListener {
 
     try {
 
-      this.setOrientation(LinearLayout.HORIZONTAL);
+      this.getPnlConteudo().setOrientation(LinearLayout.HORIZONTAL);
 
       this.inicializarImgIcone();
       this.inicializarLblTitulo();
@@ -246,9 +295,9 @@ public class MenuItem extends PainelGeral implements View.OnClickListener {
         return;
       }
 
-      objTypedArray = this.getContext().obtainStyledAttributes(ats, R.styleable.strTitulo);
+      objTypedArray = this.getContext().obtainStyledAttributes(ats, R.styleable.View);
 
-      this.setStrTitulo(objTypedArray.getString(R.styleable.strTitulo_strTitulo));
+      this.setStrTitulo(objTypedArray.getString(R.styleable.View_strTitulo));
     }
     catch (Exception ex) {
 
@@ -282,8 +331,12 @@ public class MenuItem extends PainelGeral implements View.OnClickListener {
 
     try {
 
-      this.addView(this.getImgIcone());
-      this.addView(this.getLblTitulo());
+      this.addView(this.getPnlRipple());
+
+      this.getPnlRipple().addView(this.getPnlConteudo());
+
+      this.getPnlConteudo().addView(this.getImgIcone());
+      this.getPnlConteudo().addView(this.getLblTitulo());
     }
     catch (Exception ex) {
 
@@ -299,8 +352,8 @@ public class MenuItem extends PainelGeral implements View.OnClickListener {
     try {
 
       this.fecharActivity();
-      this.fecharMenu();
-      AppAndroid.getI().dispararOnMenuItemClickListener((MenuItem) v);
+      this.getViwDrawerMenu().setMniClicado(this);
+      this.getViwDrawerMenu().closeDrawers();
     }
     catch (Exception ex) {
 
@@ -317,7 +370,7 @@ public class MenuItem extends PainelGeral implements View.OnClickListener {
 
     try {
 
-      this.setOnClickListener(this);
+      this.getPnlRipple().setOnClickListener(this);
     }
     catch (Exception ex) {
 

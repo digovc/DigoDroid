@@ -2,7 +2,6 @@ package com.digosofter.digodroid.controle.item;
 
 import android.content.Context;
 import android.database.Cursor;
-import android.view.Gravity;
 import android.view.View;
 import android.view.View.OnClickListener;
 
@@ -27,7 +26,6 @@ public class ItemCampo extends ItemMain implements OnClickListener {
 
       this.setCln(cln);
       this.carregarDados(crs);
-
     }
     catch (Exception ex) {
 
@@ -49,7 +47,6 @@ public class ItemCampo extends ItemMain implements OnClickListener {
       this.getLblRegistroNome().setStrTexto(this.getCln().getStrNomeExibicao() + ": ");
 
       this.carregarDadosValor(crs);
-
     }
     catch (Exception ex) {
 
@@ -74,7 +71,6 @@ public class ItemCampo extends ItemMain implements OnClickListener {
 
       this.getCln().setStrValor(strValor);
       this.getLblRegistroValor().setStrTexto(this.getCln().getStrValorExibicao());
-
     }
     catch (Exception ex) {
 
@@ -99,7 +95,6 @@ public class ItemCampo extends ItemMain implements OnClickListener {
       }
 
       _lblRegistroNome = new LabelGeral(this.getContext());
-
     }
     catch (Exception ex) {
 
@@ -121,7 +116,6 @@ public class ItemCampo extends ItemMain implements OnClickListener {
       }
 
       _lblRegistroValor = new LabelGeral(this.getContext());
-
     }
     catch (Exception ex) {
 
@@ -147,10 +141,8 @@ public class ItemCampo extends ItemMain implements OnClickListener {
       this.getLblRegistroNome().setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.MATCH_PARENT));
 
       this.getLblRegistroValor().setEnmFonteTamanho(TemaDefault.EnmFonteTamanho.PEQUENO);
-      this.getLblRegistroValor().setGravity(Gravity.RIGHT);
       this.getLblRegistroValor().setIntLinhaQuantidade(1);
       this.getLblRegistroValor().setStrTexto("-");
-
     }
     catch (Exception ex) {
 
@@ -169,7 +161,6 @@ public class ItemCampo extends ItemMain implements OnClickListener {
 
       this.addView(this.getLblRegistroNome());
       this.addView(this.getLblRegistroValor());
-
     }
     catch (Exception ex) {
 
@@ -185,7 +176,6 @@ public class ItemCampo extends ItemMain implements OnClickListener {
     try {
 
       AppAndroid.getI().notificar(this.getLblRegistroValor().getStrTexto());
-
     }
     catch (Exception ex) {
 
@@ -203,7 +193,6 @@ public class ItemCampo extends ItemMain implements OnClickListener {
     try {
 
       this.carregarDadosValor(crs);
-
     }
     catch (Exception ex) {
 
@@ -231,7 +220,6 @@ public class ItemCampo extends ItemMain implements OnClickListener {
       }
 
       this.getLblRegistroValor().setOnClickListener(this);
-
     }
     catch (Exception ex) {
 

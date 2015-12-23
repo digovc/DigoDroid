@@ -6,7 +6,7 @@
 
     <uses-sdk
         android:minSdkVersion="14"
-        android:targetSdkVersion="22" />
+        android:targetSdkVersion="23" />
 
     <!-- Permissões da biblioteca DigoDroid -->
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
@@ -25,7 +25,6 @@
         <activity android:name=".activity.ActConsulta" />
         <activity android:name=".activity.ActDetalhe" />
         <activity android:name=".activity.ActErro" />
-        <activity android:name=".activity.ActMapaMain" />
 
         <meta-data
             android:name="com.google.android.gms.version"

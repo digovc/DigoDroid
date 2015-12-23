@@ -9,9 +9,6 @@ import android.view.ContextMenu.ContextMenuInfo;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
-import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -28,7 +25,7 @@ import com.digosofter.digojava.database.OnChangeArg;
 import com.digosofter.digojava.database.OnChangeListener;
 
 /**/
-public class ActConsulta extends ActMain implements OnItemClickListener, OnItemLongClickListener, OnChangeListener, TextWatcher {
+public class ActConsulta extends ActMain implements OnChangeListener, TextWatcher {
 
   public enum EnmResultadoTipo {
 
@@ -48,7 +45,7 @@ public class ActConsulta extends ActMain implements OnItemClickListener, OnItemL
   private boolean _booRegistroSelecionavel;
   private EditText _edtPesquisa;
   private int _intRegistroRefId = -1;
-  private ItemConsulta _itmSelec;
+  private ItemConsulta _itmSelecionado;
   private ListView _pnlLista;
   private LinearLayout _pnlPesquisa;
   private TabelaAndroid<?> _tbl;
@@ -60,7 +57,6 @@ public class ActConsulta extends ActMain implements OnItemClickListener, OnItemL
     try {
 
       this.setResult(EnmResultadoTipo.NONE.ordinal());
-
     }
     catch (Exception ex) {
 
@@ -85,7 +81,6 @@ public class ActConsulta extends ActMain implements OnItemClickListener, OnItemL
       itt.putExtra(ActDetalhe.STR_EXTRA_IN_INT_REGISTRO_ID, intRegistroId);
 
       this.startActivity(itt);
-
     }
     catch (Exception ex) {
 
@@ -105,7 +100,6 @@ public class ActConsulta extends ActMain implements OnItemClickListener, OnItemL
     try {
 
       this.getAdpCadastro().atualizarLista();
-
     }
     catch (Exception ex) {
 
@@ -136,7 +130,6 @@ public class ActConsulta extends ActMain implements OnItemClickListener, OnItemL
       }
 
       _adpCadastro = new AdpConsulta(this, this.getTbl().pesquisarConsulta());
-
     }
     catch (Exception ex) {
 
@@ -152,8 +145,7 @@ public class ActConsulta extends ActMain implements OnItemClickListener, OnItemL
 
     try {
 
-      _booRegistroSelecionavel = this.getIntent().getBooleanExtra(ActConsulta.STR_EXTRA_IN_BOO_REGISTRO_SELECIONAVEL, true);
-
+      _booRegistroSelecionavel = this.getIntent().getBooleanExtra(ActConsulta.STR_EXTRA_IN_BOO_REGISTRO_SELECIONAVEL, false);
     }
     catch (Exception ex) {
 
@@ -175,7 +167,6 @@ public class ActConsulta extends ActMain implements OnItemClickListener, OnItemL
       }
 
       _edtPesquisa = this.getView(R.id.actConsulta_edtPesquisa, EditText.class);
-
     }
     catch (Exception ex) {
 
@@ -203,7 +194,6 @@ public class ActConsulta extends ActMain implements OnItemClickListener, OnItemL
       }
 
       _intRegistroRefId = this.getIntent().getIntExtra(ActConsulta.STR_EXTRA_IN_INT_REGISTRO_REF_ID, 0);
-
     }
     catch (Exception ex) {
 
@@ -215,9 +205,9 @@ public class ActConsulta extends ActMain implements OnItemClickListener, OnItemL
     return _intRegistroRefId;
   }
 
-  private ItemConsulta getItmSelec() {
+  private ItemConsulta getItmSelecionado() {
 
-    return _itmSelec;
+    return _itmSelecionado;
   }
 
   private ListView getPnlLista() {
@@ -232,7 +222,6 @@ public class ActConsulta extends ActMain implements OnItemClickListener, OnItemL
       _pnlLista = this.getView(R.id.actConsulta_pnlLista, ListView.class);
 
       _pnlLista.setCacheColorHint(Color.TRANSPARENT);
-
     }
     catch (Exception ex) {
 
@@ -254,7 +243,6 @@ public class ActConsulta extends ActMain implements OnItemClickListener, OnItemL
       }
 
       _pnlPesquisa = this.getView(R.id.actConsulta_pnlPesquisa, LinearLayout.class);
-
     }
     catch (Exception ex) {
 
@@ -292,7 +280,6 @@ public class ActConsulta extends ActMain implements OnItemClickListener, OnItemL
       }
 
       _tbl.addOnChangeListener(this);
-
     }
     catch (Exception ex) {
 
@@ -314,7 +301,6 @@ public class ActConsulta extends ActMain implements OnItemClickListener, OnItemL
       }
 
       _txtTblDescricao = this.getView(R.id.actConsulta_pnlPesquisa, TextView.class);
-
     }
     catch (Exception ex) {
 
@@ -336,7 +322,6 @@ public class ActConsulta extends ActMain implements OnItemClickListener, OnItemL
       }
 
       _txtVazio = this.getView(R.id.actConsulta_txtVazio, TextView.class);
-
     }
     catch (Exception ex) {
 
@@ -360,7 +345,6 @@ public class ActConsulta extends ActMain implements OnItemClickListener, OnItemL
       this.montarLayoutVazio();
 
       this.montarLayoutAbrirCadastro();
-
     }
     catch (Exception ex) {
 
@@ -401,7 +385,6 @@ public class ActConsulta extends ActMain implements OnItemClickListener, OnItemL
       itt.putExtra(ActCadastroMain.STR_EXTRA_IN_INT_REGISTRO_REF_ID, this.getIntent().getIntExtra(ActConsulta.STR_EXTRA_IN_INT_REGISTRO_REF_ID, this.getIntRegistroRefId()));
 
       this.startActivity(itt);
-
     }
     catch (Exception ex) {
 
@@ -416,7 +399,6 @@ public class ActConsulta extends ActMain implements OnItemClickListener, OnItemL
     try {
 
       this.getPnlLista().setAdapter(this.getAdpCadastro());
-
     }
     catch (Exception ex) {
 
@@ -445,7 +427,6 @@ public class ActConsulta extends ActMain implements OnItemClickListener, OnItemL
 
       this.getTxtTblDescricao().setText(this.getTbl().getStrDescricao());
       this.getTxtTblDescricao().setVisibility(View.VISIBLE);
-
     }
     catch (Exception ex) {
 
@@ -467,7 +448,6 @@ public class ActConsulta extends ActMain implements OnItemClickListener, OnItemL
           ActConsulta.this.montarLayoutVazioLocal();
         }
       });
-
     }
     catch (Exception ex) {
 
@@ -490,7 +470,6 @@ public class ActConsulta extends ActMain implements OnItemClickListener, OnItemL
 
       this.getPnlLista().setVisibility(View.GONE);
       this.getTxtVazio().setVisibility(View.VISIBLE);
-
     }
     catch (Exception ex) {
 
@@ -506,7 +485,6 @@ public class ActConsulta extends ActMain implements OnItemClickListener, OnItemL
     try {
 
       this.montarLayoutVazio();
-
     }
     catch (Exception ex) {
 
@@ -528,7 +506,6 @@ public class ActConsulta extends ActMain implements OnItemClickListener, OnItemL
 
       this.atualizarLista();
       this.montarLayoutVazio();
-
     }
     catch (Exception ex) {
 
@@ -545,7 +522,6 @@ public class ActConsulta extends ActMain implements OnItemClickListener, OnItemL
 
       this.atualizarLista();
       this.montarLayoutVazio();
-
     }
     catch (Exception ex) {
 
@@ -562,30 +538,31 @@ public class ActConsulta extends ActMain implements OnItemClickListener, OnItemL
 
       if (mni == null) {
 
-        return true;
+        return super.onContextItemSelected(mni);
       }
 
       if (this.getTbl() == null) {
 
-        return true;
+        return super.onContextItemSelected(mni);
       }
 
-      if (this.getItmSelec() == null) {
+      if (this.getItmSelecionado() == null) {
 
-        return true;
+        return super.onContextItemSelected(mni);
       }
 
-      this.getTbl().processarMenuItem(this, mni, this.getItmSelec().getIntRegistroId());
-
+      this.getTbl().processarMenuItem(this, mni, this.getItmSelecionado().getIntRegistroId());
     }
     catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
     }
     finally {
+
+      this.setItmSelecionado(null);
     }
 
-    return super.onContextItemSelected(mni);
+    return true;
   }
 
   @Override
@@ -600,20 +577,26 @@ public class ActConsulta extends ActMain implements OnItemClickListener, OnItemL
         return;
       }
 
-      if (this.getItmSelec() == null) {
+      if (viw == null) {
 
         return;
       }
 
-      if (this.getItmSelec().getIntRegistroId() < 1) {
+      if (!ItemConsulta.class.isAssignableFrom(viw.getClass())) {
 
         return;
       }
 
-      mnu.setHeaderTitle(this.getItmSelec().getStrRegistroNome());
+      if (((ItemConsulta) viw).getIntRegistroId() < 1) {
 
-      this.getTbl().montarMenuItem(mnu, this.getItmSelec().getIntRegistroId(), true);
+        return;
+      }
 
+      this.setItmSelecionado((ItemConsulta) viw);
+
+      mnu.setHeaderTitle(this.getItmSelecionado().getStrRegistroNome());
+
+      this.getTbl().montarMenuItem(mnu, this.getItmSelecionado().getIntRegistroId(), true);
     }
     catch (Exception ex) {
 
@@ -652,7 +635,6 @@ public class ActConsulta extends ActMain implements OnItemClickListener, OnItemL
       mni = mnu.add(TabelaAndroid.STR_MENU_ADICIONAR);
       mni.setIcon(R.drawable.ic_adicionar);
       mni.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
-
     }
     catch (Exception ex) {
 
@@ -677,7 +659,6 @@ public class ActConsulta extends ActMain implements OnItemClickListener, OnItemL
       mni.setCheckable(true);
       mni.setIcon(R.drawable.ic_pesquisar);
       mni.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
-
     }
     catch (Exception ex) {
 
@@ -695,7 +676,6 @@ public class ActConsulta extends ActMain implements OnItemClickListener, OnItemL
     try {
 
       this.getTbl().removerOnChangeListener(this);
-
     }
     catch (Exception ex) {
 
@@ -705,23 +685,31 @@ public class ActConsulta extends ActMain implements OnItemClickListener, OnItemL
     }
   }
 
-  @Override
-  public void onItemClick(AdapterView<?> objAdapterView, View viw, int intPosicao, long intRegistroId) {
+  public void onItemClick(final ItemConsulta viwItem) {
 
     try {
 
-      if (this.getBooRegistroSelecionavel()) {
+      if (viwItem == null) {
 
-        this.onItemClickRegistroSelecionar((int) intRegistroId);
         return;
       }
 
-      this.onItemClickDetalhar((int) intRegistroId);
+      if (viwItem.getIntRegistroId() < 1) {
 
+        return;
+      }
+
+      if (this.getBooRegistroSelecionavel()) {
+
+        this.onItemClickRegistroSelecionar(viwItem.getIntRegistroId());
+        return;
+      }
+
+      this.onItemClickDetalhar(viwItem.getIntRegistroId());
     }
     catch (Exception ex) {
 
-      new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(115), ex);
+      new ErroAndroid("Erro inesperado.\n", ex);
     }
     finally {
     }
@@ -732,7 +720,6 @@ public class ActConsulta extends ActMain implements OnItemClickListener, OnItemL
     try {
 
       this.getTbl().abrirActDetalhe(this, intRegistroId);
-
     }
     catch (Exception ex) {
 
@@ -766,7 +753,6 @@ public class ActConsulta extends ActMain implements OnItemClickListener, OnItemL
       this.getTbl().setStrPesquisa(this.getEdtPesquisa().getText().toString());
       this.setResult(ActConsulta.EnmResultadoTipo.REGISTRO_SELECIONADO.ordinal(), itt);
       this.finish();
-
     }
     catch (Exception ex) {
 
@@ -776,28 +762,23 @@ public class ActConsulta extends ActMain implements OnItemClickListener, OnItemL
     }
   }
 
-  @Override
-  public boolean onItemLongClick(AdapterView<?> viwParent, View viw, int intPosition, long intId) {
+  public void onItemLongClick(final ItemConsulta viwItem) {
 
     try {
 
-      if (viw == null) {
+      if (viwItem == null) {
 
-        return false;
+        return;
       }
 
-      if (viw == null) {
+      if (viwItem.getIntRegistroId() < 1) {
 
-        return false;
+        return;
       }
 
-      if (!viw.getClass().equals(ItemConsulta.class)) {
-
-        return false;
-      }
-
-      this.setItmSelec((ItemConsulta) viw);
-
+      this.registerForContextMenu(viwItem);
+      this.openContextMenu(viwItem);
+      this.unregisterForContextMenu(viwItem);
     }
     catch (Exception ex) {
 
@@ -805,8 +786,6 @@ public class ActConsulta extends ActMain implements OnItemClickListener, OnItemL
     }
     finally {
     }
-
-    return false;
   }
 
   @Override
@@ -826,7 +805,6 @@ public class ActConsulta extends ActMain implements OnItemClickListener, OnItemL
       }
 
       this.getTbl().processarMenu(this, mni);
-
     }
     catch (Exception ex) {
 
@@ -846,10 +824,12 @@ public class ActConsulta extends ActMain implements OnItemClickListener, OnItemL
 
       mni.setChecked(!mni.isChecked());
 
-      if (this.getPnlPesquisa().getVisibility() == View.VISIBLE) {
+      if (this.getPnlPesquisa().getVisibility() != View.VISIBLE) {
 
-        this.mostrarTeclado(this.getEdtPesquisa());
+        return;
       }
+
+      this.mostrarTeclado(this.getEdtPesquisa());
     }
     catch (Exception ex) {
 
@@ -871,7 +851,6 @@ public class ActConsulta extends ActMain implements OnItemClickListener, OnItemL
       this.onCreateOptionsMenuPesquisar(mnu);
       this.onCreateOptionsMenuAdicionar(mnu);
       this.onPrepareOptionsMenuTbl(mnu);
-
     }
     catch (Exception ex) {
 
@@ -893,7 +872,6 @@ public class ActConsulta extends ActMain implements OnItemClickListener, OnItemL
       }
 
       this.getTbl().montarMenu(mnu);
-
     }
     catch (Exception ex) {
 
@@ -909,7 +887,6 @@ public class ActConsulta extends ActMain implements OnItemClickListener, OnItemL
     try {
 
       this.getAdpCadastro().getFilter().filter(s);
-
     }
     catch (Exception ex) {
 
@@ -931,7 +908,6 @@ public class ActConsulta extends ActMain implements OnItemClickListener, OnItemL
 
       this.getEdtPesquisa().setText(this.getTbl().getStrPesquisa());
       this.getPnlPesquisa().setVisibility(View.VISIBLE);
-
     }
     catch (Exception ex) {
 
@@ -950,13 +926,8 @@ public class ActConsulta extends ActMain implements OnItemClickListener, OnItemL
 
       this.getEdtPesquisa().addTextChangedListener(this);
       this.getPnlLista().setLongClickable(true);
-      this.getPnlLista().setOnItemClickListener(this);
-      this.getPnlLista().setOnItemLongClickListener(this);
-
-      this.registerForContextMenu(this.getPnlLista());
 
       this.recuperarUltimaPesquisa();
-
     }
     catch (Exception ex) {
 
@@ -966,8 +937,8 @@ public class ActConsulta extends ActMain implements OnItemClickListener, OnItemL
     }
   }
 
-  private void setItmSelec(ItemConsulta itmSelec) {
+  private void setItmSelecionado(ItemConsulta itmSelecionado) {
 
-    _itmSelec = itmSelec;
+    _itmSelecionado = itmSelecionado;
   }
 }

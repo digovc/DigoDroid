@@ -32,7 +32,6 @@ public abstract class ItemMain extends PainelGeral {
     try {
 
       this.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
-
     }
     catch (Exception ex) {
 

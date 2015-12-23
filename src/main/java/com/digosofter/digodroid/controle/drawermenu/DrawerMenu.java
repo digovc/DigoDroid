@@ -3,10 +3,14 @@ package com.digosofter.digodroid.controle.drawermenu;
 import android.content.Context;
 import android.support.v4.widget.DrawerLayout;
 import android.util.AttributeSet;
+import android.view.View;
 
+import com.digosofter.digodroid.AppAndroid;
 import com.digosofter.digodroid.erro.ErroAndroid;
 
-public final class DrawerMenu extends DrawerLayout {
+public final class DrawerMenu extends DrawerLayout implements DrawerLayout.DrawerListener {
+
+  private MenuItem _mniClicado;
 
   public DrawerMenu(Context context) {
 
@@ -15,7 +19,6 @@ public final class DrawerMenu extends DrawerLayout {
     try {
 
       this.iniciar(null);
-
     }
     catch (Exception ex) {
 
@@ -32,7 +35,6 @@ public final class DrawerMenu extends DrawerLayout {
     try {
 
       this.iniciar(attrs);
-
     }
     catch (Exception ex) {
 
@@ -49,7 +51,6 @@ public final class DrawerMenu extends DrawerLayout {
     try {
 
       this.iniciar(attrs);
-
     }
     catch (Exception ex) {
 
@@ -61,6 +62,11 @@ public final class DrawerMenu extends DrawerLayout {
 
   protected void finalizar() {
 
+  }
+
+  private MenuItem getMniClicado() {
+
+    return _mniClicado;
   }
 
   /**
@@ -90,7 +96,6 @@ public final class DrawerMenu extends DrawerLayout {
       this.montarLayout();
       this.setEventos();
       this.finalizar();
-
     }
     catch (Exception ex) {
 
@@ -104,10 +109,62 @@ public final class DrawerMenu extends DrawerLayout {
 
   }
 
+  @Override
+  public void onDrawerClosed(final View drawerView) {
+
+    try {
+
+      if (this.getMniClicado() == null) {
+
+        return;
+      }
+
+      AppAndroid.getI().dispararOnMenuItemClickListener(this.getMniClicado());
+    }
+    catch (Exception ex) {
+
+      new ErroAndroid("Erro inesperado.\n", ex);
+    }
+    finally {
+
+      this.setMniClicado(null);
+    }
+  }
+
+  @Override
+  public void onDrawerOpened(final View drawerView) {
+
+  }
+
+  @Override
+  public void onDrawerSlide(final View drawerView, final float slideOffset) {
+
+  }
+
+  @Override
+  public void onDrawerStateChanged(final int newState) {
+
+  }
+
   /**
    * Responsável por configurar os eventos deste controle e de seus filhos.
    */
   protected void setEventos() {
 
+    try {
+
+      this.setDrawerListener(this);
+    }
+    catch (Exception ex) {
+
+      new ErroAndroid("Erro inesperado.\n", ex);
+    }
+    finally {
+    }
+  }
+
+  void setMniClicado(MenuItem mniClicado) {
+
+    _mniClicado = mniClicado;
   }
 }

@@ -2,6 +2,7 @@ package com.digosofter.digodroid.design;
 
 import android.graphics.Color;
 
+import com.digosofter.digodroid.R;
 import com.digosofter.digodroid.erro.ErroAndroid;
 import com.digosofter.digojava.Objeto;
 
@@ -41,9 +42,7 @@ public class TemaDefault extends Objeto {
   }
 
   private final int INT_FONTE_TAMANHO_FATOR = 12;
-  private int _corBorda1;
-  private int _corFundo1;
-  private int _corTema;
+
   private int _intFontGrande;
   private int _intFontMedio;
   private int _intFontMinimo;
@@ -72,81 +71,6 @@ public class TemaDefault extends Objeto {
       default:
         return this.getIntFontNormal();
     }
-  }
-
-  /**
-   * @return Cor da borda da aplicação.
-   */
-  public int getCorBorda1() {
-
-    try {
-
-      if (_corBorda1 > 0) {
-
-        return _corBorda1;
-      }
-
-      _corBorda1 = Color.BLACK;
-
-    }
-    catch (Exception ex) {
-
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally {
-    }
-
-    return _corBorda1;
-  }
-
-  /**
-   * @return Cor dos comonentes com relevo.
-   */
-  public int getCorFundo1() {
-
-    try {
-
-      if (_corFundo1 > 0) {
-
-        return _corFundo1;
-      }
-
-      _corFundo1 = Color.parseColor("#e3e3e3");
-
-    }
-    catch (Exception ex) {
-
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally {
-    }
-
-    return _corFundo1;
-  }
-
-  /**
-   * @return Cor do tema da aplicação.
-   */
-  public int getCorTema() {
-
-    try {
-
-      if (_corTema > 0) {
-
-        return _corTema;
-      }
-
-      _corTema = Color.parseColor("#004d7e");
-
-    }
-    catch (Exception ex) {
-
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally {
-    }
-
-    return _corTema;
   }
 
   /**

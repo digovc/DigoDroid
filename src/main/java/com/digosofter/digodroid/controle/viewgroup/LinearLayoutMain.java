@@ -160,7 +160,6 @@ public abstract class LinearLayoutMain extends LinearLayout implements IControle
       intPaddingPx = UtilsAndroid.dpToPx(TemaDefault.getI().getIntPadding(), this.getContext());
 
       this.setPadding(intPaddingPx, intPaddingPx, intPaddingPx, intPaddingPx);
-
     }
     catch (Exception ex) {
 

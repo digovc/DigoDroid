@@ -3,8 +3,7 @@
 
     <declare-styleable name="CampoMain">
 
-        <attr name="clnNomeSql" format="string"/>
-
+        <attr name="clnStrNomeSql" format="string"/>
 
     </declare-styleable>
 
@@ -43,7 +42,7 @@
 
     </declare-styleable>
 
-    <declare-styleable name="strTitulo">
+    <declare-styleable name="View">
 
         <attr name="strTitulo" format="string"/>
 

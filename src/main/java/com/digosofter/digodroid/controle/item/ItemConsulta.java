@@ -3,22 +3,27 @@ package com.digosofter.digodroid.controle.item;
 import android.content.Context;
 import android.database.Cursor;
 import android.util.AttributeSet;
+import android.view.View;
 
 import com.digosofter.digodroid.UtilsAndroid;
+import com.digosofter.digodroid.activity.ActConsulta;
 import com.digosofter.digodroid.controle.label.LabelGeral;
 import com.digosofter.digodroid.controle.painel.PainelGeral;
+import com.digosofter.digodroid.controle.painel.PainelRipple;
 import com.digosofter.digodroid.database.ColunaAndroid;
 import com.digosofter.digodroid.database.TabelaAndroid;
 import com.digosofter.digodroid.design.TemaDefault;
 import com.digosofter.digodroid.erro.ErroAndroid;
 import com.digosofter.digojava.database.Coluna;
 
-public class ItemConsulta extends ItemMain {
+public class ItemConsulta extends ItemMain implements View.OnClickListener, View.OnLongClickListener {
 
   private LabelGeral _lblRegistroId;
   private LabelGeral _lblRegistroNome;
+  private PainelGeral _pnlCabecalho;
   private PainelGeral _pnlCampoContainer;
   private PainelGeral _pnlConteudo;
+  private PainelRipple _pnlRipple;
   private TabelaAndroid<?> _tbl;
 
   public ItemConsulta(Context context, AttributeSet attrs) {
@@ -34,7 +39,6 @@ public class ItemConsulta extends ItemMain {
 
       this.setTbl(tbl);
       this.carregarDados(crs, false);
-
     }
     catch (Exception ex) {
 
@@ -67,7 +71,6 @@ public class ItemConsulta extends ItemMain {
       this.getLblRegistroId().setIntTexto(crs.getInt(crs.getColumnIndex(this.getTbl().getClnChavePrimaria().getStrNomeSql())));
 
       this.carregarDadosItem(crs, booReciclar);
-
     }
     catch (Exception ex) {
 
@@ -135,7 +138,6 @@ public class ItemConsulta extends ItemMain {
       }
 
       this.getPnlCampoContainer().addView(new ItemCampo(this.getContext(), cln, crs));
-
     }
     catch (Exception ex) {
 
@@ -200,7 +202,6 @@ public class ItemConsulta extends ItemMain {
       }
 
       _lblRegistroId = new LabelGeral(this.getContext());
-
     }
     catch (Exception ex) {
 
@@ -222,7 +223,6 @@ public class ItemConsulta extends ItemMain {
       }
 
       _lblRegistroNome = new LabelGeral(this.getContext());
-
     }
     catch (Exception ex) {
 
@@ -232,6 +232,27 @@ public class ItemConsulta extends ItemMain {
     }
 
     return _lblRegistroNome;
+  }
+
+  private PainelGeral getPnlCabecalho() {
+
+    try {
+
+      if (_pnlCabecalho != null) {
+
+        return _pnlCabecalho;
+      }
+
+      _pnlCabecalho = new PainelGeral(this.getContext());
+    }
+    catch (Exception ex) {
+
+      new ErroAndroid("Erro inesperado.\n", ex);
+    }
+    finally {
+    }
+
+    return _pnlCabecalho;
   }
 
   private PainelGeral getPnlCampoContainer() {
@@ -244,7 +265,6 @@ public class ItemConsulta extends ItemMain {
       }
 
       _pnlCampoContainer = new PainelGeral(this.getContext());
-
     }
     catch (Exception ex) {
 
@@ -277,6 +297,27 @@ public class ItemConsulta extends ItemMain {
     return _pnlConteudo;
   }
 
+  private PainelRipple getPnlRipple() {
+
+    try {
+
+      if (_pnlRipple != null) {
+
+        return _pnlRipple;
+      }
+
+      _pnlRipple = new PainelRipple(this.getContext());
+    }
+    catch (Exception ex) {
+
+      new ErroAndroid("Erro inesperado.\n", ex);
+    }
+    finally {
+    }
+
+    return _pnlRipple;
+  }
+
   /**
    * Retorna o nome do registro que este item representa.
    *
@@ -299,14 +340,16 @@ public class ItemConsulta extends ItemMain {
 
     try {
 
+      this.getPnlCabecalho().setOrientation(HORIZONTAL);
+
       this.getPnlConteudo().setIntPadding(TemaDefault.getI().getIntPadding());
 
-      this.getLblRegistroNome().setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, UtilsAndroid.dpToPx(50, this.getContext())));
+      this.getLblRegistroNome().setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, UtilsAndroid.dpToPx(55, this.getContext())));
       this.getLblRegistroNome().setStrTexto("Nome que representa este registro");
 
-      this.getLblRegistroId().setEnmFonteTamanho(TemaDefault.EnmFonteTamanho.PEQUENO);
       this.getLblRegistroId().setIntTexto(9999999);
-
+      this.getLblRegistroId().setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.MATCH_PARENT));
+      this.getLblRegistroId().setPadding(0, 0, UtilsAndroid.dpToPx(10, this.getContext()), 0);
     }
     catch (Exception ex) {
 
@@ -323,12 +366,13 @@ public class ItemConsulta extends ItemMain {
 
     try {
 
-      this.addView(this.getPnlConteudo());
+      this.addView(this.getPnlRipple());
 
-      this.getPnlConteudo().addView(this.getLblRegistroId());
-      this.getPnlConteudo().addView(this.getLblRegistroNome());
+      this.getPnlRipple().addView(this.getPnlConteudo());
+      this.getPnlConteudo().addView(this.getPnlCabecalho());
+      this.getPnlCabecalho().addView(this.getLblRegistroId());
+      this.getPnlCabecalho().addView(this.getLblRegistroNome());
       this.getPnlConteudo().addView(this.getPnlCampoContainer());
-
     }
     catch (Exception ex) {
 
@@ -336,6 +380,68 @@ public class ItemConsulta extends ItemMain {
     }
     finally {
     }
+  }
+
+  @Override
+  public void onClick(final View v) {
+
+    try {
+
+      if (this.getIntRegistroId() < 1) {
+
+        return;
+      }
+
+      if (this.getContext() == null) {
+
+        return;
+      }
+
+      if (!ActConsulta.class.isAssignableFrom(this.getContext().getClass())) {
+
+        return;
+      }
+
+      ((ActConsulta)this.getContext()).onItemClick(this);
+    }
+    catch (Exception ex) {
+
+      new ErroAndroid("Erro inesperado.\n", ex);
+    }
+    finally {
+    }
+  }
+
+  @Override
+  public boolean onLongClick(final View v) {
+
+    try {
+
+      if (this.getIntRegistroId() < 1) {
+
+        return false;
+      }
+
+      if (this.getContext() == null) {
+
+        return false;
+      }
+
+      if (!ActConsulta.class.isAssignableFrom(this.getContext().getClass())) {
+
+        return false;
+      }
+
+      ((ActConsulta) this.getContext()).onItemLongClick(this);
+    }
+    catch (Exception ex) {
+
+      new ErroAndroid("Erro inesperado.\n", ex);
+    }
+    finally {
+    }
+
+    return true;
   }
 
   @Override
@@ -389,6 +495,24 @@ public class ItemConsulta extends ItemMain {
     finally {
     }
 
+  }
+
+  @Override
+  public void setEventos() {
+
+    super.setEventos();
+
+    try {
+
+      this.getPnlRipple().setOnClickListener(this);
+      this.getPnlRipple().setOnLongClickListener(this);
+    }
+    catch (Exception ex) {
+
+      new ErroAndroid("Erro inesperado.\n", ex);
+    }
+    finally {
+    }
   }
 
   private void setTbl(TabelaAndroid<?> tbl) {

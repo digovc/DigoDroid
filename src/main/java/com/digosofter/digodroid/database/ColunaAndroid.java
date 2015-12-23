@@ -21,7 +21,6 @@ public class ColunaAndroid extends Coluna {
   private MenuItem _mniOrdenar;
   private Grupo _grp;
   private String _sqlTipo;
-  private View _viw;
 
   public ColunaAndroid(String strNome, TabelaAndroid<?> tbl, EnmTipo enmTipo) {
 
@@ -331,16 +330,13 @@ public class ColunaAndroid extends Coluna {
           break;
 
         case DECIMAL:
+        case DOUBLE:
+        case FLOAT:
         case MONEY:
         case NUMERIC:
         case PERCENTUAL:
-          _sqlTipo = "numeric";
-          break;
-
-        case DOUBLE:
-        case FLOAT:
         case REAL:
-          _sqlTipo = "real";
+          _sqlTipo = "numeric";
           break;
 
         default:
@@ -355,11 +351,6 @@ public class ColunaAndroid extends Coluna {
     }
 
     return _sqlTipo;
-  }
-
-  public View getViw() {
-
-    return _viw;
   }
 
   void montarMenuCampo(SubMenu smn) {
@@ -491,10 +482,5 @@ public class ColunaAndroid extends Coluna {
   public void setObjDbGrupo(Grupo grp) {
 
     _grp = grp;
-  }
-
-  public void setViw(View viw) {
-
-    _viw = viw;
   }
 }

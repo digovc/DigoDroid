@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -15,7 +14,6 @@ import com.digosofter.digodroid.AppAndroid;
 import com.digosofter.digodroid.R;
 import com.digosofter.digodroid.controle.drawermenu.DrawerMenu;
 import com.digosofter.digodroid.controle.painel.PainelMenuConteudo;
-import com.digosofter.digodroid.design.TemaDefault;
 import com.digosofter.digodroid.erro.ErroAndroid;
 
 public abstract class ActMain extends Activity {
@@ -93,7 +91,7 @@ public abstract class ActMain extends Activity {
     return (T) this.findViewById(intViewId);
   }
 
-  private DrawerMenu getViwDrawerMenu() {
+  public DrawerMenu getViwDrawerMenu() {
 
     try {
 
@@ -133,7 +131,6 @@ public abstract class ActMain extends Activity {
 
     try {
 
-      this.getActionBar().setBackgroundDrawable(new ColorDrawable(TemaDefault.getI().getCorTema()));
       this.getActionBar().setDisplayHomeAsUpEnabled(true);
       this.getActionBar().setHomeButtonEnabled(true);
     }

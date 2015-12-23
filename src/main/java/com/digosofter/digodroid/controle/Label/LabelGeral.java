@@ -169,7 +169,6 @@ public class /**/LabelGeral extends TextView implements IControleMain {
     try {
 
       this.setEnmFonteTamanho(TemaDefault.EnmFonteTamanho.NORMAL);
-      this.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
     }
     catch (Exception ex) {
 

@@ -73,9 +73,9 @@ public abstract class CampoMain extends PainelLinha {
         return;
       }
 
-      objTypedArray = this.getContext().obtainStyledAttributes(ats, R.styleable.strTitulo);
+      objTypedArray = this.getContext().obtainStyledAttributes(ats, R.styleable.View);
 
-      this.setStrTitulo(objTypedArray.getString(R.styleable.strTitulo_strTitulo));
+      this.setStrTitulo(objTypedArray.getString(R.styleable.View_strTitulo));
 
     }
     catch (Exception ex) {

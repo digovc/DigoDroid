@@ -18,10 +18,10 @@ import com.digosofter.digojava.Utils;
 import com.digosofter.digojava.Utils.EnmDataFormato;
 import com.digosofter.digojava.Utils.EnmStrTipo;
 import com.digosofter.digojava.database.Coluna;
-import com.digosofter.digojava.database.Filtro;
-import com.digosofter.digojava.database.Tabela;
 import com.digosofter.digojava.database.Dominio;
+import com.digosofter.digojava.database.Filtro;
 import com.digosofter.digojava.database.OnChangeArg;
+import com.digosofter.digojava.database.Tabela;
 
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
@@ -46,7 +46,6 @@ public abstract class TabelaAndroid<T extends Dominio> extends Tabela<T> {
   private static final String STR_MENU_DETALHAR = "Ver detalhes";
 
   private boolean _booAbrirCadastroAuto;
-  private boolean _booManterCache = true;
   private boolean _booSinc = true;
   private Class<? extends ActMain> _clsActCadastro;
   private List<ViewAndroid> _lstViwAndroid;
@@ -352,11 +351,6 @@ public abstract class TabelaAndroid<T extends Dominio> extends Tabela<T> {
     }
 
     return false;
-  }
-
-  private boolean getBooManterCache() {
-
-    return _booManterCache;
   }
 
   public boolean getBooRegistroExiste(int intId) {
@@ -971,8 +965,6 @@ public abstract class TabelaAndroid<T extends Dominio> extends Tabela<T> {
 
   /**
    * Este método tem a responsabilidade de inicializar a lista de views desta tabela.
-   *
-   * @param lstViwAndroid Lista de views desta tabela.
    */
   protected void inicializarLstViwAndroid() {
 
@@ -2296,11 +2288,6 @@ public abstract class TabelaAndroid<T extends Dominio> extends Tabela<T> {
   public void setBooAbrirCadastroAuto(boolean booAbrirCadastroAuto) {
 
     _booAbrirCadastroAuto = booAbrirCadastroAuto;
-  }
-
-  protected void setBooManterCache(boolean booManterCache) {
-
-    _booManterCache = booManterCache;
   }
 
   public void setBooSinc(boolean booSinc) {

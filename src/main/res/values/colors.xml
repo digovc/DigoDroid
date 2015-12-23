@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <item name="cor_borda" type="color">#333333</item>
+
+    <item name="cor_fundo" type="color">#f0f0f0</item>
+
+    <item name="cor_tema" type="color">#0181aa</item>
+
+</resources>

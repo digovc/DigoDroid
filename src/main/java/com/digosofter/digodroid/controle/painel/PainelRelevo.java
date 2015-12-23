@@ -1,8 +1,12 @@
 package com.digosofter.digodroid.controle.painel;
 
+import android.annotation.TargetApi;
 import android.content.Context;
+import android.graphics.drawable.ColorDrawable;
+import android.os.Build;
 import android.util.AttributeSet;
 
+import com.digosofter.digodroid.R;
 import com.digosofter.digodroid.UtilsAndroid;
 import com.digosofter.digodroid.design.TemaDefault;
 import com.digosofter.digodroid.erro.ErroAndroid;
@@ -24,30 +28,6 @@ public class PainelRelevo extends PainelMain {
     super(context, attrs, defStyleAttr);
   }
 
-  private void finalizarMargin() {
-
-    int intMarginDp;
-    MarginLayoutParams objMarginLayoutParams;
-
-    try {
-
-      intMarginDp = UtilsAndroid.dpToPx(TemaDefault.getI().getIntMargin(), this.getContext());
-
-      objMarginLayoutParams = new MarginLayoutParams(this.getWidth(), this.getHeight());
-
-      objMarginLayoutParams.setMargins(intMarginDp, intMarginDp, intMarginDp, intMarginDp);
-
-      this.setLayoutParams(objMarginLayoutParams);
-
-    }
-    catch (Exception ex) {
-
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally {
-    }
-  }
-
   @Override
   public void inicializar() {
 
@@ -55,9 +35,7 @@ public class PainelRelevo extends PainelMain {
 
     try {
 
-      this.setBackgroundColor(TemaDefault.getI().getCorFundo1());
-      //      this.setIntPadding(TemaDefault.getI().getIntPadding());
-
+      this.setBackgroundColor(this.getContext().getResources().getColor(R.color.cor_fundo));
     }
     catch (Exception ex) {
 
