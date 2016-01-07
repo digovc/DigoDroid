@@ -61,7 +61,7 @@ public class PainelLinha extends PainelMain {
 
     try {
 
-      intPaddingDp = UtilsAndroid.dpToPx(TemaDefault.getI().getIntPadding(), this.getContext());
+      intPaddingDp = UtilsAndroid.dpToPx(TemaDefault.getI().getIntEspacamento(), this.getContext());
 
       this.setPadding(intPaddingDp, intPaddingDp, intPaddingDp, intPaddingDp);
 

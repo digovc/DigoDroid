@@ -1,8 +1,14 @@
 package com.digosofter.digodroid.controle;
 
+import android.app.Activity;
 import android.util.AttributeSet;
 
 public interface IControleMain {
+
+  /**
+   * Método que será disparado no {@link Activity#onDestroy()} da janela que contém este controle.
+   */
+  void destruir();
 
   /**
    * Responsável por fazer os ajustes finais antes de desenhar este controle na tela. Este método deve ser chamado
@@ -33,7 +39,7 @@ public interface IControleMain {
    * {@link #inicializar(AttributeSet)} {@link #inicializar()} {@link #montarLayout()} {@link #setEventos()}
    *
    * @param ats Possíveis atributos que serão passados pelo API do android caso este controle tenha sido declarado em um
-   *            arquivo de layout num XML.
+   * arquivo de layout num XML.
    */
   void iniciar(AttributeSet ats);
 

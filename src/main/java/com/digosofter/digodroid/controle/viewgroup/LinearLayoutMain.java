@@ -18,7 +18,6 @@ public abstract class LinearLayoutMain extends LinearLayout implements IControle
     try {
 
       this.iniciar(null);
-
     }
     catch (Exception ex) {
 
@@ -35,7 +34,6 @@ public abstract class LinearLayoutMain extends LinearLayout implements IControle
     try {
 
       this.iniciar(attrs);
-
     }
     catch (Exception ex) {
 
@@ -52,7 +50,6 @@ public abstract class LinearLayoutMain extends LinearLayout implements IControle
     try {
 
       this.inicializar(attrs);
-
     }
     catch (Exception ex) {
 
@@ -62,10 +59,17 @@ public abstract class LinearLayoutMain extends LinearLayout implements IControle
     }
   }
 
+  @Override
+  public void destruir() {
+
+  }
+
+  @Override
   public void finalizar() {
 
   }
 
+  @Override
   public void inicializar(AttributeSet ats) {
 
     //    TypedArray objTypedArray;
@@ -88,13 +92,12 @@ public abstract class LinearLayoutMain extends LinearLayout implements IControle
     //    }
   }
 
+  @Override
   public void inicializar() {
 
     try {
 
       this.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
-      this.setOrientation(LinearLayout.VERTICAL);
-
     }
     catch (Exception ex) {
 
@@ -104,6 +107,7 @@ public abstract class LinearLayoutMain extends LinearLayout implements IControle
     }
   }
 
+  @Override
   public void iniciar(AttributeSet ats) {
 
     try {
@@ -112,7 +116,6 @@ public abstract class LinearLayoutMain extends LinearLayout implements IControle
       this.inicializar();
       this.montarLayout();
       this.setEventos();
-
     }
     catch (Exception ex) {
 
@@ -122,6 +125,7 @@ public abstract class LinearLayoutMain extends LinearLayout implements IControle
     }
   }
 
+  @Override
   public void montarLayout() {
 
   }
@@ -134,7 +138,6 @@ public abstract class LinearLayoutMain extends LinearLayout implements IControle
     try {
 
       this.finalizar();
-
     }
     catch (Exception ex) {
 
@@ -144,6 +147,7 @@ public abstract class LinearLayoutMain extends LinearLayout implements IControle
     }
   }
 
+  @Override
   public void setEventos() {
 
   }
@@ -157,7 +161,7 @@ public abstract class LinearLayoutMain extends LinearLayout implements IControle
 
     try {
 
-      intPaddingPx = UtilsAndroid.dpToPx(TemaDefault.getI().getIntPadding(), this.getContext());
+      intPaddingPx = UtilsAndroid.dpToPx(TemaDefault.getI().getIntEspacamento(), this.getContext());
 
       this.setPadding(intPaddingPx, intPaddingPx, intPaddingPx, intPaddingPx);
     }

@@ -1,8 +1,6 @@
 package com.digosofter.digodroid.controle.drawermenu;
 
-import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.content.res.TypedArray;
 import android.util.AttributeSet;
 import android.view.Gravity;
@@ -10,7 +8,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
-import com.digosofter.digodroid.AppAndroid;
 import com.digosofter.digodroid.R;
 import com.digosofter.digodroid.UtilsAndroid;
 import com.digosofter.digodroid.activity.ActMain;
@@ -45,26 +42,6 @@ public class MenuItem extends PainelGeral implements View.OnClickListener {
   public MenuItem(Context context, AttributeSet attrs, int defStyleAttr) {
 
     super(context, attrs, defStyleAttr);
-  }
-
-  private void fecharActivity() {
-
-    try {
-
-      if (this.getContext().equals(AppAndroid.getI().getActPrincipal())) {
-
-        return;
-      }
-
-      ((Activity) this.getContext()).setResult(0, new Intent().putExtra(ActMain.STR_EXTRA_OUT_BOO_FECHAR, true));
-      ((Activity) this.getContext()).finish();
-    }
-    catch (Exception ex) {
-
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally {
-    }
   }
 
   @Override
@@ -234,6 +211,7 @@ public class MenuItem extends PainelGeral implements View.OnClickListener {
 
       this.inicializarImgIcone();
       this.inicializarLblTitulo();
+      this.inicializarPnlRipple();
     }
     catch (Exception ex) {
 
@@ -268,13 +246,16 @@ public class MenuItem extends PainelGeral implements View.OnClickListener {
 
   private void inicializarImgIcone() {
 
+    int intPaddingDp;
     int intTamanhoDp;
 
     try {
 
+      intPaddingDp = UtilsAndroid.dpToPx(12, this.getContext());
       intTamanhoDp = UtilsAndroid.dpToPx(INT_MENU_ITEM_HEIGHT, this.getContext());
 
       this.getImgIcone().setLayoutParams(new ViewGroup.LayoutParams(intTamanhoDp, intTamanhoDp));
+      this.getImgIcone().setPadding(intPaddingDp, intPaddingDp, intPaddingDp, intPaddingDp);
     }
     catch (Exception ex) {
 
@@ -324,6 +305,20 @@ public class MenuItem extends PainelGeral implements View.OnClickListener {
 
   }
 
+  private void inicializarPnlRipple() {
+
+    try {
+
+      this.getPnlRipple().setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
+    }
+    catch (Exception ex) {
+
+      new ErroAndroid("Erro inesperado.\n", ex);
+    }
+    finally {
+    }
+  }
+
   @Override
   public void montarLayout() {
 
@@ -351,7 +346,6 @@ public class MenuItem extends PainelGeral implements View.OnClickListener {
 
     try {
 
-      this.fecharActivity();
       this.getViwDrawerMenu().setMniClicado(this);
       this.getViwDrawerMenu().closeDrawers();
     }

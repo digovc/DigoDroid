@@ -34,7 +34,7 @@ public class PainelDetalheCabecalho extends PainelGeral {
 
     try {
 
-      this.setBackgroundColor(this.getContext().getResources().getColor(R.color.cor_tema, null));
+      this.setBackgroundColor(this.getContext().getResources().getColor(R.color.cor_tema));
     }
     catch (Exception ex) {
 

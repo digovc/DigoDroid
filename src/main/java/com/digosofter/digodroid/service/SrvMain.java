@@ -9,6 +9,7 @@ import com.digosofter.digojava.App;
 
 public abstract class SrvMain extends IntentService {
 
+  private boolean _booParar;
   private Intent _itt;
 
   public SrvMain(String strNome) {
@@ -18,6 +19,11 @@ public abstract class SrvMain extends IntentService {
 
   protected void finalizar() {
 
+  }
+
+  protected boolean getBooParar() {
+
+    return _booParar;
   }
 
   protected Intent getItt() {
@@ -49,7 +55,6 @@ public abstract class SrvMain extends IntentService {
       }
 
       this.servico();
-
     }
     catch (Exception ex) {
 
@@ -59,11 +64,20 @@ public abstract class SrvMain extends IntentService {
 
       this.finalizar();
     }
-
   }
 
   protected void servico() {
 
+  }
+
+  /**
+   * Avisa este serviço para parar assim que possível.
+   *
+   * @param booParar Avisa este serviço para parar assim que possível.
+   */
+  public void setBooParar(boolean booParar) {
+
+    _booParar = booParar;
   }
 
   private void setItt(Intent itt) {

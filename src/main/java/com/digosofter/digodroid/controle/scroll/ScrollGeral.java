@@ -61,6 +61,11 @@ public class ScrollGeral extends ScrollView implements IControleMain {
   }
 
   @Override
+  public void destruir() {
+
+  }
+
+  @Override
   public void finalizar() {
 
   }

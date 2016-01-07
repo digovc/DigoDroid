@@ -1,11 +1,14 @@
 package com.digosofter.digodroid.controle.drawermenu;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.support.v4.widget.DrawerLayout;
 import android.util.AttributeSet;
 import android.view.View;
 
 import com.digosofter.digodroid.AppAndroid;
+import com.digosofter.digodroid.activity.ActMain;
 import com.digosofter.digodroid.erro.ErroAndroid;
 
 public final class DrawerMenu extends DrawerLayout implements DrawerLayout.DrawerListener {
@@ -51,6 +54,26 @@ public final class DrawerMenu extends DrawerLayout implements DrawerLayout.Drawe
     try {
 
       this.iniciar(attrs);
+    }
+    catch (Exception ex) {
+
+      new ErroAndroid("Erro inesperado.\n", ex);
+    }
+    finally {
+    }
+  }
+
+  private void fecharActivity() {
+
+    try {
+
+      if (this.getContext().equals(AppAndroid.getI().getActPrincipal())) {
+
+        return;
+      }
+
+      ((Activity) this.getContext()).setResult(0, new Intent().putExtra(ActMain.STR_EXTRA_OUT_BOO_FECHAR, true));
+      ((Activity) this.getContext()).finish();
     }
     catch (Exception ex) {
 
@@ -120,6 +143,8 @@ public final class DrawerMenu extends DrawerLayout implements DrawerLayout.Drawe
       }
 
       AppAndroid.getI().dispararOnMenuItemClickListener(this.getMniClicado());
+
+      this.fecharActivity();
     }
     catch (Exception ex) {
 

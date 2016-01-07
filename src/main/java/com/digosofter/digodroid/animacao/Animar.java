@@ -24,7 +24,6 @@ public class Animar extends Objeto {
       }
 
       i = new Animar();
-
     }
     catch (Exception ex) {
 
@@ -54,7 +53,6 @@ public class Animar extends Objeto {
       viwTarget.setAlpha(0);
       viwTarget.setVisibility(View.VISIBLE);
       viwTarget.animate().alpha(1);
-
     }
     catch (Exception ex) {
 
@@ -83,11 +81,10 @@ public class Animar extends Objeto {
       anm = new ScaleAnimation(1, 1, 0, 1);
 
       anm.setDuration(INT_DURACAO_RAPIDO);
-      anm.setFillAfter(true);
 
+      viwTarget.clearAnimation();
       viwTarget.setVisibility(View.VISIBLE);
       viwTarget.startAnimation(anm);
-
     }
     catch (Exception ex) {
 
@@ -111,10 +108,59 @@ public class Animar extends Objeto {
         return;
       }
 
+      viwTarget.clearAnimation();
       viwTarget.setAlpha(1);
       viwTarget.animate().alpha(0);
-      viwTarget.setVisibility(View.INVISIBLE);
+    }
+    catch (Exception ex) {
 
+      new ErroAndroid("Erro inesperado.\n", ex);
+    }
+    finally {
+    }
+  }
+
+  /**
+   * Move o controle para fora da tela, partindo da sua posição atual até a parte inferior da tela.
+   *
+   * @param viwTarget Controle que será animado.
+   */
+  public void desaparecerMoverBaixo(final View viwTarget) {
+
+    this.desaparecerMoverBaixo(viwTarget, null);
+  }
+
+  /**
+   * Move o controle para fora da tela, partindo da sua posição atual até a parte inferior da tela.
+   *
+   * @param viwTarget Controle que será animado.
+   * @param objAnimationListener Listener que vai cuidar dos callbacks da animação.
+   */
+  public void desaparecerMoverBaixo(final View viwTarget, final Animation.AnimationListener objAnimationListener) {
+
+    int intBottom;
+    TranslateAnimation anm;
+
+    try {
+
+      if (viwTarget == null) {
+
+        return;
+      }
+
+      intBottom = (((ViewGroup.MarginLayoutParams) viwTarget.getLayoutParams()).bottomMargin + viwTarget.getHeight());
+
+      anm = new TranslateAnimation(0, 0, 0, intBottom);
+
+      anm.setDuration(INT_DURACAO_RAPIDO);
+
+      if (objAnimationListener != null) {
+
+        anm.setAnimationListener(objAnimationListener);
+      }
+
+      viwTarget.clearAnimation();
+      viwTarget.startAnimation(anm);
     }
     catch (Exception ex) {
 
@@ -127,7 +173,7 @@ public class Animar extends Objeto {
   /**
    * Move o controle para fora da tela, partindo da sua posição atual até a parte superior da tela.
    *
-   * @param viwTarget            Controle que será animado.
+   * @param viwTarget Controle que será animado.
    * @param objAnimationListener Listener que vai cuidar dos callbacks da animação.
    */
   public void desaparecerMoverCima(View viwTarget, Animation.AnimationListener objAnimationListener) {
@@ -153,8 +199,8 @@ public class Animar extends Objeto {
         anm.setAnimationListener(objAnimationListener);
       }
 
+      viwTarget.clearAnimation();
       viwTarget.startAnimation(anm);
-
     }
     catch (Exception ex) {
 
@@ -171,17 +217,7 @@ public class Animar extends Objeto {
    */
   public void desaparecerMoverCima(View viwTarget) {
 
-    try {
-
-      this.desaparecerMoverCima(viwTarget, null);
-
-    }
-    catch (Exception ex) {
-
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally {
-    }
+    this.desaparecerMoverCima(viwTarget, null);
   }
 
   /**
@@ -189,7 +225,7 @@ public class Animar extends Objeto {
    *
    * @param viwTarget Controle que será animado.
    */
-  public void desaparecerSlideUp(View viwTarget) {
+  public void desaparecerSlideUp(final View viwTarget) {
 
     ScaleAnimation anm;
 
@@ -204,9 +240,26 @@ public class Animar extends Objeto {
 
       anm.setDuration(INT_DURACAO_RAPIDO);
       anm.setFillAfter(true);
+      anm.setAnimationListener(new Animation.AnimationListener() {
+        @Override
+        public void onAnimationEnd(final Animation animation) {
 
+          viwTarget.setVisibility(View.GONE);
+        }
+
+        @Override
+        public void onAnimationRepeat(final Animation animation) {
+
+        }
+
+        @Override
+        public void onAnimationStart(final Animation animation) {
+
+        }
+      });
+
+      viwTarget.clearAnimation();
       viwTarget.startAnimation(anm);
-
     }
     catch (Exception ex) {
 

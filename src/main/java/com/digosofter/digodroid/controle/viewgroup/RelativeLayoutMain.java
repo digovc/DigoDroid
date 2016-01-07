@@ -61,6 +61,11 @@ public abstract class RelativeLayoutMain extends RelativeLayout implements ICont
   }
 
   @Override
+  public void destruir() {
+    
+  }
+
+  @Override
   public void finalizar() {
 
   }

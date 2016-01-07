@@ -4,6 +4,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 
 import com.digosofter.digodroid.AppAndroid;
 import com.digosofter.digodroid.controle.label.LabelGeral;
@@ -44,9 +45,28 @@ public class ItemCampo extends ItemMain implements OnClickListener {
         return;
       }
 
-      this.getLblRegistroNome().setStrTexto(this.getCln().getStrNomeExibicao() + ": ");
-
+      this.carregarDadosNome(crs);
       this.carregarDadosValor(crs);
+    }
+    catch (Exception ex) {
+
+      new ErroAndroid("Erro inesperado.\n", ex);
+    }
+    finally {
+    }
+  }
+
+  private void carregarDadosNome(final Cursor crs) {
+
+    String strNome;
+
+    try {
+
+      strNome = "_registro_nome: ";
+
+      strNome = strNome.replace("_registro_nome", this.getCln().getStrNomeExibicao());
+
+      this.getLblRegistroNome().setText(strNome);
     }
     catch (Exception ex) {
 
@@ -70,7 +90,7 @@ public class ItemCampo extends ItemMain implements OnClickListener {
       }
 
       this.getCln().setStrValor(strValor);
-      this.getLblRegistroValor().setStrTexto(this.getCln().getStrValorExibicao());
+      this.getLblRegistroValor().setText(this.getCln().getStrValorExibicao());
     }
     catch (Exception ex) {
 
@@ -134,15 +154,44 @@ public class ItemCampo extends ItemMain implements OnClickListener {
 
     try {
 
+      this.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
       this.setOrientation(HORIZONTAL);
 
+      this.inicializarLblRegistroNome();
+      this.inicializarLblRegistroValor();
+    }
+    catch (Exception ex) {
+
+      new ErroAndroid("Erro inesperado.\n", ex);
+    }
+    finally {
+    }
+  }
+
+  private void inicializarLblRegistroNome() {
+
+    try {
+
       this.getLblRegistroNome().setEnmFonteTamanho(TemaDefault.EnmFonteTamanho.PEQUENO);
-      this.getLblRegistroNome().setIntLinhaQuantidade(1);
-      this.getLblRegistroNome().setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.MATCH_PARENT));
+      this.getLblRegistroNome().setMaxLines(1);
+      this.getLblRegistroNome().setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
+    }
+    catch (Exception ex) {
+
+      new ErroAndroid("Erro inesperado.\n", ex);
+    }
+    finally {
+    }
+  }
+
+  private void inicializarLblRegistroValor() {
+
+    try {
 
       this.getLblRegistroValor().setEnmFonteTamanho(TemaDefault.EnmFonteTamanho.PEQUENO);
-      this.getLblRegistroValor().setIntLinhaQuantidade(1);
-      this.getLblRegistroValor().setStrTexto("-");
+      this.getLblRegistroValor().setMaxLines(1);
+      this.getLblRegistroValor().setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
+      this.getLblRegistroValor().setText("-");
     }
     catch (Exception ex) {
 
@@ -175,7 +224,7 @@ public class ItemCampo extends ItemMain implements OnClickListener {
 
     try {
 
-      AppAndroid.getI().notificar(this.getLblRegistroValor().getStrTexto());
+      AppAndroid.getI().notificar(this.getLblRegistroValor().getText().toString());
     }
     catch (Exception ex) {
 

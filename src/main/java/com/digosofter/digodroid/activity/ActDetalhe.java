@@ -11,7 +11,7 @@ import com.digosofter.digodroid.R;
 import com.digosofter.digodroid.controle.item.ItemCampo;
 import com.digosofter.digodroid.controle.item.ItemDetalhe;
 import com.digosofter.digodroid.controle.label.LabelGeral;
-import com.digosofter.digodroid.controle.painel.PainelGrupoDetalhe;
+import com.digosofter.digodroid.controle.painel.PainelGrupo;
 import com.digosofter.digodroid.database.ColunaAndroid;
 import com.digosofter.digodroid.database.Grupo;
 import com.digosofter.digodroid.database.TabelaAndroid;
@@ -24,10 +24,10 @@ public class ActDetalhe extends ActMain {
   public static final String STR_EXTRA_IN_INT_REGISTRO_ID = "int_registro_id";
   public static final String STR_EXTRA_IN_INT_TBL_OBJETO_ID = "int_tbl_objeto_id";
 
+  private Grupo _grpGeral;
   private int _intRegistroId;
   private LabelGeral _lblIntRegistroId;
   private LabelGeral _lblStrRegistroNome;
-  private Grupo _grpGeral;
   private LinearLayout _pnlCampos;
   private TabelaAndroid<?> _tbl;
 
@@ -47,7 +47,6 @@ public class ActDetalhe extends ActMain {
       }
 
       _intRegistroId = this.getIntent().getIntExtra(ActDetalhe.STR_EXTRA_IN_INT_REGISTRO_ID, 0);
-
     }
     catch (Exception ex) {
 
@@ -69,7 +68,6 @@ public class ActDetalhe extends ActMain {
       }
 
       _lblIntRegistroId = this.getView(R.id.actDetalhe_lblIntRegistroId, LabelGeral.class);
-
     }
     catch (Exception ex) {
 
@@ -91,7 +89,6 @@ public class ActDetalhe extends ActMain {
       }
 
       _lblStrRegistroNome = this.getView(R.id.actDetalhe_lblStrRegistroNome, LabelGeral.class);
-
     }
     catch (Exception ex) {
 
@@ -115,7 +112,6 @@ public class ActDetalhe extends ActMain {
       _grpGeral = new Grupo();
 
       _grpGeral.setStrNome("Geral");
-
     }
     catch (Exception ex) {
 
@@ -142,7 +138,6 @@ public class ActDetalhe extends ActMain {
 
         cln.setObjDbGrupo(this.getObjDbGrupoGeral());
       }
-
     }
     catch (Exception ex) {
 
@@ -164,7 +159,6 @@ public class ActDetalhe extends ActMain {
       }
 
       _pnlCampos = this.getView(R.id.actDetalhe_pnlCampos, LinearLayout.class);
-
     }
     catch (Exception ex) {
 
@@ -176,9 +170,9 @@ public class ActDetalhe extends ActMain {
     return _pnlCampos;
   }
 
-  private PainelGrupoDetalhe getPnlGrupoDetalhe(Grupo grp) {
+  private PainelGrupo getPnlGrupo(Grupo grp) {
 
-    PainelGrupoDetalhe pnlGrupoDetalheResultado;
+    PainelGrupo pnlGrupoResultado;
 
     try {
 
@@ -194,32 +188,31 @@ public class ActDetalhe extends ActMain {
           continue;
         }
 
-        if (!this.getPnlCampos().getChildAt(i).getClass().equals(PainelGrupoDetalhe.class)) {
+        if (!this.getPnlCampos().getChildAt(i).getClass().equals(PainelGrupo.class)) {
 
           continue;
         }
 
-        if (Utils.getBooStrVazia(((PainelGrupoDetalhe) this.getPnlCampos().getChildAt(i)).getStrTitulo())) {
+        if (Utils.getBooStrVazia(((PainelGrupo) this.getPnlCampos().getChildAt(i)).getStrTitulo())) {
 
           continue;
         }
 
-        if (!((PainelGrupoDetalhe) this.getPnlCampos().getChildAt(i)).getStrTitulo().equals(grp.getStrNomeExibicao())) {
+        if (!((PainelGrupo) this.getPnlCampos().getChildAt(i)).getStrTitulo().equals(grp.getStrNomeExibicao())) {
 
           continue;
         }
 
-        return (PainelGrupoDetalhe) this.getPnlCampos().getChildAt(i);
+        return (PainelGrupo) this.getPnlCampos().getChildAt(i);
       }
 
-      pnlGrupoDetalheResultado = new PainelGrupoDetalhe(this);
+      pnlGrupoResultado = new PainelGrupo(this);
 
-      pnlGrupoDetalheResultado.setStrTitulo(grp.getStrNomeExibicao());
+      pnlGrupoResultado.setStrTitulo(grp.getStrNomeExibicao());
 
-      this.getPnlCampos().addView(pnlGrupoDetalheResultado);
+      this.getPnlCampos().addView(pnlGrupoResultado);
 
-      return pnlGrupoDetalheResultado;
-
+      return pnlGrupoResultado;
     }
     catch (Exception ex) {
 
@@ -255,7 +248,6 @@ public class ActDetalhe extends ActMain {
       }
 
       _tbl = AppAndroid.getI().getTbl(intTblObjetoId);
-
     }
     catch (Exception ex) {
 
@@ -280,14 +272,13 @@ public class ActDetalhe extends ActMain {
         this.finish();
       }
 
+      this.setTitle(this.getTbl().getStrNomeExibicao());
+
       this.getTbl().recuperar(this.getIntRegistroId());
 
-      this.getLblIntRegistroId().setCorTexto(Color.WHITE);
       this.getLblIntRegistroId().setIntTexto(this.getIntRegistroId());
 
-      this.getLblStrRegistroNome().setCorTexto(Color.WHITE);
-      this.getLblStrRegistroNome().setStrTexto(this.getTbl().getClnNome().getStrValorExibicao());
-
+      this.getLblStrRegistroNome().setText(this.getTbl().getClnNome().getStrValorExibicao());
     }
     catch (Exception ex) {
 
@@ -310,7 +301,6 @@ public class ActDetalhe extends ActMain {
 
         return false;
       }
-
     }
     catch (Exception ex) {
 
@@ -330,7 +320,6 @@ public class ActDetalhe extends ActMain {
     try {
 
       this.montarLayoutItem();
-
     }
     catch (Exception ex) {
 
@@ -392,7 +381,6 @@ public class ActDetalhe extends ActMain {
       itmDetalhe = new ItemDetalhe(this, cln);
 
       this.montarLayoutItem(itmDetalhe);
-
     }
     catch (Exception ex) {
 
@@ -405,7 +393,7 @@ public class ActDetalhe extends ActMain {
 
   private void montarLayoutItem(ItemDetalhe itmDetalhe) {
 
-    PainelGrupoDetalhe pnlGrupoDetalhe;
+    PainelGrupo pnlGrupo;
 
     try {
 
@@ -414,15 +402,14 @@ public class ActDetalhe extends ActMain {
         return;
       }
 
-      pnlGrupoDetalhe = this.getPnlGrupoDetalhe(itmDetalhe.getCln().getObjDbGrupo());
+      pnlGrupo = this.getPnlGrupo(itmDetalhe.getCln().getObjDbGrupo());
 
-      if (pnlGrupoDetalhe == null) {
+      if (pnlGrupo == null) {
 
         return;
       }
 
-      pnlGrupoDetalhe.addView(itmDetalhe);
-
+      pnlGrupo.addView(itmDetalhe);
     }
     catch (Exception ex) {
 
@@ -454,7 +441,6 @@ public class ActDetalhe extends ActMain {
       }
 
       this.getTbl().montarMenuItem(mnu, this.getIntRegistroId(), false);
-
     }
     catch (Exception ex) {
 
@@ -471,27 +457,32 @@ public class ActDetalhe extends ActMain {
 
     try {
 
+      if (super.onOptionsItemSelected(mni)) {
+
+        return true;
+      }
+
       if (mni == null) {
 
-        return super.onOptionsItemSelected(mni);
+        return false;
       }
 
       if (mni.getTitle() == null) {
 
-        return super.onOptionsItemSelected(mni);
+        return false;
       }
 
       if (this.getTbl() == null) {
 
-        return super.onOptionsItemSelected(mni);
+        return false;
       }
 
       if (this.getIntRegistroId() < 1) {
 
-        return super.onOptionsItemSelected(mni);
+        return false;
       }
 
-      this.getTbl().processarMenuItem(this, mni, this.getIntRegistroId());
+      return this.getTbl().processarMenuItem(this, mni, this.getIntRegistroId());
     }
     catch (Exception ex) {
 
@@ -500,6 +491,6 @@ public class ActDetalhe extends ActMain {
     finally {
     }
 
-    return super.onOptionsItemSelected(mni);
+    return false;
   }
 }

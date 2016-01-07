@@ -3,8 +3,9 @@ package com.digosofter.digodroid.database;
 import android.database.Cursor;
 import android.view.MenuItem;
 import android.view.SubMenu;
-import android.view.View;
 
+import com.digosofter.digodroid.OnValorAlterado;
+import com.digosofter.digodroid.OnValorAlteradoArg;
 import com.digosofter.digodroid.erro.ErroAndroid;
 import com.digosofter.digojava.App;
 import com.digosofter.digojava.Utils;
@@ -14,12 +15,12 @@ import com.digosofter.digojava.database.Dominio;
 import java.lang.reflect.Field;
 import java.util.GregorianCalendar;
 
-public class ColunaAndroid extends Coluna {
+public class ColunaAndroid extends Coluna implements OnValorAlterado {
 
   private boolean _booDominioFieldCarregado;
+  private Grupo _grp;
   private MenuItem _mniCampo;
   private MenuItem _mniOrdenar;
-  private Grupo _grp;
   private String _sqlTipo;
 
   public ColunaAndroid(String strNome, TabelaAndroid<?> tbl, EnmTipo enmTipo) {
@@ -396,6 +397,26 @@ public class ColunaAndroid extends Coluna {
       this.setMniOrdenar(smn.add(this.getStrNomeExibicao()));
       this.getMniOrdenar().setChecked(this.getBooOrdem());
       this.getMniOrdenar().setCheckable(true);
+    }
+    catch (Exception ex) {
+
+      new ErroAndroid("Erro inesperado.\n", ex);
+    }
+    finally {
+    }
+  }
+
+  @Override
+  public void onValorAlterado(final Object objSender, final OnValorAlteradoArg arg) {
+
+    try {
+
+      if (arg == null) {
+
+        return;
+      }
+
+      this.setStrValor(arg.getStrValor());
     }
     catch (Exception ex) {
 

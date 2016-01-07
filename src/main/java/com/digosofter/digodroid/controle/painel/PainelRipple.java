@@ -2,7 +2,6 @@ package com.digosofter.digodroid.controle.painel;
 
 import android.content.Context;
 import android.util.AttributeSet;
-import android.view.View;
 
 import com.balysv.materialripple.MaterialRippleLayout;
 import com.digosofter.digodroid.controle.IControleMain;
@@ -56,6 +55,11 @@ public class PainelRipple extends MaterialRippleLayout implements IControleMain 
     }
     finally {
     }
+  }
+
+  @Override
+  public void destruir() {
+
   }
 
   @Override

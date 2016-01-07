@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.util.AttributeSet;
 import android.util.TypedValue;
-import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.digosofter.digodroid.R;
@@ -12,13 +11,11 @@ import com.digosofter.digodroid.controle.IControleMain;
 import com.digosofter.digodroid.design.TemaDefault;
 import com.digosofter.digodroid.erro.ErroAndroid;
 
-public class /**/LabelGeral extends TextView implements IControleMain {
+public class LabelGeral extends TextView implements IControleMain {
 
   private int _corTexto;
   private TemaDefault.EnmFonteTamanho _enmFonteTamanho;
-  private int _intLinhaQuantidade;
   private int _intTexto;
-  private String _strTexto;
 
   public LabelGeral(Context context) {
 
@@ -97,18 +94,9 @@ public class /**/LabelGeral extends TextView implements IControleMain {
 
   }
 
-  protected void atualizarIntLinhaQuantidade() {
+  @Override
+  public void destruir() {
 
-    try {
-
-      this.setMaxLines(this.getIntLinhaQuantidade());
-    }
-    catch (Exception ex) {
-
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally {
-    }
   }
 
   @Override
@@ -126,16 +114,11 @@ public class /**/LabelGeral extends TextView implements IControleMain {
     return _enmFonteTamanho;
   }
 
-  private int getIntLinhaQuantidade() {
-
-    return _intLinhaQuantidade;
-  }
-
   public int getIntTexto() {
 
     try {
 
-      _intTexto = Integer.valueOf(this.getStrTexto());
+      _intTexto = Integer.valueOf(this.getText().toString());
     }
     catch (Exception ex) {
 
@@ -145,22 +128,6 @@ public class /**/LabelGeral extends TextView implements IControleMain {
     }
 
     return _intTexto;
-  }
-
-  public String getStrTexto() {
-
-    try {
-
-      _strTexto = this.getText().toString();
-    }
-    catch (Exception ex) {
-
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally {
-    }
-
-    return _strTexto;
   }
 
   @Override
@@ -285,54 +252,17 @@ public class /**/LabelGeral extends TextView implements IControleMain {
 
   }
 
-  /**
-   * Indica a quantidade máxima de linhas que este controle pode ter.
-   *
-   * @param intLinhaQuantidade Quantidade máxima de linhas que este controle pode ter.
-   */
-  public void setIntLinhaQuantidade(int intLinhaQuantidade) {
-
-    try {
-
-      _intLinhaQuantidade = intLinhaQuantidade;
-
-      this.atualizarIntLinhaQuantidade();
-    }
-    catch (Exception ex) {
-
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally {
-    }
-  }
-
   public void setIntTexto(int intTexto) {
 
     try {
 
       _intTexto = intTexto;
 
-      this.setStrTexto(String.valueOf(_intTexto));
+      this.setText(String.valueOf(_intTexto));
     }
     catch (Exception ex) {
 
-      this.setStrTexto(null);
-    }
-    finally {
-    }
-  }
-
-  public void setStrTexto(String strTexto) {
-
-    try {
-
-      _strTexto = strTexto;
-
-      this.setText(_strTexto);
-    }
-    catch (Exception ex) {
-
-      new ErroAndroid("Erro inesperado.\n", ex);
+      this.setText(null);
     }
     finally {
     }

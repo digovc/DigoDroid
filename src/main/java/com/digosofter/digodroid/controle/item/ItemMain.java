@@ -32,6 +32,7 @@ public abstract class ItemMain extends PainelGeral {
     try {
 
       this.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
+      this.setOrientation(VERTICAL);
     }
     catch (Exception ex) {
 

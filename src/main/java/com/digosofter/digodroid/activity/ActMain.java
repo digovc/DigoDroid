@@ -7,11 +7,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.FrameLayout;
 
 import com.digosofter.digodroid.AppAndroid;
 import com.digosofter.digodroid.R;
+import com.digosofter.digodroid.controle.IControleMain;
 import com.digosofter.digodroid.controle.drawermenu.DrawerMenu;
 import com.digosofter.digodroid.controle.painel.PainelMenuConteudo;
 import com.digosofter.digodroid.erro.ErroAndroid;
@@ -21,6 +23,7 @@ public abstract class ActMain extends Activity {
   public static final String STR_EXTRA_OUT_BOO_FECHAR = "boo_fechar";
   private boolean _booVisivel;
   private DrawerMenu _viwDrawerMenu;
+  private ViewGroup _viwRoot;
 
   public void abrirAct(Class<? extends ActMain> cls) {
 
@@ -112,6 +115,27 @@ public abstract class ActMain extends Activity {
     return _viwDrawerMenu;
   }
 
+  protected ViewGroup getViwRoot() {
+
+    try {
+
+      if (_viwRoot != null) {
+
+        return _viwRoot;
+      }
+
+      _viwRoot = (ViewGroup) ((ViewGroup) this.findViewById(android.R.id.content)).getChildAt(0);
+    }
+    catch (Exception ex) {
+
+      new ErroAndroid("Erro inesperado.\n", ex);
+    }
+    finally {
+    }
+
+    return _viwRoot;
+  }
+
   protected void inicializar() {
 
     try {
@@ -175,7 +199,7 @@ public abstract class ActMain extends Activity {
     }
   }
 
-  private void inicializarLocal() {
+  private void iniciar() {
 
     try {
 
@@ -272,7 +296,7 @@ public abstract class ActMain extends Activity {
 
     try {
 
-      this.inicializarLocal();
+      this.iniciar();
     }
     catch (Exception ex) {
 
@@ -290,6 +314,40 @@ public abstract class ActMain extends Activity {
     try {
 
       this.finalizar();
+
+      this.onDestroy(this.getViwRoot());
+    }
+    catch (Exception ex) {
+
+      new ErroAndroid("Erro inesperado.\n", ex);
+    }
+    finally {
+    }
+  }
+
+  private void onDestroy(final View viw) {
+
+    try {
+
+      if (viw == null) {
+
+        return;
+      }
+
+      if (IControleMain.class.isAssignableFrom(viw.getClass())) {
+
+        ((IControleMain) viw).destruir();
+      }
+
+      if (!ViewGroup.class.isAssignableFrom(viw.getClass())) {
+
+        return;
+      }
+
+      for (int i = 0; i < ((ViewGroup) viw).getChildCount(); i++) {
+
+        this.onDestroy(((ViewGroup) viw).getChildAt(i));
+      }
     }
     catch (Exception ex) {
 
@@ -300,16 +358,16 @@ public abstract class ActMain extends Activity {
   }
 
   @Override
-  public boolean onOptionsItemSelected(MenuItem itm) {
+  public boolean onOptionsItemSelected(MenuItem mni) {
 
     try {
 
-      if (super.onOptionsItemSelected(itm)) {
+      if (super.onOptionsItemSelected(mni)) {
 
         return true;
       }
 
-      switch (itm.getItemId()) {
+      switch (mni.getItemId()) {
 
         case android.R.id.home:
           this.onBackPressed();

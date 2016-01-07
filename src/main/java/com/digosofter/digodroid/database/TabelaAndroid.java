@@ -48,6 +48,7 @@ public abstract class TabelaAndroid<T extends Dominio> extends Tabela<T> {
   private boolean _booAbrirCadastroAuto;
   private boolean _booSinc = true;
   private Class<? extends ActMain> _clsActCadastro;
+  private int _intRegistroRefId;
   private List<ViewAndroid> _lstViwAndroid;
   private MenuItem _mniOrdemDecrescente;
   private DataBaseAndroid _objDb;
@@ -57,7 +58,7 @@ public abstract class TabelaAndroid<T extends Dominio> extends Tabela<T> {
    * Constroe uma nova instância dessa tabela. Este processo cria também a tabela e suas colunas no banco de dados
    * SQLite caso ela não exista.
    *
-   * @param strNome    Nome da tabela no banco de dados.
+   * @param strNome Nome da tabela no banco de dados.
    * @param clsDominio Classe que representa o domínio desta tabela.
    */
   protected TabelaAndroid(String strNome, Class<T> clsDominio) {
@@ -71,6 +72,46 @@ public abstract class TabelaAndroid<T extends Dominio> extends Tabela<T> {
     catch (Exception ex) {
 
       new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(122), ex);
+    }
+    finally {
+    }
+  }
+
+  /**
+   * Abre a tela de cadastro para que um novo item seja inserido.
+   *
+   * @param act Activity "parent" que está chamando este novo activity de cadastro.
+   * @param intId Código do registro, no caso de ser uma alteração num registro já salvo.
+   * @param intRegistroRefId Código do registro de referência caso este cadastro seja de um item ou se esse tem alguma
+   * ligação com outra tabela.
+   */
+  public void abrirActCadastro(final ActMain act, int intId, int intRegistroRefId) {
+
+    Intent itt;
+
+    try {
+
+      if (act == null) {
+
+        return;
+      }
+
+      if (this.getClsActCadastro() == null) {
+
+        return;
+      }
+
+      itt = new Intent(act, this.getClsActCadastro());
+
+      itt.putExtra(ActCadastroMain.STR_EXTRA_IN_INT_REGISTRO_ID, intId);
+      itt.putExtra(ActCadastroMain.STR_EXTRA_IN_INT_REGISTRO_REF_ID, intRegistroRefId);
+      itt.putExtra(ActCadastroMain.STR_EXTRA_IN_INT_TBL_OBJETO_ID, this.getIntObjetoId());
+
+      act.startActivity(itt);
+    }
+    catch (Exception ex) {
+
+      new ErroAndroid("Erro inesperado.\n", ex);
     }
     finally {
     }
@@ -92,7 +133,7 @@ public abstract class TabelaAndroid<T extends Dominio> extends Tabela<T> {
    *
    * @param act Activity "parent" (que vem antes na hierarquia de chamadas) da tela de consulta que será aberta.
    * @param itt Intent com parâmetros de entrada da tela ActConsulta para configurar sua aparência e comportamento.<br/>
-   *            O valor "null" pode ser passado para que a tela tenha o seu comportamento padrão.
+   * O valor "null" pode ser passado para que a tela tenha o seu comportamento padrão.
    */
   public void abrirActConsulta(ActMain act, Intent itt) {
 
@@ -107,7 +148,7 @@ public abstract class TabelaAndroid<T extends Dominio> extends Tabela<T> {
 
       itt.putExtra(ActConsulta.STR_EXTRA_IN_INT_TBL_OBJETO_ID, this.getViwPrincipal().getIntObjetoId());
 
-      act.startActivityForResult(itt, ActConsulta.EnmResultadoTipo.REGISTRO_SELECIONADO.ordinal());
+      act.startActivityForResult(itt, ActConsulta.EnmResultado.REGISTRO_SELECIONADO.ordinal());
     }
     catch (Exception ex) {
 
@@ -118,10 +159,49 @@ public abstract class TabelaAndroid<T extends Dominio> extends Tabela<T> {
   }
 
   /**
+   * Atalho para {@link #abrirActConsulta(ActMain, Intent)}. A diferença é que este abre uma tela de consulta que tenha
+   * referência para uma outra tabela.
+   *
+   * @param act Activity "parent" (que vem antes na hierarquia de chamadas) da tela de consulta que será aberta.
+   * @param intRegistroRefId Código do registro da tabela que faz referência a esta.
+   */
+  public void abrirActConsulta(ActMain act, int intRegistroRefId) {
+
+    Intent itt;
+
+    try {
+
+      if (act == null) {
+
+        return;
+      }
+
+      if (intRegistroRefId < 1) {
+
+        return;
+      }
+
+      this.setIntRegistroRefId(intRegistroRefId);
+
+      itt = new Intent();
+
+      itt.putExtra(ActConsulta.STR_EXTRA_IN_BOO_REGISTRO_SELECIONAVEL, false);
+      itt.putExtra(ActConsulta.STR_EXTRA_IN_INT_REGISTRO_REF_ID, intRegistroRefId);
+
+      this.abrirActConsulta(act, itt);
+    }
+    catch (Exception ex) {
+
+      new ErroAndroid("Erro inesperado.\n", ex);
+    }
+    finally {
+    }
+  }
+
+  /**
    * Apresenta ao usuário uma Activity (tela) com os detalhes do registro indicado pelo id passado como parâmetro.
    *
-   * @param act           Activity "parent" (que vem antes na hierarquia de chamadas) da tela de consulta que será
-   *                      aberta.
+   * @param act Activity "parent" (que vem antes na hierarquia de chamadas) da tela de consulta que será aberta.
    * @param intRegistroId Id que indica o registro que será apresentado em detalhes.
    */
   public void abrirActDetalhe(ActMain act, int intRegistroId) {
@@ -389,6 +469,11 @@ public abstract class TabelaAndroid<T extends Dominio> extends Tabela<T> {
   public Class<? extends ActMain> getClsActCadastro() {
 
     return _clsActCadastro;
+  }
+
+  protected int getIntRegistroRefId() {
+
+    return _intRegistroRefId;
   }
 
   public List<Integer> getLstInt(Coluna cln, List<Filtro> lstFil) {
@@ -1420,7 +1505,7 @@ public abstract class TabelaAndroid<T extends Dominio> extends Tabela<T> {
 
       sql = sql.replace("_clns_nome", this.getSqlSelectColunasNomesConsulta());
       sql = sql.replace("_tbl_nome", this.getStrNomeSql());
-      sql = sql.replace("where _where", this.getLstFilConsulta() != null && this.getLstFilConsulta().size() > 0 ? "where _where" : Utils.STR_VAZIA);
+      sql = sql.replace("where _where", (!this.getLstFilConsulta().isEmpty()) ? "where _where" : Utils.STR_VAZIA);
       sql = sql.replace("_where", this.getSqlWhere(this.getLstFilConsulta()));
       sql = sql.replace("_order", this.getClnOrdem().getStrNomeSql());
       sql = sql.replace("_asc_desc", !this.getClnOrdem().getBooOrdemDecrescente() ? "asc" : "desc");
@@ -1594,43 +1679,42 @@ public abstract class TabelaAndroid<T extends Dominio> extends Tabela<T> {
     return null;
   }
 
-  public void processarMenu(ActMain act, MenuItem mni) {
+  public boolean processarMenu(ActMain act, MenuItem mni) {
 
     try {
 
       if (act == null) {
 
-        return;
+        return false;
       }
 
       if (mni == null) {
 
-        return;
+        return false;
       }
 
       if (this.processarMenuCampo(act, mni)) {
 
         ((ActConsulta) act).atualizarLista();
-        return;
+        return false;
       }
 
       if (this.processarMenuOrdenar(act, mni)) {
 
         ((ActConsulta) act).atualizarLista();
-        return;
+        return false;
       }
 
       if (mni.equals(this.getMniOrdemDecrescente())) {
 
-        this.processarMenuOrdenarDecrescente((ActConsulta) act);
-        return;
+        return this.processarMenuOrdenarDecrescente((ActConsulta) act);
       }
 
       switch (mni.getTitle().toString()) {
 
         case TabelaAndroid.STR_MENU_ADICIONAR:
-          this.processarMenuAdicionar(act);
-          return;
+
+          return this.processarMenuAdicionar(act);
       }
     }
     catch (Exception ex) {
@@ -1639,9 +1723,11 @@ public abstract class TabelaAndroid<T extends Dominio> extends Tabela<T> {
     }
     finally {
     }
+
+    return false;
   }
 
-  protected void processarMenuAdicionar(ActMain act) {
+  private boolean processarMenuAdicionar(ActMain act) {
 
     Intent itt;
 
@@ -1649,15 +1735,17 @@ public abstract class TabelaAndroid<T extends Dominio> extends Tabela<T> {
 
       if (act == null) {
 
-        return;
+        return false;
       }
 
       if (this.getClsActCadastro() == null) {
 
-        return;
+        return false;
       }
 
       itt = new Intent(act, this.getClsActCadastro());
+
+      itt.putExtra(ActCadastroMain.STR_EXTRA_IN_INT_REGISTRO_REF_ID, this.getIntRegistroRefId());
 
       act.startActivity(itt);
     }
@@ -1667,6 +1755,8 @@ public abstract class TabelaAndroid<T extends Dominio> extends Tabela<T> {
     }
     finally {
     }
+
+    return true;
   }
 
   private boolean processarMenuCampo(ActMain act, MenuItem mni) {
@@ -1715,33 +1805,30 @@ public abstract class TabelaAndroid<T extends Dominio> extends Tabela<T> {
     return false;
   }
 
-  public void processarMenuItem(ActMain act, MenuItem mnu, int intId) {
+  public boolean processarMenuItem(ActMain act, MenuItem mnu, int intId) {
 
     try {
 
       if (act == null) {
 
-        return;
+        return false;
       }
 
       if (mnu == null) {
 
-        return;
+        return false;
       }
 
       switch (mnu.getTitle().toString()) {
 
         case TabelaAndroid.STR_MENU_ALTERAR:
-          this.processarMenuItemAlterar(act, intId);
-          return;
+          return this.processarMenuItemAlterar(act, intId);
 
         case TabelaAndroid.STR_MENU_APAGAR:
-          this.processarMenuItemApagar(act, intId);
-          return;
+          return this.processarMenuItemApagar(act, intId);
 
         case TabelaAndroid.STR_MENU_DETALHAR:
-          this.processarMenuItemDetalhar(act, intId);
-          return;
+          return this.processarMenuItemDetalhar(act, intId);
       }
     }
     catch (Exception ex) {
@@ -1750,9 +1837,11 @@ public abstract class TabelaAndroid<T extends Dominio> extends Tabela<T> {
     }
     finally {
     }
+
+    return false;
   }
 
-  private void processarMenuItemAlterar(ActMain act, int intId) {
+  private boolean processarMenuItemAlterar(ActMain act, int intId) {
 
     Intent itt;
 
@@ -1760,17 +1849,17 @@ public abstract class TabelaAndroid<T extends Dominio> extends Tabela<T> {
 
       if (act == null) {
 
-        return;
+        return false;
       }
 
       if (intId < 1) {
 
-        return;
+        return false;
       }
 
       if (this.getClsActCadastro() == null) {
 
-        return;
+        return false;
       }
 
       itt = new Intent(act, this.getClsActCadastro());
@@ -1786,27 +1875,29 @@ public abstract class TabelaAndroid<T extends Dominio> extends Tabela<T> {
     }
     finally {
     }
+
+    return true;
   }
 
-  private void processarMenuItemApagar(ActMain act, int intId) {
+  private boolean processarMenuItemApagar(ActMain act, int intId) {
 
     try {
 
       if (act == null) {
 
-        return;
+        return false;
       }
 
       if (intId < 1) {
 
-        return;
+        return false;
       }
 
       this.apagar(intId);
 
       if (!(act instanceof ActDetalhe)) {
 
-        return;
+        return true;
       }
 
       act.finish();
@@ -1817,20 +1908,22 @@ public abstract class TabelaAndroid<T extends Dominio> extends Tabela<T> {
     }
     finally {
     }
+
+    return true;
   }
 
-  private void processarMenuItemDetalhar(ActMain act, int intId) {
+  private boolean processarMenuItemDetalhar(ActMain act, int intId) {
 
     try {
 
       if (act == null) {
 
-        return;
+        return false;
       }
 
       if (intId < 1) {
 
-        return;
+        return false;
       }
 
       this.abrirActDetalhe(act, intId);
@@ -1841,6 +1934,8 @@ public abstract class TabelaAndroid<T extends Dominio> extends Tabela<T> {
     }
     finally {
     }
+
+    return true;
   }
 
   private boolean processarMenuOrdenar(ActMain act, MenuItem mni) {
@@ -1905,13 +2000,13 @@ public abstract class TabelaAndroid<T extends Dominio> extends Tabela<T> {
     return false;
   }
 
-  private void processarMenuOrdenarDecrescente(ActConsulta actConsulta) {
+  private boolean processarMenuOrdenarDecrescente(ActConsulta actConsulta) {
 
     try {
 
       if (actConsulta == null) {
 
-        return;
+        return false;
       }
 
       this.getMniOrdemDecrescente().setChecked(!this.getMniOrdemDecrescente().isChecked());
@@ -1925,6 +2020,8 @@ public abstract class TabelaAndroid<T extends Dominio> extends Tabela<T> {
     }
     finally {
     }
+
+    return true;
   }
 
   public TabelaAndroid recuperar(Coluna clnFiltro, boolean booFiltro) {
@@ -2300,6 +2397,11 @@ public abstract class TabelaAndroid<T extends Dominio> extends Tabela<T> {
     _clsActCadastro = clsActFrm;
   }
 
+  private void setIntRegistroRefId(int intRegistroRefId) {
+
+    _intRegistroRefId = intRegistroRefId;
+  }
+
   private void setMniOrdemDecrescente(MenuItem mniOrdemDecrescente) {
 
     _mniOrdemDecrescente = mniOrdemDecrescente;
@@ -2310,7 +2412,13 @@ public abstract class TabelaAndroid<T extends Dominio> extends Tabela<T> {
     _objDb = objDb;
   }
 
-  protected boolean validarDados() {
+  /**
+   * Este métod é chamado quando o usário termina de preencher os dados nos campos da Activity de cadastro e clica na
+   * opção salvar.
+   *
+   * @return True caso tudo esteja satisfatório para o salvamento do registro, ou false caso contrário.
+   */
+  public boolean validarDados() {
 
     return true;
   }

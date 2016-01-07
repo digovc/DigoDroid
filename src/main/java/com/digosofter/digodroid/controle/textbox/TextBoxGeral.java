@@ -28,6 +28,7 @@ public class TextBoxGeral extends EditText implements IControleMain {
     NUMERICO_PONTO_FLUTUANTE,
   }
 
+  private boolean _booSomenteLeitura;
   private EnmFormato _enmFormato;
 
   public TextBoxGeral(Context context) {
@@ -37,7 +38,6 @@ public class TextBoxGeral extends EditText implements IControleMain {
     try {
 
       this.iniciar(null);
-
     }
     catch (Exception ex) {
 
@@ -54,7 +54,6 @@ public class TextBoxGeral extends EditText implements IControleMain {
     try {
 
       this.iniciar(attrs);
-
     }
     catch (Exception ex) {
 
@@ -71,7 +70,6 @@ public class TextBoxGeral extends EditText implements IControleMain {
     try {
 
       this.iniciar(null);
-
     }
     catch (Exception ex) {
 
@@ -99,7 +97,6 @@ public class TextBoxGeral extends EditText implements IControleMain {
           this.atualizarEnmFormatoNumericoPontoFlutuante();
           return;
       }
-
     }
     catch (Exception ex) {
 
@@ -146,12 +143,21 @@ public class TextBoxGeral extends EditText implements IControleMain {
     }
     finally {
     }
+  }
+
+  @Override
+  public void destruir() {
 
   }
 
   @Override
   public void finalizar() {
 
+  }
+
+  private boolean getBooSomenteLeitura() {
+
+    return _booSomenteLeitura;
   }
 
   private EnmFormato getEnmFormato() {
@@ -171,7 +177,6 @@ public class TextBoxGeral extends EditText implements IControleMain {
 
       this.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
       this.setMaxLines(1);
-
     }
     catch (Exception ex) {
 
@@ -191,6 +196,23 @@ public class TextBoxGeral extends EditText implements IControleMain {
 
   }
 
+  public void setBooSomenteLeitura(boolean booSomenteLeitura) {
+
+    try {
+
+      _booSomenteLeitura = booSomenteLeitura;
+
+      // TODO: Implementar somente leitura.
+      //      this.atualizarBooSomenteLeitura();
+    }
+    catch (Exception ex) {
+
+      new ErroAndroid("Erro inesperado.\n", ex);
+    }
+    finally {
+    }
+  }
+
   public void setEnmFormato(EnmFormato enmFormato) {
 
     try {
@@ -198,7 +220,6 @@ public class TextBoxGeral extends EditText implements IControleMain {
       _enmFormato = enmFormato;
 
       this.atualizarEnmFormato();
-
     }
     catch (Exception ex) {
 

@@ -132,9 +132,31 @@ public abstract class ViewAndroid extends TabelaAndroid<Dominio> {
     return strResultado;
   }
 
-  protected TabelaAndroid<?> getTbl() {
+  public TabelaAndroid<?> getTbl() {
 
     return _tbl;
+  }
+
+  @Override
+  public void setStrNome(final String strNome) {
+
+    super.setStrNome(strNome);
+
+    try {
+
+      if (Utils.getBooStrVazia(strNome)) {
+
+        return;
+      }
+
+      this.setStrNomeExibicao(strNome.replace("viw_", ""));
+    }
+    catch (Exception ex) {
+
+      new ErroAndroid("Erro inesperado.\n", ex);
+    }
+    finally {
+    }
   }
 
   private void setTbl(TabelaAndroid<?> tbl) {

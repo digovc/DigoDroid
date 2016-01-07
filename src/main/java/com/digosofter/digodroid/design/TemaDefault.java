@@ -1,8 +1,5 @@
 package com.digosofter.digodroid.design;
 
-import android.graphics.Color;
-
-import com.digosofter.digodroid.R;
 import com.digosofter.digodroid.erro.ErroAndroid;
 import com.digosofter.digojava.Objeto;
 
@@ -29,7 +26,6 @@ public class TemaDefault extends Objeto {
       }
 
       i = new TemaDefault();
-
     }
     catch (Exception ex) {
 
@@ -50,7 +46,7 @@ public class TemaDefault extends Objeto {
   private int _intFontPequeno;
   private int _intHeightNivel;
   private int _intMargin;
-  private int _intPadding;
+  private int _intEspacamento;
 
   public float enmFonteTamanhoToInt(EnmFonteTamanho enmFonteTamanho) {
 
@@ -86,7 +82,6 @@ public class TemaDefault extends Objeto {
       }
 
       _intFontGrande = (INT_FONTE_TAMANHO_FATOR * 3);
-
     }
     catch (Exception ex) {
 
@@ -111,7 +106,6 @@ public class TemaDefault extends Objeto {
       }
 
       _intFontMedio = (int) (INT_FONTE_TAMANHO_FATOR * 2.5);
-
     }
     catch (Exception ex) {
 
@@ -136,7 +130,6 @@ public class TemaDefault extends Objeto {
       }
 
       _intFontMinimo = INT_FONTE_TAMANHO_FATOR;
-
     }
     catch (Exception ex) {
 
@@ -161,7 +154,6 @@ public class TemaDefault extends Objeto {
       }
 
       _intFontNormal = (int) (INT_FONTE_TAMANHO_FATOR * 1.75f);
-
     }
     catch (Exception ex) {
 
@@ -186,7 +178,6 @@ public class TemaDefault extends Objeto {
       }
 
       _intFontPequeno = (int) (INT_FONTE_TAMANHO_FATOR * 1.3);
-
     }
     catch (Exception ex) {
 
@@ -211,7 +202,6 @@ public class TemaDefault extends Objeto {
       }
 
       _intHeightNivel = 100;
-
     }
     catch (Exception ex) {
 
@@ -236,7 +226,6 @@ public class TemaDefault extends Objeto {
       }
 
       _intMargin = 5;
-
     }
     catch (Exception ex) {
 
@@ -251,17 +240,16 @@ public class TemaDefault extends Objeto {
   /**
    * @return Quantidade de "density pixels" do espaçamento interno padrão.
    */
-  public int getIntPadding() {
+  public int getIntEspacamento() {
 
     try {
 
-      if (_intPadding > 0) {
+      if (_intEspacamento > 0) {
 
-        return _intPadding;
+        return _intEspacamento;
       }
 
-      _intPadding = 10;
-
+      _intEspacamento = 10;
     }
     catch (Exception ex) {
 
@@ -270,7 +258,7 @@ public class TemaDefault extends Objeto {
     finally {
     }
 
-    return _intPadding;
+    return _intEspacamento;
   }
 
   public EnmFonteTamanho intToEnmFonteTamanho(int intFonteTamanho) {

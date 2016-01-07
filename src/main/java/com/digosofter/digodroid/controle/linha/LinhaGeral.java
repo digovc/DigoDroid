@@ -150,7 +150,7 @@ public class LinhaGeral extends PainelGeral {
 
     try {
 
-      this.setBackgroundColor(this.getContext().getResources().getColor(R.color.cor_borda, null));
+      this.setBackgroundColor(this.getContext().getResources().getColor(R.color.cor_borda));
       this.setEnmDisposicao(EnmDisposicao.HORIZONTAL);
 
     }

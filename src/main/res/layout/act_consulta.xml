@@ -1,15 +1,13 @@
-<RelativeLayout
+<com.digosofter.digodroid.controle.painel.PainelGeral
     android:id="@+id/actConsulta_pnlGeral"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#EEEEEE"
     android:orientation="vertical"
-    android:paddingBottom="5dp"
     tools:context=".activitys.ActCadastro">
 
-    <LinearLayout
+    <com.digosofter.digodroid.controle.painel.PainelGeral
         android:id="@+id/actConsulta_pnlInfo"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -19,7 +17,6 @@
             android:id="@+id/actConsulta_pnlPesquisa"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/bkg_gradiente_002"
             android:orientation="vertical"
             android:visibility="gone"
             android:windowSoftInputMode="stateVisible">
@@ -46,9 +43,11 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:cacheColorHint="@android:color/transparent"
-            android:divider="@color/abc_search_url_text_pressed"
-            android:dividerHeight="1px"
-            android:listSelector="@android:color/transparent">
+            android:divider="@null"
+            android:dividerHeight="10dp"
+            android:listSelector="@android:color/transparent"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp">
         </ListView>
 
         <TextView
@@ -60,6 +59,7 @@
             android:textColor="#33b5e5"
             android:textSize="20sp"
             android:visibility="gone"/>
-    </LinearLayout>
 
-</RelativeLayout>
+    </com.digosofter.digodroid.controle.painel.PainelGeral>
+
+</com.digosofter.digodroid.controle.painel.PainelGeral>

@@ -16,7 +16,6 @@ public class ImagemGeral extends ImageView implements IControleMain {
     try {
 
       this.iniciar(null);
-
     }
     catch (Exception ex) {
 
@@ -33,7 +32,6 @@ public class ImagemGeral extends ImageView implements IControleMain {
     try {
 
       this.iniciar(attrs);
-
     }
     catch (Exception ex) {
 
@@ -50,7 +48,6 @@ public class ImagemGeral extends ImageView implements IControleMain {
     try {
 
       this.iniciar(attrs);
-
     }
     catch (Exception ex) {
 
@@ -58,6 +55,11 @@ public class ImagemGeral extends ImageView implements IControleMain {
     }
     finally {
     }
+  }
+
+  @Override
+  public void destruir() {
+
   }
 
   @Override
@@ -76,7 +78,6 @@ public class ImagemGeral extends ImageView implements IControleMain {
     try {
 
       this.setScaleType(ScaleType.FIT_XY);
-
     }
     catch (Exception ex) {
 

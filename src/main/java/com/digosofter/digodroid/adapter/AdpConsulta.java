@@ -24,7 +24,6 @@ public class AdpConsulta extends CursorAdapter implements Filterable {
     try {
 
       this.setActConsulta(actConsulta);
-
     }
     catch (Exception ex) {
 
@@ -44,7 +43,6 @@ public class AdpConsulta extends CursorAdapter implements Filterable {
       }
 
       this.setTbl(this.getActConsulta().getTbl());
-
     }
     catch (Exception ex) {
 
@@ -66,8 +64,8 @@ public class AdpConsulta extends CursorAdapter implements Filterable {
         return;
       }
 
-      this.swapCursor(this.getTbl().pesquisarConsulta());
-
+      this.changeCursor(this.getTbl().pesquisarConsulta());
+      this.notifyDataSetChanged();
     }
     catch (Exception ex) {
 
@@ -106,7 +104,6 @@ public class AdpConsulta extends CursorAdapter implements Filterable {
       _actConsulta = actConsulta;
 
       this.atualizarActConsulta();
-
     }
     catch (Exception ex) {
 

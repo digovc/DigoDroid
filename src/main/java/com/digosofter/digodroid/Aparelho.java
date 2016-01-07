@@ -2,6 +2,7 @@ package com.digosofter.digodroid;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Point;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
@@ -40,6 +41,7 @@ public class Aparelho extends Objeto {
 
   private Context _cnt;
   private TelephonyManager _objTelephonyManager;
+  private Point _pntTelaTamanho;
   private String _strDeviceId;
   private String _strImei;
 
@@ -191,6 +193,34 @@ public class Aparelho extends Objeto {
     finally {
     }
     return _objTelephonyManager;
+  }
+
+  /**
+   * Retorna um objeto Point com o tamanho da tela do aparelho em pixels.
+   *
+   * @return Objeto Point com o tamanho da tela do aparelho em pixels.
+   */
+  public Point getPntTelaTamanho() {
+
+    try {
+
+      if (_pntTelaTamanho != null) {
+
+        return _pntTelaTamanho;
+      }
+
+      _pntTelaTamanho = new Point();
+
+      AppAndroid.getI().getActPrincipal().getWindowManager().getDefaultDisplay().getSize(_pntTelaTamanho);
+    }
+    catch (Exception ex) {
+
+      new ErroAndroid("Erro inesperado.\n", ex);
+    }
+    finally {
+    }
+
+    return _pntTelaTamanho;
   }
 
   /**

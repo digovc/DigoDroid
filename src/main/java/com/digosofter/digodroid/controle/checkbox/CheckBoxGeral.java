@@ -61,6 +61,11 @@ public class CheckBoxGeral extends CheckBox implements IControleMain {
   }
 
   @Override
+  public void destruir() {
+
+  }
+
+  @Override
   public void finalizar() {
 
   }

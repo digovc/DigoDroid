@@ -27,14 +27,13 @@ import com.digosofter.digojava.database.OnChangeListener;
 /**/
 public class ActConsulta extends ActMain implements OnChangeListener, TextWatcher {
 
-  public enum EnmResultadoTipo {
+  public enum EnmResultado {
 
     NONE,
     REGISTRO_SELECIONADO,
     VOLTAR,
   }
 
-  public static final String STR_EXTRA_IN_BOO_LIMPAR_LISTA_AO_SAIR = "boo_limpar_lista_ao_sair";
   public static final String STR_EXTRA_IN_BOO_REGISTRO_SELECIONAVEL = "boo_registro_selecionavel";
   public static final String STR_EXTRA_IN_INT_REGISTRO_REF_ID = "int_registro_ref_id";
   public static final String STR_EXTRA_IN_INT_TBL_OBJETO_ID = "int_tbl_objeto_id";
@@ -56,7 +55,7 @@ public class ActConsulta extends ActMain implements OnChangeListener, TextWatche
 
     try {
 
-      this.setResult(EnmResultadoTipo.NONE.ordinal());
+      this.setResult(EnmResultado.NONE.ordinal());
     }
     catch (Exception ex) {
 
@@ -99,7 +98,9 @@ public class ActConsulta extends ActMain implements OnChangeListener, TextWatche
 
     try {
 
-      this.getAdpCadastro().atualizarLista();
+      this.setAdpCadastro(null);
+      this.getPnlLista().setAdapter(this.getAdpCadastro());
+      //      this.getAdpCadastro().atualizarLista();
     }
     catch (Exception ex) {
 
@@ -751,7 +752,7 @@ public class ActConsulta extends ActMain implements OnChangeListener, TextWatche
       itt.putExtra(ActConsulta.STR_EXTRA_OUT_INT_TBL_OBJETO_ID, this.getTbl().getIntObjetoId());
 
       this.getTbl().setStrPesquisa(this.getEdtPesquisa().getText().toString());
-      this.setResult(ActConsulta.EnmResultadoTipo.REGISTRO_SELECIONADO.ordinal(), itt);
+      this.setResult(EnmResultado.REGISTRO_SELECIONADO.ordinal(), itt);
       this.finish();
     }
     catch (Exception ex) {
@@ -800,11 +801,10 @@ public class ActConsulta extends ActMain implements OnChangeListener, TextWatche
 
       if (TabelaAndroid.STR_MENU_PESQUISAR.equals(mni.getTitle())) {
 
-        this.onOptionsItemSelectedPesquisar(mni);
-        return true;
+        return this.onOptionsItemSelectedPesquisar(mni);
       }
 
-      this.getTbl().processarMenu(this, mni);
+      return this.getTbl().processarMenu(this, mni);
     }
     catch (Exception ex) {
 
@@ -816,7 +816,7 @@ public class ActConsulta extends ActMain implements OnChangeListener, TextWatche
     return false;
   }
 
-  private void onOptionsItemSelectedPesquisar(MenuItem mni) {
+  private boolean onOptionsItemSelectedPesquisar(MenuItem mni) {
 
     try {
 
@@ -826,7 +826,7 @@ public class ActConsulta extends ActMain implements OnChangeListener, TextWatche
 
       if (this.getPnlPesquisa().getVisibility() != View.VISIBLE) {
 
-        return;
+        return true;
       }
 
       this.mostrarTeclado(this.getEdtPesquisa());
@@ -837,6 +837,8 @@ public class ActConsulta extends ActMain implements OnChangeListener, TextWatche
     }
     finally {
     }
+
+    return true;
   }
 
   @Override
@@ -915,6 +917,11 @@ public class ActConsulta extends ActMain implements OnChangeListener, TextWatche
     }
     finally {
     }
+  }
+
+  private void setAdpCadastro(AdpConsulta adpConsulta) {
+
+    _adpCadastro = adpConsulta;
   }
 
   @Override

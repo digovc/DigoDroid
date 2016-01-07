@@ -14,7 +14,7 @@ android {
 
     defaultConfig {
 
-        minSdkVersion 14
+        minSdkVersion 16
         targetSdkVersion 23
     }
 
@@ -30,11 +30,12 @@ android {
 
 dependencies {
 
-    compile files('libs/commons-io-2.4.jar')
-    compile files('libs/commons-net-3.3.jar')
-    compile 'com.balysv:material-ripple:1.0.2'
-
     compile project(':digoJava')
 
+    compile files('libs/commons-io-2.4.jar')
+    compile files('libs/commons-net-3.3.jar')
+
     compile 'com.google.android.gms:play-services:8.3.0'
+    compile 'com.github.markushi:circlebutton:1.1'
+    compile 'com.balysv:material-ripple:1.0.2'
 }
