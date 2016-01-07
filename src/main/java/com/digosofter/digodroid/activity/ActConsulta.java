@@ -34,10 +34,34 @@ public class ActConsulta extends ActMain implements OnChangeListener, TextWatche
     VOLTAR,
   }
 
+  /**
+   * Indica se os registro da lista serão selecionados quando o usuário clicar.
+   */
   public static final String STR_EXTRA_IN_BOO_REGISTRO_SELECIONAVEL = "boo_registro_selecionavel";
+
+  /**
+   * Código do registro de referência.
+   */
   public static final String STR_EXTRA_IN_INT_REGISTRO_REF_ID = "int_registro_ref_id";
+
+  /**
+   * Código do objeto da tabela que esta lista representa.
+   */
   public static final String STR_EXTRA_IN_INT_TBL_OBJETO_ID = "int_tbl_objeto_id";
+
+  /**
+   * Indica se o cadastro será aberto automaticamente.
+   */
+  public static final String STR_EXTRA_IN_BOO_ABRIR_CADASTRO_AUTO = "boo_abrir_cadastro_auto";
+
+  /**
+   * Código do registro que indica o item que o usuário selecionou na lista desta tela.
+   */
   public static final String STR_EXTRA_OUT_INT_REGISTRO_ID = "int_registro_id";
+
+  /**
+   * Código do objeto da tabela que esta lista representa.
+   */
   public static final String STR_EXTRA_OUT_INT_TBL_OBJETO_ID = "int_tbl_objeto_id";
 
   private AdpConsulta _adpCadastro;
@@ -377,6 +401,11 @@ public class ActConsulta extends ActMain implements OnChangeListener, TextWatche
       }
 
       if (!this.getTbl().getBooAbrirCadastroAuto()) {
+
+        return;
+      }
+
+      if (!this.getIntent().getBooleanExtra(STR_EXTRA_IN_BOO_ABRIR_CADASTRO_AUTO, true)) {
 
         return;
       }

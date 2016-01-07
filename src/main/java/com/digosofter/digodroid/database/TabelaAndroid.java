@@ -107,6 +107,8 @@ public abstract class TabelaAndroid<T extends Dominio> extends Tabela<T> {
       itt.putExtra(ActCadastroMain.STR_EXTRA_IN_INT_REGISTRO_REF_ID, intRegistroRefId);
       itt.putExtra(ActCadastroMain.STR_EXTRA_IN_INT_TBL_OBJETO_ID, this.getIntObjetoId());
 
+      this.setIntRegistroRefId(itt.getIntExtra(ActConsulta.STR_EXTRA_IN_INT_REGISTRO_REF_ID, 0));
+
       act.startActivity(itt);
     }
     catch (Exception ex) {
@@ -147,6 +149,8 @@ public abstract class TabelaAndroid<T extends Dominio> extends Tabela<T> {
       itt.setClass(act, ActConsulta.class);
 
       itt.putExtra(ActConsulta.STR_EXTRA_IN_INT_TBL_OBJETO_ID, this.getViwPrincipal().getIntObjetoId());
+
+      this.setIntRegistroRefId(itt.getIntExtra(ActConsulta.STR_EXTRA_IN_INT_REGISTRO_REF_ID, 0));
 
       act.startActivityForResult(itt, ActConsulta.EnmResultado.REGISTRO_SELECIONADO.ordinal());
     }
@@ -1865,6 +1869,7 @@ public abstract class TabelaAndroid<T extends Dominio> extends Tabela<T> {
       itt = new Intent(act, this.getClsActCadastro());
 
       itt.putExtra(ActCadastroMain.STR_EXTRA_IN_INT_REGISTRO_ID, intId);
+      itt.putExtra(ActCadastroMain.STR_EXTRA_IN_INT_REGISTRO_REF_ID, this.getIntRegistroRefId());
       itt.putExtra(ActCadastroMain.STR_EXTRA_IN_INT_TBL_OBJETO_ID, this.getIntObjetoId());
 
       act.startActivity(itt);

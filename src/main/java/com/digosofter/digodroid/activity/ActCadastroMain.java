@@ -21,10 +21,23 @@ import java.util.List;
 
 public abstract class ActCadastroMain extends ActMain {
 
+  /**
+   * Código do registro que indica o item que o usuário selecionou na lista desta tela.
+   */
   public static final String STR_EXTRA_IN_INT_REGISTRO_ID = "int_registro_id";
+
+  /**
+   * Código do registro de referência.
+   */
   public static final String STR_EXTRA_IN_INT_REGISTRO_REF_ID = "int_registro_ref_id";
+
+  /**
+   * Código do objeto da tabela que esta lista representa.
+   */
   public static final String STR_EXTRA_IN_INT_TBL_OBJETO_ID = "int_tbl_objeto_id";
+
   private static final String STR_MENU_SALVAR = "Salvar";
+  private static final String STR_MENU_SALVAR_NOVO = "Salvar e novo";
 
   private int _intRegistroId;
   private int _intRegistroRefId;
@@ -326,6 +339,7 @@ public abstract class ActCadastroMain extends ActMain {
     try {
 
       this.onCreateOptionsMenuSalvar(mnu);
+      this.onCreateOptionsMenuSalvarNovo(mnu);
     }
     catch (Exception ex) {
 
@@ -356,6 +370,35 @@ public abstract class ActCadastroMain extends ActMain {
     }
   }
 
+  private void onCreateOptionsMenuSalvarNovo(final Menu mnu) {
+
+    MenuItem mniSalvar;
+
+    try {
+
+      if (!this.getBooMostrarMenuSalvarNovo()) {
+
+        return;
+      }
+
+      mniSalvar = mnu.add(STR_MENU_SALVAR_NOVO);
+
+      mniSalvar.setIcon(R.drawable.continuar);
+      mniSalvar.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+    }
+    catch (Exception ex) {
+
+      new ErroAndroid("Erro inesperado.\n", ex);
+    }
+    finally {
+    }
+  }
+
+  protected boolean getBooMostrarMenuSalvarNovo() {
+
+    return false;
+  }
+
   @Override
   public boolean onOptionsItemSelected(final MenuItem mni) {
 
@@ -369,7 +412,11 @@ public abstract class ActCadastroMain extends ActMain {
       switch (mni.getTitle().toString()) {
 
         case STR_MENU_SALVAR:
-          this.salvar();
+          this.salvar(false);
+          return true;
+
+        case STR_MENU_SALVAR_NOVO:
+          this.salvar(true);
           return true;
       }
     }
@@ -383,7 +430,14 @@ public abstract class ActCadastroMain extends ActMain {
     return false;
   }
 
-  private void salvar() {
+  /**
+   * Salva o registro atual da tela.
+   *
+   * @param booNovo Indica se logo após o salvamento será aberto um novo cadastro.
+   */
+  protected void salvar(boolean booNovo) {
+
+    Intent itt;
 
     try {
 
@@ -398,7 +452,18 @@ public abstract class ActCadastroMain extends ActMain {
       }
 
       this.getTbl().salvar(false);
+
       this.finish();
+
+      if (!booNovo) {
+
+        return;
+      }
+
+      itt = new Intent(this, this.getClass());
+      itt.putExtra(ActCadastroMain.STR_EXTRA_IN_INT_REGISTRO_REF_ID, this.getIntRegistroRefId());
+
+      this.startActivity(itt);
     }
     catch (Exception ex) {
 

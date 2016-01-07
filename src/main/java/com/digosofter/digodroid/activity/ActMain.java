@@ -20,7 +20,9 @@ import com.digosofter.digodroid.erro.ErroAndroid;
 
 public abstract class ActMain extends Activity {
 
+
   public static final String STR_EXTRA_OUT_BOO_FECHAR = "boo_fechar";
+
   private boolean _booVisivel;
   private DrawerMenu _viwDrawerMenu;
   private ViewGroup _viwRoot;
