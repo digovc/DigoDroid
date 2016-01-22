@@ -1,10 +1,11 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<RelativeLayout
     android:id="@+id/actErro_pnlGeral"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".ActErro" >
+    tools:context=".ActErro">
 
     <LinearLayout
         android:id="@+id/actErro_pnlInfo"
@@ -12,14 +13,13 @@
         android:layout_height="match_parent"
         android:layout_above="@+id/actErro_pnlComando"
         android:orientation="vertical"
-        android:padding="10dp" >
+        android:padding="10dp">
 
         <ImageView
             android:id="@+id/actErro_imgAppLogo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingBottom="25dp"
-            android:src="@drawable/ic_launcher" />
+            android:src="@drawable/cancelar_processo"/>
 
         <TextView
             android:id="@+id/actErro_txtAppNome"
@@ -28,7 +28,7 @@
             android:gravity="center_horizontal"
             android:paddingBottom="25dp"
             android:text="App"
-            android:textAppearance="?android:attr/textAppearanceLarge" />
+            android:textAppearance="?android:attr/textAppearanceLarge"/>
 
         <TextView
             android:id="@+id/actErro_txtErroTitulo"
@@ -36,11 +36,11 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:text="Erro"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
+            android:textAppearance="?android:attr/textAppearanceMedium"/>
 
         <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent" >
+            android:layout_height="match_parent">
 
             <TextView
                 android:id="@+id/actErro_txtErroMensagem"
@@ -48,7 +48,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:text="Um erro inesperado aconteceu."
-                android:textAppearance="?android:attr/textAppearanceSmall" />
+                android:textAppearance="?android:attr/textAppearanceSmall"/>
 
         </ScrollView>
     </LinearLayout>
@@ -59,7 +59,7 @@
         android:layout_height="50dp"
         android:layout_alignParentBottom="true"
         android:gravity="right"
-        android:orientation="horizontal" >
+        android:orientation="horizontal">
 
         <Button
             android:id="@+id/actErro_btnIgnorar"
@@ -67,7 +67,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:onClick="actErro_btnIgnorar_onClick"
-            android:text="Ignorar" />
+            android:text="Ignorar"/>
 
         <Button
             android:id="@+id/actErro_btnIgnorarTodos"
@@ -76,7 +76,7 @@
             android:layout_weight="1"
             android:onClick="actErro_btnIgnorarTodos_onClick"
             android:text="Ignorar todos"
-            android:visibility="gone" />
+            android:visibility="gone"/>
 
     </LinearLayout>
 

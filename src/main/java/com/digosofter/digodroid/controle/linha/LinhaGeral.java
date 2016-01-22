@@ -6,7 +6,6 @@ import android.util.AttributeSet;
 
 import com.digosofter.digodroid.R;
 import com.digosofter.digodroid.controle.painel.PainelGeral;
-import com.digosofter.digodroid.design.TemaDefault;
 import com.digosofter.digodroid.erro.ErroAndroid;
 
 public class LinhaGeral extends PainelGeral {
@@ -26,7 +25,6 @@ public class LinhaGeral extends PainelGeral {
     try {
 
       this.iniciar(null);
-
     }
     catch (Exception ex) {
 
@@ -43,7 +41,6 @@ public class LinhaGeral extends PainelGeral {
     try {
 
       this.iniciar(attrs);
-
     }
     catch (Exception ex) {
 
@@ -60,30 +57,6 @@ public class LinhaGeral extends PainelGeral {
     try {
 
       this.iniciar(attrs);
-
-    }
-    catch (Exception ex) {
-
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally {
-    }
-  }
-
-  private void atualizarEnmDisposicao() {
-
-    try {
-
-      this.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
-
-      if (EnmDisposicao.HORIZONTAL.equals(this.getEnmDisposicao())) {
-
-        this.getLayoutParams().height = 1;
-        return;
-      }
-
-      this.getLayoutParams().width = 1;
-
     }
     catch (Exception ex) {
 
@@ -100,8 +73,16 @@ public class LinhaGeral extends PainelGeral {
 
     try {
 
-      this.atualizarEnmDisposicao();
+      this.getLayoutParams().height = LayoutParams.MATCH_PARENT;
+      this.getLayoutParams().width = LayoutParams.MATCH_PARENT;
 
+      if (EnmDisposicao.HORIZONTAL.equals(this.getEnmDisposicao())) {
+
+        this.getLayoutParams().height = 1;
+        return;
+      }
+
+      this.getLayoutParams().width = 1;
     }
     catch (Exception ex) {
 
@@ -133,7 +114,6 @@ public class LinhaGeral extends PainelGeral {
       objTypedArray = this.getContext().obtainStyledAttributes(ats, R.styleable.LinhaGeral);
 
       this.setEnmDisposicao(this.intToEnmDisposicao(objTypedArray.getInt(R.styleable.LinhaGeral_enmDisposicao, 0)));
-
     }
     catch (Exception ex) {
 
@@ -152,7 +132,6 @@ public class LinhaGeral extends PainelGeral {
 
       this.setBackgroundColor(this.getContext().getResources().getColor(R.color.cor_borda));
       this.setEnmDisposicao(EnmDisposicao.HORIZONTAL);
-
     }
     catch (Exception ex) {
 

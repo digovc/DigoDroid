@@ -6,11 +6,6 @@ import android.util.AttributeSet;
 public interface IControleMain {
 
   /**
-   * Método que será disparado no {@link Activity#onDestroy()} da janela que contém este controle.
-   */
-  void destruir();
-
-  /**
    * Responsável por fazer os ajustes finais antes de desenhar este controle na tela. Este método deve ser chamado
    * dentro do método {@link android.view.View#onMeasure(int, int)}.
    */

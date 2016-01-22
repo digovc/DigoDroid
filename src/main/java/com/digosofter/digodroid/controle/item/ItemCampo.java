@@ -4,7 +4,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.ViewGroup;
 
 import com.digosofter.digodroid.AppAndroid;
 import com.digosofter.digodroid.controle.label.LabelGeral;
@@ -19,14 +18,13 @@ public class ItemCampo extends ItemMain implements OnClickListener {
   private LabelGeral _lblRegistroNome;
   private LabelGeral _lblRegistroValor;
 
-  public ItemCampo(Context context, ColunaAndroid cln, Cursor crs) {
+  public ItemCampo(Context context, ColunaAndroid cln) {
 
     super(context);
 
     try {
 
       this.setCln(cln);
-      this.carregarDados(crs);
     }
     catch (Exception ex) {
 
@@ -36,7 +34,9 @@ public class ItemCampo extends ItemMain implements OnClickListener {
     }
   }
 
-  protected void carregarDados(Cursor crs) {
+  public void carregarDados(Cursor crs) {
+
+    super.carregarDados(crs);
 
     try {
 
@@ -62,6 +62,11 @@ public class ItemCampo extends ItemMain implements OnClickListener {
 
     try {
 
+      if (!Utils.getBooStrVazia(this.getLblRegistroNome().getText().toString())) {
+
+        return;
+      }
+
       strNome = "_registro_nome: ";
 
       strNome = strNome.replace("_registro_nome", this.getCln().getStrNomeExibicao());
@@ -82,7 +87,7 @@ public class ItemCampo extends ItemMain implements OnClickListener {
 
     try {
 
-      strValor = crs.getString(crs.getColumnIndex(this.getCln().getStrNomeSql()));
+      strValor = crs.getString(crs.getColumnIndex(this.getCln().getSqlNome()));
 
       if (Utils.getBooStrVazia(strValor)) {
 
@@ -225,23 +230,6 @@ public class ItemCampo extends ItemMain implements OnClickListener {
     try {
 
       AppAndroid.getI().notificar(this.getLblRegistroValor().getText().toString());
-    }
-    catch (Exception ex) {
-
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally {
-    }
-  }
-
-  @Override
-  public void reciclar(Cursor crs) {
-
-    super.reciclar(crs);
-
-    try {
-
-      this.carregarDadosValor(crs);
     }
     catch (Exception ex) {
 

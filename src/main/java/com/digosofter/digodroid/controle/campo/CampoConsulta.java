@@ -77,7 +77,7 @@ public class CampoConsulta extends CampoMain implements View.OnClickListener {
 
       strNome = ((TabelaAndroid) this.getCln().getClnRef().getTbl()).getViwPrincipal().recuperar(this.getIntValor()).getClnNome().getStrValor();
 
-      this.getTxt().setText(strNome);
+      this.getBtn().setText(strNome);
     }
     catch (Exception ex) {
 
@@ -87,7 +87,7 @@ public class CampoConsulta extends CampoMain implements View.OnClickListener {
     }
   }
 
-  private BotaoGeral getTxt() {
+  private BotaoGeral getBtn() {
 
     try {
 
@@ -109,13 +109,30 @@ public class CampoConsulta extends CampoMain implements View.OnClickListener {
   }
 
   @Override
+  public void inicializar() {
+
+    super.inicializar();
+
+    try {
+
+      this.getBtn().setFocusable(true);
+    }
+    catch (Exception ex) {
+
+      new ErroAndroid("Erro inesperado.\n", ex);
+    }
+    finally {
+    }
+  }
+
+  @Override
   public void montarLayout() {
 
     super.montarLayout();
 
     try {
 
-      this.addView(this.getTxt());
+      this.addView(this.getBtn());
     }
     catch (Exception ex) {
 
@@ -222,6 +239,12 @@ public class CampoConsulta extends CampoMain implements View.OnClickListener {
   }
 
   @Override
+  public void receberFoco() {
+
+    this.getBtn().performClick();
+  }
+
+  @Override
   public void setEventos() {
 
     super.setEventos();
@@ -229,7 +252,7 @@ public class CampoConsulta extends CampoMain implements View.OnClickListener {
     try {
 
       this.setOnClickListener(this);
-      this.getTxt().setOnClickListener(this);
+      this.getBtn().setOnClickListener(this);
     }
     catch (Exception ex) {
 

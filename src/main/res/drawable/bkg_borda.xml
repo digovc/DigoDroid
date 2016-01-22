@@ -6,12 +6,12 @@
             <gradient
                 android:angle="90"
                 android:endColor="@color/cor_cinza_claro"
-                android:startColor="@color/cor_cinza_escuro"
+                android:startColor="@color/cor_borda"
                 android:type="linear"/>
         </shape>
     </item>
     <item
-        android:bottom="2dp"
+        android:bottom="1dp"
         android:left="1dp"
         android:right="1dp">
         <shape

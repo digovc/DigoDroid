@@ -52,7 +52,7 @@ public abstract class ViewAndroid extends TabelaAndroid<Dominio> {
       arg = new OnChangeArg();
       arg.setIntRegistroId(intRegistroId);
 
-      this.dispararOnApagarReg(arg);
+      this.dispararEvtOnApagarReg(arg);
     }
     catch (Exception ex) {
 
@@ -82,7 +82,7 @@ public abstract class ViewAndroid extends TabelaAndroid<Dominio> {
   }
 
   @Override
-  protected void criar() {
+  public void criar() {
 
     String sql;
 
@@ -94,7 +94,8 @@ public abstract class ViewAndroid extends TabelaAndroid<Dominio> {
       }
 
       sql = "drop view if exists _viw_nome;";
-      sql = sql.replace("_viw_nome", this.getStrNomeSql());
+
+      sql = sql.replace("_viw_nome", this.getSqlNome());
 
       this.getObjDb().execSql(sql);
       this.getObjDb().execSql(this.getSqlSelect());

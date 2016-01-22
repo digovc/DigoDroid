@@ -58,11 +58,6 @@ public class BotaoGeral extends Button implements IControleMain {
   }
 
   @Override
-  public void destruir() {
-
-  }
-
-  @Override
   public void finalizar() {
 
   }

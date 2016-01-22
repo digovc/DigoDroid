@@ -3,9 +3,11 @@ package com.digosofter.digodroid.database;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.os.Build;
 import android.os.Environment;
 
 import com.digosofter.digodroid.AppAndroid;
+import com.digosofter.digodroid.activity.ActMain;
 import com.digosofter.digodroid.arquivo.ArquivoDb;
 import com.digosofter.digodroid.erro.ErroAndroid;
 import com.digosofter.digojava.database.DataBase;
@@ -15,6 +17,7 @@ public class DataBaseAndroid extends DataBase {
   public static final String STR_FILE_PREFIXO = ".sqlite";
 
   private ArquivoDb _arq;
+  private boolean _booForeingKeyAtiva;
   private SQLiteDatabase _objDbEscrita;
   private SQLiteDatabase _objDbLeitura;
   private SQLiteOpenHelper _objSQLiteOpenHelper;
@@ -34,9 +37,61 @@ public class DataBaseAndroid extends DataBase {
   }
 
   /**
-   * Salva um arquivo contendo o banco de dados compactado na memória externa.
+   * Apaga o arquivo de banco de dados do aparelho.
+   *
+   * @param act
    */
-  public void backup() {
+  public void apagar(ActMain act) {
+
+    try {
+
+      if (act == null) {
+
+        return;
+      }
+
+      this.setObjDbEscrita(null);
+      this.setObjDbLeitura(null);
+      this.setObjSQLiteOpenHelper(null);
+
+      act.deleteDatabase(this.getStrNome());
+
+      AppAndroid.getI().criarTabela();
+      AppAndroid.getI().criarView();
+
+      AppAndroid.getI().notificar("Banco de dados apagado.");
+    }
+    catch (Exception ex) {
+
+      new ErroAndroid("Erro inesperado.\n", ex);
+    }
+    finally {
+    }
+  }
+
+  private void atualizarBooForeingKeyAtiva() {
+
+    try {
+
+      this.getObjSQLiteOpenHelper().close();
+
+      this.setObjDbEscrita(null);
+      this.setObjDbLeitura(null);
+    }
+    catch (Exception ex) {
+
+      new ErroAndroid("Erro inesperado.\n", ex);
+    }
+    finally {
+    }
+  }
+
+  /**
+   * Salva um arquivo contendo o banco de dados compactado na memória externa.
+   *
+   * @param act Activity da aplicação que está solicitando o backup.
+   */
+  public void backup(final ActMain act) {
 
     String dir;
 
@@ -44,12 +99,18 @@ public class DataBaseAndroid extends DataBase {
 
       dir = "_dir_completo/_app_nome";
 
-      dir = dir.replace("_dir_completo", Environment.getExternalStorageDirectory().getAbsolutePath());
+      dir = dir.replace("_dir_completo", Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath());
       dir = dir.replace("_app_nome", AppAndroid.getI().getStrNome());
 
-      this.getArq().copiar(dir);
+      if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
 
-      AppAndroid.getI().notificar("Backup efetuado com sucesso.");
+        this.getArq().copiar(act, dir);
+      }
+      else {
+
+        this.getArq().copiar(dir);
+        AppAndroid.getI().notificar("Backup efetuado com sucesso.");
+      }
     }
     catch (Exception ex) {
 
@@ -131,6 +192,11 @@ public class DataBaseAndroid extends DataBase {
     return _arq;
   }
 
+  private boolean getBooForeingKeyAtiva() {
+
+    return _booForeingKeyAtiva;
+  }
+
   private SQLiteDatabase getObjDbEscrita() {
 
     try {
@@ -185,13 +251,23 @@ public class DataBaseAndroid extends DataBase {
       _objSQLiteOpenHelper = new SQLiteOpenHelper(AppAndroid.getI().getCnt(), this.getStrNome(), null, AppAndroid.getI().getIntVersao()) {
 
         @Override
-        public void onCreate(SQLiteDatabase db) {
+        public void onConfigure(final SQLiteDatabase objSQLiteDatabase) {
 
+          super.onConfigure(objSQLiteDatabase);
+
+          DataBaseAndroid.this.onConfigureSQLiteOpenHelper(objSQLiteDatabase);
         }
 
         @Override
-        public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        public void onCreate(SQLiteDatabase objSQLiteDatabase) {
 
+          DataBaseAndroid.this.onCreateSQLiteOpenHelper(objSQLiteDatabase);
+        }
+
+        @Override
+        public void onUpgrade(SQLiteDatabase objSQLiteDatabase, int intOldVersion, int intNewVersion) {
+
+          DataBaseAndroid.this.onUpdateSQLiteOpenHelper(objSQLiteDatabase, intOldVersion, intNewVersion);
         }
       };
     }
@@ -203,5 +279,64 @@ public class DataBaseAndroid extends DataBase {
     }
 
     return _objSQLiteOpenHelper;
+  }
+
+  private void onConfigureSQLiteOpenHelper(final SQLiteDatabase objSQLiteDatabase) {
+
+    try {
+
+      if (objSQLiteDatabase == null) {
+
+        return;
+      }
+
+      objSQLiteDatabase.setForeignKeyConstraintsEnabled(this.getBooForeingKeyAtiva());
+    }
+    catch (Exception ex) {
+
+      new ErroAndroid("Erro inesperado.\n", ex);
+    }
+    finally {
+    }
+
+  }
+
+  private void onCreateSQLiteOpenHelper(final SQLiteDatabase objSQLiteDatabase) {
+
+  }
+
+  private void onUpdateSQLiteOpenHelper(final SQLiteDatabase objSQLiteDatabase, final int intOldVersion, final int intNewVersion) {
+
+  }
+
+  public void setBooForeingKeyAtiva(boolean booForeingKeyAtiva) {
+
+    try {
+
+      _booForeingKeyAtiva = booForeingKeyAtiva;
+
+      this.atualizarBooForeingKeyAtiva();
+    }
+    catch (Exception ex) {
+
+      new ErroAndroid("Erro inesperado.\n", ex);
+    }
+    finally {
+    }
+  }
+
+  private void setObjDbEscrita(SQLiteDatabase objDbEscrita) {
+
+    _objDbEscrita = objDbEscrita;
+  }
+
+  private void setObjDbLeitura(SQLiteDatabase objDbLeitura) {
+
+    _objDbLeitura = objDbLeitura;
+  }
+
+  private void setObjSQLiteOpenHelper(SQLiteOpenHelper objSQLiteOpenHelper) {
+
+    _objSQLiteOpenHelper = objSQLiteOpenHelper;
   }
 }

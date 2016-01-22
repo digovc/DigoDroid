@@ -19,4 +19,10 @@ public class CampoRadioButton extends CampoMain {
 
     super(context, attrs, defStyleAttr);
   }
+
+  @Override
+  public void receberFoco() {
+
+    // TODO: Implementar.
+  }
 }

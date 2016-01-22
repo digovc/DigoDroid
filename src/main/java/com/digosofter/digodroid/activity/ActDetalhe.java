@@ -1,6 +1,5 @@
 package com.digosofter.digodroid.activity;
 
-import android.graphics.Color;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -373,12 +372,19 @@ public class ActDetalhe extends ActMain {
         return;
       }
 
+      if (!cln.getBooVisivelDetalhe()) {
+
+        return;
+      }
+
       if (cln.getObjDbGrupo() == null) {
 
         cln.setObjDbGrupo(this.getObjDbGrupoGeral());
       }
 
       itmDetalhe = new ItemDetalhe(this, cln);
+
+      itmDetalhe.carregarDados();
 
       this.montarLayoutItem(itmDetalhe);
     }

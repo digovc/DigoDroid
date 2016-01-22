@@ -3,7 +3,7 @@
 
     <item name="cor_borda" type="color">#d7d6d1</item>
 
-    <item name="cor_fundo" type="color">#f0f0f0</item>
+    <item name="cor_fundo" type="color">#ffffff</item>
 
     <item name="cor_tema" type="color">#34b458</item>
 

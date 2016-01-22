@@ -61,11 +61,6 @@ public class ScrollGeral extends ScrollView implements IControleMain {
   }
 
   @Override
-  public void destruir() {
-
-  }
-
-  @Override
   public void finalizar() {
 
   }
@@ -102,6 +97,22 @@ public class ScrollGeral extends ScrollView implements IControleMain {
   @Override
   public void montarLayout() {
 
+  }
+
+  /**
+   * Move o scroll para o seu fundo.
+   */
+  public void moverBaixo() {
+
+    this.fullScroll(ScrollView.FOCUS_DOWN);
+  }
+
+  /**
+   * Move o scroll para o seu topo.
+   */
+  public void moverCima() {
+
+    this.fullScroll(ScrollView.FOCUS_UP);
   }
 
   @Override

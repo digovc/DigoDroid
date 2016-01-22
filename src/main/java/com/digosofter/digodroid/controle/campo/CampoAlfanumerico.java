@@ -97,4 +97,10 @@ public class CampoAlfanumerico extends CampoMain {
     finally {
     }
   }
+
+  @Override
+  public void receberFoco() {
+
+    this.getTxt().requestFocus();
+  }
 }

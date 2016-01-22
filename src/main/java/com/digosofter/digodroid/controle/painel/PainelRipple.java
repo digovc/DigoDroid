@@ -58,11 +58,6 @@ public class PainelRipple extends MaterialRippleLayout implements IControleMain 
   }
 
   @Override
-  public void destruir() {
-
-  }
-
-  @Override
   public void finalizar() {
 
   }

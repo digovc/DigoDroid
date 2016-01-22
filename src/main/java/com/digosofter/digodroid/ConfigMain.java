@@ -14,26 +14,38 @@ public abstract class ConfigMain extends Objeto {
   private Editor _objEditor;
   private SharedPreferences _objSharedPreferences;
 
-  /**
-   * Carrega os valores do arquivo de configuração XML para esta instância.
-   */
-  public void carregar() {
+  protected ConfigMain() {
 
     try {
 
-      this.carregar(this.getClass());
-
+      this.carregarDados();
     }
     catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-
     }
     finally {
     }
   }
 
-  private void carregar(Class cls) {
+  /**
+   * Carrega os valores do arquivo de configuração XML para esta instância.
+   */
+  public void carregarDados() {
+
+    try {
+
+      this.carregarDados(this.getClass());
+    }
+    catch (Exception ex) {
+
+      new ErroAndroid("Erro inesperado.\n", ex);
+    }
+    finally {
+    }
+  }
+
+  private void carregarDados(Class cls) {
 
     try {
 
@@ -47,13 +59,12 @@ public abstract class ConfigMain extends Objeto {
         return;
       }
 
-      this.carregar(cls.getClass().getSuperclass());
+      this.carregarDados(cls.getClass().getSuperclass());
 
       for (Field objField : cls.getDeclaredFields()) {
 
-        this.carregar(objField);
+        this.carregarDados(objField);
       }
-
     }
     catch (Exception ex) {
 
@@ -61,10 +72,9 @@ public abstract class ConfigMain extends Objeto {
     }
     finally {
     }
-
   }
 
-  private void carregar(Field objField) {
+  private void carregarDados(Field objField) {
 
     try {
 
@@ -134,7 +144,6 @@ public abstract class ConfigMain extends Objeto {
       }
 
       _objEditor = this.getObjSharedPreferences().edit();
-
     }
     catch (Exception ex) {
 
@@ -156,7 +165,6 @@ public abstract class ConfigMain extends Objeto {
       }
 
       _objSharedPreferences = PreferenceManager.getDefaultSharedPreferences(AppAndroid.getI().getCnt());
-
     }
     catch (Exception ex) {
 
@@ -181,12 +189,10 @@ public abstract class ConfigMain extends Objeto {
     try {
 
       this.salvar(this.getClass());
-
     }
     catch (Exception ex) {
 
       new ErroAndroid("Erro inesperado.\n", ex);
-
     }
     finally {
     }
@@ -207,7 +213,6 @@ public abstract class ConfigMain extends Objeto {
 
         this.salvar(objField);
       }
-
     }
     catch (Exception ex) {
 
@@ -268,7 +273,6 @@ public abstract class ConfigMain extends Objeto {
 
       this.getObjEditor().putBoolean(strConfig, booValor);
       this.getObjEditor().commit();
-
     }
     catch (Exception ex) {
 
@@ -284,7 +288,6 @@ public abstract class ConfigMain extends Objeto {
 
       this.getObjEditor().putFloat(strConfig, (float) dblValor);
       this.getObjEditor().commit();
-
     }
     catch (Exception ex) {
 
@@ -300,7 +303,6 @@ public abstract class ConfigMain extends Objeto {
 
       this.getObjEditor().putString(strConfig, String.valueOf(intValor));
       this.getObjEditor().commit();
-
     }
     catch (Exception ex) {
 
@@ -316,7 +318,6 @@ public abstract class ConfigMain extends Objeto {
 
       this.getObjEditor().putString(strConfig, strValor);
       this.getObjEditor().commit();
-
     }
     catch (Exception ex) {
 

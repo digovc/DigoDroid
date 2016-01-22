@@ -146,11 +146,6 @@ public class TextBoxGeral extends EditText implements IControleMain {
   }
 
   @Override
-  public void destruir() {
-
-  }
-
-  @Override
   public void finalizar() {
 
   }

@@ -82,11 +82,6 @@ public class RadioButtonGeral extends RadioButton implements IControleMain {
   }
 
   @Override
-  public void destruir() {
-
-  }
-
-  @Override
   public void finalizar() {
 
   }

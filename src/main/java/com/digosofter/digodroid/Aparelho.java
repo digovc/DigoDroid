@@ -1,15 +1,19 @@
 package com.digosofter.digodroid;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Point;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
+import android.os.Environment;
 import android.os.Vibrator;
 import android.provider.Settings.Secure;
 import android.telephony.TelephonyManager;
 
+import com.digosofter.digodroid.activity.ActMain;
 import com.digosofter.digodroid.erro.ErroAndroid;
 import com.digosofter.digojava.Objeto;
 import com.digosofter.digojava.Utils;
@@ -99,24 +103,26 @@ public class Aparelho extends Objeto {
   /**
    * Abre o aplicativo padrão para envio de email.
    */
-  public void enviarEmail(String strEmail) {
+  public void enviarEmail(ActMain act, Intent itt) {
 
-    Intent itt;
     Uri uri;
 
     try {
 
-      if (Utils.getBooStrVazia(strEmail)) {
+      if (act == null) {
 
         return;
       }
 
-      uri = Uri.parse("mailto:" + strEmail);
+      if (itt == null) {
 
-      itt = new Intent(Intent.ACTION_SENDTO, uri);
+        itt = new Intent();
+      }
+
+      itt.setAction(Intent.ACTION_SENDTO);
       itt.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
-      this.getCnt().startActivity(itt);
+      act.startActivity(Intent.createChooser(itt, "Enviar email"));
     }
     catch (Exception ex) {
 
@@ -124,6 +130,49 @@ public class Aparelho extends Objeto {
     }
     finally {
     }
+  }
+
+  /**
+   * Verifica se o armazenamento externo está disponível para escrita.
+   *
+   * @return True caso o armazenamento externo está disponível para escrita, false caso contrário.
+   */
+  public boolean getBooArmazenamentoExternoEscrever() {
+
+    return Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED);
+  }
+
+  /**
+   * Verifica se o armazenamento externo está disponível para leitura.
+   *
+   * @return True caso o armazenamento externo está disponível para leitura, false caso contrário.
+   */
+  public boolean getBooArmazenamentoExternoLer() {
+
+    String strState;
+
+    try {
+
+      strState = Environment.getExternalStorageState();
+
+      if (Environment.MEDIA_MOUNTED.equals(strState)) {
+
+        return true;
+      }
+
+      if (Environment.MEDIA_MOUNTED_READ_ONLY.equals(strState)) {
+        
+        return true;
+      }
+    }
+    catch (Exception ex) {
+
+      new ErroAndroid("Erro inesperado.\n", ex);
+    }
+    finally {
+    }
+
+    return false;
   }
 
   public boolean getBooConectado() {
@@ -273,6 +322,11 @@ public class Aparelho extends Objeto {
     Intent itt;
 
     try {
+
+      if (this.getCnt().checkSelfPermission(Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+
+        return;
+      }
 
       if (Utils.getBooStrVazia(strNumero)) {
 

@@ -1,46 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.digosofter.digodroid"
-    android:versionCode="1"
-    android:versionName="1.0" >
+<manifest package="com.digosofter.digodroid"
+          xmlns:android="http://schemas.android.com/apk/res/android"
+          android:versionCode="1"
+          android:versionName="1.0">
 
     <uses-sdk
         android:minSdkVersion="16"
-        android:targetSdkVersion="23" />
+        android:targetSdkVersion="23"/>
 
     <!-- Permissões da biblioteca DigoDroid -->
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-    <uses-permission android:name="android.permission.CALL_PHONE" />
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.CALL_PHONE"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 
     <application
-        android:allowBackup="true" >
+        android:allowBackup="true">
 
         <!-- Activities da biblioteca DigoDroid -->
-        <activity android:name=".activity.ActConsulta" />
-        <activity android:name=".activity.ActDetalhe" />
-        <activity android:name=".activity.ActErro" />
+        <activity android:name=".activity.ActConsulta"/>
+        <activity android:name=".activity.ActDetalhe"/>
+        <activity android:name=".activity.ActErro"/>
 
         <meta-data
             android:name="com.google.android.gms.version"
-            android:value="@integer/google_play_services_version" />
+            android:value="@integer/google_play_services_version"/>
 
         <!-- Chave de debug -->
-        <!--
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyCHlHnG30WeElBMFMl_XH31g90S4URD44M" />
-        -->
+            android:value="AIzaSyCHlHnG30WeElBMFMl_XH31g90S4URD44M"/>
 
         <!-- Chave de produção -->
-        <meta-data
-            android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyDgN2hYOdivjXYoq5RG2Ms9WKbV5hPCi5Y" />
+        <!--<meta-data-->
+        <!--android:name="com.google.android.geo.API_KEY"-->
+        <!--android:value="AIzaSyDgN2hYOdivjXYoq5RG2Ms9WKbV5hPCi5Y" />-->
     </application>
 
 </manifest>

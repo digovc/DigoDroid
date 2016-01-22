@@ -44,11 +44,6 @@ public class ProgressBarGeral extends ProgressBar implements IControleMain {
   }
 
   @Override
-  public void destruir() {
-
-  }
-
-  @Override
   public void finalizar() {
 
   }

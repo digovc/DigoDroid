@@ -60,11 +60,6 @@ public abstract class LinearLayoutMain extends LinearLayout implements IControle
   }
 
   @Override
-  public void destruir() {
-
-  }
-
-  @Override
   public void finalizar() {
 
   }

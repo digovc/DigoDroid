@@ -58,11 +58,6 @@ public class ImagemGeral extends ImageView implements IControleMain {
   }
 
   @Override
-  public void destruir() {
-
-  }
-
-  @Override
   public void finalizar() {
 
   }

@@ -15,7 +15,7 @@ public abstract class UtilsAndroid extends Utils {
    * Converte um valor em "density pixels" para "pixels".
    *
    * @param intDp Quantidade que se espera converter para "pixels".
-   * @param cnt   Contexto do controle.
+   * @param cnt Contexto do controle.
    * @return Quantidade em "pixels".
    */
   public static int dpToPx(int intDp, Context cnt) {
@@ -65,7 +65,7 @@ public abstract class UtilsAndroid extends Utils {
    * Converte um valor em "pixels" para "density pixels".
    *
    * @param intPx Quantidade que se espera converter para "density pixels".
-   * @param cnt   Contexto do controle.
+   * @param cnt Contexto do controle.
    * @return Quantidade em "density pixels".
    */
   public static int pxToDp(int intPx, Context cnt) {

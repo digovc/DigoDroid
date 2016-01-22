@@ -64,18 +64,36 @@ public class PainelGrupo extends PainelGeral implements View.OnClickListener {
     }
   }
 
-  @Override
-  public void addView(final View child) {
-
-    //    super.addView(child);
-    this.getPnlConteudo().addView(child);
-  }
-
   private void atualizarStrTitulo() {
 
     try {
 
       this.getLblTitulo().setText((!Utils.getBooStrVazia(_strTitulo)) ? _strTitulo : "<desconhecido>");
+    }
+    catch (Exception ex) {
+
+      new ErroAndroid("Erro inesperado.\n", ex);
+    }
+    finally {
+    }
+  }
+
+  @Override
+  public void finalizar() {
+
+    super.finalizar();
+
+    View viw;
+
+    try {
+
+      while (this.getChildCount() > 2) {
+
+        viw = this.getChildAt(2);
+
+        this.removeView(viw);
+        this.getPnlConteudo().addView(viw);
+      }
     }
     catch (Exception ex) {
 

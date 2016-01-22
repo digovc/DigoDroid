@@ -1,7 +1,6 @@
 package com.digosofter.digodroid.controle.item;
 
 import android.content.Context;
-import android.database.Cursor;
 import android.view.ViewGroup;
 
 import com.digosofter.digodroid.UtilsAndroid;
@@ -14,13 +13,10 @@ public class ItemDetalhe extends ItemCampo {
 
   public ItemDetalhe(Context cnt, ColunaAndroid cln) {
 
-    super(cnt, cln, null);
+    super(cnt, cln);
   }
 
-  @Override
-  protected void carregarDados(Cursor crs) {
-
-    super.carregarDados(crs);
+  public void carregarDados() {
 
     String strValorFormatado;
 

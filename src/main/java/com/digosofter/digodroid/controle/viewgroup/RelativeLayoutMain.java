@@ -16,7 +16,6 @@ public abstract class RelativeLayoutMain extends RelativeLayout implements ICont
     try {
 
       this.iniciar(null);
-
     }
     catch (Exception ex) {
 
@@ -33,7 +32,6 @@ public abstract class RelativeLayoutMain extends RelativeLayout implements ICont
     try {
 
       this.iniciar(attrs);
-
     }
     catch (Exception ex) {
 
@@ -50,7 +48,6 @@ public abstract class RelativeLayoutMain extends RelativeLayout implements ICont
     try {
 
       this.iniciar(attrs);
-
     }
     catch (Exception ex) {
 
@@ -58,11 +55,6 @@ public abstract class RelativeLayoutMain extends RelativeLayout implements ICont
     }
     finally {
     }
-  }
-
-  @Override
-  public void destruir() {
-    
   }
 
   @Override
@@ -107,7 +99,6 @@ public abstract class RelativeLayoutMain extends RelativeLayout implements ICont
       this.inicializar();
       this.montarLayout();
       this.setEventos();
-
     }
     catch (Exception ex) {
 
@@ -120,6 +111,23 @@ public abstract class RelativeLayoutMain extends RelativeLayout implements ICont
   @Override
   public void montarLayout() {
 
+  }
+
+  @Override
+  protected void onMeasure(final int widthMeasureSpec, final int heightMeasureSpec) {
+
+    super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+
+    try {
+
+      this.finalizar();
+    }
+    catch (Exception ex) {
+
+      new ErroAndroid("Erro inesperado.\n", ex);
+    }
+    finally {
+    }
   }
 
   @Override

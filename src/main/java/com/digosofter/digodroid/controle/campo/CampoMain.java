@@ -8,6 +8,8 @@ import com.digosofter.digodroid.OnValorAlterado;
 import com.digosofter.digodroid.OnValorAlteradoArg;
 import com.digosofter.digodroid.R;
 import com.digosofter.digodroid.UtilsAndroid;
+import com.digosofter.digodroid.activity.ActMain;
+import com.digosofter.digodroid.activity.OnActivityDestruirListener;
 import com.digosofter.digodroid.controle.label.LabelGeral;
 import com.digosofter.digodroid.controle.painel.PainelLinha;
 import com.digosofter.digodroid.database.ColunaAndroid;
@@ -17,7 +19,7 @@ import com.digosofter.digojava.Utils;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class CampoMain extends PainelLinha {
+public abstract class CampoMain extends PainelLinha implements OnActivityDestruirListener {
 
   public static final String STR_TITULO_DESCONHECIDO = "<desconhecido>";
 
@@ -48,7 +50,7 @@ public abstract class CampoMain extends PainelLinha {
     super(context, attrs, defStyleAttr);
   }
 
-  public void addOnValorAlterado(OnValorAlterado evt) {
+  public void addEvtOnValorAlterado(OnValorAlterado evt) {
 
     try {
 
@@ -82,7 +84,7 @@ public abstract class CampoMain extends PainelLinha {
       }
 
       this.setStrTitulo(this.getCln().getStrNomeExibicao());
-      this.addOnValorAlterado(this.getCln());
+      this.addEvtOnValorAlterado(this.getCln());
     }
     catch (Exception ex) {
 
@@ -107,28 +109,6 @@ public abstract class CampoMain extends PainelLinha {
       }
 
       this.dispararOnValorAlterado();
-    }
-    catch (Exception ex) {
-
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally {
-    }
-  }
-
-  @Override
-  public void destruir() {
-
-    super.destruir();
-
-    try {
-
-      if (this.getCln() == null) {
-
-        return;
-      }
-
-      this.getLstEvtOnValorAlterado().clear();
     }
     catch (Exception ex) {
 
@@ -342,7 +322,18 @@ public abstract class CampoMain extends PainelLinha {
     }
   }
 
-  public void removerOnValorAlterado(OnValorAlterado evt) {
+  @Override
+  public void onActivityDestruir(final Object objSender) {
+
+    this.getLstEvtOnValorAlterado().clear();
+  }
+
+  /**
+   * Faz com que este campo receba o foco da aplicação.
+   */
+  public abstract void receberFoco();
+
+  public void removerEvtOnValorAlterado(OnValorAlterado evt) {
 
     try {
 
@@ -405,6 +396,23 @@ public abstract class CampoMain extends PainelLinha {
       _dblValor = dblValor;
 
       this.setStrValor(String.valueOf(_dblValor));
+    }
+    catch (Exception ex) {
+
+      new ErroAndroid("Erro inesperado.\n", ex);
+    }
+    finally {
+    }
+  }
+
+  @Override
+  public void setEventos() {
+
+    super.setEventos();
+
+    try {
+
+      ((ActMain) this.getContext()).addEvtOnDestruirListener(this);
     }
     catch (Exception ex) {
 

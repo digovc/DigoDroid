@@ -1,9 +1,12 @@
 package com.digosofter.digodroid;
 
+import android.app.AlarmManager;
 import android.app.AlertDialog;
 import android.app.Notification;
 import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.view.inputmethod.InputMethodManager;
@@ -60,7 +63,7 @@ public abstract class AppAndroid extends App {
     }
   }
 
-  public void addOnMenuCreateListener(OnMenuCreateListener evt) {
+  public void addEvtOnMenuCreateListener(OnMenuCreateListener evt) {
 
     try {
 
@@ -84,7 +87,7 @@ public abstract class AppAndroid extends App {
     }
   }
 
-  public void addOnMenuItemClickListener(OnMenuItemClickListener evt) {
+  public void addEvtOnMenuItemClickListener(OnMenuItemClickListener evt) {
 
     try {
 
@@ -103,6 +106,94 @@ public abstract class AppAndroid extends App {
     catch (Exception ex) {
 
       new Erro("Erro inesperado.\n", ex);
+    }
+    finally {
+    }
+  }
+
+  /**
+   * Cria as tabelas no banco de dados.
+   */
+  public void criarTabela() {
+
+    try {
+
+      for (Tabela tbl : this.getLstTbl()) {
+
+        this.criarTabela(tbl);
+      }
+    }
+    catch (Exception ex) {
+
+      new ErroAndroid("Erro inesperado.\n", ex);
+    }
+    finally {
+    }
+  }
+
+  private void criarTabela(final Tabela tbl) {
+
+    try {
+
+      if (tbl == null) {
+
+        return;
+      }
+
+      if (!(tbl instanceof TabelaAndroid)) {
+
+        return;
+      }
+
+      ((TabelaAndroid) tbl).criar();
+    }
+    catch (Exception ex) {
+
+      new ErroAndroid("Erro inesperado.\n", ex);
+    }
+    finally {
+    }
+  }
+
+  /**
+   * Cria as views no banco de dados.
+   */
+  public void criarView() {
+
+    try {
+
+      for (Tabela tbl : this.getLstTbl()) {
+
+        this.criarView(tbl);
+      }
+    }
+    catch (Exception ex) {
+
+      new ErroAndroid("Erro inesperado.\n", ex);
+    }
+    finally {
+    }
+  }
+
+  private void criarView(final Tabela tbl) {
+
+    try {
+
+      if (tbl == null) {
+
+        return;
+      }
+
+      if (!(tbl instanceof TabelaAndroid)) {
+
+        return;
+      }
+
+      ((TabelaAndroid) tbl).criarView();
+    }
+    catch (Exception ex) {
+
+      new ErroAndroid("Erro inesperado.\n", ex);
     }
     finally {
     }
@@ -624,7 +715,50 @@ public abstract class AppAndroid extends App {
     }
   }
 
-  public void removerOnMenuCreateListener(OnMenuCreateListener evt) {
+  /**
+   * Reinicia a aplicação.
+   *
+   * @param act Contexto atual da aplicação.
+   */
+  public void reiniciar(ActMain act) {
+
+    int intPendingIntentId;
+    Intent itt;
+    PendingIntent objPendingIntent;
+    AlarmManager objAlarmManager;
+
+    try {
+
+      if (act == null) {
+
+        return;
+      }
+
+      itt = new Intent(act.getApplicationContext(), this.getActPrincipal().getClass());
+
+      itt.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+      act.startActivity(itt);
+
+      itt = new Intent(act, this.getActPrincipal().getClass());
+
+      intPendingIntentId = 123456;
+
+      objPendingIntent = PendingIntent.getActivity(act, intPendingIntentId, itt, PendingIntent.FLAG_CANCEL_CURRENT);
+
+      objAlarmManager = (AlarmManager) act.getSystemService(Context.ALARM_SERVICE);
+      objAlarmManager.set(AlarmManager.RTC, System.currentTimeMillis() + 3000, objPendingIntent);
+
+      System.exit(0);
+    }
+    catch (Exception ex) {
+
+      new Erro("Erro inesperado.\n", ex);
+    }
+    finally {
+    }
+  }
+
+  public void removerEvtOnMenuCreateListener(OnMenuCreateListener evt) {
 
     try {
 
@@ -643,7 +777,7 @@ public abstract class AppAndroid extends App {
     }
   }
 
-  public void removerOnMenuItemClickListener(OnMenuItemClickListener evt) {
+  public void removerEvtOnMenuItemClickListener(OnMenuItemClickListener evt) {
 
     try {
 

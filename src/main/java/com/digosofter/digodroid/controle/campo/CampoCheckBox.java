@@ -97,4 +97,10 @@ public class CampoCheckBox extends CampoMain {
     finally {
     }
   }
+
+  @Override
+  public void receberFoco() {
+
+    this.getCkb().requestFocus();
+  }
 }

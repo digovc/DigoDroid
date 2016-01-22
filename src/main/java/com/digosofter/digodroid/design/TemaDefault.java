@@ -225,7 +225,7 @@ public class TemaDefault extends Objeto {
         return _intMargin;
       }
 
-      _intMargin = 5;
+      _intMargin = 10;
     }
     catch (Exception ex) {
 

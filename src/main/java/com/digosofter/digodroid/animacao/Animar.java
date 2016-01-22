@@ -11,7 +11,7 @@ import com.digosofter.digojava.Objeto;
 
 public class Animar extends Objeto {
 
-  private static final long INT_DURACAO_RAPIDO = 250;
+  private static final long INT_DURACAO_RAPIDO = 450;
   private static Animar i;
 
   public static Animar getI() {

@@ -36,13 +36,49 @@ public abstract class ActCadastroMain extends ActMain {
    */
   public static final String STR_EXTRA_IN_INT_TBL_OBJETO_ID = "int_tbl_objeto_id";
 
-  private static final String STR_MENU_SALVAR = "Salvar";
+  protected static final String STR_MENU_SALVAR = "Salvar";
   private static final String STR_MENU_SALVAR_NOVO = "Salvar e novo";
-
+  private CampoMain _cmpFocoInicial;
   private int _intRegistroId;
   private int _intRegistroRefId;
   private List<CampoMain> _lstCmp;
   private TabelaAndroid<?> _tbl;
+
+  protected boolean getBooMostrarMenuSalvarNovo() {
+
+    return false;
+  }
+
+  protected CampoMain getCmpFocoInicial() {
+
+    try {
+
+      if (_cmpFocoInicial != null) {
+
+        return _cmpFocoInicial;
+      }
+
+      if (this.getLstCmp() == null) {
+
+        return null;
+      }
+
+      if (this.getLstCmp().isEmpty()) {
+
+        return null;
+      }
+
+      _cmpFocoInicial = this.getLstCmp().get(0);
+    }
+    catch (Exception ex) {
+
+      new ErroAndroid("Erro inesperado.\n", ex);
+    }
+    finally {
+    }
+
+    return _cmpFocoInicial;
+  }
 
   protected int getIntRegistroId() {
 
@@ -137,6 +173,7 @@ public abstract class ActCadastroMain extends ActMain {
 
       this.inicializarTitulo();
       this.inicializarCampos();
+      this.inicializarFoco();
     }
     catch (Exception ex) {
 
@@ -193,6 +230,30 @@ public abstract class ActCadastroMain extends ActMain {
       }
 
       cmp.setCln((ColunaAndroid) cln);
+    }
+    catch (Exception ex) {
+
+      new ErroAndroid("Erro inesperado.\n", ex);
+    }
+    finally {
+    }
+  }
+
+  private void inicializarFoco() {
+
+    try {
+
+      if (this.getIntRegistroId() > 0) {
+
+        return;
+      }
+
+      if (this.getCmpFocoInicial() == null) {
+
+        return;
+      }
+
+      this.getCmpFocoInicial().receberFoco();
     }
     catch (Exception ex) {
 
@@ -278,9 +339,9 @@ public abstract class ActCadastroMain extends ActMain {
   }
 
   @Override
-  protected void onActivityResult(final int intRequestCode, final int intResultCode, final Intent itt) {
+  protected void onActivityResult(final int intRequestCode, final int intResultCode, final Intent ittResult) {
 
-    super.onActivityResult(intRequestCode, intResultCode, itt);
+    super.onActivityResult(intRequestCode, intResultCode, ittResult);
 
     try {
 
@@ -291,7 +352,7 @@ public abstract class ActCadastroMain extends ActMain {
 
       for (CampoMain cmp : this.getLstCmp()) {
 
-        this.onActivityResult(cmp, itt);
+        this.onActivityResult(cmp, ittResult);
       }
     }
     catch (Exception ex) {
@@ -338,8 +399,8 @@ public abstract class ActCadastroMain extends ActMain {
 
     try {
 
-      this.onCreateOptionsMenuSalvar(mnu);
       this.onCreateOptionsMenuSalvarNovo(mnu);
+      this.onCreateOptionsMenuSalvar(mnu);
     }
     catch (Exception ex) {
 
@@ -351,7 +412,7 @@ public abstract class ActCadastroMain extends ActMain {
     return true;
   }
 
-  private void onCreateOptionsMenuSalvar(final Menu mnu) {
+  protected void onCreateOptionsMenuSalvar(final Menu mnu) {
 
     MenuItem mniSalvar;
 
@@ -392,11 +453,6 @@ public abstract class ActCadastroMain extends ActMain {
     }
     finally {
     }
-  }
-
-  protected boolean getBooMostrarMenuSalvarNovo() {
-
-    return false;
   }
 
   @Override

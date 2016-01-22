@@ -14,6 +14,7 @@ import com.digosofter.digodroid.controle.painel.PainelRipple;
 import com.digosofter.digodroid.database.ColunaAndroid;
 import com.digosofter.digodroid.database.TabelaAndroid;
 import com.digosofter.digodroid.erro.ErroAndroid;
+import com.digosofter.digojava.Utils;
 import com.digosofter.digojava.database.Coluna;
 
 public class ItemConsulta extends ItemMain implements View.OnClickListener, View.OnLongClickListener {
@@ -31,14 +32,13 @@ public class ItemConsulta extends ItemMain implements View.OnClickListener, View
     super(context, attrs);
   }
 
-  public ItemConsulta(Context context, TabelaAndroid tbl, Cursor crs) {
+  public ItemConsulta(Context cnt, TabelaAndroid tbl) {
 
-    super(context);
+    super(cnt);
 
     try {
 
       this.setTbl(tbl);
-      this.carregarDados(crs, false);
     }
     catch (Exception ex) {
 
@@ -53,7 +53,10 @@ public class ItemConsulta extends ItemMain implements View.OnClickListener, View
     super(context, attrs, defStyleAttr);
   }
 
-  private void carregarDados(Cursor crs, boolean booReciclar) {
+  @Override
+  public void carregarDados(Cursor crs) {
+
+    super.carregarDados(crs);
 
     String strTitulo;
 
@@ -69,17 +72,17 @@ public class ItemConsulta extends ItemMain implements View.OnClickListener, View
         return;
       }
 
-      this.setIntRegistroId(crs.getInt(crs.getColumnIndex(this.getTbl().getClnChavePrimaria().getStrNomeSql())));
-      this.setStrRegistroNome(crs.getString(crs.getColumnIndex(this.getTbl().getClnNome().getStrNomeSql())));
+      this.setIntRegistroId(crs.getInt(crs.getColumnIndex(this.getTbl().getClnChavePrimaria().getSqlNome())));
+      this.setStrRegistroNome(crs.getString(crs.getColumnIndex(this.getTbl().getClnNome().getSqlNome())));
 
       strTitulo = "_registro_id - _registro_nome";
 
       strTitulo = strTitulo.replace("_registro_id", String.valueOf(this.getIntRegistroId()));
-      strTitulo = strTitulo.replace("_registro_nome", this.getStrRegistroNome());
+      strTitulo = strTitulo.replace("_registro_nome", (!Utils.getBooStrVazia(this.getStrRegistroNome()) ? this.getStrRegistroNome() : String.valueOf(this.getIntRegistroId())));
 
       this.getLblRegistroTitulo().setText(strTitulo);
 
-      this.carregarDadosItem(crs, booReciclar);
+      this.carregarDadosItem(crs);
     }
     catch (Exception ex) {
 
@@ -89,7 +92,7 @@ public class ItemConsulta extends ItemMain implements View.OnClickListener, View
     }
   }
 
-  private void carregarDadosItem(Cursor crs, boolean booReciclar) {
+  private void carregarDadosItem(Cursor crs) {
 
     try {
 
@@ -105,7 +108,7 @@ public class ItemConsulta extends ItemMain implements View.OnClickListener, View
 
       for (Coluna cln : this.getTbl().getLstClnConsultaOrdenado()) {
 
-        this.carregarDadosItem(crs, (ColunaAndroid) cln, booReciclar);
+        this.carregarDadosItem(crs, (ColunaAndroid) cln);
       }
     }
     catch (Exception ex) {
@@ -116,7 +119,9 @@ public class ItemConsulta extends ItemMain implements View.OnClickListener, View
     }
   }
 
-  private void carregarDadosItem(Cursor crs, ColunaAndroid cln, boolean booReciclar) {
+  private void carregarDadosItem(Cursor crs, ColunaAndroid cln) {
+
+    ItemCampo itmCampo;
 
     try {
 
@@ -140,13 +145,14 @@ public class ItemConsulta extends ItemMain implements View.OnClickListener, View
         return;
       }
 
-      if (booReciclar) {
+      itmCampo = this.getItmCampo(cln);
 
-        this.reciclarItem(crs, cln);
+      if (itmCampo == null) {
+
         return;
       }
 
-      this.getPnlCampos().addView(new ItemCampo(this.getContext(), cln, crs));
+      itmCampo.carregarDados(crs);
     }
     catch (Exception ex) {
 
@@ -167,6 +173,8 @@ public class ItemConsulta extends ItemMain implements View.OnClickListener, View
   }
 
   private ItemCampo getItmCampo(ColunaAndroid cln) {
+
+    ItemCampo itmCampoResultado;
 
     try {
 
@@ -190,6 +198,11 @@ public class ItemConsulta extends ItemMain implements View.OnClickListener, View
         return (ItemCampo) this.getPnlCampos().getChildAt(i);
       }
 
+      itmCampoResultado = new ItemCampo(this.getContext(), cln);
+
+      this.getPnlCampos().addView(itmCampoResultado);
+
+      return itmCampoResultado;
     }
     catch (Exception ex) {
 
@@ -456,58 +469,6 @@ public class ItemConsulta extends ItemMain implements View.OnClickListener, View
     }
 
     return true;
-  }
-
-  @Override
-  public void reciclar(Cursor crs) {
-
-    super.reciclar(crs);
-
-    try {
-
-      this.carregarDados(crs, true);
-
-    }
-    catch (Exception ex) {
-
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally {
-    }
-  }
-
-  private void reciclarItem(Cursor crs, ColunaAndroid cln) {
-
-    ItemCampo itmCampo;
-
-    try {
-
-      if (crs == null) {
-
-        return;
-      }
-
-      if (cln == null) {
-
-        return;
-      }
-
-      itmCampo = this.getItmCampo(cln);
-
-      if (itmCampo == null) {
-
-        return;
-      }
-
-      itmCampo.reciclar(crs);
-
-    }
-    catch (Exception ex) {
-
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally {
-    }
   }
 
   @Override

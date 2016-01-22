@@ -95,11 +95,6 @@ public class LabelGeral extends TextView implements IControleMain {
   }
 
   @Override
-  public void destruir() {
-
-  }
-
-  @Override
   public void finalizar() {
 
   }
