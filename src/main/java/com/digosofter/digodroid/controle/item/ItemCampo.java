@@ -196,7 +196,7 @@ public class ItemCampo extends ItemMain implements OnClickListener {
       this.getLblRegistroValor().setEnmFonteTamanho(TemaDefault.EnmFonteTamanho.PEQUENO);
       this.getLblRegistroValor().setMaxLines(1);
       this.getLblRegistroValor().setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
-      this.getLblRegistroValor().setText("-");
+      this.getLblRegistroValor().setText(null);
     }
     catch (Exception ex) {
 

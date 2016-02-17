@@ -186,6 +186,23 @@ public class TextBoxGeral extends EditText implements IControleMain {
 
   }
 
+  /**
+   * Limpa o texto atual deste componente.
+   */
+  public void limparTexto() {
+
+    try {
+
+      this.setText(null);
+    }
+    catch (Exception ex) {
+
+      new ErroAndroid("Erro inesperado.\n", ex);
+    }
+    finally {
+    }
+  }
+
   @Override
   public void montarLayout() {
 

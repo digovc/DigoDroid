@@ -329,6 +329,42 @@ public abstract class TabelaAndroid<T extends Dominio> extends Tabela<T> {
     }
   }
 
+  /**
+   * Apaga os registros da tabela que atendem aos filtros passados por parâmetro.
+   *
+   * @param lstFil Lista de filtros que será utilizado para buscar os registros que serão apagados do banco de dados.
+   */
+  public void apagar(final List<Filtro> lstFil) {
+
+    String sql;
+
+    try {
+
+      if (lstFil == null) {
+
+        return;
+      }
+
+      sql = "delete from _tbl_nome where _where;";
+
+      sql = sql.replace("_tbl_nome", this.getSqlNome());
+      sql = sql.replace("where _where", lstFil != null && lstFil.size() > 0 ? "where _where" : Utils.STR_VAZIA);
+      sql = sql.replace("_where", this.getSqlWhere(lstFil));
+
+      this.getObjDb().execSql(sql);
+
+      this.dispararEvtOnApagarDispatcherView(-1);
+
+      super.apagar(-1);
+    }
+    catch (Exception ex) {
+
+      new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(126), ex);
+    }
+    finally {
+    }
+  }
+
   private void carregarDados(Cursor crs) {
 
     try {
@@ -421,7 +457,14 @@ public abstract class TabelaAndroid<T extends Dominio> extends Tabela<T> {
 
       filPesquisa = new Filtro(this.getClnPesquisa(), this.getStrPesquisa());
 
-      filPesquisa.setEnmOperador(Filtro.EnmOperador.CONTEM);
+      if (this.getClnPesquisa().getBooChavePrimaria()) {
+
+        filPesquisa.setEnmOperador(Filtro.EnmOperador.IGUAL);
+      }
+      else {
+
+        filPesquisa.setEnmOperador(Filtro.EnmOperador.CONTEM);
+      }
 
       lstFilConsulta.add(filPesquisa);
     }
@@ -2586,7 +2629,7 @@ public abstract class TabelaAndroid<T extends Dominio> extends Tabela<T> {
     }
     finally {
 
-//      this.recuperar(this.getClnChavePrimaria().getIntValor());
+      //      this.recuperar(this.getClnChavePrimaria().getIntValor());
     }
 
     return true;
@@ -2732,7 +2775,7 @@ public abstract class TabelaAndroid<T extends Dominio> extends Tabela<T> {
     _clsActCadastro = clsActFrm;
   }
 
-  private void setIntRegistroRefId(int intRegistroRefId) {
+  public void setIntRegistroRefId(int intRegistroRefId) {
 
     _intRegistroRefId = intRegistroRefId;
   }

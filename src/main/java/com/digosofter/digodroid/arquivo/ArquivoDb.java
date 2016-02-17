@@ -19,20 +19,4 @@ public class ArquivoDb extends AndroidArquivo {
     finally {
     }
   }
-
-  @Override
-  public void copiar(final String dirDestino) {
-
-    super.copiar(dirDestino);
-
-    try {
-
-    }
-    catch (Exception ex) {
-
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally {
-    }
-  }
 }

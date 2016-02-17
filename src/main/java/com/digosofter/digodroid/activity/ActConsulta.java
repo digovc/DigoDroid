@@ -9,6 +9,7 @@ import android.view.ContextMenu.ContextMenuInfo;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -16,9 +17,11 @@ import com.digosofter.digodroid.AppAndroid;
 import com.digosofter.digodroid.R;
 import com.digosofter.digodroid.adapter.AdapterConsulta;
 import com.digosofter.digodroid.animacao.Animar;
+import com.digosofter.digodroid.controle.botao.BotaoCircular;
 import com.digosofter.digodroid.controle.item.ItemConsulta;
 import com.digosofter.digodroid.controle.label.LabelGeral;
 import com.digosofter.digodroid.controle.painel.PainelGeral;
+import com.digosofter.digodroid.controle.painel.PainelGeralRelativo;
 import com.digosofter.digodroid.controle.textbox.TextBoxGeral;
 import com.digosofter.digodroid.database.TabelaAndroid;
 import com.digosofter.digodroid.erro.ErroAndroid;
@@ -27,7 +30,7 @@ import com.digosofter.digojava.database.OnChangeArg;
 import com.digosofter.digojava.database.OnTblChangeListener;
 
 /**/
-public class ActConsulta extends ActMain implements OnTblChangeListener, TextWatcher {
+public class ActConsulta extends ActMain implements OnTblChangeListener, TextWatcher, OnClickListener {
 
   public enum EnmResultado {
 
@@ -40,6 +43,7 @@ public class ActConsulta extends ActMain implements OnTblChangeListener, TextWat
    * Indica se o cadastro será aberto automaticamente.
    */
   public static final String STR_EXTRA_IN_BOO_ABRIR_CADASTRO_AUTO = "boo_abrir_cadastro_auto";
+
   /**
    * Indica se os registro da lista serão selecionados quando o usuário clicar.
    */
@@ -67,11 +71,12 @@ public class ActConsulta extends ActMain implements OnTblChangeListener, TextWat
   private AdapterConsulta _adpCadastro;
   private boolean _booAbrindoActDetalhe;
   private boolean _booRegistroSelecionavel;
+  private BotaoCircular _btnPesquisaLimpar;
   private int _intRegistroRefId = -1;
   private ItemConsulta _itmSelecionado;
   private LabelGeral _lblVazio;
   private ListView _pnlLista;
-  private PainelGeral _pnlPesquisa;
+  private PainelGeralRelativo _pnlPesquisa;
   private TabelaAndroid<?> _tbl;
   private TextBoxGeral _txtPesquisa;
   private TextView _txtTblDescricao;
@@ -93,6 +98,27 @@ public class ActConsulta extends ActMain implements OnTblChangeListener, TextWat
   @Override
   public void afterTextChanged(Editable s) {
 
+  }
+
+  private void atualizarBtnPesquisarLimparVisibilidade(final CharSequence strFiltro) {
+
+    try {
+
+      if (strFiltro == null || strFiltro.length() == 0) {
+
+        this.getBtnPesquisaLimpar().setVisibility(View.INVISIBLE);
+      }
+      else {
+
+        this.getBtnPesquisaLimpar().setVisibility(View.VISIBLE);
+      }
+    }
+    catch (Exception ex) {
+
+      new ErroAndroid("Erro inesperado.\n", ex);
+    }
+    finally {
+    }
   }
 
   public void atualizarLista() {
@@ -185,6 +211,27 @@ public class ActConsulta extends ActMain implements OnTblChangeListener, TextWat
     return _booRegistroSelecionavel;
   }
 
+  private BotaoCircular getBtnPesquisaLimpar() {
+
+    try {
+
+      if (_btnPesquisaLimpar != null) {
+
+        return _btnPesquisaLimpar;
+      }
+
+      _btnPesquisaLimpar = this.getView(R.id.actConsulta_btnPesquisaLimpar, BotaoCircular.class);
+    }
+    catch (Exception ex) {
+
+      new ErroAndroid("Erro inesperado.\n", ex);
+    }
+    finally {
+    }
+
+    return _btnPesquisaLimpar;
+  }
+
   @Override
   protected int getIntLayoutId() {
 
@@ -261,7 +308,7 @@ public class ActConsulta extends ActMain implements OnTblChangeListener, TextWat
     return _pnlLista;
   }
 
-  private PainelGeral getPnlPesquisa() {
+  private PainelGeralRelativo getPnlPesquisa() {
 
     try {
 
@@ -270,7 +317,7 @@ public class ActConsulta extends ActMain implements OnTblChangeListener, TextWat
         return _pnlPesquisa;
       }
 
-      _pnlPesquisa = this.getView(R.id.actConsulta_pnlPesquisa, PainelGeral.class);
+      _pnlPesquisa = this.getView(R.id.actConsulta_pnlPesquisa, PainelGeralRelativo.class);
     }
     catch (Exception ex) {
 
@@ -308,6 +355,7 @@ public class ActConsulta extends ActMain implements OnTblChangeListener, TextWat
       }
 
       _tbl.addEvtOnTblChangeListener(this);
+      _tbl.setIntRegistroRefId(this.getIntRegistroRefId());
     }
     catch (Exception ex) {
 
@@ -498,6 +546,24 @@ public class ActConsulta extends ActMain implements OnTblChangeListener, TextWat
 
       this.getPnlLista().setVisibility(View.GONE);
       this.getLblVazio().setVisibility(View.VISIBLE);
+    }
+    catch (Exception ex) {
+
+      new ErroAndroid("Erro inesperado.\n", ex);
+    }
+    finally {
+    }
+  }
+
+  @Override
+  public void onClick(final View v) {
+
+    try {
+
+      if (this.getBtnPesquisaLimpar().equals(v)) {
+
+        this.getTxtPesquisa().limparTexto();
+      }
     }
     catch (Exception ex) {
 
@@ -921,6 +987,7 @@ public class ActConsulta extends ActMain implements OnTblChangeListener, TextWat
 
     try {
 
+      this.atualizarBtnPesquisarLimparVisibilidade(strFiltro);
       this.getAdpCadastro().getFilter().filter(strFiltro);
     }
     catch (Exception ex) {
@@ -964,6 +1031,7 @@ public class ActConsulta extends ActMain implements OnTblChangeListener, TextWat
 
     try {
 
+      this.getBtnPesquisaLimpar().setOnClickListener(this);
       this.getTxtPesquisa().addTextChangedListener(this);
       this.getPnlLista().setLongClickable(true);
 

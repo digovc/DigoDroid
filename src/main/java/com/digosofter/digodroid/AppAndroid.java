@@ -9,6 +9,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
+import android.os.Environment;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
@@ -40,6 +41,7 @@ public abstract class AppAndroid extends App {
   private ActMain _actPrincipal;
   private boolean _booDebug;
   private Context _cnt;
+  private String _dir;
   private List<OnMenuCreateListener> _lstEvtOnMenuCreateListener;
   private List<OnMenuItemClickListener> _lstEvtOnMenuItemClickListener;
   private List<MsgUsuario> _lstMsgUsuarioPadrao;
@@ -299,6 +301,35 @@ public abstract class AppAndroid extends App {
     }
 
     return _cnt;
+  }
+
+  /**
+   * Diretório no dispositivo de armazenamento externo dedicado à arquivos da aplicação.
+   *
+   * @return Diretório no dispositivo de armazenamento externo dedicado à arquivos da aplicação.
+   */
+  public String getDir() {
+
+    try {
+
+      if (_dir != null) {
+
+        return _dir;
+      }
+
+      _dir = "_dir_completo/_app_nome";
+
+      _dir = _dir.replace("_dir_completo", Environment.getExternalStorageDirectory().getAbsolutePath());
+      _dir = _dir.replace("_app_nome", AppAndroid.getI().getStrNome());
+    }
+    catch (Exception ex) {
+
+      new Erro("Erro inesperado.\n", ex);
+    }
+    finally {
+    }
+
+    return _dir;
   }
 
   /**

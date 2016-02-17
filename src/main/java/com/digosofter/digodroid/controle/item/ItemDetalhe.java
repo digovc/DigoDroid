@@ -27,7 +27,7 @@ public class ItemDetalhe extends ItemCampo {
         return;
       }
 
-      strValorFormatado = (!Utils.getBooStrVazia(this.getCln().getStrValorExibicao())) ? this.getCln().getStrValorExibicao() : "-";
+      strValorFormatado = (!Utils.getBooStrVazia(this.getCln().getStrValorExibicao())) ? this.getCln().getStrValorExibicao() : null;
 
       this.getLblRegistroValor().setText(strValorFormatado);
       this.getLblRegistroNome().setText(this.getCln().getStrNomeExibicao() + ": ");

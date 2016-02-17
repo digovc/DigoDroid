@@ -1,16 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <item name="cor_borda" type="color">#d7d6d1</item>
+    <item name="cor_borda" type="color">#d1d2d4</item>
 
-    <item name="cor_fundo" type="color">#ffffff</item>
+    <item name="cor_fundo" type="color">#e6e7e8</item>
 
-    <item name="cor_tema" type="color">#34b458</item>
+    <item name="cor_tema" type="color">#137ea9</item>
 
-    <item name="cor_tema_claro" type="color">#9cce78</item>
+    <item name="cor_tema_claro" type="color">#94afbd</item>
 
-    <item name="cor_cinza_claro" type="color">#efeeec</item>
-
-    <item name="cor_cinza_escuro" type="color">#8b8981</item>
+    <item name="cor_cinza_escuro" type="color">#6d6e70</item>
 
 </resources>

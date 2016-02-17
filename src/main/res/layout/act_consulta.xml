@@ -1,6 +1,7 @@
 <com.digosofter.digodroid.controle.painel.PainelGeral
     android:id="@+id/actConsulta_pnlGeral"
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -8,7 +9,7 @@
     tools:context=".activitys.ActCadastro">
 
 
-    <com.digosofter.digodroid.controle.painel.PainelGeral
+    <com.digosofter.digodroid.controle.painel.PainelGeralRelativo
         android:id="@+id/actConsulta_pnlPesquisa"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -24,7 +25,17 @@
             android:inputType="textCapCharacters">
         </com.digosofter.digodroid.controle.textbox.TextBoxGeral>
 
-    </com.digosofter.digodroid.controle.painel.PainelGeral>
+        <com.digosofter.digodroid.controle.botao.BotaoCircular
+            android:id="@+id/actConsulta_btnPesquisaLimpar"
+            android:layout_width="35dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="10dp"
+            android:src="@drawable/cancelar_processo"
+            android:visibility="invisible"
+            app:cb_color="@color/cor_borda"/>
+
+    </com.digosofter.digodroid.controle.painel.PainelGeralRelativo>
 
     <com.digosofter.digodroid.controle.linha.LinhaGeral
         android:layout_width="match_parent"

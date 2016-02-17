@@ -262,6 +262,20 @@ public abstract class ActMain extends Activity {
 
   private int getIntDrawerMenuLayoutId() {
 
+    try {
+
+      if (AppAndroid.getI() == null) {
+
+        return -1;
+      }
+    }
+    catch (Exception ex) {
+
+      new ErroAndroid("Erro inesperado.\n", ex);
+    }
+    finally {
+    }
+
     return AppAndroid.getI().getIntDrawerMenuLayoutId();
   }
 
@@ -422,6 +436,11 @@ public abstract class ActMain extends Activity {
     try {
 
       if (this.getIntLayoutId() < 1) {
+
+        return;
+      }
+
+      if (this.getIntDrawerMenuLayoutId() < 1) {
 
         return;
       }

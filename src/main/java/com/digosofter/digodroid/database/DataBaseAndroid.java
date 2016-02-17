@@ -3,8 +3,6 @@ package com.digosofter.digodroid.database;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.os.Build;
-import android.os.Environment;
 
 import com.digosofter.digodroid.AppAndroid;
 import com.digosofter.digodroid.activity.ActMain;
@@ -93,24 +91,10 @@ public class DataBaseAndroid extends DataBase {
    */
   public void backup(final ActMain act) {
 
-    String dir;
-
     try {
 
-      dir = "_dir_completo/_app_nome";
-
-      dir = dir.replace("_dir_completo", Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath());
-      dir = dir.replace("_app_nome", AppAndroid.getI().getStrNome());
-
-      if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-
-        this.getArq().copiar(act, dir);
-      }
-      else {
-
-        this.getArq().copiar(dir);
-        AppAndroid.getI().notificar("Backup efetuado com sucesso.");
-      }
+      this.getArq().copiar(AppAndroid.getI().getDir());
+      AppAndroid.getI().notificar("Backup efetuado com sucesso.");
     }
     catch (Exception ex) {
 

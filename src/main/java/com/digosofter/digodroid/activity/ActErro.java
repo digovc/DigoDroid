@@ -189,6 +189,11 @@ public class ActErro extends ActMain {
 
     try {
 
+      if (this.getTxtAppNome() == null) {
+
+        return;
+      }
+
       this.montarLayoutIgnorarTodos();
       this.getTxtAppNome().setText((AppAndroid.getI() != null) ? AppAndroid.getI().getStrNome() : "App Android");
       this.getTxtErroTitulo().setText(this.getErr().getStrNome());
