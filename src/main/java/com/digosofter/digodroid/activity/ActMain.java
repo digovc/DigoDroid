@@ -486,7 +486,7 @@ public abstract class ActMain extends Activity {
 
   }
 
-  protected void mostrarTeclado(View viw) {
+  protected void mostrarTeclado(final View viw) {
 
     try {
 
@@ -495,9 +495,16 @@ public abstract class ActMain extends Activity {
         return;
       }
 
-      viw.requestFocus();
+      viw.postDelayed(new Runnable() {
+        @Override
+        public void run() {
 
-      ((InputMethodManager) this.getSystemService(Context.INPUT_METHOD_SERVICE)).toggleSoftInput(0, 0);
+          viw.requestFocus();
+
+          //          ((InputMethodManager) ActMain.this.getSystemService(Context.INPUT_METHOD_SERVICE)).toggleSoftInput(0, 0);
+          ((InputMethodManager) ActMain.this.getSystemService(Context.INPUT_METHOD_SERVICE)).showSoftInput(viw, 0);
+        }
+      }, 100);
     }
     catch (Exception ex) {
 
