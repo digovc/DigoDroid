@@ -40,6 +40,12 @@ public class ItemCampo extends ItemMain implements OnClickListener {
 
     try {
 
+      if (!this.getCln().getBooVisivelConsulta()) {
+
+        this.setVisibility(GONE);
+        return;
+      }
+
       if (crs == null) {
 
         return;
@@ -86,6 +92,8 @@ public class ItemCampo extends ItemMain implements OnClickListener {
     String strValor;
 
     try {
+
+      this.getLblRegistroValor().setText(null);
 
       strValor = crs.getString(crs.getColumnIndex(this.getCln().getSqlNome()));
 
