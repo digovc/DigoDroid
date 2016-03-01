@@ -31,7 +31,6 @@ public class CampoNumerico extends CampoAlfanumerico {
     try {
 
       this.getTxt().setEnmFormato(TextBoxGeral.EnmFormato.NUMERICO_INTEIRO);
-
     }
     catch (Exception ex) {
 

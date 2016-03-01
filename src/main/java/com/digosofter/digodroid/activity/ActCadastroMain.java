@@ -516,8 +516,12 @@ public abstract class ActCadastroMain extends ActMain {
         return;
       }
 
+      this.getTbl().limparColunas();
+
       itt = new Intent(this, this.getClass());
+
       itt.putExtra(ActCadastroMain.STR_EXTRA_IN_INT_REGISTRO_REF_ID, this.getIntRegistroRefId());
+      itt.putExtra(ActCadastroMain.STR_EXTRA_IN_INT_TBL_OBJETO_ID, this.getTbl().getIntObjetoId());
 
       this.startActivity(itt);
     }

@@ -138,7 +138,7 @@ public abstract class ActMain extends Activity {
     }
   }
 
-  private void dispararOnActivityResultListener(final int intRequestCode, final int intResultCode, final Intent ittResult) {
+  private void dispararEvtOnActivityResultListener(final int intRequestCode, final int intResultCode, final Intent ittResult) {
 
     OnActivityResultArg arg;
 
@@ -157,6 +157,11 @@ public abstract class ActMain extends Activity {
 
       for (OnActivityResultListener evt : this.getLstEvtOnActivityResultListener()) {
 
+        if (evt == null) {
+
+          continue;
+        }
+
         evt.onActivityResult(this, arg);
       }
     }
@@ -168,7 +173,7 @@ public abstract class ActMain extends Activity {
     }
   }
 
-  private void dispararOnDestruirListener() {
+  private void dispararEvtOnDestruirListener() {
 
     try {
 
@@ -178,6 +183,11 @@ public abstract class ActMain extends Activity {
       }
 
       for (OnActivityDestruirListener evt : this.getLstEvtOnActivityDestruirListener()) {
+
+        if (evt == null) {
+
+          continue;
+        }
 
         evt.onActivityDestruir(this);
       }
@@ -190,7 +200,7 @@ public abstract class ActMain extends Activity {
     }
   }
 
-  private void dispararOnRequestPermissionListener(final int intRequestCode, final String[] arrStrPermissions, final int[] intArrGrantResults) {
+  private void dispararEvtOnRequestPermissionListener(final int intRequestCode, final String[] arrStrPermissions, final int[] intArrGrantResults) {
 
     OnRequestPermissionResultArg arg;
 
@@ -208,6 +218,11 @@ public abstract class ActMain extends Activity {
       arg.setIntArrGrantResults(intArrGrantResults);
 
       for (OnRequestPermissionResultListener evt : this.getLstEvtOnRequestPermissionResultListener()) {
+
+        if (evt == null) {
+
+          continue;
+        }
 
         evt.onRequestPermissionResult(this, arg);
       }
@@ -522,7 +537,7 @@ public abstract class ActMain extends Activity {
     try {
 
       this.onActivityResultFechar(ittResult);
-      this.dispararOnActivityResultListener(intRequestCode, intResultCode, ittResult);
+      this.dispararEvtOnActivityResultListener(intRequestCode, intResultCode, ittResult);
     }
     catch (Exception ex) {
 
@@ -586,7 +601,7 @@ public abstract class ActMain extends Activity {
 
     try {
 
-      this.dispararOnDestruirListener();
+      this.dispararEvtOnDestruirListener();
 
       this.getLstEvtOnActivityDestruirListener().clear();
       this.getLstEvtOnActivityResultListener().clear();
@@ -633,7 +648,7 @@ public abstract class ActMain extends Activity {
 
     try {
 
-      this.dispararOnRequestPermissionListener(intRequestCode, arrStrPermissions, intArrGrantResults);
+      this.dispararEvtOnRequestPermissionListener(intRequestCode, arrStrPermissions, intArrGrantResults);
     }
     catch (Exception ex) {
 

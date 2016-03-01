@@ -4,8 +4,6 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.util.AttributeSet;
 
-import com.digosofter.digodroid.OnValorAlterado;
-import com.digosofter.digodroid.OnValorAlteradoArg;
 import com.digosofter.digodroid.R;
 import com.digosofter.digodroid.UtilsAndroid;
 import com.digosofter.digodroid.activity.ActMain;
@@ -14,12 +12,14 @@ import com.digosofter.digodroid.controle.label.LabelGeral;
 import com.digosofter.digodroid.controle.painel.PainelLinha;
 import com.digosofter.digodroid.database.ColunaAndroid;
 import com.digosofter.digodroid.erro.ErroAndroid;
+import com.digosofter.digojava.OnValorAlteradoArg;
+import com.digosofter.digojava.OnValorAlteradoListener;
 import com.digosofter.digojava.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class CampoMain extends PainelLinha implements OnActivityDestruirListener {
+public abstract class CampoMain extends PainelLinha implements OnActivityDestruirListener, OnValorAlteradoListener {
 
   public static final String STR_TITULO_DESCONHECIDO = "<desconhecido>";
 
@@ -29,7 +29,7 @@ public abstract class CampoMain extends PainelLinha implements OnActivityDestrui
   private double _dblValor;
   private int _intValor;
   private LabelGeral _lblTitulo;
-  private List<OnValorAlterado> _lstEvtOnValorAlterado;
+  private List<OnValorAlteradoListener> _lstEvtOnValorAlteradoListener;
   private String _strClnNomeSql;
   private String _strTitulo;
   private String _strValor;
@@ -50,7 +50,7 @@ public abstract class CampoMain extends PainelLinha implements OnActivityDestrui
     super(context, attrs, defStyleAttr);
   }
 
-  public void addEvtOnValorAlterado(OnValorAlterado evt) {
+  public void addEvtOnValorAlteradoListener(OnValorAlteradoListener evt) {
 
     try {
 
@@ -59,12 +59,12 @@ public abstract class CampoMain extends PainelLinha implements OnActivityDestrui
         return;
       }
 
-      if (this.getLstEvtOnValorAlterado().contains(evt)) {
+      if (this.getLstEvtOnValorAlteradoListener().contains(evt)) {
 
         return;
       }
 
-      this.getLstEvtOnValorAlterado().add(evt);
+      this.getLstEvtOnValorAlteradoListener().add(evt);
     }
     catch (Exception ex) {
 
@@ -84,7 +84,8 @@ public abstract class CampoMain extends PainelLinha implements OnActivityDestrui
       }
 
       this.setStrTitulo(this.getCln().getStrNomeExibicao());
-      this.addEvtOnValorAlterado(this.getCln());
+      this.addEvtOnValorAlteradoListener(this.getCln());
+      this.getCln().addEvtOnValorAlteradoListener(this);
     }
     catch (Exception ex) {
 
@@ -98,17 +99,7 @@ public abstract class CampoMain extends PainelLinha implements OnActivityDestrui
 
     try {
 
-      if (!Utils.getBooStrVazia(this.getStrValor()) && this.getStrValor().equals(this.getStrValorAnterior())) {
-
-        return;
-      }
-
-      if (!Utils.getBooStrVazia(this.getStrValorAnterior()) && this.getStrValorAnterior().equals(this.getStrValor())) {
-
-        return;
-      }
-
-      this.dispararOnValorAlterado();
+      this.dispararEvtOnValorAlteradoListener();
     }
     catch (Exception ex) {
 
@@ -118,13 +109,18 @@ public abstract class CampoMain extends PainelLinha implements OnActivityDestrui
     }
   }
 
-  private void dispararOnValorAlterado() {
+  private void dispararEvtOnValorAlteradoListener() {
 
     OnValorAlteradoArg arg;
 
     try {
 
-      if (this.getLstEvtOnValorAlterado().isEmpty()) {
+      if (this.getLstEvtOnValorAlteradoListener().isEmpty()) {
+
+        return;
+      }
+
+      if ((this.getStrValor() != null) ? (this.getStrValor().equals(this.getStrValorAnterior())) : (this.getStrValorAnterior() == null)) {
 
         return;
       }
@@ -134,7 +130,12 @@ public abstract class CampoMain extends PainelLinha implements OnActivityDestrui
       arg.setStrValor(this.getStrValor());
       arg.setStrValorAnterior(this.getStrValorAnterior());
 
-      for (OnValorAlterado evt : this.getLstEvtOnValorAlterado()) {
+      for (OnValorAlteradoListener evt : this.getLstEvtOnValorAlteradoListener()) {
+
+        if (evt == null) {
+
+          continue;
+        }
 
         evt.onValorAlterado(this, arg);
       }
@@ -216,16 +217,16 @@ public abstract class CampoMain extends PainelLinha implements OnActivityDestrui
     return _lblTitulo;
   }
 
-  private List<OnValorAlterado> getLstEvtOnValorAlterado() {
+  private List<OnValorAlteradoListener> getLstEvtOnValorAlteradoListener() {
 
     try {
 
-      if (_lstEvtOnValorAlterado != null) {
+      if (_lstEvtOnValorAlteradoListener != null) {
 
-        return _lstEvtOnValorAlterado;
+        return _lstEvtOnValorAlteradoListener;
       }
 
-      _lstEvtOnValorAlterado = new ArrayList<>();
+      _lstEvtOnValorAlteradoListener = new ArrayList<>();
     }
     catch (Exception ex) {
 
@@ -234,7 +235,7 @@ public abstract class CampoMain extends PainelLinha implements OnActivityDestrui
     finally {
     }
 
-    return _lstEvtOnValorAlterado;
+    return _lstEvtOnValorAlteradoListener;
   }
 
   public String getStrClnNomeSql() {
@@ -325,7 +326,36 @@ public abstract class CampoMain extends PainelLinha implements OnActivityDestrui
   @Override
   public void onActivityDestruir(final Object objSender) {
 
-    this.getLstEvtOnValorAlterado().clear();
+    this.getLstEvtOnValorAlteradoListener().clear();
+  }
+
+  @Override
+  public void onValorAlterado(final Object objSender, final OnValorAlteradoArg arg) {
+
+    try {
+
+      if (arg == null) {
+
+        return;
+      }
+
+      if ((arg.getStrValor() != null) ? (arg.getStrValor().equals(arg.getStrValorAnterior())) : arg.getStrValorAnterior() == null) {
+
+        return;
+      }
+
+      if (objSender.equals(this.getCln())) {
+
+        this.setStrValor(this.getCln().getStrValor());
+        return;
+      }
+    }
+    catch (Exception ex) {
+
+      new ErroAndroid("Erro inesperado.\n", ex);
+    }
+    finally {
+    }
   }
 
   /**
@@ -333,7 +363,7 @@ public abstract class CampoMain extends PainelLinha implements OnActivityDestrui
    */
   public abstract void receberFoco();
 
-  public void removerEvtOnValorAlterado(OnValorAlterado evt) {
+  public void removerEvtOnValorAlteradoListener(OnValorAlteradoListener evt) {
 
     try {
 
@@ -342,7 +372,7 @@ public abstract class CampoMain extends PainelLinha implements OnActivityDestrui
         return;
       }
 
-      this.getLstEvtOnValorAlterado().remove(evt);
+      this.getLstEvtOnValorAlteradoListener().remove(evt);
     }
     catch (Exception ex) {
 

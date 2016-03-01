@@ -5,8 +5,8 @@ import android.view.MenuItem;
 import android.view.SubMenu;
 
 import com.digosofter.digodroid.AppAndroid;
-import com.digosofter.digodroid.OnValorAlterado;
-import com.digosofter.digodroid.OnValorAlteradoArg;
+import com.digosofter.digojava.OnValorAlteradoListener;
+import com.digosofter.digojava.OnValorAlteradoArg;
 import com.digosofter.digodroid.erro.ErroAndroid;
 import com.digosofter.digojava.App;
 import com.digosofter.digojava.Utils;
@@ -16,7 +16,7 @@ import com.digosofter.digojava.database.Dominio;
 import java.lang.reflect.Field;
 import java.util.GregorianCalendar;
 
-public class ColunaAndroid extends Coluna implements OnValorAlterado {
+public class ColunaAndroid extends Coluna implements OnValorAlteradoListener {
 
   private boolean _booDominioFieldCarregado;
   private boolean _booPesquisa;

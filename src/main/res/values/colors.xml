@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <item name="cor_borda" type="color">#d1d2d4</item>
+    <item name="cor_borda" type="color">#81c2c2c2</item>
 
     <item name="cor_fundo" type="color">#e6e7e8</item>
 
