@@ -33,12 +33,16 @@ public abstract class AndroidArquivo extends Arquivo {
     }
   }
 
-  @Override
-  public void salvar() {
+  public void salvar(boolean booInformar) {
 
     super.salvar();
 
     try {
+
+      if (!booInformar) {
+
+        return;
+      }
 
       this.mostrarMensagemSalvo();
     }

@@ -938,36 +938,6 @@ public abstract class TabelaAndroid<T extends Dominio> extends Tabela<T> {
     return strResultado;
   }
 
-  private String getSqlColunasNomesCreateTable() {
-
-    String strResultado = null;
-
-    try {
-
-      strResultado = Utils.STR_VAZIA;
-
-      for (Coluna cln : this.getLstCln()) {
-
-        if (cln == null) {
-
-          continue;
-        }
-
-        strResultado += ((ColunaAndroid) cln).getSqlCreateTable();
-      }
-
-      strResultado = Utils.removerUltimaLetra(strResultado, 2);
-    }
-    catch (Exception ex) {
-
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally {
-    }
-
-    return strResultado;
-  }
-
   private String getSqlColunasNomesInsert() {
 
     String strResultado;

@@ -15,7 +15,6 @@ public class DataBaseAndroid extends DataBase {
   public static final String STR_FILE_PREFIXO = ".sqlite";
 
   private ArquivoDb _arq;
-  private boolean _booForeingKeyAtiva;
   private SQLiteDatabase _objDbEscrita;
   private SQLiteDatabase _objDbLeitura;
   private SQLiteOpenHelper _objSQLiteOpenHelper;
@@ -67,23 +66,6 @@ public class DataBaseAndroid extends DataBase {
     }
   }
 
-  private void atualizarBooForeingKeyAtiva() {
-
-    try {
-
-      this.getObjSQLiteOpenHelper().close();
-
-      this.setObjDbEscrita(null);
-      this.setObjDbLeitura(null);
-    }
-    catch (Exception ex) {
-
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally {
-    }
-  }
-
   /**
    * Salva um arquivo contendo o banco de dados compactado na memória externa.
    *
@@ -94,6 +76,7 @@ public class DataBaseAndroid extends DataBase {
     try {
 
       this.getArq().copiar(AppAndroid.getI().getDir());
+
       AppAndroid.getI().notificar("Backup efetuado com sucesso.");
     }
     catch (Exception ex) {
@@ -176,11 +159,6 @@ public class DataBaseAndroid extends DataBase {
     return _arq;
   }
 
-  private boolean getBooForeingKeyAtiva() {
-
-    return _booForeingKeyAtiva;
-  }
-
   private SQLiteDatabase getObjDbEscrita() {
 
     try {
@@ -238,8 +216,6 @@ public class DataBaseAndroid extends DataBase {
         public void onConfigure(final SQLiteDatabase objSQLiteDatabase) {
 
           super.onConfigure(objSQLiteDatabase);
-
-          DataBaseAndroid.this.onConfigureSQLiteOpenHelper(objSQLiteDatabase);
         }
 
         @Override
@@ -265,48 +241,12 @@ public class DataBaseAndroid extends DataBase {
     return _objSQLiteOpenHelper;
   }
 
-  private void onConfigureSQLiteOpenHelper(final SQLiteDatabase objSQLiteDatabase) {
-
-    try {
-
-      if (objSQLiteDatabase == null) {
-
-        return;
-      }
-
-      objSQLiteDatabase.setForeignKeyConstraintsEnabled(this.getBooForeingKeyAtiva());
-    }
-    catch (Exception ex) {
-
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally {
-    }
-
-  }
-
   private void onCreateSQLiteOpenHelper(final SQLiteDatabase objSQLiteDatabase) {
 
   }
 
   private void onUpdateSQLiteOpenHelper(final SQLiteDatabase objSQLiteDatabase, final int intOldVersion, final int intNewVersion) {
 
-  }
-
-  public void setBooForeingKeyAtiva(boolean booForeingKeyAtiva) {
-
-    try {
-
-      _booForeingKeyAtiva = booForeingKeyAtiva;
-
-      this.atualizarBooForeingKeyAtiva();
-    }
-    catch (Exception ex) {
-
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally {
-    }
   }
 
   private void setObjDbEscrita(SQLiteDatabase objDbEscrita) {
