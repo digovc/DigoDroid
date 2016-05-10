@@ -70,7 +70,7 @@ public class HttpCliente extends Objeto {
    * Envia um objeto "json" para o servidor indicado no atributo "url" e colocar deixa a resposta disponível no atributo
    * "strResposta".
    */
-  public void postJson(String jsn) {
+  public void postJson(String jsn) throws Exception {
 
     Thread thr;
 
@@ -115,11 +115,12 @@ public class HttpCliente extends Objeto {
       do {
         // TODO: Definir se fazer isso assíncrono seria melhor.
         Thread.sleep(10);
-      } while (HttpCliente.this.getEnmStatus() == EnmStatus.EM_ANDAMENTO);
+      }
+      while (HttpCliente.this.getEnmStatus() == EnmStatus.EM_ANDAMENTO);
     }
     catch (Exception ex) {
 
-      new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(0), ex);
+      throw ex;
     }
     finally {
     }
