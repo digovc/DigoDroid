@@ -7,113 +7,115 @@ import com.balysv.materialripple.MaterialRippleLayout;
 import com.digosofter.digodroid.controle.IControleMain;
 import com.digosofter.digodroid.erro.ErroAndroid;
 
-public class PainelRipple extends MaterialRippleLayout implements IControleMain {
+public class PainelRipple extends MaterialRippleLayout implements IControleMain
+{
 
-  public PainelRipple(final Context context) {
-
+  public PainelRipple(final Context context)
+  {
     super(context);
-
-    try {
-
+    try
+    {
       this.iniciar(null);
     }
-    catch (Exception ex) {
-
+    catch (Exception ex)
+    {
       new ErroAndroid("Erro inesperado.\n", ex);
     }
-    finally {
+    finally
+    {
     }
   }
 
-  public PainelRipple(final Context context, final AttributeSet attrs) {
-
+  public PainelRipple(final Context context, final AttributeSet attrs)
+  {
     super(context, attrs);
-
-    try {
-
+    try
+    {
       this.iniciar(attrs);
     }
-    catch (Exception ex) {
-
+    catch (Exception ex)
+    {
       new ErroAndroid("Erro inesperado.\n", ex);
     }
-    finally {
+    finally
+    {
     }
   }
 
-  public PainelRipple(final Context context, final AttributeSet attrs, final int defStyle) {
-
+  public PainelRipple(final Context context, final AttributeSet attrs, final int defStyle)
+  {
     super(context, attrs, defStyle);
-
-    try {
-
+    try
+    {
       this.iniciar(attrs);
     }
-    catch (Exception ex) {
-
+    catch (Exception ex)
+    {
       new ErroAndroid("Erro inesperado.\n", ex);
     }
-    finally {
+    finally
+    {
     }
   }
 
   @Override
-  public void finalizar() {
-
+  public void finalizar()
+  {
   }
 
   @Override
-  public void inicializar(final AttributeSet ats) {
-
+  public void inicializar(final AttributeSet ats)
+  {
   }
 
   @Override
-  public void inicializar() {
-
+  public void inicializar()
+  {
   }
 
   @Override
-  public void iniciar(final AttributeSet ats) {
-
-    try {
-
+  public void iniciar(final AttributeSet ats)
+  {
+    try
+    {
       this.inicializar();
       this.inicializar(ats);
       this.montarLayout();
       this.setEventos();
     }
-    catch (Exception ex) {
-
+    catch (Exception ex)
+    {
       new ErroAndroid("Erro inesperado.\n", ex);
     }
-    finally {
+    finally
+    {
     }
   }
 
   @Override
-  public void montarLayout() {
-
+  public void montarLayout()
+  {
   }
 
   @Override
-  protected void onMeasure(final int widthMeasureSpec, final int heightMeasureSpec) {
-
+  protected void onMeasure(final int widthMeasureSpec, final int heightMeasureSpec)
+  {
     super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-
-    try {
-
+    try
+    {
       this.finalizar();
     }
-    catch (Exception ex) {
-
+    catch (Exception ex)
+    {
       new ErroAndroid("Erro inesperado.\n", ex);
     }
-    finally {
+    finally
+    {
     }
   }
 
   @Override
-  public void setEventos() {
-
+  public void setEventos()
+  {
   }
 }

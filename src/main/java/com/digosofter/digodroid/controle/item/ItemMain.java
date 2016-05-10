@@ -7,20 +7,21 @@ import android.util.AttributeSet;
 import com.digosofter.digodroid.controle.painel.PainelGeral;
 import com.digosofter.digodroid.erro.ErroAndroid;
 
-public abstract class ItemMain extends PainelGeral {
+public abstract class ItemMain extends PainelGeral
+{
 
-  public ItemMain(Context context) {
-
+  public ItemMain(Context context)
+  {
     super(context);
   }
 
-  public ItemMain(Context context, AttributeSet attrs) {
-
+  public ItemMain(Context context, AttributeSet attrs)
+  {
     super(context, attrs);
   }
 
-  public ItemMain(Context context, AttributeSet attrs, int defStyleAttr) {
-
+  public ItemMain(Context context, AttributeSet attrs, int defStyleAttr)
+  {
     super(context, attrs, defStyleAttr);
   }
 
@@ -29,25 +30,25 @@ public abstract class ItemMain extends PainelGeral {
    *
    * @param crs Cursor com os dados para fazer a reciclagem do item.
    */
-  public void carregarDados(Cursor crs) {
-
+  public void carregarDados(Cursor crs)
+  {
   }
 
   @Override
-  public void inicializar() {
-
+  public void inicializar()
+  {
     super.inicializar();
-
-    try {
-
+    try
+    {
       this.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
       this.setOrientation(VERTICAL);
     }
-    catch (Exception ex) {
-
+    catch (Exception ex)
+    {
       new ErroAndroid("Erro inesperado.\n", ex);
     }
-    finally {
+    finally
+    {
     }
   }
 }

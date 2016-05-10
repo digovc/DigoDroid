@@ -18,251 +18,245 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class ActMapaMain extends ActMain implements OnLocationChangedListener, OnMapReadyCallback, OnMarkerDragListener {
+public abstract class ActMapaMain extends ActMain implements OnLocationChangedListener, OnMapReadyCallback, OnMarkerDragListener
+{
 
   private MapFragment _frgMap;
   private List<Marker> _lstObjMarker;
   private GoogleMap _objGoogleMap;
   private LocationManager _objLocationManager;
 
-  protected void addMarca(MarkerOptions objMarkerOptions) {
-
+  protected void addMarca(MarkerOptions objMarkerOptions)
+  {
     Marker mrk;
-
-    try {
-
-      if (objMarkerOptions == null) {
-
+    try
+    {
+      if (objMarkerOptions == null)
+      {
         return;
       }
-
       mrk = this.getObjGoogleMap().addMarker(objMarkerOptions);
-
-      if (mrk == null) {
-
+      if (mrk == null)
+      {
         return;
       }
-
       this.getLstObjMarker().add(mrk);
-
-      if (mrk.getPosition().latitude + mrk.getPosition().longitude == 0) {
-
+      if (mrk.getPosition().latitude + mrk.getPosition().longitude == 0)
+      {
         AppAndroid.getI().notificar("Localização desconhecida.");
         return;
       }
-
       this.getObjGoogleMap().animateCamera(CameraUpdateFactory.newLatLngZoom(mrk.getPosition(), 15));
     }
-    catch (Exception ex) {
-
+    catch (Exception ex)
+    {
       new ErroAndroid("Erro inesperado.\n", ex);
     }
-    finally {
+    finally
+    {
     }
   }
 
-  private MapFragment getFrgMap() {
-
-    try {
-
-      if (_frgMap != null) {
-
+  private MapFragment getFrgMap()
+  {
+    try
+    {
+      if (_frgMap != null)
+      {
         return _frgMap;
       }
-
       _frgMap = new MapFragment();
     }
-    catch (Exception ex) {
-
+    catch (Exception ex)
+    {
       new ErroAndroid("Erro inesperado.\n", ex);
     }
-    finally {
+    finally
+    {
     }
-
     return _frgMap;
   }
 
   protected abstract int getIntMapContainerId();
 
-  protected List<Marker> getLstObjMarker() {
-
-    try {
-
-      if (_lstObjMarker != null) {
-
+  protected List<Marker> getLstObjMarker()
+  {
+    try
+    {
+      if (_lstObjMarker != null)
+      {
         return _lstObjMarker;
       }
-
       _lstObjMarker = new ArrayList<Marker>();
     }
-    catch (Exception ex) {
-
+    catch (Exception ex)
+    {
       new ErroAndroid("Erro inesperado.\n", ex);
     }
-    finally {
+    finally
+    {
     }
-
     return _lstObjMarker;
   }
 
-  protected GoogleMap getObjGoogleMap() {
-
+  protected GoogleMap getObjGoogleMap()
+  {
     return _objGoogleMap;
   }
 
-  protected LocationManager getObjLocationManager() {
-
-    try {
-
-      if (_objLocationManager != null) {
-
+  protected LocationManager getObjLocationManager()
+  {
+    try
+    {
+      if (_objLocationManager != null)
+      {
         return _objLocationManager;
       }
-
       _objLocationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
     }
-    catch (Exception ex) {
-
+    catch (Exception ex)
+    {
       new ErroAndroid("Erro inesperado.\n", ex);
     }
-    finally {
+    finally
+    {
     }
-
     return _objLocationManager;
   }
 
   @Override
-  protected void montarLayout() {
-
+  protected void montarLayout()
+  {
     super.montarLayout();
-
-    try {
-
+    try
+    {
       this.setTitle("Mapa");
-
       this.addFragmento(this.getIntMapContainerId(), this.getFrgMap());
     }
-    catch (Exception ex) {
-
+    catch (Exception ex)
+    {
       new ErroAndroid("Erro inesperado.\n", ex);
     }
-    finally {
+    finally
+    {
     }
   }
 
-  protected void montarLayoutMapa() {
-
-    try {
-
+  protected void montarLayoutMapa()
+  {
+    try
+    {
       this.setEventosMapa();
     }
-    catch (Exception ex) {
-
+    catch (Exception ex)
+    {
       new ErroAndroid("Erro inesperado.\n", ex);
     }
-    finally {
+    finally
+    {
     }
   }
 
   @Override
-  protected void onCreate(Bundle savedInstanceState) {
-
+  protected void onCreate(Bundle savedInstanceState)
+  {
     super.onCreate(savedInstanceState);
-
-    try {
-
+    try
+    {
       this.getFrgMap().getMapAsync(this);
     }
-    catch (Exception ex) {
-
+    catch (Exception ex)
+    {
       new ErroAndroid("Erro inesperado.\n", ex);
     }
-    finally {
+    finally
+    {
     }
   }
 
   @Override
-  public void onMapReady(GoogleMap objGoogleMap) {
-
-    try {
-
-      if (objGoogleMap == null) {
-
+  public void onMapReady(GoogleMap objGoogleMap)
+  {
+    try
+    {
+      if (objGoogleMap == null)
+      {
         return;
       }
-
       this.setObjGoogleMap(objGoogleMap);
-
       this.montarLayoutMapa();
     }
-    catch (Exception ex) {
-
+    catch (Exception ex)
+    {
       new ErroAndroid("Erro inesperado.\n", ex);
     }
-    finally {
+    finally
+    {
     }
   }
 
   @Override
-  public void onMarkerDrag(Marker mrk) {
-
+  public void onMarkerDrag(Marker mrk)
+  {
   }
 
   @Override
-  public void onMarkerDragEnd(Marker mrk) {
-
-    try {
-
-      if (mrk == null) {
-
+  public void onMarkerDragEnd(Marker mrk)
+  {
+    try
+    {
+      if (mrk == null)
+      {
         return;
       }
-
       mrk.setPosition(mrk.getPosition());
     }
-    catch (Exception ex) {
-
+    catch (Exception ex)
+    {
       new ErroAndroid("Erro inesperado.\n", ex);
     }
-    finally {
+    finally
+    {
     }
   }
 
   @Override
-  public void onMarkerDragStart(Marker mrk) {
-
+  public void onMarkerDragStart(Marker mrk)
+  {
   }
 
-  protected void setEventosMapa() {
-
-    try {
-
+  protected void setEventosMapa()
+  {
+    try
+    {
       this.getObjGoogleMap().setOnMarkerDragListener(this);
     }
-    catch (Exception ex) {
-
+    catch (Exception ex)
+    {
       new ErroAndroid("Erro inesperado.\n", ex);
     }
-    finally {
+    finally
+    {
     }
   }
 
-  private void setObjGoogleMap(GoogleMap objGoogleMap) {
-
+  private void setObjGoogleMap(GoogleMap objGoogleMap)
+  {
     _objGoogleMap = objGoogleMap;
   }
 
-  protected void solicitarLocalizacao() {
-
-    try {
-
+  protected void solicitarLocalizacao()
+  {
+    try
+    {
       this.getObjLocationManager().requestSingleUpdate(LocationManager.GPS_PROVIDER, null);
     }
-    catch (Exception ex) {
-
+    catch (Exception ex)
+    {
       new ErroAndroid("Erro inesperado.\n", ex);
     }
-    finally {
+    finally
+    {
     }
   }
 }

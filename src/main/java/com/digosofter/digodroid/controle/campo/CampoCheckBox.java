@@ -6,101 +6,102 @@ import android.util.AttributeSet;
 import com.digosofter.digodroid.controle.checkbox.CheckBoxGeral;
 import com.digosofter.digodroid.erro.ErroAndroid;
 
-public class CampoCheckBox extends CampoMain {
+public class CampoCheckBox extends CampoMain
+{
 
   private CheckBoxGeral _ckb;
 
-  public CampoCheckBox(Context context) {
-
+  public CampoCheckBox(Context context)
+  {
     super(context);
   }
 
-  public CampoCheckBox(Context context, AttributeSet attrs) {
-
+  public CampoCheckBox(Context context, AttributeSet attrs)
+  {
     super(context, attrs);
   }
 
-  public CampoCheckBox(Context context, AttributeSet attrs, int defStyleAttr) {
-
+  public CampoCheckBox(Context context, AttributeSet attrs, int defStyleAttr)
+  {
     super(context, attrs, defStyleAttr);
   }
 
-  private CheckBoxGeral getCkb() {
-
-    try {
-
-      if (_ckb != null) {
-
+  private CheckBoxGeral getCkb()
+  {
+    try
+    {
+      if (_ckb != null)
+      {
         return _ckb;
       }
-
       _ckb = new CheckBoxGeral(this.getContext());
 
     }
-    catch (Exception ex) {
-
+    catch (Exception ex)
+    {
       new ErroAndroid("Erro inesperado.\n", ex);
     }
-    finally {
+    finally
+    {
     }
-
     return _ckb;
   }
 
   @Override
-  public void inicializar() {
-
+  public void inicializar()
+  {
     super.inicializar();
-
-    try {
-
+    try
+    {
       this.inicializarCkb();
 
     }
-    catch (Exception ex) {
-
+    catch (Exception ex)
+    {
       new ErroAndroid("Erro inesperado.\n", ex);
     }
-    finally {
+    finally
+    {
     }
   }
 
-  private void inicializarCkb() {
-
-    try {
-
+  private void inicializarCkb()
+  {
+    try
+    {
       this.getCkb().setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
 
     }
-    catch (Exception ex) {
-
+    catch (Exception ex)
+    {
       new ErroAndroid("Erro inesperado.\n", ex);
     }
-    finally {
+    finally
+    {
     }
   }
 
   @Override
-  public void montarLayout() {
-
+  public void montarLayout()
+  {
     super.montarLayout();
-
-    try {
-
+    try
+    {
       this.addView(this.getCkb());
 
     }
-    catch (Exception ex) {
-
+    catch (Exception ex)
+    {
       new ErroAndroid("Erro inesperado.\n", ex);
     }
-    finally {
+    finally
+    {
     }
   }
 
   @Override
-  public void receberFoco() {
-
+  public void receberFoco()
+  {
     this.getCkb().requestFocus();
   }
 }

@@ -10,155 +10,158 @@ import com.digosofter.digodroid.controle.campo.CampoMain;
 import com.digosofter.digodroid.erro.ErroAndroid;
 import com.digosofter.digojava.Utils;
 
-public class RadioButtonGeral extends RadioButton implements IControleMain {
+public class RadioButtonGeral extends RadioButton implements IControleMain
+{
 
   private String _strTitulo;
 
-  public RadioButtonGeral(Context context) {
-
+  public RadioButtonGeral(Context context)
+  {
     super(context);
-
-    try {
-
+    try
+    {
       this.iniciar(null);
 
     }
-    catch (Exception ex) {
-
+    catch (Exception ex)
+    {
       new ErroAndroid("Erro inesperado.\n", ex);
     }
-    finally {
+    finally
+    {
     }
   }
 
-  public RadioButtonGeral(Context context, AttributeSet attrs) {
-
+  public RadioButtonGeral(Context context, AttributeSet attrs)
+  {
     super(context, attrs);
-
-    try {
-
+    try
+    {
       this.iniciar(attrs);
 
     }
-    catch (Exception ex) {
-
+    catch (Exception ex)
+    {
       new ErroAndroid("Erro inesperado.\n", ex);
     }
-    finally {
+    finally
+    {
     }
   }
 
-  public RadioButtonGeral(Context context, AttributeSet attrs, int defStyleAttr) {
-
+  public RadioButtonGeral(Context context, AttributeSet attrs, int defStyleAttr)
+  {
     super(context, attrs, defStyleAttr);
-
-    try {
-
+    try
+    {
       this.iniciar(attrs);
 
     }
-    catch (Exception ex) {
-
+    catch (Exception ex)
+    {
       new ErroAndroid("Erro inesperado.\n", ex);
     }
-    finally {
+    finally
+    {
     }
   }
 
-  private void atualizarStrTitulo() {
-
-    try {
-
+  private void atualizarStrTitulo()
+  {
+    try
+    {
       this.setText((!Utils.getBooStrVazia(this.getStrTitulo())) ? this.getStrTitulo() : CampoMain.STR_TITULO_DESCONHECIDO);
 
     }
-    catch (Exception ex) {
-
+    catch (Exception ex)
+    {
       new ErroAndroid("Erro inesperado.\n", ex);
     }
-    finally {
+    finally
+    {
     }
 
   }
 
   @Override
-  public void finalizar() {
-
+  public void finalizar()
+  {
   }
 
-  private String getStrTitulo() {
-
+  private String getStrTitulo()
+  {
     return _strTitulo;
   }
 
   @Override
-  public void inicializar(AttributeSet ats) {
-
+  public void inicializar(AttributeSet ats)
+  {
   }
 
   @Override
-  public void inicializar() {
-
-    try {
-
+  public void inicializar()
+  {
+    try
+    {
       this.setStrTitulo(CampoMain.STR_TITULO_DESCONHECIDO);
-
       this.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
 
     }
-    catch (Exception ex) {
-
+    catch (Exception ex)
+    {
       new ErroAndroid("Erro inesperado.\n", ex);
     }
-    finally {
+    finally
+    {
     }
   }
 
   @Override
-  public void iniciar(AttributeSet ats) {
-
-    try {
-
+  public void iniciar(AttributeSet ats)
+  {
+    try
+    {
       this.inicializar();
       this.inicializar(ats);
       this.montarLayout();
       this.setEventos();
 
     }
-    catch (Exception ex) {
-
+    catch (Exception ex)
+    {
       new ErroAndroid("Erro inesperado.\n", ex);
     }
-    finally {
+    finally
+    {
     }
   }
 
   @Override
-  public void montarLayout() {
-
+  public void montarLayout()
+  {
   }
 
   @Override
-  protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-
+  protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec)
+  {
     super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-
-    try {
-
+    try
+    {
       this.finalizar();
 
     }
-    catch (Exception ex) {
-
+    catch (Exception ex)
+    {
       new ErroAndroid("Erro inesperado.\n", ex);
     }
-    finally {
+    finally
+    {
     }
   }
 
   @Override
-  public void setEventos() {
-
+  public void setEventos()
+  {
   }
 
   /**
@@ -166,20 +169,20 @@ public class RadioButtonGeral extends RadioButton implements IControleMain {
    *
    * @param strTitulo Título deste controle.
    */
-  public void setStrTitulo(String strTitulo) {
-
-    try {
-
+  public void setStrTitulo(String strTitulo)
+  {
+    try
+    {
       _strTitulo = strTitulo;
-
       this.atualizarStrTitulo();
 
     }
-    catch (Exception ex) {
-
+    catch (Exception ex)
+    {
       new ErroAndroid("Erro inesperado.\n", ex);
     }
-    finally {
+    finally
+    {
     }
   }
 }

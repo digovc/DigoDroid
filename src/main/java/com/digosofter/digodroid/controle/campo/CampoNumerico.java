@@ -6,37 +6,38 @@ import android.util.AttributeSet;
 import com.digosofter.digodroid.controle.textbox.TextBoxGeral;
 import com.digosofter.digodroid.erro.ErroAndroid;
 
-public class CampoNumerico extends CampoAlfanumerico {
+public class CampoNumerico extends CampoAlfanumerico
+{
 
-  public CampoNumerico(Context context) {
-
+  public CampoNumerico(Context context)
+  {
     super(context);
   }
 
-  public CampoNumerico(Context context, AttributeSet attrs) {
-
+  public CampoNumerico(Context context, AttributeSet attrs)
+  {
     super(context, attrs);
   }
 
-  public CampoNumerico(Context context, AttributeSet attrs, int defStyleAttr) {
-
+  public CampoNumerico(Context context, AttributeSet attrs, int defStyleAttr)
+  {
     super(context, attrs, defStyleAttr);
   }
 
   @Override
-  public void inicializar() {
-
+  public void inicializar()
+  {
     super.inicializar();
-
-    try {
-
+    try
+    {
       this.getTxt().setEnmFormato(TextBoxGeral.EnmFormato.NUMERICO_INTEIRO);
     }
-    catch (Exception ex) {
-
+    catch (Exception ex)
+    {
       new ErroAndroid("Erro inesperado.\n", ex);
     }
-    finally {
+    finally
+    {
     }
   }
 }

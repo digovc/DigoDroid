@@ -8,66 +8,61 @@ import com.digosofter.digodroid.AppAndroid;
 import com.digosofter.digodroid.R;
 import com.digosofter.digojava.Utils;
 
-public class ActSqlExecutor extends ActMain implements View.OnClickListener {
+public class ActSqlExecutor extends ActMain implements View.OnClickListener
+{
 
   private Button _btnExecutarScript;
   private EditText _txtSqlScript;
 
-  private void executarScript() {
-
-    if (Utils.getBooStrVazia(this.getTxtSqlScript().getText().toString())) {
-
+  private void executarScript()
+  {
+    if (Utils.getBooStrVazia(this.getTxtSqlScript().getText().toString()))
+    {
       return;
     }
-
     AppAndroid.getI().getObjDbPrincipal().execSql(this.getTxtSqlScript().getText().toString());
   }
 
-  private Button getBtnExecutarScript() {
-
-    if (_btnExecutarScript != null) {
-
+  private Button getBtnExecutarScript()
+  {
+    if (_btnExecutarScript != null)
+    {
       return _btnExecutarScript;
     }
-
     _btnExecutarScript = this.getView(R.id.actSqlExecutor_btnExecutarScript, Button.class);
-
     return _btnExecutarScript;
   }
 
   @Override
-  protected int getIntLayoutId() {
-
+  protected int getIntLayoutId()
+  {
     return R.layout.act_sql_executor;
   }
 
-  private EditText getTxtSqlScript() {
-
-    if (_txtSqlScript != null) {
-
+  private EditText getTxtSqlScript()
+  {
+    if (_txtSqlScript != null)
+    {
       return _txtSqlScript;
     }
-
     _txtSqlScript = this.getView(R.id.actSqlExecutor_txtSqlScript, EditText.class);
-
     return _txtSqlScript;
   }
 
   @Override
-  public void onClick(final View viw) {
-
-    if (this.getBtnExecutarScript().equals(viw)) {
-
+  public void onClick(final View viw)
+  {
+    if (this.getBtnExecutarScript().equals(viw))
+    {
       this.executarScript();
       return;
     }
   }
 
   @Override
-  protected void setEventos() {
-
+  protected void setEventos()
+  {
     super.setEventos();
-
     this.getBtnExecutarScript().setOnClickListener(this);
   }
 }

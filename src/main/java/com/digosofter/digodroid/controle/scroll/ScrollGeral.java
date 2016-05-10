@@ -7,134 +7,136 @@ import android.widget.ScrollView;
 import com.digosofter.digodroid.controle.IControleMain;
 import com.digosofter.digodroid.erro.ErroAndroid;
 
-public class ScrollGeral extends ScrollView implements IControleMain {
+public class ScrollGeral extends ScrollView implements IControleMain
+{
 
-  public ScrollGeral(Context context) {
-
+  public ScrollGeral(Context context)
+  {
     super(context);
-
-    try {
-
+    try
+    {
       this.iniciar(null);
 
     }
-    catch (Exception ex) {
-
+    catch (Exception ex)
+    {
       new ErroAndroid("Erro inesperado.\n", ex);
     }
-    finally {
+    finally
+    {
     }
   }
 
-  public ScrollGeral(Context context, AttributeSet attrs) {
-
+  public ScrollGeral(Context context, AttributeSet attrs)
+  {
     super(context, attrs);
-
-    try {
-
+    try
+    {
       this.iniciar(attrs);
 
     }
-    catch (Exception ex) {
-
+    catch (Exception ex)
+    {
       new ErroAndroid("Erro inesperado.\n", ex);
     }
-    finally {
+    finally
+    {
     }
   }
 
-  public ScrollGeral(Context context, AttributeSet attrs, int defStyleAttr) {
-
+  public ScrollGeral(Context context, AttributeSet attrs, int defStyleAttr)
+  {
     super(context, attrs, defStyleAttr);
-
-    try {
-
+    try
+    {
       this.iniciar(attrs);
 
     }
-    catch (Exception ex) {
-
+    catch (Exception ex)
+    {
       new ErroAndroid("Erro inesperado.\n", ex);
     }
-    finally {
+    finally
+    {
     }
   }
 
   @Override
-  public void finalizar() {
-
+  public void finalizar()
+  {
   }
 
   @Override
-  public void inicializar(AttributeSet ats) {
-
+  public void inicializar(AttributeSet ats)
+  {
   }
 
   @Override
-  public void inicializar() {
-
+  public void inicializar()
+  {
   }
 
   @Override
-  public void iniciar(AttributeSet ats) {
-
-    try {
-
+  public void iniciar(AttributeSet ats)
+  {
+    try
+    {
       this.inicializar();
       this.inicializar(ats);
       this.montarLayout();
       this.setEventos();
 
     }
-    catch (Exception ex) {
-
+    catch (Exception ex)
+    {
       new ErroAndroid("Erro inesperado.\n", ex);
     }
-    finally {
+    finally
+    {
     }
   }
 
   @Override
-  public void montarLayout() {
-
+  public void montarLayout()
+  {
   }
 
   /**
    * Move o scroll para o seu fundo.
    */
-  public void moverBaixo() {
-
+  public void moverBaixo()
+  {
     this.fullScroll(ScrollView.FOCUS_DOWN);
   }
 
   /**
    * Move o scroll para o seu topo.
    */
-  public void moverCima() {
-
+  public void moverCima()
+  {
     this.fullScroll(ScrollView.FOCUS_UP);
   }
 
   @Override
-  protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-
+  protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec)
+  {
     super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-
-    try {
-
+    try
+    {
       this.finalizar();
 
     }
-    catch (Exception ex) {
-
+    catch (Exception ex)
+    {
       new ErroAndroid("Erro inesperado.\n", ex);
     }
-    finally {
+    finally
+    {
     }
   }
 
   @Override
-  public void setEventos() {
-
+  public void setEventos()
+  {
   }
 }

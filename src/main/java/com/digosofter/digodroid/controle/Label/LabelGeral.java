@@ -11,197 +11,201 @@ import com.digosofter.digodroid.controle.IControleMain;
 import com.digosofter.digodroid.design.TemaDefault;
 import com.digosofter.digodroid.erro.ErroAndroid;
 
-public class LabelGeral extends TextView implements IControleMain {
+public class LabelGeral extends TextView implements IControleMain
+{
 
   private int _corTexto;
   private TemaDefault.EnmFonteTamanho _enmFonteTamanho;
   private int _intTexto;
 
-  public LabelGeral(Context context) {
-
+  public LabelGeral(Context context)
+  {
     super(context);
-
-    try {
-
+    try
+    {
       this.iniciar(null);
     }
-    catch (Exception ex) {
-
+    catch (Exception ex)
+    {
       new ErroAndroid("Erro inesperado.\n", ex);
     }
-    finally {
+    finally
+    {
     }
   }
 
-  public LabelGeral(Context context, AttributeSet attrs) {
-
+  public LabelGeral(Context context, AttributeSet attrs)
+  {
     super(context, attrs);
-
-    try {
-
+    try
+    {
       this.iniciar(attrs);
     }
-    catch (Exception ex) {
-
+    catch (Exception ex)
+    {
       new ErroAndroid("Erro inesperado.\n", ex);
     }
-    finally {
+    finally
+    {
     }
   }
 
-  public LabelGeral(Context context, AttributeSet attrs, int defStyleAttr) {
-
+  public LabelGeral(Context context, AttributeSet attrs, int defStyleAttr)
+  {
     super(context, attrs, defStyleAttr);
-
-    try {
-
+    try
+    {
       this.iniciar(attrs);
     }
-    catch (Exception ex) {
-
+    catch (Exception ex)
+    {
       new ErroAndroid("Erro inesperado.\n", ex);
     }
-    finally {
+    finally
+    {
     }
   }
 
-  private void atualizarCorTexto() {
-
-    try {
-
+  private void atualizarCorTexto()
+  {
+    try
+    {
       this.setTextColor(this.getCorTexto());
     }
-    catch (Exception ex) {
-
+    catch (Exception ex)
+    {
       new ErroAndroid("Erro inesperado.\n", ex);
     }
-    finally {
+    finally
+    {
     }
   }
 
-  private void atualizarEnmFonteTamanho() {
-
-    try {
-
+  private void atualizarEnmFonteTamanho()
+  {
+    try
+    {
       this.setTextSize(TypedValue.COMPLEX_UNIT_SP, TemaDefault.getI().enmFonteTamanhoToInt(this.getEnmFonteTamanho()));
     }
-    catch (Exception ex) {
-
+    catch (Exception ex)
+    {
       new ErroAndroid("Erro inesperado.\n", ex);
     }
-    finally {
+    finally
+    {
     }
 
   }
 
   @Override
-  public void finalizar() {
-
+  public void finalizar()
+  {
   }
 
-  private int getCorTexto() {
-
+  private int getCorTexto()
+  {
     return _corTexto;
   }
 
-  private TemaDefault.EnmFonteTamanho getEnmFonteTamanho() {
-
+  private TemaDefault.EnmFonteTamanho getEnmFonteTamanho()
+  {
     return _enmFonteTamanho;
   }
 
-  public int getIntTexto() {
-
-    try {
-
+  public int getIntTexto()
+  {
+    try
+    {
       _intTexto = Integer.valueOf(this.getText().toString());
     }
-    catch (Exception ex) {
-
+    catch (Exception ex)
+    {
       return 0;
     }
-    finally {
+    finally
+    {
     }
-
     return _intTexto;
   }
 
   @Override
-  public void inicializar() {
-
-    try {
-
+  public void inicializar()
+  {
+    try
+    {
       this.setEnmFonteTamanho(TemaDefault.EnmFonteTamanho.NORMAL);
     }
-    catch (Exception ex) {
-
+    catch (Exception ex)
+    {
       new ErroAndroid("Erro inesperado.\n", ex);
     }
-    finally {
+    finally
+    {
     }
   }
 
   @Override
-  public void inicializar(AttributeSet ats) {
-
+  public void inicializar(AttributeSet ats)
+  {
     int intFonteTamanho;
     TypedArray objTypedArray;
-
-    try {
-
-      if (ats == null) {
-
+    try
+    {
+      if (ats == null)
+      {
         return;
       }
-
       objTypedArray = this.getContext().obtainStyledAttributes(ats, R.styleable.LabelGeral);
       intFonteTamanho = objTypedArray.getInt(R.styleable.LabelGeral_enmFonteTamanho, 2);
       this.setEnmFonteTamanho(TemaDefault.getI().intToEnmFonteTamanho(intFonteTamanho));
     }
-    catch (Exception ex) {
-
+    catch (Exception ex)
+    {
       new ErroAndroid("Erro inesperado.\n", ex);
     }
-    finally {
+    finally
+    {
     }
   }
 
   @Override
-  public void iniciar(AttributeSet ats) {
-
-    try {
-
+  public void iniciar(AttributeSet ats)
+  {
+    try
+    {
       this.inicializar();
       this.inicializar(ats);
       this.montarLayout();
       this.setEventos();
     }
-    catch (Exception ex) {
-
+    catch (Exception ex)
+    {
       new ErroAndroid("Erro inesperado.\n", ex);
     }
-    finally {
+    finally
+    {
     }
   }
 
   @Override
-  public void montarLayout() {
-
+  public void montarLayout()
+  {
   }
 
   @Override
-  protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-
+  protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec)
+  {
     super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-
-    try {
-
+    try
+    {
       this.finalizar();
     }
-    catch (Exception ex) {
-
+    catch (Exception ex)
+    {
       new ErroAndroid("Erro inesperado.\n", ex);
     }
-    finally {
+    finally
+    {
     }
   }
 
@@ -210,56 +214,56 @@ public class LabelGeral extends TextView implements IControleMain {
    *
    * @param corTexto Cor do texto.
    */
-  public void setCorTexto(int corTexto) {
-
-    try {
-
+  public void setCorTexto(int corTexto)
+  {
+    try
+    {
       _corTexto = corTexto;
-
       this.atualizarCorTexto();
     }
-    catch (Exception ex) {
-
+    catch (Exception ex)
+    {
       new ErroAndroid("Erro inesperado.\n", ex);
     }
-    finally {
+    finally
+    {
     }
   }
 
-  public void setEnmFonteTamanho(TemaDefault.EnmFonteTamanho enmFonteTamanho) {
-
-    try {
-
+  public void setEnmFonteTamanho(TemaDefault.EnmFonteTamanho enmFonteTamanho)
+  {
+    try
+    {
       _enmFonteTamanho = enmFonteTamanho;
-
       this.atualizarEnmFonteTamanho();
     }
-    catch (Exception ex) {
-
+    catch (Exception ex)
+    {
       new ErroAndroid("Erro inesperado.\n", ex);
     }
-    finally {
+    finally
+    {
     }
   }
 
   @Override
-  public void setEventos() {
-
+  public void setEventos()
+  {
   }
 
-  public void setIntTexto(int intTexto) {
-
-    try {
-
+  public void setIntTexto(int intTexto)
+  {
+    try
+    {
       _intTexto = intTexto;
-
       this.setText(String.valueOf(_intTexto));
     }
-    catch (Exception ex) {
-
+    catch (Exception ex)
+    {
       this.setText(null);
     }
-    finally {
+    finally
+    {
     }
   }
 }

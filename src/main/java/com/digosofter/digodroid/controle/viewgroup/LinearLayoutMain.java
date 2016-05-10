@@ -9,64 +9,65 @@ import com.digosofter.digodroid.controle.IControleMain;
 import com.digosofter.digodroid.design.TemaDefault;
 import com.digosofter.digodroid.erro.ErroAndroid;
 
-public abstract class LinearLayoutMain extends LinearLayout implements IControleMain {
+public abstract class LinearLayoutMain extends LinearLayout implements IControleMain
+{
 
-  public LinearLayoutMain(Context context) {
-
+  public LinearLayoutMain(Context context)
+  {
     super(context);
-
-    try {
-
+    try
+    {
       this.iniciar(null);
     }
-    catch (Exception ex) {
-
+    catch (Exception ex)
+    {
       new ErroAndroid("Erro inesperado.\n", ex);
     }
-    finally {
+    finally
+    {
     }
   }
 
-  public LinearLayoutMain(Context context, AttributeSet attrs) {
-
+  public LinearLayoutMain(Context context, AttributeSet attrs)
+  {
     super(context, attrs);
-
-    try {
-
+    try
+    {
       this.iniciar(attrs);
     }
-    catch (Exception ex) {
-
+    catch (Exception ex)
+    {
       new ErroAndroid("Erro inesperado.\n", ex);
     }
-    finally {
+    finally
+    {
     }
   }
 
-  public LinearLayoutMain(Context context, AttributeSet attrs, int defStyleAttr) {
-
+  public LinearLayoutMain(Context context, AttributeSet attrs, int defStyleAttr)
+  {
     super(context, attrs, defStyleAttr);
-
-    try {
-
+    try
+    {
       this.inicializar(attrs);
     }
-    catch (Exception ex) {
-
+    catch (Exception ex)
+    {
       new ErroAndroid("Erro inesperado.\n", ex);
     }
-    finally {
+    finally
+    {
     }
   }
 
   @Override
-  public void finalizar() {
-
+  public void finalizar()
+  {
   }
 
   @Override
-  public void inicializar(AttributeSet ats) {
-
+  public void inicializar(AttributeSet ats)
+  {
     //    TypedArray objTypedArray;
     //
     //    try {
@@ -88,63 +89,65 @@ public abstract class LinearLayoutMain extends LinearLayout implements IControle
   }
 
   @Override
-  public void inicializar() {
-
-    try {
-
+  public void inicializar()
+  {
+    try
+    {
       this.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
     }
-    catch (Exception ex) {
-
+    catch (Exception ex)
+    {
       new ErroAndroid("Erro inesperado.\n", ex);
     }
-    finally {
+    finally
+    {
     }
   }
 
   @Override
-  public void iniciar(AttributeSet ats) {
-
-    try {
-
+  public void iniciar(AttributeSet ats)
+  {
+    try
+    {
       this.inicializar(ats);
       this.inicializar();
       this.montarLayout();
       this.setEventos();
     }
-    catch (Exception ex) {
-
+    catch (Exception ex)
+    {
       new ErroAndroid("Erro inesperado.\n", ex);
     }
-    finally {
+    finally
+    {
     }
   }
 
   @Override
-  public void montarLayout() {
-
+  public void montarLayout()
+  {
   }
 
   @Override
-  protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-
+  protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec)
+  {
     super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-
-    try {
-
+    try
+    {
       this.finalizar();
     }
-    catch (Exception ex) {
-
+    catch (Exception ex)
+    {
       new ErroAndroid("Erro inesperado.\n", ex);
     }
-    finally {
+    finally
+    {
     }
   }
 
   @Override
-  public void setEventos() {
-
+  public void setEventos()
+  {
   }
 
   /**
@@ -152,19 +155,19 @@ public abstract class LinearLayoutMain extends LinearLayout implements IControle
    *
    * @param intPaddingPx Valor em "pixels" que será convertido em "density pixels" e indicará o espaçamento interno.
    */
-  public void setIntPadding(int intPaddingPx) {
-
-    try {
-
+  public void setIntPadding(int intPaddingPx)
+  {
+    try
+    {
       intPaddingPx = UtilsAndroid.dpToPx(TemaDefault.getI().getIntEspacamento(), this.getContext());
-
       this.setPadding(intPaddingPx, intPaddingPx, intPaddingPx, intPaddingPx);
     }
-    catch (Exception ex) {
-
+    catch (Exception ex)
+    {
       new ErroAndroid("Erro inesperado.\n", ex);
     }
-    finally {
+    finally
+    {
     }
   }
 }

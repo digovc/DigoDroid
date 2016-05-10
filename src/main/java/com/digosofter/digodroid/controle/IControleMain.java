@@ -1,9 +1,9 @@
 package com.digosofter.digodroid.controle;
 
-import android.app.Activity;
 import android.util.AttributeSet;
 
-public interface IControleMain {
+public interface IControleMain
+{
 
   /**
    * Responsável por fazer os ajustes finais antes de desenhar este controle na tela. Este método deve ser chamado
@@ -30,7 +30,7 @@ public interface IControleMain {
    * Este método deve ser chamado dentro de todos os contrutores do controles que implementam esta interface. Isso
    * garante que o ciclo seja realizado. Dentro da implementação deste método os demais métodos do ciclo devem ser
    * chamado, exemplo:
-   * <p/>
+   * <p>
    * {@link #inicializar(AttributeSet)} {@link #inicializar()} {@link #montarLayout()} {@link #setEventos()}
    *
    * @param ats Possíveis atributos que serão passados pelo API do android caso este controle tenha sido declarado em um

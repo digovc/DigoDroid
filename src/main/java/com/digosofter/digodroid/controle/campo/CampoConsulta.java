@@ -13,252 +13,232 @@ import com.digosofter.digodroid.database.TabelaAndroid;
 import com.digosofter.digodroid.database.ViewAndroid;
 import com.digosofter.digodroid.erro.ErroAndroid;
 
-public class CampoConsulta extends CampoMain implements View.OnClickListener {
+public class CampoConsulta extends CampoMain implements View.OnClickListener
+{
 
   private BotaoGeral _btn;
 
-  public CampoConsulta(Context context) {
-
+  public CampoConsulta(Context context)
+  {
     super(context);
   }
 
-  public CampoConsulta(Context context, AttributeSet attrs) {
-
+  public CampoConsulta(Context context, AttributeSet attrs)
+  {
     super(context, attrs);
   }
 
-  public CampoConsulta(Context context, AttributeSet attrs, int defStyleAttr) {
-
+  public CampoConsulta(Context context, AttributeSet attrs, int defStyleAttr)
+  {
     super(context, attrs, defStyleAttr);
   }
 
   @Override
-  protected void atualizarStrValor() {
-
+  protected void atualizarStrValor()
+  {
     super.atualizarStrValor();
-
-    try {
-
+    try
+    {
       this.atualizarStrValorNome();
     }
-    catch (Exception ex) {
-
+    catch (Exception ex)
+    {
       new ErroAndroid("Erro inesperado.\n", ex);
     }
-    finally {
+    finally
+    {
     }
   }
 
-  private void atualizarStrValorNome() {
-
+  private void atualizarStrValorNome()
+  {
     String strNome;
-
-    try {
-
-      if (this.getCln() == null) {
-
+    try
+    {
+      if (this.getCln() == null)
+      {
         return;
       }
-
-      if (this.getCln().getClnRef() == null) {
-
+      if (this.getCln().getClnRef() == null)
+      {
         return;
       }
-
-      if (this.getCln().getClnRef().getTbl() == null) {
-
+      if (this.getCln().getClnRef().getTbl() == null)
+      {
         return;
       }
-
-      if (this.getIntValor() < 1) {
-
+      if (this.getIntValor() < 1)
+      {
         return;
       }
-
       strNome = ((TabelaAndroid) this.getCln().getClnRef().getTbl()).getViwPrincipal().recuperar(this.getIntValor()).getClnNome().getStrValor();
-
       this.getBtn().setText(strNome);
     }
-    catch (Exception ex) {
-
+    catch (Exception ex)
+    {
       new ErroAndroid("Erro inesperado.\n", ex);
     }
-    finally {
+    finally
+    {
     }
   }
 
-  private BotaoGeral getBtn() {
-
-    try {
-
-      if (_btn != null) {
-
+  private BotaoGeral getBtn()
+  {
+    try
+    {
+      if (_btn != null)
+      {
         return _btn;
       }
-
       _btn = new BotaoGeral(this.getContext());
     }
-    catch (Exception ex) {
-
+    catch (Exception ex)
+    {
       new ErroAndroid("Erro inesperado.\n", ex);
     }
-    finally {
+    finally
+    {
     }
-
     return _btn;
   }
 
   @Override
-  public void inicializar() {
-
+  public void inicializar()
+  {
     super.inicializar();
-
-    try {
-
+    try
+    {
       this.getBtn().setFocusable(true);
     }
-    catch (Exception ex) {
-
+    catch (Exception ex)
+    {
       new ErroAndroid("Erro inesperado.\n", ex);
     }
-    finally {
+    finally
+    {
     }
   }
 
   @Override
-  public void montarLayout() {
-
+  public void montarLayout()
+  {
     super.montarLayout();
-
-    try {
-
+    try
+    {
       this.addView(this.getBtn());
     }
-    catch (Exception ex) {
-
+    catch (Exception ex)
+    {
       new ErroAndroid("Erro inesperado.\n", ex);
     }
-    finally {
+    finally
+    {
     }
   }
 
-  public void onActivityResult(final Intent itt) {
-
+  public void onActivityResult(final Intent itt)
+  {
     int intRegistroId;
     TabelaAndroid tbl;
     ViewAndroid viw;
-
-    try {
-
-      if (itt == null) {
-
+    try
+    {
+      if (itt == null)
+      {
         return;
       }
-
-      if (this.getCln() == null) {
-
+      if (this.getCln() == null)
+      {
         return;
       }
-
-      if (this.getCln().getClnRef() == null) {
-
+      if (this.getCln().getClnRef() == null)
+      {
         return;
       }
-
-      if (this.getCln().getClnRef().getTbl() == null) {
-
+      if (this.getCln().getClnRef().getTbl() == null)
+      {
         return;
       }
-
       tbl = AppAndroid.getI().getTbl(itt.getIntExtra(ActConsulta.STR_EXTRA_OUT_INT_TBL_OBJETO_ID, 0));
-
       viw = null;
-
-      if (ViewAndroid.class.isAssignableFrom(tbl.getClass())) {
-
+      if (ViewAndroid.class.isAssignableFrom(tbl.getClass()))
+      {
         viw = ((ViewAndroid) tbl);
         tbl = viw.getTbl();
       }
-
-      if (!this.getCln().getClnRef().getTbl().equals(tbl) && !this.getCln().getClnRef().getTbl().equals(viw)) {
-
+      if (!this.getCln().getClnRef().getTbl().equals(tbl) && !this.getCln().getClnRef().getTbl().equals(viw))
+      {
         return;
       }
-
       intRegistroId = itt.getIntExtra(ActConsulta.STR_EXTRA_OUT_INT_REGISTRO_ID, 0);
-
-      if (intRegistroId < 1) {
-
+      if (intRegistroId < 1)
+      {
         return;
       }
-
       this.setIntValor(intRegistroId);
     }
-    catch (Exception ex) {
-
+    catch (Exception ex)
+    {
       new ErroAndroid("Erro inesperado.\n", ex);
     }
-    finally {
+    finally
+    {
     }
   }
 
   @Override
-  public void onClick(final View v) {
-
+  public void onClick(final View v)
+  {
     Intent itt;
-
-    try {
-
-      if (this.getBooSomenteLeitura()) {
-
+    try
+    {
+      if (this.getBooSomenteLeitura())
+      {
         return;
       }
-
-      if (this.getCln() == null) {
-
+      if (this.getCln() == null)
+      {
         return;
       }
-
-      if (this.getCln().getClnRef() == null) {
-
+      if (this.getCln().getClnRef() == null)
+      {
         return;
       }
-
       itt = new Intent();
-
       itt.putExtra(ActConsulta.STR_EXTRA_IN_BOO_REGISTRO_SELECIONAVEL, true);
-
       ((TabelaAndroid) this.getCln().getClnRef().getTbl()).abrirActConsulta((ActMain) this.getContext(), itt);
     }
-    catch (Exception ex) {
-
+    catch (Exception ex)
+    {
       new ErroAndroid("Erro inesperado.\n", ex);
     }
-    finally {
+    finally
+    {
     }
   }
 
   @Override
-  public void receberFoco() {
-
+  public void receberFoco()
+  {
     this.getBtn().performClick();
   }
 
   @Override
-  public void setEventos() {
-
+  public void setEventos()
+  {
     super.setEventos();
-
-    try {
-
+    try
+    {
       this.setOnClickListener(this);
       this.getBtn().setOnClickListener(this);
     }
-    catch (Exception ex) {
-
+    catch (Exception ex)
+    {
       new ErroAndroid("Erro inesperado.\n", ex);
     }
-    finally {
+    finally
+    {
     }
   }
 }

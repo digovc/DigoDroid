@@ -10,38 +10,36 @@ import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
 import android.util.AttributeSet;
 
-public class ImagemCircular extends ImagemGeral {
+public class ImagemCircular extends ImagemGeral
+{
 
-  public ImagemCircular(Context context) {
-
+  public ImagemCircular(Context context)
+  {
     super(context);
   }
 
-  public ImagemCircular(Context context, AttributeSet attrs) {
-
+  public ImagemCircular(Context context, AttributeSet attrs)
+  {
     super(context, attrs);
   }
 
-  public ImagemCircular(Context context, AttributeSet attrs, int defStyleAttr) {
-
+  public ImagemCircular(Context context, AttributeSet attrs, int defStyleAttr)
+  {
     super(context, attrs, defStyleAttr);
   }
 
-  public Bitmap getclip() {
-
-    if (this.getDrawable() == null) {
-
+  public Bitmap getclip()
+  {
+    if (this.getDrawable() == null)
+    {
       return null;
     }
-
     Bitmap bitmap = ((BitmapDrawable) this.getDrawable()).getBitmap();
-
     Bitmap output = Bitmap.createBitmap(bitmap.getWidth(), bitmap.getHeight(), Bitmap.Config.ARGB_8888);
     Canvas canvas = new Canvas(output);
     final int color = 0xff424242;
     final Paint paint = new Paint();
     final Rect rect = new Rect(0, 0, bitmap.getWidth(), bitmap.getHeight());
-
     paint.setAntiAlias(true);
     canvas.drawARGB(0, 0, 0, 0);
     // paint.setColor(color);
@@ -132,8 +130,8 @@ public class ImagemCircular extends ImagemGeral {
     }
     */
   @Override
-  public void onDraw(Canvas canvas) {
-
+  public void onDraw(Canvas canvas)
+  {
     Paint paint = new Paint();
     // paint.setColor(Color.CYAN);
     canvas.drawBitmap(getclip(), 30, 20, paint);

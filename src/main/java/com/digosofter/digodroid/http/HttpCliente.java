@@ -11,9 +11,11 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.util.EntityUtils;
 
-public class HttpCliente extends Objeto {
+public class HttpCliente extends Objeto
+{
 
-  public enum EnmStatus {
+  public enum EnmStatus
+  {
     CONCLUIDO,
     EM_ANDAMENTO,
     NONE,
@@ -25,44 +27,43 @@ public class HttpCliente extends Objeto {
   private String _strResposta;
   private String _url;
 
-  private EnmStatus getEnmStatus() {
-
+  private EnmStatus getEnmStatus()
+  {
     return _enmStatus;
   }
 
-  private String getJsn() {
-
+  private String getJsn()
+  {
     return _jsn;
   }
 
-  public HttpResponse getObjHttpResponse() {
-
+  public HttpResponse getObjHttpResponse()
+  {
     return _objHttpResponse;
   }
 
-  public String getStrResposta() {
-
-    try {
-
-      if (this.getObjHttpResponse() == null) {
-
+  public String getStrResposta()
+  {
+    try
+    {
+      if (this.getObjHttpResponse() == null)
+      {
         return Utils.STR_VAZIA;
       }
-
       _strResposta = EntityUtils.toString(this.getObjHttpResponse().getEntity());
     }
-    catch (Exception ex) {
-
+    catch (Exception ex)
+    {
       new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(0), ex);
     }
-    finally {
+    finally
+    {
     }
-
     return _strResposta;
   }
 
-  private String getUrl() {
-
+  private String getUrl()
+  {
     return _url;
   }
 
@@ -70,79 +71,74 @@ public class HttpCliente extends Objeto {
    * Envia um objeto "json" para o servidor indicado no atributo "url" e colocar deixa a resposta disponível no atributo
    * "strResposta".
    */
-  public void postJson(String jsn) throws Exception {
-
+  public void postJson(String jsn) throws Exception
+  {
     Thread thr;
-
-    try {
-
+    try
+    {
       this.setEnmStatus(EnmStatus.EM_ANDAMENTO);
       this.setJsn(jsn);
-
-      thr = new Thread() {
+      thr = new Thread()
+      {
 
         @Override
-        public void run() {
-
+        public void run()
+        {
           HttpClient objHttpClient;
           HttpPost objHttppost;
-
-          try {
-
+          try
+          {
             objHttppost = new HttpPost(HttpCliente.this.getUrl());
-
             objHttppost.setHeader("json", HttpCliente.this.getJsn());
-
             objHttpClient = new DefaultHttpClient();
-
             HttpCliente.this.setObjHttpResponse(objHttpClient.execute(objHttppost));
           }
-          catch (Exception ex) {
-
+          catch (Exception ex)
+          {
             new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(0), ex);
           }
-          finally {
-
+          finally
+          {
             HttpCliente.this.setEnmStatus(EnmStatus.CONCLUIDO);
           }
         }
 
         ;
       };
-
       thr.start();
-
-      do {
+      do
+      {
         // TODO: Definir se fazer isso assíncrono seria melhor.
         Thread.sleep(10);
       }
       while (HttpCliente.this.getEnmStatus() == EnmStatus.EM_ANDAMENTO);
     }
-    catch (Exception ex) {
-
+    catch (Exception ex)
+    {
       throw ex;
     }
-    finally {
+    finally
+    {
     }
   }
 
-  private void setEnmStatus(EnmStatus enmStatus) {
-
+  private void setEnmStatus(EnmStatus enmStatus)
+  {
     _enmStatus = enmStatus;
   }
 
-  private void setJsn(String jsn) {
-
+  private void setJsn(String jsn)
+  {
     _jsn = jsn;
   }
 
-  private void setObjHttpResponse(HttpResponse objHttpResponse) {
-
+  private void setObjHttpResponse(HttpResponse objHttpResponse)
+  {
     _objHttpResponse = objHttpResponse;
   }
 
-  public void setUrl(String url) {
-
+  public void setUrl(String url)
+  {
     _url = url;
   }
 }

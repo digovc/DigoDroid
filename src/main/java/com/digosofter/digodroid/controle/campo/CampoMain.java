@@ -19,7 +19,8 @@ import com.digosofter.digojava.Utils;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class CampoMain extends PainelLinha implements OnActivityDestruirListener, OnValorAlteradoListener {
+public abstract class CampoMain extends PainelLinha implements OnActivityDestruirListener, OnValorAlteradoListener
+{
 
   public static final String STR_TITULO_DESCONHECIDO = "<desconhecido>";
 
@@ -35,326 +36,314 @@ public abstract class CampoMain extends PainelLinha implements OnActivityDestrui
   private String _strValor;
   private String _strValorAnterior;
 
-  public CampoMain(Context context) {
-
+  public CampoMain(Context context)
+  {
     super(context);
   }
 
-  public CampoMain(Context context, AttributeSet attrs) {
-
+  public CampoMain(Context context, AttributeSet attrs)
+  {
     super(context, attrs);
   }
 
-  public CampoMain(Context context, AttributeSet attrs, int defStyleAttr) {
-
+  public CampoMain(Context context, AttributeSet attrs, int defStyleAttr)
+  {
     super(context, attrs, defStyleAttr);
   }
 
-  public void addEvtOnValorAlteradoListener(OnValorAlteradoListener evt) {
-
-    try {
-
-      if (evt == null) {
-
+  public void addEvtOnValorAlteradoListener(OnValorAlteradoListener evt)
+  {
+    try
+    {
+      if (evt == null)
+      {
         return;
       }
-
-      if (this.getLstEvtOnValorAlteradoListener().contains(evt)) {
-
+      if (this.getLstEvtOnValorAlteradoListener().contains(evt))
+      {
         return;
       }
-
       this.getLstEvtOnValorAlteradoListener().add(evt);
     }
-    catch (Exception ex) {
-
+    catch (Exception ex)
+    {
       new ErroAndroid("Erro inesperado.\n", ex);
     }
-    finally {
+    finally
+    {
     }
   }
 
-  protected void atualizarCln() {
-
-    try {
-
-      if (this.getCln() == null) {
-
+  protected void atualizarCln()
+  {
+    try
+    {
+      if (this.getCln() == null)
+      {
         return;
       }
-
       this.setStrTitulo(this.getCln().getStrNomeExibicao());
       this.addEvtOnValorAlteradoListener(this.getCln());
       this.getCln().addEvtOnValorAlteradoListener(this);
     }
-    catch (Exception ex) {
-
+    catch (Exception ex)
+    {
       new ErroAndroid("Erro inesperado.\n", ex);
     }
-    finally {
+    finally
+    {
     }
   }
 
-  protected void atualizarStrValor() {
-
-    try {
-
+  protected void atualizarStrValor()
+  {
+    try
+    {
       this.dispararEvtOnValorAlteradoListener();
     }
-    catch (Exception ex) {
-
+    catch (Exception ex)
+    {
       new ErroAndroid("Erro inesperado.\n", ex);
     }
-    finally {
+    finally
+    {
     }
   }
 
-  private void dispararEvtOnValorAlteradoListener() {
-
+  private void dispararEvtOnValorAlteradoListener()
+  {
     OnValorAlteradoArg arg;
-
-    try {
-
-      if (this.getLstEvtOnValorAlteradoListener().isEmpty()) {
-
+    try
+    {
+      if (this.getLstEvtOnValorAlteradoListener().isEmpty())
+      {
         return;
       }
-
-      if ((this.getStrValor() != null) ? (this.getStrValor().equals(this.getStrValorAnterior())) : (this.getStrValorAnterior() == null)) {
-
+      if ((this.getStrValor() != null) ? (this.getStrValor().equals(this.getStrValorAnterior())) : (this.getStrValorAnterior() == null))
+      {
         return;
       }
-
       arg = new OnValorAlteradoArg();
-
       arg.setStrValor(this.getStrValor());
       arg.setStrValorAnterior(this.getStrValorAnterior());
-
-      for (OnValorAlteradoListener evt : this.getLstEvtOnValorAlteradoListener()) {
-
-        if (evt == null) {
-
+      for (OnValorAlteradoListener evt : this.getLstEvtOnValorAlteradoListener())
+      {
+        if (evt == null)
+        {
           continue;
         }
-
         evt.onValorAlterado(this, arg);
       }
     }
-    catch (Exception ex) {
-
+    catch (Exception ex)
+    {
       new ErroAndroid("Erro inesperado.\n", ex);
     }
-    finally {
+    finally
+    {
     }
   }
 
-  protected boolean getBooSomenteLeitura() {
-
+  protected boolean getBooSomenteLeitura()
+  {
     return _booSomenteLeitura;
   }
 
-  public boolean getBooValor() {
-
-    try {
-
+  public boolean getBooValor()
+  {
+    try
+    {
       _booValor = Boolean.valueOf(this.getStrValor());
     }
-    catch (Exception ex) {
-
+    catch (Exception ex)
+    {
       _booValor = false;
     }
-    finally {
+    finally
+    {
     }
-
     return _booValor;
   }
 
-  protected ColunaAndroid getCln() {
-
+  protected ColunaAndroid getCln()
+  {
     return _cln;
   }
 
-  public double getDblValor() {
-
-    try {
-
+  public double getDblValor()
+  {
+    try
+    {
       _dblValor = Double.valueOf(this.getStrValor());
     }
-    catch (Exception ex) {
-
+    catch (Exception ex)
+    {
       _dblValor = 0;
     }
-    finally {
+    finally
+    {
     }
-
     return _dblValor;
   }
 
-  public int getIntValor() {
-
+  public int getIntValor()
+  {
     return _intValor = (int) this.getDblValor();
   }
 
-  private LabelGeral getLblTitulo() {
-
-    try {
-
-      if (_lblTitulo != null) {
-
+  private LabelGeral getLblTitulo()
+  {
+    try
+    {
+      if (_lblTitulo != null)
+      {
         return _lblTitulo;
       }
-
       _lblTitulo = new LabelGeral(this.getContext());
 
     }
-    catch (Exception ex) {
-
+    catch (Exception ex)
+    {
       new ErroAndroid("Erro inesperado.\n", ex);
     }
-    finally {
+    finally
+    {
     }
-
     return _lblTitulo;
   }
 
-  private List<OnValorAlteradoListener> getLstEvtOnValorAlteradoListener() {
-
-    try {
-
-      if (_lstEvtOnValorAlteradoListener != null) {
-
+  private List<OnValorAlteradoListener> getLstEvtOnValorAlteradoListener()
+  {
+    try
+    {
+      if (_lstEvtOnValorAlteradoListener != null)
+      {
         return _lstEvtOnValorAlteradoListener;
       }
-
       _lstEvtOnValorAlteradoListener = new ArrayList<>();
     }
-    catch (Exception ex) {
-
+    catch (Exception ex)
+    {
       new ErroAndroid("Erro inesperado.\n", ex);
     }
-    finally {
+    finally
+    {
     }
-
     return _lstEvtOnValorAlteradoListener;
   }
 
-  public String getStrClnNomeSql() {
-
+  public String getStrClnNomeSql()
+  {
     return _strClnNomeSql;
   }
 
-  private String getStrTitulo() {
-
+  private String getStrTitulo()
+  {
     return _strTitulo;
   }
 
-  public String getStrValor() {
-
+  public String getStrValor()
+  {
     return _strValor;
   }
 
-  private String getStrValorAnterior() {
-
+  private String getStrValorAnterior()
+  {
     return _strValorAnterior;
   }
 
   @Override
-  public void inicializar() {
-
+  public void inicializar()
+  {
     super.inicializar();
-
-    try {
-
+    try
+    {
       this.setOrientation(VERTICAL);
-
       this.getLblTitulo().setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, UtilsAndroid.dpToPx(30, this.getContext())));
     }
-    catch (Exception ex) {
-
+    catch (Exception ex)
+    {
       new ErroAndroid("Erro inesperado.\n", ex);
     }
-    finally {
+    finally
+    {
     }
   }
 
   @Override
-  public void inicializar(AttributeSet ats) {
-
+  public void inicializar(AttributeSet ats)
+  {
     super.inicializar(ats);
-
     TypedArray objTypedArray;
-
-    try {
-
-      if (ats == null) {
-
+    try
+    {
+      if (ats == null)
+      {
         return;
       }
-
       objTypedArray = this.getContext().obtainStyledAttributes(ats, R.styleable.CampoMain);
       this.setStrClnNomeSql(objTypedArray.getString(R.styleable.CampoMain_clnStrNomeSql));
-
       objTypedArray = this.getContext().obtainStyledAttributes(ats, R.styleable.View);
       this.setStrTitulo(objTypedArray.getString(R.styleable.View_strTitulo));
     }
-    catch (Exception ex) {
-
+    catch (Exception ex)
+    {
       new ErroAndroid("Erro inesperado.\n", ex);
     }
-    finally {
+    finally
+    {
     }
   }
 
   @Override
-  public void montarLayout() {
-
+  public void montarLayout()
+  {
     super.montarLayout();
-
-    try {
-
+    try
+    {
       this.addView(this.getLblTitulo());
 
     }
-    catch (Exception ex) {
-
+    catch (Exception ex)
+    {
       new ErroAndroid("Erro inesperado.\n", ex);
     }
-    finally {
+    finally
+    {
     }
   }
 
   @Override
-  public void onActivityDestruir(final Object objSender) {
-
+  public void onActivityDestruir(final Object objSender)
+  {
     this.getLstEvtOnValorAlteradoListener().clear();
   }
 
   @Override
-  public void onValorAlterado(final Object objSender, final OnValorAlteradoArg arg) {
-
-    try {
-
-      if (arg == null) {
-
+  public void onValorAlterado(final Object objSender, final OnValorAlteradoArg arg)
+  {
+    try
+    {
+      if (arg == null)
+      {
         return;
       }
-
-      if ((arg.getStrValor() != null) ? (arg.getStrValor().equals(arg.getStrValorAnterior())) : arg.getStrValorAnterior() == null) {
-
+      if ((arg.getStrValor() != null) ? (arg.getStrValor().equals(arg.getStrValorAnterior())) : arg.getStrValorAnterior() == null)
+      {
         return;
       }
-
-      if (objSender.equals(this.getCln())) {
-
+      if (objSender.equals(this.getCln()))
+      {
         this.setStrValor(this.getCln().getStrValor());
         return;
       }
     }
-    catch (Exception ex) {
-
+    catch (Exception ex)
+    {
       new ErroAndroid("Erro inesperado.\n", ex);
     }
-    finally {
+    finally
+    {
     }
   }
 
@@ -363,124 +352,124 @@ public abstract class CampoMain extends PainelLinha implements OnActivityDestrui
    */
   public abstract void receberFoco();
 
-  public void removerEvtOnValorAlteradoListener(OnValorAlteradoListener evt) {
-
-    try {
-
-      if (evt == null) {
-
+  public void removerEvtOnValorAlteradoListener(OnValorAlteradoListener evt)
+  {
+    try
+    {
+      if (evt == null)
+      {
         return;
       }
-
       this.getLstEvtOnValorAlteradoListener().remove(evt);
     }
-    catch (Exception ex) {
-
+    catch (Exception ex)
+    {
       new ErroAndroid("Erro inesperado.\n", ex);
     }
-    finally {
+    finally
+    {
     }
   }
 
-  protected void setBooSomenteLeitura(boolean booSomenteLeitura) {
-
+  protected void setBooSomenteLeitura(boolean booSomenteLeitura)
+  {
     _booSomenteLeitura = booSomenteLeitura;
   }
 
-  public void setBooValor(boolean booValor) {
-
-    try {
-
+  public void setBooValor(boolean booValor)
+  {
+    try
+    {
       _booValor = booValor;
-
       this.setStrValor(String.valueOf(_booValor));
     }
-    catch (Exception ex) {
-
+    catch (Exception ex)
+    {
       new ErroAndroid("Erro inesperado.\n", ex);
     }
-    finally {
+    finally
+    {
     }
   }
 
-  public void setCln(ColunaAndroid cln) {
-
-    try {
-
+  public void setCln(ColunaAndroid cln)
+  {
+    try
+    {
       _cln = cln;
-
       this.atualizarCln();
     }
-    catch (Exception ex) {
-
+    catch (Exception ex)
+    {
       new ErroAndroid("Erro inesperado.\n", ex);
     }
-    finally {
+    finally
+    {
     }
   }
 
-  public void setDblValor(double dblValor) {
-
-    try {
-
+  public void setDblValor(double dblValor)
+  {
+    try
+    {
       _dblValor = dblValor;
-
       this.setStrValor(String.valueOf(_dblValor));
     }
-    catch (Exception ex) {
-
+    catch (Exception ex)
+    {
       new ErroAndroid("Erro inesperado.\n", ex);
     }
-    finally {
+    finally
+    {
     }
   }
 
   @Override
-  public void setEventos() {
-
+  public void setEventos()
+  {
     super.setEventos();
-
-    try {
-
+    try
+    {
       ((ActMain) this.getContext()).addEvtOnDestruirListener(this);
     }
-    catch (Exception ex) {
-
+    catch (Exception ex)
+    {
       new ErroAndroid("Erro inesperado.\n", ex);
     }
-    finally {
+    finally
+    {
     }
   }
 
-  public void setIntValor(int intValor) {
-
-    try {
-
+  public void setIntValor(int intValor)
+  {
+    try
+    {
       _intValor = intValor;
-
       this.setDblValor(_intValor);
     }
-    catch (Exception ex) {
-
+    catch (Exception ex)
+    {
       new ErroAndroid("Erro inesperado.\n", ex);
     }
-    finally {
+    finally
+    {
     }
   }
 
-  private void setStrClnNomeSql(String strClnNomeSql) {
-
-    try {
-
+  private void setStrClnNomeSql(String strClnNomeSql)
+  {
+    try
+    {
       _strClnNomeSql = strClnNomeSql;
-
       this.setStrTitulo(_strClnNomeSql);
     }
-    catch (Exception ex) {
-
+    catch (Exception ex)
+    {
       new ErroAndroid("Erro inesperado.\n", ex);
     }
-    finally {
+    finally
+    {
     }
   }
 
@@ -489,47 +478,45 @@ public abstract class CampoMain extends PainelLinha implements OnActivityDestrui
    *
    * @param strTitulo Texto que será apresentado ao usuário e dá nome a este campo.
    */
-  public void setStrTitulo(String strTitulo) {
-
-    try {
-
-      if (Utils.getBooStrVazia(strTitulo)) {
-
+  public void setStrTitulo(String strTitulo)
+  {
+    try
+    {
+      if (Utils.getBooStrVazia(strTitulo))
+      {
         return;
       }
-
       _strTitulo = strTitulo;
-
       this.getLblTitulo().setText(_strTitulo);
     }
-    catch (Exception ex) {
-
+    catch (Exception ex)
+    {
       new ErroAndroid("Erro inesperado.\n", ex);
     }
-    finally {
+    finally
+    {
     }
   }
 
-  public void setStrValor(String strValor) {
-
-    try {
-
+  public void setStrValor(String strValor)
+  {
+    try
+    {
       this.setStrValorAnterior(_strValor);
-
       _strValor = strValor;
-
       this.atualizarStrValor();
     }
-    catch (Exception ex) {
-
+    catch (Exception ex)
+    {
       new ErroAndroid("Erro inesperado.\n", ex);
     }
-    finally {
+    finally
+    {
     }
   }
 
-  private void setStrValorAnterior(String strValorAnterior) {
-
+  private void setStrValorAnterior(String strValorAnterior)
+  {
     _strValorAnterior = strValorAnterior;
   }
 }

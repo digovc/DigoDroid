@@ -5,50 +5,52 @@ import android.preference.PreferenceFragment;
 
 import com.digosofter.digodroid.erro.ErroAndroid;
 
-public abstract class FrgPreferenceMain extends PreferenceFragment {
+public abstract class FrgPreferenceMain extends PreferenceFragment
+{
 
-  protected void inicializar() {
-
+  protected void inicializar()
+  {
   }
 
-  private void iniciar() {
-
-    try {
-
+  private void iniciar()
+  {
+    try
+    {
       this.inicializar();
       this.montarLayout();
       this.setEventos();
     }
-    catch (Exception ex) {
-
+    catch (Exception ex)
+    {
       new ErroAndroid("Erro inesperado.\n", ex);
     }
-    finally {
+    finally
+    {
     }
   }
 
-  protected void montarLayout() {
-
+  protected void montarLayout()
+  {
   }
 
   @Override
-  public void onCreate(final Bundle savedInstanceState) {
-
+  public void onCreate(final Bundle savedInstanceState)
+  {
     super.onCreate(savedInstanceState);
-
-    try {
-
+    try
+    {
       this.iniciar();
     }
-    catch (Exception ex) {
-
+    catch (Exception ex)
+    {
       new ErroAndroid("Erro inesperado.\n", ex);
     }
-    finally {
+    finally
+    {
     }
   }
 
-  protected void setEventos() {
-
+  protected void setEventos()
+  {
   }
 }

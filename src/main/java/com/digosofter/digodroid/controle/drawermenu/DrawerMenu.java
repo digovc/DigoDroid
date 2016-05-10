@@ -11,84 +11,85 @@ import com.digosofter.digodroid.AppAndroid;
 import com.digosofter.digodroid.activity.ActMain;
 import com.digosofter.digodroid.erro.ErroAndroid;
 
-public final class DrawerMenu extends DrawerLayout implements DrawerLayout.DrawerListener {
+public final class DrawerMenu extends DrawerLayout implements DrawerLayout.DrawerListener
+{
 
   private MenuItem _mniClicado;
 
-  public DrawerMenu(Context context) {
-
+  public DrawerMenu(Context context)
+  {
     super(context);
-
-    try {
-
+    try
+    {
       this.iniciar(null);
     }
-    catch (Exception ex) {
-
+    catch (Exception ex)
+    {
       new ErroAndroid("Erro inesperado.\n", ex);
     }
-    finally {
+    finally
+    {
     }
   }
 
-  public DrawerMenu(Context context, AttributeSet attrs) {
-
+  public DrawerMenu(Context context, AttributeSet attrs)
+  {
     super(context, attrs);
-
-    try {
-
+    try
+    {
       this.iniciar(attrs);
     }
-    catch (Exception ex) {
-
+    catch (Exception ex)
+    {
       new ErroAndroid("Erro inesperado.\n", ex);
     }
-    finally {
+    finally
+    {
     }
   }
 
-  public DrawerMenu(Context context, AttributeSet attrs, int defStyle) {
-
+  public DrawerMenu(Context context, AttributeSet attrs, int defStyle)
+  {
     super(context, attrs, defStyle);
-
-    try {
-
+    try
+    {
       this.iniciar(attrs);
     }
-    catch (Exception ex) {
-
+    catch (Exception ex)
+    {
       new ErroAndroid("Erro inesperado.\n", ex);
     }
-    finally {
+    finally
+    {
     }
   }
 
-  private void fecharActivity() {
-
-    try {
-
-      if (this.getContext().equals(AppAndroid.getI().getActPrincipal())) {
-
+  private void fecharActivity()
+  {
+    try
+    {
+      if (this.getContext().equals(AppAndroid.getI().getActPrincipal()))
+      {
         return;
       }
-
       ((Activity) this.getContext()).setResult(0, new Intent().putExtra(ActMain.STR_EXTRA_OUT_BOO_FECHAR, true));
       ((Activity) this.getContext()).finish();
     }
-    catch (Exception ex) {
-
+    catch (Exception ex)
+    {
       new ErroAndroid("Erro inesperado.\n", ex);
     }
-    finally {
+    finally
+    {
     }
   }
 
-  protected void finalizar() {
-
+  protected void finalizar()
+  {
   }
 
-  private MenuItem getMniClicado() {
-
+  private MenuItem getMniClicado()
+  {
     return _mniClicado;
   }
 
@@ -97,8 +98,8 @@ public final class DrawerMenu extends DrawerLayout implements DrawerLayout.Drawe
    * do ciclo os parâmetros de layout do controle ainda não foram carregados, portanto a propriedade {@link
    * android.view.ViewGroup.LayoutParams} não está inicializada.
    */
-  protected void inicializar() {
-
+  protected void inicializar()
+  {
   }
 
   /**
@@ -106,90 +107,90 @@ public final class DrawerMenu extends DrawerLayout implements DrawerLayout.Drawe
    *
    * @param ats Conjunto de atributos que foram declarados no XML de layout que contém este controle.
    */
-  protected void inicializar(AttributeSet ats) {
-
+  protected void inicializar(AttributeSet ats)
+  {
   }
 
-  private void iniciar(AttributeSet ats) {
-
-    try {
-
+  private void iniciar(AttributeSet ats)
+  {
+    try
+    {
       this.inicializar(ats);
       this.inicializar();
       this.montarLayout();
       this.setEventos();
       this.finalizar();
     }
-    catch (Exception ex) {
-
+    catch (Exception ex)
+    {
       new ErroAndroid("Erro inesperado.\n", ex);
     }
-    finally {
+    finally
+    {
     }
   }
 
-  protected void montarLayout() {
-
+  protected void montarLayout()
+  {
   }
 
   @Override
-  public void onDrawerClosed(final View drawerView) {
-
-    try {
-
-      if (this.getMniClicado() == null) {
-
+  public void onDrawerClosed(final View drawerView)
+  {
+    try
+    {
+      if (this.getMniClicado() == null)
+      {
         return;
       }
-
       AppAndroid.getI().dispararOnMenuItemClickListener(this.getMniClicado());
-
       this.fecharActivity();
     }
-    catch (Exception ex) {
-
+    catch (Exception ex)
+    {
       new ErroAndroid("Erro inesperado.\n", ex);
     }
-    finally {
-
+    finally
+    {
       this.setMniClicado(null);
     }
   }
 
   @Override
-  public void onDrawerOpened(final View drawerView) {
-
+  public void onDrawerOpened(final View drawerView)
+  {
   }
 
   @Override
-  public void onDrawerSlide(final View drawerView, final float slideOffset) {
-
+  public void onDrawerSlide(final View drawerView, final float slideOffset)
+  {
   }
 
   @Override
-  public void onDrawerStateChanged(final int newState) {
-
+  public void onDrawerStateChanged(final int newState)
+  {
   }
 
   /**
    * Responsável por configurar os eventos deste controle e de seus filhos.
    */
-  protected void setEventos() {
-
-    try {
-
+  protected void setEventos()
+  {
+    try
+    {
       this.setDrawerListener(this);
     }
-    catch (Exception ex) {
-
+    catch (Exception ex)
+    {
       new ErroAndroid("Erro inesperado.\n", ex);
     }
-    finally {
+    finally
+    {
     }
   }
 
-  void setMniClicado(MenuItem mniClicado) {
-
+  void setMniClicado(MenuItem mniClicado)
+  {
     _mniClicado = mniClicado;
   }
 }

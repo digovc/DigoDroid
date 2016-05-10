@@ -7,93 +7,95 @@ import android.widget.ImageView;
 import com.digosofter.digodroid.controle.IControleMain;
 import com.digosofter.digodroid.erro.ErroAndroid;
 
-public class ImagemGeral extends ImageView implements IControleMain {
+public class ImagemGeral extends ImageView implements IControleMain
+{
 
-  public ImagemGeral(Context context) {
-
+  public ImagemGeral(Context context)
+  {
     super(context);
-
-    try {
-
+    try
+    {
       this.iniciar(null);
     }
-    catch (Exception ex) {
-
+    catch (Exception ex)
+    {
       new ErroAndroid("Erro inesperado.\n", ex);
     }
-    finally {
+    finally
+    {
     }
   }
 
-  public ImagemGeral(Context context, AttributeSet attrs) {
-
+  public ImagemGeral(Context context, AttributeSet attrs)
+  {
     super(context, attrs);
-
-    try {
-
+    try
+    {
       this.iniciar(attrs);
     }
-    catch (Exception ex) {
-
+    catch (Exception ex)
+    {
       new ErroAndroid("Erro inesperado.\n", ex);
     }
-    finally {
+    finally
+    {
     }
   }
 
-  public ImagemGeral(Context context, AttributeSet attrs, int defStyleAttr) {
-
+  public ImagemGeral(Context context, AttributeSet attrs, int defStyleAttr)
+  {
     super(context, attrs, defStyleAttr);
-
-    try {
-
+    try
+    {
       this.iniciar(attrs);
     }
-    catch (Exception ex) {
-
+    catch (Exception ex)
+    {
       new ErroAndroid("Erro inesperado.\n", ex);
     }
-    finally {
+    finally
+    {
     }
   }
 
   @Override
-  public void finalizar() {
-
+  public void finalizar()
+  {
   }
 
   @Override
-  public void inicializar(AttributeSet ats) {
-
+  public void inicializar(AttributeSet ats)
+  {
   }
 
   @Override
-  public void inicializar() {
-
-    try {
-
+  public void inicializar()
+  {
+    try
+    {
       this.setScaleType(ScaleType.FIT_XY);
     }
-    catch (Exception ex) {
-
+    catch (Exception ex)
+    {
       new ErroAndroid("Erro inesperado.\n", ex);
     }
-    finally {
+    finally
+    {
     }
   }
 
   @Override
-  public void iniciar(AttributeSet ats) {
-
+  public void iniciar(AttributeSet ats)
+  {
   }
 
   @Override
-  public void montarLayout() {
-
+  public void montarLayout()
+  {
   }
 
   @Override
-  public void setEventos() {
-
+  public void setEventos()
+  {
   }
 }

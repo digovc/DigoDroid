@@ -8,141 +8,137 @@ import com.digosofter.digodroid.R;
 import com.digosofter.digodroid.controle.painel.PainelGeral;
 import com.digosofter.digodroid.erro.ErroAndroid;
 
-public class LinhaGeral extends PainelGeral {
+public class LinhaGeral extends PainelGeral
+{
 
-  public enum EnmDisposicao {
-
+  public enum EnmDisposicao
+  {
     HORIZONTAL,
     VERTICAL,
   }
 
   private EnmDisposicao _enmDisposicao;
 
-  public LinhaGeral(Context context) {
-
+  public LinhaGeral(Context context)
+  {
     super(context);
-
-    try {
-
+    try
+    {
       this.iniciar(null);
     }
-    catch (Exception ex) {
-
+    catch (Exception ex)
+    {
       new ErroAndroid("Erro inesperado.\n", ex);
     }
-    finally {
+    finally
+    {
     }
   }
 
-  public LinhaGeral(Context context, AttributeSet attrs) {
-
+  public LinhaGeral(Context context, AttributeSet attrs)
+  {
     super(context, attrs);
-
-    try {
-
+    try
+    {
       this.iniciar(attrs);
     }
-    catch (Exception ex) {
-
+    catch (Exception ex)
+    {
       new ErroAndroid("Erro inesperado.\n", ex);
     }
-    finally {
+    finally
+    {
     }
   }
 
-  public LinhaGeral(Context context, AttributeSet attrs, int defStyleAttr) {
-
+  public LinhaGeral(Context context, AttributeSet attrs, int defStyleAttr)
+  {
     super(context, attrs, defStyleAttr);
-
-    try {
-
+    try
+    {
       this.iniciar(attrs);
     }
-    catch (Exception ex) {
-
+    catch (Exception ex)
+    {
       new ErroAndroid("Erro inesperado.\n", ex);
     }
-    finally {
+    finally
+    {
     }
   }
 
   @Override
-  public void finalizar() {
-
+  public void finalizar()
+  {
     super.finalizar();
-
-    try {
-
+    try
+    {
       this.getLayoutParams().height = LayoutParams.MATCH_PARENT;
       this.getLayoutParams().width = LayoutParams.MATCH_PARENT;
-
-      if (EnmDisposicao.HORIZONTAL.equals(this.getEnmDisposicao())) {
-
+      if (EnmDisposicao.HORIZONTAL.equals(this.getEnmDisposicao()))
+      {
         this.getLayoutParams().height = 1;
         return;
       }
-
       this.getLayoutParams().width = 1;
     }
-    catch (Exception ex) {
-
+    catch (Exception ex)
+    {
       new ErroAndroid("Erro inesperado.\n", ex);
     }
-    finally {
+    finally
+    {
     }
   }
 
-  private EnmDisposicao getEnmDisposicao() {
-
+  private EnmDisposicao getEnmDisposicao()
+  {
     return _enmDisposicao;
   }
 
   @Override
-  public void inicializar(AttributeSet ats) {
-
+  public void inicializar(AttributeSet ats)
+  {
     super.inicializar(ats);
-
     TypedArray objTypedArray;
-
-    try {
-
-      if (ats == null) {
-
+    try
+    {
+      if (ats == null)
+      {
         return;
       }
-
       objTypedArray = this.getContext().obtainStyledAttributes(ats, R.styleable.LinhaGeral);
-
       this.setEnmDisposicao(this.intToEnmDisposicao(objTypedArray.getInt(R.styleable.LinhaGeral_enmDisposicao, 0)));
     }
-    catch (Exception ex) {
-
+    catch (Exception ex)
+    {
       new ErroAndroid("Erro inesperado.\n", ex);
     }
-    finally {
+    finally
+    {
     }
   }
 
   @Override
-  public void inicializar() {
-
+  public void inicializar()
+  {
     super.inicializar();
-
-    try {
-
+    try
+    {
       this.setBackgroundColor(this.getContext().getResources().getColor(R.color.cor_borda));
       this.setEnmDisposicao(EnmDisposicao.HORIZONTAL);
     }
-    catch (Exception ex) {
-
+    catch (Exception ex)
+    {
       new ErroAndroid("Erro inesperado.\n", ex);
     }
-    finally {
+    finally
+    {
     }
   }
 
-  private EnmDisposicao intToEnmDisposicao(int intDisposicao) {
-
+  private EnmDisposicao intToEnmDisposicao(int intDisposicao)
+  {
     return (intDisposicao == 0) ? EnmDisposicao.HORIZONTAL : EnmDisposicao.VERTICAL;
   }
 
@@ -151,8 +147,8 @@ public class LinhaGeral extends PainelGeral {
    *
    * @param enmDisposicao Valor enumerado que indica se a linha é horizontal ou vertical.
    */
-  public void setEnmDisposicao(EnmDisposicao enmDisposicao) {
-
+  public void setEnmDisposicao(EnmDisposicao enmDisposicao)
+  {
     _enmDisposicao = enmDisposicao;
   }
 }

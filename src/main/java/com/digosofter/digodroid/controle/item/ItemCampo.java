@@ -12,265 +12,257 @@ import com.digosofter.digodroid.design.TemaDefault;
 import com.digosofter.digodroid.erro.ErroAndroid;
 import com.digosofter.digojava.Utils;
 
-public class ItemCampo extends ItemMain implements OnClickListener {
+public class ItemCampo extends ItemMain implements OnClickListener
+{
 
   private ColunaAndroid _cln;
   private LabelGeral _lblRegistroNome;
   private LabelGeral _lblRegistroValor;
 
-  public ItemCampo(Context context, ColunaAndroid cln) {
-
+  public ItemCampo(Context context, ColunaAndroid cln)
+  {
     super(context);
-
-    try {
-
+    try
+    {
       this.setCln(cln);
     }
-    catch (Exception ex) {
-
+    catch (Exception ex)
+    {
       new ErroAndroid("Erro inesperado.\n", ex);
     }
-    finally {
+    finally
+    {
     }
   }
 
-  public void carregarDados(Cursor crs) {
-
+  public void carregarDados(Cursor crs)
+  {
     super.carregarDados(crs);
-
-    try {
-
-      if (!this.getCln().getBooVisivelConsulta()) {
-
+    try
+    {
+      if (!this.getCln().getBooVisivelConsulta())
+      {
         this.setVisibility(GONE);
         return;
       }
-
-      if (crs == null) {
-
+      if (crs == null)
+      {
         return;
       }
-
       this.carregarDadosNome(crs);
       this.carregarDadosValor(crs);
     }
-    catch (Exception ex) {
-
+    catch (Exception ex)
+    {
       new ErroAndroid("Erro inesperado.\n", ex);
     }
-    finally {
+    finally
+    {
     }
   }
 
-  private void carregarDadosNome(final Cursor crs) {
-
+  private void carregarDadosNome(final Cursor crs)
+  {
     String strNome;
-
-    try {
-
-      if (!Utils.getBooStrVazia(this.getLblRegistroNome().getText().toString())) {
-
+    try
+    {
+      if (!Utils.getBooStrVazia(this.getLblRegistroNome().getText().toString()))
+      {
         return;
       }
-
       strNome = "_registro_nome: ";
-
       strNome = strNome.replace("_registro_nome", this.getCln().getStrNomeExibicao());
-
       this.getLblRegistroNome().setText(strNome);
     }
-    catch (Exception ex) {
-
+    catch (Exception ex)
+    {
       new ErroAndroid("Erro inesperado.\n", ex);
     }
-    finally {
+    finally
+    {
     }
   }
 
-  private void carregarDadosValor(Cursor crs) {
-
+  private void carregarDadosValor(Cursor crs)
+  {
     String strValor;
-
-    try {
-
+    try
+    {
       this.getLblRegistroValor().setText(null);
-
       strValor = crs.getString(crs.getColumnIndex(this.getCln().getSqlNome()));
-
-      if (Utils.getBooStrVazia(strValor)) {
-
+      if (Utils.getBooStrVazia(strValor))
+      {
         return;
       }
-
       this.getCln().setStrValor(strValor);
       this.getLblRegistroValor().setText(this.getCln().getStrValorExibicao());
     }
-    catch (Exception ex) {
-
+    catch (Exception ex)
+    {
       new ErroAndroid("Erro inesperado.\n", ex);
     }
-    finally {
+    finally
+    {
     }
   }
 
-  public ColunaAndroid getCln() {
-
+  public ColunaAndroid getCln()
+  {
     return _cln;
   }
 
-  protected LabelGeral getLblRegistroNome() {
-
-    try {
-
-      if (_lblRegistroNome != null) {
-
+  protected LabelGeral getLblRegistroNome()
+  {
+    try
+    {
+      if (_lblRegistroNome != null)
+      {
         return _lblRegistroNome;
       }
-
       _lblRegistroNome = new LabelGeral(this.getContext());
     }
-    catch (Exception ex) {
-
+    catch (Exception ex)
+    {
       new ErroAndroid("Erro inesperado.\n", ex);
     }
-    finally {
+    finally
+    {
     }
-
     return _lblRegistroNome;
   }
 
-  protected LabelGeral getLblRegistroValor() {
-
-    try {
-
-      if (_lblRegistroValor != null) {
-
+  protected LabelGeral getLblRegistroValor()
+  {
+    try
+    {
+      if (_lblRegistroValor != null)
+      {
         return _lblRegistroValor;
       }
-
       _lblRegistroValor = new LabelGeral(this.getContext());
     }
-    catch (Exception ex) {
-
+    catch (Exception ex)
+    {
       new ErroAndroid("Erro inesperado.\n", ex);
     }
-    finally {
+    finally
+    {
     }
-
     return _lblRegistroValor;
   }
 
   @Override
-  public void inicializar() {
-
+  public void inicializar()
+  {
     super.inicializar();
-
-    try {
-
+    try
+    {
       this.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
       this.setOrientation(HORIZONTAL);
-
       this.inicializarLblRegistroNome();
       this.inicializarLblRegistroValor();
     }
-    catch (Exception ex) {
-
+    catch (Exception ex)
+    {
       new ErroAndroid("Erro inesperado.\n", ex);
     }
-    finally {
+    finally
+    {
     }
   }
 
-  private void inicializarLblRegistroNome() {
-
-    try {
-
+  private void inicializarLblRegistroNome()
+  {
+    try
+    {
       this.getLblRegistroNome().setEnmFonteTamanho(TemaDefault.EnmFonteTamanho.PEQUENO);
       this.getLblRegistroNome().setMaxLines(1);
       this.getLblRegistroNome().setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
     }
-    catch (Exception ex) {
-
+    catch (Exception ex)
+    {
       new ErroAndroid("Erro inesperado.\n", ex);
     }
-    finally {
+    finally
+    {
     }
   }
 
-  private void inicializarLblRegistroValor() {
-
-    try {
-
+  private void inicializarLblRegistroValor()
+  {
+    try
+    {
       this.getLblRegistroValor().setEnmFonteTamanho(TemaDefault.EnmFonteTamanho.PEQUENO);
       this.getLblRegistroValor().setMaxLines(1);
       this.getLblRegistroValor().setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
       this.getLblRegistroValor().setText(null);
     }
-    catch (Exception ex) {
-
+    catch (Exception ex)
+    {
       new ErroAndroid("Erro inesperado.\n", ex);
     }
-    finally {
+    finally
+    {
     }
   }
 
   @Override
-  public void montarLayout() {
-
+  public void montarLayout()
+  {
     super.montarLayout();
-
-    try {
-
+    try
+    {
       this.addView(this.getLblRegistroNome());
       this.addView(this.getLblRegistroValor());
     }
-    catch (Exception ex) {
-
+    catch (Exception ex)
+    {
       new ErroAndroid("Erro inesperado.\n", ex);
     }
-    finally {
+    finally
+    {
     }
   }
 
   @Override
-  public void onClick(View v) {
-
-    try {
-
+  public void onClick(View v)
+  {
+    try
+    {
       AppAndroid.getI().notificar(this.getLblRegistroValor().getText().toString());
     }
-    catch (Exception ex) {
-
+    catch (Exception ex)
+    {
       new ErroAndroid("Erro inesperado.\n", ex);
     }
-    finally {
+    finally
+    {
     }
   }
 
-  private void setCln(ColunaAndroid cln) {
-
+  private void setCln(ColunaAndroid cln)
+  {
     _cln = cln;
   }
 
   @Override
-  public void setEventos() {
-
+  public void setEventos()
+  {
     super.setEventos();
-
-    try {
-
-      if (this.getCln() == null) {
-
+    try
+    {
+      if (this.getCln() == null)
+      {
         return;
       }
-
       this.getLblRegistroValor().setOnClickListener(this);
     }
-    catch (Exception ex) {
-
+    catch (Exception ex)
+    {
       new ErroAndroid("Erro inesperado.\n", ex);
     }
-    finally {
+    finally
+    {
     }
   }
 }

@@ -18,28 +18,28 @@ import com.digosofter.digodroid.erro.ErroAndroid;
 import com.digosofter.digojava.Objeto;
 import com.digosofter.digojava.Utils;
 
-public class Aparelho extends Objeto {
+public class Aparelho extends Objeto
+{
 
   private static Aparelho i;
 
-  public static Aparelho getI() {
-
-    try {
-
-      if (i != null) {
-
+  public static Aparelho getI()
+  {
+    try
+    {
+      if (i != null)
+      {
         return i;
       }
-
       i = new Aparelho();
     }
-    catch (Exception ex) {
-
+    catch (Exception ex)
+    {
       new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(0), ex);
     }
-    finally {
+    finally
+    {
     }
-
     return i;
   }
 
@@ -49,86 +49,77 @@ public class Aparelho extends Objeto {
   private String _strDeviceId;
   private String _strImei;
 
-  public void abrirMapa(String strEnderecoCompleto) {
-
+  public void abrirMapa(String strEnderecoCompleto)
+  {
     Intent itt;
     String urlMap;
-
-    try {
-
+    try
+    {
       urlMap = "http://maps.google.co.in/maps?q=";
       urlMap += strEnderecoCompleto;
-
       itt = new Intent(Intent.ACTION_VIEW, Uri.parse(urlMap));
       itt.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-
       this.getCnt().getApplicationContext().getApplicationContext().startActivity(itt);
     }
-    catch (Exception ex) {
-
+    catch (Exception ex)
+    {
       new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(0), ex);
     }
-    finally {
+    finally
+    {
     }
   }
 
-  public void discar(String strNumero) {
-
+  public void discar(String strNumero)
+  {
     Intent itt;
-
-    try {
-
-      if (Utils.getBooStrVazia(strNumero)) {
-
+    try
+    {
+      if (Utils.getBooStrVazia(strNumero))
+      {
         return;
       }
-
       strNumero = Utils.simplificar(strNumero);
-
       itt = new Intent(Intent.ACTION_DIAL);
-
       itt.setData(Uri.parse("tel:" + strNumero));
       itt.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-
       this.getCnt().startActivity(itt);
     }
-    catch (Exception ex) {
-
+    catch (Exception ex)
+    {
       new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(0), ex);
     }
-    finally {
+    finally
+    {
     }
   }
 
   /**
    * Abre o aplicativo padrão para envio de email.
    */
-  public void enviarEmail(ActMain act, Intent itt) {
-
+  public void enviarEmail(ActMain act, Intent itt)
+  {
     Uri uri;
-
-    try {
-
-      if (act == null) {
-
+    try
+    {
+      if (act == null)
+      {
         return;
       }
-
-      if (itt == null) {
-
+      if (itt == null)
+      {
         itt = new Intent();
       }
-
       itt.setAction(Intent.ACTION_SENDTO);
       itt.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-
       act.startActivity(Intent.createChooser(itt, "Enviar email"));
     }
-    catch (Exception ex) {
-
+    catch (Exception ex)
+    {
       new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(0), ex);
     }
-    finally {
+    finally
+    {
     }
   }
 
@@ -137,8 +128,8 @@ public class Aparelho extends Objeto {
    *
    * @return True caso o armazenamento externo está disponível para escrita, false caso contrário.
    */
-  public boolean getBooArmazenamentoExternoEscrever() {
-
+  public boolean getBooArmazenamentoExternoEscrever()
+  {
     return Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED);
   }
 
@@ -147,99 +138,92 @@ public class Aparelho extends Objeto {
    *
    * @return True caso o armazenamento externo está disponível para leitura, false caso contrário.
    */
-  public boolean getBooArmazenamentoExternoLer() {
-
+  public boolean getBooArmazenamentoExternoLer()
+  {
     String strState;
-
-    try {
-
+    try
+    {
       strState = Environment.getExternalStorageState();
-
-      if (Environment.MEDIA_MOUNTED.equals(strState)) {
-
+      if (Environment.MEDIA_MOUNTED.equals(strState))
+      {
         return true;
       }
-
-      if (Environment.MEDIA_MOUNTED_READ_ONLY.equals(strState)) {
-        
+      if (Environment.MEDIA_MOUNTED_READ_ONLY.equals(strState))
+      {
         return true;
       }
     }
-    catch (Exception ex) {
-
+    catch (Exception ex)
+    {
       new ErroAndroid("Erro inesperado.\n", ex);
     }
-    finally {
+    finally
+    {
     }
-
     return false;
   }
 
-  public boolean getBooConectado() {
-
+  public boolean getBooConectado()
+  {
     boolean booResultado = false;
     ConnectivityManager objConnectivityManager;
     NetworkInfo objNetworkInfo;
-
-    try {
-
+    try
+    {
       objConnectivityManager = (ConnectivityManager) this.getCnt().getSystemService(Context.CONNECTIVITY_SERVICE);
       objNetworkInfo = objConnectivityManager.getActiveNetworkInfo();
-
       booResultado = objNetworkInfo != null && objNetworkInfo.isConnected();
-
-      if (!booResultado) {
-
+      if (!booResultado)
+      {
         AppAndroid.getI().notificar("Aparelho não conectado.");
       }
     }
-    catch (Exception ex) {
-
+    catch (Exception ex)
+    {
       new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(0), ex);
     }
-    finally {
+    finally
+    {
     }
-
     return booResultado;
   }
 
-  private Context getCnt() {
-
-    try {
-
-      if (_cnt != null) {
-
+  private Context getCnt()
+  {
+    try
+    {
+      if (_cnt != null)
+      {
         return _cnt;
       }
-
       _cnt = AppAndroid.getI().getCnt();
     }
-    catch (Exception ex) {
-
+    catch (Exception ex)
+    {
       new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(0), ex);
     }
-    finally {
+    finally
+    {
     }
-
     return _cnt;
   }
 
-  private TelephonyManager getObjTelephonyManager() {
-
-    try {
-
-      if (_objTelephonyManager != null) {
-
+  private TelephonyManager getObjTelephonyManager()
+  {
+    try
+    {
+      if (_objTelephonyManager != null)
+      {
         return _objTelephonyManager;
       }
-
       _objTelephonyManager = (TelephonyManager) this.getCnt().getSystemService(Context.TELEPHONY_SERVICE);
     }
-    catch (Exception ex) {
-
+    catch (Exception ex)
+    {
       new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(0), ex);
     }
-    finally {
+    finally
+    {
     }
     return _objTelephonyManager;
   }
@@ -249,104 +233,95 @@ public class Aparelho extends Objeto {
    *
    * @return Objeto Point com o tamanho da tela do aparelho em pixels.
    */
-  public Point getPntTelaTamanho() {
-
-    try {
-
-      if (_pntTelaTamanho != null) {
-
+  public Point getPntTelaTamanho()
+  {
+    try
+    {
+      if (_pntTelaTamanho != null)
+      {
         return _pntTelaTamanho;
       }
-
       _pntTelaTamanho = new Point();
-
       AppAndroid.getI().getActPrincipal().getWindowManager().getDefaultDisplay().getSize(_pntTelaTamanho);
     }
-    catch (Exception ex) {
-
+    catch (Exception ex)
+    {
       new ErroAndroid("Erro inesperado.\n", ex);
     }
-    finally {
+    finally
+    {
     }
-
     return _pntTelaTamanho;
   }
 
   /**
    * Retorna uma "string 64-bit" única para cada aparelho.
    */
-  public String getStrDeviceId() {
-
-    try {
-
-      if (!Utils.getBooStrVazia(_strDeviceId)) {
-
+  public String getStrDeviceId()
+  {
+    try
+    {
+      if (!Utils.getBooStrVazia(_strDeviceId))
+      {
         return _strDeviceId;
       }
-
       _strDeviceId = Secure.getString(this.getCnt().getContentResolver(), Secure.ANDROID_ID);
     }
-    catch (Exception ex) {
-
+    catch (Exception ex)
+    {
       new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(0), ex);
     }
-    finally {
+    finally
+    {
     }
-
     return _strDeviceId;
   }
 
-  public String getStrImei() {
-
-    try {
-
-      if (!Utils.getBooStrVazia(_strImei)) {
-
+  public String getStrImei()
+  {
+    try
+    {
+      if (!Utils.getBooStrVazia(_strImei))
+      {
         return _strImei;
       }
-
       _strImei = this.getObjTelephonyManager().getDeviceId();
     }
-    catch (Exception ex) {
-
+    catch (Exception ex)
+    {
       new ErroAndroid(AppAndroid.getI().getStrMsgUsrPadrao(100), ex);
     }
-    finally {
+    finally
+    {
     }
-
     return _strImei;
   }
 
-  public void ligar(String strNumero) {
-
+  public void ligar(String strNumero)
+  {
     Intent itt;
-
-    try {
-
-      if (this.getCnt().checkSelfPermission(Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
-
+    try
+    {
+      if (this.getCnt().checkSelfPermission(Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED)
+      {
         return;
       }
-
-      if (Utils.getBooStrVazia(strNumero)) {
-
+      if (Utils.getBooStrVazia(strNumero))
+      {
         return;
       }
-
       strNumero = Utils.simplificar(strNumero);
-
       itt = new Intent(Intent.ACTION_CALL);
-
       itt.setData(Uri.parse("tel:" + strNumero));
       itt.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-
       this.getCnt().startActivity(itt);
     }
-    catch (Exception ex) {
-
+    catch (Exception ex)
+    {
       new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(0), ex);
     }
-    finally {
+    finally
+    {
     }
   }
 
@@ -355,22 +330,22 @@ public class Aparelho extends Objeto {
    *
    * @param arrIntMs Array de inteiros que representam os milissegundos que o aparelho irá virar e parar.
    */
-  public void vibrar(long[] arrIntMs) {
-
-    try {
-
-      if (arrIntMs == null) {
-
+  public void vibrar(long[] arrIntMs)
+  {
+    try
+    {
+      if (arrIntMs == null)
+      {
         return;
       }
-
       ((Vibrator) this.getCnt().getSystemService(Context.VIBRATOR_SERVICE)).vibrate(arrIntMs, -1);
     }
-    catch (Exception ex) {
-
+    catch (Exception ex)
+    {
       new ErroAndroid("Erro inesperado.\n", ex);
     }
-    finally {
+    finally
+    {
     }
   }
 }

@@ -2,12 +2,13 @@ package com.digosofter.digodroid.database;
 
 import com.digosofter.digojava.Objeto;
 
-public class Grupo extends Objeto {
+public class Grupo extends Objeto
+{
 
   private int _intImagemResId;
 
-  private int getIntImagemResId() {
-
+  private int getIntImagemResId()
+  {
     return _intImagemResId;
   }
 
@@ -16,8 +17,8 @@ public class Grupo extends Objeto {
    *
    * @param intImagemResId Código da imagem que representa este grupo de dados.
    */
-  public void setIntImagemResId(int intImagemResId) {
-
+  public void setIntImagemResId(int intImagemResId)
+  {
     _intImagemResId = intImagemResId;
   }
 }
