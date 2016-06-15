@@ -21,7 +21,6 @@ import java.util.List;
 
 public abstract class ActCadastroMain extends ActMain
 {
-
   /**
    * Código do registro que indica o item que o usuário selecionou na lista desta tela.
    */
@@ -164,6 +163,7 @@ public abstract class ActCadastroMain extends ActMain
     super.inicializar();
     try
     {
+      this.inicializarTbl();
       this.inicializarTitulo();
       this.inicializarCampos();
       this.inicializarFoco();
@@ -176,6 +176,22 @@ public abstract class ActCadastroMain extends ActMain
     {
     }
 
+  }
+
+  private void inicializarTbl()
+  {
+    if (this.getTbl() == null) {
+
+      return;
+    }
+
+    if (this.getIntRegistroId() < 1) {
+
+      this.getTbl().limparColunas();
+      return;
+    }
+
+    this.getTbl().recuperar(this.getIntRegistroId());
   }
 
   private void inicializarCampos()

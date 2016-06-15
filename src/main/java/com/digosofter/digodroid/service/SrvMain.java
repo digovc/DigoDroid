@@ -49,10 +49,12 @@ public abstract class SrvMain extends IntentService
     try
     {
       this.setItt(itt);
+
       if (!this.inicializar())
       {
         return;
       }
+
       this.servico();
     }
     catch (Exception ex)
