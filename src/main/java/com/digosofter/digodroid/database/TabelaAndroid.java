@@ -902,33 +902,43 @@ public abstract class TabelaAndroid<T extends Dominio> extends Tabela<T>
   {
     String strResultado;
     String str;
+
     try
     {
       strResultado = Utils.STR_VAZIA;
+
       for (Coluna cln : this.getLstCln())
       {
         if (cln == null)
         {
           continue;
         }
+
         if (Utils.getBooStrVazia(cln.getStrValor()))
         {
           continue;
         }
+
         if (cln.getBooChavePrimaria())
         {
           continue;
         }
-        if (cln.getClnRef() != null && cln.getIntValor() < 1)
+
+        if ((cln.getClnRef() != null) && (cln.getIntValor() < 1))
         {
           continue;
         }
+
         str = "_cln_nome = '_cln_valor', ";
+
         str = str.replace("_cln_nome", cln.getSqlNome());
         str = str.replace("_cln_valor", cln.getStrValorSql());
+
         strResultado += str;
       }
+
       strResultado = Utils.removerUltimaLetra(strResultado, 2);
+
       return strResultado;
     }
     catch (Exception ex)
@@ -1614,6 +1624,7 @@ public abstract class TabelaAndroid<T extends Dominio> extends Tabela<T>
     try
     {
       this.carregarLstFilConsulta(this.getLstFilConsulta());
+
       sql = "select _clns_nome from _tbl_nome where _where order by _order _asc_desc;";
       sql = sql.replace("_clns_nome", this.getSqlSelectColunasNomesConsulta());
       sql = sql.replace("_tbl_nome", this.getSqlNome());
