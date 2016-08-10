@@ -5,21 +5,21 @@
               xmlns:app="http://schemas.android.com/apk/res-auto"
               android:orientation="vertical">
 
-    <com.digosofter.digodroid.controle.painel.PainelGrupo
+    <com.digosofter.digodroid.componente.painel.PainelGrupo
         android:layout_width="0px"
         android:layout_height="0px"
         app:strTitulo="Cadastro de alguma coisa">
 
-        <com.digosofter.digodroid.controle.painel.PainelLinha
+        <com.digosofter.digodroid.componente.painel.PainelLinha
             android:layout_width="0px"
             android:layout_height="0px">
 
-            <com.digosofter.digodroid.controle.campo.CampoCheckBox
+            <com.digosofter.digodroid.componente.campo.CampoCheckBox
                 android:layout_width="0px"
                 android:layout_height="0px"
                 app:strTitulo="Teste de checkbox">
 
-            </com.digosofter.digodroid.controle.campo.CampoCheckBox>
-        </com.digosofter.digodroid.controle.painel.PainelLinha>
-    </com.digosofter.digodroid.controle.painel.PainelGrupo>
+            </com.digosofter.digodroid.componente.campo.CampoCheckBox>
+        </com.digosofter.digodroid.componente.painel.PainelLinha>
+    </com.digosofter.digodroid.componente.painel.PainelGrupo>
 </LinearLayout>

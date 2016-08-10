@@ -1,7 +1,7 @@
 package com.digosofter.digodroid;
 
 import com.digosofter.digodroid.activity.ActMain;
-import com.digosofter.digodroid.controle.drawermenu.DrawerMenu;
+import com.digosofter.digodroid.componente.drawermenu.DrawerMenu;
 
 import java.util.EventListener;
 

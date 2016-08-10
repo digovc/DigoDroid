@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <com.digosofter.digodroid.controle.painel.PainelGrupo
+    <com.digosofter.digodroid.componente.painel.PainelGrupo
         android:layout_width="0px"
         android:layout_height="0px"
         app:strTitulo="Geral">
@@ -17,6 +17,6 @@
             android:translationZ="3px"
             />
 
-    </com.digosofter.digodroid.controle.painel.PainelGrupo>
+    </com.digosofter.digodroid.componente.painel.PainelGrupo>
 
 </LinearLayout>

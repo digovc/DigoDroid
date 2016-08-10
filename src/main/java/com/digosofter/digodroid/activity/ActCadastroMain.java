@@ -8,8 +8,8 @@ import android.view.ViewGroup;
 
 import com.digosofter.digodroid.AppAndroid;
 import com.digosofter.digodroid.R;
-import com.digosofter.digodroid.controle.campo.CampoConsulta;
-import com.digosofter.digodroid.controle.campo.CampoMain;
+import com.digosofter.digodroid.componente.campo.CampoConsulta;
+import com.digosofter.digodroid.componente.campo.CampoMain;
 import com.digosofter.digodroid.database.ColunaAndroid;
 import com.digosofter.digodroid.database.TabelaAndroid;
 import com.digosofter.digodroid.erro.ErroAndroid;

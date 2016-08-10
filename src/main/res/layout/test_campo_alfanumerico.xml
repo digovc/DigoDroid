@@ -5,22 +5,22 @@
               android:layout_height="match_parent"
               android:orientation="vertical">
 
-    <com.digosofter.digodroid.controle.painel.PainelGrupo
+    <com.digosofter.digodroid.componente.painel.PainelGrupo
         android:layout_width="0px"
         android:layout_height="0px"
         app:strTitulo="Cadastro de algum coisa">
 
-        <com.digosofter.digodroid.controle.painel.PainelLinha
+        <com.digosofter.digodroid.componente.painel.PainelLinha
             android:layout_width="0px"
             android:layout_height="0px">
 
-            <com.digosofter.digodroid.controle.campo.CampoAlfanumerico
+            <com.digosofter.digodroid.componente.campo.CampoAlfanumerico
                 android:layout_width="0px"
                 android:layout_height="0px"
                 app:strTitulo="Teste"
                 >
 
-            </com.digosofter.digodroid.controle.campo.CampoAlfanumerico>
-        </com.digosofter.digodroid.controle.painel.PainelLinha>
-    </com.digosofter.digodroid.controle.painel.PainelGrupo>
+            </com.digosofter.digodroid.componente.campo.CampoAlfanumerico>
+        </com.digosofter.digodroid.componente.painel.PainelLinha>
+    </com.digosofter.digodroid.componente.painel.PainelGrupo>
 </LinearLayout>

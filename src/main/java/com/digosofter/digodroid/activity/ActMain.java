@@ -14,8 +14,8 @@ import android.widget.FrameLayout;
 
 import com.digosofter.digodroid.AppAndroid;
 import com.digosofter.digodroid.R;
-import com.digosofter.digodroid.controle.drawermenu.DrawerMenu;
-import com.digosofter.digodroid.controle.painel.PainelMenuConteudo;
+import com.digosofter.digodroid.componente.drawermenu.DrawerMenu;
+import com.digosofter.digodroid.componente.painel.PainelMenuConteudo;
 import com.digosofter.digodroid.erro.ErroAndroid;
 
 import java.util.ArrayList;
@@ -23,7 +23,6 @@ import java.util.List;
 
 public abstract class ActMain extends Activity
 {
-
   public static final String STR_EXTRA_OUT_BOO_FECHAR = "boo_fechar";
 
   private boolean _booVisivel;
@@ -35,22 +34,12 @@ public abstract class ActMain extends Activity
 
   public void abrirAct(Class<? extends ActMain> cls)
   {
-    try
+    if (cls == null)
     {
-      if (cls == null)
-      {
-        return;
-      }
-      this.startActivityForResult(new Intent(this, cls), 0);
+      return;
     }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
 
-    }
-    finally
-    {
-    }
+    this.startActivityForResult(new Intent(this, cls), 0);
   }
 
   public void addEvtOnActivityResultListener(OnActivityResultListener evt)
@@ -122,11 +111,11 @@ public abstract class ActMain extends Activity
     }
   }
 
-  protected void addFragmento(int intViewGroupConteinerId, Fragment frg)
+  protected void addFragmento(int intViewGroupContainerId, Fragment frg)
   {
     try
     {
-      this.getFragmentManager().beginTransaction().add(intViewGroupConteinerId, frg).commit();
+      this.getFragmentManager().beginTransaction().add(intViewGroupContainerId, frg).commit();
     }
     catch (Exception ex)
     {
@@ -374,21 +363,12 @@ public abstract class ActMain extends Activity
 
   protected ViewGroup getViwRoot()
   {
-    try
+    if (_viwRoot != null)
     {
-      if (_viwRoot != null)
-      {
-        return _viwRoot;
-      }
-      _viwRoot = (ViewGroup) ((ViewGroup) this.findViewById(android.R.id.content)).getChildAt(0);
+      return _viwRoot;
     }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
-    }
+    _viwRoot = (ViewGroup) ((ViewGroup) this.findViewById(android.R.id.content)).getChildAt(0);
+
     return _viwRoot;
   }
 
@@ -396,6 +376,7 @@ public abstract class ActMain extends Activity
   {
     try
     {
+      this.inicializarApp();
       this.inicializarActionBar();
       this.inicializarContentView();
     }
@@ -410,73 +391,58 @@ public abstract class ActMain extends Activity
 
   private void inicializarActionBar()
   {
-    try
+    if (this.getActionBar() == null)
     {
-      if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2)
-      {
-        this.getActionBar().setHomeAsUpIndicator(R.drawable.voltar);
-      }
-      this.getActionBar().setDisplayHomeAsUpEnabled(true);
-      this.getActionBar().setHomeButtonEnabled(true);
-      this.getActionBar().setIcon(null);
+      return;
     }
-    catch (Exception ex)
+
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2)
     {
-      new ErroAndroid("Erro inesperado.\n", ex);
+      this.getActionBar().setHomeAsUpIndicator(R.drawable.voltar);
     }
-    finally
-    {
-    }
+
+    this.getActionBar().setDisplayHomeAsUpEnabled(true);
+    this.getActionBar().setHomeButtonEnabled(true);
+    this.getActionBar().setIcon(null);
+  }
+
+  protected void inicializarApp()
+  {
+
   }
 
   private void inicializarContentView()
   {
-    DrawerMenu viwDrawerMenu;
-    FrameLayout viwConteudo;
-    PainelMenuConteudo pnlMenuConteudo;
-    try
+    if (this.getIntLayoutId() < 1)
     {
-      if (this.getIntLayoutId() < 1)
-      {
-        return;
-      }
-      if (this.getIntDrawerMenuLayoutId() < 1)
-      {
-        return;
-      }
-      viwDrawerMenu = (DrawerMenu) this.getLayoutInflater().inflate(R.layout.act_main, null);
-      viwConteudo = (FrameLayout) viwDrawerMenu.findViewById(R.id.actMain_viwConteudo);
-      pnlMenuConteudo = (PainelMenuConteudo) viwDrawerMenu.findViewById(R.id.actMain_pnlMenuConteudo);
-      this.getLayoutInflater().inflate(this.getIntLayoutId(), viwConteudo, true);
-      this.getLayoutInflater().inflate(this.getIntDrawerMenuLayoutId(), pnlMenuConteudo, true);
-      AppAndroid.getI().dispararOnMenuCreateListener(this, viwDrawerMenu);
-      this.setContentView(viwDrawerMenu);
+      return;
     }
-    catch (Exception ex)
+
+    if (this.getIntDrawerMenuLayoutId() < 1)
     {
-      new ErroAndroid("Erro inesperado.\n", ex);
+      this.setContentView(this.getIntLayoutId());
+      return;
     }
-    finally
-    {
-    }
+
+    DrawerMenu viwDrawerMenu = (DrawerMenu) this.getLayoutInflater().inflate(R.layout.act_main, null);
+
+    FrameLayout viwConteudo = (FrameLayout) viwDrawerMenu.findViewById(R.id.actMain_viwConteudo);
+
+    PainelMenuConteudo pnlMenuConteudo = (PainelMenuConteudo) viwDrawerMenu.findViewById(R.id.actMain_pnlMenuConteudo);
+
+    this.getLayoutInflater().inflate(this.getIntLayoutId(), viwConteudo, true);
+    this.getLayoutInflater().inflate(this.getIntDrawerMenuLayoutId(), pnlMenuConteudo, true);
+
+    AppAndroid.getI().dispararOnMenuCreateListener(this, viwDrawerMenu);
+
+    this.setContentView(viwDrawerMenu);
   }
 
   private void iniciar()
   {
-    try
-    {
-      this.inicializar();
-      this.montarLayout();
-      this.setEventos();
-    }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
-    }
-
+    this.inicializar();
+    this.montarLayout();
+    this.setEventos();
   }
 
   protected void montarLayout()
@@ -561,17 +527,8 @@ public abstract class ActMain extends Activity
   protected void onCreate(Bundle savedInstanceState)
   {
     super.onCreate(savedInstanceState);
-    try
-    {
-      this.iniciar();
-    }
-    catch (Exception ex)
-    {
-      new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(0), ex);
-    }
-    finally
-    {
-    }
+
+    this.iniciar();
   }
 
   @Override
@@ -602,6 +559,7 @@ public abstract class ActMain extends Activity
       {
         return true;
       }
+
       switch (mni.getItemId())
       {
         case android.R.id.home:

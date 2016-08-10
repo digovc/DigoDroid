@@ -5,9 +5,9 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <com.digosofter.digodroid.controle.item.ItemConsulta
+    <com.digosofter.digodroid.componente.item.ItemConsulta
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-    </com.digosofter.digodroid.controle.item.ItemConsulta>
+    </com.digosofter.digodroid.componente.item.ItemConsulta>
 </LinearLayout>

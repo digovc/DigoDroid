@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.digosofter.digodroid.controle.painel.PainelGeral
+<com.digosofter.digodroid.componente.painel.PainelGeral
     android:id="@+id/actDetalhe_pnlConteudo"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <com.digosofter.digodroid.controle.painel.PainelDetalheCabecalho
+    <com.digosofter.digodroid.componente.painel.PainelDetalheCabecalho
         android:id="@+id/actDetalhe_pnlTitulo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -16,7 +16,7 @@
         android:orientation="vertical"
         android:padding="10dp">
 
-        <com.digosofter.digodroid.controle.label.LabelGeral
+        <com.digosofter.digodroid.componente.label.LabelGeral
             android:id="@+id/actDetalhe_lblIntRegistroId"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -24,7 +24,7 @@
             android:textColor="@android:color/white"
             app:enmFonteTamanho="PEQUENO"/>
 
-        <com.digosofter.digodroid.controle.label.LabelGeral
+        <com.digosofter.digodroid.componente.label.LabelGeral
             android:id="@+id/actDetalhe_lblStrRegistroNome"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -32,21 +32,21 @@
             android:textColor="@android:color/white"
             app:enmFonteTamanho="NORMAL"/>
 
-    </com.digosofter.digodroid.controle.painel.PainelDetalheCabecalho>
+    </com.digosofter.digodroid.componente.painel.PainelDetalheCabecalho>
 
     <ScrollView
         android:id="@+id/actDetalhe_pnlCamposScroll"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent">
 
-        <com.digosofter.digodroid.controle.painel.PainelGeral
+        <com.digosofter.digodroid.componente.painel.PainelGeral
             android:id="@+id/actDetalhe_pnlCampos"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:padding="10dp">
-        </com.digosofter.digodroid.controle.painel.PainelGeral>
+        </com.digosofter.digodroid.componente.painel.PainelGeral>
 
     </ScrollView>
 
-</com.digosofter.digodroid.controle.painel.PainelGeral>
+</com.digosofter.digodroid.componente.painel.PainelGeral>

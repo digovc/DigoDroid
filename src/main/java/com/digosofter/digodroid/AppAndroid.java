@@ -14,8 +14,8 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
 import com.digosofter.digodroid.activity.ActMain;
-import com.digosofter.digodroid.controle.drawermenu.DrawerMenu;
-import com.digosofter.digodroid.controle.drawermenu.MenuItem;
+import com.digosofter.digodroid.componente.drawermenu.DrawerMenu;
+import com.digosofter.digodroid.componente.drawermenu.MenuItem;
 import com.digosofter.digodroid.database.DataBaseAndroid;
 import com.digosofter.digodroid.database.TabelaAndroid;
 import com.digosofter.digodroid.database.ViewAndroid;
@@ -54,17 +54,7 @@ public abstract class AppAndroid extends App
 
   protected AppAndroid()
   {
-    try
-    {
-      this.setI(this);
-    }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
-    }
+    this.setI(this);
   }
 
   public void addEvtOnMenuCreateListener(OnMenuCreateListener evt)
@@ -801,22 +791,13 @@ public abstract class AppAndroid extends App
     _actPrincipal = actPrincipal;
   }
 
-  private void setI(AppAndroid _i)
+  private void setI(AppAndroid app)
   {
-    try
+    if (i != null)
     {
-      if (i != null)
-      {
-        return;
-      }
-      i = _i;
+      return;
     }
-    catch (Exception ex)
-    {
-      new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(0), ex);
-    }
-    finally
-    {
-    }
+
+    i = app;
   }
 }

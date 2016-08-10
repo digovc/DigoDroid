@@ -1,4 +1,4 @@
-<com.digosofter.digodroid.controle.painel.PainelGeral
+<com.digosofter.digodroid.componente.painel.PainelGeral
     android:id="@+id/actConsulta_pnlGeral"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -9,23 +9,23 @@
     tools:context=".activitys.ActCadastro">
 
 
-    <com.digosofter.digodroid.controle.painel.PainelGeralRelativo
+    <com.digosofter.digodroid.componente.painel.PainelGeralRelativo
         android:id="@+id/actConsulta_pnlPesquisa"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/cor_fundo"
         android:orientation="horizontal">
 
-        <com.digosofter.digodroid.controle.textbox.TextBoxGeral
+        <com.digosofter.digodroid.componente.textbox.TextBoxGeral
             android:id="@+id/actConsulta_txtPesquisa"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:hint="Pesquisa"
             android:inputType="textCapCharacters">
-        </com.digosofter.digodroid.controle.textbox.TextBoxGeral>
+        </com.digosofter.digodroid.componente.textbox.TextBoxGeral>
 
-        <com.digosofter.digodroid.controle.botao.BotaoCircular
+        <com.digosofter.digodroid.componente.botao.BotaoCircular
             android:id="@+id/actConsulta_btnPesquisaLimpar"
             android:layout_width="35dp"
             android:layout_height="wrap_content"
@@ -35,9 +35,9 @@
             android:visibility="invisible"
             app:cb_color="@color/cor_borda"/>
 
-    </com.digosofter.digodroid.controle.painel.PainelGeralRelativo>
+    </com.digosofter.digodroid.componente.painel.PainelGeralRelativo>
 
-    <com.digosofter.digodroid.controle.linha.LinhaGeral
+    <com.digosofter.digodroid.componente.linha.LinhaGeral
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="horizontal"/>
@@ -54,7 +54,7 @@
         android:paddingRight="10dp">
     </ListView>
 
-    <com.digosofter.digodroid.controle.label.LabelGeral
+    <com.digosofter.digodroid.componente.label.LabelGeral
         android:id="@+id/actConsulta_lblVazio"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
@@ -62,4 +62,4 @@
         android:text="Lista vazia"
         android:visibility="gone"/>
 
-</com.digosofter.digodroid.controle.painel.PainelGeral>
+</com.digosofter.digodroid.componente.painel.PainelGeral>
