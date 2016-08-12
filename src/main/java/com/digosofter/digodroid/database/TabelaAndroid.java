@@ -2,7 +2,6 @@ package com.digosofter.digodroid.database;
 
 import android.content.Intent;
 import android.database.Cursor;
-import android.support.annotation.Nullable;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.SubMenu;
@@ -1073,7 +1072,6 @@ public abstract class TabelaAndroid<T extends Dominio> extends Tabela<T>
     return null;
   }
 
-  @Nullable
   private String getSqlSelectColunasNomesConsulta(List<Coluna> lstClnAdicionada, Coluna cln)
   {
     try

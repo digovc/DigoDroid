@@ -33,12 +33,15 @@ public abstract class ServiceMain extends IntentService
 
   /**
    * Responsável pela inicialização de propriedades antes de iniciar o serviço.
-   *
-   * @return True caso o serviço foi inicializado corretamente e pode iniciar, ou False caso contrário, o que parará o serviço imediatamente.
    */
-  protected boolean inicializar()
+  protected void inicializar()
   {
-    return true;
+  }
+
+  private void iniciar()
+  {
+    this.inicializar();
+    this.setEventos();
   }
 
   @Override
@@ -48,10 +51,13 @@ public abstract class ServiceMain extends IntentService
     {
       this.setItt(itt);
 
-      if (!this.inicializar())
+      if (!this.validarDados())
       {
+        this.setBooParar(true);
         return;
       }
+
+      this.iniciar();
 
       this.servico();
     }
@@ -79,8 +85,19 @@ public abstract class ServiceMain extends IntentService
     _booParar = booParar;
   }
 
+  protected void setEventos()
+  {
+
+  }
+
   private void setItt(Intent itt)
   {
     _itt = itt;
+  }
+
+  protected boolean validarDados()
+  {
+
+    return true;
   }
 }

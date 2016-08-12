@@ -8,11 +8,12 @@ import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
 
-import com.digosofter.digodroid.AppAndroid;
+import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
@@ -184,5 +185,22 @@ public abstract class ActMapaMain extends ActMain implements OnMapReadyCallback
     }
 
     this.getObjLocationManager().requestSingleUpdate(LocationManager.GPS_PROVIDER, null);
+  }
+
+  protected void zoom(final LatLngBounds.Builder objLatLngBoundsBuilder)
+  {
+    if (objLatLngBoundsBuilder == null)
+    {
+      return;
+    }
+
+    if (this.getObjGoogleMap() == null)
+    {
+      return;
+    }
+
+    CameraUpdate objCameraUpdate = CameraUpdateFactory.newLatLngBounds(objLatLngBoundsBuilder.build(), 250);
+
+    this.getObjGoogleMap().animateCamera(objCameraUpdate);
   }
 }
