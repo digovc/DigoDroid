@@ -237,17 +237,9 @@ public abstract class ActMain extends Activity
   public void finish()
   {
     super.finish();
-    try
-    {
-      this.finalizar();
-    }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
-    }
+
+    this.finalizar();
+
   }
 
   public boolean getBooVisivel()
