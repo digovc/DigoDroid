@@ -7,6 +7,5 @@ import java.util.EventListener;
 
 public interface OnMenuCreateListener extends EventListener
 {
-
   void onMenuCreate(ActMain act, DrawerMenu viwDrawerMenu);
 }

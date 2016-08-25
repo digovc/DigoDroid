@@ -10,47 +10,26 @@ import android.widget.Filter;
 import com.digosofter.digodroid.activity.ActConsulta;
 import com.digosofter.digodroid.controle.item.ItemConsulta;
 import com.digosofter.digodroid.database.TabelaAndroid;
-import com.digosofter.digodroid.erro.ErroAndroid;
 
 public class AdapterConsulta extends CursorAdapter
 {
-
   private ActConsulta _actConsulta;
   private TabelaAndroid<?> _tbl;
 
   public AdapterConsulta(ActConsulta actConsulta, Cursor crs)
   {
     super(actConsulta, crs, false);
-    try
-    {
-      this.setActConsulta(actConsulta);
-    }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
-    }
+
+    this.setActConsulta(actConsulta);
   }
 
   private void atualizarActConsulta()
   {
-    try
+    if (this.getActConsulta() == null)
     {
-      if (this.getActConsulta() == null)
-      {
-        return;
-      }
-      this.setTbl(this.getActConsulta().getTbl());
+      return;
     }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
-    }
+    this.setTbl(this.getActConsulta().getTbl());
   }
 
   /**
@@ -58,21 +37,11 @@ public class AdapterConsulta extends CursorAdapter
    */
   public void atualizarLista()
   {
-    try
+    if (this.getTbl() == null)
     {
-      if (this.getTbl() == null)
-      {
-        return;
-      }
-      this.changeCursor(this.getTbl().pesquisarConsulta());
+      return;
     }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
-    }
+    this.changeCursor(this.getTbl().pesquisarConsulta());
   }
 
   @Override
@@ -105,18 +74,8 @@ public class AdapterConsulta extends CursorAdapter
 
   private void setActConsulta(ActConsulta actConsulta)
   {
-    try
-    {
-      _actConsulta = actConsulta;
-      this.atualizarActConsulta();
-    }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
-    }
+    _actConsulta = actConsulta;
+    this.atualizarActConsulta();
   }
 
   private void setTbl(TabelaAndroid<?> tbl)

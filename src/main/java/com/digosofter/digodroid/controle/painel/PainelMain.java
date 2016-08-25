@@ -7,7 +7,6 @@ import com.digosofter.digodroid.controle.viewgroup.LinearLayoutMain;
 
 public abstract class PainelMain extends LinearLayoutMain
 {
-
   public PainelMain(Context context)
   {
     super(context);

@@ -7,7 +7,6 @@ import com.digosofter.digodroid.controle.viewgroup.RelativeLayoutMain;
 
 public abstract class PainelMainRelativo extends RelativeLayoutMain
 {
-
   public PainelMainRelativo(Context context)
   {
     super(context);

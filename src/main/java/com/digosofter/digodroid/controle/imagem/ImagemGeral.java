@@ -5,57 +5,28 @@ import android.util.AttributeSet;
 import android.widget.ImageView;
 
 import com.digosofter.digodroid.controle.IControleMain;
-import com.digosofter.digodroid.erro.ErroAndroid;
 
 public class ImagemGeral extends ImageView implements IControleMain
 {
-
   public ImagemGeral(Context context)
   {
     super(context);
-    try
-    {
-      this.iniciar(null);
-    }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
-    }
+
+    this.iniciar(null);
   }
 
   public ImagemGeral(Context context, AttributeSet attrs)
   {
     super(context, attrs);
-    try
-    {
-      this.iniciar(attrs);
-    }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
-    }
+
+    this.iniciar(attrs);
   }
 
   public ImagemGeral(Context context, AttributeSet attrs, int defStyleAttr)
   {
     super(context, attrs, defStyleAttr);
-    try
-    {
-      this.iniciar(attrs);
-    }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
-    }
+
+    this.iniciar(attrs);
   }
 
   @Override
@@ -71,17 +42,7 @@ public class ImagemGeral extends ImageView implements IControleMain
   @Override
   public void inicializar()
   {
-    try
-    {
-      this.setScaleType(ScaleType.FIT_XY);
-    }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
-    }
+    this.setScaleType(ScaleType.FIT_XY);
   }
 
   @Override

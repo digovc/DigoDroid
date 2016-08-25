@@ -10,7 +10,6 @@ import java.io.Serializable;
 
 public class ErroAndroid extends Erro implements Serializable
 {
-
   private static final long serialVersionUID = 1L;
 
   public ErroAndroid(String strMsg, Exception ex)
@@ -24,11 +23,9 @@ public class ErroAndroid extends Erro implements Serializable
       AppAndroid.getI().getActPrincipal().startActivity(itt);
 
     }
-    catch (Exception e)
+    catch (Exception exInterno)
     {
-    }
-    finally
-    {
+      exInterno.printStackTrace();
     }
   }
 }

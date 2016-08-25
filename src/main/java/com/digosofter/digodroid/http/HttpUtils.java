@@ -15,32 +15,25 @@ import java.util.List;
 
 public abstract class HttpUtils extends Objeto
 {
-
   public static HttpResponse postData(String uri, List<NameValuePair> lstNameValuePair)
   {
-    // VARIÁVEIS
     HttpClient objHttpclient;
     HttpPost objHttppost;
     HttpResponse objHttpResponseResultado = null;
-    // FIM VARIÁVEIS
+
     try
     {
-      // AÇÕES
       objHttpResponseResultado = null;
       objHttppost = new HttpPost(uri);
       objHttppost.setEntity(new UrlEncodedFormEntity(lstNameValuePair));
       objHttpclient = new DefaultHttpClient();
       objHttpResponseResultado = objHttpclient.execute(objHttppost);
-      // FIM AÇÕES
     }
     catch (Exception ex)
     {
       new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(0), ex);
+    }
 
-    }
-    finally
-    {
-    }
     return objHttpResponseResultado;
   }
 }

@@ -7,11 +7,9 @@ import android.util.AttributeSet;
 import com.digosofter.digodroid.R;
 import com.digosofter.digodroid.UtilsAndroid;
 import com.digosofter.digodroid.design.TemaDefault;
-import com.digosofter.digodroid.erro.ErroAndroid;
 
 public class PainelLinha extends PainelMain
 {
-
   private int _intNivelQuantidade;
 
   public PainelLinha(Context context)
@@ -33,19 +31,9 @@ public class PainelLinha extends PainelMain
   public void finalizar()
   {
     super.finalizar();
-    try
-    {
-      this.getLayoutParams().height = UtilsAndroid.dpToPx(this.getIntNivelQuantidade() * TemaDefault.getI().getIntHeightNivel(), this.getContext());
-      this.getLayoutParams().width = LayoutParams.MATCH_PARENT;
 
-    }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
-    }
+    this.getLayoutParams().height = UtilsAndroid.dpToPx(this.getIntNivelQuantidade() * TemaDefault.getI().getIntHeightNivel(), this.getContext());
+    this.getLayoutParams().width = LayoutParams.MATCH_PARENT;
   }
 
   private int getIntNivelQuantidade()
@@ -58,19 +46,9 @@ public class PainelLinha extends PainelMain
   {
     super.inicializar();
     int intPaddingDp;
-    try
-    {
-      intPaddingDp = UtilsAndroid.dpToPx(TemaDefault.getI().getIntEspacamento(), this.getContext());
-      this.setPadding(intPaddingDp, intPaddingDp, intPaddingDp, intPaddingDp);
 
-    }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
-    }
+    intPaddingDp = UtilsAndroid.dpToPx(TemaDefault.getI().getIntEspacamento(), this.getContext());
+    this.setPadding(intPaddingDp, intPaddingDp, intPaddingDp, intPaddingDp);
   }
 
   @Override
@@ -78,23 +56,13 @@ public class PainelLinha extends PainelMain
   {
     super.inicializar(ats);
     TypedArray objTypedArray;
-    try
-    {
-      if (ats == null)
-      {
-        return;
-      }
-      objTypedArray = this.getContext().obtainStyledAttributes(ats, R.styleable.PainelLinha);
-      this.setIntNivelQuantidade(objTypedArray.getInt(R.styleable.PainelLinha_intNivelQuantidade, 1));
 
-    }
-    catch (Exception ex)
+    if (ats == null)
     {
-      new ErroAndroid("Erro inesperado.\n", ex);
+      return;
     }
-    finally
-    {
-    }
+    objTypedArray = this.getContext().obtainStyledAttributes(ats, R.styleable.PainelLinha);
+    this.setIntNivelQuantidade(objTypedArray.getInt(R.styleable.PainelLinha_intNivelQuantidade, 1));
   }
 
   private void setIntNivelQuantidade(int intNivelQuantidade)

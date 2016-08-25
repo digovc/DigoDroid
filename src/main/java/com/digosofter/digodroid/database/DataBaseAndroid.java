@@ -7,12 +7,10 @@ import android.database.sqlite.SQLiteOpenHelper;
 import com.digosofter.digodroid.AppAndroid;
 import com.digosofter.digodroid.activity.ActMain;
 import com.digosofter.digodroid.arquivo.ArquivoDb;
-import com.digosofter.digodroid.erro.ErroAndroid;
 import com.digosofter.digojava.database.DataBase;
 
 public class DataBaseAndroid extends DataBase
 {
-
   public static final String STR_FILE_PREFIXO = ".sqlite";
 
   private ArquivoDb _arq;
@@ -22,17 +20,7 @@ public class DataBaseAndroid extends DataBase
 
   public DataBaseAndroid()
   {
-    try
-    {
-      this.setStrNome(AppAndroid.getI().getStrNome() + STR_FILE_PREFIXO);
-    }
-    catch (Exception ex)
-    {
-      new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(118), ex);
-    }
-    finally
-    {
-    }
+    this.setStrNome(AppAndroid.getI().getStrNome() + STR_FILE_PREFIXO);
   }
 
   /**
@@ -42,27 +30,17 @@ public class DataBaseAndroid extends DataBase
    */
   public void apagar(ActMain act)
   {
-    try
+    if (act == null)
     {
-      if (act == null)
-      {
-        return;
-      }
-      this.setObjDbEscrita(null);
-      this.setObjDbLeitura(null);
-      this.setObjSQLiteOpenHelper(null);
-      act.deleteDatabase(this.getStrNome());
-      AppAndroid.getI().criarTabela();
-      AppAndroid.getI().criarView();
-      AppAndroid.getI().notificar("Banco de dados apagado.");
+      return;
     }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
-    }
+    this.setObjDbEscrita(null);
+    this.setObjDbLeitura(null);
+    this.setObjSQLiteOpenHelper(null);
+    act.deleteDatabase(this.getStrNome());
+    AppAndroid.getI().criarTabela();
+    AppAndroid.getI().criarView();
+    AppAndroid.getI().notificar("Banco de dados apagado.");
   }
 
   /**
@@ -72,34 +50,14 @@ public class DataBaseAndroid extends DataBase
    */
   public void backup(final ActMain act)
   {
-    try
-    {
-      this.getArq().copiar(AppAndroid.getI().getDir());
-      AppAndroid.getI().notificar("Backup efetuado com sucesso.");
-    }
-    catch (Exception ex)
-    {
-      new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(0), ex);
-    }
-    finally
-    {
-    }
+    this.getArq().copiar(AppAndroid.getI().getDir());
+    AppAndroid.getI().notificar("Backup efetuado com sucesso.");
   }
 
   @Override
   public void execSql(String sql)
   {
-    try
-    {
-      this.getObjDbEscrita().execSQL(sql);
-    }
-    catch (Exception ex)
-    {
-      new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(119), ex);
-    }
-    finally
-    {
-    }
+    this.getObjDbEscrita().execSQL(sql);
   }
 
   public Cursor execSqlComRetorno(String sql)
@@ -112,124 +70,79 @@ public class DataBaseAndroid extends DataBase
   {
     Cursor crs;
     String strResultado;
-    try
+
+    crs = this.execSqlComRetorno(sql);
+    if (crs == null || !crs.moveToFirst())
     {
-      crs = this.execSqlComRetorno(sql);
-      if (crs == null || !crs.moveToFirst())
-      {
-        return null;
-      }
-      strResultado = crs.getString(0);
-      crs.close();
-      return strResultado;
+      return null;
     }
-    catch (Exception ex)
-    {
-      new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(0), ex);
-    }
-    finally
-    {
-    }
-    return null;
+    strResultado = crs.getString(0);
+    crs.close();
+
+    return strResultado;
   }
 
   private ArquivoDb getArq()
   {
-    try
+    if (_arq != null)
     {
-      if (_arq != null)
-      {
-        return _arq;
-      }
-      _arq = new ArquivoDb(this);
+      return _arq;
     }
-    catch (Exception ex)
-    {
-      new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(0), ex);
-    }
-    finally
-    {
-    }
+    _arq = new ArquivoDb(this);
+
     return _arq;
   }
 
   private SQLiteDatabase getObjDbEscrita()
   {
-    try
+    if (_objDbEscrita != null)
     {
-      if (_objDbEscrita != null)
-      {
-        return _objDbEscrita;
-      }
-      _objDbEscrita = this.getObjSQLiteOpenHelper().getWritableDatabase();
+      return _objDbEscrita;
     }
-    catch (Exception ex)
-    {
-      new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(0), ex);
-    }
-    finally
-    {
-    }
+    _objDbEscrita = this.getObjSQLiteOpenHelper().getWritableDatabase();
+
     return _objDbEscrita;
   }
 
   private SQLiteDatabase getObjDbLeitura()
   {
-    try
+    if (_objDbLeitura != null)
     {
-      if (_objDbLeitura != null)
-      {
-        return _objDbLeitura;
-      }
-      _objDbLeitura = this.getObjSQLiteOpenHelper().getReadableDatabase();
+      return _objDbLeitura;
     }
-    catch (Exception ex)
-    {
-      new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(0), ex);
-    }
-    finally
-    {
-    }
+    _objDbLeitura = this.getObjSQLiteOpenHelper().getReadableDatabase();
+
     return _objDbLeitura;
   }
 
   private SQLiteOpenHelper getObjSQLiteOpenHelper()
   {
-    try
+    if (_objSQLiteOpenHelper != null)
     {
-      if (_objSQLiteOpenHelper != null)
+      return _objSQLiteOpenHelper;
+    }
+    _objSQLiteOpenHelper = new SQLiteOpenHelper(AppAndroid.getI().getCnt(), this.getStrNome(), null, AppAndroid.getI().getIntVersao())
+    {
+
+      @Override
+      public void onConfigure(final SQLiteDatabase objSQLiteDatabase)
       {
-        return _objSQLiteOpenHelper;
+        super.onConfigure(objSQLiteDatabase);
       }
-      _objSQLiteOpenHelper = new SQLiteOpenHelper(AppAndroid.getI().getCnt(), this.getStrNome(), null, AppAndroid.getI().getIntVersao())
+
+      @Override
+      public void onCreate(SQLiteDatabase objSQLiteDatabase)
       {
+        DataBaseAndroid.this.onCreateSQLiteOpenHelper(objSQLiteDatabase);
+      }
 
-        @Override
-        public void onConfigure(final SQLiteDatabase objSQLiteDatabase)
-        {
-          super.onConfigure(objSQLiteDatabase);
-        }
+      @Override
+      public void onUpgrade(SQLiteDatabase objSQLiteDatabase, int intOldVersion, int intNewVersion)
+      {
+        DataBaseAndroid.this.onUpdateSQLiteOpenHelper(objSQLiteDatabase, intOldVersion, intNewVersion);
+      }
+    };
 
-        @Override
-        public void onCreate(SQLiteDatabase objSQLiteDatabase)
-        {
-          DataBaseAndroid.this.onCreateSQLiteOpenHelper(objSQLiteDatabase);
-        }
-
-        @Override
-        public void onUpgrade(SQLiteDatabase objSQLiteDatabase, int intOldVersion, int intNewVersion)
-        {
-          DataBaseAndroid.this.onUpdateSQLiteOpenHelper(objSQLiteDatabase, intOldVersion, intNewVersion);
-        }
-      };
-    }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
-    }
     return _objSQLiteOpenHelper;
   }
 

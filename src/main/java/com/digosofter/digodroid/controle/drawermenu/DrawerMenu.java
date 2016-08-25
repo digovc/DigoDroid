@@ -13,75 +13,37 @@ import com.digosofter.digodroid.erro.ErroAndroid;
 
 public final class DrawerMenu extends DrawerLayout implements DrawerLayout.DrawerListener
 {
-
   private MenuItem _mniClicado;
 
   public DrawerMenu(Context context)
   {
     super(context);
-    try
-    {
-      this.iniciar(null);
-    }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
-    }
+
+    this.iniciar(null);
   }
 
   public DrawerMenu(Context context, AttributeSet attrs)
   {
     super(context, attrs);
-    try
-    {
-      this.iniciar(attrs);
-    }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
-    }
+
+    this.iniciar(attrs);
   }
 
   public DrawerMenu(Context context, AttributeSet attrs, int defStyle)
   {
     super(context, attrs, defStyle);
-    try
-    {
-      this.iniciar(attrs);
-    }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
-    }
+
+    this.iniciar(attrs);
   }
 
   private void fecharActivity()
   {
-    try
+    if (this.getContext().equals(AppAndroid.getI().getActPrincipal()))
     {
-      if (this.getContext().equals(AppAndroid.getI().getActPrincipal()))
-      {
-        return;
-      }
-      ((Activity) this.getContext()).setResult(0, new Intent().putExtra(ActMain.STR_EXTRA_OUT_BOO_FECHAR, true));
-      ((Activity) this.getContext()).finish();
+      return;
     }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
-    }
+    ((Activity) this.getContext()).setResult(0, new Intent().putExtra(ActMain.STR_EXTRA_OUT_BOO_FECHAR, true));
+    ((Activity) this.getContext()).finish();
   }
 
   protected void finalizar()
@@ -94,9 +56,8 @@ public final class DrawerMenu extends DrawerLayout implements DrawerLayout.Drawe
   }
 
   /**
-   * Chamado de dentro do construtor para fazer qualquer inicialização que seja necessária neste controle. Neste momento
-   * do ciclo os parâmetros de layout do controle ainda não foram carregados, portanto a propriedade {@link
-   * android.view.ViewGroup.LayoutParams} não está inicializada.
+   * Chamado de dentro do construtor para fazer qualquer inicialização que seja necessária neste controle. Neste momento do ciclo os parâmetros de
+   * layout do controle ainda não foram carregados, portanto a propriedade {@link android.view.ViewGroup.LayoutParams} não está inicializada.
    */
   protected void inicializar()
   {
@@ -113,21 +74,11 @@ public final class DrawerMenu extends DrawerLayout implements DrawerLayout.Drawe
 
   private void iniciar(AttributeSet ats)
   {
-    try
-    {
-      this.inicializar(ats);
-      this.inicializar();
-      this.montarLayout();
-      this.setEventos();
-      this.finalizar();
-    }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
-    }
+    this.inicializar(ats);
+    this.inicializar();
+    this.montarLayout();
+    this.setEventos();
+    this.finalizar();
   }
 
   protected void montarLayout()
@@ -176,17 +127,7 @@ public final class DrawerMenu extends DrawerLayout implements DrawerLayout.Drawe
    */
   protected void setEventos()
   {
-    try
-    {
-      this.setDrawerListener(this);
-    }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
-    }
+    this.setDrawerListener(this);
   }
 
   void setMniClicado(MenuItem mniClicado)

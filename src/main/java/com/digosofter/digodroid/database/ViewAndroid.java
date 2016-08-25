@@ -1,32 +1,22 @@
 package com.digosofter.digodroid.database;
 
 import com.digosofter.digodroid.AppAndroid;
-import com.digosofter.digodroid.erro.ErroAndroid;
 import com.digosofter.digojava.Utils;
 import com.digosofter.digojava.database.Dominio;
 import com.digosofter.digojava.database.OnChangeArg;
+import com.digosofter.digojava.erro.Erro;
 
 import org.apache.commons.io.IOUtils;
 
 public abstract class ViewAndroid extends TabelaAndroid<Dominio>
 {
-
   private TabelaAndroid<?> _tbl;
 
   protected ViewAndroid(String strNome, TabelaAndroid tbl)
   {
     super(strNome, null);
-    try
-    {
-      this.setTbl(tbl);
-    }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
-    }
+
+    this.setTbl(tbl);
   }
 
   @Override
@@ -40,90 +30,60 @@ public abstract class ViewAndroid extends TabelaAndroid<Dominio>
   public void apagar(int intRegistroId)
   {
     OnChangeArg arg;
-    try
+
+    if (this.getTbl() == null)
     {
-      if (this.getTbl() == null)
-      {
-        return;
-      }
-      this.getTbl().apagar(intRegistroId);
-      arg = new OnChangeArg();
-      arg.setIntRegistroId(intRegistroId);
-      this.dispararEvtOnApagarReg(arg);
+      return;
     }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
-    }
+    this.getTbl().apagar(intRegistroId);
+    arg = new OnChangeArg();
+    arg.setIntRegistroId(intRegistroId);
+    this.dispararEvtOnApagarReg(arg);
   }
 
   private void atualizarTbl()
   {
-    try
+    if (this.getTbl() == null)
     {
-      if (this.getTbl() == null)
-      {
-        return;
-      }
-      this.getTbl().addViw(this);
+      return;
     }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
-    }
+    this.getTbl().addViw(this);
   }
 
   @Override
   public void criar()
   {
     String sql;
-    try
+
+    if (this.getIntRawFileId() == 0)
     {
-      if (this.getIntRawFileId() == 0)
-      {
-        return;
-      }
-      sql = "drop view if exists _viw_nome;";
-      sql = sql.replace("_viw_nome", this.getSqlNome());
-      this.getObjDb().execSql(sql);
-      this.getObjDb().execSql(this.getSqlSelect());
+      return;
     }
-    catch (Exception ex)
-    {
-      new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(124), ex);
-    }
-    finally
-    {
-    }
+    sql = "drop view if exists _viw_nome;";
+    sql = sql.replace("_viw_nome", this.getSqlNome());
+    this.getObjDb().execSql(sql);
+    this.getObjDb().execSql(this.getSqlSelect());
   }
 
   protected abstract int getIntRawFileId();
 
   private String getSqlSelect()
   {
-    String strResultado = Utils.STR_VAZIA;
     try
     {
       if (this.getIntRawFileId() == 0)
       {
         return Utils.STR_VAZIA;
       }
-      strResultado = IOUtils.toString(AppAndroid.getI().getCnt().getResources().openRawResource(this.getIntRawFileId()), "UTF-8");
+
+      return IOUtils.toString(AppAndroid.getI().getCnt().getResources().openRawResource(this.getIntRawFileId()), "UTF-8");
     }
     catch (Exception ex)
     {
-      new ErroAndroid("Erro inesperado.\n", ex);
+      new Erro("Erro inesperado.\n", ex);
     }
-    finally
-    {
-    }
-    return strResultado;
+
+    return null;
   }
 
   public TabelaAndroid<?> getTbl()
@@ -135,36 +95,18 @@ public abstract class ViewAndroid extends TabelaAndroid<Dominio>
   public void setStrNome(final String strNome)
   {
     super.setStrNome(strNome);
-    try
+
+    if (Utils.getBooStrVazia(strNome))
     {
-      if (Utils.getBooStrVazia(strNome))
-      {
-        return;
-      }
-      this.setStrNomeExibicao(strNome.replace("viw_", ""));
+      return;
     }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
-    }
+
+    this.setStrNomeExibicao(strNome.replace("viw_", ""));
   }
 
   private void setTbl(TabelaAndroid<?> tbl)
   {
-    try
-    {
-      _tbl = tbl;
-      this.atualizarTbl();
-    }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
-    }
+    _tbl = tbl;
+    this.atualizarTbl();
   }
 }

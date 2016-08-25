@@ -5,7 +5,6 @@ import android.util.AttributeSet;
 
 public class PainelGeralRelativo extends PainelMainRelativo
 {
-
   public PainelGeralRelativo(Context context)
   {
     super(context);

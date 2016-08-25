@@ -4,13 +4,11 @@ import android.content.Context;
 import android.util.AttributeSet;
 
 import com.digosofter.digodroid.controle.textbox.TextBoxGeral;
-import com.digosofter.digodroid.erro.ErroAndroid;
 import com.digosofter.digojava.OnValorAlteradoArg;
 import com.digosofter.digojava.OnValorAlteradoListener;
 
 public class CampoAlfanumerico extends CampoMain implements OnValorAlteradoListener
 {
-
   private TextBoxGeral _txt;
 
   public CampoAlfanumerico(Context context)
@@ -30,21 +28,12 @@ public class CampoAlfanumerico extends CampoMain implements OnValorAlteradoListe
 
   protected TextBoxGeral getTxt()
   {
-    try
+    if (_txt != null)
     {
-      if (_txt != null)
-      {
-        return _txt;
-      }
-      _txt = new TextBoxGeral(this.getContext());
+      return _txt;
     }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
-    }
+    _txt = new TextBoxGeral(this.getContext());
+
     return _txt;
   }
 
@@ -52,74 +41,33 @@ public class CampoAlfanumerico extends CampoMain implements OnValorAlteradoListe
   public void inicializar()
   {
     super.inicializar();
-    try
-    {
-      this.inicializarTxt();
 
-    }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
-    }
+    this.inicializarTxt();
   }
 
   private void inicializarTxt()
   {
-    try
-    {
-      this.getTxt().setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
-
-    }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
-    }
+    this.getTxt().setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
   }
 
   @Override
   public void montarLayout()
   {
     super.montarLayout();
-    try
-    {
-      this.addView(this.getTxt());
 
-    }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
-    }
+    this.addView(this.getTxt());
   }
 
   @Override
   public void onValorAlterado(final Object objSender, final OnValorAlteradoArg arg)
   {
-    try
+    if (arg == null)
     {
-      if (arg == null)
-      {
-        return;
-      }
-      if (objSender.equals(this.getTxt()))
-      {
-        this.setStrValor(arg.getStrValor());
-      }
+      return;
     }
-    catch (Exception ex)
+    if (objSender.equals(this.getTxt()))
     {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
+      this.setStrValor(arg.getStrValor());
     }
   }
 
@@ -133,6 +81,7 @@ public class CampoAlfanumerico extends CampoMain implements OnValorAlteradoListe
   public void setEventos()
   {
     super.setEventos();
+
     this.getTxt().addEvtOnValorAlteradoListener(this);
   }
 }

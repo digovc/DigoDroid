@@ -12,7 +12,6 @@ import android.util.AttributeSet;
 
 public class ImagemCircular extends ImagemGeral
 {
-
   public ImagemCircular(Context context)
   {
     super(context);
@@ -34,6 +33,7 @@ public class ImagemCircular extends ImagemGeral
     {
       return null;
     }
+
     Bitmap bitmap = ((BitmapDrawable) this.getDrawable()).getBitmap();
     Bitmap output = Bitmap.createBitmap(bitmap.getWidth(), bitmap.getHeight(), Bitmap.Config.ARGB_8888);
     Canvas canvas = new Canvas(output);
@@ -49,86 +49,6 @@ public class ImagemCircular extends ImagemGeral
     return output;
   }
 
-  /*
-    public static Bitmap getBmpCircular(Bitmap bmp, int intRadius) {
-
-      Bitmap bmpResultado;
-      Bitmap bmpS;
-      Canvas cnv;
-
-      try {
-
-        if (bmp.getWidth() != intRadius || bmp.getHeight() != intRadius) {
-
-          bmpS = Bitmap.createScaledBitmap(bmp, intRadius, intRadius, false);
-
-        } else {
-
-          bmpS = bmp;
-        }
-
-        bmpResultado = Bitmap.createBitmap(bmpS.getWidth(), bmpS.getHeight(), Bitmap.Config.ARGB_8888);
-        cnv = new Canvas(bmpResultado);
-
-        final Paint objPaint = new Paint();
-        final Rect rct = new Rect(0, 0, bmpS.getWidth(), bmpS.getHeight());
-
-        objPaint.setAntiAlias(true);
-        objPaint.setFilterBitmap(true);
-        objPaint.setDither(true);
-        cnv.drawARGB(0, 0, 0, 0);
-        objPaint.setColor(Color.parseColor("#BAB399"));
-        cnv.drawCircle(bmpS.getWidth() / 2 + 0.7f, bmpS.getHeight() / 2 + 0.7f, bmpS.getWidth() / 2 + 0.1f, objPaint);
-        objPaint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
-        cnv.drawBitmap(bmpS, rct, rct, objPaint);
-
-        return bmpResultado;
-
-      } catch (Exception ex) {
-
-        new ErroAndroid("Erro inesperado.\n", ex);
-      } finally {
-      }
-
-      return null;
-    }
-
-    @Override
-    protected void onDraw(Canvas cnv) {
-
-      Bitmap bmp1;
-      Bitmap bmp2;
-      Drawable objDrawable;
-      Bitmap bmpCirculo;
-
-      try {
-
-        objDrawable = this.getDrawable();
-
-        if (objDrawable == null) {
-
-          return;
-        }
-
-        if ((this.getWidth() == 0) || (this.getHeight() == 0)) {
-
-          return;
-        }
-
-        bmp1 = ((BitmapDrawable) objDrawable).getBitmap();
-        bmp2 = bmp1.copy(Bitmap.Config.ARGB_8888, true);
-
-        bmpCirculo = this.getBmpCircular(bmp2, this.getWidth());
-
-        cnv.drawBitmap(bmpCirculo, 0, 0, null);
-
-      } catch (Exception ex) {
-
-        new ErroAndroid("Erro inesperado.\n", ex);
-      } finally {
-      }
-    }
-    */
   @Override
   public void onDraw(Canvas canvas)
   {

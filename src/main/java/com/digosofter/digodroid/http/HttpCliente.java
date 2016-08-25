@@ -13,7 +13,6 @@ import org.apache.http.util.EntityUtils;
 
 public class HttpCliente extends Objeto
 {
-
   public enum EnmStatus
   {
     CONCLUIDO,
@@ -54,11 +53,9 @@ public class HttpCliente extends Objeto
     }
     catch (Exception ex)
     {
-      new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(0), ex);
+      new ErroAndroid("Erro inesperado.\n", ex);
     }
-    finally
-    {
-    }
+
     return _strResposta;
   }
 
@@ -68,58 +65,46 @@ public class HttpCliente extends Objeto
   }
 
   /**
-   * Envia um objeto "json" para o servidor indicado no atributo "url" e colocar deixa a resposta disponível no atributo
-   * "strResposta".
+   * Envia um objeto "json" para o servidor indicado no atributo "url" e colocar deixa a resposta disponível no atributo "strResposta".
    */
   public void postJson(String jsn) throws Exception
   {
     Thread thr;
-    try
-    {
-      this.setEnmStatus(EnmStatus.EM_ANDAMENTO);
-      this.setJsn(jsn);
-      thr = new Thread()
-      {
 
-        @Override
-        public void run()
+    this.setEnmStatus(EnmStatus.EM_ANDAMENTO);
+    this.setJsn(jsn);
+    thr = new Thread()
+    {
+
+      @Override
+      public void run()
+      {
+        HttpClient objHttpClient;
+        HttpPost objHttppost;
+        try
         {
-          HttpClient objHttpClient;
-          HttpPost objHttppost;
-          try
-          {
-            objHttppost = new HttpPost(HttpCliente.this.getUrl());
-            objHttppost.setHeader("json", HttpCliente.this.getJsn());
-            objHttpClient = new DefaultHttpClient();
-            HttpCliente.this.setObjHttpResponse(objHttpClient.execute(objHttppost));
-          }
-          catch (Exception ex)
-          {
-            new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(0), ex);
-          }
-          finally
-          {
-            HttpCliente.this.setEnmStatus(EnmStatus.CONCLUIDO);
-          }
+          objHttppost = new HttpPost(HttpCliente.this.getUrl());
+          objHttppost.setHeader("json", HttpCliente.this.getJsn());
+          objHttpClient = new DefaultHttpClient();
+          HttpCliente.this.setObjHttpResponse(objHttpClient.execute(objHttppost));
         }
-
-        ;
-      };
-      thr.start();
-      do
-      {
-        // TODO: Definir se fazer isso assíncrono seria melhor.
-        Thread.sleep(10);
+        catch (Exception ex)
+        {
+          new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(0), ex);
+        }
+        finally
+        {
+          HttpCliente.this.setEnmStatus(EnmStatus.CONCLUIDO);
+        }
       }
-      while (HttpCliente.this.getEnmStatus() == EnmStatus.EM_ANDAMENTO);
-    }
-    catch (Exception ex)
+    };
+    thr.start();
+    do
     {
-      throw ex;
+      // TODO: Definir se fazer isso assíncrono seria melhor.
+      Thread.sleep(10);
     }
-    finally
-    {
-    }
+    while (HttpCliente.this.getEnmStatus() == EnmStatus.EM_ANDAMENTO);
   }
 
   private void setEnmStatus(EnmStatus enmStatus)

@@ -4,11 +4,9 @@ import android.content.Context;
 import android.util.AttributeSet;
 
 import com.digosofter.digodroid.controle.checkbox.CheckBoxGeral;
-import com.digosofter.digodroid.erro.ErroAndroid;
 
 public class CampoCheckBox extends CampoMain
 {
-
   private CheckBoxGeral _ckb;
 
   public CampoCheckBox(Context context)
@@ -28,22 +26,12 @@ public class CampoCheckBox extends CampoMain
 
   private CheckBoxGeral getCkb()
   {
-    try
+    if (_ckb != null)
     {
-      if (_ckb != null)
-      {
-        return _ckb;
-      }
-      _ckb = new CheckBoxGeral(this.getContext());
+      return _ckb;
+    }
+    _ckb = new CheckBoxGeral(this.getContext());
 
-    }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
-    }
     return _ckb;
   }
 
@@ -51,52 +39,21 @@ public class CampoCheckBox extends CampoMain
   public void inicializar()
   {
     super.inicializar();
-    try
-    {
-      this.inicializarCkb();
 
-    }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
-    }
+    this.inicializarCkb();
   }
 
   private void inicializarCkb()
   {
-    try
-    {
-      this.getCkb().setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
-
-    }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
-    }
+    this.getCkb().setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
   }
 
   @Override
   public void montarLayout()
   {
     super.montarLayout();
-    try
-    {
-      this.addView(this.getCkb());
 
-    }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
-    }
+    this.addView(this.getCkb());
   }
 
   @Override

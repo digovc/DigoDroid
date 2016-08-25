@@ -10,7 +10,6 @@ import com.digosofter.digojava.Utils;
 
 public class ActSqlExecutor extends ActMain implements View.OnClickListener
 {
-
   private Button _btnExecutarScript;
   private EditText _txtSqlScript;
 

@@ -1,7 +1,9 @@
 package com.digosofter.digodroid.controle.item;
 
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.database.Cursor;
+import android.os.Build;
 import android.util.AttributeSet;
 import android.view.View;
 
@@ -13,13 +15,11 @@ import com.digosofter.digodroid.controle.painel.PainelGeral;
 import com.digosofter.digodroid.controle.painel.PainelRipple;
 import com.digosofter.digodroid.database.ColunaAndroid;
 import com.digosofter.digodroid.database.TabelaAndroid;
-import com.digosofter.digodroid.erro.ErroAndroid;
 import com.digosofter.digojava.Utils;
 import com.digosofter.digojava.database.Coluna;
 
 public class ItemConsulta extends ItemMain implements View.OnClickListener, View.OnLongClickListener
 {
-
   private int _intRegistroId;
   private LabelGeral _lblRegistroTitulo;
   private PainelGeral _pnlCampos;
@@ -36,17 +36,8 @@ public class ItemConsulta extends ItemMain implements View.OnClickListener, View
   public ItemConsulta(Context cnt, TabelaAndroid tbl)
   {
     super(cnt);
-    try
-    {
-      this.setTbl(tbl);
-    }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
-    }
+
+    this.setTbl(tbl);
   }
 
   public ItemConsulta(Context context, AttributeSet attrs, int defStyleAttr)
@@ -59,94 +50,66 @@ public class ItemConsulta extends ItemMain implements View.OnClickListener, View
   {
     super.carregarDados(crs);
     String strTitulo;
-    try
+
+    if (crs == null)
     {
-      if (crs == null)
-      {
-        return;
-      }
-      if (this.getTbl() == null)
-      {
-        return;
-      }
-      this.setIntRegistroId(crs.getInt(crs.getColumnIndex(this.getTbl().getClnChavePrimaria().getSqlNome())));
-      this.setStrRegistroNome(crs.getString(crs.getColumnIndex(this.getTbl().getClnNome().getSqlNome())));
-      strTitulo = "_registro_id - _registro_nome";
-      strTitulo = strTitulo.replace("_registro_id", String.valueOf(this.getIntRegistroId()));
-      strTitulo = strTitulo.replace("_registro_nome", (!Utils.getBooStrVazia(this.getStrRegistroNome()) ? this.getStrRegistroNome() : String.valueOf(this.getIntRegistroId())));
-      this.getLblRegistroTitulo().setText(strTitulo);
-      this.carregarDadosItem(crs);
+      return;
     }
-    catch (Exception ex)
+    if (this.getTbl() == null)
     {
-      new ErroAndroid("Erro inesperado.\n", ex);
+      return;
     }
-    finally
-    {
-    }
+    this.setIntRegistroId(crs.getInt(crs.getColumnIndex(this.getTbl().getClnChavePrimaria().getSqlNome())));
+    this.setStrRegistroNome(crs.getString(crs.getColumnIndex(this.getTbl().getClnNome().getSqlNome())));
+    strTitulo = "_registro_id - _registro_nome";
+    strTitulo = strTitulo.replace("_registro_id", String.valueOf(this.getIntRegistroId()));
+    strTitulo = strTitulo.replace("_registro_nome", (!Utils.getBooStrVazia(this.getStrRegistroNome()) ? this.getStrRegistroNome() : String.valueOf(this.getIntRegistroId())));
+    this.getLblRegistroTitulo().setText(strTitulo);
+    this.carregarDadosItem(crs);
   }
 
   private void carregarDadosItem(Cursor crs)
   {
-    try
+    if (crs == null)
     {
-      if (crs == null)
-      {
-        return;
-      }
-      if (this.getTbl() == null)
-      {
-        return;
-      }
-      for (Coluna cln : this.getTbl().getLstClnConsultaOrdenado())
-      {
-        this.carregarDadosItem(crs, (ColunaAndroid) cln);
-      }
+      return;
     }
-    catch (Exception ex)
+    if (this.getTbl() == null)
     {
-      new ErroAndroid("Erro inesperado.\n", ex);
+      return;
     }
-    finally
+    for (Coluna cln : this.getTbl().getLstClnConsultaOrdenado())
     {
+      this.carregarDadosItem(crs, (ColunaAndroid) cln);
     }
   }
 
   private void carregarDadosItem(Cursor crs, ColunaAndroid cln)
   {
     ItemCampo itmCampo;
-    try
+
+    if (cln == null)
     {
-      if (cln == null)
-      {
-        return;
-      }
-      if (cln.getBooChavePrimaria())
-      {
-        return;
-      }
-      if (cln.getBooNome())
-      {
-        return;
-      }
-      if (!cln.getBooVisivelConsulta())
-      {
-        return;
-      }
-      itmCampo = this.getItmCampo(cln);
-      if (itmCampo == null)
-      {
-        return;
-      }
-      itmCampo.carregarDados(crs);
+      return;
     }
-    catch (Exception ex)
+    if (cln.getBooChavePrimaria())
     {
-      new ErroAndroid("Erro inesperado.\n", ex);
+      return;
     }
-    finally
+    if (cln.getBooNome())
     {
+      return;
     }
+    if (!cln.getBooVisivelConsulta())
+    {
+      return;
+    }
+    itmCampo = this.getItmCampo(cln);
+    if (itmCampo == null)
+    {
+      return;
+    }
+    itmCampo.carregarDados(crs);
   }
 
   /**
@@ -162,115 +125,69 @@ public class ItemConsulta extends ItemMain implements View.OnClickListener, View
   private ItemCampo getItmCampo(ColunaAndroid cln)
   {
     ItemCampo itmCampoResultado;
-    try
+
+    for (int i = 0; i < this.getPnlCampos().getChildCount(); i++)
     {
-      for (int i = 0; i < this.getPnlCampos().getChildCount(); i++)
+      if (this.getPnlCampos().getChildAt(i) == null)
       {
-        if (this.getPnlCampos().getChildAt(i) == null)
-        {
-          continue;
-        }
-        if (!this.getPnlCampos().getChildAt(i).getClass().equals(ItemCampo.class))
-        {
-          continue;
-        }
-        if (((ItemCampo) this.getPnlCampos().getChildAt(i)).getCln() != cln)
-        {
-          continue;
-        }
-        return (ItemCampo) this.getPnlCampos().getChildAt(i);
+        continue;
       }
-      itmCampoResultado = new ItemCampo(this.getContext(), cln);
-      this.getPnlCampos().addView(itmCampoResultado);
-      return itmCampoResultado;
+      if (!this.getPnlCampos().getChildAt(i).getClass().equals(ItemCampo.class))
+      {
+        continue;
+      }
+      if (((ItemCampo) this.getPnlCampos().getChildAt(i)).getCln() != cln)
+      {
+        continue;
+      }
+      return (ItemCampo) this.getPnlCampos().getChildAt(i);
     }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
-    }
-    return null;
+    itmCampoResultado = new ItemCampo(this.getContext(), cln);
+    this.getPnlCampos().addView(itmCampoResultado);
+    return itmCampoResultado;
   }
 
   private LabelGeral getLblRegistroTitulo()
   {
-    try
+    if (_lblRegistroTitulo != null)
     {
-      if (_lblRegistroTitulo != null)
-      {
-        return _lblRegistroTitulo;
-      }
-      _lblRegistroTitulo = new LabelGeral(this.getContext());
+      return _lblRegistroTitulo;
     }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
-    }
+    _lblRegistroTitulo = new LabelGeral(this.getContext());
+
     return _lblRegistroTitulo;
   }
 
   private PainelGeral getPnlCampos()
   {
-    try
+    if (_pnlCampos != null)
     {
-      if (_pnlCampos != null)
-      {
-        return _pnlCampos;
-      }
-      _pnlCampos = new PainelGeral(this.getContext());
+      return _pnlCampos;
     }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
-    }
+    _pnlCampos = new PainelGeral(this.getContext());
+
     return _pnlCampos;
   }
 
   private PainelGeral getPnlConteudo()
   {
-    try
+    if (_pnlConteudo != null)
     {
-      if (_pnlConteudo != null)
-      {
-        return _pnlConteudo;
-      }
-      _pnlConteudo = new PainelGeral(this.getContext());
+      return _pnlConteudo;
     }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
-    }
+    _pnlConteudo = new PainelGeral(this.getContext());
+
     return _pnlConteudo;
   }
 
   private PainelRipple getPnlRipple()
   {
-    try
+    if (_pnlRipple != null)
     {
-      if (_pnlRipple != null)
-      {
-        return _pnlRipple;
-      }
-      _pnlRipple = new PainelRipple(this.getContext());
+      return _pnlRipple;
     }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
-    }
+    _pnlRipple = new PainelRipple(this.getContext());
+
     return _pnlRipple;
   }
 
@@ -289,154 +206,89 @@ public class ItemConsulta extends ItemMain implements View.OnClickListener, View
     return _tbl;
   }
 
+  @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
   @Override
   public void inicializar()
   {
     super.inicializar();
-    try
-    {
-      this.setBackground(this.getResources().getDrawable(R.drawable.bkg_borda));
-      this.setOrientation(VERTICAL);
-      this.inicializarLblRegistroTitulo();
-      this.inicializarPnlCampos();
-      this.inicializarPnlConteudo();
-    }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
-    }
+
+    this.setBackground(this.getResources().getDrawable(R.drawable.bkg_borda));
+    this.setOrientation(VERTICAL);
+    this.inicializarLblRegistroTitulo();
+    this.inicializarPnlCampos();
+    this.inicializarPnlConteudo();
   }
 
   private void inicializarLblRegistroTitulo()
   {
-    try
-    {
-      this.getLblRegistroTitulo().setBackgroundColor(this.getContext().getResources().getColor(R.color.cor_borda));
-      this.getLblRegistroTitulo().setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
-      this.getLblRegistroTitulo().setPadding(UtilsAndroid.dpToPx(10, this.getContext()), 0, UtilsAndroid.dpToPx(10, this.getContext()), 0);
-      this.getLblRegistroTitulo().setText("999 - Nome que representa este registro");
-    }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
-    }
+    this.getLblRegistroTitulo().setBackgroundColor(this.getContext().getResources().getColor(R.color.cor_borda));
+    this.getLblRegistroTitulo().setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
+    this.getLblRegistroTitulo().setPadding(UtilsAndroid.dpToPx(10, this.getContext()), 0, UtilsAndroid.dpToPx(10, this.getContext()), 0);
+    this.getLblRegistroTitulo().setText("999 - Nome que representa este registro");
   }
 
   private void inicializarPnlCampos()
   {
     int intPadding;
-    try
-    {
-      intPadding = UtilsAndroid.dpToPx(10, this.getContext());
-      this.getPnlCampos().setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
-      this.getPnlCampos().setOrientation(VERTICAL);
-      this.getPnlCampos().setPadding(intPadding, intPadding, intPadding, intPadding);
-    }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
-    }
+
+    intPadding = UtilsAndroid.dpToPx(10, this.getContext());
+    this.getPnlCampos().setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
+    this.getPnlCampos().setOrientation(VERTICAL);
+    this.getPnlCampos().setPadding(intPadding, intPadding, intPadding, intPadding);
   }
 
   private void inicializarPnlConteudo()
   {
-    try
-    {
-      this.getPnlConteudo().setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
-      this.getPnlConteudo().setOrientation(VERTICAL);
-    }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
-    }
+    this.getPnlConteudo().setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
+    this.getPnlConteudo().setOrientation(VERTICAL);
   }
 
   @Override
   public void montarLayout()
   {
     super.montarLayout();
-    try
-    {
-      this.addView(this.getPnlRipple());
-      this.getPnlRipple().addView(this.getPnlConteudo());
-      this.getPnlConteudo().addView(this.getLblRegistroTitulo());
-      this.getPnlConteudo().addView(this.getPnlCampos());
-    }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
-    }
+
+    this.addView(this.getPnlRipple());
+    this.getPnlRipple().addView(this.getPnlConteudo());
+    this.getPnlConteudo().addView(this.getLblRegistroTitulo());
+    this.getPnlConteudo().addView(this.getPnlCampos());
   }
 
   @Override
   public void onClick(final View v)
   {
-    try
+    if (this.getIntRegistroId() < 1)
     {
-      if (this.getIntRegistroId() < 1)
-      {
-        return;
-      }
-      if (this.getContext() == null)
-      {
-        return;
-      }
-      if (!ActConsulta.class.isAssignableFrom(this.getContext().getClass()))
-      {
-        return;
-      }
-      ((ActConsulta) this.getContext()).onItemClick(this);
+      return;
     }
-    catch (Exception ex)
+    if (this.getContext() == null)
     {
-      new ErroAndroid("Erro inesperado.\n", ex);
+      return;
     }
-    finally
+    if (!ActConsulta.class.isAssignableFrom(this.getContext().getClass()))
     {
+      return;
     }
+    ((ActConsulta) this.getContext()).onItemClick(this);
   }
 
   @Override
   public boolean onLongClick(final View v)
   {
-    try
+    if (this.getIntRegistroId() < 1)
     {
-      if (this.getIntRegistroId() < 1)
-      {
-        return false;
-      }
-      if (this.getContext() == null)
-      {
-        return false;
-      }
-      if (!ActConsulta.class.isAssignableFrom(this.getContext().getClass()))
-      {
-        return false;
-      }
-      ((ActConsulta) this.getContext()).onItemLongClick(this);
+      return false;
     }
-    catch (Exception ex)
+    if (this.getContext() == null)
     {
-      new ErroAndroid("Erro inesperado.\n", ex);
+      return false;
     }
-    finally
+    if (!ActConsulta.class.isAssignableFrom(this.getContext().getClass()))
     {
+      return false;
     }
+    ((ActConsulta) this.getContext()).onItemLongClick(this);
+
     return true;
   }
 
@@ -444,18 +296,9 @@ public class ItemConsulta extends ItemMain implements View.OnClickListener, View
   public void setEventos()
   {
     super.setEventos();
-    try
-    {
-      this.getPnlRipple().setOnClickListener(this);
-      this.getPnlRipple().setOnLongClickListener(this);
-    }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
-    }
+
+    this.getPnlRipple().setOnClickListener(this);
+    this.getPnlRipple().setOnLongClickListener(this);
   }
 
   private void setIntRegistroId(int intRegistroId)

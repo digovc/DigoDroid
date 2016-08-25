@@ -5,7 +5,6 @@ import android.util.AttributeSet;
 
 public class CampoDataHora extends CampoMain
 {
-
   public CampoDataHora(Context context)
   {
     super(context);

@@ -5,60 +5,28 @@ import android.util.AttributeSet;
 import android.widget.CheckBox;
 
 import com.digosofter.digodroid.controle.IControleMain;
-import com.digosofter.digodroid.erro.ErroAndroid;
 
 public class CheckBoxGeral extends CheckBox implements IControleMain
 {
-
   public CheckBoxGeral(Context context)
   {
     super(context);
-    try
-    {
-      this.iniciar(null);
 
-    }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
-    }
+    this.iniciar(null);
   }
 
   public CheckBoxGeral(Context context, AttributeSet attrs)
   {
     super(context, attrs);
-    try
-    {
-      this.iniciar(attrs);
 
-    }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
-    }
+    this.iniciar(attrs);
   }
 
   public CheckBoxGeral(Context context, AttributeSet attrs, int defStyleAttr)
   {
     super(context, attrs, defStyleAttr);
-    try
-    {
-      this.iniciar(attrs);
 
-    }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
-    }
+    this.iniciar(attrs);
   }
 
   @Override
@@ -79,21 +47,10 @@ public class CheckBoxGeral extends CheckBox implements IControleMain
   @Override
   public void iniciar(AttributeSet ats)
   {
-    try
-    {
-      this.inicializar();
-      this.inicializar(ats);
-      this.montarLayout();
-      this.setEventos();
-
-    }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
-    }
+    this.inicializar();
+    this.inicializar(ats);
+    this.montarLayout();
+    this.setEventos();
   }
 
   @Override
@@ -105,18 +62,8 @@ public class CheckBoxGeral extends CheckBox implements IControleMain
   protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec)
   {
     super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-    try
-    {
-      this.finalizar();
 
-    }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
-    }
+    this.finalizar();
   }
 
   @Override

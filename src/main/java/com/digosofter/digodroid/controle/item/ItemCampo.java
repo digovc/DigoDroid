@@ -9,12 +9,10 @@ import com.digosofter.digodroid.AppAndroid;
 import com.digosofter.digodroid.controle.label.LabelGeral;
 import com.digosofter.digodroid.database.ColunaAndroid;
 import com.digosofter.digodroid.design.TemaDefault;
-import com.digosofter.digodroid.erro.ErroAndroid;
 import com.digosofter.digojava.Utils;
 
 public class ItemCampo extends ItemMain implements OnClickListener
 {
-
   private ColunaAndroid _cln;
   private LabelGeral _lblRegistroNome;
   private LabelGeral _lblRegistroValor;
@@ -22,88 +20,52 @@ public class ItemCampo extends ItemMain implements OnClickListener
   public ItemCampo(Context context, ColunaAndroid cln)
   {
     super(context);
-    try
-    {
-      this.setCln(cln);
-    }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
-    }
+
+    this.setCln(cln);
   }
 
   public void carregarDados(Cursor crs)
   {
     super.carregarDados(crs);
-    try
+
+    if (!this.getCln().getBooVisivelConsulta())
     {
-      if (!this.getCln().getBooVisivelConsulta())
-      {
-        this.setVisibility(GONE);
-        return;
-      }
-      if (crs == null)
-      {
-        return;
-      }
-      this.carregarDadosNome(crs);
-      this.carregarDadosValor(crs);
+      this.setVisibility(GONE);
+      return;
     }
-    catch (Exception ex)
+    if (crs == null)
     {
-      new ErroAndroid("Erro inesperado.\n", ex);
+      return;
     }
-    finally
-    {
-    }
+    this.carregarDadosNome(crs);
+    this.carregarDadosValor(crs);
   }
 
   private void carregarDadosNome(final Cursor crs)
   {
     String strNome;
-    try
+
+    if (!Utils.getBooStrVazia(this.getLblRegistroNome().getText().toString()))
     {
-      if (!Utils.getBooStrVazia(this.getLblRegistroNome().getText().toString()))
-      {
-        return;
-      }
-      strNome = "_registro_nome: ";
-      strNome = strNome.replace("_registro_nome", this.getCln().getStrNomeExibicao());
-      this.getLblRegistroNome().setText(strNome);
+      return;
     }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
-    }
+    strNome = "_registro_nome: ";
+    strNome = strNome.replace("_registro_nome", this.getCln().getStrNomeExibicao());
+    this.getLblRegistroNome().setText(strNome);
   }
 
   private void carregarDadosValor(Cursor crs)
   {
     String strValor;
-    try
+
+    this.getLblRegistroValor().setText(null);
+    strValor = crs.getString(crs.getColumnIndex(this.getCln().getSqlNome()));
+    if (Utils.getBooStrVazia(strValor))
     {
-      this.getLblRegistroValor().setText(null);
-      strValor = crs.getString(crs.getColumnIndex(this.getCln().getSqlNome()));
-      if (Utils.getBooStrVazia(strValor))
-      {
-        return;
-      }
-      this.getCln().setStrValor(strValor);
-      this.getLblRegistroValor().setText(this.getCln().getStrValorExibicao());
+      return;
     }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
-    }
+    this.getCln().setStrValor(strValor);
+    this.getLblRegistroValor().setText(this.getCln().getStrValorExibicao());
   }
 
   public ColunaAndroid getCln()
@@ -113,41 +75,23 @@ public class ItemCampo extends ItemMain implements OnClickListener
 
   protected LabelGeral getLblRegistroNome()
   {
-    try
+    if (_lblRegistroNome != null)
     {
-      if (_lblRegistroNome != null)
-      {
-        return _lblRegistroNome;
-      }
-      _lblRegistroNome = new LabelGeral(this.getContext());
+      return _lblRegistroNome;
     }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
-    }
+    _lblRegistroNome = new LabelGeral(this.getContext());
+
     return _lblRegistroNome;
   }
 
   protected LabelGeral getLblRegistroValor()
   {
-    try
+    if (_lblRegistroValor != null)
     {
-      if (_lblRegistroValor != null)
-      {
-        return _lblRegistroValor;
-      }
-      _lblRegistroValor = new LabelGeral(this.getContext());
+      return _lblRegistroValor;
     }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
-    }
+    _lblRegistroValor = new LabelGeral(this.getContext());
+
     return _lblRegistroValor;
   }
 
@@ -155,89 +99,41 @@ public class ItemCampo extends ItemMain implements OnClickListener
   public void inicializar()
   {
     super.inicializar();
-    try
-    {
-      this.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
-      this.setOrientation(HORIZONTAL);
-      this.inicializarLblRegistroNome();
-      this.inicializarLblRegistroValor();
-    }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
-    }
+
+    this.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
+    this.setOrientation(HORIZONTAL);
+    this.inicializarLblRegistroNome();
+    this.inicializarLblRegistroValor();
   }
 
   private void inicializarLblRegistroNome()
   {
-    try
-    {
-      this.getLblRegistroNome().setEnmFonteTamanho(TemaDefault.EnmFonteTamanho.PEQUENO);
-      this.getLblRegistroNome().setMaxLines(1);
-      this.getLblRegistroNome().setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
-    }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
-    }
+    this.getLblRegistroNome().setEnmFonteTamanho(TemaDefault.EnmFonteTamanho.PEQUENO);
+    this.getLblRegistroNome().setMaxLines(1);
+    this.getLblRegistroNome().setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
   }
 
   private void inicializarLblRegistroValor()
   {
-    try
-    {
-      this.getLblRegistroValor().setEnmFonteTamanho(TemaDefault.EnmFonteTamanho.PEQUENO);
-      this.getLblRegistroValor().setMaxLines(1);
-      this.getLblRegistroValor().setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
-      this.getLblRegistroValor().setText(null);
-    }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
-    }
+    this.getLblRegistroValor().setEnmFonteTamanho(TemaDefault.EnmFonteTamanho.PEQUENO);
+    this.getLblRegistroValor().setMaxLines(1);
+    this.getLblRegistroValor().setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
+    this.getLblRegistroValor().setText(null);
   }
 
   @Override
   public void montarLayout()
   {
     super.montarLayout();
-    try
-    {
-      this.addView(this.getLblRegistroNome());
-      this.addView(this.getLblRegistroValor());
-    }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
-    }
+
+    this.addView(this.getLblRegistroNome());
+    this.addView(this.getLblRegistroValor());
   }
 
   @Override
   public void onClick(View v)
   {
-    try
-    {
-      AppAndroid.getI().notificar(this.getLblRegistroValor().getText().toString());
-    }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
-    }
+    AppAndroid.getI().notificar(this.getLblRegistroValor().getText().toString());
   }
 
   private void setCln(ColunaAndroid cln)
@@ -249,20 +145,11 @@ public class ItemCampo extends ItemMain implements OnClickListener
   public void setEventos()
   {
     super.setEventos();
-    try
+
+    if (this.getCln() == null)
     {
-      if (this.getCln() == null)
-      {
-        return;
-      }
-      this.getLblRegistroValor().setOnClickListener(this);
+      return;
     }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
-    }
+    this.getLblRegistroValor().setOnClickListener(this);
   }
 }

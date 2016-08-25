@@ -5,7 +5,6 @@ import android.util.AttributeSet;
 
 public class PainelMenuConteudo extends PainelGeral
 {
-
   public PainelMenuConteudo(Context context)
   {
     super(context);

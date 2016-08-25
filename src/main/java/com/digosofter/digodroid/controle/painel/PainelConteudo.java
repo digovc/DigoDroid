@@ -4,11 +4,9 @@ import android.content.Context;
 import android.util.AttributeSet;
 
 import com.digosofter.digodroid.UtilsAndroid;
-import com.digosofter.digodroid.erro.ErroAndroid;
 
 public class PainelConteudo extends PainelGeral
 {
-
   public PainelConteudo(Context context)
   {
     super(context);
@@ -29,17 +27,8 @@ public class PainelConteudo extends PainelGeral
   {
     super.inicializar();
     int intPadding;
-    try
-    {
-      intPadding = UtilsAndroid.dpToPx(10, this.getContext());
-      this.setPadding(intPadding, intPadding, intPadding, intPadding);
-    }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
-    }
+
+    intPadding = UtilsAndroid.dpToPx(10, this.getContext());
+    this.setPadding(intPadding, intPadding, intPadding, intPadding);
   }
 }

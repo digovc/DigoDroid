@@ -4,7 +4,6 @@ import android.util.AttributeSet;
 
 public interface IControleMain
 {
-
   /**
    * Responsável por fazer os ajustes finais antes de desenhar este controle na tela. Este método deve ser chamado
    * dentro do método {@link android.view.View#onMeasure(int, int)}.

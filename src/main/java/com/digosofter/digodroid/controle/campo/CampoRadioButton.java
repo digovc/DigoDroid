@@ -5,7 +5,6 @@ import android.util.AttributeSet;
 
 public class CampoRadioButton extends CampoMain
 {
-
   public CampoRadioButton(Context context)
   {
     super(context);

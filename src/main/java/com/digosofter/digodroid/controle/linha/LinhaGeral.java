@@ -6,11 +6,9 @@ import android.util.AttributeSet;
 
 import com.digosofter.digodroid.R;
 import com.digosofter.digodroid.controle.painel.PainelGeral;
-import com.digosofter.digodroid.erro.ErroAndroid;
 
 public class LinhaGeral extends PainelGeral
 {
-
   public enum EnmDisposicao
   {
     HORIZONTAL,
@@ -22,73 +20,37 @@ public class LinhaGeral extends PainelGeral
   public LinhaGeral(Context context)
   {
     super(context);
-    try
-    {
-      this.iniciar(null);
-    }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
-    }
+
+    this.iniciar(null);
   }
 
   public LinhaGeral(Context context, AttributeSet attrs)
   {
     super(context, attrs);
-    try
-    {
-      this.iniciar(attrs);
-    }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
-    }
+
+    this.iniciar(attrs);
   }
 
   public LinhaGeral(Context context, AttributeSet attrs, int defStyleAttr)
   {
     super(context, attrs, defStyleAttr);
-    try
-    {
-      this.iniciar(attrs);
-    }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
-    }
+
+    this.iniciar(attrs);
   }
 
   @Override
   public void finalizar()
   {
     super.finalizar();
-    try
+
+    this.getLayoutParams().height = LayoutParams.MATCH_PARENT;
+    this.getLayoutParams().width = LayoutParams.MATCH_PARENT;
+    if (EnmDisposicao.HORIZONTAL.equals(this.getEnmDisposicao()))
     {
-      this.getLayoutParams().height = LayoutParams.MATCH_PARENT;
-      this.getLayoutParams().width = LayoutParams.MATCH_PARENT;
-      if (EnmDisposicao.HORIZONTAL.equals(this.getEnmDisposicao()))
-      {
-        this.getLayoutParams().height = 1;
-        return;
-      }
-      this.getLayoutParams().width = 1;
+      this.getLayoutParams().height = 1;
+      return;
     }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
-    }
+    this.getLayoutParams().width = 1;
   }
 
   private EnmDisposicao getEnmDisposicao()
@@ -101,40 +63,22 @@ public class LinhaGeral extends PainelGeral
   {
     super.inicializar(ats);
     TypedArray objTypedArray;
-    try
+
+    if (ats == null)
     {
-      if (ats == null)
-      {
-        return;
-      }
-      objTypedArray = this.getContext().obtainStyledAttributes(ats, R.styleable.LinhaGeral);
-      this.setEnmDisposicao(this.intToEnmDisposicao(objTypedArray.getInt(R.styleable.LinhaGeral_enmDisposicao, 0)));
+      return;
     }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
-    }
+    objTypedArray = this.getContext().obtainStyledAttributes(ats, R.styleable.LinhaGeral);
+    this.setEnmDisposicao(this.intToEnmDisposicao(objTypedArray.getInt(R.styleable.LinhaGeral_enmDisposicao, 0)));
   }
 
   @Override
   public void inicializar()
   {
     super.inicializar();
-    try
-    {
-      this.setBackgroundColor(this.getContext().getResources().getColor(R.color.cor_borda));
-      this.setEnmDisposicao(EnmDisposicao.HORIZONTAL);
-    }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
-    }
+
+    this.setBackgroundColor(this.getContext().getResources().getColor(R.color.cor_borda));
+    this.setEnmDisposicao(EnmDisposicao.HORIZONTAL);
   }
 
   private EnmDisposicao intToEnmDisposicao(int intDisposicao)

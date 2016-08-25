@@ -7,80 +7,36 @@ import android.widget.RadioButton;
 
 import com.digosofter.digodroid.controle.IControleMain;
 import com.digosofter.digodroid.controle.campo.CampoMain;
-import com.digosofter.digodroid.erro.ErroAndroid;
 import com.digosofter.digojava.Utils;
 
 public class RadioButtonGeral extends RadioButton implements IControleMain
 {
-
   private String _strTitulo;
 
   public RadioButtonGeral(Context context)
   {
     super(context);
-    try
-    {
-      this.iniciar(null);
 
-    }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
-    }
+    this.iniciar(null);
   }
 
   public RadioButtonGeral(Context context, AttributeSet attrs)
   {
     super(context, attrs);
-    try
-    {
-      this.iniciar(attrs);
 
-    }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
-    }
+    this.iniciar(attrs);
   }
 
   public RadioButtonGeral(Context context, AttributeSet attrs, int defStyleAttr)
   {
     super(context, attrs, defStyleAttr);
-    try
-    {
-      this.iniciar(attrs);
 
-    }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
-    }
+    this.iniciar(attrs);
   }
 
   private void atualizarStrTitulo()
   {
-    try
-    {
-      this.setText((!Utils.getBooStrVazia(this.getStrTitulo())) ? this.getStrTitulo() : CampoMain.STR_TITULO_DESCONHECIDO);
-
-    }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
-    }
-
+    this.setText((!Utils.getBooStrVazia(this.getStrTitulo())) ? this.getStrTitulo() : CampoMain.STR_TITULO_DESCONHECIDO);
   }
 
   @Override
@@ -101,39 +57,17 @@ public class RadioButtonGeral extends RadioButton implements IControleMain
   @Override
   public void inicializar()
   {
-    try
-    {
-      this.setStrTitulo(CampoMain.STR_TITULO_DESCONHECIDO);
-      this.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-
-    }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
-    }
+    this.setStrTitulo(CampoMain.STR_TITULO_DESCONHECIDO);
+    this.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
   }
 
   @Override
   public void iniciar(AttributeSet ats)
   {
-    try
-    {
-      this.inicializar();
-      this.inicializar(ats);
-      this.montarLayout();
-      this.setEventos();
-
-    }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
-    }
+    this.inicializar();
+    this.inicializar(ats);
+    this.montarLayout();
+    this.setEventos();
   }
 
   @Override
@@ -145,18 +79,8 @@ public class RadioButtonGeral extends RadioButton implements IControleMain
   protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec)
   {
     super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-    try
-    {
-      this.finalizar();
 
-    }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
-    }
+    this.finalizar();
   }
 
   @Override
@@ -171,18 +95,7 @@ public class RadioButtonGeral extends RadioButton implements IControleMain
    */
   public void setStrTitulo(String strTitulo)
   {
-    try
-    {
-      _strTitulo = strTitulo;
-      this.atualizarStrTitulo();
-
-    }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
-    }
+    _strTitulo = strTitulo;
+    this.atualizarStrTitulo();
   }
 }

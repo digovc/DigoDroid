@@ -9,11 +9,9 @@ import android.widget.TextView;
 import com.digosofter.digodroid.R;
 import com.digosofter.digodroid.controle.IControleMain;
 import com.digosofter.digodroid.design.TemaDefault;
-import com.digosofter.digodroid.erro.ErroAndroid;
 
 public class LabelGeral extends TextView implements IControleMain
 {
-
   private int _corTexto;
   private TemaDefault.EnmFonteTamanho _enmFonteTamanho;
   private int _intTexto;
@@ -21,80 +19,33 @@ public class LabelGeral extends TextView implements IControleMain
   public LabelGeral(Context context)
   {
     super(context);
-    try
-    {
-      this.iniciar(null);
-    }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
-    }
+
+    this.iniciar(null);
+
   }
 
   public LabelGeral(Context context, AttributeSet attrs)
   {
     super(context, attrs);
-    try
-    {
-      this.iniciar(attrs);
-    }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
-    }
+
+    this.iniciar(attrs);
   }
 
   public LabelGeral(Context context, AttributeSet attrs, int defStyleAttr)
   {
     super(context, attrs, defStyleAttr);
-    try
-    {
-      this.iniciar(attrs);
-    }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
-    }
+
+    this.iniciar(attrs);
   }
 
   private void atualizarCorTexto()
   {
-    try
-    {
-      this.setTextColor(this.getCorTexto());
-    }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
-    }
+    this.setTextColor(this.getCorTexto());
   }
 
   private void atualizarEnmFonteTamanho()
   {
-    try
-    {
-      this.setTextSize(TypedValue.COMPLEX_UNIT_SP, TemaDefault.getI().enmFonteTamanhoToInt(this.getEnmFonteTamanho()));
-    }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
-    }
-
+    this.setTextSize(TypedValue.COMPLEX_UNIT_SP, TemaDefault.getI().enmFonteTamanhoToInt(this.getEnmFonteTamanho()));
   }
 
   @Override
@@ -122,26 +73,14 @@ public class LabelGeral extends TextView implements IControleMain
     {
       return 0;
     }
-    finally
-    {
-    }
+
     return _intTexto;
   }
 
   @Override
   public void inicializar()
   {
-    try
-    {
-      this.setEnmFonteTamanho(TemaDefault.EnmFonteTamanho.NORMAL);
-    }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
-    }
+    this.setEnmFonteTamanho(TemaDefault.EnmFonteTamanho.NORMAL);
   }
 
   @Override
@@ -149,42 +88,23 @@ public class LabelGeral extends TextView implements IControleMain
   {
     int intFonteTamanho;
     TypedArray objTypedArray;
-    try
+
+    if (ats == null)
     {
-      if (ats == null)
-      {
-        return;
-      }
-      objTypedArray = this.getContext().obtainStyledAttributes(ats, R.styleable.LabelGeral);
-      intFonteTamanho = objTypedArray.getInt(R.styleable.LabelGeral_enmFonteTamanho, 2);
-      this.setEnmFonteTamanho(TemaDefault.getI().intToEnmFonteTamanho(intFonteTamanho));
+      return;
     }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
-    }
+    objTypedArray = this.getContext().obtainStyledAttributes(ats, R.styleable.LabelGeral);
+    intFonteTamanho = objTypedArray.getInt(R.styleable.LabelGeral_enmFonteTamanho, 2);
+    this.setEnmFonteTamanho(TemaDefault.getI().intToEnmFonteTamanho(intFonteTamanho));
   }
 
   @Override
   public void iniciar(AttributeSet ats)
   {
-    try
-    {
-      this.inicializar();
-      this.inicializar(ats);
-      this.montarLayout();
-      this.setEventos();
-    }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
-    }
+    this.inicializar();
+    this.inicializar(ats);
+    this.montarLayout();
+    this.setEventos();
   }
 
   @Override
@@ -196,17 +116,8 @@ public class LabelGeral extends TextView implements IControleMain
   protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec)
   {
     super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-    try
-    {
-      this.finalizar();
-    }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
-    }
+
+    this.finalizar();
   }
 
   /**
@@ -216,34 +127,14 @@ public class LabelGeral extends TextView implements IControleMain
    */
   public void setCorTexto(int corTexto)
   {
-    try
-    {
-      _corTexto = corTexto;
-      this.atualizarCorTexto();
-    }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
-    }
+    _corTexto = corTexto;
+    this.atualizarCorTexto();
   }
 
   public void setEnmFonteTamanho(TemaDefault.EnmFonteTamanho enmFonteTamanho)
   {
-    try
-    {
-      _enmFonteTamanho = enmFonteTamanho;
-      this.atualizarEnmFonteTamanho();
-    }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
-    }
+    _enmFonteTamanho = enmFonteTamanho;
+    this.atualizarEnmFonteTamanho();
   }
 
   @Override
@@ -253,17 +144,7 @@ public class LabelGeral extends TextView implements IControleMain
 
   public void setIntTexto(int intTexto)
   {
-    try
-    {
-      _intTexto = intTexto;
-      this.setText(String.valueOf(_intTexto));
-    }
-    catch (Exception ex)
-    {
-      this.setText(null);
-    }
-    finally
-    {
-    }
+    _intTexto = intTexto;
+    this.setText(String.valueOf(_intTexto));
   }
 }

@@ -16,14 +16,12 @@ import com.digosofter.digodroid.AppAndroid;
 import com.digosofter.digodroid.R;
 import com.digosofter.digodroid.controle.drawermenu.DrawerMenu;
 import com.digosofter.digodroid.controle.painel.PainelMenuConteudo;
-import com.digosofter.digodroid.erro.ErroAndroid;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public abstract class ActMain extends Activity
 {
-
   public static final String STR_EXTRA_OUT_BOO_FECHAR = "boo_fechar";
 
   private boolean _booVisivel;
@@ -35,209 +33,120 @@ public abstract class ActMain extends Activity
 
   public void abrirAct(Class<? extends ActMain> cls)
   {
-    try
+    if (cls == null)
     {
-      if (cls == null)
-      {
-        return;
-      }
-      this.startActivityForResult(new Intent(this, cls), 0);
+      return;
     }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-
-    }
-    finally
-    {
-    }
+    this.startActivityForResult(new Intent(this, cls), 0);
   }
 
   public void addEvtOnActivityResultListener(OnActivityResultListener evt)
   {
-    try
+    if (evt == null)
     {
-      if (evt == null)
-      {
-        return;
-      }
-      if (this.getLstEvtOnActivityResultListener().contains(evt))
-      {
-        return;
-      }
-      this.getLstEvtOnActivityResultListener().add(evt);
+      return;
     }
-    catch (Exception ex)
+    if (this.getLstEvtOnActivityResultListener().contains(evt))
     {
-      new ErroAndroid("Erro inesperado.\n", ex);
+      return;
     }
-    finally
-    {
-    }
+    this.getLstEvtOnActivityResultListener().add(evt);
   }
 
   public void addEvtOnDestruirListener(OnActivityDestruirListener evt)
   {
-    try
+    if (evt == null)
     {
-      if (evt == null)
-      {
-        return;
-      }
-      if (this.getLstEvtOnActivityDestruirListener().contains(evt))
-      {
-        return;
-      }
-      this.getLstEvtOnActivityDestruirListener().add(evt);
+      return;
     }
-    catch (Exception ex)
+    if (this.getLstEvtOnActivityDestruirListener().contains(evt))
     {
-      new ErroAndroid("Erro inesperado.\n", ex);
+      return;
     }
-    finally
-    {
-    }
+    this.getLstEvtOnActivityDestruirListener().add(evt);
   }
 
   public void addEvtOnRequestPermissionListener(OnRequestPermissionResultListener evt)
   {
-    try
+    if (evt == null)
     {
-      if (evt == null)
-      {
-        return;
-      }
-      if (this.getLstEvtOnRequestPermissionResultListener().contains(evt))
-      {
-        return;
-      }
-      this.getLstEvtOnRequestPermissionResultListener().add(evt);
+      return;
     }
-    catch (Exception ex)
+    if (this.getLstEvtOnRequestPermissionResultListener().contains(evt))
     {
-      new ErroAndroid("Erro inesperado.\n", ex);
+      return;
     }
-    finally
-    {
-    }
+    this.getLstEvtOnRequestPermissionResultListener().add(evt);
   }
 
   protected void addFragmento(int intViewGroupConteinerId, Fragment frg)
   {
-    try
-    {
-      this.getFragmentManager().beginTransaction().add(intViewGroupConteinerId, frg).commit();
-    }
-    catch (Exception ex)
-    {
-      new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(113), ex);
-    }
-    finally
-    {
-    }
+    this.getFragmentManager().beginTransaction().add(intViewGroupConteinerId, frg).commit();
   }
 
   private void dispararEvtOnActivityResultListener(final int intRequestCode, final int intResultCode, final Intent ittResult)
   {
     OnActivityResultArg arg;
-    try
+
+    if (this.getLstEvtOnActivityResultListener().isEmpty())
     {
-      if (this.getLstEvtOnActivityResultListener().isEmpty())
-      {
-        return;
-      }
-      arg = new OnActivityResultArg();
-      arg.setIntRequestCode(intRequestCode);
-      arg.setIntResultCode(intResultCode);
-      arg.setIttResult(ittResult);
-      for (OnActivityResultListener evt : this.getLstEvtOnActivityResultListener())
-      {
-        if (evt == null)
-        {
-          continue;
-        }
-        evt.onActivityResult(this, arg);
-      }
+      return;
     }
-    catch (Exception ex)
+    arg = new OnActivityResultArg();
+    arg.setIntRequestCode(intRequestCode);
+    arg.setIntResultCode(intResultCode);
+    arg.setIttResult(ittResult);
+    for (OnActivityResultListener evt : this.getLstEvtOnActivityResultListener())
     {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
+      if (evt == null)
+      {
+        continue;
+      }
+      evt.onActivityResult(this, arg);
     }
   }
 
   private void dispararEvtOnDestruirListener()
   {
-    try
+    if (this.getLstEvtOnActivityDestruirListener().isEmpty())
     {
-      if (this.getLstEvtOnActivityDestruirListener().isEmpty())
-      {
-        return;
-      }
-      for (OnActivityDestruirListener evt : this.getLstEvtOnActivityDestruirListener())
-      {
-        if (evt == null)
-        {
-          continue;
-        }
-        evt.onActivityDestruir(this);
-      }
+      return;
     }
-    catch (Exception ex)
+    for (OnActivityDestruirListener evt : this.getLstEvtOnActivityDestruirListener())
     {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
+      if (evt == null)
+      {
+        continue;
+      }
+      evt.onActivityDestruir(this);
     }
   }
 
   private void dispararEvtOnRequestPermissionListener(final int intRequestCode, final String[] arrStrPermissions, final int[] intArrGrantResults)
   {
     OnRequestPermissionResultArg arg;
-    try
+
+    if (this.getLstEvtOnRequestPermissionResultListener().isEmpty())
     {
-      if (this.getLstEvtOnRequestPermissionResultListener().isEmpty())
-      {
-        return;
-      }
-      arg = new OnRequestPermissionResultArg();
-      arg.setIntRequestCode(intRequestCode);
-      arg.setArrStrPermissions(arrStrPermissions);
-      arg.setIntArrGrantResults(intArrGrantResults);
-      for (OnRequestPermissionResultListener evt : this.getLstEvtOnRequestPermissionResultListener())
-      {
-        if (evt == null)
-        {
-          continue;
-        }
-        evt.onRequestPermissionResult(this, arg);
-      }
+      return;
     }
-    catch (Exception ex)
+    arg = new OnRequestPermissionResultArg();
+    arg.setIntRequestCode(intRequestCode);
+    arg.setArrStrPermissions(arrStrPermissions);
+    arg.setIntArrGrantResults(intArrGrantResults);
+    for (OnRequestPermissionResultListener evt : this.getLstEvtOnRequestPermissionResultListener())
     {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
+      if (evt == null)
+      {
+        continue;
+      }
+      evt.onRequestPermissionResult(this, arg);
     }
   }
 
   public void fecharMenu()
   {
-    try
-    {
-      this.getViwDrawerMenu().closeDrawers();
-    }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
-    }
+    this.getViwDrawerMenu().closeDrawers();
   }
 
   protected void finalizar()
@@ -248,17 +157,8 @@ public abstract class ActMain extends Activity
   public void finish()
   {
     super.finish();
-    try
-    {
-      this.finalizar();
-    }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
-    }
+
+    this.finalizar();
   }
 
   public boolean getBooVisivel()
@@ -268,20 +168,11 @@ public abstract class ActMain extends Activity
 
   private int getIntDrawerMenuLayoutId()
   {
-    try
+    if (AppAndroid.getI() == null)
     {
-      if (AppAndroid.getI() == null)
-      {
-        return -1;
-      }
+      return -1;
     }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
-    }
+
     return AppAndroid.getI().getIntDrawerMenuLayoutId();
   }
 
@@ -289,61 +180,34 @@ public abstract class ActMain extends Activity
 
   private List<OnActivityDestruirListener> getLstEvtOnActivityDestruirListener()
   {
-    try
+    if (_lstEvtOnActivityDestruirListener != null)
     {
-      if (_lstEvtOnActivityDestruirListener != null)
-      {
-        return _lstEvtOnActivityDestruirListener;
-      }
-      _lstEvtOnActivityDestruirListener = new ArrayList<>();
+      return _lstEvtOnActivityDestruirListener;
     }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
-    }
+    _lstEvtOnActivityDestruirListener = new ArrayList<>();
+
     return _lstEvtOnActivityDestruirListener;
   }
 
   private List<OnActivityResultListener> getLstEvtOnActivityResultListener()
   {
-    try
+    if (_lstEvtOnActivityResultListener != null)
     {
-      if (_lstEvtOnActivityResultListener != null)
-      {
-        return _lstEvtOnActivityResultListener;
-      }
-      _lstEvtOnActivityResultListener = new ArrayList<>();
+      return _lstEvtOnActivityResultListener;
     }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
-    }
+    _lstEvtOnActivityResultListener = new ArrayList<>();
+
     return _lstEvtOnActivityResultListener;
   }
 
   private List<OnRequestPermissionResultListener> getLstEvtOnRequestPermissionResultListener()
   {
-    try
+    if (_lstEvtOnRequestPermissionResultListener != null)
     {
-      if (_lstEvtOnRequestPermissionResultListener != null)
-      {
-        return _lstEvtOnRequestPermissionResultListener;
-      }
-      _lstEvtOnRequestPermissionResultListener = new ArrayList<>();
+      return _lstEvtOnRequestPermissionResultListener;
     }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
-    }
+    _lstEvtOnRequestPermissionResultListener = new ArrayList<>();
+
     return _lstEvtOnRequestPermissionResultListener;
   }
 
@@ -354,79 +218,41 @@ public abstract class ActMain extends Activity
 
   public DrawerMenu getViwDrawerMenu()
   {
-    try
+    if (_viwDrawerMenu != null)
     {
-      if (_viwDrawerMenu != null)
-      {
-        return _viwDrawerMenu;
-      }
-      _viwDrawerMenu = (DrawerMenu) this.findViewById(R.id.actMain_viwDrawerMenu);
+      return _viwDrawerMenu;
     }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
-    }
+    _viwDrawerMenu = (DrawerMenu) this.findViewById(R.id.actMain_viwDrawerMenu);
+
     return _viwDrawerMenu;
   }
 
   protected ViewGroup getViwRoot()
   {
-    try
+    if (_viwRoot != null)
     {
-      if (_viwRoot != null)
-      {
-        return _viwRoot;
-      }
-      _viwRoot = (ViewGroup) ((ViewGroup) this.findViewById(android.R.id.content)).getChildAt(0);
+      return _viwRoot;
     }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
-    }
+    _viwRoot = (ViewGroup) ((ViewGroup) this.findViewById(android.R.id.content)).getChildAt(0);
+
     return _viwRoot;
   }
 
   protected void inicializar()
   {
-    try
-    {
-      this.inicializarActionBar();
-      this.inicializarContentView();
-    }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
-    }
+    this.inicializarActionBar();
+    this.inicializarContentView();
   }
 
   private void inicializarActionBar()
   {
-    try
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2)
     {
-      if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2)
-      {
-        this.getActionBar().setHomeAsUpIndicator(R.drawable.voltar);
-      }
-      this.getActionBar().setDisplayHomeAsUpEnabled(true);
-      this.getActionBar().setHomeButtonEnabled(true);
-      this.getActionBar().setIcon(null);
+      this.getActionBar().setHomeAsUpIndicator(R.drawable.voltar);
     }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
-    }
+    this.getActionBar().setDisplayHomeAsUpEnabled(true);
+    this.getActionBar().setHomeButtonEnabled(true);
+    this.getActionBar().setIcon(null);
   }
 
   private void inicializarContentView()
@@ -434,49 +260,29 @@ public abstract class ActMain extends Activity
     DrawerMenu viwDrawerMenu;
     FrameLayout viwConteudo;
     PainelMenuConteudo pnlMenuConteudo;
-    try
+
+    if (this.getIntLayoutId() < 1)
     {
-      if (this.getIntLayoutId() < 1)
-      {
-        return;
-      }
-      if (this.getIntDrawerMenuLayoutId() < 1)
-      {
-        return;
-      }
-      viwDrawerMenu = (DrawerMenu) this.getLayoutInflater().inflate(R.layout.act_main, null);
-      viwConteudo = (FrameLayout) viwDrawerMenu.findViewById(R.id.actMain_viwConteudo);
-      pnlMenuConteudo = (PainelMenuConteudo) viwDrawerMenu.findViewById(R.id.actMain_pnlMenuConteudo);
-      this.getLayoutInflater().inflate(this.getIntLayoutId(), viwConteudo, true);
-      this.getLayoutInflater().inflate(this.getIntDrawerMenuLayoutId(), pnlMenuConteudo, true);
-      AppAndroid.getI().dispararOnMenuCreateListener(this, viwDrawerMenu);
-      this.setContentView(viwDrawerMenu);
+      return;
     }
-    catch (Exception ex)
+    if (this.getIntDrawerMenuLayoutId() < 1)
     {
-      new ErroAndroid("Erro inesperado.\n", ex);
+      return;
     }
-    finally
-    {
-    }
+    viwDrawerMenu = (DrawerMenu) this.getLayoutInflater().inflate(R.layout.act_main, null);
+    viwConteudo = (FrameLayout) viwDrawerMenu.findViewById(R.id.actMain_viwConteudo);
+    pnlMenuConteudo = (PainelMenuConteudo) viwDrawerMenu.findViewById(R.id.actMain_pnlMenuConteudo);
+    this.getLayoutInflater().inflate(this.getIntLayoutId(), viwConteudo, true);
+    this.getLayoutInflater().inflate(this.getIntDrawerMenuLayoutId(), pnlMenuConteudo, true);
+    AppAndroid.getI().dispararOnMenuCreateListener(this, viwDrawerMenu);
+    this.setContentView(viwDrawerMenu);
   }
 
   private void iniciar()
   {
-    try
-    {
-      this.inicializar();
-      this.montarLayout();
-      this.setEventos();
-    }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
-    }
-
+    this.inicializar();
+    this.montarLayout();
+    this.setEventos();
   }
 
   protected void montarLayout()
@@ -485,137 +291,81 @@ public abstract class ActMain extends Activity
 
   protected void mostrarTeclado(final View viw)
   {
-    try
+    if (viw == null)
     {
-      if (viw == null)
+      return;
+    }
+    viw.postDelayed(new Runnable()
+    {
+      @Override
+      public void run()
       {
-        return;
+        viw.requestFocus();
+        //          ((InputMethodManager) ActMain.this.getSystemService(Context.INPUT_METHOD_SERVICE)).toggleSoftInput(0, 0);
+        ((InputMethodManager) ActMain.this.getSystemService(Context.INPUT_METHOD_SERVICE)).showSoftInput(viw, 0);
       }
-      viw.postDelayed(new Runnable()
-      {
-        @Override
-        public void run()
-        {
-          viw.requestFocus();
-          //          ((InputMethodManager) ActMain.this.getSystemService(Context.INPUT_METHOD_SERVICE)).toggleSoftInput(0, 0);
-          ((InputMethodManager) ActMain.this.getSystemService(Context.INPUT_METHOD_SERVICE)).showSoftInput(viw, 0);
-        }
-      }, 100);
-    }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
-    }
+    }, 100);
   }
 
   @Override
   protected void onActivityResult(final int intRequestCode, final int intResultCode, final Intent ittResult)
   {
     super.onActivityResult(intRequestCode, intResultCode, ittResult);
-    try
-    {
-      this.onActivityResultFechar(ittResult);
-      this.dispararEvtOnActivityResultListener(intRequestCode, intResultCode, ittResult);
-    }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
-    }
+
+    this.onActivityResultFechar(ittResult);
+    this.dispararEvtOnActivityResultListener(intRequestCode, intResultCode, ittResult);
   }
 
   private void onActivityResultFechar(final Intent itt)
   {
-    try
+    if (itt == null)
     {
-      if (itt == null)
-      {
-        return;
-      }
-      if (!itt.getBooleanExtra(STR_EXTRA_OUT_BOO_FECHAR, false))
-      {
-        return;
-      }
-      if (this.equals(AppAndroid.getI().getActPrincipal()))
-      {
-        return;
-      }
-      this.setResult(0, new Intent().putExtra(STR_EXTRA_OUT_BOO_FECHAR, true));
-      this.finish();
+      return;
     }
-    catch (Exception ex)
+    if (!itt.getBooleanExtra(STR_EXTRA_OUT_BOO_FECHAR, false))
     {
-      new ErroAndroid("Erro inesperado.\n", ex);
+      return;
     }
-    finally
+    if (this.equals(AppAndroid.getI().getActPrincipal()))
     {
+      return;
     }
+    this.setResult(0, new Intent().putExtra(STR_EXTRA_OUT_BOO_FECHAR, true));
+    this.finish();
   }
 
   @Override
   protected void onCreate(Bundle savedInstanceState)
   {
     super.onCreate(savedInstanceState);
-    try
-    {
-      this.iniciar();
-    }
-    catch (Exception ex)
-    {
-      new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(0), ex);
-    }
-    finally
-    {
-    }
+
+    this.iniciar();
   }
 
   @Override
   protected void onDestroy()
   {
     super.onDestroy();
-    try
-    {
-      this.dispararEvtOnDestruirListener();
-      this.getLstEvtOnActivityDestruirListener().clear();
-      this.getLstEvtOnActivityResultListener().clear();
-    }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
-    }
+
+    this.dispararEvtOnDestruirListener();
+    this.getLstEvtOnActivityDestruirListener().clear();
+    this.getLstEvtOnActivityResultListener().clear();
   }
 
   @Override
   public boolean onOptionsItemSelected(MenuItem mni)
   {
-    try
+    if (super.onOptionsItemSelected(mni))
     {
-      if (super.onOptionsItemSelected(mni))
-      {
+      return true;
+    }
+    switch (mni.getItemId())
+    {
+      case android.R.id.home:
+        this.onBackPressed();
         return true;
-      }
-      switch (mni.getItemId())
-      {
-        case android.R.id.home:
-          this.onBackPressed();
-          return true;
-      }
     }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
-    }
+
     return false;
   }
 
@@ -623,108 +373,51 @@ public abstract class ActMain extends Activity
   public void onRequestPermissionsResult(final int intRequestCode, final String[] arrStrPermissions, final int[] intArrGrantResults)
   {
     super.onRequestPermissionsResult(intRequestCode, arrStrPermissions, intArrGrantResults);
-    try
-    {
-      this.dispararEvtOnRequestPermissionListener(intRequestCode, arrStrPermissions, intArrGrantResults);
-    }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
-    }
+
+    this.dispararEvtOnRequestPermissionListener(intRequestCode, arrStrPermissions, intArrGrantResults);
   }
 
   @Override
   protected void onStart()
   {
     super.onStart();
-    try
-    {
-      this.setBooVisivel(true);
-    }
-    catch (Exception ex)
-    {
-      new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(0), ex);
-    }
-    finally
-    {
-    }
+
+    this.setBooVisivel(true);
   }
 
   @Override
   protected void onStop()
   {
     super.onStop();
-    try
-    {
-      this.setBooVisivel(false);
-    }
-    catch (Exception ex)
-    {
-      new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(0), ex);
-    }
-    finally
-    {
-    }
+
+    this.setBooVisivel(false);
   }
 
   public void removerEvtOnActivityResultListener(OnActivityResultListener evt)
   {
-    try
+    if (evt == null)
     {
-      if (evt == null)
-      {
-        return;
-      }
-      this.getLstEvtOnActivityResultListener().remove(evt);
+      return;
     }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
-    }
+    this.getLstEvtOnActivityResultListener().remove(evt);
   }
 
   public void removerEvtOnDestruirListener(OnActivityDestruirListener evt)
   {
-    try
+    if (evt == null)
     {
-      if (evt == null)
-      {
-        return;
-      }
-      this.getLstEvtOnActivityDestruirListener().remove(evt);
+      return;
     }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
-    }
+    this.getLstEvtOnActivityDestruirListener().remove(evt);
   }
 
   public void removerEvtOnRequestPermissionListener(OnRequestPermissionResultListener evt)
   {
-    try
+    if (evt == null)
     {
-      if (evt == null)
-      {
-        return;
-      }
-      this.getLstEvtOnRequestPermissionResultListener().remove(evt);
+      return;
     }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
-    }
+    this.getLstEvtOnRequestPermissionResultListener().remove(evt);
   }
 
   private void setBooVisivel(boolean booVisivel)

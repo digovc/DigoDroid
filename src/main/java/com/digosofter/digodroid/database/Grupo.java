@@ -4,7 +4,6 @@ import com.digosofter.digojava.Objeto;
 
 public class Grupo extends Objeto
 {
-
   private int _intImagemResId;
 
   private int getIntImagemResId()

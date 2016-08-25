@@ -18,34 +18,21 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.VideoView;
 
-import com.digosofter.digodroid.AppAndroid;
-import com.digosofter.digodroid.erro.ErroAndroid;
-
 public abstract class DialogMain extends DialogFragment
 {
-
   private Builder _bld;
   private LayoutInflater _lif;
   private View _viw;
 
   private Builder getBld()
   {
-    try
+    if (_bld != null)
     {
-      if (_bld != null)
-      {
-        return _bld;
-      }
-      _bld = new Builder(this.getActivity());
-      _bld.setView(this.getViw());
+      return _bld;
     }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
-    }
+    _bld = new Builder(this.getActivity());
+    _bld.setView(this.getViw());
+
     return _bld;
   }
 
@@ -73,21 +60,12 @@ public abstract class DialogMain extends DialogFragment
 
   private LayoutInflater getLif()
   {
-    try
+    if (_lif != null)
     {
-      if (_lif != null)
-      {
-        return _lif;
-      }
-      _lif = this.getActivity().getLayoutInflater();
+      return _lif;
     }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
-    }
+    _lif = this.getActivity().getLayoutInflater();
+
     return _lif;
   }
 
@@ -129,37 +107,20 @@ public abstract class DialogMain extends DialogFragment
   protected View getView(int intId)
   {
     View viwResultado = null;
-    try
-    {
-      viwResultado = this.getViw().findViewById(intId);
-    }
-    catch (Exception ex)
-    {
-      new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(0), ex);
-    }
-    finally
-    {
-    }
+
+    viwResultado = this.getViw().findViewById(intId);
+
     return viwResultado;
   }
 
   private View getViw()
   {
-    try
+    if (_viw != null)
     {
-      if (_viw != null)
-      {
-        return _viw;
-      }
-      _viw = this.getLif().inflate(this.getIntLayoutId(), null);
+      return _viw;
     }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
-    }
+    _viw = this.getLif().inflate(this.getIntLayoutId(), null);
+
     return _viw;
   }
 
@@ -170,17 +131,8 @@ public abstract class DialogMain extends DialogFragment
   @Override
   public Dialog onCreateDialog(Bundle savedInstanceState)
   {
-    try
-    {
-      this.montarLayout();
-    }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
-    }
+    this.montarLayout();
+
     return this.getBld().create();
   }
 }

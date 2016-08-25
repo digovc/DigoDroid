@@ -9,7 +9,6 @@ import com.digosofter.digojava.App;
 
 public abstract class SrvMain extends IntentService
 {
-
   private boolean _booParar;
   private Intent _itt;
 

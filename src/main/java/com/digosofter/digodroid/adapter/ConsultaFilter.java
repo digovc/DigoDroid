@@ -6,22 +6,11 @@ import com.digosofter.digodroid.erro.ErroAndroid;
 
 class ConsultaFilter extends Filter
 {
-
   private AdapterConsulta _adpConsulta;
 
   public ConsultaFilter(AdapterConsulta adpConsulta)
   {
-    try
-    {
-      this.setAdpConsulta(adpConsulta);
-    }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
-    }
+    this.setAdpConsulta(adpConsulta);
   }
 
   private AdapterConsulta getAdpConsulta()
@@ -33,35 +22,27 @@ class ConsultaFilter extends Filter
   protected FilterResults performFiltering(CharSequence arrChrFiltro)
   {
     FilterResults objFilterResults;
-    try
+
+    if (this.getAdpConsulta() == null)
     {
-      if (this.getAdpConsulta() == null)
-      {
-        return null;
-      }
-      if (this.getAdpConsulta().getTbl() == null)
-      {
-        return null;
-      }
-      if (arrChrFiltro == null)
-      {
-        this.getAdpConsulta().getTbl().setStrPesquisa(null);
-        return null;
-      }
-      if (arrChrFiltro.length() == 0)
-      {
-        this.getAdpConsulta().getTbl().setStrPesquisa(null);
-        return null;
-      }
-      this.getAdpConsulta().getTbl().setStrPesquisa(arrChrFiltro.toString());
+      return null;
     }
-    catch (Exception ex)
+    if (this.getAdpConsulta().getTbl() == null)
     {
-      new ErroAndroid("Erro inesperado.\n", ex);
+      return null;
     }
-    finally
+    if (arrChrFiltro == null)
     {
+      this.getAdpConsulta().getTbl().setStrPesquisa(null);
+      return null;
     }
+    if (arrChrFiltro.length() == 0)
+    {
+      this.getAdpConsulta().getTbl().setStrPesquisa(null);
+      return null;
+    }
+    this.getAdpConsulta().getTbl().setStrPesquisa(arrChrFiltro.toString());
+
     return null;
   }
 

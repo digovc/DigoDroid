@@ -11,23 +11,12 @@ import java.lang.reflect.Field;
 
 public abstract class ConfigMain extends Objeto
 {
-
   private Editor _objEditor;
   private SharedPreferences _objSharedPreferences;
 
   protected ConfigMain()
   {
-    try
-    {
-      this.carregarDados();
-    }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
-    }
+    this.carregarDados();
   }
 
   /**
@@ -35,43 +24,23 @@ public abstract class ConfigMain extends Objeto
    */
   public void carregarDados()
   {
-    try
-    {
-      this.carregarDados(this.getClass());
-    }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
-    }
+    this.carregarDados(this.getClass());
   }
 
   private void carregarDados(Class cls)
   {
-    try
+    if (cls == null)
     {
-      if (cls == null)
-      {
-        return;
-      }
-      if (Object.class.equals(cls))
-      {
-        return;
-      }
-      this.carregarDados(cls.getClass().getSuperclass());
-      for (Field objField : cls.getDeclaredFields())
-      {
-        this.carregarDados(objField);
-      }
+      return;
     }
-    catch (Exception ex)
+    if (Object.class.equals(cls))
     {
-      new ErroAndroid("Erro inesperado.\n", ex);
+      return;
     }
-    finally
+    this.carregarDados(cls.getClass().getSuperclass());
+    for (Field objField : cls.getDeclaredFields())
     {
+      this.carregarDados(objField);
     }
   }
 
@@ -132,41 +101,23 @@ public abstract class ConfigMain extends Objeto
 
   private Editor getObjEditor()
   {
-    try
+    if (_objEditor != null)
     {
-      if (_objEditor != null)
-      {
-        return _objEditor;
-      }
-      _objEditor = this.getObjSharedPreferences().edit();
+      return _objEditor;
     }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
-    }
+    _objEditor = this.getObjSharedPreferences().edit();
+
     return _objEditor;
   }
 
   private SharedPreferences getObjSharedPreferences()
   {
-    try
+    if (_objSharedPreferences != null)
     {
-      if (_objSharedPreferences != null)
-      {
-        return _objSharedPreferences;
-      }
-      _objSharedPreferences = PreferenceManager.getDefaultSharedPreferences(AppAndroid.getI().getCnt());
+      return _objSharedPreferences;
     }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
-    }
+    _objSharedPreferences = PreferenceManager.getDefaultSharedPreferences(AppAndroid.getI().getCnt());
+
     return _objSharedPreferences;
   }
 
@@ -180,39 +131,19 @@ public abstract class ConfigMain extends Objeto
    */
   public void salvar()
   {
-    try
-    {
-      this.salvar(this.getClass());
-    }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
-    }
+    this.salvar(this.getClass());
   }
 
   private void salvar(Class cls)
   {
-    try
+    if (cls == null)
     {
-      if (cls == null)
-      {
-        return;
-      }
-      this.salvar(cls.getSuperclass());
-      for (Field objField : cls.getDeclaredFields())
-      {
-        this.salvar(objField);
-      }
+      return;
     }
-    catch (Exception ex)
+    this.salvar(cls.getSuperclass());
+    for (Field objField : cls.getDeclaredFields())
     {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
+      this.salvar(objField);
     }
   }
 
@@ -258,65 +189,25 @@ public abstract class ConfigMain extends Objeto
 
   private void setBooConfig(String strConfig, boolean booValor)
   {
-    try
-    {
-      this.getObjEditor().putBoolean(strConfig, booValor);
-      this.getObjEditor().commit();
-    }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
-    }
+    this.getObjEditor().putBoolean(strConfig, booValor);
+    this.getObjEditor().commit();
   }
 
   private void setDblConfig(String strConfig, double dblValor)
   {
-    try
-    {
-      this.getObjEditor().putFloat(strConfig, (float) dblValor);
-      this.getObjEditor().commit();
-    }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
-    }
+    this.getObjEditor().putFloat(strConfig, (float) dblValor);
+    this.getObjEditor().commit();
   }
 
   private void setIntConfig(String strConfig, int intValor)
   {
-    try
-    {
-      this.getObjEditor().putString(strConfig, String.valueOf(intValor));
-      this.getObjEditor().commit();
-    }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
-    }
+    this.getObjEditor().putString(strConfig, String.valueOf(intValor));
+    this.getObjEditor().commit();
   }
 
   private void setStrConfig(String strConfig, String strValor)
   {
-    try
-    {
-      this.getObjEditor().putString(strConfig, strValor);
-      this.getObjEditor().commit();
-    }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
-    }
+    this.getObjEditor().putString(strConfig, strValor);
+    this.getObjEditor().commit();
   }
 }
