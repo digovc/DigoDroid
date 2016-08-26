@@ -27,34 +27,38 @@ public class ImagemCircular extends ImagemGeral
     super(context, attrs, defStyleAttr);
   }
 
-  public Bitmap getclip()
+  public Bitmap getBmpClip()
   {
     if (this.getDrawable() == null)
     {
       return null;
     }
 
-    Bitmap bitmap = ((BitmapDrawable) this.getDrawable()).getBitmap();
-    Bitmap output = Bitmap.createBitmap(bitmap.getWidth(), bitmap.getHeight(), Bitmap.Config.ARGB_8888);
-    Canvas canvas = new Canvas(output);
-    final int color = 0xff424242;
-    final Paint paint = new Paint();
-    final Rect rect = new Rect(0, 0, bitmap.getWidth(), bitmap.getHeight());
-    paint.setAntiAlias(true);
-    canvas.drawARGB(0, 0, 0, 0);
-    // paint.setColor(color);
-    canvas.drawCircle(bitmap.getWidth() / 2, bitmap.getHeight() / 2, bitmap.getWidth() / 2, paint);
-    paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
-    canvas.drawBitmap(bitmap, rect, rect, paint);
-    return output;
+    Bitmap bmp = ((BitmapDrawable) this.getDrawable()).getBitmap();
+    Bitmap bmpOutup = Bitmap.createBitmap(bmp.getWidth(), bmp.getHeight(), Bitmap.Config.ARGB_8888);
+
+    Canvas cnv = new Canvas(bmpOutup);
+
+    final int intColor = 0xff424242;
+    final Paint objPaint = new Paint();
+    final Rect rct = new Rect(0, 0, bmp.getWidth(), bmp.getHeight());
+
+    objPaint.setAntiAlias(true);
+    cnv.drawARGB(0, 0, 0, 0);
+    cnv.drawCircle(bmp.getWidth() / 2, bmp.getHeight() / 2, bmp.getWidth() / 2, objPaint);
+
+    objPaint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
+    cnv.drawBitmap(bmp, rct, rct, objPaint);
+
+    return bmpOutup;
   }
 
   @Override
-  public void onDraw(Canvas canvas)
+  public void onDraw(Canvas cnv)
   {
-    Paint paint = new Paint();
-    // paint.setColor(Color.CYAN);
-    canvas.drawBitmap(getclip(), 30, 20, paint);
+    Paint objPaint = new Paint();
+
+    cnv.drawBitmap(this.getBmpClip(), 30, 20, objPaint);
   }
 
 }

@@ -51,7 +51,9 @@ public class PainelGrupo extends PainelGeral implements View.OnClickListener
     {
       Animar.getI().desaparecerSlideUp(this.getPnlConteudo());
     }
+
     this.getImgSeta().animate().rotationX(booAbrir ? 0 : 180);
+
     this.setBooAberto(booAbrir);
   }
 
@@ -64,11 +66,11 @@ public class PainelGrupo extends PainelGeral implements View.OnClickListener
   public void finalizar()
   {
     super.finalizar();
-    View viw;
 
     while (this.getChildCount() > 2)
     {
-      viw = this.getChildAt(2);
+      View viw = this.getChildAt(2);
+
       this.removeView(viw);
       this.getPnlConteudo().addView(viw);
     }
@@ -85,6 +87,7 @@ public class PainelGrupo extends PainelGeral implements View.OnClickListener
     {
       return _imgSeta;
     }
+
     _imgSeta = new ImagemGeral(this.getContext());
 
     return _imgSeta;
@@ -96,6 +99,7 @@ public class PainelGrupo extends PainelGeral implements View.OnClickListener
     {
       return _lblTitulo;
     }
+
     _lblTitulo = new LabelGeral(this.getContext());
 
     return _lblTitulo;
@@ -107,6 +111,7 @@ public class PainelGrupo extends PainelGeral implements View.OnClickListener
     {
       return _pnlCabecalho;
     }
+
     _pnlCabecalho = new PainelGeralRelativo(this.getContext());
 
     return _pnlCabecalho;
@@ -118,6 +123,7 @@ public class PainelGrupo extends PainelGeral implements View.OnClickListener
     {
       return _pnlConteudo;
     }
+
     _pnlConteudo = new PainelGeral(this.getContext());
 
     return _pnlConteudo;
@@ -147,25 +153,26 @@ public class PainelGrupo extends PainelGeral implements View.OnClickListener
   public void inicializar(AttributeSet ats)
   {
     super.inicializar(ats);
-    TypedArray objTypedArray;
 
     if (ats == null)
     {
       return;
     }
-    objTypedArray = this.getContext().obtainStyledAttributes(ats, R.styleable.View);
+
+    TypedArray objTypedArray = this.getContext().obtainStyledAttributes(ats, R.styleable.View);
+
     this.setStrTitulo(objTypedArray.getString(R.styleable.View_strTitulo));
   }
 
   private void inicializarImgSeta()
   {
-    int intTamanho;
-    RelativeLayout.LayoutParams objLayoutParams;
+    int intTamanho = UtilsAndroid.dpToPx(25, this.getContext());
 
-    intTamanho = UtilsAndroid.dpToPx(25, this.getContext());
-    objLayoutParams = new RelativeLayout.LayoutParams(intTamanho, LayoutParams.MATCH_PARENT);
+    RelativeLayout.LayoutParams objLayoutParams = new RelativeLayout.LayoutParams(intTamanho, LayoutParams.MATCH_PARENT);
+
     objLayoutParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
     objLayoutParams.addRule(RelativeLayout.CENTER_VERTICAL);
+
     this.getImgSeta().setImageResource(R.drawable.abrir_fechar_grupo);
     this.getImgSeta().setLayoutParams(objLayoutParams);
     this.getImgSeta().setRight(0);
@@ -179,9 +186,8 @@ public class PainelGrupo extends PainelGeral implements View.OnClickListener
 
   private void inicializarPnlCabecalho()
   {
-    int intPadding;
+    int intPadding = UtilsAndroid.dpToPx(TemaDefault.getI().getIntEspacamento(), this.getContext());
 
-    intPadding = UtilsAndroid.dpToPx(TemaDefault.getI().getIntEspacamento(), this.getContext());
     this.getPnlCabecalho().setBackgroundColor(this.getContext().getResources().getColor(R.color.cor_borda));
     this.getPnlCabecalho().setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, UtilsAndroid.dpToPx(40, this.getContext())));
     this.getPnlCabecalho().setPadding(intPadding, 0, intPadding, 0);
@@ -199,6 +205,7 @@ public class PainelGrupo extends PainelGeral implements View.OnClickListener
 
     super.addView(this.getPnlCabecalho());
     super.addView(this.getPnlConteudo());
+
     this.getPnlCabecalho().addView(this.getLblTitulo());
     this.getPnlCabecalho().addView(this.getImgSeta());
   }
@@ -225,6 +232,7 @@ public class PainelGrupo extends PainelGeral implements View.OnClickListener
   public void setStrTitulo(String strTitulo)
   {
     _strTitulo = strTitulo;
+
     this.atualizarStrTitulo();
   }
 }

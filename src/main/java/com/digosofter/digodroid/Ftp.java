@@ -24,6 +24,7 @@ public class Ftp extends Objeto
     {
       return _ftpClient;
     }
+    
     _ftpClient = new FTPClient();
 
     return _ftpClient;

@@ -1,8 +1,7 @@
 package com.digosofter.digodroid.http;
 
-import com.digosofter.digodroid.AppAndroid;
-import com.digosofter.digodroid.erro.ErroAndroid;
 import com.digosofter.digojava.Objeto;
+import com.digosofter.digojava.Utils;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -17,21 +16,26 @@ public abstract class HttpUtils extends Objeto
 {
   public static HttpResponse postData(String uri, List<NameValuePair> lstNameValuePair)
   {
-    HttpClient objHttpclient;
-    HttpPost objHttppost;
+    if (Utils.getBooStrVazia(uri))
+    {
+      return null;
+    }
+
     HttpResponse objHttpResponseResultado = null;
+
+    HttpPost objHttppost = new HttpPost(uri);
 
     try
     {
-      objHttpResponseResultado = null;
-      objHttppost = new HttpPost(uri);
       objHttppost.setEntity(new UrlEncodedFormEntity(lstNameValuePair));
-      objHttpclient = new DefaultHttpClient();
+
+      HttpClient objHttpclient = new DefaultHttpClient();
+
       objHttpResponseResultado = objHttpclient.execute(objHttppost);
     }
     catch (Exception ex)
     {
-      new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(0), ex);
+      ex.printStackTrace();
     }
 
     return objHttpResponseResultado;

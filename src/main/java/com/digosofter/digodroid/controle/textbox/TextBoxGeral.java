@@ -9,6 +9,7 @@ import android.widget.EditText;
 import com.digosofter.digodroid.controle.IControleMain;
 import com.digosofter.digojava.OnValorAlteradoArg;
 import com.digosofter.digojava.OnValorAlteradoListener;
+import com.digosofter.digojava.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -69,10 +70,12 @@ public class TextBoxGeral extends EditText implements IControleMain
     {
       return;
     }
+
     if (this.getLstEvtOnValorAlteradoListener().contains(evt))
     {
       return;
     }
+
     this.getLstEvtOnValorAlteradoListener().add(evt);
   }
 
@@ -83,9 +86,11 @@ public class TextBoxGeral extends EditText implements IControleMain
       case ALFANUMERICO:
         this.atualizarEnmFormatoAlfanumerico();
         return;
+
       case NUMERICO_INTEIRO:
         this.atualizarEnmFormatoNumericoInteiro();
         return;
+
       case NUMERICO_PONTO_FLUTUANTE:
         this.atualizarEnmFormatoNumericoPontoFlutuante();
         return;
@@ -113,30 +118,34 @@ public class TextBoxGeral extends EditText implements IControleMain
       this.setText(this.getStrValor());
       return;
     }
+
     this.dispararEvtOnValorAlteradoListener();
   }
 
   private void dispararEvtOnValorAlteradoListener()
   {
-    OnValorAlteradoArg arg;
-
     if (this.getLstEvtOnValorAlteradoListener().isEmpty())
     {
       return;
     }
+
     if ((this.getStrValor() != null) ? (this.getStrValor().equals(this.getStrValorAnterior())) : (this.getStrValorAnterior() == null))
     {
       return;
     }
-    arg = new OnValorAlteradoArg();
+
+    OnValorAlteradoArg arg = new OnValorAlteradoArg();
+
     arg.setStrValor(this.getStrValor());
     arg.setStrValorAnterior(this.getStrValorAnterior());
+
     for (OnValorAlteradoListener evt : this.getLstEvtOnValorAlteradoListener())
     {
       if (evt == null)
       {
         continue;
       }
+
       evt.onValorAlterado(this, arg);
     }
   }
@@ -153,28 +162,19 @@ public class TextBoxGeral extends EditText implements IControleMain
 
   public boolean getBooValor()
   {
-    try
-    {
-      _booValor = Boolean.valueOf(this.getStrValor());
-    }
-    catch (Exception ex)
-    {
-      _booValor = false;
-    }
+    _booValor = Utils.getBoo(this.getStrValor());
 
     return _booValor;
   }
 
   public double getDblValor()
   {
-    try
+    if (Utils.getBooStrVazia(this.getStrValor()))
     {
-      _dblValor = Double.valueOf(this.getStrValor());
+      return 0;
     }
-    catch (Exception ex)
-    {
-      _dblValor = 0;
-    }
+
+    _dblValor = Double.valueOf(this.getStrValor());
 
     return _dblValor;
   }
@@ -195,6 +195,7 @@ public class TextBoxGeral extends EditText implements IControleMain
     {
       return _lstEvtOnValorAlteradoListener;
     }
+
     _lstEvtOnValorAlteradoListener = new ArrayList<>();
 
     return _lstEvtOnValorAlteradoListener;
@@ -266,6 +267,7 @@ public class TextBoxGeral extends EditText implements IControleMain
     {
       return;
     }
+
     this.getLstEvtOnValorAlteradoListener().remove(evt);
   }
 
@@ -279,18 +281,21 @@ public class TextBoxGeral extends EditText implements IControleMain
   public void setBooValor(boolean booValor)
   {
     _booValor = booValor;
+
     this.setStrValor(String.valueOf(_booValor));
   }
 
   public void setDblValor(double dblValor)
   {
     _dblValor = dblValor;
+
     this.setStrValor(String.valueOf(_dblValor));
   }
 
   public void setEnmFormato(EnmFormato enmFormato)
   {
     _enmFormato = enmFormato;
+
     this.atualizarEnmFormato();
   }
 
@@ -302,13 +307,16 @@ public class TextBoxGeral extends EditText implements IControleMain
   public void setIntValor(int intValor)
   {
     _intValor = intValor;
+
     this.setDblValor(_intValor);
   }
 
   public void setStrValor(String strValor)
   {
     this.setStrValorAnterior(_strValor);
+
     _strValor = strValor;
+
     this.atualizarStrValor();
   }
 

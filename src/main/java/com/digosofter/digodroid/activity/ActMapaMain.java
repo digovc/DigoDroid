@@ -8,7 +8,6 @@ import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
 
-import com.digosofter.digodroid.AppAndroid;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.GoogleMap.OnMarkerDragListener;
@@ -30,23 +29,20 @@ public abstract class ActMapaMain extends ActMain implements OnLocationChangedLi
 
   protected void addMarca(MarkerOptions objMarkerOptions)
   {
-    Marker mrk;
+    if (this.getObjGoogleMap() == null)
+    {
+      return;
+    }
 
     if (objMarkerOptions == null)
     {
       return;
     }
-    mrk = this.getObjGoogleMap().addMarker(objMarkerOptions);
-    if (mrk == null)
-    {
-      return;
-    }
+
+    Marker mrk = this.getObjGoogleMap().addMarker(objMarkerOptions);
+
     this.getLstObjMarker().add(mrk);
-    if (mrk.getPosition().latitude + mrk.getPosition().longitude == 0)
-    {
-      AppAndroid.getI().notificar("Localização desconhecida.");
-      return;
-    }
+
     this.getObjGoogleMap().animateCamera(CameraUpdateFactory.newLatLngZoom(mrk.getPosition(), 15));
   }
 
@@ -56,6 +52,7 @@ public abstract class ActMapaMain extends ActMain implements OnLocationChangedLi
     {
       return _frgMap;
     }
+
     _frgMap = new MapFragment();
 
     return _frgMap;
@@ -69,7 +66,8 @@ public abstract class ActMapaMain extends ActMain implements OnLocationChangedLi
     {
       return _lstObjMarker;
     }
-    _lstObjMarker = new ArrayList<Marker>();
+
+    _lstObjMarker = new ArrayList<>();
 
     return _lstObjMarker;
   }
@@ -85,9 +83,16 @@ public abstract class ActMapaMain extends ActMain implements OnLocationChangedLi
     {
       return _objLocationManager;
     }
+
     _objLocationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
 
     return _objLocationManager;
+  }
+
+  protected void inicializarMapa()
+  {
+    this.montarLayoutMapa();
+    this.setEventosMapa();
   }
 
   @Override
@@ -96,12 +101,12 @@ public abstract class ActMapaMain extends ActMain implements OnLocationChangedLi
     super.montarLayout();
 
     this.setTitle("Mapa");
+
     this.addFragmento(this.getIntMapContainerId(), this.getFrgMap());
   }
 
   protected void montarLayoutMapa()
   {
-    this.setEventosMapa();
   }
 
   @Override
@@ -115,13 +120,14 @@ public abstract class ActMapaMain extends ActMain implements OnLocationChangedLi
   @Override
   public void onMapReady(GoogleMap objGoogleMap)
   {
-
     if (objGoogleMap == null)
     {
       return;
     }
+
     this.setObjGoogleMap(objGoogleMap);
-    this.montarLayoutMapa();
+
+    this.inicializarMapa();
   }
 
   @Override
@@ -136,6 +142,7 @@ public abstract class ActMapaMain extends ActMain implements OnLocationChangedLi
     {
       return;
     }
+
     mrk.setPosition(mrk.getPosition());
   }
 

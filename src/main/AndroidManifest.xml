@@ -24,7 +24,6 @@
         <!-- Activities da biblioteca DigoDroid -->
         <activity android:name=".activity.ActConsulta"/>
         <activity android:name=".activity.ActDetalhe"/>
-        <activity android:name=".activity.ActErro"/>
 
         <meta-data
             android:name="com.google.android.gms.version"

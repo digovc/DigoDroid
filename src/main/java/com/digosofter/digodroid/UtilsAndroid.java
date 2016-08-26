@@ -6,8 +6,6 @@ import android.util.DisplayMetrics;
 
 import com.digosofter.digojava.Utils;
 
-import java.util.Random;
-
 public abstract class UtilsAndroid extends Utils
 {
   /**
@@ -19,19 +17,24 @@ public abstract class UtilsAndroid extends Utils
    */
   public static int dpToPx(int intDp, Context cnt)
   {
-    DisplayMetrics objDisplayMetrics;
+    if (intDp < 1)
+    {
+      return 0;
+    }
 
-    objDisplayMetrics = cnt.getResources().getDisplayMetrics();
+    if (cnt == null)
+    {
+      return 0;
+    }
+
+    DisplayMetrics objDisplayMetrics = cnt.getResources().getDisplayMetrics();
 
     return Math.round(intDp * (objDisplayMetrics.xdpi / DisplayMetrics.DENSITY_DEFAULT));
   }
 
   public static int getIntCorAleatoria()
   {
-    Random objRandom;
-
-    objRandom = new Random();
-    return Color.argb(255, objRandom.nextInt(256), objRandom.nextInt(256), objRandom.nextInt(256));
+    return Color.argb(255, Utils.getIntNumeroAleatorio(256), Utils.getIntNumeroAleatorio(256), Utils.getIntNumeroAleatorio(256));
   }
 
   /**
@@ -43,9 +46,18 @@ public abstract class UtilsAndroid extends Utils
    */
   public static int pxToDp(int intPx, Context cnt)
   {
-    DisplayMetrics objDisplayMetrics;
+    if (intPx < 1)
+    {
+      return 0;
+    }
 
-    objDisplayMetrics = cnt.getResources().getDisplayMetrics();
+    if (cnt == null)
+    {
+      return 0;
+    }
+
+    DisplayMetrics objDisplayMetrics = cnt.getResources().getDisplayMetrics();
+
     return Math.round(intPx / (objDisplayMetrics.xdpi / DisplayMetrics.DENSITY_DEFAULT));
   }
 }

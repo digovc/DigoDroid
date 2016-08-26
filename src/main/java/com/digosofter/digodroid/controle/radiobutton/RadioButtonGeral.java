@@ -96,6 +96,7 @@ public class RadioButtonGeral extends RadioButton implements IControleMain
   public void setStrTitulo(String strTitulo)
   {
     _strTitulo = strTitulo;
+
     this.atualizarStrTitulo();
   }
 }

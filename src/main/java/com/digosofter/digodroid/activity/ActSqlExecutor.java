@@ -19,6 +19,12 @@ public class ActSqlExecutor extends ActMain implements View.OnClickListener
     {
       return;
     }
+
+    if (AppAndroid.getI().getObjDbPrincipal() == null)
+    {
+      return;
+    }
+
     AppAndroid.getI().getObjDbPrincipal().execSql(this.getTxtSqlScript().getText().toString());
   }
 
@@ -28,7 +34,9 @@ public class ActSqlExecutor extends ActMain implements View.OnClickListener
     {
       return _btnExecutarScript;
     }
+
     _btnExecutarScript = this.getView(R.id.actSqlExecutor_btnExecutarScript, Button.class);
+
     return _btnExecutarScript;
   }
 
@@ -44,7 +52,9 @@ public class ActSqlExecutor extends ActMain implements View.OnClickListener
     {
       return _txtSqlScript;
     }
+
     _txtSqlScript = this.getView(R.id.actSqlExecutor_txtSqlScript, EditText.class);
+
     return _txtSqlScript;
   }
 
@@ -62,6 +72,7 @@ public class ActSqlExecutor extends ActMain implements View.OnClickListener
   protected void setEventos()
   {
     super.setEventos();
+
     this.getBtnExecutarScript().setOnClickListener(this);
   }
 }

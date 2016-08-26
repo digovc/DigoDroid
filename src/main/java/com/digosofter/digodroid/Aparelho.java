@@ -21,17 +21,18 @@ import com.digosofter.digojava.Utils;
 
 public class Aparelho extends Objeto
 {
-  private static Aparelho i;
+  private static Aparelho _i;
 
   public static Aparelho getI()
   {
-    if (i != null)
+    if (_i != null)
     {
-      return i;
+      return _i;
     }
-    i = new Aparelho();
 
-    return i;
+    _i = new Aparelho();
+
+    return _i;
   }
 
   private Context _cnt;
@@ -42,28 +43,34 @@ public class Aparelho extends Objeto
 
   public void abrirMapa(String strEnderecoCompleto)
   {
-    Intent itt;
-    String urlMap;
+    if (Utils.getBooStrVazia(strEnderecoCompleto))
+    {
+      return;
+    }
 
-    urlMap = "http://maps.google.co.in/maps?q=";
-    urlMap += strEnderecoCompleto;
-    itt = new Intent(Intent.ACTION_VIEW, Uri.parse(urlMap));
+    String urlMap = "http://maps.google.co.in/maps?q=".concat(strEnderecoCompleto);
+
+    Intent itt = new Intent(Intent.ACTION_VIEW, Uri.parse(urlMap));
+
     itt.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
     this.getCnt().getApplicationContext().getApplicationContext().startActivity(itt);
   }
 
   public void discar(String strNumero)
   {
-    Intent itt;
-
     if (Utils.getBooStrVazia(strNumero))
     {
       return;
     }
+
     strNumero = Utils.simplificar(strNumero);
-    itt = new Intent(Intent.ACTION_DIAL);
+
+    Intent itt = new Intent(Intent.ACTION_DIAL);
+
     itt.setData(Uri.parse("tel:" + strNumero));
     itt.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
     this.getCnt().startActivity(itt);
   }
 
@@ -72,18 +79,19 @@ public class Aparelho extends Objeto
    */
   public void enviarEmail(ActMain act, Intent itt)
   {
-    Uri uri;
-
     if (act == null)
     {
       return;
     }
+
     if (itt == null)
     {
       itt = new Intent();
     }
+
     itt.setAction(Intent.ACTION_SENDTO);
     itt.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
     act.startActivity(Intent.createChooser(itt, "Enviar email"));
   }
 
@@ -104,37 +112,23 @@ public class Aparelho extends Objeto
    */
   public boolean getBooArmazenamentoExternoLer()
   {
-    String strState;
+    String strState = Environment.getExternalStorageState();
 
-    strState = Environment.getExternalStorageState();
     if (Environment.MEDIA_MOUNTED.equals(strState))
     {
       return true;
     }
-    if (Environment.MEDIA_MOUNTED_READ_ONLY.equals(strState))
-    {
-      return true;
-    }
 
-    return false;
+    return Environment.MEDIA_MOUNTED_READ_ONLY.equals(strState);
   }
 
   public boolean getBooConectado()
   {
-    boolean booResultado = false;
-    ConnectivityManager objConnectivityManager;
-    NetworkInfo objNetworkInfo;
+    ConnectivityManager objConnectivityManager = (ConnectivityManager) this.getCnt().getSystemService(Context.CONNECTIVITY_SERVICE);
 
-    objConnectivityManager = (ConnectivityManager) this.getCnt().getSystemService(Context.CONNECTIVITY_SERVICE);
-    objNetworkInfo = objConnectivityManager.getActiveNetworkInfo();
-    booResultado = objNetworkInfo != null && objNetworkInfo.isConnected();
+    NetworkInfo objNetworkInfo = objConnectivityManager.getActiveNetworkInfo();
 
-    if (!booResultado)
-    {
-      AppAndroid.getI().notificar("Aparelho não conectado.");
-    }
-
-    return booResultado;
+    return ((objNetworkInfo != null) && objNetworkInfo.isConnected());
   }
 
   private Context getCnt()
@@ -143,6 +137,7 @@ public class Aparelho extends Objeto
     {
       return _cnt;
     }
+
     _cnt = AppAndroid.getI().getCnt();
 
     return _cnt;
@@ -154,6 +149,12 @@ public class Aparelho extends Objeto
     {
       return _objTelephonyManager;
     }
+
+    if (this.getCnt() == null)
+    {
+      return null;
+    }
+
     _objTelephonyManager = (TelephonyManager) this.getCnt().getSystemService(Context.TELEPHONY_SERVICE);
 
     return _objTelephonyManager;
@@ -170,7 +171,9 @@ public class Aparelho extends Objeto
     {
       return _pntTelaTamanho;
     }
+
     _pntTelaTamanho = new Point();
+
     AppAndroid.getI().getActPrincipal().getWindowManager().getDefaultDisplay().getSize(_pntTelaTamanho);
 
     return _pntTelaTamanho;
@@ -185,6 +188,12 @@ public class Aparelho extends Objeto
     {
       return _strDeviceId;
     }
+
+    if (this.getCnt() == null)
+    {
+      return null;
+    }
+
     _strDeviceId = Secure.getString(this.getCnt().getContentResolver(), Secure.ANDROID_ID);
 
     return _strDeviceId;
@@ -196,15 +205,24 @@ public class Aparelho extends Objeto
     {
       return _strImei;
     }
+
+    if (this.getObjTelephonyManager() == null)
+    {
+      return null;
+    }
+
     _strImei = this.getObjTelephonyManager().getDeviceId();
 
     return _strImei;
   }
 
-  @TargetApi(Build.VERSION_CODES.M)
+  @TargetApi(Build.VERSION_CODES.M) // TODO: Remover todas essas anotações de versão do Android.
   public void ligar(String strNumero)
   {
-    Intent itt;
+    if (this.getCnt() == null)
+    {
+      return;
+    }
 
     if (this.getCnt().checkSelfPermission(Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED)
     {
@@ -215,10 +233,14 @@ public class Aparelho extends Objeto
     {
       return;
     }
+
     strNumero = Utils.simplificar(strNumero);
-    itt = new Intent(Intent.ACTION_CALL);
+
+    Intent itt = new Intent(Intent.ACTION_CALL);
+
     itt.setData(Uri.parse("tel:" + strNumero));
     itt.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
     this.getCnt().startActivity(itt);
   }
 
@@ -233,6 +255,12 @@ public class Aparelho extends Objeto
     {
       return;
     }
+
+    if (this.getCnt() == null)
+    {
+      return;
+    }
+
     ((Vibrator) this.getCnt().getSystemService(Context.VIBRATOR_SERVICE)).vibrate(arrIntMs, -1);
   }
 }

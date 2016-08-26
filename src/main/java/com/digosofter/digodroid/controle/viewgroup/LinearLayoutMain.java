@@ -76,12 +76,11 @@ public abstract class LinearLayoutMain extends LinearLayout implements IControle
 
   /**
    * Insere espaçamento interno neste componente.
-   *
-   * @param intPaddingPx Valor em "pixels" que será convertido em "density pixels" e indicará o espaçamento interno.
    */
-  public void setIntPadding(int intPaddingPx)
+  public void setIntPadding()
   {
-    intPaddingPx = UtilsAndroid.dpToPx(TemaDefault.getI().getIntEspacamento(), this.getContext());
+    int intPaddingPx = UtilsAndroid.dpToPx(TemaDefault.getI().getIntEspacamento(), this.getContext());
+
     this.setPadding(intPaddingPx, intPaddingPx, intPaddingPx, intPaddingPx);
   }
 }

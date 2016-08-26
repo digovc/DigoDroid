@@ -34,10 +34,13 @@ public class DataBaseAndroid extends DataBase
     {
       return;
     }
+
     this.setObjDbEscrita(null);
     this.setObjDbLeitura(null);
     this.setObjSQLiteOpenHelper(null);
+
     act.deleteDatabase(this.getStrNome());
+
     AppAndroid.getI().criarTabela();
     AppAndroid.getI().criarView();
     AppAndroid.getI().notificar("Banco de dados apagado.");
@@ -51,6 +54,7 @@ public class DataBaseAndroid extends DataBase
   public void backup(final ActMain act)
   {
     this.getArq().copiar(AppAndroid.getI().getDir());
+
     AppAndroid.getI().notificar("Backup efetuado com sucesso.");
   }
 
@@ -68,15 +72,15 @@ public class DataBaseAndroid extends DataBase
   @Override
   public String execSqlGetStr(String sql)
   {
-    Cursor crs;
-    String strResultado;
+    Cursor crs = this.execSqlComRetorno(sql);
 
-    crs = this.execSqlComRetorno(sql);
     if (crs == null || !crs.moveToFirst())
     {
       return null;
     }
-    strResultado = crs.getString(0);
+
+    String strResultado = crs.getString(0);
+
     crs.close();
 
     return strResultado;
@@ -88,6 +92,7 @@ public class DataBaseAndroid extends DataBase
     {
       return _arq;
     }
+
     _arq = new ArquivoDb(this);
 
     return _arq;
@@ -99,6 +104,7 @@ public class DataBaseAndroid extends DataBase
     {
       return _objDbEscrita;
     }
+
     _objDbEscrita = this.getObjSQLiteOpenHelper().getWritableDatabase();
 
     return _objDbEscrita;
@@ -110,6 +116,7 @@ public class DataBaseAndroid extends DataBase
     {
       return _objDbLeitura;
     }
+
     _objDbLeitura = this.getObjSQLiteOpenHelper().getReadableDatabase();
 
     return _objDbLeitura;
@@ -121,15 +128,9 @@ public class DataBaseAndroid extends DataBase
     {
       return _objSQLiteOpenHelper;
     }
+
     _objSQLiteOpenHelper = new SQLiteOpenHelper(AppAndroid.getI().getCnt(), this.getStrNome(), null, AppAndroid.getI().getIntVersao())
     {
-
-      @Override
-      public void onConfigure(final SQLiteDatabase objSQLiteDatabase)
-      {
-        super.onConfigure(objSQLiteDatabase);
-      }
-
       @Override
       public void onCreate(SQLiteDatabase objSQLiteDatabase)
       {

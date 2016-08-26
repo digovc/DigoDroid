@@ -32,6 +32,7 @@ public class CampoAlfanumerico extends CampoMain implements OnValorAlteradoListe
     {
       return _txt;
     }
+
     _txt = new TextBoxGeral(this.getContext());
 
     return _txt;
@@ -65,6 +66,7 @@ public class CampoAlfanumerico extends CampoMain implements OnValorAlteradoListe
     {
       return;
     }
+
     if (objSender.equals(this.getTxt()))
     {
       this.setStrValor(arg.getStrValor());

@@ -30,6 +30,7 @@ public class CampoCheckBox extends CampoMain
     {
       return _ckb;
     }
+
     _ckb = new CheckBoxGeral(this.getContext());
 
     return _ckb;

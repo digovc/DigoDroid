@@ -49,21 +49,25 @@ public class ItemConsulta extends ItemMain implements View.OnClickListener, View
   public void carregarDados(Cursor crs)
   {
     super.carregarDados(crs);
-    String strTitulo;
 
     if (crs == null)
     {
       return;
     }
+
     if (this.getTbl() == null)
     {
       return;
     }
+
     this.setIntRegistroId(crs.getInt(crs.getColumnIndex(this.getTbl().getClnChavePrimaria().getSqlNome())));
     this.setStrRegistroNome(crs.getString(crs.getColumnIndex(this.getTbl().getClnNome().getSqlNome())));
-    strTitulo = "_registro_id - _registro_nome";
+
+    String strTitulo = "_registro_id - _registro_nome";
+
     strTitulo = strTitulo.replace("_registro_id", String.valueOf(this.getIntRegistroId()));
     strTitulo = strTitulo.replace("_registro_nome", (!Utils.getBooStrVazia(this.getStrRegistroNome()) ? this.getStrRegistroNome() : String.valueOf(this.getIntRegistroId())));
+
     this.getLblRegistroTitulo().setText(strTitulo);
     this.carregarDadosItem(crs);
   }
@@ -74,10 +78,12 @@ public class ItemConsulta extends ItemMain implements View.OnClickListener, View
     {
       return;
     }
+
     if (this.getTbl() == null)
     {
       return;
     }
+
     for (Coluna cln : this.getTbl().getLstClnConsultaOrdenado())
     {
       this.carregarDadosItem(crs, (ColunaAndroid) cln);
@@ -86,29 +92,33 @@ public class ItemConsulta extends ItemMain implements View.OnClickListener, View
 
   private void carregarDadosItem(Cursor crs, ColunaAndroid cln)
   {
-    ItemCampo itmCampo;
-
     if (cln == null)
     {
       return;
     }
+
     if (cln.getBooChavePrimaria())
     {
       return;
     }
+
     if (cln.getBooNome())
     {
       return;
     }
+
     if (!cln.getBooVisivelConsulta())
     {
       return;
     }
-    itmCampo = this.getItmCampo(cln);
+
+    ItemCampo itmCampo = this.getItmCampo(cln);
+
     if (itmCampo == null)
     {
       return;
     }
+
     itmCampo.carregarDados(crs);
   }
 
@@ -124,26 +134,30 @@ public class ItemConsulta extends ItemMain implements View.OnClickListener, View
 
   private ItemCampo getItmCampo(ColunaAndroid cln)
   {
-    ItemCampo itmCampoResultado;
-
     for (int i = 0; i < this.getPnlCampos().getChildCount(); i++)
     {
       if (this.getPnlCampos().getChildAt(i) == null)
       {
         continue;
       }
+
       if (!this.getPnlCampos().getChildAt(i).getClass().equals(ItemCampo.class))
       {
         continue;
       }
+
       if (((ItemCampo) this.getPnlCampos().getChildAt(i)).getCln() != cln)
       {
         continue;
       }
+
       return (ItemCampo) this.getPnlCampos().getChildAt(i);
     }
-    itmCampoResultado = new ItemCampo(this.getContext(), cln);
+
+    ItemCampo itmCampoResultado = new ItemCampo(this.getContext(), cln);
+
     this.getPnlCampos().addView(itmCampoResultado);
+
     return itmCampoResultado;
   }
 
@@ -153,6 +167,7 @@ public class ItemConsulta extends ItemMain implements View.OnClickListener, View
     {
       return _lblRegistroTitulo;
     }
+
     _lblRegistroTitulo = new LabelGeral(this.getContext());
 
     return _lblRegistroTitulo;
@@ -164,6 +179,7 @@ public class ItemConsulta extends ItemMain implements View.OnClickListener, View
     {
       return _pnlCampos;
     }
+
     _pnlCampos = new PainelGeral(this.getContext());
 
     return _pnlCampos;
@@ -175,6 +191,7 @@ public class ItemConsulta extends ItemMain implements View.OnClickListener, View
     {
       return _pnlConteudo;
     }
+
     _pnlConteudo = new PainelGeral(this.getContext());
 
     return _pnlConteudo;
@@ -186,6 +203,7 @@ public class ItemConsulta extends ItemMain implements View.OnClickListener, View
     {
       return _pnlRipple;
     }
+
     _pnlRipple = new PainelRipple(this.getContext());
 
     return _pnlRipple;
@@ -229,9 +247,8 @@ public class ItemConsulta extends ItemMain implements View.OnClickListener, View
 
   private void inicializarPnlCampos()
   {
-    int intPadding;
+    int intPadding = UtilsAndroid.dpToPx(10, this.getContext());
 
-    intPadding = UtilsAndroid.dpToPx(10, this.getContext());
     this.getPnlCampos().setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
     this.getPnlCampos().setOrientation(VERTICAL);
     this.getPnlCampos().setPadding(intPadding, intPadding, intPadding, intPadding);
@@ -249,26 +266,30 @@ public class ItemConsulta extends ItemMain implements View.OnClickListener, View
     super.montarLayout();
 
     this.addView(this.getPnlRipple());
+
     this.getPnlRipple().addView(this.getPnlConteudo());
     this.getPnlConteudo().addView(this.getLblRegistroTitulo());
     this.getPnlConteudo().addView(this.getPnlCampos());
   }
 
   @Override
-  public void onClick(final View v)
+  public void onClick(final View viw)
   {
     if (this.getIntRegistroId() < 1)
     {
       return;
     }
+
     if (this.getContext() == null)
     {
       return;
     }
+
     if (!ActConsulta.class.isAssignableFrom(this.getContext().getClass()))
     {
       return;
     }
+
     ((ActConsulta) this.getContext()).onItemClick(this);
   }
 
@@ -279,14 +300,17 @@ public class ItemConsulta extends ItemMain implements View.OnClickListener, View
     {
       return false;
     }
+
     if (this.getContext() == null)
     {
       return false;
     }
+
     if (!ActConsulta.class.isAssignableFrom(this.getContext().getClass()))
     {
       return false;
     }
+
     ((ActConsulta) this.getContext()).onItemLongClick(this);
 
     return true;

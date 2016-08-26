@@ -4,8 +4,6 @@ import android.app.IntentService;
 import android.content.Intent;
 
 import com.digosofter.digodroid.AppAndroid;
-import com.digosofter.digodroid.erro.ErroAndroid;
-import com.digosofter.digojava.App;
 
 public abstract class SrvMain extends IntentService
 {
@@ -34,8 +32,7 @@ public abstract class SrvMain extends IntentService
   /**
    * Responsável pela inicialização de propriedades antes de iniciar o serviço.
    *
-   * @return True caso o serviço foi inicializado corretamente e pode iniciar, ou False caso contrário, o que parará o
-   * serviço imediatamente.
+   * @return True caso o serviço foi inicializado corretamente e pode iniciar, ou False caso contrário, o que parará o serviço imediatamente.
    */
   protected boolean inicializar()
   {
@@ -45,25 +42,16 @@ public abstract class SrvMain extends IntentService
   @Override
   protected void onHandleIntent(Intent itt)
   {
-    try
-    {
-      this.setItt(itt);
+    this.setItt(itt);
 
-      if (!this.inicializar())
-      {
-        return;
-      }
+    if (!this.inicializar())
+    {
+      return;
+    }
 
-      this.servico();
-    }
-    catch (Exception ex)
-    {
-      new ErroAndroid(App.getI().getStrTextoPadrao(0), ex);
-    }
-    finally
-    {
-      this.finalizar();
-    }
+    this.servico();
+
+    this.finalizar();
   }
 
   protected void servico()

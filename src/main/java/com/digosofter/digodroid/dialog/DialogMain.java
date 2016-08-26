@@ -30,7 +30,9 @@ public abstract class DialogMain extends DialogFragment
     {
       return _bld;
     }
+
     _bld = new Builder(this.getActivity());
+
     _bld.setView(this.getViw());
 
     return _bld;
@@ -64,6 +66,7 @@ public abstract class DialogMain extends DialogFragment
     {
       return _lif;
     }
+
     _lif = this.getActivity().getLayoutInflater();
 
     return _lif;
@@ -106,11 +109,7 @@ public abstract class DialogMain extends DialogFragment
 
   protected View getView(int intId)
   {
-    View viwResultado = null;
-
-    viwResultado = this.getViw().findViewById(intId);
-
-    return viwResultado;
+    return this.getViw().findViewById(intId);
   }
 
   private View getViw()
@@ -119,6 +118,7 @@ public abstract class DialogMain extends DialogFragment
     {
       return _viw;
     }
+
     _viw = this.getLif().inflate(this.getIntLayoutId(), null);
 
     return _viw;

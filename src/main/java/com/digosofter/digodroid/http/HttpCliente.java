@@ -1,9 +1,6 @@
 package com.digosofter.digodroid.http;
 
-import com.digosofter.digodroid.AppAndroid;
-import com.digosofter.digodroid.erro.ErroAndroid;
 import com.digosofter.digojava.Objeto;
-import com.digosofter.digojava.Utils;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -47,13 +44,14 @@ public class HttpCliente extends Objeto
     {
       if (this.getObjHttpResponse() == null)
       {
-        return Utils.STR_VAZIA;
+        return null;
       }
+
       _strResposta = EntityUtils.toString(this.getObjHttpResponse().getEntity());
     }
     catch (Exception ex)
     {
-      new ErroAndroid("Erro inesperado.\n", ex);
+      ex.printStackTrace();
     }
 
     return _strResposta;
@@ -67,30 +65,30 @@ public class HttpCliente extends Objeto
   /**
    * Envia um objeto "json" para o servidor indicado no atributo "url" e colocar deixa a resposta disponível no atributo "strResposta".
    */
-  public void postJson(String jsn) throws Exception
+  public void postJson(String jsn)
   {
-    Thread thr;
-
     this.setEnmStatus(EnmStatus.EM_ANDAMENTO);
-    this.setJsn(jsn);
-    thr = new Thread()
-    {
 
+    this.setJsn(jsn);
+
+    Thread thr = new Thread()
+    {
       @Override
       public void run()
       {
-        HttpClient objHttpClient;
-        HttpPost objHttppost;
         try
         {
-          objHttppost = new HttpPost(HttpCliente.this.getUrl());
+          HttpPost objHttppost = new HttpPost(HttpCliente.this.getUrl());
+
           objHttppost.setHeader("json", HttpCliente.this.getJsn());
-          objHttpClient = new DefaultHttpClient();
+
+          HttpClient objHttpClient = new DefaultHttpClient();
+
           HttpCliente.this.setObjHttpResponse(objHttpClient.execute(objHttppost));
         }
         catch (Exception ex)
         {
-          new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(0), ex);
+          ex.printStackTrace();
         }
         finally
         {
@@ -98,11 +96,20 @@ public class HttpCliente extends Objeto
         }
       }
     };
+
     thr.start();
+
     do
     {
       // TODO: Definir se fazer isso assíncrono seria melhor.
-      Thread.sleep(10);
+      try
+      {
+        Thread.sleep(10);
+      }
+      catch (InterruptedException ex)
+      {
+        ex.printStackTrace();
+      }
     }
     while (HttpCliente.this.getEnmStatus() == EnmStatus.EM_ANDAMENTO);
   }

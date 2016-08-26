@@ -11,17 +11,18 @@ import com.digosofter.digojava.Objeto;
 public class Animar extends Objeto
 {
   private static final long INT_DURACAO_RAPIDO = 450;
-  private static Animar i;
+  private static Animar _i;
 
   public static Animar getI()
   {
-    if (i != null)
+    if (_i != null)
     {
-      return i;
+      return _i;
     }
-    i = new Animar();
 
-    return i;
+    _i = new Animar();
+
+    return _i;
   }
 
   /**
@@ -35,8 +36,10 @@ public class Animar extends Objeto
     {
       return;
     }
+
     viwTarget.setAlpha(0);
     viwTarget.setVisibility(View.VISIBLE);
+
     viwTarget.animate().alpha(1);
   }
 
@@ -47,14 +50,15 @@ public class Animar extends Objeto
    */
   public void aparecerSlideDown(View viwTarget)
   {
-    ScaleAnimation anm;
-
     if (viwTarget == null)
     {
       return;
     }
-    anm = new ScaleAnimation(1, 1, 0, 1);
+
+    ScaleAnimation anm = new ScaleAnimation(1, 1, 0, 1);
+
     anm.setDuration(INT_DURACAO_RAPIDO);
+
     viwTarget.clearAnimation();
     viwTarget.setVisibility(View.VISIBLE);
     viwTarget.startAnimation(anm);
@@ -71,8 +75,10 @@ public class Animar extends Objeto
     {
       return;
     }
+
     viwTarget.clearAnimation();
     viwTarget.setAlpha(1);
+
     viwTarget.animate().alpha(0);
   }
 
@@ -94,20 +100,22 @@ public class Animar extends Objeto
    */
   public void desaparecerMoverBaixo(final View viwTarget, final Animation.AnimationListener objAnimationListener)
   {
-    int intBottom;
-    TranslateAnimation anm;
-
     if (viwTarget == null)
     {
       return;
     }
-    intBottom = (((ViewGroup.MarginLayoutParams) viwTarget.getLayoutParams()).bottomMargin + viwTarget.getHeight());
-    anm = new TranslateAnimation(0, 0, 0, intBottom);
+
+    int intBottom = (((ViewGroup.MarginLayoutParams) viwTarget.getLayoutParams()).bottomMargin + viwTarget.getHeight());
+
+    TranslateAnimation anm = new TranslateAnimation(0, 0, 0, intBottom);
+
     anm.setDuration(INT_DURACAO_RAPIDO);
+
     if (objAnimationListener != null)
     {
       anm.setAnimationListener(objAnimationListener);
     }
+
     viwTarget.clearAnimation();
     viwTarget.startAnimation(anm);
   }
@@ -120,20 +128,22 @@ public class Animar extends Objeto
    */
   public void desaparecerMoverCima(View viwTarget, Animation.AnimationListener objAnimationListener)
   {
-    int intTop;
-    TranslateAnimation anm;
-
     if (viwTarget == null)
     {
       return;
     }
-    intTop = -(((ViewGroup.MarginLayoutParams) viwTarget.getLayoutParams()).topMargin + viwTarget.getHeight());
-    anm = new TranslateAnimation(0, 0, 0, intTop);
+
+    int intTop = -(((ViewGroup.MarginLayoutParams) viwTarget.getLayoutParams()).topMargin + viwTarget.getHeight());
+
+    TranslateAnimation anm = new TranslateAnimation(0, 0, 0, intTop);
+
     anm.setDuration(INT_DURACAO_RAPIDO);
+
     if (objAnimationListener != null)
     {
       anm.setAnimationListener(objAnimationListener);
     }
+
     viwTarget.clearAnimation();
     viwTarget.startAnimation(anm);
   }
@@ -155,15 +165,16 @@ public class Animar extends Objeto
    */
   public void desaparecerSlideUp(final View viwTarget)
   {
-    ScaleAnimation anm;
-
     if (viwTarget == null)
     {
       return;
     }
-    anm = new ScaleAnimation(1, 1, 1, 0);
+
+    ScaleAnimation anm = new ScaleAnimation(1, 1, 1, 0);
+
     anm.setDuration(INT_DURACAO_RAPIDO);
     anm.setFillAfter(true);
+
     anm.setAnimationListener(new Animation.AnimationListener()
     {
       @Override
@@ -182,6 +193,7 @@ public class Animar extends Objeto
       {
       }
     });
+
     viwTarget.clearAnimation();
     viwTarget.startAnimation(anm);
   }

@@ -45,9 +45,9 @@ public class PainelLinha extends PainelMain
   public void inicializar()
   {
     super.inicializar();
-    int intPaddingDp;
 
-    intPaddingDp = UtilsAndroid.dpToPx(TemaDefault.getI().getIntEspacamento(), this.getContext());
+    int intPaddingDp = UtilsAndroid.dpToPx(TemaDefault.getI().getIntEspacamento(), this.getContext());
+
     this.setPadding(intPaddingDp, intPaddingDp, intPaddingDp, intPaddingDp);
   }
 
@@ -55,13 +55,14 @@ public class PainelLinha extends PainelMain
   public void inicializar(AttributeSet ats)
   {
     super.inicializar(ats);
-    TypedArray objTypedArray;
 
     if (ats == null)
     {
       return;
     }
-    objTypedArray = this.getContext().obtainStyledAttributes(ats, R.styleable.PainelLinha);
+
+    TypedArray objTypedArray = this.getContext().obtainStyledAttributes(ats, R.styleable.PainelLinha);
+
     this.setIntNivelQuantidade(objTypedArray.getInt(R.styleable.PainelLinha_intNivelQuantidade, 1));
   }
 

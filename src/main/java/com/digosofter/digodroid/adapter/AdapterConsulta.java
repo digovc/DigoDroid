@@ -29,6 +29,7 @@ public class AdapterConsulta extends CursorAdapter
     {
       return;
     }
+
     this.setTbl(this.getActConsulta().getTbl());
   }
 
@@ -41,6 +42,7 @@ public class AdapterConsulta extends CursorAdapter
     {
       return;
     }
+
     this.changeCursor(this.getTbl().pesquisarConsulta());
   }
 
@@ -75,6 +77,7 @@ public class AdapterConsulta extends CursorAdapter
   private void setActConsulta(ActConsulta actConsulta)
   {
     _actConsulta = actConsulta;
+
     this.atualizarActConsulta();
   }
 

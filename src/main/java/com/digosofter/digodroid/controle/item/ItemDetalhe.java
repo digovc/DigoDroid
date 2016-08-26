@@ -17,38 +17,38 @@ public class ItemDetalhe extends ItemCampo
 
   public void carregarDados()
   {
-    String strValorFormatado;
-
     if (this.getCln() == null)
     {
       return;
     }
-    strValorFormatado = (!Utils.getBooStrVazia(this.getCln().getStrValorExibicao())) ? this.getCln().getStrValorExibicao() : null;
-    this.getLblRegistroValor().setText(strValorFormatado);
+
+    String strValorFormatado = (!Utils.getBooStrVazia(this.getCln().getStrValorExibicao())) ? this.getCln().getStrValorExibicao() : null;
+
     this.getLblRegistroNome().setText(this.getCln().getStrNomeExibicao() + ": ");
+    this.getLblRegistroValor().setText(strValorFormatado);
   }
 
   @Override
   public void inicializar()
   {
     super.inicializar();
-    int intPadding;
-    int intPaddingMeio;
 
-    intPadding = UtilsAndroid.dpToPx(TemaDefault.getI().getIntEspacamento(), this.getContext());
-    intPaddingMeio = UtilsAndroid.dpToPx((TemaDefault.getI().getIntEspacamento() / 2), this.getContext());
+    int intPadding = UtilsAndroid.dpToPx(TemaDefault.getI().getIntEspacamento(), this.getContext());
+    int intPaddingMeio = UtilsAndroid.dpToPx((TemaDefault.getI().getIntEspacamento() / 2), this.getContext());
+
     this.setPadding(intPadding, intPaddingMeio, intPadding, intPaddingMeio);
+
     this.inicializarLblRegistroNome();
   }
 
   private void inicializarLblRegistroNome()
   {
-    int intMargin;
-    MarginLayoutParams ltp;
+    int intMargin = UtilsAndroid.dpToPx(TemaDefault.getI().getIntEspacamento(), this.getContext());
 
-    intMargin = UtilsAndroid.dpToPx(TemaDefault.getI().getIntEspacamento(), this.getContext());
-    ltp = new MarginLayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+    MarginLayoutParams ltp = new MarginLayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+
     ltp.setMargins(intMargin, 0, intMargin, 0);
+
     this.getLblRegistroNome().setLayoutParams(ltp);
   }
 }

@@ -13,20 +13,22 @@ public class TemaDefault extends Objeto
     PEQUENO, // 1
   }
 
-  private static TemaDefault i;
+  private static TemaDefault _i;
 
   public static TemaDefault getI()
   {
-    if (i != null)
+    if (_i != null)
     {
-      return i;
+      return _i;
     }
-    i = new TemaDefault();
 
-    return i;
+    _i = new TemaDefault();
+
+    return _i;
   }
 
   private final int INT_FONTE_TAMANHO_FATOR = 12;
+
   private int _intEspacamento;
   private int _intFontGrande;
   private int _intFontMedio;
@@ -42,12 +44,16 @@ public class TemaDefault extends Objeto
     {
       case GRANDE:
         return this.getIntFontGrande();
+
       case MEDIO:
         return this.getIntFontMedio();
+
       case MINIM0:
         return this.getIntFontMinimo();
+
       case PEQUENO:
         return this.getIntFontPequeno();
+
       default:
         return this.getIntFontNormal();
     }
@@ -62,6 +68,7 @@ public class TemaDefault extends Objeto
     {
       return _intEspacamento;
     }
+
     _intEspacamento = 10;
 
     return _intEspacamento;
@@ -76,6 +83,7 @@ public class TemaDefault extends Objeto
     {
       return _intFontGrande;
     }
+
     _intFontGrande = (INT_FONTE_TAMANHO_FATOR * 3);
 
     return _intFontGrande;
@@ -90,6 +98,7 @@ public class TemaDefault extends Objeto
     {
       return _intFontMedio;
     }
+
     _intFontMedio = (int) (INT_FONTE_TAMANHO_FATOR * 2.5);
 
     return _intFontMedio;
@@ -104,6 +113,7 @@ public class TemaDefault extends Objeto
     {
       return _intFontMinimo;
     }
+
     _intFontMinimo = INT_FONTE_TAMANHO_FATOR;
 
     return _intFontMinimo;
@@ -118,6 +128,7 @@ public class TemaDefault extends Objeto
     {
       return _intFontNormal;
     }
+
     _intFontNormal = (int) (INT_FONTE_TAMANHO_FATOR * 1.75f);
 
     return _intFontNormal;
@@ -132,6 +143,7 @@ public class TemaDefault extends Objeto
     {
       return _intFontPequeno;
     }
+
     _intFontPequeno = (int) (INT_FONTE_TAMANHO_FATOR * 1.3);
 
     return _intFontPequeno;
@@ -146,6 +158,7 @@ public class TemaDefault extends Objeto
     {
       return _intHeightNivel;
     }
+
     _intHeightNivel = 100;
 
     return _intHeightNivel;
@@ -160,6 +173,7 @@ public class TemaDefault extends Objeto
     {
       return _intMargin;
     }
+
     _intMargin = 10;
 
     return _intMargin;
@@ -171,12 +185,16 @@ public class TemaDefault extends Objeto
     {
       case 4:
         return EnmFonteTamanho.GRANDE;
+
       case 3:
         return EnmFonteTamanho.MEDIO;
+
       case 0:
         return EnmFonteTamanho.MINIM0;
+
       case 1:
         return EnmFonteTamanho.PEQUENO;
+
       default:
         return EnmFonteTamanho.NORMAL;
     }

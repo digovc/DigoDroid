@@ -10,7 +10,6 @@ import com.digosofter.digojava.OnValorAlteradoListener;
 import com.digosofter.digojava.Utils;
 import com.digosofter.digojava.database.Coluna;
 import com.digosofter.digojava.database.Dominio;
-import com.digosofter.digojava.erro.Erro;
 
 import java.lang.reflect.Field;
 import java.util.GregorianCalendar;
@@ -36,14 +35,17 @@ public class ColunaAndroid extends Coluna implements OnValorAlteradoListener
     {
       return;
     }
+
     if (crs.getColumnIndex(this.getSqlNome()) < 0)
     {
       return;
     }
+
     if (objDominio == null)
     {
       return;
     }
+
     this.setBooDominioFieldCarregado(false);
     this.carregarDominio(crs, objDominio, objDominio.getClass());
   }
@@ -54,29 +56,36 @@ public class ColunaAndroid extends Coluna implements OnValorAlteradoListener
     {
       return;
     }
+
     if (objDominio == null)
     {
       return;
     }
+
     if (cls == null)
     {
       return;
     }
+
     this.carregarDominio(crs, objDominio, cls.getSuperclass());
+
     if (this.getBooDominioFieldCarregado())
     {
       return;
     }
+
     for (Field objField : cls.getDeclaredFields())
     {
       if (objField == null)
       {
         continue;
       }
+
       if (!Utils.simplificar(objField.getName().replace("_", Utils.STR_VAZIA)).equals(this.getStrDominioNome()))
       {
         continue;
       }
+
       if (this.carregarDominio(crs, objDominio, objField))
       {
         this.setBooDominioFieldCarregado(true);
@@ -91,35 +100,43 @@ public class ColunaAndroid extends Coluna implements OnValorAlteradoListener
     {
       return false;
     }
+
     if (objDominio == null)
     {
       return false;
     }
+
     if (objField == null)
     {
       return false;
     }
+
     objField.setAccessible(true);
+
     if (boolean.class.equals(objField.getType()))
     {
       this.carregarDominioBoo(crs, objDominio, objField);
       return true;
     }
+
     if (double.class.equals(objField.getType()))
     {
       this.carregarDominioDbl(crs, objDominio, objField);
       return true;
     }
+
     if (GregorianCalendar.class.equals(objField.getType()))
     {
       this.carregarDominioDtt(crs, objDominio, objField);
       return true;
     }
+
     if (int.class.equals(objField.getType()))
     {
       this.carregarDominioInt(crs, objDominio, objField);
       return true;
     }
+
     if (String.class.equals(objField.getType()))
     {
       this.carregarDominioStr(crs, objDominio, objField);
@@ -131,76 +148,71 @@ public class ColunaAndroid extends Coluna implements OnValorAlteradoListener
 
   private <T extends Dominio> void carregarDominioBoo(Cursor crs, T objDominio, Field objField)
   {
+    int intValor = crs.getInt(crs.getColumnIndex(this.getSqlNome()));
+
     try
     {
-      int intValor;
-
-      intValor = crs.getInt(crs.getColumnIndex(this.getSqlNome()));
-      objField.set(objDominio, ((intValor == 1) ? true : false));
+      objField.set(objDominio, (intValor == 1));
     }
     catch (Exception ex)
     {
-      new Erro("Erro inesperado.\n", ex);
+      ex.printStackTrace();
     }
   }
 
   private <T extends Dominio> void carregarDominioDbl(Cursor crs, T objDominio, Field objField)
   {
+    double dblValor = crs.getDouble(crs.getColumnIndex(this.getSqlNome()));
+
     try
     {
-      double dblValor;
-
-      dblValor = crs.getDouble(crs.getColumnIndex(this.getSqlNome()));
       objField.set(objDominio, dblValor);
     }
     catch (Exception ex)
     {
-      new Erro("Erro inesperado.\n", ex);
+      ex.printStackTrace();
     }
   }
 
   private <T extends Dominio> void carregarDominioDtt(Cursor crs, T objDominio, Field objField)
   {
+    String strValor = crs.getString(crs.getColumnIndex(this.getSqlNome()));
+
     try
     {
-      String strValor;
-
-      strValor = crs.getString(crs.getColumnIndex(this.getSqlNome()));
       objField.set(objDominio, Utils.strToDtt(strValor));
     }
     catch (Exception ex)
     {
-      new Erro("Erro inesperado.\n", ex);
+      ex.printStackTrace();
     }
   }
 
   private <T extends Dominio> void carregarDominioInt(Cursor crs, T objDominio, Field objField)
   {
+    int intValor = crs.getInt(crs.getColumnIndex(this.getSqlNome()));
+
     try
     {
-      int intValor;
-
-      intValor = crs.getInt(crs.getColumnIndex(this.getSqlNome()));
       objField.set(objDominio, intValor);
     }
     catch (Exception ex)
     {
-      new Erro("Erro inesperado.\n", ex);
+      ex.printStackTrace();
     }
   }
 
   private <T extends Dominio> void carregarDominioStr(Cursor crs, T objDominio, Field objField)
   {
+    String strValor = crs.getString(crs.getColumnIndex(this.getSqlNome()));
+
     try
     {
-      String strValor;
-
-      strValor = crs.getString(crs.getColumnIndex(this.getSqlNome()));
       objField.set(objDominio, strValor);
     }
     catch (Exception ex)
     {
-      new Erro("Erro inesperado.\n", ex);
+      ex.printStackTrace();
     }
   }
 
@@ -209,22 +221,24 @@ public class ColunaAndroid extends Coluna implements OnValorAlteradoListener
    */
   void criar()
   {
-    String sql;
-
     if (this.getTbl() == null)
     {
       return;
     }
+
     if (this.getBooExiste())
     {
       return;
     }
-    sql = "ALTER TABLE _tbl_nome ADD COLUMN _cln_nome _cln_tipo _cln_valor_default _cln_ref;";
+
+    String sql = "alter table _tbl_nome add column _cln_nome _cln_tipo _cln_valor_default _cln_ref;";
+
     sql = sql.replace("_tbl_nome", this.getTbl().getSqlNome());
     sql = sql.replace("_cln_nome", this.getSqlNome());
     sql = sql.replace("_cln_tipo", this.getSqlTipo());
     sql = sql.replace("_cln_valor_default", this.getSqlValorDetault());
     sql = sql.replace("_cln_ref", this.getSqlReference());
+
     this.getTbl().getObjDb().execSql(sql);
   }
 
@@ -235,18 +249,22 @@ public class ColunaAndroid extends Coluna implements OnValorAlteradoListener
 
   private boolean getBooExiste()
   {
-    Cursor crs;
-    String sql;
+    String sql = "select * from _tbl_nome limit 0;";
 
-    sql = "SELECT * FROM _tbl_nome LIMIT 0;";
     sql = sql.replace("_tbl_nome", this.getTbl().getSqlNome());
-    crs = ((DataBaseAndroid) this.getTbl().getObjDb()).execSqlComRetorno(sql);
+
+    Cursor crs = ((DataBaseAndroid) this.getTbl().getObjDb()).execSqlComRetorno(sql);
+
     if (crs == null)
     {
       return false;
     }
 
-    return (crs.getColumnIndex(this.getSqlNome()) > -1);
+    boolean booResultado = (crs.getColumnIndex(this.getSqlNome()) > -1);
+
+    crs.close();
+
+    return booResultado;
   }
 
   private boolean getBooPesquisa()
@@ -276,9 +294,8 @@ public class ColunaAndroid extends Coluna implements OnValorAlteradoListener
 
   String getSqlCreateTable()
   {
-    String strResultado;
+    String strResultado = "_cln_nome _cln_tipo _cln_pk default _default, ";
 
-    strResultado = "_cln_nome _cln_tipo _cln_pk default _default, ";
     strResultado = strResultado.replace("_cln_nome", this.getSqlNome());
     strResultado = strResultado.replace("_cln_tipo", this.getSqlTipo());
     strResultado = strResultado.replace(" _cln_pk", this.getBooChavePrimaria() ? " primary key on conflict replace autoincrement" : Utils.STR_VAZIA);
@@ -291,13 +308,13 @@ public class ColunaAndroid extends Coluna implements OnValorAlteradoListener
 
   private String getSqlReference()
   {
-    String sql;
-
     if (this.getClnRef() == null)
     {
       return Utils.STR_VAZIA;
     }
-    sql = "REFERENCES _tbl_ref_nome(_cln_ref_nome) _on_update_cascade _on_delete_cascade";
+
+    String sql = "references _tbl_ref_nome(_cln_ref_nome) _on_update_cascade _on_delete_cascade";
+
     sql = sql.replace("_tbl_ref_nome", this.getClnRef().getTbl().getSqlNome());
     sql = sql.replace("_cln_ref_nome", this.getClnRef().getSqlNome());
     sql = sql.replace("_cln_ref_nome", this.getClnRef().getSqlNome());
@@ -309,18 +326,19 @@ public class ColunaAndroid extends Coluna implements OnValorAlteradoListener
 
   String getSqlTipo()
   {
-    if (!Utils.getBooStrVazia(_sqlTipo))
+    if (_sqlTipo != null)
     {
       return _sqlTipo;
     }
+
     switch (this.getEnmTipo())
     {
       case BIGINT:
       case BOOLEAN:
       case INTEGER:
       case SMALLINT:
-        _sqlTipo = "integer";
-        break;
+        return _sqlTipo = "integer";
+
       case DECIMAL:
       case DOUBLE:
       case FLOAT:
@@ -328,13 +346,11 @@ public class ColunaAndroid extends Coluna implements OnValorAlteradoListener
       case NUMERIC:
       case PERCENTUAL:
       case REAL:
-        _sqlTipo = "numeric";
-        break;
-      default:
-        _sqlTipo = "text";
-    }
+        return _sqlTipo = "numeric";
 
-    return _sqlTipo;
+      default:
+        return _sqlTipo = "text";
+    }
   }
 
   void montarMenuCampo(SubMenu smn)
@@ -343,14 +359,17 @@ public class ColunaAndroid extends Coluna implements OnValorAlteradoListener
     {
       return;
     }
+
     if (this.getBooChavePrimaria())
     {
       return;
     }
+
     if (this.getBooNome())
     {
       return;
     }
+
     this.setMniCampo(smn.add(this.getStrNomeExibicao()));
     this.getMniCampo().setChecked(this.getBooVisivelConsulta());
     this.getMniCampo().setCheckable(true);
@@ -362,6 +381,7 @@ public class ColunaAndroid extends Coluna implements OnValorAlteradoListener
     {
       return;
     }
+
     this.setMniOrdenar(smn.add(this.getStrNomeExibicao()));
     this.getMniOrdenar().setChecked(this.getBooOrdem());
     this.getMniOrdenar().setCheckable(true);
@@ -373,10 +393,12 @@ public class ColunaAndroid extends Coluna implements OnValorAlteradoListener
     {
       return;
     }
+
     if (!this.getBooVisivelConsulta() && !this.getBooNome() && !this.getBooChavePrimaria())
     {
       return;
     }
+
     this.setMniPesquisa(smn.add(this.getStrNomeExibicao()));
     this.getMniPesquisa().setChecked(this.equals(((TabelaAndroid) this.getTbl()).getClnPesquisa()));
     this.getMniPesquisa().setCheckable(true);
@@ -389,6 +411,7 @@ public class ColunaAndroid extends Coluna implements OnValorAlteradoListener
     {
       return;
     }
+
     this.setStrValor(arg.getStrValor());
   }
 
@@ -398,10 +421,12 @@ public class ColunaAndroid extends Coluna implements OnValorAlteradoListener
     {
       return;
     }
+
     if (!mni.equals(this.getMniCampo()))
     {
       return;
     }
+
     this.getMniCampo().setChecked(!this.getMniCampo().isChecked());
     this.setBooVisivelConsulta(this.getMniCampo().isChecked());
   }
@@ -412,13 +437,17 @@ public class ColunaAndroid extends Coluna implements OnValorAlteradoListener
     {
       return;
     }
+
     if (!mni.equals(this.getMniOrdenar()))
     {
       return;
     }
+
     ((ColunaAndroid) this.getTbl().getClnOrdem()).getMniOrdenar().setChecked(false);
+
     this.setBooOrdem(true);
     this.getMniOrdenar().setChecked(true);
+
     ((TabelaAndroid<?>) this.getTbl()).getMniOrdemDecrescente().setChecked(this.getBooOrdemDecrescente());
   }
 
@@ -428,11 +457,14 @@ public class ColunaAndroid extends Coluna implements OnValorAlteradoListener
     {
       return;
     }
+
     if (!mni.equals(this.getMniPesquisa()))
     {
       return;
     }
+
     ((ColunaAndroid) this.getTbl().getClnOrdem()).getMniPesquisa().setChecked(false);
+
     this.setBooPesquisa(true);
     this.getMniPesquisa().setChecked(true);
   }
@@ -450,15 +482,18 @@ public class ColunaAndroid extends Coluna implements OnValorAlteradoListener
   public void setBooPesquisa(boolean booPesquisa)
   {
     _booPesquisa = booPesquisa;
+
     if (!_booPesquisa)
     {
       ((TabelaAndroid) this.getTbl()).setClnPesquisa(null);
       return;
     }
+
     if (!this.equals(((TabelaAndroid) this.getTbl()).getClnPesquisa()))
     {
       ((TabelaAndroid) this.getTbl()).getClnPesquisa()._booPesquisa = false;
     }
+
     ((TabelaAndroid) this.getTbl()).setClnPesquisa(this);
   }
 

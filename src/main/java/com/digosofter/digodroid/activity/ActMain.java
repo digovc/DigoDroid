@@ -37,6 +37,7 @@ public abstract class ActMain extends Activity
     {
       return;
     }
+
     this.startActivityForResult(new Intent(this, cls), 0);
   }
 
@@ -46,10 +47,12 @@ public abstract class ActMain extends Activity
     {
       return;
     }
+
     if (this.getLstEvtOnActivityResultListener().contains(evt))
     {
       return;
     }
+
     this.getLstEvtOnActivityResultListener().add(evt);
   }
 
@@ -59,10 +62,12 @@ public abstract class ActMain extends Activity
     {
       return;
     }
+
     if (this.getLstEvtOnActivityDestruirListener().contains(evt))
     {
       return;
     }
+
     this.getLstEvtOnActivityDestruirListener().add(evt);
   }
 
@@ -72,10 +77,12 @@ public abstract class ActMain extends Activity
     {
       return;
     }
+
     if (this.getLstEvtOnRequestPermissionResultListener().contains(evt))
     {
       return;
     }
+
     this.getLstEvtOnRequestPermissionResultListener().add(evt);
   }
 
@@ -86,22 +93,24 @@ public abstract class ActMain extends Activity
 
   private void dispararEvtOnActivityResultListener(final int intRequestCode, final int intResultCode, final Intent ittResult)
   {
-    OnActivityResultArg arg;
-
     if (this.getLstEvtOnActivityResultListener().isEmpty())
     {
       return;
     }
-    arg = new OnActivityResultArg();
+
+    OnActivityResultArg arg = new OnActivityResultArg();
+
     arg.setIntRequestCode(intRequestCode);
     arg.setIntResultCode(intResultCode);
     arg.setIttResult(ittResult);
+
     for (OnActivityResultListener evt : this.getLstEvtOnActivityResultListener())
     {
       if (evt == null)
       {
         continue;
       }
+
       evt.onActivityResult(this, arg);
     }
   }
@@ -112,34 +121,38 @@ public abstract class ActMain extends Activity
     {
       return;
     }
+
     for (OnActivityDestruirListener evt : this.getLstEvtOnActivityDestruirListener())
     {
       if (evt == null)
       {
         continue;
       }
+
       evt.onActivityDestruir(this);
     }
   }
 
   private void dispararEvtOnRequestPermissionListener(final int intRequestCode, final String[] arrStrPermissions, final int[] intArrGrantResults)
   {
-    OnRequestPermissionResultArg arg;
-
     if (this.getLstEvtOnRequestPermissionResultListener().isEmpty())
     {
       return;
     }
-    arg = new OnRequestPermissionResultArg();
+
+    OnRequestPermissionResultArg arg = new OnRequestPermissionResultArg();
+
     arg.setIntRequestCode(intRequestCode);
     arg.setArrStrPermissions(arrStrPermissions);
     arg.setIntArrGrantResults(intArrGrantResults);
+
     for (OnRequestPermissionResultListener evt : this.getLstEvtOnRequestPermissionResultListener())
     {
       if (evt == null)
       {
         continue;
       }
+
       evt.onRequestPermissionResult(this, arg);
     }
   }
@@ -184,6 +197,7 @@ public abstract class ActMain extends Activity
     {
       return _lstEvtOnActivityDestruirListener;
     }
+
     _lstEvtOnActivityDestruirListener = new ArrayList<>();
 
     return _lstEvtOnActivityDestruirListener;
@@ -195,6 +209,7 @@ public abstract class ActMain extends Activity
     {
       return _lstEvtOnActivityResultListener;
     }
+
     _lstEvtOnActivityResultListener = new ArrayList<>();
 
     return _lstEvtOnActivityResultListener;
@@ -206,6 +221,7 @@ public abstract class ActMain extends Activity
     {
       return _lstEvtOnRequestPermissionResultListener;
     }
+
     _lstEvtOnRequestPermissionResultListener = new ArrayList<>();
 
     return _lstEvtOnRequestPermissionResultListener;
@@ -222,6 +238,7 @@ public abstract class ActMain extends Activity
     {
       return _viwDrawerMenu;
     }
+
     _viwDrawerMenu = (DrawerMenu) this.findViewById(R.id.actMain_viwDrawerMenu);
 
     return _viwDrawerMenu;
@@ -233,6 +250,7 @@ public abstract class ActMain extends Activity
     {
       return _viwRoot;
     }
+
     _viwRoot = (ViewGroup) ((ViewGroup) this.findViewById(android.R.id.content)).getChildAt(0);
 
     return _viwRoot;
@@ -250,6 +268,7 @@ public abstract class ActMain extends Activity
     {
       this.getActionBar().setHomeAsUpIndicator(R.drawable.voltar);
     }
+
     this.getActionBar().setDisplayHomeAsUpEnabled(true);
     this.getActionBar().setHomeButtonEnabled(true);
     this.getActionBar().setIcon(null);
@@ -257,24 +276,27 @@ public abstract class ActMain extends Activity
 
   private void inicializarContentView()
   {
-    DrawerMenu viwDrawerMenu;
-    FrameLayout viwConteudo;
-    PainelMenuConteudo pnlMenuConteudo;
-
     if (this.getIntLayoutId() < 1)
     {
       return;
     }
+
     if (this.getIntDrawerMenuLayoutId() < 1)
     {
       return;
     }
-    viwDrawerMenu = (DrawerMenu) this.getLayoutInflater().inflate(R.layout.act_main, null);
-    viwConteudo = (FrameLayout) viwDrawerMenu.findViewById(R.id.actMain_viwConteudo);
-    pnlMenuConteudo = (PainelMenuConteudo) viwDrawerMenu.findViewById(R.id.actMain_pnlMenuConteudo);
+
+    DrawerMenu viwDrawerMenu = (DrawerMenu) this.getLayoutInflater().inflate(R.layout.act_main, null);
+
+    FrameLayout viwConteudo = (FrameLayout) viwDrawerMenu.findViewById(R.id.actMain_viwConteudo);
+
+    PainelMenuConteudo pnlMenuConteudo = (PainelMenuConteudo) viwDrawerMenu.findViewById(R.id.actMain_pnlMenuConteudo);
+
     this.getLayoutInflater().inflate(this.getIntLayoutId(), viwConteudo, true);
     this.getLayoutInflater().inflate(this.getIntDrawerMenuLayoutId(), pnlMenuConteudo, true);
+
     AppAndroid.getI().dispararOnMenuCreateListener(this, viwDrawerMenu);
+
     this.setContentView(viwDrawerMenu);
   }
 
@@ -295,13 +317,13 @@ public abstract class ActMain extends Activity
     {
       return;
     }
+
     viw.postDelayed(new Runnable()
     {
       @Override
       public void run()
       {
         viw.requestFocus();
-        //          ((InputMethodManager) ActMain.this.getSystemService(Context.INPUT_METHOD_SERVICE)).toggleSoftInput(0, 0);
         ((InputMethodManager) ActMain.this.getSystemService(Context.INPUT_METHOD_SERVICE)).showSoftInput(viw, 0);
       }
     }, 100);
@@ -313,6 +335,7 @@ public abstract class ActMain extends Activity
     super.onActivityResult(intRequestCode, intResultCode, ittResult);
 
     this.onActivityResultFechar(ittResult);
+
     this.dispararEvtOnActivityResultListener(intRequestCode, intResultCode, ittResult);
   }
 
@@ -322,15 +345,19 @@ public abstract class ActMain extends Activity
     {
       return;
     }
+
     if (!itt.getBooleanExtra(STR_EXTRA_OUT_BOO_FECHAR, false))
     {
       return;
     }
+
     if (this.equals(AppAndroid.getI().getActPrincipal()))
     {
       return;
     }
+
     this.setResult(0, new Intent().putExtra(STR_EXTRA_OUT_BOO_FECHAR, true));
+
     this.finish();
   }
 
@@ -359,6 +386,7 @@ public abstract class ActMain extends Activity
     {
       return true;
     }
+
     switch (mni.getItemId())
     {
       case android.R.id.home:
@@ -399,6 +427,7 @@ public abstract class ActMain extends Activity
     {
       return;
     }
+
     this.getLstEvtOnActivityResultListener().remove(evt);
   }
 
@@ -408,6 +437,7 @@ public abstract class ActMain extends Activity
     {
       return;
     }
+
     this.getLstEvtOnActivityDestruirListener().remove(evt);
   }
 
@@ -417,6 +447,7 @@ public abstract class ActMain extends Activity
     {
       return;
     }
+
     this.getLstEvtOnRequestPermissionResultListener().remove(evt);
   }
 

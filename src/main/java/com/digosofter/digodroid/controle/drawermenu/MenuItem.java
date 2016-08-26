@@ -58,6 +58,7 @@ public class MenuItem extends PainelGeral implements View.OnClickListener
     {
       return _imgIcone;
     }
+
     _imgIcone = new ImagemGeral(this.getContext());
 
     return _imgIcone;
@@ -69,6 +70,7 @@ public class MenuItem extends PainelGeral implements View.OnClickListener
     {
       return _lblTitulo;
     }
+
     _lblTitulo = new LabelGeral(this.getContext());
 
     return _lblTitulo;
@@ -80,6 +82,7 @@ public class MenuItem extends PainelGeral implements View.OnClickListener
     {
       return _pnlConteudo;
     }
+
     _pnlConteudo = new PainelGeral(this.getContext());
 
     return _pnlConteudo;
@@ -91,6 +94,7 @@ public class MenuItem extends PainelGeral implements View.OnClickListener
     {
       return _pnlRipple;
     }
+
     _pnlRipple = new PainelRipple(this.getContext());
 
     return _pnlRipple;
@@ -107,14 +111,17 @@ public class MenuItem extends PainelGeral implements View.OnClickListener
     {
       return _viwDrawerMenu;
     }
+
     if (this.getContext() == null)
     {
       return null;
     }
+
     if (!ActMain.class.isAssignableFrom(this.getContext().getClass()))
     {
       return null;
     }
+
     _viwDrawerMenu = ((ActMain) this.getContext()).getViwDrawerMenu();
 
     return _viwDrawerMenu;
@@ -142,36 +149,34 @@ public class MenuItem extends PainelGeral implements View.OnClickListener
 
   private void inicializarImgIcone(AttributeSet ats)
   {
-    TypedArray objTypedArray;
-
     if (ats == null)
     {
       return;
     }
-    objTypedArray = this.getContext().obtainStyledAttributes(ats, R.styleable.MenuItem);
+
+    TypedArray objTypedArray = this.getContext().obtainStyledAttributes(ats, R.styleable.MenuItem);
+
     this.getImgIcone().setImageDrawable(objTypedArray.getDrawable(R.styleable.MenuItem_srcIcone));
   }
 
   private void inicializarImgIcone()
   {
-    int intPaddingDp;
-    int intTamanhoDp;
+    int intPaddingDp = UtilsAndroid.dpToPx(12, this.getContext());
+    int intTamanhoDp = UtilsAndroid.dpToPx(INT_MENU_ITEM_HEIGHT, this.getContext());
 
-    intPaddingDp = UtilsAndroid.dpToPx(12, this.getContext());
-    intTamanhoDp = UtilsAndroid.dpToPx(INT_MENU_ITEM_HEIGHT, this.getContext());
     this.getImgIcone().setLayoutParams(new ViewGroup.LayoutParams(intTamanhoDp, intTamanhoDp));
     this.getImgIcone().setPadding(intPaddingDp, intPaddingDp, intPaddingDp, intPaddingDp);
   }
 
   private void inicializarLblTitulo(AttributeSet ats)
   {
-    TypedArray objTypedArray;
-
     if (ats == null)
     {
       return;
     }
-    objTypedArray = this.getContext().obtainStyledAttributes(ats, R.styleable.View);
+
+    TypedArray objTypedArray = this.getContext().obtainStyledAttributes(ats, R.styleable.View);
+
     this.setStrTitulo(objTypedArray.getString(R.styleable.View_strTitulo));
   }
 
@@ -193,14 +198,20 @@ public class MenuItem extends PainelGeral implements View.OnClickListener
     super.montarLayout();
 
     this.addView(this.getPnlRipple());
+
     this.getPnlRipple().addView(this.getPnlConteudo());
     this.getPnlConteudo().addView(this.getImgIcone());
     this.getPnlConteudo().addView(this.getLblTitulo());
   }
 
   @Override
-  public void onClick(View v)
+  public void onClick(View viw)
   {
+    if (this.getViwDrawerMenu() == null)
+    {
+      return;
+    }
+
     this.getViwDrawerMenu().setMniClicado(this);
     this.getViwDrawerMenu().closeDrawers();
   }
@@ -216,6 +227,7 @@ public class MenuItem extends PainelGeral implements View.OnClickListener
   private void setStrTitulo(String strTitulo)
   {
     _strTitulo = strTitulo;
+
     this.getLblTitulo().setText(_strTitulo);
   }
 }

@@ -45,11 +45,13 @@ public class LinhaGeral extends PainelGeral
 
     this.getLayoutParams().height = LayoutParams.MATCH_PARENT;
     this.getLayoutParams().width = LayoutParams.MATCH_PARENT;
+
     if (EnmDisposicao.HORIZONTAL.equals(this.getEnmDisposicao()))
     {
       this.getLayoutParams().height = 1;
       return;
     }
+
     this.getLayoutParams().width = 1;
   }
 
@@ -62,13 +64,14 @@ public class LinhaGeral extends PainelGeral
   public void inicializar(AttributeSet ats)
   {
     super.inicializar(ats);
-    TypedArray objTypedArray;
 
     if (ats == null)
     {
       return;
     }
-    objTypedArray = this.getContext().obtainStyledAttributes(ats, R.styleable.LinhaGeral);
+
+    TypedArray objTypedArray = this.getContext().obtainStyledAttributes(ats, R.styleable.LinhaGeral);
+
     this.setEnmDisposicao(this.intToEnmDisposicao(objTypedArray.getInt(R.styleable.LinhaGeral_enmDisposicao, 0)));
   }
 

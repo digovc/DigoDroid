@@ -9,7 +9,6 @@ import android.view.View;
 
 import com.digosofter.digodroid.AppAndroid;
 import com.digosofter.digodroid.activity.ActMain;
-import com.digosofter.digodroid.erro.ErroAndroid;
 
 public final class DrawerMenu extends DrawerLayout implements DrawerLayout.DrawerListener
 {
@@ -42,6 +41,7 @@ public final class DrawerMenu extends DrawerLayout implements DrawerLayout.Drawe
     {
       return;
     }
+
     ((Activity) this.getContext()).setResult(0, new Intent().putExtra(ActMain.STR_EXTRA_OUT_BOO_FECHAR, true));
     ((Activity) this.getContext()).finish();
   }
@@ -86,7 +86,7 @@ public final class DrawerMenu extends DrawerLayout implements DrawerLayout.Drawe
   }
 
   @Override
-  public void onDrawerClosed(final View drawerView)
+  public void onDrawerClosed(final View viwDrawer)
   {
     try
     {
@@ -94,12 +94,14 @@ public final class DrawerMenu extends DrawerLayout implements DrawerLayout.Drawe
       {
         return;
       }
+
       AppAndroid.getI().dispararOnMenuItemClickListener(this.getMniClicado());
+
       this.fecharActivity();
     }
     catch (Exception ex)
     {
-      new ErroAndroid("Erro inesperado.\n", ex);
+      ex.printStackTrace();
     }
     finally
     {

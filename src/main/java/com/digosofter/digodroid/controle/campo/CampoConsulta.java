@@ -41,25 +41,28 @@ public class CampoConsulta extends CampoMain implements View.OnClickListener
 
   private void atualizarStrValorNome()
   {
-    String strNome;
-
     if (this.getCln() == null)
     {
       return;
     }
+
     if (this.getCln().getClnRef() == null)
     {
       return;
     }
+
     if (this.getCln().getClnRef().getTbl() == null)
     {
       return;
     }
+
     if (this.getIntValor() < 1)
     {
       return;
     }
-    strNome = ((TabelaAndroid) this.getCln().getClnRef().getTbl()).getViwPrincipal().recuperar(this.getIntValor()).getClnNome().getStrValor();
+
+    String strNome = ((TabelaAndroid) this.getCln().getClnRef().getTbl()).getViwPrincipal().recuperar(this.getIntValor()).getClnNome().getStrValor();
+
     this.getBtn().setText(strNome);
   }
 
@@ -69,6 +72,7 @@ public class CampoConsulta extends CampoMain implements View.OnClickListener
     {
       return _btn;
     }
+
     _btn = new BotaoGeral(this.getContext());
 
     return _btn;
@@ -92,64 +96,73 @@ public class CampoConsulta extends CampoMain implements View.OnClickListener
 
   public void onActivityResult(final Intent itt)
   {
-    int intRegistroId;
-    TabelaAndroid tbl;
-    ViewAndroid viw;
-
     if (itt == null)
     {
       return;
     }
+
     if (this.getCln() == null)
     {
       return;
     }
+
     if (this.getCln().getClnRef() == null)
     {
       return;
     }
+
     if (this.getCln().getClnRef().getTbl() == null)
     {
       return;
     }
-    tbl = AppAndroid.getI().getTbl(itt.getIntExtra(ActConsulta.STR_EXTRA_OUT_INT_TBL_OBJETO_ID, 0));
-    viw = null;
+
+    TabelaAndroid tbl = AppAndroid.getI().getTbl(itt.getIntExtra(ActConsulta.STR_EXTRA_OUT_INT_TBL_OBJETO_ID, 0));
+
+    ViewAndroid viw = null;
+
     if (ViewAndroid.class.isAssignableFrom(tbl.getClass()))
     {
       viw = ((ViewAndroid) tbl);
       tbl = viw.getTbl();
     }
+
     if (!this.getCln().getClnRef().getTbl().equals(tbl) && !this.getCln().getClnRef().getTbl().equals(viw))
     {
       return;
     }
-    intRegistroId = itt.getIntExtra(ActConsulta.STR_EXTRA_OUT_INT_REGISTRO_ID, 0);
+
+    int intRegistroId = itt.getIntExtra(ActConsulta.STR_EXTRA_OUT_INT_REGISTRO_ID, 0);
+
     if (intRegistroId < 1)
     {
       return;
     }
+
     this.setIntValor(intRegistroId);
   }
 
   @Override
-  public void onClick(final View v)
+  public void onClick(final View viw)
   {
-    Intent itt;
-
     if (this.getBooSomenteLeitura())
     {
       return;
     }
+
     if (this.getCln() == null)
     {
       return;
     }
+
     if (this.getCln().getClnRef() == null)
     {
       return;
     }
-    itt = new Intent();
+
+    Intent itt = new Intent();
+
     itt.putExtra(ActConsulta.STR_EXTRA_IN_BOO_REGISTRO_SELECIONAVEL, true);
+
     ((TabelaAndroid) this.getCln().getClnRef().getTbl()).abrirActConsulta((ActMain) this.getContext(), itt);
   }
 

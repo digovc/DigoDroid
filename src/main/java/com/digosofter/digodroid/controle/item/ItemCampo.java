@@ -33,38 +33,43 @@ public class ItemCampo extends ItemMain implements OnClickListener
       this.setVisibility(GONE);
       return;
     }
+
     if (crs == null)
     {
       return;
     }
+
     this.carregarDadosNome(crs);
     this.carregarDadosValor(crs);
   }
 
   private void carregarDadosNome(final Cursor crs)
   {
-    String strNome;
-
     if (!Utils.getBooStrVazia(this.getLblRegistroNome().getText().toString()))
     {
       return;
     }
-    strNome = "_registro_nome: ";
+
+    String strNome = "_registro_nome: ";
+
     strNome = strNome.replace("_registro_nome", this.getCln().getStrNomeExibicao());
+
     this.getLblRegistroNome().setText(strNome);
   }
 
   private void carregarDadosValor(Cursor crs)
   {
-    String strValor;
-
     this.getLblRegistroValor().setText(null);
-    strValor = crs.getString(crs.getColumnIndex(this.getCln().getSqlNome()));
+
+    String strValor = crs.getString(crs.getColumnIndex(this.getCln().getSqlNome()));
+
     if (Utils.getBooStrVazia(strValor))
     {
       return;
     }
+
     this.getCln().setStrValor(strValor);
+
     this.getLblRegistroValor().setText(this.getCln().getStrValorExibicao());
   }
 
@@ -79,6 +84,7 @@ public class ItemCampo extends ItemMain implements OnClickListener
     {
       return _lblRegistroNome;
     }
+
     _lblRegistroNome = new LabelGeral(this.getContext());
 
     return _lblRegistroNome;
@@ -90,6 +96,7 @@ public class ItemCampo extends ItemMain implements OnClickListener
     {
       return _lblRegistroValor;
     }
+
     _lblRegistroValor = new LabelGeral(this.getContext());
 
     return _lblRegistroValor;
@@ -150,6 +157,7 @@ public class ItemCampo extends ItemMain implements OnClickListener
     {
       return;
     }
+
     this.getLblRegistroValor().setOnClickListener(this);
   }
 }

@@ -26,9 +26,9 @@ public class PainelConteudo extends PainelGeral
   public void inicializar()
   {
     super.inicializar();
-    int intPadding;
 
-    intPadding = UtilsAndroid.dpToPx(10, this.getContext());
+    int intPadding = UtilsAndroid.dpToPx(10, this.getContext());
+
     this.setPadding(intPadding, intPadding, intPadding, intPadding);
   }
 }

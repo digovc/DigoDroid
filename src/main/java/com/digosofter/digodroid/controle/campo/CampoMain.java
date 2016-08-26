@@ -55,10 +55,12 @@ public abstract class CampoMain extends PainelLinha implements OnActivityDestrui
     {
       return;
     }
+
     if (this.getLstEvtOnValorAlteradoListener().contains(evt))
     {
       return;
     }
+
     this.getLstEvtOnValorAlteradoListener().add(evt);
   }
 
@@ -68,6 +70,7 @@ public abstract class CampoMain extends PainelLinha implements OnActivityDestrui
     {
       return;
     }
+
     this.setStrTitulo(this.getCln().getStrNomeExibicao());
     this.addEvtOnValorAlteradoListener(this.getCln());
     this.getCln().addEvtOnValorAlteradoListener(this);
@@ -80,8 +83,6 @@ public abstract class CampoMain extends PainelLinha implements OnActivityDestrui
 
   private void dispararEvtOnValorAlteradoListener()
   {
-    OnValorAlteradoArg arg;
-
     if (this.getLstEvtOnValorAlteradoListener().isEmpty())
     {
       return;
@@ -90,15 +91,19 @@ public abstract class CampoMain extends PainelLinha implements OnActivityDestrui
     {
       return;
     }
-    arg = new OnValorAlteradoArg();
+
+    OnValorAlteradoArg arg = new OnValorAlteradoArg();
+
     arg.setStrValor(this.getStrValor());
     arg.setStrValorAnterior(this.getStrValorAnterior());
+
     for (OnValorAlteradoListener evt : this.getLstEvtOnValorAlteradoListener())
     {
       if (evt == null)
       {
         continue;
       }
+
       evt.onValorAlterado(this, arg);
     }
   }
@@ -110,14 +115,7 @@ public abstract class CampoMain extends PainelLinha implements OnActivityDestrui
 
   public boolean getBooValor()
   {
-    try
-    {
-      _booValor = Boolean.valueOf(this.getStrValor());
-    }
-    catch (Exception ex)
-    {
-      _booValor = false;
-    }
+    _booValor = Utils.getBoo(this.getStrValor());
 
     return _booValor;
   }
@@ -129,14 +127,12 @@ public abstract class CampoMain extends PainelLinha implements OnActivityDestrui
 
   public double getDblValor()
   {
-    try
+    if (Utils.getBooStrVazia(this.getStrValor()))
     {
-      _dblValor = Double.valueOf(this.getStrValor());
+      return 0;
     }
-    catch (Exception ex)
-    {
-      _dblValor = 0;
-    }
+
+    _dblValor = Double.valueOf(this.getStrValor());
 
     return _dblValor;
   }
@@ -152,6 +148,7 @@ public abstract class CampoMain extends PainelLinha implements OnActivityDestrui
     {
       return _lblTitulo;
     }
+
     _lblTitulo = new LabelGeral(this.getContext());
 
     return _lblTitulo;
@@ -163,6 +160,7 @@ public abstract class CampoMain extends PainelLinha implements OnActivityDestrui
     {
       return _lstEvtOnValorAlteradoListener;
     }
+
     _lstEvtOnValorAlteradoListener = new ArrayList<>();
 
     return _lstEvtOnValorAlteradoListener;
@@ -201,15 +199,18 @@ public abstract class CampoMain extends PainelLinha implements OnActivityDestrui
   public void inicializar(AttributeSet ats)
   {
     super.inicializar(ats);
-    TypedArray objTypedArray;
 
     if (ats == null)
     {
       return;
     }
-    objTypedArray = this.getContext().obtainStyledAttributes(ats, R.styleable.CampoMain);
+
+    TypedArray objTypedArray = this.getContext().obtainStyledAttributes(ats, R.styleable.CampoMain);
+
     this.setStrClnNomeSql(objTypedArray.getString(R.styleable.CampoMain_clnStrNomeSql));
+
     objTypedArray = this.getContext().obtainStyledAttributes(ats, R.styleable.View);
+
     this.setStrTitulo(objTypedArray.getString(R.styleable.View_strTitulo));
   }
 
@@ -234,10 +235,12 @@ public abstract class CampoMain extends PainelLinha implements OnActivityDestrui
     {
       return;
     }
+
     if ((arg.getStrValor() != null) ? (arg.getStrValor().equals(arg.getStrValorAnterior())) : arg.getStrValorAnterior() == null)
     {
       return;
     }
+
     if (objSender.equals(this.getCln()))
     {
       this.setStrValor(this.getCln().getStrValor());
@@ -256,6 +259,7 @@ public abstract class CampoMain extends PainelLinha implements OnActivityDestrui
     {
       return;
     }
+
     this.getLstEvtOnValorAlteradoListener().remove(evt);
   }
 
@@ -267,18 +271,21 @@ public abstract class CampoMain extends PainelLinha implements OnActivityDestrui
   public void setBooValor(boolean booValor)
   {
     _booValor = booValor;
+
     this.setStrValor(String.valueOf(_booValor));
   }
 
   public void setCln(ColunaAndroid cln)
   {
     _cln = cln;
+
     this.atualizarCln();
   }
 
   public void setDblValor(double dblValor)
   {
     _dblValor = dblValor;
+
     this.setStrValor(String.valueOf(_dblValor));
   }
 
@@ -293,12 +300,14 @@ public abstract class CampoMain extends PainelLinha implements OnActivityDestrui
   public void setIntValor(int intValor)
   {
     _intValor = intValor;
+
     this.setDblValor(_intValor);
   }
 
   private void setStrClnNomeSql(String strClnNomeSql)
   {
     _strClnNomeSql = strClnNomeSql;
+
     this.setStrTitulo(_strClnNomeSql);
   }
 
@@ -313,14 +322,18 @@ public abstract class CampoMain extends PainelLinha implements OnActivityDestrui
     {
       return;
     }
+
     _strTitulo = strTitulo;
+
     this.getLblTitulo().setText(_strTitulo);
   }
 
   public void setStrValor(String strValor)
   {
     this.setStrValorAnterior(_strValor);
+
     _strValor = strValor;
+
     this.atualizarStrValor();
   }
 

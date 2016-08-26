@@ -4,9 +4,10 @@ import com.digosofter.digodroid.AppAndroid;
 import com.digosofter.digojava.Utils;
 import com.digosofter.digojava.database.Dominio;
 import com.digosofter.digojava.database.OnChangeArg;
-import com.digosofter.digojava.erro.Erro;
 
 import org.apache.commons.io.IOUtils;
+
+import java.io.IOException;
 
 public abstract class ViewAndroid extends TabelaAndroid<Dominio>
 {
@@ -29,15 +30,22 @@ public abstract class ViewAndroid extends TabelaAndroid<Dominio>
   @Override
   public void apagar(int intRegistroId)
   {
-    OnChangeArg arg;
+    if (intRegistroId < 1)
+    {
+      return;
+    }
 
     if (this.getTbl() == null)
     {
       return;
     }
+
     this.getTbl().apagar(intRegistroId);
-    arg = new OnChangeArg();
+
+    OnChangeArg arg = new OnChangeArg();
+
     arg.setIntRegistroId(intRegistroId);
+
     this.dispararEvtOnApagarReg(arg);
   }
 
@@ -47,20 +55,22 @@ public abstract class ViewAndroid extends TabelaAndroid<Dominio>
     {
       return;
     }
+
     this.getTbl().addViw(this);
   }
 
   @Override
   public void criar()
   {
-    String sql;
-
     if (this.getIntRawFileId() == 0)
     {
       return;
     }
-    sql = "drop view if exists _viw_nome;";
+
+    String sql = "drop view if exists _viw_nome;";
+
     sql = sql.replace("_viw_nome", this.getSqlNome());
+
     this.getObjDb().execSql(sql);
     this.getObjDb().execSql(this.getSqlSelect());
   }
@@ -78,9 +88,9 @@ public abstract class ViewAndroid extends TabelaAndroid<Dominio>
 
       return IOUtils.toString(AppAndroid.getI().getCnt().getResources().openRawResource(this.getIntRawFileId()), "UTF-8");
     }
-    catch (Exception ex)
+    catch (IOException ex)
     {
-      new Erro("Erro inesperado.\n", ex);
+      ex.printStackTrace();
     }
 
     return null;
@@ -106,7 +116,13 @@ public abstract class ViewAndroid extends TabelaAndroid<Dominio>
 
   private void setTbl(TabelaAndroid<?> tbl)
   {
+    if (_tbl == tbl)
+    {
+      return;
+    }
+
     _tbl = tbl;
+
     this.atualizarTbl();
   }
 }

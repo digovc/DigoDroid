@@ -15,10 +15,10 @@ public abstract class AndroidArquivo extends Arquivo
 
   private void mostrarMensagemSalvo()
   {
-    String msg;
+    String msg = "Arquivo '_arq_nome' salvo com sucesso.";
 
-    msg = "Arquivo '_arq_nome' salvo com sucesso.";
     msg = msg.replace("_arq_nome", this.getDirCompleto());
+
     AppAndroid.getI().notificar(msg);
   }
 
@@ -30,6 +30,7 @@ public abstract class AndroidArquivo extends Arquivo
     {
       return;
     }
+
     this.mostrarMensagemSalvo();
   }
 }

@@ -9,6 +9,7 @@ import android.widget.TextView;
 import com.digosofter.digodroid.R;
 import com.digosofter.digodroid.controle.IControleMain;
 import com.digosofter.digodroid.design.TemaDefault;
+import com.digosofter.digojava.Utils;
 
 public class LabelGeral extends TextView implements IControleMain
 {
@@ -21,7 +22,6 @@ public class LabelGeral extends TextView implements IControleMain
     super(context);
 
     this.iniciar(null);
-
   }
 
   public LabelGeral(Context context, AttributeSet attrs)
@@ -65,14 +65,17 @@ public class LabelGeral extends TextView implements IControleMain
 
   public int getIntTexto()
   {
-    try
-    {
-      _intTexto = Integer.valueOf(this.getText().toString());
-    }
-    catch (Exception ex)
+    if (this.getText() == null)
     {
       return 0;
     }
+
+    if (Utils.getBooStrVazia(this.getText().toString()))
+    {
+      return 0;
+    }
+
+    _intTexto = Integer.valueOf(this.getText().toString());
 
     return _intTexto;
   }
@@ -86,15 +89,15 @@ public class LabelGeral extends TextView implements IControleMain
   @Override
   public void inicializar(AttributeSet ats)
   {
-    int intFonteTamanho;
-    TypedArray objTypedArray;
-
     if (ats == null)
     {
       return;
     }
-    objTypedArray = this.getContext().obtainStyledAttributes(ats, R.styleable.LabelGeral);
-    intFonteTamanho = objTypedArray.getInt(R.styleable.LabelGeral_enmFonteTamanho, 2);
+
+    TypedArray objTypedArray = this.getContext().obtainStyledAttributes(ats, R.styleable.LabelGeral);
+
+    int intFonteTamanho = objTypedArray.getInt(R.styleable.LabelGeral_enmFonteTamanho, 2);
+
     this.setEnmFonteTamanho(TemaDefault.getI().intToEnmFonteTamanho(intFonteTamanho));
   }
 
@@ -128,12 +131,14 @@ public class LabelGeral extends TextView implements IControleMain
   public void setCorTexto(int corTexto)
   {
     _corTexto = corTexto;
+
     this.atualizarCorTexto();
   }
 
   public void setEnmFonteTamanho(TemaDefault.EnmFonteTamanho enmFonteTamanho)
   {
     _enmFonteTamanho = enmFonteTamanho;
+
     this.atualizarEnmFonteTamanho();
   }
 
@@ -145,6 +150,7 @@ public class LabelGeral extends TextView implements IControleMain
   public void setIntTexto(int intTexto)
   {
     _intTexto = intTexto;
+
     this.setText(String.valueOf(_intTexto));
   }
 }
