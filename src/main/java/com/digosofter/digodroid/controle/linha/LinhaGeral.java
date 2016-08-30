@@ -17,25 +17,21 @@ public class LinhaGeral extends PainelGeral
 
   private EnmDisposicao _enmDisposicao;
 
-  public LinhaGeral(Context context)
+  public LinhaGeral(Context cnt)
   {
-    super(context);
-
-    this.iniciar(null);
+    super(cnt);
   }
 
-  public LinhaGeral(Context context, AttributeSet attrs)
+  public LinhaGeral(Context cnt, AttributeSet atr)
   {
-    super(context, attrs);
-
-    this.iniciar(attrs);
+    super(cnt, atr);
   }
 
-  public LinhaGeral(Context context, AttributeSet attrs, int defStyleAttr)
+  public LinhaGeral(Context cnt, AttributeSet atr, int intDefStyleAttr)
   {
-    super(context, attrs, defStyleAttr);
+    super(cnt, atr, intDefStyleAttr);
 
-    this.iniciar(attrs);
+    this.iniciar(atr);
   }
 
   @Override

@@ -12,19 +12,19 @@ import android.util.AttributeSet;
 
 public class ImagemCircular extends ImagemGeral
 {
-  public ImagemCircular(Context context)
+  public ImagemCircular(Context cnt)
   {
-    super(context);
+    super(cnt);
   }
 
-  public ImagemCircular(Context context, AttributeSet attrs)
+  public ImagemCircular(Context cnt, AttributeSet atr)
   {
-    super(context, attrs);
+    super(cnt, atr);
   }
 
-  public ImagemCircular(Context context, AttributeSet attrs, int defStyleAttr)
+  public ImagemCircular(Context cnt, AttributeSet atr, int intDefStyleAttr)
   {
-    super(context, attrs, defStyleAttr);
+    super(cnt, atr, intDefStyleAttr);
   }
 
   public Bitmap getBmpClip()

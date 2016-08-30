@@ -28,9 +28,9 @@ public class ItemConsulta extends ItemMain implements View.OnClickListener, View
   private String _strRegistroNome;
   private TabelaAndroid<?> _tbl;
 
-  public ItemConsulta(Context context, AttributeSet attrs)
+  public ItemConsulta(Context cnt, AttributeSet atr)
   {
-    super(context, attrs);
+    super(cnt, atr);
   }
 
   public ItemConsulta(Context cnt, TabelaAndroid tbl)
@@ -40,9 +40,16 @@ public class ItemConsulta extends ItemMain implements View.OnClickListener, View
     this.setTbl(tbl);
   }
 
-  public ItemConsulta(Context context, AttributeSet attrs, int defStyleAttr)
+  public ItemConsulta(Context cnt, AttributeSet atr, int intDefStyleAttr)
   {
-    super(context, attrs, defStyleAttr);
+    super(cnt, atr, intDefStyleAttr);
+  }
+
+  public ItemConsulta(Context cnt, AttributeSet atr, int intDefStyleAttr, TabelaAndroid tbl)
+  {
+    super(cnt, atr, intDefStyleAttr);
+
+    this.setTbl(tbl);
   }
 
   @Override
@@ -60,7 +67,7 @@ public class ItemConsulta extends ItemMain implements View.OnClickListener, View
       return;
     }
 
-    this.setIntRegistroId(crs.getInt(crs.getColumnIndex(this.getTbl().getClnChavePrimaria().getSqlNome())));
+    this.setIntRegistroId(crs.getInt(crs.getColumnIndex(this.getTbl().getClnIntId().getSqlNome())));
     this.setStrRegistroNome(crs.getString(crs.getColumnIndex(this.getTbl().getClnNome().getSqlNome())));
 
     String strTitulo = "_registro_id - _registro_nome";
@@ -97,7 +104,7 @@ public class ItemConsulta extends ItemMain implements View.OnClickListener, View
       return;
     }
 
-    if (cln.getBooChavePrimaria())
+    if (cln.equals(this.getTbl().getClnIntId()))
     {
       return;
     }

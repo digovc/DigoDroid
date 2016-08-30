@@ -12,19 +12,19 @@ public class PainelLinha extends PainelMain
 {
   private int _intNivelQuantidade;
 
-  public PainelLinha(Context context)
+  public PainelLinha(Context cnt)
   {
-    super(context);
+    super(cnt);
   }
 
-  public PainelLinha(Context context, AttributeSet attrs)
+  public PainelLinha(Context cnt, AttributeSet atr)
   {
-    super(context, attrs);
+    super(cnt, atr);
   }
 
-  public PainelLinha(Context context, AttributeSet attrs, int defStyleAttr)
+  public PainelLinha(Context cnt, AttributeSet atr, int intDefStyleAttr)
   {
-    super(context, attrs, defStyleAttr);
+    super(cnt, atr, intDefStyleAttr);
   }
 
   @Override
@@ -66,7 +66,7 @@ public class PainelLinha extends PainelMain
     this.setIntNivelQuantidade(objTypedArray.getInt(R.styleable.PainelLinha_intNivelQuantidade, 1));
   }
 
-  private void setIntNivelQuantidade(int intNivelQuantidade)
+  protected void setIntNivelQuantidade(int intNivelQuantidade)
   {
     _intNivelQuantidade = intNivelQuantidade;
   }

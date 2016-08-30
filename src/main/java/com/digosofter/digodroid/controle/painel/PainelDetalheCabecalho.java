@@ -7,19 +7,19 @@ import com.digosofter.digodroid.R;
 
 public class PainelDetalheCabecalho extends PainelGeral
 {
-  public PainelDetalheCabecalho(Context context)
+  public PainelDetalheCabecalho(Context cnt)
   {
-    super(context);
+    super(cnt);
   }
 
-  public PainelDetalheCabecalho(Context context, AttributeSet attrs)
+  public PainelDetalheCabecalho(Context cnt, AttributeSet atr)
   {
-    super(context, attrs);
+    super(cnt, atr);
   }
 
-  public PainelDetalheCabecalho(Context context, AttributeSet attrs, int defStyleAttr)
+  public PainelDetalheCabecalho(Context cnt, AttributeSet atr, int intDefStyleAttr)
   {
-    super(context, attrs, defStyleAttr);
+    super(cnt, atr, intDefStyleAttr);
   }
 
   @Override

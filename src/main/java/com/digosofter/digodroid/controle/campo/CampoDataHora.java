@@ -5,19 +5,19 @@ import android.util.AttributeSet;
 
 public class CampoDataHora extends CampoMain
 {
-  public CampoDataHora(Context context)
+  public CampoDataHora(Context cnt)
   {
-    super(context);
+    super(cnt);
   }
 
-  public CampoDataHora(Context context, AttributeSet attrs)
+  public CampoDataHora(Context cnt, AttributeSet atr)
   {
-    super(context, attrs);
+    super(cnt, atr);
   }
 
-  public CampoDataHora(Context context, AttributeSet attrs, int defStyleAttr)
+  public CampoDataHora(Context cnt, AttributeSet atr, int intDefStyleAttr)
   {
-    super(context, attrs, defStyleAttr);
+    super(cnt, atr, intDefStyleAttr);
   }
 
   @Override

@@ -5,18 +5,18 @@ import android.util.AttributeSet;
 
 public class PainelMenuConteudo extends PainelGeral
 {
-  public PainelMenuConteudo(Context context)
+  public PainelMenuConteudo(Context cnt)
   {
-    super(context);
+    super(cnt);
   }
 
-  public PainelMenuConteudo(Context context, AttributeSet attrs)
+  public PainelMenuConteudo(Context cnt, AttributeSet atr)
   {
-    super(context, attrs);
+    super(cnt, atr);
   }
 
-  public PainelMenuConteudo(Context context, AttributeSet attrs, int defStyleAttr)
+  public PainelMenuConteudo(Context cnt, AttributeSet atr, int intDefStyleAttr)
   {
-    super(context, attrs, defStyleAttr);
+    super(cnt, atr, intDefStyleAttr);
   }
 }

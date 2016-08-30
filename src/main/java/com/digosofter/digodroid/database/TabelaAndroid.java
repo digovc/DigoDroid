@@ -13,11 +13,11 @@ import com.digosofter.digodroid.activity.ActCadastroMain;
 import com.digosofter.digodroid.activity.ActConsulta;
 import com.digosofter.digodroid.activity.ActDetalhe;
 import com.digosofter.digodroid.activity.ActMain;
+import com.digosofter.digodroid.dominio.DominioAndroidMain;
 import com.digosofter.digojava.Utils;
 import com.digosofter.digojava.Utils.EnmDataFormato;
 import com.digosofter.digojava.Utils.EnmStringTipo;
 import com.digosofter.digojava.database.Coluna;
-import com.digosofter.digojava.database.Dominio;
 import com.digosofter.digojava.database.Filtro;
 import com.digosofter.digojava.database.OnChangeArg;
 import com.digosofter.digojava.database.Tabela;
@@ -35,7 +35,7 @@ import java.util.List;
  * @param <T>
  * @author r-vieira
  */
-public abstract class TabelaAndroid<T extends Dominio> extends Tabela<T>
+public abstract class TabelaAndroid<T extends DominioAndroidMain> extends Tabela<T>
 {
   public static final String STR_MENU_ADICIONAR = "Adicionar";
   public static final String STR_MENU_APAGAR = "Apagar";
@@ -43,7 +43,7 @@ public abstract class TabelaAndroid<T extends Dominio> extends Tabela<T>
   private static final String STR_MENU_DETALHAR = "Ver detalhes";
   private static final String STR_MENU_PESQUISAR_POR = "Pesquisar por";
 
-  private boolean _booSinc = true;
+  private boolean _booSincronizada = true;
   private ColunaAndroid _clnPesquisa;
   private Class<? extends ActMain> _clsActCadastro;
   private int _intRegistroRefId;
@@ -202,7 +202,7 @@ public abstract class TabelaAndroid<T extends Dominio> extends Tabela<T>
 
     this.getViwPrincipal().recuperar(intRegistroId);
 
-    if (this.getViwPrincipal().getClnChavePrimaria().getIntValor() < 1)
+    if (this.getViwPrincipal().getClnIntId().getIntValor() < 1)
     {
       AppAndroid.getI().notificar("Registro não econtrado.");
       return;
@@ -247,10 +247,10 @@ public abstract class TabelaAndroid<T extends Dominio> extends Tabela<T>
     String sql = "delete from _tbl_nome where _tbl_nome._cln_nome='_registro_id';";
 
     sql = sql.replace("_tbl_nome", this.getSqlNome());
-    sql = sql.replace("_cln_nome", this.getClnChavePrimaria().getSqlNome());
+    sql = sql.replace("_cln_nome", this.getClnIntId().getSqlNome());
     sql = sql.replace("_registro_id", String.valueOf(intRegistroId));
 
-    this.getObjDb().execSql(sql);
+    this.getDbe().execSql(sql);
 
     this.dispararEvtOnApagarDispatcherView(intRegistroId);
 
@@ -275,7 +275,7 @@ public abstract class TabelaAndroid<T extends Dominio> extends Tabela<T>
     sql = sql.replace("where _where", lstFil != null && lstFil.size() > 0 ? "where _where" : Utils.STR_VAZIA);
     sql = sql.replace("_where", this.getSqlWhere(lstFil));
 
-    this.getObjDb().execSql(sql);
+    this.getDbe().execSql(sql);
 
     this.dispararEvtOnApagarDispatcherView(-1);
 
@@ -363,7 +363,7 @@ public abstract class TabelaAndroid<T extends Dominio> extends Tabela<T>
 
     Filtro filPesquisa = new Filtro(this.getClnPesquisa(), this.getStrPesquisa());
 
-    if (this.getClnPesquisa().getBooChavePrimaria())
+    if (this.getClnPesquisa() == this.getClnIntId())
     {
       filPesquisa.setEnmOperador(Filtro.EnmOperador.IGUAL);
     }
@@ -388,10 +388,10 @@ public abstract class TabelaAndroid<T extends Dominio> extends Tabela<T>
     String sql = "create table if not exists _tbl_nome (_cln_pk_nome _cln_pk_tipo primary key);";
 
     sql = sql.replace("_tbl_nome", this.getSqlNome());
-    sql = sql.replace("_cln_pk_nome", this.getClnChavePrimaria().getSqlNome());
-    sql = sql.replace("_cln_pk_tipo", ((ColunaAndroid) this.getClnChavePrimaria()).getSqlTipo());
+    sql = sql.replace("_cln_pk_nome", this.getClnIntId().getSqlNome());
+    sql = sql.replace("_cln_pk_tipo", ((ColunaAndroid) this.getClnIntId()).getSqlTipo());
 
-    this.getObjDb().execSql(sql);
+    this.getDbe().execSql(sql);
 
     this.criarColuna();
   }
@@ -439,7 +439,7 @@ public abstract class TabelaAndroid<T extends Dominio> extends Tabela<T>
   {
     OnChangeArg arg = new OnChangeArg();
 
-    arg.setIntRegistroId(this.getClnChavePrimaria().getIntValor());
+    arg.setIntRegistroId(this.getClnIntId().getIntValor());
 
     this.dispararEvtOnAdicionarAtualizarListenerView(arg, booAdicionar);
 
@@ -504,7 +504,7 @@ public abstract class TabelaAndroid<T extends Dominio> extends Tabela<T>
 
     sql = sql.replace("_tbl_nome", this.getSqlNome());
 
-    return this.getObjDb().execSqlGetBoo(sql);
+    return this.getDbe().execSqlGetBoo(sql);
   }
 
   public boolean getBooRegistroExiste(int intRegistroId)
@@ -517,15 +517,21 @@ public abstract class TabelaAndroid<T extends Dominio> extends Tabela<T>
     String sql = "select 1 from _tbl_nome where _cln_pk_nome = '_registro_id';";
 
     sql = sql.replace("_tbl_nome", this.getSqlNome());
-    sql = sql.replace("_cln_pk_nome", this.getClnChavePrimaria().getSqlNome());
+    sql = sql.replace("_cln_pk_nome", this.getClnIntId().getSqlNome());
     sql = sql.replace("_registro_id", String.valueOf(intRegistroId));
 
-    return this.getObjDb().execSqlGetBoo(sql);
+    return this.getDbe().execSqlGetBoo(sql);
   }
 
-  public boolean getBooSinc()
+  public boolean getBooSincronizada()
   {
-    return _booSinc;
+    return _booSincronizada;
+  }
+
+  @Override
+  public Coluna getClnIntId()
+  {
+    return new ColunaAndroid("int_id", this, Coluna.EnmTipo.BIGINT);
   }
 
   /**
@@ -629,7 +635,7 @@ public abstract class TabelaAndroid<T extends Dominio> extends Tabela<T>
   }
 
   @Override
-  public DataBaseAndroid getObjDb()
+  public DataBaseAndroid getDbe()
   {
     if (_objDb != null)
     {
@@ -674,7 +680,7 @@ public abstract class TabelaAndroid<T extends Dominio> extends Tabela<T>
         continue;
       }
 
-      if (cln.getBooChavePrimaria() && (cln.getIntValor() < 1))
+      if ((cln == this.getClnIntId()) && (cln.getIntValor() < 1))
       {
         continue;
       }
@@ -706,7 +712,7 @@ public abstract class TabelaAndroid<T extends Dominio> extends Tabela<T>
         continue;
       }
 
-      if (cln.getBooChavePrimaria())
+      if (cln == this.getClnIntId())
       {
         continue;
       }
@@ -745,7 +751,7 @@ public abstract class TabelaAndroid<T extends Dominio> extends Tabela<T>
         continue;
       }
 
-      if (cln.getBooChavePrimaria() && cln.getIntValor() < 1)
+      if ((cln == this.getClnIntId()) && cln.getIntValor() < 1)
       {
         continue;
       }
@@ -770,7 +776,7 @@ public abstract class TabelaAndroid<T extends Dominio> extends Tabela<T>
     String strResultado = " _tbl_nome._cln_pk_nome _id";
 
     strResultado = strResultado.replace("_tbl_nome", this.getSqlNome());
-    strResultado = strResultado.replace("_cln_pk_nome", this.getClnChavePrimaria().getSqlNome());
+    strResultado = strResultado.replace("_cln_pk_nome", this.getClnIntId().getSqlNome());
 
     return strResultado;
   }
@@ -1012,7 +1018,7 @@ public abstract class TabelaAndroid<T extends Dominio> extends Tabela<T>
       return;
     }
 
-    if (!this.getBooMenuAlterar())
+    if (!this.getBooPermitirAlterar())
     {
       return;
     }
@@ -1032,7 +1038,7 @@ public abstract class TabelaAndroid<T extends Dominio> extends Tabela<T>
       return;
     }
 
-    if (!this.getBooMenuApagar())
+    if (!this.getBooPermitirApagar())
     {
       return;
     }
@@ -1073,7 +1079,7 @@ public abstract class TabelaAndroid<T extends Dominio> extends Tabela<T>
       return;
     }
 
-    ((ColunaAndroid) this.getClnChavePrimaria()).montarMenuOrdenar(smn);
+    ((ColunaAndroid) this.getClnIntId()).montarMenuOrdenar(smn);
     ((ColunaAndroid) this.getClnNome()).montarMenuOrdenar(smn);
 
     for (Coluna cln : this.getLstClnConsultaOrdenado())
@@ -1194,7 +1200,7 @@ public abstract class TabelaAndroid<T extends Dominio> extends Tabela<T>
     sql = sql.replace("_where", this.getSqlWhere(lstFil));
     sql = sql.replace("_order", this.getClnOrdem().getSqlNome());
 
-    return this.getObjDb().execSqlComRetorno(sql);
+    return this.getDbe().execSqlComRetorno(sql);
   }
 
   public Cursor pesquisar(List<Filtro> lstFil)
@@ -1220,7 +1226,7 @@ public abstract class TabelaAndroid<T extends Dominio> extends Tabela<T>
     sql = sql.replace("_order", this.getClnOrdem().getSqlNome());
     sql = sql.replace("_asc_desc", !this.getClnOrdem().getBooOrdemDecrescente() ? "asc" : "desc");
 
-    Cursor crsResultado = this.getObjDb().execSqlComRetorno(sql);
+    Cursor crsResultado = this.getDbe().execSqlComRetorno(sql);
 
     this.getLstFilConsulta().clear();
 
@@ -1553,9 +1559,9 @@ public abstract class TabelaAndroid<T extends Dominio> extends Tabela<T>
       return false;
     }
 
-    if (mni.equals(((ColunaAndroid) this.getClnChavePrimaria()).getMniOrdenar()))
+    if (mni.equals(((ColunaAndroid) this.getClnIntId()).getMniOrdenar()))
     {
-      ((ColunaAndroid) this.getClnChavePrimaria()).processarMenuOrdenar(mni);
+      ((ColunaAndroid) this.getClnIntId()).processarMenuOrdenar(mni);
       return true;
     }
 
@@ -1689,7 +1695,7 @@ public abstract class TabelaAndroid<T extends Dominio> extends Tabela<T>
 
   public TabelaAndroid recuperar(int intId)
   {
-    return this.recuperar(this.getClnChavePrimaria(), intId);
+    return this.recuperar(this.getClnIntId(), intId);
   }
 
   public TabelaAndroid recuperar(List<Filtro> lstFil)
@@ -1699,9 +1705,9 @@ public abstract class TabelaAndroid<T extends Dominio> extends Tabela<T>
     sql = sql.replace("_clns_nome", this.getSqlColunasNomes());
     sql = sql.replace("_tbl_nome", this.getSqlNome());
     sql = sql.replace("_where", this.getSqlWhere(lstFil));
-    sql = sql.replace("_order", this.getClnChavePrimaria().getSqlNome());
+    sql = sql.replace("_order", this.getClnIntId().getSqlNome());
 
-    Cursor crs = this.getObjDb().execSqlComRetorno(sql);
+    Cursor crs = this.getDbe().execSqlComRetorno(sql);
 
     this.carregarDados(crs);
 
@@ -1756,7 +1762,7 @@ public abstract class TabelaAndroid<T extends Dominio> extends Tabela<T>
 
   public T recuperarDominio(int intId)
   {
-    return this.recuperarDominio(this.getClnChavePrimaria(), intId);
+    return this.recuperarDominio(this.getClnIntId(), intId);
   }
 
   public T recuperarDominio(List<Filtro> lstFil)
@@ -1788,7 +1794,7 @@ public abstract class TabelaAndroid<T extends Dominio> extends Tabela<T>
       return false;
     }
 
-    if (!this.getBooRegistroExiste(this.getClnChavePrimaria().getIntValor()))
+    if (!this.getBooRegistroExiste(this.getClnIntId().getIntValor()))
     {
       this.salvarInsert();
       return true;
@@ -1810,7 +1816,7 @@ public abstract class TabelaAndroid<T extends Dominio> extends Tabela<T>
 
     boolean booResultado = this.salvar(booValidar);
 
-    objDominio.setIntId(this.getClnChavePrimaria().getIntValor());
+    objDominio.setIntId(this.getClnIntId().getIntValor());
 
     return booResultado;
   }
@@ -1855,13 +1861,13 @@ public abstract class TabelaAndroid<T extends Dominio> extends Tabela<T>
     sql = sql.replace("_cln_nome", this.getSqlColunasNomesInsert());
     sql = sql.replace("_cln_valor", this.getSqlColunasValoresInsert());
 
-    this.getObjDb().execSql(sql);
+    this.getDbe().execSql(sql);
 
     sql = "select last_insert_rowid();";
 
-    int intId = this.getObjDb().execSqlGetInt(sql);
+    int intId = this.getDbe().execSqlGetInt(sql);
 
-    this.getClnChavePrimaria().setIntValor(intId);
+    this.getClnIntId().setIntValor(intId);
 
     this.dispararEvtOnAdicionarAtualizarListener(true);
   }
@@ -1872,17 +1878,17 @@ public abstract class TabelaAndroid<T extends Dominio> extends Tabela<T>
 
     sql = sql.replace("_tbl_nome", this.getSqlNome());
     sql = sql.replace("_cln_nome_valor", this.getSqlColunasNomesValorUpdate());
-    sql = sql.replace("_cln_pk_nome", this.getClnChavePrimaria().getSqlNome());
-    sql = sql.replace("_registro_id", this.getClnChavePrimaria().getStrValorSql());
+    sql = sql.replace("_cln_pk_nome", this.getClnIntId().getSqlNome());
+    sql = sql.replace("_registro_id", this.getClnIntId().getStrValorSql());
 
-    this.getObjDb().execSql(sql);
+    this.getDbe().execSql(sql);
 
     this.dispararEvtOnAdicionarAtualizarListener(false);
   }
 
-  public void setBooSinc(boolean booSinc)
+  public void setBooSincronizada(boolean booSincronizada)
   {
-    _booSinc = booSinc;
+    _booSincronizada = booSincronizada;
   }
 
   /**

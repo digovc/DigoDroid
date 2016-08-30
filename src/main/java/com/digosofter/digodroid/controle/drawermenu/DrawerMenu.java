@@ -14,25 +14,25 @@ public final class DrawerMenu extends DrawerLayout implements DrawerLayout.Drawe
 {
   private MenuItem _mniClicado;
 
-  public DrawerMenu(Context context)
+  public DrawerMenu(Context cnt)
   {
-    super(context);
+    super(cnt);
 
     this.iniciar(null);
   }
 
-  public DrawerMenu(Context context, AttributeSet attrs)
+  public DrawerMenu(Context cnt, AttributeSet atr)
   {
-    super(context, attrs);
+    super(cnt, atr);
 
-    this.iniciar(attrs);
+    this.iniciar(atr);
   }
 
-  public DrawerMenu(Context context, AttributeSet attrs, int defStyle)
+  public DrawerMenu(Context cnt, AttributeSet atr, int intDefStyle)
   {
-    super(context, attrs, defStyle);
+    super(cnt, atr, intDefStyle);
 
-    this.iniciar(attrs);
+    this.iniciar(atr);
   }
 
   private void fecharActivity()

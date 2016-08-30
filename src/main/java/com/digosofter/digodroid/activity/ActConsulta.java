@@ -294,7 +294,7 @@ public class ActConsulta extends ActMain implements OnTblChangeListener, TextWat
       return;
     }
 
-    if (!this.getTbl().getBooMenuAdicionar())
+    if (!this.getTbl().getBooPermitirAdicionar())
     {
       return;
     }
@@ -549,7 +549,7 @@ public class ActConsulta extends ActMain implements OnTblChangeListener, TextWat
       return;
     }
 
-    if (!this.getTbl().getBooMenuAdicionar())
+    if (!this.getTbl().getBooPermitirAdicionar())
     {
       return;
     }

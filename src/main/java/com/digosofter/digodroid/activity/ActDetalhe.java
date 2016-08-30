@@ -216,7 +216,7 @@ public class ActDetalhe extends ActMain
       return;
     }
 
-    if (cln.getBooChavePrimaria())
+    if (cln.equals(this.getTbl().getClnIntId()))
     {
       return;
     }

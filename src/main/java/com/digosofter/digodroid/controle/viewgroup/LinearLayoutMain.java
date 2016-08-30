@@ -10,25 +10,25 @@ import com.digosofter.digodroid.design.TemaDefault;
 
 public abstract class LinearLayoutMain extends LinearLayout implements IControleMain
 {
-  public LinearLayoutMain(Context context)
+  public LinearLayoutMain(Context cnt)
   {
-    super(context);
+    super(cnt);
 
     this.iniciar(null);
   }
 
-  public LinearLayoutMain(Context context, AttributeSet attrs)
+  public LinearLayoutMain(Context cnt, AttributeSet atr)
   {
-    super(context, attrs);
+    super(cnt, atr);
 
-    this.iniciar(attrs);
+    this.iniciar(atr);
   }
 
-  public LinearLayoutMain(Context context, AttributeSet attrs, int defStyleAttr)
+  public LinearLayoutMain(Context cnt, AttributeSet atr, int intDefStyleAttr)
   {
-    super(context, attrs, defStyleAttr);
+    super(cnt, atr, intDefStyleAttr);
 
-    this.inicializar(attrs);
+    this.iniciar(atr);
   }
 
   @Override

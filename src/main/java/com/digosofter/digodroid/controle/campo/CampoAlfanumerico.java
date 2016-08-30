@@ -11,19 +11,19 @@ public class CampoAlfanumerico extends CampoMain implements OnValorAlteradoListe
 {
   private TextBoxGeral _txt;
 
-  public CampoAlfanumerico(Context context)
+  public CampoAlfanumerico(Context cnt)
   {
-    super(context);
+    super(cnt);
   }
 
-  public CampoAlfanumerico(Context context, AttributeSet attrs)
+  public CampoAlfanumerico(Context cnt, AttributeSet atr)
   {
-    super(context, attrs);
+    super(cnt, atr);
   }
 
-  public CampoAlfanumerico(Context context, AttributeSet attrs, int defStyleAttr)
+  public CampoAlfanumerico(Context cnt, AttributeSet atr, int intDefStyleAttr)
   {
-    super(context, attrs, defStyleAttr);
+    super(cnt, atr, intDefStyleAttr);
   }
 
   protected TextBoxGeral getTxt()
@@ -77,6 +77,14 @@ public class CampoAlfanumerico extends CampoMain implements OnValorAlteradoListe
   public void receberFoco()
   {
     this.getTxt().receberFoco();
+  }
+
+  @Override
+  protected void setBooSomenteLeitura(final boolean booSomenteLeitura)
+  {
+    super.setBooSomenteLeitura(booSomenteLeitura);
+
+    this.getTxt().setBooSomenteLeitura(this.getBooSomenteLeitura());
   }
 
   @Override

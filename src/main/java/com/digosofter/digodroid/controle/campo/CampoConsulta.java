@@ -16,19 +16,19 @@ public class CampoConsulta extends CampoMain implements View.OnClickListener
 {
   private BotaoGeral _btn;
 
-  public CampoConsulta(Context context)
+  public CampoConsulta(Context cnt)
   {
-    super(context);
+    super(cnt);
   }
 
-  public CampoConsulta(Context context, AttributeSet attrs)
+  public CampoConsulta(Context cnt, AttributeSet atr)
   {
-    super(context, attrs);
+    super(cnt, atr);
   }
 
-  public CampoConsulta(Context context, AttributeSet attrs, int defStyleAttr)
+  public CampoConsulta(Context cnt, AttributeSet atr, int intDefStyleAttr)
   {
-    super(context, attrs, defStyleAttr);
+    super(cnt, atr, intDefStyleAttr);
   }
 
   @Override
@@ -170,6 +170,14 @@ public class CampoConsulta extends CampoMain implements View.OnClickListener
   public void receberFoco()
   {
     this.getBtn().performClick();
+  }
+
+  @Override
+  protected void setBooSomenteLeitura(final boolean booSomenteLeitura)
+  {
+    super.setBooSomenteLeitura(booSomenteLeitura);
+
+    this.getBtn().setEnabled(booSomenteLeitura);
   }
 
   @Override

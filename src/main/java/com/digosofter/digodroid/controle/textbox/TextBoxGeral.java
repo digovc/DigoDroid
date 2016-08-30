@@ -43,23 +43,23 @@ public class TextBoxGeral extends EditText implements IControleMain
   private String _strValor;
   private String _strValorAnterior;
 
-  public TextBoxGeral(Context context)
+  public TextBoxGeral(Context cnt)
   {
-    super(context);
+    super(cnt);
 
     this.iniciar(null);
   }
 
-  public TextBoxGeral(Context context, AttributeSet attrs)
+  public TextBoxGeral(Context cnt, AttributeSet atr)
   {
-    super(context, attrs);
+    super(cnt, atr);
 
-    this.iniciar(attrs);
+    this.iniciar(atr);
   }
 
-  public TextBoxGeral(Context context, AttributeSet attrs, int defStyleAttr)
+  public TextBoxGeral(Context cnt, AttributeSet atr, int intDefStyleAttr)
   {
-    super(context, attrs, defStyleAttr);
+    super(cnt, atr, intDefStyleAttr);
 
     this.iniciar(null);
   }
@@ -274,8 +274,8 @@ public class TextBoxGeral extends EditText implements IControleMain
   public void setBooSomenteLeitura(boolean booSomenteLeitura)
   {
     _booSomenteLeitura = booSomenteLeitura;
-    // TODO: Implementar somente leitura.
-    //      this.atualizarBooSomenteLeitura();
+
+    this.setEnabled(_booSomenteLeitura);
   }
 
   public void setBooValor(boolean booValor)

@@ -28,19 +28,19 @@ public class MenuItem extends PainelGeral implements View.OnClickListener
   private String _strTitulo;
   private DrawerMenu _viwDrawerMenu;
 
-  public MenuItem(Context context)
+  public MenuItem(Context cnt)
   {
-    super(context);
+    super(cnt);
   }
 
-  public MenuItem(Context context, AttributeSet attrs)
+  public MenuItem(Context cnt, AttributeSet atr)
   {
-    super(context, attrs);
+    super(cnt, atr);
   }
 
-  public MenuItem(Context context, AttributeSet attrs, int defStyleAttr)
+  public MenuItem(Context cnt, AttributeSet atr, int intDefStyleAttr)
   {
-    super(context, attrs, defStyleAttr);
+    super(cnt, atr, intDefStyleAttr);
   }
 
   @Override

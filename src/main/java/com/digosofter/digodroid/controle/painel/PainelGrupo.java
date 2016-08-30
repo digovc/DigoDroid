@@ -26,19 +26,19 @@ public class PainelGrupo extends PainelGeral implements View.OnClickListener
   private PainelGeral _pnlConteudo;
   private String _strTitulo = "<desconhecido>";
 
-  public PainelGrupo(Context context)
+  public PainelGrupo(Context cnt)
   {
-    super(context);
+    super(cnt);
   }
 
-  public PainelGrupo(Context context, AttributeSet attrs)
+  public PainelGrupo(Context cnt, AttributeSet atr)
   {
-    super(context, attrs);
+    super(cnt, atr);
   }
 
-  public PainelGrupo(Context context, AttributeSet attrs, int defStyleAttr)
+  public PainelGrupo(Context cnt, AttributeSet atr, int intDefStyleAttr)
   {
-    super(context, attrs, defStyleAttr);
+    super(cnt, atr, intDefStyleAttr);
   }
 
   private void abrirFecharDados(boolean booAbrir)

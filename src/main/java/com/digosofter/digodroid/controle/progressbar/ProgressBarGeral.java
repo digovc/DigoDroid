@@ -10,18 +10,25 @@ import com.digosofter.digodroid.controle.IControleMain;
 
 public class ProgressBarGeral extends ProgressBar implements IControleMain
 {
-  public ProgressBarGeral(Context context)
+  public ProgressBarGeral(final Context cnt, final AttributeSet atr, final int defStyle)
   {
-    super(context, null, android.R.attr.progressBarStyleHorizontal);
+    super(cnt, atr, android.R.attr.progressBarStyleHorizontal);
 
-    this.iniciar(null);
+    this.iniciar(atr);
   }
 
-  public ProgressBarGeral(Context context, AttributeSet attrs)
+  public ProgressBarGeral(final Context cnt, final AttributeSet atr)
   {
-    super(context, attrs, android.R.attr.progressBarStyleHorizontal);
+    super(cnt, atr);
 
-    this.iniciar(attrs);
+    this.iniciar(atr);
+  }
+
+  public ProgressBarGeral(final Context cnt)
+  {
+    super(cnt);
+
+    this.iniciar(null);
   }
 
   @Override

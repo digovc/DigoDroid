@@ -8,25 +8,25 @@ import com.digosofter.digodroid.controle.IControleMain;
 
 public class BotaoGeral extends Button implements IControleMain
 {
-  public BotaoGeral(final Context context)
+  public BotaoGeral(final Context cnt)
   {
-    super(context);
+    super(cnt);
 
     this.iniciar(null);
   }
 
-  public BotaoGeral(final Context context, final AttributeSet attrs)
+  public BotaoGeral(final Context cnt, final AttributeSet atr)
   {
-    super(context, attrs);
+    super(cnt, atr);
 
-    this.iniciar(attrs);
+    this.iniciar(atr);
   }
 
-  public BotaoGeral(final Context context, final AttributeSet attrs, final int defStyleAttr)
+  public BotaoGeral(final Context cnt, final AttributeSet atr, final int intDefStyleAttr)
   {
-    super(context, attrs, defStyleAttr);
+    super(cnt, atr, intDefStyleAttr);
 
-    this.iniciar(attrs);
+    this.iniciar(atr);
   }
 
   @Override

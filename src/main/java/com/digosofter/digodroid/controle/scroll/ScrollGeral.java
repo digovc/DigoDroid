@@ -8,25 +8,25 @@ import com.digosofter.digodroid.controle.IControleMain;
 
 public class ScrollGeral extends ScrollView implements IControleMain
 {
-  public ScrollGeral(Context context)
+  public ScrollGeral(Context cnt)
   {
-    super(context);
+    super(cnt);
 
     this.iniciar(null);
   }
 
-  public ScrollGeral(Context context, AttributeSet attrs)
+  public ScrollGeral(Context cnt, AttributeSet atr)
   {
-    super(context, attrs);
+    super(cnt, atr);
 
-    this.iniciar(attrs);
+    this.iniciar(atr);
   }
 
-  public ScrollGeral(Context context, AttributeSet attrs, int defStyleAttr)
+  public ScrollGeral(Context cnt, AttributeSet atr, int intDefStyleAttr)
   {
-    super(context, attrs, defStyleAttr);
+    super(cnt, atr, intDefStyleAttr);
 
-    this.iniciar(attrs);
+    this.iniciar(atr);
   }
 
   @Override

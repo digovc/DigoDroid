@@ -8,25 +8,25 @@ import com.digosofter.digodroid.controle.IControleMain;
 
 public class ImagemGeral extends ImageView implements IControleMain
 {
-  public ImagemGeral(Context context)
+  public ImagemGeral(Context cnt)
   {
-    super(context);
+    super(cnt);
 
     this.iniciar(null);
   }
 
-  public ImagemGeral(Context context, AttributeSet attrs)
+  public ImagemGeral(Context cnt, AttributeSet atr)
   {
-    super(context, attrs);
+    super(cnt, atr);
 
-    this.iniciar(attrs);
+    this.iniciar(atr);
   }
 
-  public ImagemGeral(Context context, AttributeSet attrs, int defStyleAttr)
+  public ImagemGeral(Context cnt, AttributeSet atr, int intDefStyleAttr)
   {
-    super(context, attrs, defStyleAttr);
+    super(cnt, atr, intDefStyleAttr);
 
-    this.iniciar(attrs);
+    this.iniciar(atr);
   }
 
   @Override

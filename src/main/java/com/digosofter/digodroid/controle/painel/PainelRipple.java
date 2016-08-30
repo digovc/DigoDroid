@@ -8,25 +8,25 @@ import com.digosofter.digodroid.controle.IControleMain;
 
 public class PainelRipple extends MaterialRippleLayout implements IControleMain
 {
-  public PainelRipple(final Context context)
+  public PainelRipple(final Context cnt)
   {
-    super(context);
+    super(cnt);
 
     this.iniciar(null);
   }
 
-  public PainelRipple(final Context context, final AttributeSet attrs)
+  public PainelRipple(final Context cnt, final AttributeSet atr)
   {
-    super(context, attrs);
+    super(cnt, atr);
 
-    this.iniciar(attrs);
+    this.iniciar(atr);
   }
 
-  public PainelRipple(final Context context, final AttributeSet attrs, final int defStyle)
+  public PainelRipple(final Context cnt, final AttributeSet atr, final int intDefStyle)
   {
-    super(context, attrs, defStyle);
+    super(cnt, atr, intDefStyle);
 
-    this.iniciar(attrs);
+    this.iniciar(atr);
   }
 
   @Override

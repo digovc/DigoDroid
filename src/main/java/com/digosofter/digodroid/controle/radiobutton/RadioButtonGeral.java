@@ -13,25 +13,25 @@ public class RadioButtonGeral extends RadioButton implements IControleMain
 {
   private String _strTitulo;
 
-  public RadioButtonGeral(Context context)
+  public RadioButtonGeral(Context cnt)
   {
-    super(context);
+    super(cnt);
 
     this.iniciar(null);
   }
 
-  public RadioButtonGeral(Context context, AttributeSet attrs)
+  public RadioButtonGeral(Context cnt, AttributeSet atr)
   {
-    super(context, attrs);
+    super(cnt, atr);
 
-    this.iniciar(attrs);
+    this.iniciar(atr);
   }
 
-  public RadioButtonGeral(Context context, AttributeSet attrs, int defStyleAttr)
+  public RadioButtonGeral(Context cnt, AttributeSet atr, int intDefStyleAttr)
   {
-    super(context, attrs, defStyleAttr);
+    super(cnt, atr, intDefStyleAttr);
 
-    this.iniciar(attrs);
+    this.iniciar(atr);
   }
 
   private void atualizarStrTitulo()

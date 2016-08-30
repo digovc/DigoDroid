@@ -1,15 +1,15 @@
 package com.digosofter.digodroid.database;
 
 import com.digosofter.digodroid.AppAndroid;
+import com.digosofter.digodroid.dominio.DominioAndroidMain;
 import com.digosofter.digojava.Utils;
-import com.digosofter.digojava.database.Dominio;
 import com.digosofter.digojava.database.OnChangeArg;
 
 import org.apache.commons.io.IOUtils;
 
 import java.io.IOException;
 
-public abstract class ViewAndroid extends TabelaAndroid<Dominio>
+public abstract class ViewAndroid extends TabelaAndroid<DominioAndroidMain>
 {
   private TabelaAndroid<?> _tbl;
 
@@ -71,8 +71,8 @@ public abstract class ViewAndroid extends TabelaAndroid<Dominio>
 
     sql = sql.replace("_viw_nome", this.getSqlNome());
 
-    this.getObjDb().execSql(sql);
-    this.getObjDb().execSql(this.getSqlSelect());
+    this.getDbe().execSql(sql);
+    this.getDbe().execSql(this.getSqlSelect());
   }
 
   protected abstract int getIntRawFileId();

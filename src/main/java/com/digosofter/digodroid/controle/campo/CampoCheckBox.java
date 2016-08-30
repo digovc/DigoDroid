@@ -9,19 +9,19 @@ public class CampoCheckBox extends CampoMain
 {
   private CheckBoxGeral _ckb;
 
-  public CampoCheckBox(Context context)
+  public CampoCheckBox(Context cnt)
   {
-    super(context);
+    super(cnt);
   }
 
-  public CampoCheckBox(Context context, AttributeSet attrs)
+  public CampoCheckBox(Context cnt, AttributeSet atr)
   {
-    super(context, attrs);
+    super(cnt, atr);
   }
 
-  public CampoCheckBox(Context context, AttributeSet attrs, int defStyleAttr)
+  public CampoCheckBox(Context cnt, AttributeSet atr, int intDefStyleAttr)
   {
-    super(context, attrs, defStyleAttr);
+    super(cnt, atr, intDefStyleAttr);
   }
 
   private CheckBoxGeral getCkb()
@@ -61,5 +61,13 @@ public class CampoCheckBox extends CampoMain
   public void receberFoco()
   {
     this.getCkb().requestFocus();
+  }
+
+  @Override
+  protected void setBooSomenteLeitura(final boolean booSomenteLeitura)
+  {
+    super.setBooSomenteLeitura(booSomenteLeitura);
+
+    this.getCkb().setEnabled(booSomenteLeitura);
   }
 }

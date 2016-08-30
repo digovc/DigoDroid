@@ -4,16 +4,16 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.preference.PreferenceManager;
 
-import com.digosofter.digojava.Objeto;
+import com.digosofter.digojava.ConfigMain;
 
 import java.lang.reflect.Field;
 
-public abstract class ConfigMain extends Objeto
+public abstract class ConfigAndroidMain extends ConfigMain
 {
   private Editor _objEditor;
   private SharedPreferences _objSharedPreferences;
 
-  protected ConfigMain()
+  protected ConfigAndroidMain()
   {
     this.carregarDados();
   }

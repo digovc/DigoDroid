@@ -3,7 +3,8 @@
 
     <declare-styleable name="CampoMain">
 
-        <attr name="clnStrNomeSql" format="string"/>
+        <attr name="clnSqlNome" format="string"/>
+        <attr name="booSomenteLeitura" default="false" format="boolean"/>
 
     </declare-styleable>
 

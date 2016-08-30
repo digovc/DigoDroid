@@ -7,19 +7,19 @@ import com.digosofter.digodroid.controle.textbox.TextBoxGeral;
 
 public class CampoNumerico extends CampoAlfanumerico
 {
-  public CampoNumerico(Context context)
+  public CampoNumerico(Context cnt)
   {
-    super(context);
+    super(cnt);
   }
 
-  public CampoNumerico(Context context, AttributeSet attrs)
+  public CampoNumerico(Context cnt, AttributeSet atr)
   {
-    super(context, attrs);
+    super(cnt, atr);
   }
 
-  public CampoNumerico(Context context, AttributeSet attrs, int defStyleAttr)
+  public CampoNumerico(Context cnt, AttributeSet atr, int intDefStyleAttr)
   {
-    super(context, attrs, defStyleAttr);
+    super(cnt, atr, intDefStyleAttr);
   }
 
   @Override

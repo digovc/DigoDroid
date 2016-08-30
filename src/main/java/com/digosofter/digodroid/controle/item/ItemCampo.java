@@ -17,9 +17,9 @@ public class ItemCampo extends ItemMain implements OnClickListener
   private LabelGeral _lblRegistroNome;
   private LabelGeral _lblRegistroValor;
 
-  public ItemCampo(Context context, ColunaAndroid cln)
+  public ItemCampo(Context cnt, ColunaAndroid cln)
   {
-    super(context);
+    super(cnt);
 
     this.setCln(cln);
   }

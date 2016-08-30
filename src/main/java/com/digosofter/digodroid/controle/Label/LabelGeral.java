@@ -17,25 +17,25 @@ public class LabelGeral extends TextView implements IControleMain
   private TemaDefault.EnmFonteTamanho _enmFonteTamanho;
   private int _intTexto;
 
-  public LabelGeral(Context context)
+  public LabelGeral(Context cnt)
   {
-    super(context);
+    super(cnt);
 
     this.iniciar(null);
   }
 
-  public LabelGeral(Context context, AttributeSet attrs)
+  public LabelGeral(Context cnt, AttributeSet atr)
   {
-    super(context, attrs);
+    super(cnt, atr);
 
-    this.iniciar(attrs);
+    this.iniciar(atr);
   }
 
-  public LabelGeral(Context context, AttributeSet attrs, int defStyleAttr)
+  public LabelGeral(Context cnt, AttributeSet atr, int intDefStyleAttr)
   {
-    super(context, attrs, defStyleAttr);
+    super(cnt, atr, intDefStyleAttr);
 
-    this.iniciar(attrs);
+    this.iniciar(atr);
   }
 
   private void atualizarCorTexto()

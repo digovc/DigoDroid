@@ -217,7 +217,10 @@ public abstract class AppAndroid extends App
    *
    * @return Código do layout que guarda o menu principal da aplicação.
    */
-  public abstract int getIntDrawerMenuLayoutId();
+  public int getIntDrawerMenuLayoutId()
+  {
+    return 0;
+  }
 
   private List<OnMenuCreateListener> getLstEvtOnMenuCreateListener()
   {

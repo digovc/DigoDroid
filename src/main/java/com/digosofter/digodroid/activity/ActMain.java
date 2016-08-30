@@ -258,6 +258,7 @@ public abstract class ActMain extends Activity
 
   protected void inicializar()
   {
+    this.inicializarApp();
     this.inicializarActionBar();
     this.inicializarContentView();
   }
@@ -272,6 +273,11 @@ public abstract class ActMain extends Activity
     this.getActionBar().setDisplayHomeAsUpEnabled(true);
     this.getActionBar().setHomeButtonEnabled(true);
     this.getActionBar().setIcon(null);
+  }
+
+  protected void inicializarApp()
+  {
+
   }
 
   private void inicializarContentView()

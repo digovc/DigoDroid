@@ -9,7 +9,7 @@ import com.digosofter.digojava.OnValorAlteradoArg;
 import com.digosofter.digojava.OnValorAlteradoListener;
 import com.digosofter.digojava.Utils;
 import com.digosofter.digojava.database.Coluna;
-import com.digosofter.digojava.database.Dominio;
+import com.digosofter.digojava.dominio.DominioMain;
 
 import java.lang.reflect.Field;
 import java.util.GregorianCalendar;
@@ -26,10 +26,15 @@ public class ColunaAndroid extends Coluna implements OnValorAlteradoListener
 
   public ColunaAndroid(String strNome, TabelaAndroid<?> tbl, EnmTipo enmTipo)
   {
-    super(strNome, tbl, enmTipo);
+    this(strNome, tbl, enmTipo, null);
   }
 
-  public <T extends Dominio> void carregarDominio(Cursor crs, T objDominio)
+  public ColunaAndroid(String strNome, TabelaAndroid<?> tbl, EnmTipo enmTipo, ColunaAndroid clnRef)
+  {
+    super(strNome, tbl, enmTipo, clnRef);
+  }
+
+  public <T extends DominioMain> void carregarDominio(Cursor crs, T objDominio)
   {
     if (crs == null)
     {
@@ -50,7 +55,7 @@ public class ColunaAndroid extends Coluna implements OnValorAlteradoListener
     this.carregarDominio(crs, objDominio, objDominio.getClass());
   }
 
-  private <T extends Dominio> void carregarDominio(Cursor crs, T objDominio, Class<?> cls)
+  private <T extends DominioMain> void carregarDominio(Cursor crs, T objDominio, Class<?> cls)
   {
     if (crs == null)
     {
@@ -94,7 +99,7 @@ public class ColunaAndroid extends Coluna implements OnValorAlteradoListener
     }
   }
 
-  private <T extends Dominio> boolean carregarDominio(Cursor crs, T objDominio, Field objField)
+  private <T extends DominioMain> boolean carregarDominio(Cursor crs, T objDominio, Field objField)
   {
     if (crs == null)
     {
@@ -146,7 +151,7 @@ public class ColunaAndroid extends Coluna implements OnValorAlteradoListener
     return false;
   }
 
-  private <T extends Dominio> void carregarDominioBoo(Cursor crs, T objDominio, Field objField)
+  private <T extends DominioMain> void carregarDominioBoo(Cursor crs, T objDominio, Field objField)
   {
     int intValor = crs.getInt(crs.getColumnIndex(this.getSqlNome()));
 
@@ -160,7 +165,7 @@ public class ColunaAndroid extends Coluna implements OnValorAlteradoListener
     }
   }
 
-  private <T extends Dominio> void carregarDominioDbl(Cursor crs, T objDominio, Field objField)
+  private <T extends DominioMain> void carregarDominioDbl(Cursor crs, T objDominio, Field objField)
   {
     double dblValor = crs.getDouble(crs.getColumnIndex(this.getSqlNome()));
 
@@ -174,7 +179,7 @@ public class ColunaAndroid extends Coluna implements OnValorAlteradoListener
     }
   }
 
-  private <T extends Dominio> void carregarDominioDtt(Cursor crs, T objDominio, Field objField)
+  private <T extends DominioMain> void carregarDominioDtt(Cursor crs, T objDominio, Field objField)
   {
     String strValor = crs.getString(crs.getColumnIndex(this.getSqlNome()));
 
@@ -188,7 +193,7 @@ public class ColunaAndroid extends Coluna implements OnValorAlteradoListener
     }
   }
 
-  private <T extends Dominio> void carregarDominioInt(Cursor crs, T objDominio, Field objField)
+  private <T extends DominioMain> void carregarDominioInt(Cursor crs, T objDominio, Field objField)
   {
     int intValor = crs.getInt(crs.getColumnIndex(this.getSqlNome()));
 
@@ -202,7 +207,7 @@ public class ColunaAndroid extends Coluna implements OnValorAlteradoListener
     }
   }
 
-  private <T extends Dominio> void carregarDominioStr(Cursor crs, T objDominio, Field objField)
+  private <T extends DominioMain> void carregarDominioStr(Cursor crs, T objDominio, Field objField)
   {
     String strValor = crs.getString(crs.getColumnIndex(this.getSqlNome()));
 
@@ -239,7 +244,7 @@ public class ColunaAndroid extends Coluna implements OnValorAlteradoListener
     sql = sql.replace("_cln_valor_default", this.getSqlValorDetault());
     sql = sql.replace("_cln_ref", this.getSqlReference());
 
-    this.getTbl().getObjDb().execSql(sql);
+    this.getTbl().getDbe().execSql(sql);
   }
 
   private boolean getBooDominioFieldCarregado()
@@ -253,7 +258,7 @@ public class ColunaAndroid extends Coluna implements OnValorAlteradoListener
 
     sql = sql.replace("_tbl_nome", this.getTbl().getSqlNome());
 
-    Cursor crs = ((DataBaseAndroid) this.getTbl().getObjDb()).execSqlComRetorno(sql);
+    Cursor crs = ((DataBaseAndroid) this.getTbl().getDbe()).execSqlComRetorno(sql);
 
     if (crs == null)
     {
@@ -298,7 +303,7 @@ public class ColunaAndroid extends Coluna implements OnValorAlteradoListener
 
     strResultado = strResultado.replace("_cln_nome", this.getSqlNome());
     strResultado = strResultado.replace("_cln_tipo", this.getSqlTipo());
-    strResultado = strResultado.replace(" _cln_pk", this.getBooChavePrimaria() ? " primary key on conflict replace autoincrement" : Utils.STR_VAZIA);
+    strResultado = strResultado.replace(" _cln_pk", (this.equals(this.getTbl().getClnIntId())) ? " primary key on conflict replace autoincrement" : Utils.STR_VAZIA);
     strResultado = strResultado.replace(" autoincrement", this.getEnmTipo() != EnmTipo.TEXT ? " autoincrement" : Utils.STR_VAZIA);
     strResultado = strResultado.replace(" default _default", !Utils.getBooStrVazia(this.getStrValorDefault()) ? " default _default" : Utils.STR_VAZIA);
     strResultado = strResultado.replace("_default", !Utils.getBooStrVazia(this.getStrValorDefault()) ? this.getStrValorDefault() : Utils.STR_VAZIA);
@@ -360,7 +365,7 @@ public class ColunaAndroid extends Coluna implements OnValorAlteradoListener
       return;
     }
 
-    if (this.getBooChavePrimaria())
+    if (this.equals(this.getTbl().getClnIntId()))
     {
       return;
     }
@@ -394,7 +399,7 @@ public class ColunaAndroid extends Coluna implements OnValorAlteradoListener
       return;
     }
 
-    if (!this.getBooVisivelConsulta() && !this.getBooNome() && !this.getBooChavePrimaria())
+    if (!this.getBooVisivelConsulta() && !this.getBooNome() && !(this.equals(this.getTbl().getClnIntId())))
     {
       return;
     }

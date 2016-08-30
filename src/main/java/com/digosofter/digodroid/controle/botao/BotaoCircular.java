@@ -9,25 +9,25 @@ import at.markushi.ui.CircleButton;
 
 public class BotaoCircular extends CircleButton implements IControleMain
 {
-  public BotaoCircular(final Context context)
+  public BotaoCircular(final Context cnt)
   {
-    super(context);
+    super(cnt);
 
     this.iniciar(null);
   }
 
-  public BotaoCircular(final Context context, final AttributeSet attrs)
+  public BotaoCircular(final Context cnt, final AttributeSet atr)
   {
-    super(context, attrs);
+    super(cnt, atr);
 
-    this.iniciar(attrs);
+    this.iniciar(atr);
   }
 
-  public BotaoCircular(final Context context, final AttributeSet attrs, final int defStyle)
+  public BotaoCircular(final Context cnt, final AttributeSet atr, final int defStyle)
   {
-    super(context, attrs, defStyle);
+    super(cnt, atr, defStyle);
 
-    this.iniciar(attrs);
+    this.iniciar(atr);
   }
 
   @Override

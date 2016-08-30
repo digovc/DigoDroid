@@ -34,19 +34,19 @@ public abstract class CampoMain extends PainelLinha implements OnActivityDestrui
   private String _strValor;
   private String _strValorAnterior;
 
-  public CampoMain(Context context)
+  public CampoMain(Context cnt)
   {
-    super(context);
+    super(cnt);
   }
 
-  public CampoMain(Context context, AttributeSet attrs)
+  public CampoMain(Context cnt, AttributeSet atr)
   {
-    super(context, attrs);
+    super(cnt, atr);
   }
 
-  public CampoMain(Context context, AttributeSet attrs, int defStyleAttr)
+  public CampoMain(Context cnt, AttributeSet atr, int intDefStyleAttr)
   {
-    super(context, attrs, defStyleAttr);
+    super(cnt, atr, intDefStyleAttr);
   }
 
   public void addEvtOnValorAlteradoListener(OnValorAlteradoListener evt)
@@ -207,7 +207,8 @@ public abstract class CampoMain extends PainelLinha implements OnActivityDestrui
 
     TypedArray objTypedArray = this.getContext().obtainStyledAttributes(ats, R.styleable.CampoMain);
 
-    this.setStrClnNomeSql(objTypedArray.getString(R.styleable.CampoMain_clnStrNomeSql));
+    this.setBooSomenteLeitura(objTypedArray.getBoolean(R.styleable.CampoMain_booSomenteLeitura, false));
+    this.setStrClnNomeSql(objTypedArray.getString(R.styleable.CampoMain_clnSqlNome));
 
     objTypedArray = this.getContext().obtainStyledAttributes(ats, R.styleable.View);
 
@@ -293,6 +294,16 @@ public abstract class CampoMain extends PainelLinha implements OnActivityDestrui
   public void setEventos()
   {
     super.setEventos();
+
+    this.setEventosActMain();
+  }
+
+  private void setEventosActMain()
+  {
+    if (!(this.getContext() instanceof ActMain))
+    {
+      return;
+    }
 
     ((ActMain) this.getContext()).addEvtOnDestruirListener(this);
   }

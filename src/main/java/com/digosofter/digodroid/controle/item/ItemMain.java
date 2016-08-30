@@ -8,19 +8,19 @@ import com.digosofter.digodroid.controle.painel.PainelGeral;
 
 public abstract class ItemMain extends PainelGeral
 {
-  public ItemMain(Context context)
+  public ItemMain(Context cnt)
   {
-    super(context);
+    super(cnt);
   }
 
-  public ItemMain(Context context, AttributeSet attrs)
+  public ItemMain(Context cnt, AttributeSet atr)
   {
-    super(context, attrs);
+    super(cnt, atr);
   }
 
-  public ItemMain(Context context, AttributeSet attrs, int defStyleAttr)
+  public ItemMain(Context cnt, AttributeSet atr, int intDefStyleAttr)
   {
-    super(context, attrs, defStyleAttr);
+    super(cnt, atr, intDefStyleAttr);
   }
 
   /**

@@ -7,19 +7,19 @@ import com.digosofter.digodroid.UtilsAndroid;
 
 public class PainelConteudo extends PainelGeral
 {
-  public PainelConteudo(Context context)
+  public PainelConteudo(Context cnt)
   {
-    super(context);
+    super(cnt);
   }
 
-  public PainelConteudo(Context context, AttributeSet attrs)
+  public PainelConteudo(Context cnt, AttributeSet atr)
   {
-    super(context, attrs);
+    super(cnt, atr);
   }
 
-  public PainelConteudo(Context context, AttributeSet attrs, int defStyleAttr)
+  public PainelConteudo(Context cnt, AttributeSet atr, int intDefStyleAttr)
   {
-    super(context, attrs, defStyleAttr);
+    super(cnt, atr, intDefStyleAttr);
   }
 
   @Override

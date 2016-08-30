@@ -8,25 +8,25 @@ import com.digosofter.digodroid.controle.IControleMain;
 
 public abstract class RelativeLayoutMain extends RelativeLayout implements IControleMain
 {
-  public RelativeLayoutMain(Context context)
+  public RelativeLayoutMain(Context cnt)
   {
-    super(context);
+    super(cnt);
 
     this.iniciar(null);
   }
 
-  public RelativeLayoutMain(Context context, AttributeSet attrs)
+  public RelativeLayoutMain(Context cnt, AttributeSet atr)
   {
-    super(context, attrs);
+    super(cnt, atr);
 
-    this.iniciar(attrs);
+    this.iniciar(atr);
   }
 
-  public RelativeLayoutMain(Context context, AttributeSet attrs, int defStyleAttr)
+  public RelativeLayoutMain(Context cnt, AttributeSet atr, int intDefStyleAttr)
   {
-    super(context, attrs, defStyleAttr);
+    super(cnt, atr, intDefStyleAttr);
 
-    this.iniciar(attrs);
+    this.iniciar(atr);
   }
 
   @Override

@@ -8,25 +8,25 @@ import com.digosofter.digodroid.controle.IControleMain;
 
 public class CheckBoxGeral extends CheckBox implements IControleMain
 {
-  public CheckBoxGeral(Context context)
+  public CheckBoxGeral(Context cnt)
   {
-    super(context);
+    super(cnt);
 
     this.iniciar(null);
   }
 
-  public CheckBoxGeral(Context context, AttributeSet attrs)
+  public CheckBoxGeral(Context cnt, AttributeSet atr)
   {
-    super(context, attrs);
+    super(cnt, atr);
 
-    this.iniciar(attrs);
+    this.iniciar(atr);
   }
 
-  public CheckBoxGeral(Context context, AttributeSet attrs, int defStyleAttr)
+  public CheckBoxGeral(Context cnt, AttributeSet atr, int intDefStyleAttr)
   {
-    super(context, attrs, defStyleAttr);
+    super(cnt, atr, intDefStyleAttr);
 
-    this.iniciar(attrs);
+    this.iniciar(atr);
   }
 
   @Override
