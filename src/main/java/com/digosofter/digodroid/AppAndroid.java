@@ -39,11 +39,11 @@ public abstract class AppAndroid extends App
   private ActMain _actPrincipal;
   private boolean _booDebug;
   private Context _cnt;
+  private DataBaseAndroid _dbePrincipal;
   private String _dir;
   private List<OnMenuCreateListener> _lstEvtOnMenuCreateListener;
   private List<OnMenuItemClickListener> _lstEvtOnMenuItemClickListener;
   private List<Toast> _lstObjToast;
-  private DataBaseAndroid _objDbPrincipal;
   private NotificationManager _objNotificationManager;
   private PackageInfo _objPackageInfo;
   private String _strVersao;
@@ -192,6 +192,8 @@ public abstract class AppAndroid extends App
     return _cnt;
   }
 
+  public abstract DataBaseAndroid getDbePrincipal();
+
   /**
    * Diretório no dispositivo de armazenamento externo dedicado à arquivos da aplicação.
    *
@@ -256,18 +258,6 @@ public abstract class AppAndroid extends App
     _lstObjToast = new ArrayList<>();
 
     return _lstObjToast;
-  }
-
-  public DataBaseAndroid getObjDbPrincipal()
-  {
-    if (_objDbPrincipal != null)
-    {
-      return _objDbPrincipal;
-    }
-
-    _objDbPrincipal = new DataBaseAndroid();
-
-    return _objDbPrincipal;
   }
 
   private NotificationManager getObjNotificationManager()

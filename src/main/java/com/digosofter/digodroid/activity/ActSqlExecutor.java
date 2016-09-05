@@ -20,12 +20,12 @@ public class ActSqlExecutor extends ActMain implements View.OnClickListener
       return;
     }
 
-    if (AppAndroid.getI().getObjDbPrincipal() == null)
+    if (AppAndroid.getI().getDbePrincipal() == null)
     {
       return;
     }
 
-    AppAndroid.getI().getObjDbPrincipal().execSql(this.getTxtSqlScript().getText().toString());
+    AppAndroid.getI().getDbePrincipal().execSql(this.getTxtSqlScript().getText().toString());
   }
 
   private Button getBtnExecutarScript()

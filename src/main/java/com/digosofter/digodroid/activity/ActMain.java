@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,6 +40,21 @@ public abstract class ActMain extends Activity
     }
 
     this.startActivityForResult(new Intent(this, cls), 0);
+  }
+
+  protected void abrirMenuPrincipal()
+  {
+    if (this.getIntDrawerMenuLayoutId() < 1)
+    {
+      return;
+    }
+
+    if (this.getViwDrawerMenu() == null)
+    {
+      return;
+    }
+
+    this.getViwDrawerMenu().openDrawer(Gravity.LEFT);
   }
 
   public void addEvtOnActivityResultListener(OnActivityResultListener evt)
@@ -234,13 +250,6 @@ public abstract class ActMain extends Activity
 
   public DrawerMenu getViwDrawerMenu()
   {
-    if (_viwDrawerMenu != null)
-    {
-      return _viwDrawerMenu;
-    }
-
-    _viwDrawerMenu = (DrawerMenu) this.findViewById(R.id.actMain_viwDrawerMenu);
-
     return _viwDrawerMenu;
   }
 
@@ -258,7 +267,6 @@ public abstract class ActMain extends Activity
 
   protected void inicializar()
   {
-    this.inicializarApp();
     this.inicializarActionBar();
     this.inicializarContentView();
   }
@@ -275,11 +283,6 @@ public abstract class ActMain extends Activity
     this.getActionBar().setIcon(null);
   }
 
-  protected void inicializarApp()
-  {
-
-  }
-
   private void inicializarContentView()
   {
     if (this.getIntLayoutId() < 1)
@@ -292,18 +295,18 @@ public abstract class ActMain extends Activity
       return;
     }
 
-    DrawerMenu viwDrawerMenu = (DrawerMenu) this.getLayoutInflater().inflate(R.layout.act_main, null);
+    this.setViwDrawerMenu((DrawerMenu) this.getLayoutInflater().inflate(R.layout.act_main, null));
 
-    FrameLayout viwConteudo = (FrameLayout) viwDrawerMenu.findViewById(R.id.actMain_viwConteudo);
+    FrameLayout viwConteudo = (FrameLayout) this.getViwDrawerMenu().findViewById(R.id.actMain_viwConteudo);
 
-    PainelMenuConteudo pnlMenuConteudo = (PainelMenuConteudo) viwDrawerMenu.findViewById(R.id.actMain_pnlMenuConteudo);
+    PainelMenuConteudo pnlMenuConteudo = (PainelMenuConteudo) this.getViwDrawerMenu().findViewById(R.id.actMain_pnlMenuConteudo);
 
     this.getLayoutInflater().inflate(this.getIntLayoutId(), viwConteudo, true);
     this.getLayoutInflater().inflate(this.getIntDrawerMenuLayoutId(), pnlMenuConteudo, true);
 
-    AppAndroid.getI().dispararOnMenuCreateListener(this, viwDrawerMenu);
+    AppAndroid.getI().dispararOnMenuCreateListener(this, this.getViwDrawerMenu());
 
-    this.setContentView(viwDrawerMenu);
+    this.setContentView(this.getViwDrawerMenu());
   }
 
   private void iniciar()
@@ -464,5 +467,10 @@ public abstract class ActMain extends Activity
 
   protected void setEventos()
   {
+  }
+
+  private void setViwDrawerMenu(DrawerMenu viwDrawerMenu)
+  {
+    _viwDrawerMenu = viwDrawerMenu;
   }
 }

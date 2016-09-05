@@ -163,7 +163,7 @@ public class CampoConsulta extends CampoMain implements View.OnClickListener
 
     itt.putExtra(ActConsulta.STR_EXTRA_IN_BOO_REGISTRO_SELECIONAVEL, true);
 
-    ((TabelaAndroid) this.getCln().getClnRef().getTbl()).abrirActConsulta((ActMain) this.getContext(), itt);
+    ((TabelaAndroid) this.getCln().getClnRef().getTbl()).abrirConsulta((ActMain) this.getContext(), itt);
   }
 
   @Override

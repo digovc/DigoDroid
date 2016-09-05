@@ -13,9 +13,9 @@ public abstract class ViewAndroid extends TabelaAndroid<DominioAndroidMain>
 {
   private TabelaAndroid<?> _tbl;
 
-  protected ViewAndroid(String strNome, TabelaAndroid tbl)
+  protected ViewAndroid(String strNome, TabelaAndroid tbl, DataBaseAndroid dbeAndroid)
   {
-    super(strNome, null);
+    super(strNome, null, dbeAndroid);
 
     this.setTbl(tbl);
   }

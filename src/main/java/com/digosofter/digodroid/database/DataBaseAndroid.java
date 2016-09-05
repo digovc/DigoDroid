@@ -9,18 +9,18 @@ import com.digosofter.digodroid.activity.ActMain;
 import com.digosofter.digodroid.arquivo.ArquivoDb;
 import com.digosofter.digojava.database.DataBase;
 
-public class DataBaseAndroid extends DataBase
+public abstract class DataBaseAndroid extends DataBase
 {
   public static final String STR_FILE_PREFIXO = ".sqlite";
 
   private ArquivoDb _arq;
-  private SQLiteDatabase _objDbEscrita;
-  private SQLiteDatabase _objDbLeitura;
-  private SQLiteOpenHelper _objSQLiteOpenHelper;
+  private SQLiteDatabase _dbeEscrita;
+  private SQLiteDatabase _dbeLeitura;
+  private SQLiteOpenHelper _objSqLiteOpenHelper;
 
-  public DataBaseAndroid()
+  public DataBaseAndroid(String strNome)
   {
-    this.setStrNome(AppAndroid.getI().getStrNome() + STR_FILE_PREFIXO);
+    this.setStrNome(strNome + STR_FILE_PREFIXO);
   }
 
   /**
@@ -35,8 +35,8 @@ public class DataBaseAndroid extends DataBase
       return;
     }
 
-    this.setObjDbEscrita(null);
-    this.setObjDbLeitura(null);
+    this.setDbeEscrita(null);
+    this.setDbeLeitura(null);
     this.setObjSQLiteOpenHelper(null);
 
     act.deleteDatabase(this.getStrNome());
@@ -61,12 +61,12 @@ public class DataBaseAndroid extends DataBase
   @Override
   public void execSql(String sql)
   {
-    this.getObjDbEscrita().execSQL(sql);
+    this.getDbeEscrita().execSQL(sql);
   }
 
   public Cursor execSqlComRetorno(String sql)
   {
-    return this.getObjDbLeitura().rawQuery(sql, null);
+    return this.getDbeLeitura().rawQuery(sql, null);
   }
 
   @Override
@@ -98,38 +98,38 @@ public class DataBaseAndroid extends DataBase
     return _arq;
   }
 
-  private SQLiteDatabase getObjDbEscrita()
+  private SQLiteDatabase getDbeEscrita()
   {
-    if (_objDbEscrita != null)
+    if (_dbeEscrita != null)
     {
-      return _objDbEscrita;
+      return _dbeEscrita;
     }
 
-    _objDbEscrita = this.getObjSQLiteOpenHelper().getWritableDatabase();
+    _dbeEscrita = this.getObjSQLiteOpenHelper().getWritableDatabase();
 
-    return _objDbEscrita;
+    return _dbeEscrita;
   }
 
-  private SQLiteDatabase getObjDbLeitura()
+  private SQLiteDatabase getDbeLeitura()
   {
-    if (_objDbLeitura != null)
+    if (_dbeLeitura != null)
     {
-      return _objDbLeitura;
+      return _dbeLeitura;
     }
 
-    _objDbLeitura = this.getObjSQLiteOpenHelper().getReadableDatabase();
+    _dbeLeitura = this.getObjSQLiteOpenHelper().getReadableDatabase();
 
-    return _objDbLeitura;
+    return _dbeLeitura;
   }
 
   private SQLiteOpenHelper getObjSQLiteOpenHelper()
   {
-    if (_objSQLiteOpenHelper != null)
+    if (_objSqLiteOpenHelper != null)
     {
-      return _objSQLiteOpenHelper;
+      return _objSqLiteOpenHelper;
     }
 
-    _objSQLiteOpenHelper = new SQLiteOpenHelper(AppAndroid.getI().getCnt(), this.getStrNome(), null, AppAndroid.getI().getIntVersao())
+    _objSqLiteOpenHelper = new SQLiteOpenHelper(AppAndroid.getI().getCnt(), this.getStrNome(), null, AppAndroid.getI().getIntVersao())
     {
       @Override
       public void onCreate(SQLiteDatabase objSQLiteDatabase)
@@ -144,7 +144,7 @@ public class DataBaseAndroid extends DataBase
       }
     };
 
-    return _objSQLiteOpenHelper;
+    return _objSqLiteOpenHelper;
   }
 
   private void onCreateSQLiteOpenHelper(final SQLiteDatabase objSQLiteDatabase)
@@ -155,18 +155,18 @@ public class DataBaseAndroid extends DataBase
   {
   }
 
-  private void setObjDbEscrita(SQLiteDatabase objDbEscrita)
+  private void setDbeEscrita(SQLiteDatabase dbeEscrita)
   {
-    _objDbEscrita = objDbEscrita;
+    _dbeEscrita = dbeEscrita;
   }
 
-  private void setObjDbLeitura(SQLiteDatabase objDbLeitura)
+  private void setDbeLeitura(SQLiteDatabase dbeLeitura)
   {
-    _objDbLeitura = objDbLeitura;
+    _dbeLeitura = dbeLeitura;
   }
 
   private void setObjSQLiteOpenHelper(SQLiteOpenHelper objSQLiteOpenHelper)
   {
-    _objSQLiteOpenHelper = objSQLiteOpenHelper;
+    _objSqLiteOpenHelper = objSQLiteOpenHelper;
   }
 }

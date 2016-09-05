@@ -442,7 +442,7 @@ public class ActConsulta extends ActMain implements OnTblChangeListener, TextWat
   {
     this.setBooAbrindoActDetalhe(true);
 
-    this.getTbl().abrirActDetalhe(this, intRegistroId);
+    this.getTbl().abrirDetalhe(this, intRegistroId);
   }
 
   private void onItemClickRegistroSelecionar(int intRegistroId)

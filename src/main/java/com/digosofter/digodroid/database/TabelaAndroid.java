@@ -46,10 +46,10 @@ public abstract class TabelaAndroid<T extends DominioAndroidMain> extends Tabela
   private boolean _booSincronizada = true;
   private ColunaAndroid _clnPesquisa;
   private Class<? extends ActMain> _clsActCadastro;
+  private DataBaseAndroid _dbeAndroid;
   private int _intRegistroRefId;
   private List<ViewAndroid> _lstViwAndroid;
   private MenuItem _mniOrdemDecrescente;
-  private DataBaseAndroid _objDb;
   private TabelaAndroid<?> _viwPrincipal;
 
   /**
@@ -58,32 +58,32 @@ public abstract class TabelaAndroid<T extends DominioAndroidMain> extends Tabela
    * @param strNome Nome da tabela no banco de dados.
    * @param clsDominio Classe que representa o domínio desta tabela.
    */
-  protected TabelaAndroid(String strNome, Class<T> clsDominio)
+  protected TabelaAndroid(String strNome, Class<T> clsDominio, DataBaseAndroid dbeAndroid)
   {
-    super(strNome, clsDominio);
+    super(strNome, clsDominio, dbeAndroid);
 
     this.criar();
   }
 
   /**
-   * Atalho para {@link #abrirActCadastro(ActMain, int, int)}
+   * Atalho para {@link #abrirCadastro(ActMain, int, int)}
    *
    * @param act Activity "parent" da tela de cadastro que será aberta.
    */
-  public void abrirActCadastro(final ActMain act)
+  public void abrirCadastro(final ActMain act)
   {
-    this.abrirActCadastro(act, 0, 0);
+    this.abrirCadastro(act, 0, 0);
   }
 
   /**
-   * Atalho para {@link #abrirActCadastro(ActMain, int, int)}
+   * Atalho para {@link #abrirCadastro(ActMain, int, int)}
    *
    * @param act Activity "parent" da tela de cadastro que será aberta.
    * @param intId Código do registro para alteração.
    */
-  public void abrirActCadastro(final ActMain act, int intId)
+  public void abrirCadastro(final ActMain act, int intId)
   {
-    this.abrirActCadastro(act, intId, 0);
+    this.abrirCadastro(act, intId, 0);
   }
 
   /**
@@ -93,7 +93,7 @@ public abstract class TabelaAndroid<T extends DominioAndroidMain> extends Tabela
    * @param intRegistroId Código do registro, no caso de ser uma alteração num registro já salvo.
    * @param intRegistroRefId Código do registro de referência caso este cadastro seja de um item ou se esse tem alguma ligação com outra tabela.
    */
-  public void abrirActCadastro(final ActMain act, int intRegistroId, int intRegistroRefId)
+  public void abrirCadastro(final ActMain act, int intRegistroId, int intRegistroRefId)
   {
     if (act == null)
     {
@@ -117,11 +117,11 @@ public abstract class TabelaAndroid<T extends DominioAndroidMain> extends Tabela
   }
 
   /**
-   * Atalho para {@link #abrirActConsulta(ActMain, Intent)}.
+   * Atalho para {@link #abrirConsulta(ActMain, Intent)}.
    */
-  public void abrirActConsulta(ActMain act)
+  public void abrirConsulta(ActMain act)
   {
-    this.abrirActConsulta(act, null);
+    this.abrirConsulta(act, null);
   }
 
   /**
@@ -133,7 +133,7 @@ public abstract class TabelaAndroid<T extends DominioAndroidMain> extends Tabela
    * @param itt Intent com parâmetros de entrada da tela ActConsulta para configurar sua aparência e comportamento.<br/> O valor "null" pode ser
    * passado para que a tela tenha o seu comportamento padrão.
    */
-  public void abrirActConsulta(ActMain act, Intent itt)
+  public void abrirConsulta(ActMain act, Intent itt)
   {
     if (act == null)
     {
@@ -153,13 +153,13 @@ public abstract class TabelaAndroid<T extends DominioAndroidMain> extends Tabela
   }
 
   /**
-   * Atalho para {@link #abrirActConsulta(ActMain, Intent)}. A diferença é que este abre uma tela de consulta que tenha referência para uma outra
+   * Atalho para {@link #abrirConsulta(ActMain, Intent)}. A diferença é que este abre uma tela de consulta que tenha referência para uma outra
    * tabela.
    *
    * @param act Activity "parent" (que vem antes na hierarquia de chamadas) da tela de consulta que será aberta.
    * @param intRegistroRefId Código do registro da tabela que faz referência a esta.
    */
-  public void abrirActConsulta(ActMain act, int intRegistroRefId)
+  public void abrirConsulta(ActMain act, int intRegistroRefId)
   {
     if (act == null)
     {
@@ -179,7 +179,7 @@ public abstract class TabelaAndroid<T extends DominioAndroidMain> extends Tabela
     itt.putExtra(ActConsulta.STR_EXTRA_IN_BOO_REGISTRO_SELECIONAVEL, false);
     itt.putExtra(ActConsulta.STR_EXTRA_IN_INT_REGISTRO_REF_ID, intRegistroRefId);
 
-    this.abrirActConsulta(act, itt);
+    this.abrirConsulta(act, itt);
   }
 
   /**
@@ -188,7 +188,7 @@ public abstract class TabelaAndroid<T extends DominioAndroidMain> extends Tabela
    * @param act Activity "parent" (que vem antes na hierarquia de chamadas) da tela de consulta que será aberta.
    * @param intRegistroId Id que indica o registro que será apresentado em detalhes.
    */
-  public void abrirActDetalhe(ActMain act, int intRegistroId)
+  public void abrirDetalhe(ActMain act, int intRegistroId)
   {
     if (act == null)
     {
@@ -556,6 +556,20 @@ public abstract class TabelaAndroid<T extends DominioAndroidMain> extends Tabela
     return _clsActCadastro;
   }
 
+  @Override
+  public DataBaseAndroid getDbe()
+  {
+    if (_dbeAndroid != null)
+    {
+
+      return null;
+    }
+
+    _dbeAndroid = (DataBaseAndroid) super.getDbe();
+
+    return _dbeAndroid;
+  }
+
   protected int getIntRegistroRefId()
   {
     return _intRegistroRefId;
@@ -632,19 +646,6 @@ public abstract class TabelaAndroid<T extends DominioAndroidMain> extends Tabela
   MenuItem getMniOrdemDecrescente()
   {
     return _mniOrdemDecrescente;
-  }
-
-  @Override
-  public DataBaseAndroid getDbe()
-  {
-    if (_objDb != null)
-    {
-      return _objDb;
-    }
-
-    _objDb = AppAndroid.getI().getObjDbPrincipal();
-
-    return _objDb;
   }
 
   private String getSqlColunasNomes()
@@ -1532,7 +1533,7 @@ public abstract class TabelaAndroid<T extends DominioAndroidMain> extends Tabela
       return false;
     }
 
-    this.abrirActDetalhe(act, intId);
+    this.abrirDetalhe(act, intId);
 
     return true;
   }
@@ -1918,7 +1919,7 @@ public abstract class TabelaAndroid<T extends DominioAndroidMain> extends Tabela
 
   public void setObjDb(DataBaseAndroid objDb)
   {
-    _objDb = objDb;
+    _dbeAndroid = objDb;
   }
 
   /**
