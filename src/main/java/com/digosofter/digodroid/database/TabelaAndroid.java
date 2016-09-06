@@ -44,6 +44,7 @@ public abstract class TabelaAndroid<T extends DominioAndroidMain> extends Tabela
   private static final String STR_MENU_PESQUISAR_POR = "Pesquisar por";
 
   private boolean _booSincronizada = true;
+  private ColunaAndroid _clnBooAtivo;
   private ColunaAndroid _clnDttAlteracao;
   private ColunaAndroid _clnDttCadastro;
   private ColunaAndroid _clnIntId;
@@ -520,6 +521,18 @@ public abstract class TabelaAndroid<T extends DominioAndroidMain> extends Tabela
   public boolean getBooSincronizada()
   {
     return _booSincronizada;
+  }
+
+  public ColunaAndroid getClnBooAtivo()
+  {
+    if (_clnBooAtivo != null)
+    {
+      return _clnBooAtivo;
+    }
+
+    _clnBooAtivo = new ColunaAndroid("boo_ativo", this, Coluna.EnmTipo.BOOLEAN);
+
+    return _clnBooAtivo;
   }
 
   public ColunaAndroid getClnDttAlteracao()
