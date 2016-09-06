@@ -12,6 +12,7 @@ import java.io.IOException;
 public abstract class ViewAndroid extends TabelaAndroid<DominioAndroidMain>
 {
   private TabelaAndroid<?> _tbl;
+  private TabelaAndroid _tblPrincipal;
 
   protected ViewAndroid(String strNome, TabelaAndroid tbl, DataBaseAndroid dbeAndroid)
   {
@@ -94,6 +95,18 @@ public abstract class ViewAndroid extends TabelaAndroid<DominioAndroidMain>
     return _tbl;
   }
 
+  public TabelaAndroid getTblPrincipal()
+  {
+    if (_tblPrincipal != null)
+    {
+      return _tblPrincipal;
+    }
+
+    _tblPrincipal = this.getTbl();
+
+    return _tblPrincipal;
+  }
+
   @Override
   public void setStrNome(final String strNome)
   {
@@ -118,4 +131,5 @@ public abstract class ViewAndroid extends TabelaAndroid<DominioAndroidMain>
 
     this.atualizarTbl();
   }
+
 }

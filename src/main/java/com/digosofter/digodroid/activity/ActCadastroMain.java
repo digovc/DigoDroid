@@ -137,19 +137,34 @@ public abstract class ActCadastroMain extends ActMain
 
     this.inicializarTbl();
     this.inicializarTitulo();
-    this.inicializarCampos();
+    this.inicializarLstCmp();
     this.inicializarFoco();
   }
 
-  private void inicializarCampos()
+  private void inicializarFoco()
+  {
+    if (this.getIntRegistroId() > 0)
+    {
+      return;
+    }
+
+    if (this.getCmpFocoInicial() == null)
+    {
+      return;
+    }
+
+    this.getCmpFocoInicial().receberFoco();
+  }
+
+  private void inicializarLstCmp()
   {
     for (CampoMain cmp : this.getLstCmp())
     {
-      this.inicializarCampos(cmp);
+      this.inicializarLstCmp(cmp);
     }
   }
 
-  private void inicializarCampos(final CampoMain cmp)
+  private void inicializarLstCmp(final CampoMain cmp)
   {
     if (cmp == null)
     {
@@ -174,21 +189,6 @@ public abstract class ActCadastroMain extends ActMain
     }
 
     cmp.setCln((ColunaAndroid) cln);
-  }
-
-  private void inicializarFoco()
-  {
-    if (this.getIntRegistroId() > 0)
-    {
-      return;
-    }
-
-    if (this.getCmpFocoInicial() == null)
-    {
-      return;
-    }
-
-    this.getCmpFocoInicial().receberFoco();
   }
 
   private void inicializarLstCmp(final List<CampoMain> lstCmp, final View viw)

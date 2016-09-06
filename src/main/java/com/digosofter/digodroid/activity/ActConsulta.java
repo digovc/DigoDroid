@@ -377,6 +377,7 @@ public class ActConsulta extends ActMain implements OnTblChangeListener, TextWat
     if (this.getBtnPesquisaLimpar().equals(viw))
     {
       this.getTxtPesquisa().limparTexto();
+      return;
     }
   }
 

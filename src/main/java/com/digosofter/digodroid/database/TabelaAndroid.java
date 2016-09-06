@@ -48,6 +48,7 @@ public abstract class TabelaAndroid<T extends DominioAndroidMain> extends Tabela
   private ColunaAndroid _clnDttAlteracao;
   private ColunaAndroid _clnDttCadastro;
   private ColunaAndroid _clnIntId;
+  private ColunaAndroid _clnIntUsuarioAlteracaoId;
   private ColunaAndroid _clnIntUsuarioCadastroId;
   private ColunaAndroid _clnPesquisa;
   private Class<? extends ActMain> _clsActCadastro;
@@ -571,10 +572,16 @@ public abstract class TabelaAndroid<T extends DominioAndroidMain> extends Tabela
     return _clnIntId;
   }
 
-  @Override
-  protected Coluna getClnIntUsuarioAlteracaoId()
+  public ColunaAndroid getClnIntUsuarioAlteracaoId()
   {
-    return null;
+    if (_clnIntUsuarioAlteracaoId != null)
+    {
+      return _clnIntUsuarioAlteracaoId;
+    }
+
+    _clnIntUsuarioAlteracaoId = new ColunaAndroid("int_usuario_alteracao_id", this, Coluna.EnmTipo.BIGINT);
+
+    return _clnIntUsuarioAlteracaoId;
   }
 
   public ColunaAndroid getClnIntUsuarioCadastroId()
@@ -584,7 +591,7 @@ public abstract class TabelaAndroid<T extends DominioAndroidMain> extends Tabela
       return _clnIntUsuarioCadastroId;
     }
 
-    _clnIntUsuarioCadastroId = new ColunaAndroid("int_usuario_alteracao_id", this, Coluna.EnmTipo.BIGINT);
+    _clnIntUsuarioCadastroId = new ColunaAndroid("int_usuario_cadastro_id", this, Coluna.EnmTipo.BIGINT);
 
     return _clnIntUsuarioCadastroId;
   }
@@ -1460,6 +1467,7 @@ public abstract class TabelaAndroid<T extends DominioAndroidMain> extends Tabela
     Intent itt = new Intent(act, this.getClsActCadastro());
 
     itt.putExtra(ActCadastroMain.STR_EXTRA_IN_INT_REGISTRO_REF_ID, this.getIntRegistroRefId());
+    itt.putExtra(ActCadastroMain.STR_EXTRA_IN_INT_TBL_OBJETO_ID, this.getTblPrincipal().getIntObjetoId());
 
     act.startActivity(itt);
 

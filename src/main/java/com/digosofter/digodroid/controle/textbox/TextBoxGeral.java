@@ -275,7 +275,7 @@ public class TextBoxGeral extends EditText implements IControleMain
   {
     _booSomenteLeitura = booSomenteLeitura;
 
-    this.setEnabled(_booSomenteLeitura);
+    this.setEnabled(!_booSomenteLeitura);
   }
 
   public void setBooValor(boolean booValor)

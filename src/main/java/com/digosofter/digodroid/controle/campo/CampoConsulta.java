@@ -31,6 +31,30 @@ public class CampoConsulta extends CampoMain implements View.OnClickListener
     super(cnt, atr, intDefStyleAttr);
   }
 
+  private void abrirConsulta()
+  {
+    if (this.getBooSomenteLeitura())
+    {
+      return;
+    }
+
+    if (this.getCln() == null)
+    {
+      return;
+    }
+
+    if (this.getCln().getClnRef() == null)
+    {
+      return;
+    }
+
+    Intent itt = new Intent();
+
+    itt.putExtra(ActConsulta.STR_EXTRA_IN_BOO_REGISTRO_SELECIONAVEL, true);
+
+    ((TabelaAndroid) this.getCln().getClnRef().getTbl()).abrirConsulta((ActMain) this.getContext(), itt);
+  }
+
   @Override
   protected void atualizarStrValor()
   {
@@ -154,26 +178,11 @@ public class CampoConsulta extends CampoMain implements View.OnClickListener
   @Override
   public void onClick(final View viw)
   {
-    if (this.getBooSomenteLeitura())
+    if (this.getBtn().equals(viw))
     {
+      this.abrirConsulta();
       return;
     }
-
-    if (this.getCln() == null)
-    {
-      return;
-    }
-
-    if (this.getCln().getClnRef() == null)
-    {
-      return;
-    }
-
-    Intent itt = new Intent();
-
-    itt.putExtra(ActConsulta.STR_EXTRA_IN_BOO_REGISTRO_SELECIONAVEL, true);
-
-    ((TabelaAndroid) this.getCln().getClnRef().getTbl()).abrirConsulta((ActMain) this.getContext(), itt);
   }
 
   @Override
@@ -187,7 +196,7 @@ public class CampoConsulta extends CampoMain implements View.OnClickListener
   {
     super.setBooSomenteLeitura(booSomenteLeitura);
 
-    this.getBtn().setEnabled(booSomenteLeitura);
+    this.getBtn().setEnabled(!booSomenteLeitura);
   }
 
   @Override
