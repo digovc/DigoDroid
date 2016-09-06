@@ -47,6 +47,7 @@ public abstract class TabelaAndroid<T extends DominioAndroidMain> extends Tabela
   private ColunaAndroid _clnDttAlteracao;
   private ColunaAndroid _clnDttCadastro;
   private ColunaAndroid _clnIntId;
+  private ColunaAndroid _clnIntUsuarioCadastroId;
   private ColunaAndroid _clnPesquisa;
   private Class<? extends ActMain> _clsActCadastro;
   private DataBaseAndroid _dbe;
@@ -557,6 +558,24 @@ public abstract class TabelaAndroid<T extends DominioAndroidMain> extends Tabela
     return _clnIntId;
   }
 
+  @Override
+  protected Coluna getClnIntUsuarioAlteracaoId()
+  {
+    return null;
+  }
+
+  public ColunaAndroid getClnIntUsuarioCadastroId()
+  {
+    if (_clnIntUsuarioCadastroId != null)
+    {
+      return _clnIntUsuarioCadastroId;
+    }
+
+    _clnIntUsuarioCadastroId = new ColunaAndroid("int_usuario_alteracao_id", this, Coluna.EnmTipo.BIGINT);
+
+    return _clnIntUsuarioCadastroId;
+  }
+
   /**
    * Coluna que está marcada como pesquisa.
    *
@@ -1041,12 +1060,6 @@ public abstract class TabelaAndroid<T extends DominioAndroidMain> extends Tabela
 
     this.montarMenuItemAlterar(mnu, intRegistroId);
     this.montarMenuItemApagar(mnu, intRegistroId);
-  }
-
-  @Override
-  protected Coluna getClnIntUsuarioAlteracaoId()
-  {
-    return null;
   }
 
   protected void montarMenuItemAlterar(Menu mnu, int intRegistroId)
