@@ -21,13 +21,6 @@ public abstract class ViewAndroid extends TabelaAndroid<DominioAndroidMain>
   }
 
   @Override
-  protected void addAppLstTbl()
-  {
-    // Impede que uma view seja adicionada para a lista de
-    // tabelas da aplicação.
-  }
-
-  @Override
   public void apagar(int intRegistroId)
   {
     if (intRegistroId < 1)

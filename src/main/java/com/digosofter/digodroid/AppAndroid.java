@@ -19,7 +19,6 @@ import com.digosofter.digodroid.controle.drawermenu.DrawerMenu;
 import com.digosofter.digodroid.controle.drawermenu.MenuItem;
 import com.digosofter.digodroid.database.DataBaseAndroid;
 import com.digosofter.digodroid.database.TabelaAndroid;
-import com.digosofter.digodroid.database.ViewAndroid;
 import com.digosofter.digojava.App;
 import com.digosofter.digojava.Utils;
 import com.digosofter.digojava.database.Tabela;
@@ -81,43 +80,6 @@ public abstract class AppAndroid extends App
     }
 
     this.getLstEvtOnMenuItemClickListener().add(evt);
-  }
-
-  /**
-   * Cria as tabelas no banco de dados.
-   */
-  public void criarTabela()
-  {
-    for (Tabela tbl : this.getLstTbl())
-    {
-      this.criarTabela(tbl);
-    }
-  }
-
-  private void criarTabela(final Tabela tbl)
-  {
-    if (tbl == null)
-    {
-      return;
-    }
-
-    if (!(tbl instanceof TabelaAndroid))
-    {
-      return;
-    }
-
-    ((TabelaAndroid) tbl).criar();
-  }
-
-  /**
-   * Cria as views no banco de dados.
-   */
-  public void criarView()
-  {
-    for (Tabela tbl : this.getLstTbl())
-    {
-      this.criarView(tbl);
-    }
   }
 
   private void criarView(final Tabela tbl)
@@ -192,7 +154,7 @@ public abstract class AppAndroid extends App
     return _cnt;
   }
 
-  public abstract DataBaseAndroid getDbePrincipal();
+  public abstract DataBaseAndroid getDbe();
 
   /**
    * Diretório no dispositivo de armazenamento externo dedicado à arquivos da aplicação.
@@ -307,65 +269,6 @@ public abstract class AppAndroid extends App
     _strVersao = this.getObjPackageInfo().versionName;
 
     return _strVersao;
-  }
-
-  /**
-   * Retorna a tabela que tem o id de objeto igual ao parâmetro @param intTblObjetoId.
-   *
-   * @param intTblObjetoId Código do objeto da tabela que se deseja retornar.
-   */
-  public TabelaAndroid getTbl(int intTblObjetoId)
-  {
-    TabelaAndroid tblResultado;
-
-    if (intTblObjetoId < 0)
-    {
-      return null;
-    }
-
-    for (Tabela tbl : this.getLstTbl())
-    {
-      tblResultado = this.getTbl(intTblObjetoId, (TabelaAndroid) tbl);
-
-      if (tblResultado == null)
-      {
-        continue;
-      }
-
-      return tblResultado;
-    }
-
-    return null;
-  }
-
-  private TabelaAndroid getTbl(int intTblObjetoId, TabelaAndroid tbl)
-  {
-    if (tbl == null)
-    {
-      return null;
-    }
-
-    if (tbl.getIntObjetoId() == intTblObjetoId)
-    {
-      return tbl;
-    }
-
-    for (ViewAndroid viw : (List<ViewAndroid>) tbl.getLstViwAndroid())
-    {
-      if (viw == null)
-      {
-        continue;
-      }
-
-      if (viw.getIntObjetoId() != intTblObjetoId)
-      {
-        continue;
-      }
-
-      return viw;
-    }
-
-    return null;
   }
 
   protected void limparNotificacao()

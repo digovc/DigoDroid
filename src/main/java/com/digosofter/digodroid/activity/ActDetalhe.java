@@ -143,14 +143,17 @@ public class ActDetalhe extends ActMain
       return _tbl;
     }
 
-    int intTblObjetoId = this.getIntent().getIntExtra(STR_EXTRA_IN_INT_TBL_OBJETO_ID, -1);
-
-    if (intTblObjetoId < 0)
+    if (AppAndroid.getI() == null)
     {
       return null;
     }
 
-    _tbl = AppAndroid.getI().getTbl(intTblObjetoId);
+    if (AppAndroid.getI().getDbe() == null)
+    {
+      return null;
+    }
+
+    _tbl = (TabelaAndroid<?>) AppAndroid.getI().getDbe().getTblPorIntObjetoId(this.getIntent().getIntExtra(STR_EXTRA_IN_INT_TBL_OBJETO_ID, -1));
 
     return _tbl;
   }

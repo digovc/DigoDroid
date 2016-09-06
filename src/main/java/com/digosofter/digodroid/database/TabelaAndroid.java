@@ -44,9 +44,12 @@ public abstract class TabelaAndroid<T extends DominioAndroidMain> extends Tabela
   private static final String STR_MENU_PESQUISAR_POR = "Pesquisar por";
 
   private boolean _booSincronizada = true;
+  private ColunaAndroid _clnDttAlteracao;
+  private ColunaAndroid _clnDttCadastro;
+  private ColunaAndroid _clnIntId;
   private ColunaAndroid _clnPesquisa;
   private Class<? extends ActMain> _clsActCadastro;
-  private DataBaseAndroid _dbeAndroid;
+  private DataBaseAndroid _dbe;
   private int _intRegistroRefId;
   private List<ViewAndroid> _lstViwAndroid;
   private MenuItem _mniOrdemDecrescente;
@@ -61,8 +64,6 @@ public abstract class TabelaAndroid<T extends DominioAndroidMain> extends Tabela
   protected TabelaAndroid(String strNome, Class<T> clsDominio, DataBaseAndroid dbeAndroid)
   {
     super(strNome, clsDominio, dbeAndroid);
-
-    this.criar();
   }
 
   /**
@@ -375,11 +376,13 @@ public abstract class TabelaAndroid<T extends DominioAndroidMain> extends Tabela
     lstFilConsulta.add(filPesquisa);
   }
 
-  /**
-   * Cria esta tabela e suas respectivas colunas no banco de dados.
-   */
-  public void criar()
+  protected void criar()
   {
+    if (this.getDbe() == null)
+    {
+      return;
+    }
+
     if (this.getBooExiste())
     {
       return;
@@ -392,21 +395,6 @@ public abstract class TabelaAndroid<T extends DominioAndroidMain> extends Tabela
     sql = sql.replace("_cln_pk_tipo", ((ColunaAndroid) this.getClnIntId()).getSqlTipo());
 
     this.getDbe().execSql(sql);
-
-    this.criarColuna();
-  }
-
-  private void criarColuna()
-  {
-    for (Coluna cln : this.getLstCln())
-    {
-      if (cln == null)
-      {
-        continue;
-      }
-
-      ((ColunaAndroid) cln).criar();
-    }
   }
 
   /**
@@ -500,6 +488,11 @@ public abstract class TabelaAndroid<T extends DominioAndroidMain> extends Tabela
 
   protected boolean getBooExiste()
   {
+    if (this.getDbe() == null)
+    {
+      return false;
+    }
+
     String sql = "select max(1) from sqlite_master where type='table' and name='_tbl_nome';";
 
     sql = sql.replace("_tbl_nome", this.getSqlNome());
@@ -528,10 +521,40 @@ public abstract class TabelaAndroid<T extends DominioAndroidMain> extends Tabela
     return _booSincronizada;
   }
 
-  @Override
-  public Coluna getClnIntId()
+  public ColunaAndroid getClnDttAlteracao()
   {
-    return new ColunaAndroid("int_id", this, Coluna.EnmTipo.BIGINT);
+    if (_clnDttAlteracao != null)
+    {
+      return _clnDttAlteracao;
+    }
+
+    _clnDttAlteracao = new ColunaAndroid("dtt_alteracao", this, Coluna.EnmTipo.DATE_TIME);
+
+    return _clnDttAlteracao;
+  }
+
+  public ColunaAndroid getClnDttCadastro()
+  {
+    if (_clnDttCadastro != null)
+    {
+      return _clnDttCadastro;
+    }
+
+    _clnDttCadastro = new ColunaAndroid("dtt_alteracao", this, Coluna.EnmTipo.DATE_TIME);
+
+    return _clnDttCadastro;
+  }
+
+  public ColunaAndroid getClnIntId()
+  {
+    if (_clnIntId != null)
+    {
+      return _clnIntId;
+    }
+
+    _clnIntId = new ColunaAndroid("int_id", this, Coluna.EnmTipo.BIGINT);
+
+    return _clnIntId;
   }
 
   /**
@@ -559,15 +582,19 @@ public abstract class TabelaAndroid<T extends DominioAndroidMain> extends Tabela
   @Override
   public DataBaseAndroid getDbe()
   {
-    if (_dbeAndroid != null)
+    if (_dbe != null)
     {
+      return _dbe;
+    }
 
+    if (super.getDbe() == null)
+    {
       return null;
     }
 
-    _dbeAndroid = (DataBaseAndroid) super.getDbe();
+    _dbe = (DataBaseAndroid) super.getDbe();
 
-    return _dbeAndroid;
+    return _dbe;
   }
 
   protected int getIntRegistroRefId()
@@ -914,6 +941,15 @@ public abstract class TabelaAndroid<T extends DominioAndroidMain> extends Tabela
     return _viwPrincipal;
   }
 
+  @Override
+  protected void inicializar()
+  {
+    super.inicializar();
+
+    this.getClnDttAlteracao().setStrValorDefault("current_timestamp");
+    this.getClnDttCadastro().setStrValorDefault("current_timestamp");
+  }
+
   /**
    * Este método tem a responsabilidade de inicializar a lista de views desta tabela.
    */
@@ -1005,6 +1041,12 @@ public abstract class TabelaAndroid<T extends DominioAndroidMain> extends Tabela
 
     this.montarMenuItemAlterar(mnu, intRegistroId);
     this.montarMenuItemApagar(mnu, intRegistroId);
+  }
+
+  @Override
+  protected Coluna getClnIntUsuarioAlteracaoId()
+  {
+    return null;
   }
 
   protected void montarMenuItemAlterar(Menu mnu, int intRegistroId)
@@ -1919,7 +1961,7 @@ public abstract class TabelaAndroid<T extends DominioAndroidMain> extends Tabela
 
   public void setObjDb(DataBaseAndroid objDb)
   {
-    _dbeAndroid = objDb;
+    _dbe = objDb;
   }
 
   /**

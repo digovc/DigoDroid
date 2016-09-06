@@ -41,8 +41,6 @@ public abstract class DataBaseAndroid extends DataBase
 
     act.deleteDatabase(this.getStrNome());
 
-    AppAndroid.getI().criarTabela();
-    AppAndroid.getI().criarView();
     AppAndroid.getI().notificar("Banco de dados apagado.");
   }
 

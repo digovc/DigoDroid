@@ -116,7 +116,17 @@ public class CampoConsulta extends CampoMain implements View.OnClickListener
       return;
     }
 
-    TabelaAndroid tbl = AppAndroid.getI().getTbl(itt.getIntExtra(ActConsulta.STR_EXTRA_OUT_INT_TBL_OBJETO_ID, 0));
+    if (AppAndroid.getI() == null)
+    {
+      return;
+    }
+
+    if (AppAndroid.getI().getDbe() == null)
+    {
+      return;
+    }
+
+    TabelaAndroid tbl = (TabelaAndroid) AppAndroid.getI().getDbe().getTblPorIntObjetoId(itt.getIntExtra(ActConsulta.STR_EXTRA_OUT_INT_TBL_OBJETO_ID, 0));
 
     ViewAndroid viw = null;
 

@@ -115,7 +115,17 @@ public abstract class ActCadastroMain extends ActMain
       return _tbl;
     }
 
-    _tbl = AppAndroid.getI().getTbl(this.getIntent().getIntExtra(STR_EXTRA_IN_INT_TBL_OBJETO_ID, 0));
+    if (AppAndroid.getI() == null)
+    {
+      return null;
+    }
+
+    if (AppAndroid.getI().getDbe() == null)
+    {
+      return null;
+    }
+
+    _tbl = (TabelaAndroid<?>) AppAndroid.getI().getDbe().getTblPorIntObjetoId(this.getIntent().getIntExtra(STR_EXTRA_IN_INT_TBL_OBJETO_ID, 0));
 
     return _tbl;
   }

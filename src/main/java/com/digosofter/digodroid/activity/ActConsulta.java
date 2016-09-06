@@ -232,14 +232,17 @@ public class ActConsulta extends ActMain implements OnTblChangeListener, TextWat
       return _tbl;
     }
 
-    int intTblObjetoId = this.getIntent().getIntExtra(STR_EXTRA_IN_INT_TBL_OBJETO_ID, -1);
-
-    if (intTblObjetoId < 0)
+    if (AppAndroid.getI() == null)
     {
       return null;
     }
 
-    _tbl = AppAndroid.getI().getTbl(intTblObjetoId);
+    if (AppAndroid.getI().getDbe() == null)
+    {
+      return null;
+    }
+
+    _tbl = (TabelaAndroid<?>) AppAndroid.getI().getDbe().getTblPorIntObjetoId(this.getIntent().getIntExtra(STR_EXTRA_IN_INT_TBL_OBJETO_ID, -1));
 
     if (_tbl == null)
     {
@@ -277,6 +280,14 @@ public class ActConsulta extends ActMain implements OnTblChangeListener, TextWat
   }
 
   @Override
+  protected void inicializar()
+  {
+    super.inicializar();
+
+    this.getActionBar().setDisplayUseLogoEnabled(false);
+  }
+
+  @Override
   protected void montarLayout()
   {
     super.montarLayout();
@@ -290,11 +301,6 @@ public class ActConsulta extends ActMain implements OnTblChangeListener, TextWat
   private void montarLayoutAbrirCadastroAuto()
   {
     if (this.getTbl() == null)
-    {
-      return;
-    }
-
-    if (!this.getTbl().getBooPermitirAdicionar())
     {
       return;
     }
@@ -545,11 +551,6 @@ public class ActConsulta extends ActMain implements OnTblChangeListener, TextWat
     }
 
     if (this.getTbl().getClsActCadastro() == null)
-    {
-      return;
-    }
-
-    if (!this.getTbl().getBooPermitirAdicionar())
     {
       return;
     }
