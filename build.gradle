@@ -35,7 +35,8 @@ dependencies {
     compile 'commons-io:commons-io:+'
     compile 'commons-net:commons-net:+'
 
-    compile 'com.google.android.gms:play-services:+'
-    compile 'com.github.markushi:circlebutton:+'
+    compile 'com.android.volley:volley:+'
     compile 'com.balysv:material-ripple:+'
+    compile 'com.github.markushi:circlebutton:+'
+    compile 'com.google.android.gms:play-services:+'
 }

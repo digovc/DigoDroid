@@ -5,12 +5,12 @@ import android.content.Intent;
 
 import com.digosofter.digodroid.AppAndroid;
 
-public abstract class SrvMain extends IntentService
+public abstract class ServiceMain extends IntentService
 {
   private boolean _booParar;
   private Intent _itt;
 
-  public SrvMain(String strNome)
+  public ServiceMain(String strNome)
   {
     super(AppAndroid.getI().getStrNomeExibicao() + " - " + strNome);
   }
@@ -29,14 +29,8 @@ public abstract class SrvMain extends IntentService
     return _itt;
   }
 
-  /**
-   * Responsável pela inicialização de propriedades antes de iniciar o serviço.
-   *
-   * @return True caso o serviço foi inicializado corretamente e pode iniciar, ou False caso contrário, o que parará o serviço imediatamente.
-   */
-  protected boolean inicializar()
+  protected void inicializar()
   {
-    return true;
   }
 
   @Override
@@ -44,14 +38,16 @@ public abstract class SrvMain extends IntentService
   {
     this.setItt(itt);
 
-    if (!this.inicializar())
+    try
     {
-      return;
+      this.inicializar();
+      this.servico();
+      this.finalizar();
     }
-
-    this.servico();
-
-    this.finalizar();
+    catch (Exception ex)
+    {
+      ex.printStackTrace();
+    }
   }
 
   protected void servico()

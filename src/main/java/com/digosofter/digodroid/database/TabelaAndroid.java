@@ -64,9 +64,9 @@ public abstract class TabelaAndroid<T extends DominioAndroidMain> extends Tabela
    * @param strNome Nome da tabela no banco de dados.
    * @param clsDominio Classe que representa o domínio desta tabela.
    */
-  protected TabelaAndroid(String strNome, Class<T> clsDominio, DataBaseAndroid dbeAndroid)
+  protected TabelaAndroid(String strNome, DataBaseAndroid dbeAndroid)
   {
-    super(strNome, clsDominio, dbeAndroid);
+    super(strNome, dbeAndroid);
   }
 
   /**
@@ -288,8 +288,6 @@ public abstract class TabelaAndroid<T extends DominioAndroidMain> extends Tabela
 
   private void carregarDados(Cursor crs)
   {
-    this.limparColunas();
-
     if (crs == null)
     {
       return;
@@ -555,7 +553,7 @@ public abstract class TabelaAndroid<T extends DominioAndroidMain> extends Tabela
       return _clnDttCadastro;
     }
 
-    _clnDttCadastro = new ColunaAndroid("dtt_alteracao", this, Coluna.EnmTipo.DATE_TIME);
+    _clnDttCadastro = new ColunaAndroid("dtt_cadastro", this, Coluna.EnmTipo.DATE_TIME);
 
     return _clnDttCadastro;
   }
@@ -712,23 +710,6 @@ public abstract class TabelaAndroid<T extends DominioAndroidMain> extends Tabela
   MenuItem getMniOrdemDecrescente()
   {
     return _mniOrdemDecrescente;
-  }
-
-  private String getSqlColunasNomes()
-  {
-    if (this.getLstCln().isEmpty())
-    {
-      return "*";
-    }
-
-    String strResultado = Utils.STR_VAZIA;
-
-    for (Coluna cln : this.getLstCln())
-    {
-      strResultado += cln.getStrTblNomeClnNome();
-    }
-
-    return Utils.removerUltimaLetra(strResultado, 2);
   }
 
   private String getSqlColunasNomesInsert()
@@ -1777,9 +1758,15 @@ public abstract class TabelaAndroid<T extends DominioAndroidMain> extends Tabela
 
   public TabelaAndroid recuperar(List<Filtro> lstFil)
   {
-    String sql = "select _clns_nome from _tbl_nome where _where order by _tbl_nome._order;";
+    this.limparColunas();
 
-    sql = sql.replace("_clns_nome", this.getSqlColunasNomes());
+    if (this.getDbe() == null)
+    {
+      return this;
+    }
+
+    String sql = "select * from _tbl_nome where _where order by _tbl_nome._order;";
+
     sql = sql.replace("_tbl_nome", this.getSqlNome());
     sql = sql.replace("_where", this.getSqlWhere(lstFil));
     sql = sql.replace("_order", this.getClnIntId().getSqlNome());
@@ -1864,38 +1851,42 @@ public abstract class TabelaAndroid<T extends DominioAndroidMain> extends Tabela
     return lstObjDominio.get(0);
   }
 
-  public boolean salvar(boolean booValidar)
+  public TabelaAndroid salvar(boolean booValidar)
   {
     if (booValidar && !this.validarDados())
     {
-      return false;
+      return this;
     }
 
     if (!this.getBooRegistroExiste(this.getClnIntId().getIntValor()))
     {
       this.salvarInsert();
-      return true;
+      return this;
     }
 
     this.salvarUpdate();
-
-    return true;
+    return this;
   }
 
-  public boolean salvar(T objDominio, boolean booValidar)
+  public T salvar(final T objDominio, boolean booValidar)
   {
     if (objDominio == null)
     {
-      return false;
+      return null;
     }
 
     this.lerDominio(objDominio);
 
-    boolean booResultado = this.salvar(booValidar);
+    this.salvar(booValidar);
 
     objDominio.setIntId(this.getClnIntId().getIntValor());
 
-    return booResultado;
+    return objDominio;
+  }
+
+  public T salvar(final T objDominio)
+  {
+    return this.salvar(objDominio, false);
   }
 
   public void salvarAleatorio()
@@ -1999,7 +1990,7 @@ public abstract class TabelaAndroid<T extends DominioAndroidMain> extends Tabela
   }
 
   /**
-   * Este métod é chamado quando o usário termina de preencher os dados nos campos da Activity de cadastro e clica na opção salvar.
+   * Este métod é chamado quando o usário termina de preencher os dados nos campos da Activity de cadastro e clica na opção sincronizar.
    *
    * @return True caso tudo esteja satisfatório para o salvamento do registro, ou false caso contrário.
    */

@@ -15,7 +15,7 @@ public abstract class ConfigAndroidMain extends ConfigMain
 
   protected ConfigAndroidMain()
   {
-    this.carregarDados();
+    this.iniciar();
   }
 
   /**
@@ -159,11 +159,23 @@ public abstract class ConfigAndroidMain extends ConfigMain
     return this.getObjSharedPreferences().getString(strConfig, strDefault);
   }
 
+  protected void inicializar()
+  {
+    this.carregarDados();
+  }
+
+  private void iniciar()
+  {
+    this.inicializar();
+  }
+
   /**
    * Persiste os dados desta intância no arquivo de configuração XML da aplicação.
    */
   public void salvar()
   {
+    // super.sincronizar();
+
     this.salvar(this.getClass());
   }
 

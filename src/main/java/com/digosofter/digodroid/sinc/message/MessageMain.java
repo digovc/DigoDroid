@@ -1,0 +1,94 @@
+package com.digosofter.digodroid.sinc.message;
+
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.digosofter.digodroid.log.LogSinc;
+import com.digosofter.digojava.Utils;
+import com.digosofter.digojava.json.Json;
+import com.digosofter.digojava.log.Log;
+
+import java.lang.reflect.ParameterizedType;
+
+public abstract class MessageMain<T extends RespostaMain> implements Response.Listener, Response.ErrorListener
+{
+  private transient Class<T> _clsResposta;
+
+  protected MessageMain()
+  {
+    this.iniciar();
+  }
+
+  private Class<T> getClsResposta()
+  {
+    return _clsResposta;
+  }
+
+  protected void inicializar()
+  {
+    this.setClsResposta((Class<T>) ((ParameterizedType) this.getClass().getGenericSuperclass()).getActualTypeArguments()[0]);
+  }
+
+  private final void iniciar()
+  {
+    this.inicializar();
+  }
+
+  @Override
+  public void onErrorResponse(final VolleyError objVolleyError)
+  {
+    if (objVolleyError == null)
+    {
+      LogSinc.getI().addLog(Log.EnmTipo.ERRO, "Erro de sincronização. Motivo desconhecido.");
+      return;
+    }
+
+    if (Utils.getBooStrVazia(objVolleyError.getMessage()))
+    {
+      LogSinc.getI().addLog(Log.EnmTipo.ERRO, "Erro de sincronização. Motivo desconhecido.");
+      return;
+    }
+
+    LogSinc.getI().addLog(Log.EnmTipo.ERRO, "Erro de sincronização. ".concat(objVolleyError.getMessage()));
+  }
+
+  @Override
+  public void onResponse(final Object objResponse)
+  {
+    LogSinc.getI().addLog(Log.EnmTipo.INFO, String.format("Resposta de sincronização (%s) recebida.", this.getClsResposta().getSimpleName()));
+
+    if (objResponse == null)
+    {
+      return;
+    }
+
+    T rsp = Json.getI().fromJson(objResponse.toString(), this.getClsResposta());
+
+    if (rsp == null)
+    {
+      LogSinc.getI().addLog(Log.EnmTipo.ERRO, String.format("Resposta de sincronização (%s) vazia.", this.getClsResposta().getSimpleName()));
+      return;
+    }
+
+    rsp.setMsg(this);
+
+    if (!Utils.getBooStrVazia(rsp.getStrCritica()))
+    {
+      LogSinc.getI().addLog(Log.EnmTipo.ERRO, String.format("Erro de sincronização (%s) no servidor: %s", this.getClsResposta().getSimpleName(), rsp.getStrCritica()));
+      return;
+    }
+
+    this.onResposta(rsp);
+  }
+
+  protected abstract void onResposta(final T rsp);
+
+  private void setClsResposta(Class<T> clsResposta)
+  {
+    _clsResposta = clsResposta;
+  }
+
+  public String toJson()
+  {
+    return Json.getI().toJson(this);
+  }
+}
