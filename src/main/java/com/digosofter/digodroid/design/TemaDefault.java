@@ -1,5 +1,7 @@
 package com.digosofter.digodroid.design;
 
+import android.graphics.Color;
+
 import com.digosofter.digojava.Objeto;
 
 public class TemaDefault extends Objeto
@@ -28,7 +30,7 @@ public class TemaDefault extends Objeto
   }
 
   private final int INT_FONTE_TAMANHO_FATOR = 12;
-
+  private int _corTema = -1;
   private int _intEspacamento;
   private int _intFontGrande;
   private int _intFontMedio;
@@ -37,6 +39,11 @@ public class TemaDefault extends Objeto
   private int _intFontPequeno;
   private int _intHeightNivel;
   private int _intMargin;
+
+  public TemaDefault()
+  {
+    this.setI(this);
+  }
 
   public float enmFonteTamanhoToInt(EnmFonteTamanho enmFonteTamanho)
   {
@@ -57,6 +64,18 @@ public class TemaDefault extends Objeto
       default:
         return this.getIntFontNormal();
     }
+  }
+
+  public int getCorTema()
+  {
+    if (_corTema > -1)
+    {
+      return _corTema;
+    }
+
+    _corTema = Color.parseColor("#137ea9");
+
+    return _corTema;
   }
 
   /**
@@ -198,5 +217,15 @@ public class TemaDefault extends Objeto
       default:
         return EnmFonteTamanho.NORMAL;
     }
+  }
+
+  private void setI(TemaDefault objTema)
+  {
+    if (TemaDefault._i != null)
+    {
+      return;
+    }
+
+    TemaDefault._i = objTema;
   }
 }

@@ -42,6 +42,8 @@
 
         <activity android:name=".activity.ActSqlExecutor">
         </activity>
+        <activity android:name=".activity.ActLog">
+        </activity>
     </application>
 
 </manifest>

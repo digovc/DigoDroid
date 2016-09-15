@@ -3,7 +3,7 @@ package com.digosofter.digodroid.controle.painel;
 import android.content.Context;
 import android.util.AttributeSet;
 
-import com.digosofter.digodroid.R;
+import com.digosofter.digodroid.design.TemaDefault;
 
 public class PainelDetalheCabecalho extends PainelGeral
 {
@@ -27,6 +27,6 @@ public class PainelDetalheCabecalho extends PainelGeral
   {
     super.inicializar();
 
-    this.setBackgroundColor(this.getContext().getResources().getColor(R.color.cor_tema));
+    this.setBackgroundColor(TemaDefault.getI().getCorTema());
   }
 }

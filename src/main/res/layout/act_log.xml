@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.digosofter.digodroid.controle.painel.PainelGeralRelativo
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.digosofter.digodroid.activity.ActLog">
+
+    <com.digosofter.digodroid.controle.scroll.ScrollGeral
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.digosofter.digodroid.controle.label.LabelGeral
+            android:id="@+id/actLog_lblLog"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+    </com.digosofter.digodroid.controle.scroll.ScrollGeral>
+
+</com.digosofter.digodroid.controle.painel.PainelGeralRelativo>

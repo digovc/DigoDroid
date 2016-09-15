@@ -19,6 +19,7 @@ import com.digosofter.digodroid.controle.drawermenu.DrawerMenu;
 import com.digosofter.digodroid.controle.drawermenu.MenuItem;
 import com.digosofter.digodroid.database.DataBaseAndroid;
 import com.digosofter.digodroid.database.TabelaAndroid;
+import com.digosofter.digodroid.design.TemaDefault;
 import com.digosofter.digojava.App;
 import com.digosofter.digojava.Utils;
 import com.digosofter.digojava.database.Tabela;
@@ -45,6 +46,7 @@ public abstract class AppAndroid extends App
   private List<Toast> _lstObjToast;
   private NotificationManager _objNotificationManager;
   private PackageInfo _objPackageInfo;
+  private TemaDefault _objTema;
   private String _strVersao;
 
   protected AppAndroid()
@@ -251,6 +253,18 @@ public abstract class AppAndroid extends App
     }
 
     return _objPackageInfo;
+  }
+
+  public TemaDefault getObjTema()
+  {
+    if (_objTema != null)
+    {
+      return _objTema;
+    }
+
+    _objTema = new TemaDefault();
+
+    return _objTema;
   }
 
   @Override

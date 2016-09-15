@@ -108,6 +108,7 @@ public class CampoConsulta extends CampoMain implements View.OnClickListener
     super.inicializar();
 
     this.getBtn().setFocusable(true);
+    this.getBtn().setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);
   }
 
   @Override
