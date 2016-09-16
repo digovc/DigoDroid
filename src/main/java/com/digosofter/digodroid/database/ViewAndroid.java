@@ -3,6 +3,7 @@ package com.digosofter.digodroid.database;
 import com.digosofter.digodroid.AppAndroid;
 import com.digosofter.digodroid.dominio.DominioAndroidMain;
 import com.digosofter.digojava.Utils;
+import com.digosofter.digojava.database.Coluna;
 import com.digosofter.digojava.database.OnChangeArg;
 
 import org.apache.commons.io.IOUtils;
@@ -11,7 +12,9 @@ import java.io.IOException;
 
 public abstract class ViewAndroid extends TabelaAndroid<DominioAndroidMain>
 {
-  private TabelaAndroid<?> _tbl;
+
+  private ColunaAndroid _clnIntId;
+  private TabelaAndroid _tbl;
   private TabelaAndroid _tblPrincipal;
 
   protected ViewAndroid(String strNome, TabelaAndroid tbl, DataBaseAndroid dbeAndroid)
@@ -69,7 +72,45 @@ public abstract class ViewAndroid extends TabelaAndroid<DominioAndroidMain>
     this.getDbe().execSql(this.getSqlSelect());
   }
 
+  @Override
+  public ColunaAndroid getClnDttAlteracao()
+  {
+    return null;
+  }
+
+  @Override
+  public ColunaAndroid getClnDttCadastro()
+  {
+    return null;
+  }
+
+  public ColunaAndroid getClnIntId()
+  {
+    if (_clnIntId != null)
+    {
+      return _clnIntId;
+    }
+
+    _clnIntId = new ColunaAndroid(this.getSqlClnIntIdNome(), this, Coluna.EnmTipo.BIGINT);
+
+    return _clnIntId;
+  }
+
+  @Override
+  public ColunaAndroid getClnIntUsuarioAlteracaoId()
+  {
+    return null;
+  }
+
+  @Override
+  public ColunaAndroid getClnIntUsuarioCadastroId()
+  {
+    return null;
+  }
+
   protected abstract int getIntRawFileId();
+
+  protected abstract String getSqlClnIntIdNome();
 
   private String getSqlSelect()
   {
@@ -90,7 +131,7 @@ public abstract class ViewAndroid extends TabelaAndroid<DominioAndroidMain>
     return null;
   }
 
-  public TabelaAndroid<?> getTbl()
+  public TabelaAndroid getTbl()
   {
     return _tbl;
   }
@@ -105,6 +146,16 @@ public abstract class ViewAndroid extends TabelaAndroid<DominioAndroidMain>
     _tblPrincipal = this.getTbl();
 
     return _tblPrincipal;
+  }
+
+  @Override
+  protected int inicializarLstCln(int intOrdem)
+  {
+    // intOrdem = super.inicializarLstCln(intOrdem);
+
+    this.getClnIntId().setIntOrdem(++intOrdem);
+
+    return intOrdem;
   }
 
   @Override
@@ -131,5 +182,4 @@ public abstract class ViewAndroid extends TabelaAndroid<DominioAndroidMain>
 
     this.atualizarTbl();
   }
-
 }

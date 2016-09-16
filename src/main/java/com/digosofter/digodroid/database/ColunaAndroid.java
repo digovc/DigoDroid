@@ -524,12 +524,7 @@ public class ColunaAndroid extends Coluna implements OnValorAlteradoListener
     _mniPesquisa = mniPesquisa;
   }
 
-  /**
-   * Este é o grupo que conterá esta coluna na tela de detalhes dos registros.
-   *
-   * @param grp Grupo que conterá esta coluna na tela de detalhes dos registros.
-   */
-  public void setObjDbGrupo(Grupo grp)
+  void setObjDbGrupo(Grupo grp)
   {
     _grp = grp;
   }
