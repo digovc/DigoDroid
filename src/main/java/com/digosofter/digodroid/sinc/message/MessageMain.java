@@ -52,7 +52,7 @@ public abstract class MessageMain<T extends RespostaMain> implements Response.Li
   }
 
   @Override
-  public void onResponse(final Object objResponse)
+  public final void onResponse(final Object objResponse)
   {
     LogSinc.getI().addLog(Log.EnmTipo.INFO, String.format("Resposta de sincronização (%s) recebida.", this.getClsResposta().getSimpleName()));
 

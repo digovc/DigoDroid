@@ -59,7 +59,6 @@ public class SincJsonRequest extends JsonRequest
     }
 
     return Response.success(jsn, HttpHeaderParser.parseCacheHeaders(objNetworkResponse));
-
   }
 
   private void setMsg(MessageMain msg)

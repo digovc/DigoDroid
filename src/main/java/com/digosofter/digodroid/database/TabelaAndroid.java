@@ -1042,7 +1042,7 @@ public abstract class TabelaAndroid<T extends DominioAndroidMain> extends Tabela
     }
   }
 
-  public void montarMenuItem(Menu mnu, int intRegistroId, boolean booDetalhar)
+  public void montarMenuItem(Menu mnu, int intRegistroId, boolean booActConsulta)
   {
     if (mnu == null)
     {
@@ -1054,11 +1054,7 @@ public abstract class TabelaAndroid<T extends DominioAndroidMain> extends Tabela
       return;
     }
 
-    if (booDetalhar)
-    {
-      this.montarMenuItemDetalhar(mnu);
-    }
-
+    this.montarMenuItemDetalhar(mnu, booActConsulta);
     this.montarMenuItemAlterar(mnu, intRegistroId);
     this.montarMenuItemApagar(mnu, intRegistroId);
   }
@@ -1103,9 +1099,14 @@ public abstract class TabelaAndroid<T extends DominioAndroidMain> extends Tabela
     mnu.add(TabelaAndroid.STR_MENU_APAGAR);
   }
 
-  private void montarMenuItemDetalhar(Menu mnu)
+  private void montarMenuItemDetalhar(Menu mnu, final boolean booActConsulta)
   {
     if (mnu == null)
+    {
+      return;
+    }
+
+    if (!booActConsulta)
     {
       return;
     }
@@ -1849,6 +1850,11 @@ public abstract class TabelaAndroid<T extends DominioAndroidMain> extends Tabela
     }
 
     return lstObjDominio.get(0);
+  }
+
+  public void salvar()
+  {
+    this.salvar(false);
   }
 
   public TabelaAndroid salvar(boolean booValidar)

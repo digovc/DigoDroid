@@ -2,13 +2,15 @@ package com.digosofter.digodroid.database.tabela;
 
 import com.digosofter.digodroid.AppAndroid;
 import com.digosofter.digodroid.database.ColunaAndroid;
-import com.digosofter.digodroid.dominio.DominioSincronizavelMain;
+import com.digosofter.digodroid.database.TabelaAndroid;
+import com.digosofter.digodroid.dominio.DominioAndroidMain;
+import com.digosofter.digodroid.sinc.message.RspPesquisar;
 import com.digosofter.digojava.Utils;
 import com.digosofter.digojava.database.Coluna;
 
 import java.util.Calendar;
 
-public class TblSincronizacao extends TblSincronizavelMain<DominioSincronizavelMain>
+public class TblSincronizacao extends TabelaAndroid<DominioAndroidMain>
 {
   private static TblSincronizacao _i;
 
@@ -30,6 +32,25 @@ public class TblSincronizacao extends TblSincronizavelMain<DominioSincronizavelM
   private TblSincronizacao()
   {
     super("tbl_sincronizacao", AppAndroid.getI().getDbe());
+  }
+
+  void atualizarRecebimento(final TblSincronizavelMain tbl, final RspPesquisar rspPesquisar)
+  {
+    if (tbl == null)
+    {
+      return;
+    }
+
+    this.recuperar(this.getClnSqlTblNome(), tbl.getSqlNome());
+
+    this.getClnDttUltimoRecebimento().setDttValor(Calendar.getInstance());
+    this.getClnSqlTblNome().setStrValor(tbl.getSqlNome());
+
+    this.salvar();
+
+    rspPesquisar.setIntSincronizacaoId(this.getClnIntId().getIntValor());
+
+    TblSincronizacaoItem.getI().atualizarRecebimento(tbl, rspPesquisar);
   }
 
   private ColunaAndroid getClnDttUltimoRecebimento()

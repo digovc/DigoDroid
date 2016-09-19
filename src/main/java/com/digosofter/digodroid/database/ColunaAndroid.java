@@ -524,7 +524,7 @@ public class ColunaAndroid extends Coluna implements OnValorAlteradoListener
     _mniPesquisa = mniPesquisa;
   }
 
-  void setObjDbGrupo(Grupo grp)
+  public void setObjDbGrupo(Grupo grp)
   {
     _grp = grp;
   }

@@ -76,9 +76,7 @@ public class ActDetalhe extends ActMain
       return _grpGeral;
     }
 
-    _grpGeral = new Grupo();
-
-    _grpGeral.setStrNome("Geral");
+    _grpGeral = new Grupo("geral");
 
     return _grpGeral;
   }

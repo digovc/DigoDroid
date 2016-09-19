@@ -30,7 +30,7 @@ public class MsgPesquisar extends MsgTabelaBase<RspPesquisar>
 
     if (Utils.getBooStrVazia(rsp.getJsnLstObjDominio()))
     {
-      LogSinc.getI().addLog(Log.EnmTipo.INFO, "Não havia dados a serem salvos na pesquisa.");
+      LogSinc.getI().addLog(Log.EnmTipo.INFO, String.format("Não havia dados na pesquisa a serem salvos na tabela %s.", this.getTbl().getStrNomeExibicao()));
       return;
     }
 
