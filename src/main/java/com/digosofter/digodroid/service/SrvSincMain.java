@@ -4,8 +4,11 @@ import android.os.SystemClock;
 
 import com.digosofter.digodroid.AppAndroid;
 import com.digosofter.digodroid.database.tabela.TblSincronizavelMain;
+import com.digosofter.digodroid.log.LogSinc;
 import com.digosofter.digodroid.sinc.ServerHttpSinc;
+import com.digosofter.digojava.Utils;
 import com.digosofter.digojava.database.Tabela;
+import com.digosofter.digojava.log.Log;
 
 public abstract class SrvSincMain extends ServiceMain
 {
@@ -31,6 +34,13 @@ public abstract class SrvSincMain extends ServiceMain
 
   private void loop()
   {
+    if (Utils.getBooStrVazia(ServerHttpSinc.getI().getSrvSincronizacao().getUrlServer()))
+    {
+      LogSinc.getI().addLog(Log.EnmTipo.ERRO, "A url do servidor de sincronização não está configurada.");
+      this.setBooParar(true);
+      return;
+    }
+
     this.sincronizar();
   }
 

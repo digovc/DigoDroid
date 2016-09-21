@@ -20,6 +20,8 @@ import java.util.List;
 
 public abstract class ActCadastroMain extends ActMain
 {
+  public static final String STR_EXTRA_IN_BOO_MOSTRAR_SALVAR_NOVO = "boo_salvar_novo";
+
   /**
    * Código do registro que indica o item que o usuário selecionou na lista desta tela.
    */
@@ -31,21 +33,107 @@ public abstract class ActCadastroMain extends ActMain
   public static final String STR_EXTRA_IN_INT_REGISTRO_REF_ID = "int_registro_ref_id";
 
   /**
-   * Código do objeto da tabela que esta lista representa.
+   * Código do objeto da tabela.
    */
   public static final String STR_EXTRA_IN_INT_TBL_OBJETO_ID = "int_tbl_objeto_id";
 
+  /**
+   * Código do objeto da tabela pai.
+   */
+  public static final String STR_EXTRA_IN_INT_TBL_PAI_OBJETO_ID = "int_tbl_pai_objeto_id";
+
   protected static final String STR_MENU_SALVAR = "Salvar";
   private static final String STR_MENU_SALVAR_NOVO = "Salvar e novo";
+
   private CampoMain _cmpFocoInicial;
   private int _intRegistroId;
   private int _intRegistroRefId;
   private List<CampoMain> _lstCmp;
   private TabelaAndroid<?> _tbl;
+  private TabelaAndroid _tblPai;
+
+  private void abrirNovo()
+  {
+    if (this.getTbl() == null)
+    {
+      return;
+    }
+
+    this.getTbl().limparColunas();
+
+    Intent itt = new Intent(this, this.getClass());
+
+    itt.putExtra(ActCadastroMain.STR_EXTRA_IN_BOO_MOSTRAR_SALVAR_NOVO, this.getBooMostrarMenuSalvarNovo());
+    itt.putExtra(ActCadastroMain.STR_EXTRA_IN_INT_REGISTRO_REF_ID, this.getIntRegistroRefId());
+    itt.putExtra(ActCadastroMain.STR_EXTRA_IN_INT_TBL_OBJETO_ID, (this.getTbl() != null) ? this.getTbl().getIntObjetoId() : -1);
+    itt.putExtra(ActCadastroMain.STR_EXTRA_IN_INT_TBL_PAI_OBJETO_ID, (this.getTblPai() != null) ? this.getTblPai().getIntObjetoId() : -1);
+
+    this.startActivity(itt);
+  }
+
+  protected void carregarDados()
+  {
+    if (this.getTbl() == null)
+    {
+      return;
+    }
+
+    for (Coluna cln : this.getTbl().getLstCln())
+    {
+      this.carregarDados((ColunaAndroid) cln);
+    }
+  }
+
+  private void carregarDados(final ColunaAndroid cln)
+  {
+    if (cln == null)
+    {
+      return;
+    }
+
+    this.carregarDadosRef(cln);
+
+    if (cln.getCmp() == null)
+    {
+      return;
+    }
+
+    cln.getCmp().carregarValorCln();
+  }
+
+  private void carregarDadosRef(final ColunaAndroid cln)
+  {
+    if (this.getIntRegistroRefId() < 1)
+    {
+      return;
+    }
+
+    if (this.getTblPai() == null)
+    {
+      return;
+    }
+
+    if (cln.getClnRef() == null)
+    {
+      return;
+    }
+
+    if (cln.getClnRef().getTbl() == null)
+    {
+      return;
+    }
+
+    if (!cln.getClnRef().getTbl().equals(this.getTblPai()))
+    {
+      return;
+    }
+
+    cln.setIntValor(this.getIntRegistroRefId());
+  }
 
   protected boolean getBooMostrarMenuSalvarNovo()
   {
-    return false;
+    return this.getIntent().getBooleanExtra(STR_EXTRA_IN_BOO_MOSTRAR_SALVAR_NOVO, false);
   }
 
   protected CampoMain getCmpFocoInicial()
@@ -125,9 +213,45 @@ public abstract class ActCadastroMain extends ActMain
       return null;
     }
 
-    _tbl = (TabelaAndroid<?>) AppAndroid.getI().getDbe().getTblPorIntObjetoId(this.getIntent().getIntExtra(STR_EXTRA_IN_INT_TBL_OBJETO_ID, 0));
+    _tbl = (TabelaAndroid<?>) AppAndroid.getI().getDbe().getTbl(this.getIntent().getIntExtra(STR_EXTRA_IN_INT_TBL_OBJETO_ID, 0));
+
+    if (_tbl == null)
+    {
+      return null;
+    }
+
+    _tbl = (TabelaAndroid) _tbl.getTblPrincipal();
 
     return _tbl;
+  }
+
+  private TabelaAndroid getTblPai()
+  {
+    if (_tblPai != null)
+    {
+      return _tblPai;
+    }
+
+    if (AppAndroid.getI() == null)
+    {
+      return null;
+    }
+
+    if (AppAndroid.getI().getDbe() == null)
+    {
+      return null;
+    }
+
+    _tblPai = (TabelaAndroid) AppAndroid.getI().getDbe().getTbl(this.getIntent().getIntExtra(STR_EXTRA_IN_INT_TBL_PAI_OBJETO_ID, -1));
+
+    if (_tblPai == null)
+    {
+      return null;
+    }
+
+    _tblPai = (TabelaAndroid) _tblPai.getTblPrincipal();
+
+    return _tblPai;
   }
 
   @Override
@@ -321,59 +445,54 @@ public abstract class ActCadastroMain extends ActMain
     switch (mni.getTitle().toString())
     {
       case STR_MENU_SALVAR:
-        this.salvar(false);
+        this.salvar();
         return true;
 
       case STR_MENU_SALVAR_NOVO:
-        this.salvar(true);
+        this.salvarAbrirNovo();
         return true;
     }
 
     return false;
   }
 
-  /**
-   * Salva o registro atual da tela.
-   *
-   * @param booNovo Indica se logo após o salvamento será aberto um novo cadastro.
-   */
-  protected void salvar(boolean booNovo)
+  protected boolean salvar()
   {
     if (this.getTbl() == null)
-    {
-      return;
-    }
-
-    if (!this.validarDados())
-    {
-      return;
-    }
-
-    this.getTbl().salvar(false);
-    this.finish();
-
-    if (!booNovo)
-    {
-      return;
-    }
-
-    this.getTbl().limparColunas();
-
-    Intent itt = new Intent(this, this.getClass());
-
-    itt.putExtra(ActCadastroMain.STR_EXTRA_IN_INT_REGISTRO_REF_ID, this.getIntRegistroRefId());
-    itt.putExtra(ActCadastroMain.STR_EXTRA_IN_INT_TBL_OBJETO_ID, this.getTbl().getIntObjetoId());
-
-    this.startActivity(itt);
-  }
-
-  private boolean validarDados()
-  {
-    if (!this.getTbl().validarDados())
     {
       return false;
     }
 
+    this.carregarDados();
+
+    if (!this.validarDados())
+    {
+      return false;
+    }
+
+    this.getTbl().salvar();
+    this.finish();
+
     return true;
+  }
+
+  private void salvarAbrirNovo()
+  {
+    if (!this.salvar())
+    {
+      return;
+    }
+
+    this.abrirNovo();
+  }
+
+  private boolean validarDados()
+  {
+    if (this.getTbl() == null)
+    {
+      return false;
+    }
+
+    return this.getTbl().validarDados(this);
   }
 }

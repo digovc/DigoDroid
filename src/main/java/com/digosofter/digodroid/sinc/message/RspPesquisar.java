@@ -27,8 +27,6 @@ public class RspPesquisar extends RespostaMain<MsgPesquisar>
     }
 
     this.getLstObjDominioSincronizado().add(objDominio);
-
-    LogSinc.getI().addLog(Log.EnmTipo.INFO, String.format("Registro %s salvo com sucesso na tabela %s.", objDominio.getIntId(), this.getMsg().getTbl().getStrNomeExibicao()));
   }
 
   public int getIntRegistroQuantidade()

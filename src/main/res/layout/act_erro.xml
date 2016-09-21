@@ -1,83 +1,60 @@
-<RelativeLayout
-    android:id="@+id/actErro_pnlGeral"
+<?xml version="1.0" encoding="utf-8"?>
+<com.digosofter.digodroid.controle.painel.PainelGeralRelativo
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context=".ActErro">
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    tools:context="com.digosofter.digodroid.activity.ActErro">
 
-    <LinearLayout
-        android:id="@+id/actErro_pnlInfo"
+    <com.digosofter.digodroid.controle.painel.PainelConteudo
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/actErro_pnlComando"
-        android:orientation="vertical"
-        android:padding="10dp">
+        android:orientation="vertical">
 
-        <ImageView
-            android:id="@+id/actErro_imgAppLogo"
+        <com.digosofter.digodroid.controle.imagem.ImagemGeral
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:padding="25dp"/>
+
+        <com.digosofter.digodroid.controle.label.LabelGeral
+            android:id="@+id/actErro_lblTitulo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:src="@drawable/cancelar_processo"/>
-
-        <TextView
-            android:id="@+id/actErro_txtAppNome"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_horizontal"
-            android:paddingBottom="25dp"
-            android:text="App"
-            android:textAppearance="?android:attr/textAppearanceLarge"/>
-
-        <TextView
-            android:id="@+id/actErro_txtErroTitulo"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="Erro"
-            android:textAppearance="?android:attr/textAppearanceMedium"/>
+            android:paddingBottom="50dp"
+            android:text="Erro desconhecido."
+            android:textAlignment="center"/>
 
         <ScrollView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
 
-            <TextView
-                android:id="@+id/actErro_txtErroMensagem"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="Um erro inesperado aconteceu."
-                android:textAppearance="?android:attr/textAppearanceSmall"/>
+            <HorizontalScrollView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
 
+                <com.digosofter.digodroid.controle.label.LabelGeral
+                    android:id="@+id/actErro_lblDescricao"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:scrollHorizontally="true"
+                    android:text="Sem mais detalhes."
+                    app:enmFonteTamanho="PEQUENO"/>
+
+            </HorizontalScrollView>
         </ScrollView>
-    </LinearLayout>
 
-    <LinearLayout
-        android:id="@+id/actErro_pnlComando"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
+    </com.digosofter.digodroid.controle.painel.PainelConteudo>
+
+    <com.digosofter.digodroid.controle.botao.BotaoCircular
+        android:id="@+id/actErro_btnOk"
+        android:layout_width="65dp"
+        android:layout_height="65dp"
         android:layout_alignParentBottom="true"
-        android:gravity="right"
-        android:orientation="horizontal">
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_margin="15dp"
+        app:cb_pressedRingWidth="10dp"/>
 
-        <Button
-            android:id="@+id/actErro_btnIgnorar"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:onClick="actErro_btnIgnorar_onClick"
-            android:text="Ignorar"/>
-
-        <Button
-            android:id="@+id/actErro_btnIgnorarTodos"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:onClick="actErro_btnIgnorarTodos_onClick"
-            android:text="Ignorar todos"
-            android:visibility="gone"/>
-
-    </LinearLayout>
-
-</RelativeLayout>
+</com.digosofter.digodroid.controle.painel.PainelGeralRelativo>

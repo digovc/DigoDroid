@@ -6,7 +6,6 @@ import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.widget.TextView;
 
-import com.digosofter.digodroid.AppAndroid;
 import com.digosofter.digodroid.R;
 import com.digosofter.digodroid.controle.IControleMain;
 import com.digosofter.digodroid.design.TemaDefault;
@@ -39,14 +38,14 @@ public class LabelGeral extends TextView implements IControleMain
     this.iniciar(atr);
   }
 
-  private void atualizarCorTexto()
+  private void atualizarCorTexto(final int corTexto)
   {
-    this.setTextColor(this.getCorTexto());
+    this.setTextColor(corTexto);
   }
 
-  private void atualizarEnmFonteTamanho()
+  private void atualizarEnmFonteTamanho(final TemaDefault.EnmFonteTamanho enmFonteTamanho)
   {
-    this.setTextSize(TypedValue.COMPLEX_UNIT_SP, TemaDefault.getI().enmFonteTamanhoToInt(this.getEnmFonteTamanho()));
+    this.setTextSize(TypedValue.COMPLEX_UNIT_SP, TemaDefault.getI().enmFonteTamanhoToInt(enmFonteTamanho));
   }
 
   @Override
@@ -131,16 +130,26 @@ public class LabelGeral extends TextView implements IControleMain
    */
   public void setCorTexto(int corTexto)
   {
+    if (_corTexto == corTexto)
+    {
+      return;
+    }
+
     _corTexto = corTexto;
 
-    this.atualizarCorTexto();
+    this.atualizarCorTexto(_corTexto);
   }
 
   public void setEnmFonteTamanho(TemaDefault.EnmFonteTamanho enmFonteTamanho)
   {
+    if (_enmFonteTamanho == enmFonteTamanho)
+    {
+      return;
+    }
+
     _enmFonteTamanho = enmFonteTamanho;
 
-    this.atualizarEnmFonteTamanho();
+    this.atualizarEnmFonteTamanho(enmFonteTamanho);
   }
 
   @Override

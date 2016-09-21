@@ -2,7 +2,6 @@ package com.digosofter.digodroid.database;
 
 import android.content.Intent;
 import android.database.Cursor;
-import android.support.annotation.Nullable;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.SubMenu;
@@ -16,13 +15,13 @@ import com.digosofter.digodroid.activity.ActMain;
 import com.digosofter.digodroid.dominio.DominioAndroidMain;
 import com.digosofter.digojava.Utils;
 import com.digosofter.digojava.Utils.EnmDataFormato;
-import com.digosofter.digojava.Utils.EnmStringTipo;
 import com.digosofter.digojava.database.Coluna;
 import com.digosofter.digojava.database.Filtro;
 import com.digosofter.digojava.database.OnChangeArg;
 import com.digosofter.digojava.database.Tabela;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
 
@@ -53,16 +52,15 @@ public abstract class TabelaAndroid<T extends DominioAndroidMain> extends Tabela
   private ColunaAndroid _clnPesquisa;
   private Class<? extends ActMain> _clsActCadastro;
   private DataBaseAndroid _dbe;
-  private int _intRegistroRefId;
   private List<ViewAndroid> _lstViwAndroid;
   private MenuItem _mniOrdemDecrescente;
+  private String _sqlCursorAdapterId;
   private TabelaAndroid<?> _viwPrincipal;
 
   /**
    * Constroe uma nova instância dessa tabela. Este processo cria também a tabela e suas colunas no banco de dados SQLite caso ela não exista.
    *
    * @param strNome Nome da tabela no banco de dados.
-   * @param clsDominio Classe que representa o domínio desta tabela.
    */
   protected TabelaAndroid(String strNome, DataBaseAndroid dbeAndroid)
   {
@@ -76,7 +74,7 @@ public abstract class TabelaAndroid<T extends DominioAndroidMain> extends Tabela
    */
   public void abrirCadastro(final ActMain act)
   {
-    this.abrirCadastro(act, 0, 0);
+    this.abrirCadastro(act, 0, null, 0);
   }
 
   /**
@@ -87,7 +85,7 @@ public abstract class TabelaAndroid<T extends DominioAndroidMain> extends Tabela
    */
   public void abrirCadastro(final ActMain act, int intId)
   {
-    this.abrirCadastro(act, intId, 0);
+    this.abrirCadastro(act, intId, null, 0);
   }
 
   /**
@@ -97,7 +95,7 @@ public abstract class TabelaAndroid<T extends DominioAndroidMain> extends Tabela
    * @param intRegistroId Código do registro, no caso de ser uma alteração num registro já salvo.
    * @param intRegistroRefId Código do registro de referência caso este cadastro seja de um item ou se esse tem alguma ligação com outra tabela.
    */
-  public void abrirCadastro(final ActMain act, int intRegistroId, int intRegistroRefId)
+  public void abrirCadastro(final ActMain act, int intRegistroId, TabelaAndroid tblPai, int intRegistroRefId)
   {
     if (act == null)
     {
@@ -111,11 +109,11 @@ public abstract class TabelaAndroid<T extends DominioAndroidMain> extends Tabela
 
     Intent itt = new Intent(act, this.getClsActCadastro());
 
+    itt.putExtra(ActCadastroMain.STR_EXTRA_IN_BOO_MOSTRAR_SALVAR_NOVO, (intRegistroRefId > 0));
     itt.putExtra(ActCadastroMain.STR_EXTRA_IN_INT_REGISTRO_ID, intRegistroId);
     itt.putExtra(ActCadastroMain.STR_EXTRA_IN_INT_REGISTRO_REF_ID, intRegistroRefId);
     itt.putExtra(ActCadastroMain.STR_EXTRA_IN_INT_TBL_OBJETO_ID, this.getIntObjetoId());
-
-    this.setIntRegistroRefId(intRegistroRefId);
+    itt.putExtra(ActCadastroMain.STR_EXTRA_IN_INT_TBL_PAI_OBJETO_ID, (tblPai != null) ? tblPai.getIntObjetoId() : -1);
 
     act.startActivity(itt);
   }
@@ -163,7 +161,7 @@ public abstract class TabelaAndroid<T extends DominioAndroidMain> extends Tabela
    * @param act Activity "parent" (que vem antes na hierarquia de chamadas) da tela de consulta que será aberta.
    * @param intRegistroRefId Código do registro da tabela que faz referência a esta.
    */
-  public void abrirConsulta(ActMain act, int intRegistroRefId)
+  public void abrirConsulta(ActMain act, TabelaAndroid tblPai, int intRegistroRefId)
   {
     if (act == null)
     {
@@ -175,13 +173,11 @@ public abstract class TabelaAndroid<T extends DominioAndroidMain> extends Tabela
       return;
     }
 
-    this.setIntRegistroRefId(intRegistroRefId);
-    this.getViwPrincipal().setIntRegistroRefId(intRegistroRefId);
-
     Intent itt = new Intent();
 
     itt.putExtra(ActConsulta.STR_EXTRA_IN_BOO_REGISTRO_SELECIONAVEL, false);
     itt.putExtra(ActConsulta.STR_EXTRA_IN_INT_REGISTRO_REF_ID, intRegistroRefId);
+    itt.putExtra(ActConsulta.STR_EXTRA_IN_INT_TBL_PAI_OBJETO_ID, (tblPai != null) ? tblPai.getIntObjetoId() : -1);
 
     this.abrirConsulta(act, itt);
   }
@@ -349,9 +345,16 @@ public abstract class TabelaAndroid<T extends DominioAndroidMain> extends Tabela
    * Este método pode ser sobescrito para carregar os filtros da propriedade {#link #getLstFilConsulta} que será utilizada para pesquisar os registros
    * para serem apresentados na tela de consulta.
    *
+   * @param actConsulta
    * @param lstFilConsulta Ponteiro para o atributo {@link @getLstFilConsulta} desta tabela.
    */
-  protected void carregarLstFilConsulta(List<Filtro> lstFilConsulta)
+  protected void carregarLstFilConsulta(final ActConsulta actConsulta, List<Filtro> lstFilConsulta)
+  {
+    this.carregarLstFilConsultaClnPesquisa(lstFilConsulta);
+    this.carregarLstFilConsultaClnRef(actConsulta, lstFilConsulta);
+  }
+
+  private void carregarLstFilConsultaClnPesquisa(final List<Filtro> lstFilConsulta)
   {
     if (Utils.getBooStrVazia(this.getStrPesquisa()))
     {
@@ -375,6 +378,77 @@ public abstract class TabelaAndroid<T extends DominioAndroidMain> extends Tabela
     }
 
     lstFilConsulta.add(filPesquisa);
+  }
+
+  private void carregarLstFilConsultaClnRef(final ActConsulta actConsulta, final List<Filtro> lstFilConsulta)
+  {
+    if (actConsulta == null)
+    {
+      return;
+    }
+
+    if (actConsulta.getTblPai() == null)
+    {
+      return;
+    }
+
+    if (actConsulta.getIntRegistroRefId() < 1)
+    {
+      return;
+    }
+
+    for (Coluna cln : this.getLstCln())
+    {
+      if (this.carregarLstFilConsultaClnRef(actConsulta, lstFilConsulta, cln))
+      {
+        return;
+      }
+    }
+  }
+
+  private boolean carregarLstFilConsultaClnRef(final ActConsulta actConsulta, final List<Filtro> lstFilConsulta, final Coluna cln)
+  {
+    if (cln == null)
+    {
+      return false;
+    }
+
+    if (cln.getClnRef() == null)
+    {
+      return false;
+    }
+
+    if (cln.getClnRef().getTbl() == null)
+    {
+      return false;
+    }
+
+    if (!cln.getClnRef().getTbl().getTblPrincipal().equals(actConsulta.getTblPai()))
+    {
+      return false;
+    }
+
+    lstFilConsulta.add(new Filtro(cln, actConsulta.getIntRegistroRefId()));
+
+    return true;
+  }
+
+  private void carregarValorDefault()
+  {
+    if (this.getLstCln() == null)
+    {
+      return;
+    }
+
+    for (Coluna cln : this.getLstCln())
+    {
+      if (cln == null)
+      {
+        continue;
+      }
+
+      cln.carregarValorDefault();
+    }
   }
 
   protected void criar()
@@ -634,11 +708,6 @@ public abstract class TabelaAndroid<T extends DominioAndroidMain> extends Tabela
     return _dbe;
   }
 
-  protected int getIntRegistroRefId()
-  {
-    return _intRegistroRefId;
-  }
-
   public List<Integer> getLstInt(Coluna cln, List<Filtro> lstFil)
   {
     List<String> lstStr = this.getLstStr(cln, lstFil);
@@ -712,9 +781,9 @@ public abstract class TabelaAndroid<T extends DominioAndroidMain> extends Tabela
     return _mniOrdemDecrescente;
   }
 
-  private String getSqlColunasNomesInsert()
+  private String getSqlClnNomeInsert()
   {
-    String strResultado = Utils.STR_VAZIA;
+    StringBuilder stbResultado = new StringBuilder();
 
     for (Coluna cln : this.getLstCln())
     {
@@ -723,143 +792,22 @@ public abstract class TabelaAndroid<T extends DominioAndroidMain> extends Tabela
         continue;
       }
 
-      if (Utils.getBooStrVazia(cln.getStrValor()))
+      if (Utils.getBooStrVazia(cln.getSqlNomeInsert()))
       {
         continue;
       }
 
-      if ((cln == this.getClnIntId()) && (cln.getIntValor() < 1))
-      {
-        continue;
-      }
-
-      if ((cln.getClnRef() != null) && (cln.getIntValor() < 1))
-      {
-        continue;
-      }
-
-      strResultado += cln.getSqlNome().concat(", ");
+      stbResultado.append(cln.getSqlNomeInsert());
     }
 
-    return Utils.removerUltimaLetra(strResultado, 2);
+    return Utils.removerUltimaLetra(stbResultado.toString(), 2);
   }
 
-  private String getSqlColunasNomesValorUpdate()
-  {
-    String strResultado = Utils.STR_VAZIA;
-
-    for (Coluna cln : this.getLstCln())
-    {
-      if (cln == null)
-      {
-        continue;
-      }
-
-      if (Utils.getBooStrVazia(cln.getStrValor()))
-      {
-        continue;
-      }
-
-      if (cln == this.getClnIntId())
-      {
-        continue;
-      }
-
-      if ((cln.getClnRef() != null) && (cln.getIntValor() < 1))
-      {
-        continue;
-      }
-
-      String strNomeValor = "_cln_nome = '_cln_valor', ";
-
-      strNomeValor = strNomeValor.replace("_cln_nome", cln.getSqlNome());
-      strNomeValor = strNomeValor.replace("_cln_valor", cln.getStrValorSql());
-
-      strResultado += strNomeValor;
-    }
-
-    strResultado = Utils.removerUltimaLetra(strResultado, 2);
-
-    return strResultado;
-  }
-
-  private String getSqlColunasValoresInsert()
-  {
-    String strResultado = Utils.STR_VAZIA;
-
-    for (Coluna cln : this.getLstCln())
-    {
-      if (cln == null)
-      {
-        continue;
-      }
-
-      if (Utils.getBooStrVazia(cln.getStrValor()))
-      {
-        continue;
-      }
-
-      if ((cln == this.getClnIntId()) && cln.getIntValor() < 1)
-      {
-        continue;
-      }
-
-      if (cln.getClnRef() != null && (cln.getIntValor() < 1))
-      {
-        continue;
-      }
-
-      String str = "'_cln_valor', ";
-
-      str = str.replace("_cln_valor", cln.getStrValorSql());
-
-      strResultado += str;
-    }
-
-    return Utils.removerUltimaLetra(strResultado, 2);
-  }
-
-  private String getSqlSelectColunaCursorAdapterId()
-  {
-    String strResultado = " _tbl_nome._cln_pk_nome _id";
-
-    strResultado = strResultado.replace("_tbl_nome", this.getSqlNome());
-    strResultado = strResultado.replace("_cln_pk_nome", this.getClnIntId().getSqlNome());
-
-    return strResultado;
-  }
-
-  private String getSqlSelectColunasNomes(List<Coluna> lstCln)
-  {
-    if (lstCln == null)
-    {
-      return "*";
-    }
-    if (lstCln.isEmpty())
-    {
-      return "*";
-    }
-
-    String strResultado = Utils.STR_VAZIA;
-
-    for (Coluna cln : lstCln)
-    {
-      if (cln == null)
-      {
-        continue;
-      }
-
-      strResultado += cln.getStrTblNomeClnNome();
-    }
-
-    return Utils.removerUltimaLetra(strResultado, 2);
-  }
-
-  private String getSqlSelectColunasNomesConsulta()
+  private String getSqlClnSelect()
   {
     List<Coluna> lstClnAdicionada = new ArrayList<>();
 
-    String strResultado = Utils.STR_VAZIA;
+    StringBuilder stbResultado = new StringBuilder();
 
     for (Coluna cln : this.getLstClnConsulta())
     {
@@ -868,37 +816,115 @@ public abstract class TabelaAndroid<T extends DominioAndroidMain> extends Tabela
         continue;
       }
 
-      strResultado += this.getSqlSelectColunasNomesConsulta(lstClnAdicionada, cln);
+      this.getSqlClnSelect(lstClnAdicionada, cln, stbResultado);
     }
 
-    strResultado += this.getSqlSelectColunaCursorAdapterId();
+    stbResultado.append(this.getSqlCursorAdapterId());
 
-    strResultado = strResultado.replace(" null", Utils.STR_VAZIA);
-
-    return strResultado;
+    return stbResultado.toString().replace(" null", Utils.STR_VAZIA);
   }
 
-  @Nullable
-  private String getSqlSelectColunasNomesConsulta(List<Coluna> lstClnAdicionada, Coluna cln)
+  private void getSqlClnSelect(List<Coluna> lstClnAdicionada, Coluna cln, final StringBuilder stb)
   {
     if (cln == null)
     {
-      return null;
+      return;
     }
 
     if (lstClnAdicionada.contains(cln))
     {
-      return null;
+      return;
     }
 
     lstClnAdicionada.add(cln);
 
     if (cln.getClnRef() == null)
     {
-      return cln.getStrTblNomeClnNome();
+      stb.append(cln.getSqlSelect());
     }
 
-    return cln.getSqlSubSelectClnRef();
+    stb.append(cln.getSqlSubSelect());
+  }
+
+  private String getSqlClnSelect(List<Coluna> lstCln)
+  {
+    if (lstCln == null)
+    {
+      return "*";
+    }
+
+    if (lstCln.isEmpty())
+    {
+      return "*";
+    }
+
+    StringBuilder stbResultado = new StringBuilder();
+
+    for (Coluna cln : lstCln)
+    {
+      if (cln == null)
+      {
+        continue;
+      }
+
+      stbResultado.append(cln.getSqlSelect());
+    }
+
+    return Utils.removerUltimaLetra(stbResultado.toString(), 2);
+  }
+
+  private String getSqlClnUpdate()
+  {
+    StringBuilder stbResultado = new StringBuilder();
+
+    for (Coluna cln : this.getLstCln())
+    {
+      if (cln == null)
+      {
+        continue;
+      }
+
+      if (Utils.getBooStrVazia(cln.getSqlUpdate()))
+      {
+        continue;
+      }
+
+      stbResultado.append(cln.getSqlUpdate());
+    }
+
+    return Utils.removerUltimaLetra(stbResultado.toString(), 2);
+  }
+
+  private String getSqlClnValorInsert()
+  {
+    StringBuilder stbResultado = new StringBuilder();
+
+    for (Coluna cln : this.getLstCln())
+    {
+      if (cln == null)
+      {
+        continue;
+      }
+
+      if (Utils.getBooStrVazia(cln.getSqlValorInsert()))
+      {
+        continue;
+      }
+
+      stbResultado.append(cln.getSqlValorInsert());
+    }
+
+    return Utils.removerUltimaLetra(stbResultado.toString(), 2);
+  }
+
+  private String getSqlCursorAdapterId()
+  {
+    if (_sqlCursorAdapterId != null)
+    {
+      return _sqlCursorAdapterId;
+    }
+
+    return _sqlCursorAdapterId = String.format(" %s.%s _id", this.getSqlNome(), this.getClnIntId().getSqlNome());
   }
 
   private String getSqlWhere(List<Filtro> lstFil)
@@ -947,12 +973,14 @@ public abstract class TabelaAndroid<T extends DominioAndroidMain> extends Tabela
     if (this.getLstViwAndroid() == null)
     {
       _viwPrincipal = this;
+
       return _viwPrincipal;
     }
 
     if (this.getLstViwAndroid().isEmpty())
     {
       _viwPrincipal = this;
+
       return _viwPrincipal;
     }
 
@@ -966,8 +994,12 @@ public abstract class TabelaAndroid<T extends DominioAndroidMain> extends Tabela
   {
     super.inicializar();
 
-    this.getClnDttAlteracao().setStrValorDefault("current_timestamp");
-    this.getClnDttCadastro().setStrValorDefault("current_timestamp");
+    if (this instanceof ViewAndroid)
+    {
+      return;
+    }
+
+    this.getClnBooAtivo().setBooValorDefault(true);
   }
 
   /**
@@ -1252,7 +1284,7 @@ public abstract class TabelaAndroid<T extends DominioAndroidMain> extends Tabela
   {
     String sql = "select _clns_nome from _tbl_nome where _where order by _tbl_nome._order;";
 
-    sql = sql.replace("_clns_nome", this.getSqlSelectColunasNomes(lstCln));
+    sql = sql.replace("_clns_nome", this.getSqlClnSelect(lstCln));
     sql = sql.replace("_tbl_nome", this.getSqlNome());
     sql = sql.replace("where _where", lstFil != null && lstFil.size() > 0 ? "where _where" : Utils.STR_VAZIA);
     sql = sql.replace("_where", this.getSqlWhere(lstFil));
@@ -1269,15 +1301,21 @@ public abstract class TabelaAndroid<T extends DominioAndroidMain> extends Tabela
   /**
    * Retorna os dados que serão mostrados na tela de consulta.
    *
+   * @param actConsulta
    * @return Os dados que serão mostrados na tela de consulta.
    */
-  public Cursor pesquisarConsulta()
+  public Cursor pesquisarConsulta(final ActConsulta actConsulta)
   {
-    this.carregarLstFilConsulta(this.getLstFilConsulta());
+    if (actConsulta == null)
+    {
+      return null;
+    }
+
+    this.carregarLstFilConsulta(actConsulta, this.getLstFilConsulta());
 
     String sql = "select _clns_nome from _tbl_nome where _where order by _order _asc_desc;";
 
-    sql = sql.replace("_clns_nome", this.getSqlSelectColunasNomesConsulta());
+    sql = sql.replace("_clns_nome", this.getSqlClnSelect());
     sql = sql.replace("_tbl_nome", this.getSqlNome());
     sql = sql.replace("where _where", (!this.getLstFilConsulta().isEmpty()) ? "where _where" : Utils.STR_VAZIA);
     sql = sql.replace("_where", this.getSqlWhere(this.getLstFilConsulta()));
@@ -1441,18 +1479,14 @@ public abstract class TabelaAndroid<T extends DominioAndroidMain> extends Tabela
       return false;
     }
 
-    if (this.getClsActCadastro() == null)
+    if (!(act instanceof ActConsulta))
     {
       return false;
     }
 
-    Intent itt = new Intent(act, this.getClsActCadastro());
+    ActConsulta actConsulta = (ActConsulta) act;
 
-    itt.putExtra(ActCadastroMain.STR_EXTRA_IN_INT_REGISTRO_REF_ID, this.getIntRegistroRefId());
-    itt.putExtra(ActCadastroMain.STR_EXTRA_IN_INT_TBL_OBJETO_ID, this.getTblPrincipal().getIntObjetoId());
-
-    act.startActivity(itt);
-
+    this.abrirCadastro(act, 0, actConsulta.getTblPai(), actConsulta.getIntRegistroRefId());
     return true;
   }
 
@@ -1539,19 +1573,14 @@ public abstract class TabelaAndroid<T extends DominioAndroidMain> extends Tabela
       return false;
     }
 
-    if (this.getClsActCadastro() == null)
+    if (!(act instanceof ActConsulta))
     {
       return false;
     }
 
-    Intent itt = new Intent(act, this.getClsActCadastro());
+    ActConsulta actConsulta = (ActConsulta) act;
 
-    itt.putExtra(ActCadastroMain.STR_EXTRA_IN_INT_REGISTRO_ID, intRegistroId);
-    itt.putExtra(ActCadastroMain.STR_EXTRA_IN_INT_REGISTRO_REF_ID, this.getIntRegistroRefId());
-    itt.putExtra(ActCadastroMain.STR_EXTRA_IN_INT_TBL_OBJETO_ID, this.getIntObjetoId());
-
-    act.startActivity(itt);
-
+    this.abrirCadastro(act, intRegistroId, actConsulta.getTblPai(), actConsulta.getIntRegistroRefId());
     return true;
   }
 
@@ -1852,17 +1881,11 @@ public abstract class TabelaAndroid<T extends DominioAndroidMain> extends Tabela
     return lstObjDominio.get(0);
   }
 
-  public void salvar()
+  public TabelaAndroid salvar()
   {
-    this.salvar(false);
-  }
+    this.getClnDttAlteracao().setDttValor(Calendar.getInstance());
 
-  public TabelaAndroid salvar(boolean booValidar)
-  {
-    if (booValidar && !this.validarDados())
-    {
-      return this;
-    }
+    this.carregarValorDefault();
 
     if (!this.getBooRegistroExiste(this.getClnIntId().getIntValor()))
     {
@@ -1874,7 +1897,7 @@ public abstract class TabelaAndroid<T extends DominioAndroidMain> extends Tabela
     return this;
   }
 
-  public T salvar(final T objDominio, boolean booValidar)
+  public T salvar(final T objDominio)
   {
     if (objDominio == null)
     {
@@ -1883,57 +1906,22 @@ public abstract class TabelaAndroid<T extends DominioAndroidMain> extends Tabela
 
     this.lerDominio(objDominio);
 
-    this.salvar(booValidar);
+    this.salvar();
 
     objDominio.setIntId(this.getClnIntId().getIntValor());
 
     return objDominio;
   }
 
-  public T salvar(final T objDominio)
-  {
-    return this.salvar(objDominio, false);
-  }
-
-  public void salvarAleatorio()
-  {
-    for (Coluna cln : this.getLstCln())
-    {
-      if (cln == null)
-      {
-        continue;
-      }
-
-      switch (cln.getEnmTipo())
-      {
-        case INTEGER:
-          cln.setStrValor(Utils.getStrAleatoria(5, EnmStringTipo.NUMERICO));
-          break;
-
-        case REAL:
-          cln.setStrValor(Utils.getStrAleatoria(5, Utils.EnmStringTipo.NUMERICO));
-          break;
-
-        case NUMERIC:
-          cln.setStrValor(Utils.getStrAleatoria(5, Utils.EnmStringTipo.NUMERICO));
-          break;
-
-        default:
-          cln.setStrValor(Utils.getStrAleatoria(5, EnmStringTipo.ALPHA));
-          break;
-      }
-    }
-
-    this.salvar(false);
-  }
-
   private void salvarInsert()
   {
+    this.getClnDttCadastro().setDttValor(Calendar.getInstance());
+
     String sql = "insert into _tbl_nome (_cln_nome) values (_cln_valor);";
 
     sql = sql.replace("_tbl_nome", this.getSqlNome());
-    sql = sql.replace("_cln_nome", this.getSqlColunasNomesInsert());
-    sql = sql.replace("_cln_valor", this.getSqlColunasValoresInsert());
+    sql = sql.replace("_cln_nome", this.getSqlClnNomeInsert());
+    sql = sql.replace("_cln_valor", this.getSqlClnValorInsert());
 
     this.getDbe().execSql(sql);
 
@@ -1951,9 +1939,9 @@ public abstract class TabelaAndroid<T extends DominioAndroidMain> extends Tabela
     String sql = "update _tbl_nome set _cln_nome_valor where _cln_pk_nome = '_registro_id';";
 
     sql = sql.replace("_tbl_nome", this.getSqlNome());
-    sql = sql.replace("_cln_nome_valor", this.getSqlColunasNomesValorUpdate());
+    sql = sql.replace("_cln_nome_valor", this.getSqlClnUpdate());
     sql = sql.replace("_cln_pk_nome", this.getClnIntId().getSqlNome());
-    sql = sql.replace("_registro_id", this.getClnIntId().getStrValorSql());
+    sql = sql.replace("_registro_id", this.getClnIntId().getSqlValor());
 
     this.getDbe().execSql(sql);
 
@@ -1980,11 +1968,6 @@ public abstract class TabelaAndroid<T extends DominioAndroidMain> extends Tabela
     _clsActCadastro = clsActFrm;
   }
 
-  public void setIntRegistroRefId(int intRegistroRefId)
-  {
-    _intRegistroRefId = intRegistroRefId;
-  }
-
   private void setMniOrdemDecrescente(MenuItem mniOrdemDecrescente)
   {
     _mniOrdemDecrescente = mniOrdemDecrescente;
@@ -1998,9 +1981,10 @@ public abstract class TabelaAndroid<T extends DominioAndroidMain> extends Tabela
   /**
    * Este métod é chamado quando o usário termina de preencher os dados nos campos da Activity de cadastro e clica na opção sincronizar.
    *
+   * @param act
    * @return True caso tudo esteja satisfatório para o salvamento do registro, ou false caso contrário.
    */
-  public boolean validarDados()
+  public boolean validarDados(final ActCadastroMain act)
   {
     for (Coluna cln : this.getLstCln())
     {
@@ -2009,7 +1993,7 @@ public abstract class TabelaAndroid<T extends DominioAndroidMain> extends Tabela
         continue;
       }
 
-      if (!((ColunaAndroid) cln).validarDados())
+      if (!((ColunaAndroid) cln).validarDados(act))
       {
         return false;
       }

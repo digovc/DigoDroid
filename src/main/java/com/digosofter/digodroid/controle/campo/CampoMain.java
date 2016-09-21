@@ -18,7 +18,7 @@ import com.digosofter.digojava.Utils;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class CampoMain extends PainelLinha implements OnActivityDestruirListener, OnValorAlteradoListener
+public abstract class CampoMain extends PainelLinha implements OnActivityDestruirListener
 {
   public static final String STR_TITULO_DESCONHECIDO = "<desconhecido>";
 
@@ -64,21 +64,31 @@ public abstract class CampoMain extends PainelLinha implements OnActivityDestrui
     this.getLstEvtOnValorAlteradoListener().add(evt);
   }
 
-  protected void atualizarCln()
+  protected void atualizarCln(final ColunaAndroid cln)
+  {
+    if (cln == null)
+    {
+      return;
+    }
+
+    this.setStrTitulo(cln.getStrNomeExibicao());
+
+    cln.setCmp(this);
+  }
+
+  protected void atualizarStrValor(final String strValor)
+  {
+    this.dispararEvtOnValorAlteradoListener();
+  }
+
+  public void carregarValorCln()
   {
     if (this.getCln() == null)
     {
       return;
     }
 
-    this.setStrTitulo(this.getCln().getStrNomeExibicao());
-    this.addEvtOnValorAlteradoListener(this.getCln());
-    this.getCln().addEvtOnValorAlteradoListener(this);
-  }
-
-  protected void atualizarStrValor()
-  {
-    this.dispararEvtOnValorAlteradoListener();
+    this.getCln().setStrValor(this.getStrValor());
   }
 
   private void dispararEvtOnValorAlteradoListener()
@@ -229,26 +239,6 @@ public abstract class CampoMain extends PainelLinha implements OnActivityDestrui
     this.getLstEvtOnValorAlteradoListener().clear();
   }
 
-  @Override
-  public void onValorAlterado(final Object objSender, final OnValorAlteradoArg arg)
-  {
-    if (arg == null)
-    {
-      return;
-    }
-
-    if ((arg.getStrValor() != null) ? (arg.getStrValor().equals(arg.getStrValorAnterior())) : arg.getStrValorAnterior() == null)
-    {
-      return;
-    }
-
-    if (objSender.equals(this.getCln()))
-    {
-      this.setStrValor(this.getCln().getStrValor());
-      return;
-    }
-  }
-
   /**
    * Faz com que este campo receba o foco da aplicação.
    */
@@ -278,9 +268,14 @@ public abstract class CampoMain extends PainelLinha implements OnActivityDestrui
 
   public void setCln(ColunaAndroid cln)
   {
+    if (_cln == cln)
+    {
+      return;
+    }
+
     _cln = cln;
 
-    this.atualizarCln();
+    this.atualizarCln(_cln);
   }
 
   public void setDblValor(double dblValor)
@@ -341,11 +336,16 @@ public abstract class CampoMain extends PainelLinha implements OnActivityDestrui
 
   public void setStrValor(String strValor)
   {
+    if (_strValor == strValor)
+    {
+      return;
+    }
+
     this.setStrValorAnterior(_strValor);
 
     _strValor = strValor;
 
-    this.atualizarStrValor();
+    this.atualizarStrValor(_strValor);
   }
 
   private void setStrValorAnterior(String strValorAnterior)

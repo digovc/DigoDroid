@@ -14,23 +14,33 @@ import com.digosofter.digodroid.database.TabelaAndroid;
 public class AdapterConsulta extends CursorAdapter
 {
   private ActConsulta _actConsulta;
+  private Cursor _crsConsulta;
   private TabelaAndroid<?> _tbl;
 
-  public AdapterConsulta(ActConsulta actConsulta, Cursor crs)
+  public AdapterConsulta(ActConsulta actConsulta)
   {
-    super(actConsulta, crs, false);
+    super(actConsulta, null, 0);
 
     this.setActConsulta(actConsulta);
+
+    this.iniciar();
   }
 
-  private void atualizarActConsulta()
+  private void atualizarCrsConsulta(final Cursor crsConsulta)
   {
-    if (this.getActConsulta() == null)
+    Cursor crsConsultaAnterior = this.swapCursor(crsConsulta);
+
+    if (crsConsultaAnterior == null)
     {
       return;
     }
 
-    this.setTbl(this.getActConsulta().getTbl());
+    if (crsConsultaAnterior.isClosed())
+    {
+      return;
+    }
+
+    crsConsultaAnterior.close();
   }
 
   /**
@@ -43,7 +53,12 @@ public class AdapterConsulta extends CursorAdapter
       return;
     }
 
-    this.changeCursor(this.getTbl().pesquisarConsulta());
+    if (this.getActConsulta() == null)
+    {
+      return;
+    }
+
+    this.setCrsConsulta(this.getTbl().pesquisarConsulta(this.getActConsulta()));
   }
 
   @Override
@@ -57,6 +72,11 @@ public class AdapterConsulta extends CursorAdapter
     return _actConsulta;
   }
 
+  private Cursor getCrsConsulta()
+  {
+    return _crsConsulta;
+  }
+
   @Override
   public Filter getFilter()
   {
@@ -65,7 +85,37 @@ public class AdapterConsulta extends CursorAdapter
 
   TabelaAndroid<?> getTbl()
   {
-    return _tbl;
+    if (_tbl != null)
+    {
+      return _tbl;
+    }
+
+    if (this.getActConsulta() == null)
+    {
+      return null;
+    }
+
+    return _tbl = this.getActConsulta().getTbl();
+  }
+
+  private void inicializar()
+  {
+    this.inicializarCrsConsulta();
+  }
+
+  private void inicializarCrsConsulta()
+  {
+    if (this.getTbl() == null)
+    {
+      return;
+    }
+
+    this.setCrsConsulta(this.getTbl().pesquisarConsulta(this.getActConsulta()));
+  }
+
+  private void iniciar()
+  {
+    this.inicializar();
   }
 
   @Override
@@ -76,13 +126,23 @@ public class AdapterConsulta extends CursorAdapter
 
   private void setActConsulta(ActConsulta actConsulta)
   {
-    _actConsulta = actConsulta;
+    if (_actConsulta == actConsulta)
+    {
+      return;
+    }
 
-    this.atualizarActConsulta();
+    _actConsulta = actConsulta;
   }
 
-  private void setTbl(TabelaAndroid<?> tbl)
+  private void setCrsConsulta(final Cursor crsConsulta)
   {
-    _tbl = tbl;
+    if (_crsConsulta == crsConsulta)
+    {
+      return;
+    }
+
+    _crsConsulta = crsConsulta;
+
+    this.atualizarCrsConsulta(crsConsulta);
   }
 }

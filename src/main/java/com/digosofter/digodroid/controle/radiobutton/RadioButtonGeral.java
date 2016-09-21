@@ -34,9 +34,9 @@ public class RadioButtonGeral extends RadioButton implements IControleMain
     this.iniciar(atr);
   }
 
-  private void atualizarStrTitulo()
+  private void atualizarStrTitulo(final String strTitulo)
   {
-    this.setText((!Utils.getBooStrVazia(this.getStrTitulo())) ? this.getStrTitulo() : CampoMain.STR_TITULO_DESCONHECIDO);
+    this.setText((!Utils.getBooStrVazia(strTitulo)) ? strTitulo : CampoMain.STR_TITULO_DESCONHECIDO);
   }
 
   @Override
@@ -95,8 +95,13 @@ public class RadioButtonGeral extends RadioButton implements IControleMain
    */
   public void setStrTitulo(String strTitulo)
   {
+    if (_strTitulo == strTitulo)
+    {
+      return;
+    }
+
     _strTitulo = strTitulo;
 
-    this.atualizarStrTitulo();
+    this.atualizarStrTitulo(strTitulo);
   }
 }

@@ -79,9 +79,9 @@ public class TextBoxGeral extends EditText implements IControleMain
     this.getLstEvtOnValorAlteradoListener().add(evt);
   }
 
-  private void atualizarEnmFormato()
+  private void atualizarEnmFormato(final EnmFormato enmFormato)
   {
-    switch (this.getEnmFormato())
+    switch (enmFormato)
     {
       case ALFANUMERICO:
         this.atualizarEnmFormatoAlfanumerico();
@@ -111,11 +111,11 @@ public class TextBoxGeral extends EditText implements IControleMain
     this.setInputType(InputType.TYPE_NUMBER_FLAG_DECIMAL);
   }
 
-  private void atualizarStrValor()
+  private void atualizarStrValor(final String strValor)
   {
-    if (!((this.getStrValor() != null) ? this.getStrValor().equals(this.getText().toString()) : (this.getText().toString() == null)))
+    if (!((strValor != null) ? strValor.equals(this.getText().toString()) : (this.getText().toString() == null)))
     {
-      this.setText(this.getStrValor());
+      this.setText(strValor);
       return;
     }
 
@@ -294,9 +294,14 @@ public class TextBoxGeral extends EditText implements IControleMain
 
   public void setEnmFormato(EnmFormato enmFormato)
   {
+    if (_enmFormato == enmFormato)
+    {
+      return;
+    }
+
     _enmFormato = enmFormato;
 
-    this.atualizarEnmFormato();
+    this.atualizarEnmFormato(enmFormato);
   }
 
   @Override
@@ -313,11 +318,16 @@ public class TextBoxGeral extends EditText implements IControleMain
 
   public void setStrValor(String strValor)
   {
+    if (_strValor == strValor)
+    {
+      return;
+    }
+
     this.setStrValorAnterior(_strValor);
 
     _strValor = strValor;
 
-    this.atualizarStrValor();
+    this.atualizarStrValor(strValor);
   }
 
   private void setStrValorAnterior(String strValorAnterior)

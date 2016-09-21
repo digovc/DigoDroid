@@ -5,8 +5,8 @@ import android.view.MenuItem;
 import android.view.SubMenu;
 
 import com.digosofter.digodroid.AppAndroid;
-import com.digosofter.digojava.OnValorAlteradoArg;
-import com.digosofter.digojava.OnValorAlteradoListener;
+import com.digosofter.digodroid.activity.ActCadastroMain;
+import com.digosofter.digodroid.controle.campo.CampoMain;
 import com.digosofter.digojava.Utils;
 import com.digosofter.digojava.database.Coluna;
 import com.digosofter.digojava.dominio.DominioMain;
@@ -14,10 +14,11 @@ import com.digosofter.digojava.dominio.DominioMain;
 import java.lang.reflect.Field;
 import java.util.GregorianCalendar;
 
-public class ColunaAndroid extends Coluna implements OnValorAlteradoListener
+public class ColunaAndroid extends Coluna
 {
   private boolean _booDominioFieldCarregado;
   private boolean _booPesquisa;
+  private CampoMain _cmp;
   private Grupo _grp;
   private MenuItem _mniCampo;
   private MenuItem _mniOrdenar;
@@ -32,6 +33,14 @@ public class ColunaAndroid extends Coluna implements OnValorAlteradoListener
   public ColunaAndroid(String strNome, TabelaAndroid<?> tbl, EnmTipo enmTipo, ColunaAndroid clnRef)
   {
     super(strNome, tbl, enmTipo, clnRef);
+  }
+
+  @Override
+  protected void atualizarBooValorDefault(final boolean booValorDefault)
+  {
+    // super.atualizarBooValorDefault(booValorDefault);
+
+    this.setIntValorDefault(booValorDefault ? 1 : 0);
   }
 
   public <T extends DominioMain> void carregarDominio(Cursor crs, T objDominio)
@@ -284,6 +293,11 @@ public class ColunaAndroid extends Coluna implements OnValorAlteradoListener
     return _booPesquisa;
   }
 
+  public CampoMain getCmp()
+  {
+    return _cmp;
+  }
+
   MenuItem getMniCampo()
   {
     return _mniCampo;
@@ -416,17 +430,6 @@ public class ColunaAndroid extends Coluna implements OnValorAlteradoListener
     this.getMniPesquisa().setCheckable(true);
   }
 
-  @Override
-  public void onValorAlterado(final Object objSender, final OnValorAlteradoArg arg)
-  {
-    if (arg == null)
-    {
-      return;
-    }
-
-    this.setStrValor(arg.getStrValor());
-  }
-
   void processarMenuCampo(MenuItem mni)
   {
     if (mni == null)
@@ -509,6 +512,11 @@ public class ColunaAndroid extends Coluna implements OnValorAlteradoListener
     ((TabelaAndroid) this.getTbl()).setClnPesquisa(this);
   }
 
+  public void setCmp(final CampoMain cmp)
+  {
+    _cmp = cmp;
+  }
+
   private void setMniCampo(MenuItem mniCampo)
   {
     _mniCampo = mniCampo;
@@ -532,9 +540,10 @@ public class ColunaAndroid extends Coluna implements OnValorAlteradoListener
   /**
    * Valida os dados desta coluna.
    *
+   * @param act
    * @return True caso o valor da coluna esteja válido para salvamento.
    */
-  public boolean validarDados()
+  public boolean validarDados(final ActCadastroMain act)
   {
     if (this.getBooVazia() && this.getBooObrigatorio())
     {

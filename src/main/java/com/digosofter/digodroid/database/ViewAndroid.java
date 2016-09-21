@@ -46,14 +46,14 @@ public abstract class ViewAndroid extends TabelaAndroid<DominioAndroidMain>
     this.dispararEvtOnApagarReg(arg);
   }
 
-  private void atualizarTbl()
+  private void atualizarTbl(final TabelaAndroid tbl)
   {
-    if (this.getTbl() == null)
+    if (tbl == null)
     {
       return;
     }
 
-    this.getTbl().addViw(this);
+    tbl.addViw(this);
   }
 
   @Override
@@ -70,6 +70,12 @@ public abstract class ViewAndroid extends TabelaAndroid<DominioAndroidMain>
 
     this.getDbe().execSql(sql);
     this.getDbe().execSql(this.getSqlSelect());
+  }
+
+  @Override
+  public ColunaAndroid getClnBooAtivo()
+  {
+    return null;
   }
 
   @Override
@@ -180,6 +186,6 @@ public abstract class ViewAndroid extends TabelaAndroid<DominioAndroidMain>
 
     _tbl = tbl;
 
-    this.atualizarTbl();
+    this.atualizarTbl(tbl);
   }
 }

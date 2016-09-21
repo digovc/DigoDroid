@@ -57,9 +57,9 @@ public class PainelGrupo extends PainelGeral implements View.OnClickListener
     this.setBooAberto(booAbrir);
   }
 
-  private void atualizarStrTitulo()
+  private void atualizarStrTitulo(final String strTitulo)
   {
-    this.getLblTitulo().setText((!Utils.getBooStrVazia(_strTitulo)) ? _strTitulo : "<desconhecido>");
+    this.getLblTitulo().setText((!Utils.getBooStrVazia(strTitulo)) ? strTitulo : "<desconhecido>");
   }
 
   @Override
@@ -231,8 +231,13 @@ public class PainelGrupo extends PainelGeral implements View.OnClickListener
 
   public void setStrTitulo(String strTitulo)
   {
+    if (_strTitulo == strTitulo)
+    {
+      return;
+    }
+
     _strTitulo = strTitulo;
 
-    this.atualizarStrTitulo();
+    this.atualizarStrTitulo(strTitulo);
   }
 }

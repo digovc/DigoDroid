@@ -1,5 +1,6 @@
 package com.digosofter.digodroid.database.tabela;
 
+import com.digosofter.digodroid.Aparelho;
 import com.digosofter.digodroid.database.ColunaAndroid;
 import com.digosofter.digodroid.database.DataBaseAndroid;
 import com.digosofter.digodroid.database.TabelaAndroid;
@@ -94,6 +95,16 @@ public abstract class TblSincronizavelMain<T extends DominioSincronizavelMain> e
   }
 
   @Override
+  protected void inicializar()
+  {
+    super.inicializar();
+
+    this.getClnBooSincronizado().setBooValorDefault(false);
+    this.getClnBooSincronizar().setBooValorDefault(true);
+    this.getClnStrAparelhoId().setStrValorDefault(Aparelho.getI().getStrDeviceId());
+  }
+
+  @Override
   protected int inicializarLstCln(int intOrdem)
   {
     intOrdem = super.inicializarLstCln(intOrdem);
@@ -164,15 +175,25 @@ public abstract class TblSincronizavelMain<T extends DominioSincronizavelMain> e
 
     T objDominio = Json.getI().fromJson(jsnElement, this.getClsDominio());
 
+    this.processar(objDominio, rspPesquisar);
+  }
+
+  private void processar(final T objDominio, final RspPesquisar rspPesquisar)
+  {
     if (objDominio == null)
     {
-      LogSinc.getI().addLog(Log.EnmTipo.ERRO, "Erro ao converter o item do resultado da pesquisa.");
+      LogSinc.getI().addLog(Log.EnmTipo.ERRO, String.format("Erro ao converter o item do resultado da pesquisa para salvar na tabela %s.", this.getStrNomeExibicao()));
       return;
     }
+
+    objDominio.setBooSincronizado(true);
+    objDominio.setIntServerId(objDominio.getIntId());
 
     this.salvar(objDominio);
 
     rspPesquisar.addObjDominioSincronizado(objDominio);
+
+    LogSinc.getI().addLog(Log.EnmTipo.INFO, String.format("Registro %s salvo com sucesso na tabela %s.", objDominio.getIntId(), this.getStrNomeExibicao()));
   }
 
   private void processar(final RspPesquisar rspPesquisar, final T objDominio)
@@ -182,7 +203,7 @@ public abstract class TblSincronizavelMain<T extends DominioSincronizavelMain> e
       return;
     }
 
-    this.salvar(objDominio, false);
+    this.salvar(objDominio);
   }
 
   private void setMsgSincronizar(MsgPesquisar msgSincronizar)

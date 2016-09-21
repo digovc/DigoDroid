@@ -55,6 +55,9 @@ public class ActConsulta extends ActMain implements OnTblChangeListener, TextWat
    * Código do objeto da tabela que esta lista representa.
    */
   public static final String STR_EXTRA_IN_INT_TBL_OBJETO_ID = "int_tbl_objeto_id";
+
+  public static final String STR_EXTRA_IN_INT_TBL_PAI_OBJETO_ID = "int_tbl_pai_objeto_id";
+
   /**
    * Código do registro que indica o item que o usuário selecionou na lista desta tela.
    */
@@ -76,6 +79,7 @@ public class ActConsulta extends ActMain implements OnTblChangeListener, TextWat
   private ListView _pnlLista;
   private PainelGeralRelativo _pnlPesquisa;
   private TabelaAndroid<?> _tbl;
+  private TabelaAndroid _tblPai;
   private TextBoxGeral _txtPesquisa;
   private TextView _txtTblDescricao;
 
@@ -137,7 +141,7 @@ public class ActConsulta extends ActMain implements OnTblChangeListener, TextWat
       return null;
     }
 
-    _adpCadastro = new AdapterConsulta(this, this.getTbl().pesquisarConsulta());
+    _adpCadastro = new AdapterConsulta(this);
 
     return _adpCadastro;
   }
@@ -170,7 +174,7 @@ public class ActConsulta extends ActMain implements OnTblChangeListener, TextWat
     return R.layout.act_consulta;
   }
 
-  private int getIntRegistroRefId()
+  public int getIntRegistroRefId()
   {
     if (_intRegistroRefId > -1)
     {
@@ -242,7 +246,7 @@ public class ActConsulta extends ActMain implements OnTblChangeListener, TextWat
       return null;
     }
 
-    _tbl = (TabelaAndroid<?>) AppAndroid.getI().getDbe().getTblPorIntObjetoId(this.getIntent().getIntExtra(STR_EXTRA_IN_INT_TBL_OBJETO_ID, -1));
+    _tbl = (TabelaAndroid<?>) AppAndroid.getI().getDbe().getTbl(this.getIntent().getIntExtra(STR_EXTRA_IN_INT_TBL_OBJETO_ID, -1));
 
     if (_tbl == null)
     {
@@ -250,9 +254,37 @@ public class ActConsulta extends ActMain implements OnTblChangeListener, TextWat
     }
 
     _tbl.addEvtOnTblChangeListener(this);
-    _tbl.setIntRegistroRefId(this.getIntRegistroRefId());
 
     return _tbl;
+  }
+
+  public TabelaAndroid getTblPai()
+  {
+    if (_tblPai != null)
+    {
+      return _tblPai;
+    }
+
+    if (AppAndroid.getI() == null)
+    {
+      return null;
+    }
+
+    if (AppAndroid.getI().getDbe() == null)
+    {
+      return null;
+    }
+
+    _tblPai = (TabelaAndroid) AppAndroid.getI().getDbe().getTbl(this.getIntent().getIntExtra(STR_EXTRA_IN_INT_TBL_PAI_OBJETO_ID, -1));
+
+    if (_tblPai == null)
+    {
+      return null;
+    }
+
+    _tblPai = (TabelaAndroid) _tblPai.getTblPrincipal();
+
+    return _tblPai;
   }
 
   private TextBoxGeral getTxtPesquisa()
@@ -315,11 +347,7 @@ public class ActConsulta extends ActMain implements OnTblChangeListener, TextWat
       return;
     }
 
-    Intent itt = new Intent(this, this.getTbl().getClsActCadastro());
-
-    itt.putExtra(ActCadastroMain.STR_EXTRA_IN_INT_REGISTRO_REF_ID, this.getIntent().getIntExtra(ActConsulta.STR_EXTRA_IN_INT_REGISTRO_REF_ID, this.getIntRegistroRefId()));
-
-    this.startActivity(itt);
+    this.getTbl().abrirCadastro(this, 0, this.getTblPai(), this.getIntRegistroRefId());
   }
 
   private void montarLayoutLista()

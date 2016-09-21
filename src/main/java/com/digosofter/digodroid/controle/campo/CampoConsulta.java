@@ -56,9 +56,9 @@ public class CampoConsulta extends CampoMain implements View.OnClickListener
   }
 
   @Override
-  protected void atualizarStrValor()
+  protected void atualizarStrValor(final String strValor)
   {
-    super.atualizarStrValor();
+    super.atualizarStrValor(strValor);
 
     this.atualizarStrValorNome();
   }
@@ -151,7 +151,7 @@ public class CampoConsulta extends CampoMain implements View.OnClickListener
       return;
     }
 
-    TabelaAndroid tbl = (TabelaAndroid) AppAndroid.getI().getDbe().getTblPorIntObjetoId(itt.getIntExtra(ActConsulta.STR_EXTRA_OUT_INT_TBL_OBJETO_ID, 0));
+    TabelaAndroid tbl = (TabelaAndroid) AppAndroid.getI().getDbe().getTbl(itt.getIntExtra(ActConsulta.STR_EXTRA_OUT_INT_TBL_OBJETO_ID, 0));
 
     ViewAndroid viw = null;
 

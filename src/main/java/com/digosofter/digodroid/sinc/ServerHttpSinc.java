@@ -70,7 +70,7 @@ public class ServerHttpSinc
     return _objRequestQueue;
   }
 
-  private SrvSincMain getSrvSincronizacao()
+  public SrvSincMain getSrvSincronizacao()
   {
     return _srvSincMain;
   }
