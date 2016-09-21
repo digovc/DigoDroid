@@ -111,7 +111,9 @@ public class ActConsulta extends ActMain implements OnTblChangeListener, TextWat
       @Override
       public void run()
       {
+
         ActConsulta.this.getAdpCadastro().atualizarLista();
+        ActConsulta.this.montarLayoutVazio();
       }
     });
   }
@@ -666,6 +668,11 @@ public class ActConsulta extends ActMain implements OnTblChangeListener, TextWat
     this.getTxtPesquisa().setText(this.getTbl().getStrPesquisa());
 
     Animar.getI().aparecerSlideDown(this.getPnlPesquisa());
+  }
+
+  private void setAdpCadastro(final AdapterConsulta adpCadastro)
+  {
+    _adpCadastro = adpCadastro;
   }
 
   private void setBooAbrindoActDetalhe(boolean booAbrindoActDetalhe)
