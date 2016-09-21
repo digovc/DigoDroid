@@ -3,16 +3,23 @@ package com.digosofter.digodroid.service;
 import android.os.SystemClock;
 
 import com.digosofter.digodroid.AppAndroid;
+import com.digosofter.digodroid.database.DataBaseAndroid;
 import com.digosofter.digodroid.database.tabela.TblSincronizavelMain;
 import com.digosofter.digodroid.log.LogSinc;
-import com.digosofter.digodroid.sinc.ServerHttpSinc;
+import com.digosofter.digodroid.sinc.ServerHttpSincMain;
 import com.digosofter.digojava.Utils;
-import com.digosofter.digojava.database.Tabela;
 import com.digosofter.digojava.log.Log;
 
-public abstract class SrvSincMain extends ServiceMain
+import java.lang.reflect.ParameterizedType;
+import java.util.ArrayList;
+import java.util.List;
+
+public abstract class SrvSincMain<T extends ServerHttpSincMain> extends ServiceMain
 {
   private static final int INT_LOOP_DELAY = 5000;
+  private Class<T> _clsSrvHttpSinc;
+  private List<TblSincronizavelMain> _lstTbl;
+  private T _srvHttpSinc;
   private String _urlServer;
 
   public SrvSincMain()
@@ -20,21 +27,104 @@ public abstract class SrvSincMain extends ServiceMain
     super("Serviço de sincronização");
   }
 
-  public abstract String getUrlServer();
+  private Class<T> getClsSrvHttpSinc()
+  {
+    if (_clsSrvHttpSinc != null)
+    {
+      return _clsSrvHttpSinc;
+    }
+
+    if (!(this.getClass().getGenericSuperclass() instanceof ParameterizedType))
+    {
+      return null;
+    }
+
+    if (((ParameterizedType) this.getClass().getGenericSuperclass()).getActualTypeArguments() == null)
+    {
+      return null;
+    }
+
+    if (((ParameterizedType) this.getClass().getGenericSuperclass()).getActualTypeArguments().length < 1)
+    {
+      return null;
+    }
+
+    _clsSrvHttpSinc = ((Class<T>) ((ParameterizedType) this.getClass().getGenericSuperclass()).getActualTypeArguments()[0]);
+
+    return _clsSrvHttpSinc;
+  }
+
+  protected abstract DataBaseAndroid getDbe();
+
+  private List<TblSincronizavelMain> getLstTbl()
+  {
+    if (_lstTbl != null)
+    {
+      return _lstTbl;
+    }
+
+    _lstTbl = new ArrayList<>();
+
+    this.inicializarLstTbl(_lstTbl);
+
+    return _lstTbl;
+  }
+
+  public T getSrvHttpSinc()
+  {
+    if (_srvHttpSinc != null)
+    {
+      return _srvHttpSinc;
+    }
+
+    if (this.getClsSrvHttpSinc() == null)
+    {
+      return null;
+    }
+
+    try
+    {
+      _srvHttpSinc = this.getClsSrvHttpSinc().newInstance();
+    }
+    catch (Exception ex)
+    {
+      ex.printStackTrace();
+    }
+
+    return _srvHttpSinc;
+  }
 
   @Override
   protected void inicializar()
   {
     super.inicializar();
 
-    ServerHttpSinc.getI().setSrvSincronizacao(this);
+    if (this.getDbe() == null)
+    {
+      this.setBooParar(true);
+      return;
+    }
 
-    ServerHttpSinc.getI().iniciar();
+    if (this.getSrvHttpSinc() == null)
+    {
+      this.setBooParar(true);
+      return;
+    }
+
+    this.inicializarServerHttpSinc();
+  }
+
+  protected abstract void inicializarLstTbl(final List<TblSincronizavelMain> lstTbl);
+
+  private void inicializarServerHttpSinc()
+  {
+    this.getSrvHttpSinc().setSrvSinc(this);
+    this.getSrvHttpSinc().iniciar();
   }
 
   private void loop()
   {
-    if (Utils.getBooStrVazia(ServerHttpSinc.getI().getSrvSincronizacao().getUrlServer()))
+    if (Utils.getBooStrVazia(this.getSrvHttpSinc().getUrlServer()))
     {
       LogSinc.getI().addLog(Log.EnmTipo.ERRO, "A url do servidor de sincronização não está configurada.");
       this.setBooParar(true);
@@ -57,21 +147,6 @@ public abstract class SrvSincMain extends ServiceMain
     }
   }
 
-  private void sincronizar(final Tabela tbl)
-  {
-    if (tbl == null)
-    {
-      return;
-    }
-
-    if (!(tbl instanceof TblSincronizavelMain))
-    {
-      return;
-    }
-
-    ((TblSincronizavelMain) tbl).sincronizar();
-  }
-
   private void sincronizar()
   {
     if (AppAndroid.getI() == null)
@@ -84,9 +159,19 @@ public abstract class SrvSincMain extends ServiceMain
       return;
     }
 
-    for (Tabela tbl : AppAndroid.getI().getDbe().getLstTbl())
+    for (TblSincronizavelMain tbl : this.getLstTbl())
     {
       this.sincronizar(tbl);
     }
+  }
+
+  private void sincronizar(final TblSincronizavelMain tbl)
+  {
+    if (tbl == null)
+    {
+      return;
+    }
+
+    tbl.sincronizar(this);
   }
 }

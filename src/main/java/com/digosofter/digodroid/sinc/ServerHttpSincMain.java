@@ -9,33 +9,14 @@ import com.digosofter.digodroid.sinc.message.MsgWelcome;
 import com.digosofter.digojava.Utils;
 import com.digosofter.digojava.log.Log;
 
-public class ServerHttpSinc
+public abstract class ServerHttpSincMain
 {
-  private static ServerHttpSinc _i;
-
-  public static ServerHttpSinc getI()
-  {
-    if (_i != null)
-    {
-      return _i;
-    }
-
-    _i = new ServerHttpSinc();
-
-    return _i;
-  }
-
   private RequestQueue _objRequestQueue;
-  private SrvSincMain _srvSincMain;
-  private String _urlServer;
-
-  private ServerHttpSinc()
-  {
-  }
+  private SrvSincMain _srvSinc;
 
   public void enviar(final MessageMain msg)
   {
-    if (Utils.getBooStrVazia(this.getSrvSincronizacao().getUrlServer())) // TODO: Validar o status do servidor apenas uma vez.
+    if (Utils.getBooStrVazia(this.getUrlServer())) // TODO: Validar o status do servidor apenas uma vez.
     {
       LogSinc.getI().addLog(Log.EnmTipo.ERRO, "A url do servidor de sincronização não está configurada.");
       return;
@@ -47,7 +28,7 @@ public class ServerHttpSinc
       return;
     }
 
-    String url = this.getSrvSincronizacao().getUrlServer().concat("/").concat(msg.getClass().getSimpleName().toLowerCase());
+    String url = this.getUrlServer().concat("/").concat(msg.getClass().getSimpleName().toLowerCase());
 
     this.getObjRequestQueue().add(new SincJsonRequest(msg, url));
   }
@@ -65,24 +46,22 @@ public class ServerHttpSinc
       return _objRequestQueue;
     }
 
-    _objRequestQueue = Volley.newRequestQueue(this.getSrvSincronizacao());
+    _objRequestQueue = Volley.newRequestQueue(this.getSrvSinc());
 
     return _objRequestQueue;
   }
 
-  public SrvSincMain getSrvSincronizacao()
+  public SrvSincMain getSrvSinc()
   {
-    return _srvSincMain;
+    return _srvSinc;
   }
 
-  private String getUrlServer()
-  {
-    return _urlServer;
-  }
+  public abstract String getUrlServer();
 
   private void inicializar()
   {
     LogSinc.getI().addLog(Log.EnmTipo.INFO, "Inicializando o servidor de sincronização.");
+
     this.enviarWelcome();
   }
 
@@ -91,13 +70,8 @@ public class ServerHttpSinc
     this.inicializar();
   }
 
-  public void setSrvSincronizacao(SrvSincMain srvSincMain)
+  public void setSrvSinc(SrvSincMain srvSinc)
   {
-    _srvSincMain = srvSincMain;
-  }
-
-  private void setUrlServer(String urlServer)
-  {
-    _urlServer = urlServer;
+    _srvSinc = srvSinc;
   }
 }

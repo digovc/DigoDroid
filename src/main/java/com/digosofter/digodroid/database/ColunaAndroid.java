@@ -252,12 +252,13 @@ public class ColunaAndroid extends Coluna
       return;
     }
 
-    String sql = "alter table _tbl_nome add column _cln_nome _cln_tipo _cln_valor_default _cln_ref;";
+    //    String sql = "alter table _tbl_nome add column _cln_nome _cln_tipo _cln_valor_default _cln_ref;";
+    String sql = "alter table _tbl_nome add column _cln_nome _cln_tipo _cln_ref;"; // TODO: Verificar se vai utilizar o recurso de "default" do próprio banco de dados.
 
     sql = sql.replace("_tbl_nome", this.getTbl().getSqlNome());
     sql = sql.replace("_cln_nome", this.getSqlNome());
     sql = sql.replace("_cln_tipo", this.getSqlTipo());
-    sql = sql.replace("_cln_valor_default", (!Utils.getBooStrVazia(this.getSqlValorDetault())) ? this.getSqlValorDetault() : Utils.STR_VAZIA);
+    //    sql = sql.replace("_cln_valor_default", (!Utils.getBooStrVazia(this.getSqlValorDetault())) ? this.getSqlValorDetault() : Utils.STR_VAZIA);
     sql = sql.replace("_cln_ref", this.getSqlReference());
 
     this.getTbl().getDbe().execSql(sql);

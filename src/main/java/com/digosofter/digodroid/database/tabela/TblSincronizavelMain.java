@@ -6,7 +6,7 @@ import com.digosofter.digodroid.database.DataBaseAndroid;
 import com.digosofter.digodroid.database.TabelaAndroid;
 import com.digosofter.digodroid.dominio.DominioSincronizavelMain;
 import com.digosofter.digodroid.log.LogSinc;
-import com.digosofter.digodroid.sinc.ServerHttpSinc;
+import com.digosofter.digodroid.service.SrvSincMain;
 import com.digosofter.digodroid.sinc.message.MsgPesquisar;
 import com.digosofter.digodroid.sinc.message.RspPesquisar;
 import com.digosofter.digojava.Utils;
@@ -23,6 +23,7 @@ public abstract class TblSincronizavelMain<T extends DominioSincronizavelMain> e
   private ColunaAndroid _clnStrAparelhoId;
   private MsgPesquisar _msgSincronizar;
   private String _sqlServerNome;
+  private SrvSincMain _srvSinc;
 
   protected TblSincronizavelMain(final String strNome, final DataBaseAndroid dbeAndroid)
   {
@@ -92,6 +93,11 @@ public abstract class TblSincronizavelMain<T extends DominioSincronizavelMain> e
     _sqlServerNome = this.getSqlNome();
 
     return _sqlServerNome;
+  }
+
+  private SrvSincMain getSrvSinc()
+  {
+    return _srvSinc;
   }
 
   @Override
@@ -211,8 +217,25 @@ public abstract class TblSincronizavelMain<T extends DominioSincronizavelMain> e
     _msgSincronizar = msgSincronizar;
   }
 
-  public void sincronizar()
+  private void setSrvSinc(final SrvSincMain srvSinc)
   {
+    if (_srvSinc == srvSinc)
+    {
+      return;
+    }
+
+    _srvSinc = srvSinc;
+  }
+
+  public void sincronizar(final SrvSincMain srvSinc)
+  {
+    this.setSrvSinc(srvSinc);
+
+    if (this.getSrvSinc() == null)
+    {
+      return;
+    }
+
     if (!this.getBooSincronizada())
     {
       return;
@@ -250,6 +273,6 @@ public abstract class TblSincronizavelMain<T extends DominioSincronizavelMain> e
     this.getMsgSincronizar().setTbl(this);
     this.getMsgSincronizar().setDttUltimoRecebimento(TblSincronizacao.getI().getDttUltimoRecebimento(this));
 
-    ServerHttpSinc.getI().enviar(this.getMsgSincronizar());
+    this.getSrvSinc().getSrvHttpSinc().enviar(this.getMsgSincronizar());
   }
 }
