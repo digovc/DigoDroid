@@ -112,7 +112,7 @@ public abstract class AppAndroid extends App
     }
   }
 
-  public void dispararOnMenuItemClickListener(MenuItem viwMenuItem)
+  public void dispararOnMenuItemClickListener(MenuItem mni)
   {
     if (this.getLstEvtOnMenuItemClickListener().isEmpty())
     {
@@ -121,7 +121,7 @@ public abstract class AppAndroid extends App
 
     for (OnMenuItemClickListener evt : this.getLstEvtOnMenuItemClickListener())
     {
-      evt.onMenuItemClick(viwMenuItem);
+      evt.onMenuItemClick(mni);
     }
   }
 

@@ -2,6 +2,7 @@ package com.digosofter.digodroid.controle.drawermenu;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.View;
@@ -20,7 +21,7 @@ import com.digosofter.digodroid.design.TemaDefault;
 public class MenuItem extends PainelGeral implements View.OnClickListener
 {
   private static final int INT_MENU_ITEM_HEIGHT = 60;
-
+  private Drawable _imgIcon;
   private ImagemGeral _imgIcone;
   private LabelGeral _lblTitulo;
   private PainelGeral _pnlConteudo;
@@ -43,6 +44,11 @@ public class MenuItem extends PainelGeral implements View.OnClickListener
     super(cnt, atr, intDefStyleAttr);
   }
 
+  private void atualizarImgIcon(final Drawable imgIcon)
+  {
+    this.getImgIcone().setImageDrawable(imgIcon);
+  }
+
   @Override
   public void finalizar()
   {
@@ -50,6 +56,11 @@ public class MenuItem extends PainelGeral implements View.OnClickListener
 
     this.getLayoutParams().height = UtilsAndroid.dpToPx(INT_MENU_ITEM_HEIGHT, this.getContext());
     this.getLayoutParams().width = ViewGroup.LayoutParams.MATCH_PARENT;
+  }
+
+  private Drawable getImgIcon()
+  {
+    return _imgIcon;
   }
 
   private ImagemGeral getImgIcone()
@@ -64,7 +75,7 @@ public class MenuItem extends PainelGeral implements View.OnClickListener
     return _imgIcone;
   }
 
-  private LabelGeral getLblTitulo()
+  protected LabelGeral getLblTitulo()
   {
     if (_lblTitulo != null)
     {
@@ -76,7 +87,7 @@ public class MenuItem extends PainelGeral implements View.OnClickListener
     return _lblTitulo;
   }
 
-  private PainelGeral getPnlConteudo()
+  protected PainelGeral getPnlConteudo()
   {
     if (_pnlConteudo != null)
     {
@@ -142,6 +153,7 @@ public class MenuItem extends PainelGeral implements View.OnClickListener
     super.inicializar();
 
     this.getPnlConteudo().setOrientation(LinearLayout.HORIZONTAL);
+
     this.inicializarImgIcone();
     this.inicializarLblTitulo();
     this.inicializarPnlRipple();
@@ -156,7 +168,7 @@ public class MenuItem extends PainelGeral implements View.OnClickListener
 
     TypedArray objTypedArray = this.getContext().obtainStyledAttributes(ats, R.styleable.MenuItem);
 
-    this.getImgIcone().setImageDrawable(objTypedArray.getDrawable(R.styleable.MenuItem_srcIcone));
+    this.setImgIcon(objTypedArray.getDrawable(R.styleable.MenuItem_srcIcone));
   }
 
   private void inicializarImgIcone()
@@ -184,7 +196,7 @@ public class MenuItem extends PainelGeral implements View.OnClickListener
   {
     this.getLblTitulo().setEnmFonteTamanho(TemaDefault.EnmFonteTamanho.PEQUENO);
     this.getLblTitulo().setGravity(Gravity.CENTER_VERTICAL);
-    this.getLblTitulo().setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
+    this.getLblTitulo().setLayoutParams(new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, LayoutParams.MATCH_PARENT));
   }
 
   private void inicializarPnlRipple()
@@ -222,6 +234,18 @@ public class MenuItem extends PainelGeral implements View.OnClickListener
     super.setEventos();
 
     this.getPnlRipple().setOnClickListener(this);
+  }
+
+  public void setImgIcon(Drawable imgIcon)
+  {
+    if (_imgIcon == imgIcon)
+    {
+      return;
+    }
+
+    _imgIcon = imgIcon;
+
+    this.atualizarImgIcon(imgIcon);
   }
 
   private void setStrTitulo(String strTitulo)
