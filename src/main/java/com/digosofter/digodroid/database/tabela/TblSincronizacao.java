@@ -4,7 +4,7 @@ import com.digosofter.digodroid.AppAndroid;
 import com.digosofter.digodroid.database.ColunaAndroid;
 import com.digosofter.digodroid.database.TabelaAndroid;
 import com.digosofter.digodroid.dominio.DominioAndroidMain;
-import com.digosofter.digodroid.sinc.message.RspPesquisar;
+import com.digosofter.digodroid.server.message.RspPesquisar;
 import com.digosofter.digojava.Utils;
 import com.digosofter.digojava.database.Coluna;
 

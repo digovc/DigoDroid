@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.digosofter.digodroid.controle.painel.PainelGeralRelativo
+<com.digosofter.digodroid.controle.painel.PainelGeral
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -10,11 +11,17 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <com.digosofter.digodroid.controle.label.LabelGeral
-            android:id="@+id/actLog_lblLog"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+        <HorizontalScrollView android:layout_width="match_parent" android:layout_height="match_parent">
+
+            <com.digosofter.digodroid.controle.label.LabelGeral
+                android:id="@+id/actLog_lblLog"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:padding="10dp"
+                app:enmFonteTamanho="MINIM0"/>
+
+        </HorizontalScrollView>
 
     </ScrollView>
 
-</com.digosofter.digodroid.controle.painel.PainelGeralRelativo>
+</com.digosofter.digodroid.controle.painel.PainelGeral>

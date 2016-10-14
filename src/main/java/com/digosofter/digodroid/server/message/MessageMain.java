@@ -1,4 +1,6 @@
-package com.digosofter.digodroid.sinc.message;
+package com.digosofter.digodroid.server.message;
+
+import android.os.AsyncTask;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -36,6 +38,18 @@ public abstract class MessageMain<T extends RespostaMain> implements Response.Li
   @Override
   public void onErrorResponse(final VolleyError objVolleyError)
   {
+    AsyncTask.execute(new Runnable()
+    {
+      @Override
+      public void run()
+      {
+        MessageMain.this.onErrorResponseLocal(objVolleyError);
+      }
+    });
+  }
+
+  private void onErrorResponseLocal(final VolleyError objVolleyError)
+  {
     if (objVolleyError == null)
     {
       LogSinc.getI().addLog(Log.EnmTipo.ERRO, String.format("Erro de sincronização (%s). Motivo desconhecido.", this.getClsResposta().getSimpleName()));
@@ -53,6 +67,18 @@ public abstract class MessageMain<T extends RespostaMain> implements Response.Li
 
   @Override
   public final void onResponse(final Object objResponse)
+  {
+    AsyncTask.execute(new Runnable()
+    {
+      @Override
+      public void run()
+      {
+        MessageMain.this.onResponseLocal(objResponse);
+      }
+    });
+  }
+
+  private void onResponseLocal(final Object objResponse)
   {
     LogSinc.getI().addLog(Log.EnmTipo.INFO, String.format("Resposta de sincronização (%s) recebida.", this.getClsResposta().getSimpleName()));
 

@@ -28,7 +28,7 @@ public class ActDetalhe extends ActMain
   private TabelaAndroid<?> _tbl;
 
   @Override
-  protected int getIntLayoutId()
+  public int getIntLayoutId()
   {
     return R.layout.act_detalhe;
   }

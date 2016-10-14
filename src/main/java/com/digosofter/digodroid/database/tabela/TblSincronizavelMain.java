@@ -6,14 +6,19 @@ import com.digosofter.digodroid.database.DataBaseAndroid;
 import com.digosofter.digodroid.database.TabelaAndroid;
 import com.digosofter.digodroid.dominio.DominioSincronizavelMain;
 import com.digosofter.digodroid.log.LogSinc;
+import com.digosofter.digodroid.server.message.MsgPesquisar;
+import com.digosofter.digodroid.server.message.MsgSalvar;
+import com.digosofter.digodroid.server.message.RspPesquisar;
 import com.digosofter.digodroid.service.SrvSincMain;
-import com.digosofter.digodroid.sinc.message.MsgPesquisar;
-import com.digosofter.digodroid.sinc.message.RspPesquisar;
 import com.digosofter.digojava.Utils;
 import com.digosofter.digojava.database.Coluna;
+import com.digosofter.digojava.database.Filtro;
 import com.digosofter.digojava.json.Json;
 import com.digosofter.digojava.log.Log;
 import com.google.gson.JsonElement;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public abstract class TblSincronizavelMain<T extends DominioSincronizavelMain> extends TabelaAndroid<T>
 {
@@ -21,6 +26,7 @@ public abstract class TblSincronizavelMain<T extends DominioSincronizavelMain> e
   private ColunaAndroid _clnBooSincronizar;
   private ColunaAndroid _clnIntServerId;
   private ColunaAndroid _clnStrAparelhoId;
+  private MsgSalvar _msgSalvar;
   private MsgPesquisar _msgSincronizar;
   private String _sqlServerNome;
   private SrvSincMain _srvSinc;
@@ -76,6 +82,11 @@ public abstract class TblSincronizavelMain<T extends DominioSincronizavelMain> e
     _clnStrAparelhoId = new ColunaAndroid("str_aparelho_id", this, Coluna.EnmTipo.TEXT);
 
     return _clnStrAparelhoId;
+  }
+
+  private MsgSalvar getMsgSalvar()
+  {
+    return _msgSalvar;
   }
 
   private MsgPesquisar getMsgSincronizar()
@@ -212,6 +223,11 @@ public abstract class TblSincronizavelMain<T extends DominioSincronizavelMain> e
     this.salvar(objDominio);
   }
 
+  private void setMsgSalvar(MsgSalvar msgSalvar)
+  {
+    _msgSalvar = msgSalvar;
+  }
+
   private void setMsgSincronizar(MsgPesquisar msgSincronizar)
   {
     _msgSincronizar = msgSincronizar;
@@ -253,6 +269,29 @@ public abstract class TblSincronizavelMain<T extends DominioSincronizavelMain> e
 
   private void sincronizarEnviar()
   {
+    List<Filtro> lstFil = new ArrayList<>();
+
+    lstFil.add(new Filtro(this.getClnBooSincronizado(), false));
+    lstFil.add(new Filtro(this.getClnBooSincronizar(), true));
+
+    List<T> lstObjDominio = this.pesquisarDominio(lstFil);
+
+    if (lstObjDominio == null)
+    {
+      return;
+    }
+
+    if (lstObjDominio.size() < 1)
+    {
+      return;
+    }
+
+    this.setMsgSalvar(new MsgSalvar());
+
+    this.getMsgSalvar().setTbl(this);
+    this.getMsgSalvar().setJsnLstObjDominio(Json.getI().toJson(lstObjDominio));
+
+    this.getSrvSinc().getSrvHttpSinc().enviar(this.getMsgSalvar());
   }
 
   private void sincronizarFinalizar(final RspPesquisar rspPesquisar)
@@ -263,11 +302,6 @@ public abstract class TblSincronizavelMain<T extends DominioSincronizavelMain> e
 
   private void sincronizarReceber()
   {
-    if (Utils.getBooStrVazia(this.getSqlNome()))
-    {
-      return;
-    }
-
     this.setMsgSincronizar(new MsgPesquisar());
 
     this.getMsgSincronizar().setTbl(this);

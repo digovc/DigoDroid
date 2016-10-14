@@ -1,4 +1,4 @@
-package com.digosofter.digodroid.sinc.message;
+package com.digosofter.digodroid.server.message;
 
 public class RspWelcome extends RespostaMain<MsgWelcome>
 {

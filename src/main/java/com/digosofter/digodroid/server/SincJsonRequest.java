@@ -1,11 +1,11 @@
-package com.digosofter.digodroid.sinc;
+package com.digosofter.digodroid.server;
 
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.NetworkResponse;
 import com.android.volley.Response;
 import com.android.volley.toolbox.HttpHeaderParser;
 import com.android.volley.toolbox.JsonRequest;
-import com.digosofter.digodroid.sinc.message.MessageMain;
+import com.digosofter.digodroid.server.message.MessageMain;
 
 import java.io.UnsupportedEncodingException;
 

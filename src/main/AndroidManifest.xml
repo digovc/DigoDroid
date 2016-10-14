@@ -24,6 +24,9 @@
         <!-- Activities da biblioteca DigoDroid -->
         <activity android:name=".activity.ActConsulta"/>
         <activity android:name=".activity.ActDetalhe"/>
+        <activity android:name=".activity.ActErro"/>
+        <activity android:name=".activity.ActLog"/>
+        <activity android:name=".activity.ActSqlExecutor"/>
 
         <meta-data
             android:name="com.google.android.gms.version"
@@ -39,11 +42,6 @@
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyDgN2hYOdivjXYoq5RG2Ms9WKbV5hPCi5Y"/>
-
-        <activity android:name=".activity.ActSqlExecutor">
-        </activity>
-        <activity android:name=".activity.ActLog">
-        </activity>
     </application>
 
 </manifest>

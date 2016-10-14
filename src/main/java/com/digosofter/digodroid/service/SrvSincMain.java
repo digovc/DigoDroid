@@ -6,7 +6,7 @@ import com.digosofter.digodroid.AppAndroid;
 import com.digosofter.digodroid.database.DataBaseAndroid;
 import com.digosofter.digodroid.database.tabela.TblSincronizavelMain;
 import com.digosofter.digodroid.log.LogSinc;
-import com.digosofter.digodroid.sinc.ServerHttpSincMain;
+import com.digosofter.digodroid.server.ServerHttpSincMain;
 import com.digosofter.digojava.Utils;
 import com.digosofter.digojava.log.Log;
 
@@ -17,6 +17,13 @@ import java.util.List;
 public abstract class SrvSincMain<T extends ServerHttpSincMain> extends ServiceMain
 {
   private static final int INT_LOOP_DELAY = 5000;
+  private static SrvSincMain _i;
+
+  public static SrvSincMain getI()
+  {
+    return _i;
+  }
+
   private Class<T> _clsSrvHttpSinc;
   private List<TblSincronizavelMain> _lstTbl;
   private T _srvHttpSinc;
@@ -25,6 +32,32 @@ public abstract class SrvSincMain<T extends ServerHttpSincMain> extends ServiceM
   public SrvSincMain()
   {
     super("Serviço de sincronização");
+
+    this.setI(this);
+  }
+
+  private void atualizarI(final SrvSincMain srvSinc)
+  {
+    if (AppAndroid.getI() == null)
+    {
+      return;
+    }
+
+    if (srvSinc != null)
+    {
+      AppAndroid.getI().dispararEvtOnSrvSincCreateListener(this);
+      return;
+    }
+
+    AppAndroid.getI().dispararEvtOnSrvSincDestroyListener(this);
+  }
+
+  @Override
+  protected void finalizar()
+  {
+    super.finalizar();
+
+    this.setI(null);
   }
 
   private Class<T> getClsSrvHttpSinc()
@@ -70,29 +103,7 @@ public abstract class SrvSincMain<T extends ServerHttpSincMain> extends ServiceM
     return _lstTbl;
   }
 
-  public T getSrvHttpSinc()
-  {
-    if (_srvHttpSinc != null)
-    {
-      return _srvHttpSinc;
-    }
-
-    if (this.getClsSrvHttpSinc() == null)
-    {
-      return null;
-    }
-
-    try
-    {
-      _srvHttpSinc = this.getClsSrvHttpSinc().newInstance();
-    }
-    catch (Exception ex)
-    {
-      ex.printStackTrace();
-    }
-
-    return _srvHttpSinc;
-  }
+  public abstract T getSrvHttpSinc();
 
   @Override
   protected void inicializar()
@@ -145,6 +156,18 @@ public abstract class SrvSincMain<T extends ServerHttpSincMain> extends ServiceM
 
       SystemClock.sleep(INT_LOOP_DELAY);
     }
+  }
+
+  private void setI(SrvSincMain i)
+  {
+    if (_i == i)
+    {
+      return;
+    }
+
+    _i = i;
+
+    this.atualizarI(i);
   }
 
   private void sincronizar()

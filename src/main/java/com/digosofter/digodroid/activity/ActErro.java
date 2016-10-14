@@ -13,7 +13,7 @@ public class ActErro extends ActMain
   private LabelGeral _lblTitulo;
 
   @Override
-  protected int getIntLayoutId()
+  public int getIntLayoutId()
   {
     return R.layout.act_erro;
   }

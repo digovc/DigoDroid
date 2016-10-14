@@ -171,7 +171,7 @@ public class ActConsulta extends ActMain implements OnTblChangeListener, TextWat
   }
 
   @Override
-  protected int getIntLayoutId()
+  public int getIntLayoutId()
   {
     return R.layout.act_consulta;
   }

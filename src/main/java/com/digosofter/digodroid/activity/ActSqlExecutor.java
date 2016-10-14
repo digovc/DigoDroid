@@ -41,7 +41,7 @@ public class ActSqlExecutor extends ActMain implements View.OnClickListener
   }
 
   @Override
-  protected int getIntLayoutId()
+  public int getIntLayoutId()
   {
     return R.layout.act_sql_executor;
   }

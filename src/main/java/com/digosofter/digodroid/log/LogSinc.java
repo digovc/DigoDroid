@@ -20,4 +20,6 @@ public class LogSinc extends LogManagerAndroidMain
   {
     super("Log de sincronização");
   }
+
+
 }

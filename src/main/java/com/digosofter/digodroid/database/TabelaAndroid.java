@@ -228,6 +228,8 @@ public abstract class TabelaAndroid<T extends DominioAndroidMain> extends Tabela
       return;
     }
 
+    this.setViwPrincipal(null);
+
     this.getLstViwAndroid().add(viwAndroid);
   }
 
@@ -1976,6 +1978,11 @@ public abstract class TabelaAndroid<T extends DominioAndroidMain> extends Tabela
   public void setObjDb(DataBaseAndroid objDb)
   {
     _dbe = objDb;
+  }
+
+  private void setViwPrincipal(final ViewAndroid viwPrincipal)
+  {
+    _viwPrincipal = viwPrincipal;
   }
 
   /**

@@ -1,11 +1,11 @@
-package com.digosofter.digodroid.sinc;
+package com.digosofter.digodroid.server;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
 import com.digosofter.digodroid.log.LogSinc;
+import com.digosofter.digodroid.server.message.MessageMain;
+import com.digosofter.digodroid.server.message.MsgWelcome;
 import com.digosofter.digodroid.service.SrvSincMain;
-import com.digosofter.digodroid.sinc.message.MessageMain;
-import com.digosofter.digodroid.sinc.message.MsgWelcome;
 import com.digosofter.digojava.Utils;
 import com.digosofter.digojava.log.Log;
 
@@ -16,9 +16,8 @@ public abstract class ServerHttpSincMain
 
   public void enviar(final MessageMain msg)
   {
-    if (Utils.getBooStrVazia(this.getUrlServer())) // TODO: Validar o status do servidor apenas uma vez.
+    if (Utils.getBooStrVazia(this.getUrlServer()))
     {
-      LogSinc.getI().addLog(Log.EnmTipo.ERRO, "A url do servidor de sincronização não está configurada.");
       return;
     }
 
@@ -36,6 +35,7 @@ public abstract class ServerHttpSincMain
   private void enviarWelcome()
   {
     LogSinc.getI().addLog(Log.EnmTipo.INFO, "Enviando mensagem de boas vindas para o servidor.");
+
     this.enviar(new MsgWelcome());
   }
 

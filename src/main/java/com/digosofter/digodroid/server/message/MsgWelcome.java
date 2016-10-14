@@ -1,4 +1,4 @@
-package com.digosofter.digodroid.sinc.message;
+package com.digosofter.digodroid.server.message;
 
 import com.digosofter.digodroid.Aparelho;
 

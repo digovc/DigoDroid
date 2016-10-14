@@ -15,11 +15,12 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
 import com.digosofter.digodroid.activity.ActMain;
-import com.digosofter.digodroid.controle.drawermenu.DrawerMenu;
-import com.digosofter.digodroid.controle.drawermenu.MenuItem;
 import com.digosofter.digodroid.database.DataBaseAndroid;
 import com.digosofter.digodroid.database.TabelaAndroid;
 import com.digosofter.digodroid.design.TemaDefault;
+import com.digosofter.digodroid.service.OnSrvSincCreateListener;
+import com.digosofter.digodroid.service.OnSrvSincDestroyListener;
+import com.digosofter.digodroid.service.SrvSincMain;
 import com.digosofter.digojava.App;
 import com.digosofter.digojava.Utils;
 import com.digosofter.digojava.database.Tabela;
@@ -41,8 +42,8 @@ public abstract class AppAndroid extends App
   private Context _cnt;
   private DataBaseAndroid _dbePrincipal;
   private String _dir;
-  private List<OnMenuCreateListener> _lstEvtOnMenuCreateListener;
-  private List<OnMenuItemClickListener> _lstEvtOnMenuItemClickListener;
+  private List<OnSrvSincCreateListener> _lstEvtOnSrvSincCreateListener;
+  private List<OnSrvSincDestroyListener> _lstEvtOnSrvSincDestroyListener;
   private List<Toast> _lstObjToast;
   private NotificationManager _objNotificationManager;
   private PackageInfo _objPackageInfo;
@@ -54,34 +55,34 @@ public abstract class AppAndroid extends App
     this.setI(this);
   }
 
-  public void addEvtOnMenuCreateListener(OnMenuCreateListener evt)
+  public void addEvtOnSrvSincCreateListener(OnSrvSincCreateListener evt)
   {
     if (evt == null)
     {
       return;
     }
 
-    if (this.getLstEvtOnMenuCreateListener().contains(evt))
+    if (this.getLstEvtOnSrvSincCreateListener().contains(evt))
     {
       return;
     }
 
-    this.getLstEvtOnMenuCreateListener().add(evt);
+    this.getLstEvtOnSrvSincCreateListener().add(evt);
   }
 
-  public void addEvtOnMenuItemClickListener(OnMenuItemClickListener evt)
+  public void addEvtOnSrvSincDestroyListener(OnSrvSincDestroyListener evt)
   {
     if (evt == null)
     {
       return;
     }
 
-    if (this.getLstEvtOnMenuItemClickListener().contains(evt))
+    if (this.getLstEvtOnSrvSincDestroyListener().contains(evt))
     {
       return;
     }
 
-    this.getLstEvtOnMenuItemClickListener().add(evt);
+    this.getLstEvtOnSrvSincDestroyListener().add(evt);
   }
 
   private void criarView(final Tabela tbl)
@@ -99,29 +100,43 @@ public abstract class AppAndroid extends App
     ((TabelaAndroid) tbl).criarView();
   }
 
-  public void dispararOnMenuCreateListener(ActMain act, DrawerMenu viwDrawerMenu)
+  public void dispararEvtOnSrvSincCreateListener(SrvSincMain srvSinc)
   {
-    if (this.getLstEvtOnMenuCreateListener().isEmpty())
+    this.notificar("Serviço de sincronização inicializado.");
+
+    if (this.getLstEvtOnSrvSincCreateListener().isEmpty())
     {
       return;
     }
 
-    for (OnMenuCreateListener evt : this.getLstEvtOnMenuCreateListener())
+    for (OnSrvSincCreateListener evt : this.getLstEvtOnSrvSincCreateListener())
     {
-      evt.onMenuCreate(act, viwDrawerMenu);
+      if (evt == null)
+      {
+        continue;
+      }
+
+      evt.onSrvSincCreate(srvSinc);
     }
   }
 
-  public void dispararOnMenuItemClickListener(MenuItem mni)
+  public void dispararEvtOnSrvSincDestroyListener(SrvSincMain srvSinc)
   {
-    if (this.getLstEvtOnMenuItemClickListener().isEmpty())
+    this.notificar("Serviço de sincronização finalizado.");
+
+    if (this.getLstEvtOnSrvSincDestroyListener().isEmpty())
     {
       return;
     }
 
-    for (OnMenuItemClickListener evt : this.getLstEvtOnMenuItemClickListener())
+    for (OnSrvSincDestroyListener evt : this.getLstEvtOnSrvSincDestroyListener())
     {
-      evt.onMenuItemClick(mni);
+      if (evt == null)
+      {
+        continue;
+      }
+
+      evt.onSrvSincDestroy(srvSinc);
     }
   }
 
@@ -143,6 +158,8 @@ public abstract class AppAndroid extends App
 
     return _booDebug;
   }
+
+  public abstract Class getClsViwDrawerMenu();
 
   public Context getCnt()
   {
@@ -178,38 +195,28 @@ public abstract class AppAndroid extends App
     return _dir;
   }
 
-  /**
-   * Este método deve retornar o código do layout que guarda o menu principal da aplicação.
-   *
-   * @return Código do layout que guarda o menu principal da aplicação.
-   */
-  public int getIntDrawerMenuLayoutId()
+  private List<OnSrvSincCreateListener> getLstEvtOnSrvSincCreateListener()
   {
-    return 0;
-  }
-
-  private List<OnMenuCreateListener> getLstEvtOnMenuCreateListener()
-  {
-    if (_lstEvtOnMenuCreateListener != null)
+    if (_lstEvtOnSrvSincCreateListener != null)
     {
-      return _lstEvtOnMenuCreateListener;
+      return _lstEvtOnSrvSincCreateListener;
     }
 
-    _lstEvtOnMenuCreateListener = new ArrayList<>();
+    _lstEvtOnSrvSincCreateListener = new ArrayList<>();
 
-    return _lstEvtOnMenuCreateListener;
+    return _lstEvtOnSrvSincCreateListener;
   }
 
-  private List<OnMenuItemClickListener> getLstEvtOnMenuItemClickListener()
+  private List<OnSrvSincDestroyListener> getLstEvtOnSrvSincDestroyListener()
   {
-    if (_lstEvtOnMenuItemClickListener != null)
+    if (_lstEvtOnSrvSincDestroyListener != null)
     {
-      return _lstEvtOnMenuItemClickListener;
+      return _lstEvtOnSrvSincDestroyListener;
     }
 
-    _lstEvtOnMenuItemClickListener = new ArrayList<>();
+    _lstEvtOnSrvSincDestroyListener = new ArrayList<>();
 
-    return _lstEvtOnMenuItemClickListener;
+    return _lstEvtOnSrvSincDestroyListener;
   }
 
   private List<Toast> getLstObjToast()
@@ -333,15 +340,7 @@ public abstract class AppAndroid extends App
       @Override
       public void run()
       {
-        AppAndroid.this.limparNotificacao();
-
-        int intTempo = strMensagem.length() > 50 ? Toast.LENGTH_LONG : Toast.LENGTH_SHORT;
-
-        Toast objToast = Toast.makeText(AppAndroid.this.getCnt(), strMensagem, intTempo);
-
-        AppAndroid.this.getLstObjToast().add(objToast);
-
-        objToast.show();
+        AppAndroid.this.notificarLocal(strMensagem);
       }
     });
   }
@@ -354,6 +353,19 @@ public abstract class AppAndroid extends App
     }
 
     this.getObjNotificationManager().notify(intId, objNotification);
+  }
+
+  private void notificarLocal(final String strMensagem)
+  {
+    this.limparNotificacao();
+
+    int intTempo = strMensagem.length() > 50 ? Toast.LENGTH_LONG : Toast.LENGTH_SHORT;
+
+    Toast objToast = Toast.makeText(AppAndroid.this.getCnt(), strMensagem, intTempo);
+
+    this.getLstObjToast().add(objToast);
+
+    objToast.show();
   }
 
   /**
@@ -387,24 +399,24 @@ public abstract class AppAndroid extends App
     System.exit(0);
   }
 
-  public void removerEvtOnMenuCreateListener(OnMenuCreateListener evt)
+  public void removerEvtOnSrvSincCreateListener(OnSrvSincCreateListener evt)
   {
     if (evt == null)
     {
       return;
     }
 
-    this.getLstEvtOnMenuCreateListener().remove(evt);
+    this.getLstEvtOnSrvSincCreateListener().remove(evt);
   }
 
-  public void removerEvtOnMenuItemClickListener(OnMenuItemClickListener evt)
+  public void removerEvtOnSrvSincDestroyListener(OnSrvSincDestroyListener evt)
   {
     if (evt == null)
     {
       return;
     }
 
-    this.getLstEvtOnMenuItemClickListener().remove(evt);
+    this.getLstEvtOnSrvSincDestroyListener().remove(evt);
   }
 
   public void setActPrincipal(ActMain actPrincipal)

@@ -6,17 +6,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.FrameLayout;
 
 import com.digosofter.digodroid.AppAndroid;
 import com.digosofter.digodroid.R;
-import com.digosofter.digodroid.controle.drawermenu.DrawerMenu;
-import com.digosofter.digodroid.controle.painel.PainelMenuConteudo;
+import com.digosofter.digodroid.controle.drawermenu.DrawerMenuMain;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,10 +23,10 @@ public abstract class ActMain extends Activity
   public static final String STR_EXTRA_OUT_BOO_FECHAR = "boo_fechar";
 
   private boolean _booVisivel;
-  private List<OnActivityDestruirListener> _lstEvtOnActivityDestruirListener;
-  private List<OnActivityResultListener> _lstEvtOnActivityResultListener;
+  private List<OnResultListener> _lstEvtOnResultListener;
+  private List<OnDestroyListener> _lstEvtOnDestroyListener;
   private List<OnRequestPermissionResultListener> _lstEvtOnRequestPermissionResultListener;
-  private DrawerMenu _viwDrawerMenu;
+  private DrawerMenuMain _viwDrawerMenu;
   private ViewGroup _viwRoot;
 
   public void abrirAct(Class<? extends ActMain> cls)
@@ -42,49 +39,44 @@ public abstract class ActMain extends Activity
     this.startActivityForResult(new Intent(this, cls), 0);
   }
 
-  protected void abrirMenuPrincipal()
+  protected void abrirMenu()
   {
-    if (this.getIntDrawerMenuLayoutId() < 1)
-    {
-      return;
-    }
-
     if (this.getViwDrawerMenu() == null)
     {
       return;
     }
 
-    this.getViwDrawerMenu().openDrawer(Gravity.LEFT);
+    this.getViwDrawerMenu().abrirMenu();
   }
 
-  public void addEvtOnActivityResultListener(OnActivityResultListener evt)
+  public void addEvtOnResultListener(OnResultListener evt)
   {
     if (evt == null)
     {
       return;
     }
 
-    if (this.getLstEvtOnActivityResultListener().contains(evt))
+    if (this.getLstEvtOnResultListener().contains(evt))
     {
       return;
     }
 
-    this.getLstEvtOnActivityResultListener().add(evt);
+    this.getLstEvtOnResultListener().add(evt);
   }
 
-  public void addEvtOnDestruirListener(OnActivityDestruirListener evt)
+  public void addEvtOnDestroyListener(OnDestroyListener evt)
   {
     if (evt == null)
     {
       return;
     }
 
-    if (this.getLstEvtOnActivityDestruirListener().contains(evt))
+    if (this.getLstEvtOnDestroyListener().contains(evt))
     {
       return;
     }
 
-    this.getLstEvtOnActivityDestruirListener().add(evt);
+    this.getLstEvtOnDestroyListener().add(evt);
   }
 
   public void addEvtOnRequestPermissionListener(OnRequestPermissionResultListener evt)
@@ -107,9 +99,9 @@ public abstract class ActMain extends Activity
     this.getFragmentManager().beginTransaction().add(intViewGroupConteinerId, frg).commit();
   }
 
-  private void dispararEvtOnActivityResultListener(final int intRequestCode, final int intResultCode, final Intent ittResult)
+  private void dispararEvtOnResultListener(final int intRequestCode, final int intResultCode, final Intent ittResult)
   {
-    if (this.getLstEvtOnActivityResultListener().isEmpty())
+    if (this.getLstEvtOnResultListener().isEmpty())
     {
       return;
     }
@@ -120,7 +112,7 @@ public abstract class ActMain extends Activity
     arg.setIntResultCode(intResultCode);
     arg.setIttResult(ittResult);
 
-    for (OnActivityResultListener evt : this.getLstEvtOnActivityResultListener())
+    for (OnResultListener evt : this.getLstEvtOnResultListener())
     {
       if (evt == null)
       {
@@ -131,14 +123,14 @@ public abstract class ActMain extends Activity
     }
   }
 
-  private void dispararEvtOnDestruirListener()
+  private void dispararEvtOnDestroyListener()
   {
-    if (this.getLstEvtOnActivityDestruirListener().isEmpty())
+    if (this.getLstEvtOnDestroyListener().isEmpty())
     {
       return;
     }
 
-    for (OnActivityDestruirListener evt : this.getLstEvtOnActivityDestruirListener())
+    for (OnDestroyListener evt : this.getLstEvtOnDestroyListener())
     {
       if (evt == null)
       {
@@ -175,6 +167,11 @@ public abstract class ActMain extends Activity
 
   public void fecharMenu()
   {
+    if (this.getViwDrawerMenu() == null)
+    {
+      return;
+    }
+
     this.getViwDrawerMenu().closeDrawers();
   }
 
@@ -190,45 +187,40 @@ public abstract class ActMain extends Activity
     this.finalizar();
   }
 
+  protected boolean getBooMostrarMenu()
+  {
+    return true;
+  }
+
   public boolean getBooVisivel()
   {
     return _booVisivel;
   }
 
-  private int getIntDrawerMenuLayoutId()
+  public abstract int getIntLayoutId();
+
+  private List<OnDestroyListener> getLstEvtOnDestroyListener()
   {
-    if (AppAndroid.getI() == null)
+    if (_lstEvtOnDestroyListener != null)
     {
-      return -1;
+      return _lstEvtOnDestroyListener;
     }
 
-    return AppAndroid.getI().getIntDrawerMenuLayoutId();
+    _lstEvtOnDestroyListener = new ArrayList<>();
+
+    return _lstEvtOnDestroyListener;
   }
 
-  protected abstract int getIntLayoutId();
-
-  private List<OnActivityDestruirListener> getLstEvtOnActivityDestruirListener()
+  private List<OnResultListener> getLstEvtOnResultListener()
   {
-    if (_lstEvtOnActivityDestruirListener != null)
+    if (_lstEvtOnResultListener != null)
     {
-      return _lstEvtOnActivityDestruirListener;
+      return _lstEvtOnResultListener;
     }
 
-    _lstEvtOnActivityDestruirListener = new ArrayList<>();
+    _lstEvtOnResultListener = new ArrayList<>();
 
-    return _lstEvtOnActivityDestruirListener;
-  }
-
-  private List<OnActivityResultListener> getLstEvtOnActivityResultListener()
-  {
-    if (_lstEvtOnActivityResultListener != null)
-    {
-      return _lstEvtOnActivityResultListener;
-    }
-
-    _lstEvtOnActivityResultListener = new ArrayList<>();
-
-    return _lstEvtOnActivityResultListener;
+    return _lstEvtOnResultListener;
   }
 
   private List<OnRequestPermissionResultListener> getLstEvtOnRequestPermissionResultListener()
@@ -248,8 +240,32 @@ public abstract class ActMain extends Activity
     return (T) this.findViewById(intViewId);
   }
 
-  public DrawerMenu getViwDrawerMenu()
+  private DrawerMenuMain getViwDrawerMenu()
   {
+    if (_viwDrawerMenu != null)
+    {
+      return _viwDrawerMenu;
+    }
+
+    if (AppAndroid.getI() == null)
+    {
+      return null;
+    }
+
+    if (AppAndroid.getI().getClsViwDrawerMenu() == null)
+    {
+      return null;
+    }
+
+    try
+    {
+      _viwDrawerMenu = (DrawerMenuMain) AppAndroid.getI().getClsViwDrawerMenu().getConstructor(ActMain.class).newInstance(this);
+    }
+    catch (Exception ex)
+    {
+      ex.printStackTrace();
+    }
+
     return _viwDrawerMenu;
   }
 
@@ -290,21 +306,17 @@ public abstract class ActMain extends Activity
       return;
     }
 
-    if (this.getIntDrawerMenuLayoutId() < 1)
+    if (!this.getBooMostrarMenu())
     {
+      this.setContentView(this.getIntLayoutId());
       return;
     }
 
-    this.setViwDrawerMenu((DrawerMenu) this.getLayoutInflater().inflate(R.layout.act_main, null));
-
-    FrameLayout viwConteudo = (FrameLayout) this.getViwDrawerMenu().findViewById(R.id.actMain_viwConteudo);
-
-    PainelMenuConteudo pnlMenuConteudo = (PainelMenuConteudo) this.getViwDrawerMenu().findViewById(R.id.actMain_pnlMenuConteudo);
-
-    this.getLayoutInflater().inflate(this.getIntLayoutId(), viwConteudo, true);
-    this.getLayoutInflater().inflate(this.getIntDrawerMenuLayoutId(), pnlMenuConteudo, true);
-
-    AppAndroid.getI().dispararOnMenuCreateListener(this, this.getViwDrawerMenu());
+    if (this.getViwDrawerMenu() == null)
+    {
+      this.setContentView(this.getIntLayoutId());
+      return;
+    }
 
     this.setContentView(this.getViwDrawerMenu());
   }
@@ -338,6 +350,16 @@ public abstract class ActMain extends Activity
     }, 100);
   }
 
+  public void notificar(final String strNotificacao)
+  {
+    if (AppAndroid.getI() == null)
+    {
+      return;
+    }
+
+    AppAndroid.getI().notificar(strNotificacao);
+  }
+
   @Override
   protected void onActivityResult(final int intRequestCode, final int intResultCode, final Intent ittResult)
   {
@@ -345,7 +367,7 @@ public abstract class ActMain extends Activity
 
     this.onActivityResultFechar(ittResult);
 
-    this.dispararEvtOnActivityResultListener(intRequestCode, intResultCode, ittResult);
+    this.dispararEvtOnResultListener(intRequestCode, intResultCode, ittResult);
   }
 
   private void onActivityResultFechar(final Intent itt)
@@ -383,9 +405,9 @@ public abstract class ActMain extends Activity
   {
     super.onDestroy();
 
-    this.dispararEvtOnDestruirListener();
-    this.getLstEvtOnActivityDestruirListener().clear();
-    this.getLstEvtOnActivityResultListener().clear();
+    this.dispararEvtOnDestroyListener();
+    this.getLstEvtOnDestroyListener().clear();
+    this.getLstEvtOnResultListener().clear();
   }
 
   @Override
@@ -430,24 +452,24 @@ public abstract class ActMain extends Activity
     this.setBooVisivel(false);
   }
 
-  public void removerEvtOnActivityResultListener(OnActivityResultListener evt)
+  public void removerEvtOnResultListener(OnResultListener evt)
   {
     if (evt == null)
     {
       return;
     }
 
-    this.getLstEvtOnActivityResultListener().remove(evt);
+    this.getLstEvtOnResultListener().remove(evt);
   }
 
-  public void removerEvtOnDestruirListener(OnActivityDestruirListener evt)
+  public void removerEvtOnDestroyListener(OnDestroyListener evt)
   {
     if (evt == null)
     {
       return;
     }
 
-    this.getLstEvtOnActivityDestruirListener().remove(evt);
+    this.getLstEvtOnDestroyListener().remove(evt);
   }
 
   public void removerEvtOnRequestPermissionListener(OnRequestPermissionResultListener evt)
@@ -467,10 +489,5 @@ public abstract class ActMain extends Activity
 
   protected void setEventos()
   {
-  }
-
-  private void setViwDrawerMenu(DrawerMenu viwDrawerMenu)
-  {
-    _viwDrawerMenu = viwDrawerMenu;
   }
 }

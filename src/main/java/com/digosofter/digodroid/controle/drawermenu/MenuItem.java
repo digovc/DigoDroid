@@ -11,14 +11,13 @@ import android.widget.LinearLayout;
 
 import com.digosofter.digodroid.R;
 import com.digosofter.digodroid.UtilsAndroid;
-import com.digosofter.digodroid.activity.ActMain;
 import com.digosofter.digodroid.controle.imagem.ImagemGeral;
 import com.digosofter.digodroid.controle.label.LabelGeral;
 import com.digosofter.digodroid.controle.painel.PainelGeral;
 import com.digosofter.digodroid.controle.painel.PainelRipple;
 import com.digosofter.digodroid.design.TemaDefault;
 
-public class MenuItem extends PainelGeral implements View.OnClickListener
+public class MenuItem extends PainelGeral implements View.OnClickListener, View.OnLongClickListener
 {
   private static final int INT_MENU_ITEM_HEIGHT = 60;
   private Drawable _imgIcon;
@@ -27,7 +26,6 @@ public class MenuItem extends PainelGeral implements View.OnClickListener
   private PainelGeral _pnlConteudo;
   private PainelRipple _pnlRipple;
   private String _strTitulo;
-  private DrawerMenu _viwDrawerMenu;
 
   public MenuItem(Context cnt)
   {
@@ -116,28 +114,6 @@ public class MenuItem extends PainelGeral implements View.OnClickListener
     return _strTitulo;
   }
 
-  private DrawerMenu getViwDrawerMenu()
-  {
-    if (_viwDrawerMenu != null)
-    {
-      return _viwDrawerMenu;
-    }
-
-    if (this.getContext() == null)
-    {
-      return null;
-    }
-
-    if (!ActMain.class.isAssignableFrom(this.getContext().getClass()))
-    {
-      return null;
-    }
-
-    _viwDrawerMenu = ((ActMain) this.getContext()).getViwDrawerMenu();
-
-    return _viwDrawerMenu;
-  }
-
   @Override
   public void inicializar(AttributeSet ats)
   {
@@ -151,6 +127,8 @@ public class MenuItem extends PainelGeral implements View.OnClickListener
   public void inicializar()
   {
     super.inicializar();
+
+    this.setClickable(true);
 
     this.getPnlConteudo().setOrientation(LinearLayout.HORIZONTAL);
 
@@ -217,15 +195,25 @@ public class MenuItem extends PainelGeral implements View.OnClickListener
   }
 
   @Override
-  public void onClick(View viw)
+  public void onClick(final View viw)
   {
-    if (this.getViwDrawerMenu() == null)
+    if (viw.equals(this.getPnlConteudo()))
     {
+      this.callOnClick();
       return;
     }
+  }
 
-    this.getViwDrawerMenu().setMniClicado(this);
-    this.getViwDrawerMenu().closeDrawers();
+  @Override
+  public boolean onLongClick(final View viw)
+  {
+    if (viw.equals(this.getPnlConteudo()))
+    {
+      this.performLongClick();
+      return true;
+    }
+
+    return false;
   }
 
   @Override
@@ -234,6 +222,7 @@ public class MenuItem extends PainelGeral implements View.OnClickListener
     super.setEventos();
 
     this.getPnlRipple().setOnClickListener(this);
+    this.getPnlRipple().setOnLongClickListener(this);
   }
 
   public void setImgIcon(Drawable imgIcon)

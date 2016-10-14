@@ -1,8 +1,6 @@
-package com.digosofter.digodroid.sinc.message;
+package com.digosofter.digodroid.server.message;
 
 import com.digosofter.digodroid.dominio.DominioAndroidMain;
-import com.digosofter.digodroid.log.LogSinc;
-import com.digosofter.digojava.log.Log;
 
 import java.util.ArrayList;
 import java.util.List;

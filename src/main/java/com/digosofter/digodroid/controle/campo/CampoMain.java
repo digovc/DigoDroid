@@ -7,7 +7,7 @@ import android.util.AttributeSet;
 import com.digosofter.digodroid.R;
 import com.digosofter.digodroid.UtilsAndroid;
 import com.digosofter.digodroid.activity.ActMain;
-import com.digosofter.digodroid.activity.OnActivityDestruirListener;
+import com.digosofter.digodroid.activity.OnDestroyListener;
 import com.digosofter.digodroid.controle.label.LabelGeral;
 import com.digosofter.digodroid.controle.painel.PainelLinha;
 import com.digosofter.digodroid.database.ColunaAndroid;
@@ -18,7 +18,7 @@ import com.digosofter.digojava.Utils;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class CampoMain extends PainelLinha implements OnActivityDestruirListener
+public abstract class CampoMain extends PainelLinha implements OnDestroyListener
 {
   public static final String STR_TITULO_DESCONHECIDO = "<desconhecido>";
 
@@ -300,7 +300,7 @@ public abstract class CampoMain extends PainelLinha implements OnActivityDestrui
       return;
     }
 
-    ((ActMain) this.getContext()).addEvtOnDestruirListener(this);
+    ((ActMain) this.getContext()).addEvtOnDestroyListener(this);
   }
 
   public void setIntValor(int intValor)
