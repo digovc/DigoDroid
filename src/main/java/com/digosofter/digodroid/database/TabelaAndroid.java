@@ -41,7 +41,7 @@ public abstract class TabelaAndroid<T extends DominioAndroidMain> extends Tabela
   private static final String STR_MENU_ALTERAR = "Alterar";
   private static final String STR_MENU_DETALHAR = "Ver detalhes";
   private static final String STR_MENU_PESQUISAR_POR = "Pesquisar por";
-
+  private boolean _booMostrarSalvarNovo;
   private boolean _booSincronizada = true;
   private ColunaAndroid _clnBooAtivo;
   private ColunaAndroid _clnDttAlteracao;
@@ -109,7 +109,7 @@ public abstract class TabelaAndroid<T extends DominioAndroidMain> extends Tabela
 
     Intent itt = new Intent(act, this.getClsActCadastro());
 
-    itt.putExtra(ActCadastroMain.STR_EXTRA_IN_BOO_MOSTRAR_SALVAR_NOVO, (intRegistroRefId > 0));
+    itt.putExtra(ActCadastroMain.STR_EXTRA_IN_BOO_MOSTRAR_SALVAR_NOVO, (this.getBooMostrarSalvarNovo() || (intRegistroRefId > 0)));
     itt.putExtra(ActCadastroMain.STR_EXTRA_IN_INT_REGISTRO_ID, intRegistroId);
     itt.putExtra(ActCadastroMain.STR_EXTRA_IN_INT_REGISTRO_REF_ID, intRegistroRefId);
     itt.putExtra(ActCadastroMain.STR_EXTRA_IN_INT_TBL_OBJETO_ID, this.getIntObjetoId());
@@ -577,6 +577,11 @@ public abstract class TabelaAndroid<T extends DominioAndroidMain> extends Tabela
     return this.getDbe().execSqlGetBoo(sql);
   }
 
+  private boolean getBooMostrarSalvarNovo()
+  {
+    return _booMostrarSalvarNovo;
+  }
+
   public boolean getBooRegistroExiste(int intRegistroId)
   {
     if (intRegistroId < 1)
@@ -773,7 +778,7 @@ public abstract class TabelaAndroid<T extends DominioAndroidMain> extends Tabela
 
     _lstViwAndroid = new ArrayList<>();
 
-    this.inicializarLstViwAndroid();
+    this.inicializarLstViwAndroid(_lstViwAndroid);
 
     return _lstViwAndroid;
   }
@@ -1006,8 +1011,9 @@ public abstract class TabelaAndroid<T extends DominioAndroidMain> extends Tabela
 
   /**
    * Este método tem a responsabilidade de inicializar a lista de views desta tabela.
+   * @param lstViw
    */
-  protected void inicializarLstViwAndroid()
+  protected void inicializarLstViwAndroid(final List<ViewAndroid> lstViw)
   {
   }
 
@@ -1948,6 +1954,11 @@ public abstract class TabelaAndroid<T extends DominioAndroidMain> extends Tabela
     this.getDbe().execSql(sql);
 
     this.dispararEvtOnAdicionarAtualizarListener(false);
+  }
+
+  protected void setBooMostrarSalvarNovo(boolean booMostrarSalvarNovo)
+  {
+    _booMostrarSalvarNovo = booMostrarSalvarNovo;
   }
 
   public void setBooSincronizada(boolean booSincronizada)

@@ -189,7 +189,14 @@ public class CampoConsulta extends CampoMain implements View.OnClickListener
   @Override
   public void receberFoco()
   {
-    this.getBtn().performClick();
+    if (this.getIntValor() > 0)
+    {
+      this.getBtn().requestFocus();
+    }
+    else
+    {
+      this.getBtn().performClick();
+    }
   }
 
   @Override

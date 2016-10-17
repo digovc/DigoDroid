@@ -41,10 +41,14 @@ public abstract class ActCadastroMain extends ActMain
    * Código do objeto da tabela pai.
    */
   public static final String STR_EXTRA_IN_INT_TBL_PAI_OBJETO_ID = "int_tbl_pai_objeto_id";
-
+  /**
+   * Código do último registro salvo.
+   */
+  protected static final String STR_EXTRA_IN_INT_REGISTRO_ANTERIOR_ID = "int_registro_anterior_id";
   protected static final String STR_MENU_SALVAR = "Salvar";
   private static final String STR_MENU_SALVAR_NOVO = "Salvar e novo";
 
+  private boolean _booFocoAutomatico = true;
   private CampoMain _cmpFocoInicial;
   private int _intRegistroId;
   private int _intRegistroRefId;
@@ -59,14 +63,15 @@ public abstract class ActCadastroMain extends ActMain
       return;
     }
 
-    this.getTbl().limparColunas();
-
     Intent itt = new Intent(this, this.getClass());
 
     itt.putExtra(ActCadastroMain.STR_EXTRA_IN_BOO_MOSTRAR_SALVAR_NOVO, this.getBooMostrarMenuSalvarNovo());
     itt.putExtra(ActCadastroMain.STR_EXTRA_IN_INT_REGISTRO_REF_ID, this.getIntRegistroRefId());
     itt.putExtra(ActCadastroMain.STR_EXTRA_IN_INT_TBL_OBJETO_ID, (this.getTbl() != null) ? this.getTbl().getIntObjetoId() : -1);
     itt.putExtra(ActCadastroMain.STR_EXTRA_IN_INT_TBL_PAI_OBJETO_ID, (this.getTblPai() != null) ? this.getTblPai().getIntObjetoId() : -1);
+    itt.putExtra(ActCadastroMain.STR_EXTRA_IN_INT_REGISTRO_ANTERIOR_ID, this.getTbl().getClnIntId().getIntValor());
+
+    this.getTbl().limparColunas();
 
     this.startActivity(itt);
   }
@@ -129,6 +134,11 @@ public abstract class ActCadastroMain extends ActMain
     }
 
     cln.setIntValor(this.getIntRegistroRefId());
+  }
+
+  protected boolean getBooFocoAutomatico()
+  {
+    return _booFocoAutomatico;
   }
 
   protected boolean getBooMostrarMenuSalvarNovo()
@@ -262,10 +272,14 @@ public abstract class ActCadastroMain extends ActMain
     this.inicializarTbl();
     this.inicializarTitulo();
     this.inicializarLstCmp();
-    this.inicializarFoco();
+
+    if (this.getBooFocoAutomatico())
+    {
+      this.inicializarFoco();
+    }
   }
 
-  private void inicializarFoco()
+  protected void inicializarFoco()
   {
     if (this.getIntRegistroId() > 0)
     {
@@ -484,6 +498,11 @@ public abstract class ActCadastroMain extends ActMain
     }
 
     this.abrirNovo();
+  }
+
+  protected void setBooFocoAutomatico(boolean BooFocoInicial)
+  {
+    _booFocoAutomatico = BooFocoInicial;
   }
 
   private boolean validarDados()
