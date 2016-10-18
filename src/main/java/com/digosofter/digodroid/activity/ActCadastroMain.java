@@ -96,7 +96,10 @@ public abstract class ActCadastroMain extends ActMain
       return;
     }
 
-    this.carregarDadosRef(cln);
+    if (this.carregarDadosRef(cln))
+    {
+      return;
+    }
 
     if (cln.getCmp() == null)
     {
@@ -106,34 +109,36 @@ public abstract class ActCadastroMain extends ActMain
     cln.getCmp().carregarValorCln();
   }
 
-  private void carregarDadosRef(final ColunaAndroid cln)
+  private boolean carregarDadosRef(final ColunaAndroid cln)
   {
     if (this.getIntRegistroRefId() < 1)
     {
-      return;
+      return false;
     }
 
     if (this.getTblPai() == null)
     {
-      return;
+      return false;
     }
 
     if (cln.getClnRef() == null)
     {
-      return;
+      return false;
     }
 
     if (cln.getClnRef().getTbl() == null)
     {
-      return;
+      return false;
     }
 
     if (!cln.getClnRef().getTbl().equals(this.getTblPai()))
     {
-      return;
+      return false;
     }
 
     cln.setIntValor(this.getIntRegistroRefId());
+
+    return true;
   }
 
   protected boolean getBooFocoAutomatico()

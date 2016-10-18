@@ -113,7 +113,7 @@ public class TextBoxGeral extends EditText implements IControleMain
 
   private void atualizarStrValor(final String strValor)
   {
-    if (!((strValor != null) ? strValor.equals(this.getText().toString()) : (this.getText().toString() == null)))
+    if ((strValor != null) ? !strValor.equals(this.getText().toString()) : (this.getText().toString() != null))
     {
       this.setText(strValor);
       return;

@@ -26,6 +26,14 @@ public class CampoAlfanumerico extends CampoMain implements OnValorAlteradoListe
     super(cnt, atr, intDefStyleAttr);
   }
 
+  @Override
+  protected void atualizarStrValor(final String strValor)
+  {
+    super.atualizarStrValor(strValor);
+
+    this.getTxt().setStrValor(strValor);
+  }
+
   protected TextBoxGeral getTxt()
   {
     if (_txt != null)
@@ -62,11 +70,6 @@ public class CampoAlfanumerico extends CampoMain implements OnValorAlteradoListe
   @Override
   public void onValorAlterado(final Object objSender, final OnValorAlteradoArg arg)
   {
-    if (arg == null)
-    {
-      return;
-    }
-
     if (objSender.equals(this.getTxt()))
     {
       this.setStrValor(arg.getStrValor());
