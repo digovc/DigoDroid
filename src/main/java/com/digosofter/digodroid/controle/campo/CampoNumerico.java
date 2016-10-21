@@ -23,6 +23,17 @@ public class CampoNumerico extends CampoAlfanumerico
   }
 
   @Override
+  protected void atualizarStrValor(final String strValor)
+  {
+    super.atualizarStrValor(strValor);
+
+    if ("0.0".equals(strValor))
+    {
+      this.setStrValor(null);
+    }
+  }
+
+  @Override
   public void inicializar()
   {
     super.inicializar();

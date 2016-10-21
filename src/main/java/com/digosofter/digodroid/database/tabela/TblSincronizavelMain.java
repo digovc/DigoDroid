@@ -9,6 +9,7 @@ import com.digosofter.digodroid.log.LogSinc;
 import com.digosofter.digodroid.server.message.MsgPesquisar;
 import com.digosofter.digodroid.server.message.MsgSalvar;
 import com.digosofter.digodroid.server.message.RspPesquisar;
+import com.digosofter.digodroid.server.message.RspSalvar;
 import com.digosofter.digodroid.service.SrvSincMain;
 import com.digosofter.digojava.Utils;
 import com.digosofter.digojava.database.Coluna;
@@ -26,6 +27,7 @@ public abstract class TblSincronizavelMain<T extends DominioSincronizavelMain> e
   private ColunaAndroid _clnBooSincronizar;
   private ColunaAndroid _clnIntServerId;
   private ColunaAndroid _clnStrAparelhoId;
+  private ColunaAndroid _clnStrSincCritica;
   private MsgSalvar _msgSalvar;
   private MsgPesquisar _msgSincronizar;
   private String _sqlServerNome;
@@ -72,7 +74,7 @@ public abstract class TblSincronizavelMain<T extends DominioSincronizavelMain> e
     return _clnIntServerId;
   }
 
-  private ColunaAndroid getClnStrAparelhoId()
+  public ColunaAndroid getClnStrAparelhoId()
   {
     if (_clnStrAparelhoId != null)
     {
@@ -82,6 +84,18 @@ public abstract class TblSincronizavelMain<T extends DominioSincronizavelMain> e
     _clnStrAparelhoId = new ColunaAndroid("str_aparelho_id", this, Coluna.EnmTipo.TEXT);
 
     return _clnStrAparelhoId;
+  }
+
+  private ColunaAndroid getClnStrSincCritica()
+  {
+    if (_clnStrSincCritica != null)
+    {
+      return _clnStrSincCritica;
+    }
+
+    _clnStrSincCritica = new ColunaAndroid("str_sinc_critica", this, Coluna.EnmTipo.TEXT);
+
+    return _clnStrSincCritica;
   }
 
   private MsgSalvar getMsgSalvar()
@@ -118,7 +132,6 @@ public abstract class TblSincronizavelMain<T extends DominioSincronizavelMain> e
 
     this.getClnBooSincronizado().setBooValorDefault(false);
     this.getClnBooSincronizar().setBooValorDefault(true);
-    this.getClnStrAparelhoId().setStrValorDefault(Aparelho.getI().getStrDeviceId());
   }
 
   @Override
@@ -130,16 +143,46 @@ public abstract class TblSincronizavelMain<T extends DominioSincronizavelMain> e
     this.getClnBooSincronizar().setIntOrdem(++intOrdem);
     this.getClnIntServerId().setIntOrdem(++intOrdem);
     this.getClnStrAparelhoId().setIntOrdem(++intOrdem);
+    this.getClnStrSincCritica().setIntOrdem(++intOrdem);
 
     return intOrdem;
   }
 
-  public void processar(final RspPesquisar rspPesquisar)
+  private void prepararRetornoSincronizacao(final T objDominio)
+  {
+    if (objDominio == null)
+    {
+      return;
+    }
+
+    objDominio.setIntServerId(objDominio.getIntId());
+
+    objDominio.setIntId(objDominio.getIntClientRegistroId());
+  }
+
+  protected void prepararSincronizacao(final T objDominio)
+  {
+    if (objDominio == null)
+    {
+      return;
+    }
+
+    objDominio.setIntClientRegistroId(objDominio.getIntId());
+
+    objDominio.setIntId(0);
+
+    objDominio.setStrAparelhoId(Aparelho.getI().getStrDeviceId());
+    objDominio.setStrSincCritica(null);
+  }
+
+  public void processarPesquisa(final RspPesquisar rspPesquisar)
   {
     if (rspPesquisar == null)
     {
       return;
     }
+
+    LogSinc.getI().addLog(Log.EnmTipo.ERRO, "Analisando resposta de recebimento do servidor.");
 
     if (rspPesquisar.getIntRegistroQuantidade() < 1)
     {
@@ -169,7 +212,7 @@ public abstract class TblSincronizavelMain<T extends DominioSincronizavelMain> e
 
     if (arrJsnElement.length != rspPesquisar.getIntRegistroQuantidade())
     {
-      LogSinc.getI().addLog(Log.EnmTipo.ERRO, "A quantidade de registro recebidos difere da quantidade de registros enviados pela pesquisa.");
+      LogSinc.getI().addLog(Log.EnmTipo.ERRO, "A quantidade de registros recebidos difere da quantidade de registros enviados pela pesquisa.");
       return;
     }
 
@@ -177,25 +220,25 @@ public abstract class TblSincronizavelMain<T extends DominioSincronizavelMain> e
 
     for (JsonElement jsnElement : arrJsnElement)
     {
-      this.processar(rspPesquisar, jsnElement);
+      this.processarPesquisa(rspPesquisar, jsnElement);
     }
 
-    this.sincronizarFinalizar(rspPesquisar);
+    this.processarPesquisaFinalizar(rspPesquisar);
   }
 
-  private void processar(final RspPesquisar rspPesquisar, final JsonElement jsnElement)
+  private void processarPesquisa(final RspPesquisar rspPesquisar, final JsonElement jsnObjDominio)
   {
-    if (jsnElement == null)
+    if (jsnObjDominio == null)
     {
       return;
     }
 
-    T objDominio = Json.getI().fromJson(jsnElement, this.getClsDominio());
+    T objDominio = Json.getI().fromJson(jsnObjDominio, this.getClsDominio());
 
-    this.processar(objDominio, rspPesquisar);
+    this.processarPesquisa(rspPesquisar, objDominio);
   }
 
-  private void processar(final T objDominio, final RspPesquisar rspPesquisar)
+  private void processarPesquisa(final RspPesquisar rspPesquisar, final T objDominio)
   {
     if (objDominio == null)
     {
@@ -213,14 +256,109 @@ public abstract class TblSincronizavelMain<T extends DominioSincronizavelMain> e
     LogSinc.getI().addLog(Log.EnmTipo.INFO, String.format("Registro %s salvo com sucesso na tabela %s.", objDominio.getIntId(), this.getStrNomeExibicao()));
   }
 
-  private void processar(final RspPesquisar rspPesquisar, final T objDominio)
+  private void processarPesquisaFinalizar(final RspPesquisar rspPesquisar)
   {
-    if (objDominio == null)
+    TblSincronizacao.getI().atualizarRecebimento(this, rspPesquisar);
+
+    this.setMsgSincronizar(null);
+  }
+
+  public void processarSalvar(final RspSalvar rspSalvar)
+  {
+    if (rspSalvar == null)
     {
       return;
     }
 
+    LogSinc.getI().addLog(Log.EnmTipo.ERRO, String.format("Analisando resposta de sincronização da tabela %s.", this.getStrNomeExibicao()));
+
+    if (rspSalvar.getIntRegistroQuantidade() < 1)
+    {
+      LogSinc.getI().addLog(Log.EnmTipo.ERRO, String.format("A resposta de sincronização da tabela %s está vazia.", this.getStrNomeExibicao()));
+      return;
+    }
+
+    if (Utils.getBooStrVazia(rspSalvar.getJsnLstObjDominio()))
+    {
+      LogSinc.getI().addLog(Log.EnmTipo.ERRO, String.format("A resposta de sincronização da tabela %s está vazia.", this.getStrNomeExibicao()));
+      return;
+    }
+
+    JsonElement[] arrJsnElement = Json.getI().fromJson(rspSalvar.getJsnLstObjDominio(), JsonElement[].class);
+
+    if (arrJsnElement == null)
+    {
+      LogSinc.getI().addLog(Log.EnmTipo.ERRO, String.format("Erro ao converter o resultado da resposta de sincronização da tabela %s.", this.getStrNomeExibicao()));
+      return;
+    }
+
+    if (arrJsnElement.length < 1)
+    {
+      LogSinc.getI().addLog(Log.EnmTipo.ERRO, String.format("A resposta de sincronização da tabela %s não retornou nenhum registro.", this.getStrNomeExibicao()));
+      return;
+    }
+
+    if (arrJsnElement.length != rspSalvar.getIntRegistroQuantidade())
+    {
+      LogSinc.getI().addLog(Log.EnmTipo.ERRO, "A quantidade de registros recebidos difere da quantidade de registros enviados para salvamento.");
+      return;
+    }
+
+    for (JsonElement jsnElement : arrJsnElement)
+    {
+      this.processarSalvar(rspSalvar, jsnElement);
+    }
+
+    this.processarSalvarFinalizar(rspSalvar);
+  }
+
+  private void processarSalvar(final RspSalvar rspSalvar, final JsonElement jsnObjDominio)
+  {
+    if (jsnObjDominio == null)
+    {
+      return;
+    }
+
+    T objDominio = Json.getI().fromJson(jsnObjDominio, this.getClsDominio());
+
+    this.processarSalvar(rspSalvar, objDominio);
+  }
+
+  private void processarSalvar(final RspSalvar rspSalvar, final T objDominio)
+  {
+    this.prepararRetornoSincronizacao(objDominio);
+
+    if (objDominio == null)
+    {
+      LogSinc.getI().addLog(Log.EnmTipo.ERRO, String.format("Erro ao converter o item do resultado do envio da tabela %s.", this.getStrNomeExibicao()));
+      return;
+    }
+
+    LogSinc.getI().addLog(Log.EnmTipo.ERRO, String.format("Analisando a resposta de sincronização do registro %s da tabela %s.", objDominio.getIntId(), this.getStrNomeExibicao()));
+
+    if (Utils.getBooStrVazia(objDominio.getStrSincCritica()))
+    {
+      objDominio.setBooSincronizado(true);
+      objDominio.setStrSincCritica(Coluna.STR_VALOR_NULO);
+    }
+    else
+    {
+      LogSinc.getI().addLog(Log.EnmTipo.ERRO, String.format("Erro ao sincronizar o registro %s da tabela %s. %s", objDominio.getIntId(), this.getStrNomeExibicao(), objDominio.getStrSincCritica()));
+    }
+
     this.salvar(objDominio);
+
+    if (objDominio.getBooSincronizado())
+    {
+      LogSinc.getI().addLog(Log.EnmTipo.INFO, String.format("Registro %s da tabela %s sincronizado com sucesso.", objDominio.getIntId(), this.getStrNomeExibicao()));
+    }
+  }
+
+  private void processarSalvarFinalizar(final RspSalvar rspSalvar)
+  {
+    // TODO: Persistir no banco de dados essa sincronização.
+
+    this.setMsgSalvar(null);
   }
 
   private void setMsgSalvar(MsgSalvar msgSalvar)
@@ -257,11 +395,6 @@ public abstract class TblSincronizavelMain<T extends DominioSincronizavelMain> e
       return;
     }
 
-    if (this.getMsgSincronizar() != null)
-    {
-      return;
-    }
-
     // TODO: Validar o status da conexão com o servidor.
     this.sincronizarReceber();
     this.sincronizarEnviar();
@@ -269,6 +402,11 @@ public abstract class TblSincronizavelMain<T extends DominioSincronizavelMain> e
 
   private void sincronizarEnviar()
   {
+    if (this.getMsgSalvar() != null)
+    {
+      return;
+    }
+
     List<Filtro> lstFil = new ArrayList<>();
 
     lstFil.add(new Filtro(this.getClnBooSincronizado(), false));
@@ -286,6 +424,11 @@ public abstract class TblSincronizavelMain<T extends DominioSincronizavelMain> e
       return;
     }
 
+    for (T objDominio : lstObjDominio)
+    {
+      this.prepararSincronizacao(objDominio);
+    }
+
     this.setMsgSalvar(new MsgSalvar());
 
     this.getMsgSalvar().setTbl(this);
@@ -294,14 +437,13 @@ public abstract class TblSincronizavelMain<T extends DominioSincronizavelMain> e
     this.getSrvSinc().getSrvHttpSinc().enviar(this.getMsgSalvar());
   }
 
-  private void sincronizarFinalizar(final RspPesquisar rspPesquisar)
-  {
-    TblSincronizacao.getI().atualizarRecebimento(this, rspPesquisar);
-    this.setMsgSincronizar(null);
-  }
-
   private void sincronizarReceber()
   {
+    if (this.getMsgSincronizar() != null)
+    {
+      return;
+    }
+
     this.setMsgSincronizar(new MsgPesquisar());
 
     this.getMsgSincronizar().setTbl(this);

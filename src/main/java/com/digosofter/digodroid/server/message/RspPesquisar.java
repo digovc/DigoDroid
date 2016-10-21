@@ -5,11 +5,9 @@ import com.digosofter.digodroid.dominio.DominioAndroidMain;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RspPesquisar extends RespostaMain<MsgPesquisar>
+public class RspPesquisar extends RspContainerDominioMain<MsgPesquisar>
 {
-  private int _intRegistroQuantidade;
   private int _intSincronizacaoId;
-  private String _jsnLstObjDominio;
   private List<DominioAndroidMain> _lstObjDominioSincronizado;
 
   public void addObjDominioSincronizado(DominioAndroidMain objDominio)
@@ -27,19 +25,9 @@ public class RspPesquisar extends RespostaMain<MsgPesquisar>
     this.getLstObjDominioSincronizado().add(objDominio);
   }
 
-  public int getIntRegistroQuantidade()
-  {
-    return _intRegistroQuantidade;
-  }
-
   public int getIntSincronizacaoId()
   {
     return _intSincronizacaoId;
-  }
-
-  public String getJsnLstObjDominio()
-  {
-    return _jsnLstObjDominio;
   }
 
   private List<DominioAndroidMain> getLstObjDominioSincronizado()
@@ -54,18 +42,8 @@ public class RspPesquisar extends RespostaMain<MsgPesquisar>
     return _lstObjDominioSincronizado;
   }
 
-  private void setIntRegistroQuantidade(int intRegistroQuantidade)
-  {
-    _intRegistroQuantidade = intRegistroQuantidade;
-  }
-
   public void setIntSincronizacaoId(int intSincronizacaoId)
   {
     _intSincronizacaoId = intSincronizacaoId;
-  }
-
-  private void setJsnLstObjDominio(String jsnData)
-  {
-    _jsnLstObjDominio = jsnData;
   }
 }

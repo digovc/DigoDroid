@@ -12,7 +12,6 @@ import java.io.IOException;
 
 public abstract class ViewAndroid extends TabelaAndroid<DominioAndroidMain>
 {
-
   private ColunaAndroid _clnIntId;
   private TabelaAndroid _tbl;
   private TabelaAndroid _tblPrincipal;
@@ -70,6 +69,12 @@ public abstract class ViewAndroid extends TabelaAndroid<DominioAndroidMain>
 
     this.getDbe().execSql(sql);
     this.getDbe().execSql(this.getSqlSelect());
+  }
+
+  @Override
+  protected void criarColuna()
+  {
+    // super.criarColuna();
   }
 
   @Override

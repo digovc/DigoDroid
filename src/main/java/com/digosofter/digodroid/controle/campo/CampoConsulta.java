@@ -31,7 +31,7 @@ public class CampoConsulta extends CampoMain implements View.OnClickListener
     super(cnt, atr, intDefStyleAttr);
   }
 
-  private void abrirConsulta()
+  public void abrirConsulta()
   {
     if (this.getBooSomenteLeitura())
     {

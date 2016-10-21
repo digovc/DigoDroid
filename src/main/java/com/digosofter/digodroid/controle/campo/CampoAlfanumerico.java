@@ -34,7 +34,7 @@ public class CampoAlfanumerico extends CampoMain implements OnValorAlteradoListe
     this.getTxt().setStrValor(strValor);
   }
 
-  protected TextBoxGeral getTxt()
+  public TextBoxGeral getTxt()
   {
     if (_txt != null)
     {

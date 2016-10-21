@@ -78,6 +78,7 @@ public abstract class ConfigAndroidMain extends ConfigMain
       if (int.class.equals(objField.getType()))
       {
         objField.set(this, this.getIntConfig(objField.getName(), (int) objField.get(this)));
+        return;
       }
     }
     catch (Exception ex)
@@ -227,6 +228,7 @@ public abstract class ConfigAndroidMain extends ConfigMain
       if (int.class.equals(objField.getType()))
       {
         this.setIntConfig(objField.getName(), (int) objField.get(this));
+        return;
       }
     }
     catch (Exception ex)

@@ -1019,7 +1019,7 @@ public abstract class TabelaAndroid<T extends DominioAndroidMain> extends Tabela
 
   private void lerDominio(T objDominio)
   {
-    this.limparColunas();
+    this.limparDados();
 
     if (objDominio == null)
     {
@@ -1796,7 +1796,7 @@ public abstract class TabelaAndroid<T extends DominioAndroidMain> extends Tabela
 
   public TabelaAndroid recuperar(List<Filtro> lstFil)
   {
-    this.limparColunas();
+    this.limparDados();
 
     if (this.getDbe() == null)
     {

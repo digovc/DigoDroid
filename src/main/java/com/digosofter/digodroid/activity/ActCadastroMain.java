@@ -53,7 +53,7 @@ public abstract class ActCadastroMain extends ActMain
   private int _intRegistroId;
   private int _intRegistroRefId;
   private List<CampoMain> _lstCmp;
-  private TabelaAndroid<?> _tbl;
+  private TabelaAndroid _tbl;
   private TabelaAndroid _tblPai;
 
   private void abrirNovo()
@@ -71,7 +71,7 @@ public abstract class ActCadastroMain extends ActMain
     itt.putExtra(ActCadastroMain.STR_EXTRA_IN_INT_TBL_PAI_OBJETO_ID, (this.getTblPai() != null) ? this.getTblPai().getIntObjetoId() : -1);
     itt.putExtra(ActCadastroMain.STR_EXTRA_IN_INT_REGISTRO_ANTERIOR_ID, this.getTbl().getClnIntId().getIntValor());
 
-    this.getTbl().limparColunas();
+    this.getTbl().limparDados();
 
     this.startActivity(itt);
   }
@@ -228,7 +228,7 @@ public abstract class ActCadastroMain extends ActMain
       return null;
     }
 
-    _tbl = (TabelaAndroid<?>) AppAndroid.getI().getDbe().getTbl(this.getIntent().getIntExtra(STR_EXTRA_IN_INT_TBL_OBJETO_ID, 0));
+    _tbl = (TabelaAndroid) AppAndroid.getI().getDbe().getTbl(this.getIntent().getIntExtra(STR_EXTRA_IN_INT_TBL_OBJETO_ID, 0));
 
     if (_tbl == null)
     {
@@ -365,9 +365,10 @@ public abstract class ActCadastroMain extends ActMain
       return;
     }
 
+    this.getTbl().limparDados();
+
     if (this.getIntRegistroId() < 1)
     {
-      this.getTbl().limparColunas();
       return;
     }
 

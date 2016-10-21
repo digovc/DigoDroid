@@ -43,7 +43,7 @@ public class TblSincronizacaoItem extends TabelaAndroid<DominioAndroidMain>
       return;
     }
 
-    this.limparColunas();
+    this.limparDados();
 
     this.getClnIntRegistroQuantidade().setIntValor(rspPesquisar.getIntRegistroQuantidade());
     this.getClnIntSincronizacaoId().setIntValor(rspPesquisar.getIntSincronizacaoId());

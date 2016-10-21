@@ -34,7 +34,7 @@ public class MsgPesquisar extends MsgTabelaBase<RspPesquisar>
       return;
     }
 
-    this.getTbl().processar(rsp);
+    this.getTbl().processarPesquisa(rsp);
   }
 
   public void setDttUltimoRecebimento(Calendar dttUltimoRecebimento)

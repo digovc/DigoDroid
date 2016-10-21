@@ -17,6 +17,7 @@ import java.util.List;
 public abstract class SrvSincMain<T extends ServerHttpSincMain> extends ServiceMain
 {
   private static final int INT_LOOP_DELAY = 5000;
+
   private static SrvSincMain _i;
 
   public static SrvSincMain getI()
