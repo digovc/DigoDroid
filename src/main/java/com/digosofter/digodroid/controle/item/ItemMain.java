@@ -5,24 +5,22 @@ import android.database.Cursor;
 import android.util.AttributeSet;
 
 import com.digosofter.digodroid.controle.painel.PainelGeral;
-import com.digosofter.digodroid.erro.ErroAndroid;
 
 public abstract class ItemMain extends PainelGeral
 {
-
-  public ItemMain(Context context)
+  public ItemMain(Context cnt)
   {
-    super(context);
+    super(cnt);
   }
 
-  public ItemMain(Context context, AttributeSet attrs)
+  public ItemMain(Context cnt, AttributeSet atr)
   {
-    super(context, attrs);
+    super(cnt, atr);
   }
 
-  public ItemMain(Context context, AttributeSet attrs, int defStyleAttr)
+  public ItemMain(Context cnt, AttributeSet atr, int intDefStyleAttr)
   {
-    super(context, attrs, defStyleAttr);
+    super(cnt, atr, intDefStyleAttr);
   }
 
   /**
@@ -38,17 +36,8 @@ public abstract class ItemMain extends PainelGeral
   public void inicializar()
   {
     super.inicializar();
-    try
-    {
-      this.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
-      this.setOrientation(VERTICAL);
-    }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
-    }
+
+    this.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
+    this.setOrientation(VERTICAL);
   }
 }

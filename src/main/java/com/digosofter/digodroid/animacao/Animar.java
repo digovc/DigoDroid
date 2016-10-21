@@ -6,34 +6,23 @@ import android.view.animation.Animation;
 import android.view.animation.ScaleAnimation;
 import android.view.animation.TranslateAnimation;
 
-import com.digosofter.digodroid.erro.ErroAndroid;
 import com.digosofter.digojava.Objeto;
 
 public class Animar extends Objeto
 {
-
   private static final long INT_DURACAO_RAPIDO = 450;
-  private static Animar i;
+  private static Animar _i;
 
   public static Animar getI()
   {
-    try
+    if (_i != null)
     {
-      if (i != null)
-      {
-        return i;
-      }
-      i = new Animar();
+      return _i;
     }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
 
-    }
-    finally
-    {
-    }
-    return i;
+    _i = new Animar();
+
+    return _i;
   }
 
   /**
@@ -43,23 +32,15 @@ public class Animar extends Objeto
    */
   public void aparecerFadeIn(View viwTarget)
   {
-    try
+    if (viwTarget == null)
     {
-      if (viwTarget == null)
-      {
-        return;
-      }
-      viwTarget.setAlpha(0);
-      viwTarget.setVisibility(View.VISIBLE);
-      viwTarget.animate().alpha(1);
+      return;
     }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
-    }
+
+    viwTarget.setAlpha(0);
+    viwTarget.setVisibility(View.VISIBLE);
+
+    viwTarget.animate().alpha(1);
   }
 
   /**
@@ -69,26 +50,18 @@ public class Animar extends Objeto
    */
   public void aparecerSlideDown(View viwTarget)
   {
-    ScaleAnimation anm;
-    try
+    if (viwTarget == null)
     {
-      if (viwTarget == null)
-      {
-        return;
-      }
-      anm = new ScaleAnimation(1, 1, 0, 1);
-      anm.setDuration(INT_DURACAO_RAPIDO);
-      viwTarget.clearAnimation();
-      viwTarget.setVisibility(View.VISIBLE);
-      viwTarget.startAnimation(anm);
+      return;
     }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
-    }
+
+    ScaleAnimation anm = new ScaleAnimation(1, 1, 0, 1);
+
+    anm.setDuration(INT_DURACAO_RAPIDO);
+
+    viwTarget.clearAnimation();
+    viwTarget.setVisibility(View.VISIBLE);
+    viwTarget.startAnimation(anm);
   }
 
   /**
@@ -98,23 +71,15 @@ public class Animar extends Objeto
    */
   public void desaparecerFadeOut(View viwTarget)
   {
-    try
+    if (viwTarget == null)
     {
-      if (viwTarget == null)
-      {
-        return;
-      }
-      viwTarget.clearAnimation();
-      viwTarget.setAlpha(1);
-      viwTarget.animate().alpha(0);
+      return;
     }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
-    }
+
+    viwTarget.clearAnimation();
+    viwTarget.setAlpha(1);
+
+    viwTarget.animate().alpha(0);
   }
 
   /**
@@ -135,31 +100,24 @@ public class Animar extends Objeto
    */
   public void desaparecerMoverBaixo(final View viwTarget, final Animation.AnimationListener objAnimationListener)
   {
-    int intBottom;
-    TranslateAnimation anm;
-    try
+    if (viwTarget == null)
     {
-      if (viwTarget == null)
-      {
-        return;
-      }
-      intBottom = (((ViewGroup.MarginLayoutParams) viwTarget.getLayoutParams()).bottomMargin + viwTarget.getHeight());
-      anm = new TranslateAnimation(0, 0, 0, intBottom);
-      anm.setDuration(INT_DURACAO_RAPIDO);
-      if (objAnimationListener != null)
-      {
-        anm.setAnimationListener(objAnimationListener);
-      }
-      viwTarget.clearAnimation();
-      viwTarget.startAnimation(anm);
+      return;
     }
-    catch (Exception ex)
+
+    int intBottom = (((ViewGroup.MarginLayoutParams) viwTarget.getLayoutParams()).bottomMargin + viwTarget.getHeight());
+
+    TranslateAnimation anm = new TranslateAnimation(0, 0, 0, intBottom);
+
+    anm.setDuration(INT_DURACAO_RAPIDO);
+
+    if (objAnimationListener != null)
     {
-      new ErroAndroid("Erro inesperado.\n", ex);
+      anm.setAnimationListener(objAnimationListener);
     }
-    finally
-    {
-    }
+
+    viwTarget.clearAnimation();
+    viwTarget.startAnimation(anm);
   }
 
   /**
@@ -170,31 +128,24 @@ public class Animar extends Objeto
    */
   public void desaparecerMoverCima(View viwTarget, Animation.AnimationListener objAnimationListener)
   {
-    int intTop;
-    TranslateAnimation anm;
-    try
+    if (viwTarget == null)
     {
-      if (viwTarget == null)
-      {
-        return;
-      }
-      intTop = -(((ViewGroup.MarginLayoutParams) viwTarget.getLayoutParams()).topMargin + viwTarget.getHeight());
-      anm = new TranslateAnimation(0, 0, 0, intTop);
-      anm.setDuration(INT_DURACAO_RAPIDO);
-      if (objAnimationListener != null)
-      {
-        anm.setAnimationListener(objAnimationListener);
-      }
-      viwTarget.clearAnimation();
-      viwTarget.startAnimation(anm);
+      return;
     }
-    catch (Exception ex)
+
+    int intTop = -(((ViewGroup.MarginLayoutParams) viwTarget.getLayoutParams()).topMargin + viwTarget.getHeight());
+
+    TranslateAnimation anm = new TranslateAnimation(0, 0, 0, intTop);
+
+    anm.setDuration(INT_DURACAO_RAPIDO);
+
+    if (objAnimationListener != null)
     {
-      new ErroAndroid("Erro inesperado.\n", ex);
+      anm.setAnimationListener(objAnimationListener);
     }
-    finally
-    {
-    }
+
+    viwTarget.clearAnimation();
+    viwTarget.startAnimation(anm);
   }
 
   /**
@@ -214,43 +165,36 @@ public class Animar extends Objeto
    */
   public void desaparecerSlideUp(final View viwTarget)
   {
-    ScaleAnimation anm;
-    try
+    if (viwTarget == null)
     {
-      if (viwTarget == null)
+      return;
+    }
+
+    ScaleAnimation anm = new ScaleAnimation(1, 1, 1, 0);
+
+    anm.setDuration(INT_DURACAO_RAPIDO);
+    anm.setFillAfter(true);
+
+    anm.setAnimationListener(new Animation.AnimationListener()
+    {
+      @Override
+      public void onAnimationEnd(final Animation animation)
       {
-        return;
+        viwTarget.setVisibility(View.GONE);
       }
-      anm = new ScaleAnimation(1, 1, 1, 0);
-      anm.setDuration(INT_DURACAO_RAPIDO);
-      anm.setFillAfter(true);
-      anm.setAnimationListener(new Animation.AnimationListener()
+
+      @Override
+      public void onAnimationRepeat(final Animation animation)
       {
-        @Override
-        public void onAnimationEnd(final Animation animation)
-        {
-          viwTarget.setVisibility(View.GONE);
-        }
+      }
 
-        @Override
-        public void onAnimationRepeat(final Animation animation)
-        {
-        }
+      @Override
+      public void onAnimationStart(final Animation animation)
+      {
+      }
+    });
 
-        @Override
-        public void onAnimationStart(final Animation animation)
-        {
-        }
-      });
-      viwTarget.clearAnimation();
-      viwTarget.startAnimation(anm);
-    }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
-    }
+    viwTarget.clearAnimation();
+    viwTarget.startAnimation(anm);
   }
 }

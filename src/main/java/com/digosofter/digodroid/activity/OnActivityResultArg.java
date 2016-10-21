@@ -6,7 +6,6 @@ import com.digosofter.digojava.EventArg;
 
 public class OnActivityResultArg extends EventArg
 {
-
   private int _intRequestCode;
   private int _intResultCode;
   private Intent _ittResult;

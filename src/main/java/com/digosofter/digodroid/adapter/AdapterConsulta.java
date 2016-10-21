@@ -10,47 +10,37 @@ import android.widget.Filter;
 import com.digosofter.digodroid.activity.ActConsulta;
 import com.digosofter.digodroid.controle.item.ItemConsulta;
 import com.digosofter.digodroid.database.TabelaAndroid;
-import com.digosofter.digodroid.erro.ErroAndroid;
 
 public class AdapterConsulta extends CursorAdapter
 {
-
   private ActConsulta _actConsulta;
+  private Cursor _crsConsulta;
   private TabelaAndroid<?> _tbl;
 
-  public AdapterConsulta(ActConsulta actConsulta, Cursor crs)
+  public AdapterConsulta(ActConsulta actConsulta)
   {
-    super(actConsulta, crs, false);
-    try
-    {
-      this.setActConsulta(actConsulta);
-    }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
-    }
+    super(actConsulta, null, 0);
+
+    this.setActConsulta(actConsulta);
+
+    this.iniciar();
   }
 
-  private void atualizarActConsulta()
+  private void atualizarCrsConsulta(final Cursor crsConsulta)
   {
-    try
+    Cursor crsConsultaAnterior = this.swapCursor(crsConsulta);
+
+    if (crsConsultaAnterior == null)
     {
-      if (this.getActConsulta() == null)
-      {
-        return;
-      }
-      this.setTbl(this.getActConsulta().getTbl());
+      return;
     }
-    catch (Exception ex)
+
+    if (crsConsultaAnterior.isClosed())
     {
-      new ErroAndroid("Erro inesperado.\n", ex);
+      return;
     }
-    finally
-    {
-    }
+
+    crsConsultaAnterior.close();
   }
 
   /**
@@ -58,21 +48,17 @@ public class AdapterConsulta extends CursorAdapter
    */
   public void atualizarLista()
   {
-    try
+    if (this.getTbl() == null)
     {
-      if (this.getTbl() == null)
-      {
-        return;
-      }
-      this.changeCursor(this.getTbl().pesquisarConsulta());
+      return;
     }
-    catch (Exception ex)
+
+    if (this.getActConsulta() == null)
     {
-      new ErroAndroid("Erro inesperado.\n", ex);
+      return;
     }
-    finally
-    {
-    }
+
+    this.setCrsConsulta(this.getTbl().pesquisarConsulta(this.getActConsulta()));
   }
 
   @Override
@@ -86,6 +72,11 @@ public class AdapterConsulta extends CursorAdapter
     return _actConsulta;
   }
 
+  private Cursor getCrsConsulta()
+  {
+    return _crsConsulta;
+  }
+
   @Override
   public Filter getFilter()
   {
@@ -94,7 +85,37 @@ public class AdapterConsulta extends CursorAdapter
 
   TabelaAndroid<?> getTbl()
   {
-    return _tbl;
+    if (_tbl != null)
+    {
+      return _tbl;
+    }
+
+    if (this.getActConsulta() == null)
+    {
+      return null;
+    }
+
+    return _tbl = this.getActConsulta().getTbl();
+  }
+
+  private void inicializar()
+  {
+    this.inicializarCrsConsulta();
+  }
+
+  private void inicializarCrsConsulta()
+  {
+    if (this.getTbl() == null)
+    {
+      return;
+    }
+
+    this.setCrsConsulta(this.getTbl().pesquisarConsulta(this.getActConsulta()));
+  }
+
+  private void iniciar()
+  {
+    this.inicializar();
   }
 
   @Override
@@ -105,22 +126,23 @@ public class AdapterConsulta extends CursorAdapter
 
   private void setActConsulta(ActConsulta actConsulta)
   {
-    try
+    if (_actConsulta == actConsulta)
     {
-      _actConsulta = actConsulta;
-      this.atualizarActConsulta();
+      return;
     }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
-    }
+
+    _actConsulta = actConsulta;
   }
 
-  private void setTbl(TabelaAndroid<?> tbl)
+  private void setCrsConsulta(final Cursor crsConsulta)
   {
-    _tbl = tbl;
+    if (_crsConsulta == crsConsulta)
+    {
+      return;
+    }
+
+    _crsConsulta = crsConsulta;
+
+    this.atualizarCrsConsulta(crsConsulta);
   }
 }

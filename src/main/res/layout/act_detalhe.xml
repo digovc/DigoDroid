@@ -11,7 +11,7 @@
         android:id="@+id/actDetalhe_pnlTitulo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#3949AB"
+        android:background="@color/cor_tema"
         android:gravity="bottom"
         android:orientation="vertical"
         android:padding="10dp">

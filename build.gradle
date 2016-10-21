@@ -3,7 +3,7 @@ apply plugin: 'com.android.library'
 android {
 
     compileSdkVersion 24
-    buildToolsVersion "23.0.2"
+    buildToolsVersion "23.0.3"
     useLibrary 'org.apache.http.legacy'
 
     compileOptions {
@@ -14,8 +14,9 @@ android {
 
     defaultConfig {
 
-        minSdkVersion 15
+        minSdkVersion 19
         targetSdkVersion 24
+        multiDexEnabled true
     }
 
     buildTypes {
@@ -32,10 +33,11 @@ dependencies {
 
     compile project(':digoJava')
 
-    compile files('libs/commons-io-2.4.jar')
-    compile files('libs/commons-net-3.3.jar')
+    compile 'commons-io:commons-io:+'
+    compile 'commons-net:commons-net:+'
 
-    compile 'com.google.android.gms:play-services:8.3.0'
-    compile 'com.github.markushi:circlebutton:1.1'
-    compile 'com.balysv:material-ripple:1.0.2'
+    compile 'com.android.volley:volley:+'
+    compile 'com.balysv:material-ripple:+'
+    compile 'com.github.markushi:circlebutton:+'
+    compile 'com.google.android.gms:play-services:+'
 }

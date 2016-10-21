@@ -5,19 +5,18 @@ import android.util.AttributeSet;
 
 public class PainelGeralRelativo extends PainelMainRelativo
 {
-
-  public PainelGeralRelativo(Context context)
+  public PainelGeralRelativo(Context cnt)
   {
-    super(context);
+    super(cnt);
   }
 
-  public PainelGeralRelativo(Context context, AttributeSet attrs)
+  public PainelGeralRelativo(Context cnt, AttributeSet atr)
   {
-    super(context, attrs);
+    super(cnt, atr);
   }
 
-  public PainelGeralRelativo(Context context, AttributeSet attrs, int defStyleAttr)
+  public PainelGeralRelativo(Context cnt, AttributeSet atr, int intDefStyleAttr)
   {
-    super(context, attrs, defStyleAttr);
+    super(cnt, atr, intDefStyleAttr);
   }
 }

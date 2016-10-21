@@ -5,20 +5,19 @@ import android.util.AttributeSet;
 
 public class CampoRadioButton extends CampoMain
 {
-
-  public CampoRadioButton(Context context)
+  public CampoRadioButton(Context cnt)
   {
-    super(context);
+    super(cnt);
   }
 
-  public CampoRadioButton(Context context, AttributeSet attrs)
+  public CampoRadioButton(Context cnt, AttributeSet atr)
   {
-    super(context, attrs);
+    super(cnt, atr);
   }
 
-  public CampoRadioButton(Context context, AttributeSet attrs, int defStyleAttr)
+  public CampoRadioButton(Context cnt, AttributeSet atr, int intDefStyleAttr)
   {
-    super(context, attrs, defStyleAttr);
+    super(cnt, atr, intDefStyleAttr);
   }
 
   @Override

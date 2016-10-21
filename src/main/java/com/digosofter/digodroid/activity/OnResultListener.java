@@ -2,8 +2,7 @@ package com.digosofter.digodroid.activity;
 
 import java.util.EventListener;
 
-public interface OnActivityResultListener extends EventListener
+public interface OnResultListener extends EventListener
 {
-
   void onActivityResult(Object objSender, OnActivityResultArg arg);
 }

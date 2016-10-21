@@ -1,9 +1,6 @@
 package com.digosofter.digodroid.http;
 
-import com.digosofter.digodroid.AppAndroid;
-import com.digosofter.digodroid.erro.ErroAndroid;
 import com.digosofter.digojava.Objeto;
-import com.digosofter.digojava.Utils;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -13,7 +10,6 @@ import org.apache.http.util.EntityUtils;
 
 public class HttpCliente extends Objeto
 {
-
   public enum EnmStatus
   {
     CONCLUIDO,
@@ -48,17 +44,16 @@ public class HttpCliente extends Objeto
     {
       if (this.getObjHttpResponse() == null)
       {
-        return Utils.STR_VAZIA;
+        return null;
       }
+
       _strResposta = EntityUtils.toString(this.getObjHttpResponse().getEntity());
     }
     catch (Exception ex)
     {
-      new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(0), ex);
+      ex.printStackTrace();
     }
-    finally
-    {
-    }
+
     return _strResposta;
   }
 
@@ -68,58 +63,55 @@ public class HttpCliente extends Objeto
   }
 
   /**
-   * Envia um objeto "json" para o servidor indicado no atributo "url" e colocar deixa a resposta disponível no atributo
-   * "strResposta".
+   * Envia um objeto "json" para o servidor indicado no atributo "url" e colocar deixa a resposta disponível no atributo "strResposta".
    */
-  public void postJson(String jsn) throws Exception
+  public void postJson(String jsn)
   {
-    Thread thr;
-    try
+    this.setEnmStatus(EnmStatus.EM_ANDAMENTO);
+
+    this.setJsn(jsn);
+
+    Thread thr = new Thread()
     {
-      this.setEnmStatus(EnmStatus.EM_ANDAMENTO);
-      this.setJsn(jsn);
-      thr = new Thread()
+      @Override
+      public void run()
       {
-
-        @Override
-        public void run()
+        try
         {
-          HttpClient objHttpClient;
-          HttpPost objHttppost;
-          try
-          {
-            objHttppost = new HttpPost(HttpCliente.this.getUrl());
-            objHttppost.setHeader("json", HttpCliente.this.getJsn());
-            objHttpClient = new DefaultHttpClient();
-            HttpCliente.this.setObjHttpResponse(objHttpClient.execute(objHttppost));
-          }
-          catch (Exception ex)
-          {
-            new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(0), ex);
-          }
-          finally
-          {
-            HttpCliente.this.setEnmStatus(EnmStatus.CONCLUIDO);
-          }
-        }
+          HttpPost objHttppost = new HttpPost(HttpCliente.this.getUrl());
 
-        ;
-      };
-      thr.start();
-      do
+          objHttppost.setHeader("json", HttpCliente.this.getJsn());
+
+          HttpClient objHttpClient = new DefaultHttpClient();
+
+          HttpCliente.this.setObjHttpResponse(objHttpClient.execute(objHttppost));
+        }
+        catch (Exception ex)
+        {
+          ex.printStackTrace();
+        }
+        finally
+        {
+          HttpCliente.this.setEnmStatus(EnmStatus.CONCLUIDO);
+        }
+      }
+    };
+
+    thr.start();
+
+    do
+    {
+      // TODO: Definir se fazer isso assíncrono seria melhor.
+      try
       {
-        // TODO: Definir se fazer isso assíncrono seria melhor.
         Thread.sleep(10);
       }
-      while (HttpCliente.this.getEnmStatus() == EnmStatus.EM_ANDAMENTO);
+      catch (InterruptedException ex)
+      {
+        ex.printStackTrace();
+      }
     }
-    catch (Exception ex)
-    {
-      throw ex;
-    }
-    finally
-    {
-    }
+    while (HttpCliente.this.getEnmStatus() == EnmStatus.EM_ANDAMENTO);
   }
 
   private void setEnmStatus(EnmStatus enmStatus)

@@ -4,59 +4,30 @@ import android.content.Context;
 import android.util.AttributeSet;
 
 import com.digosofter.digodroid.controle.IControleMain;
-import com.digosofter.digodroid.erro.ErroAndroid;
 
 import at.markushi.ui.CircleButton;
 
 public class BotaoCircular extends CircleButton implements IControleMain
 {
-
-  public BotaoCircular(final Context context)
+  public BotaoCircular(final Context cnt)
   {
-    super(context);
-    try
-    {
-      this.iniciar(null);
-    }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
-    }
+    super(cnt);
+
+    this.iniciar(null);
   }
 
-  public BotaoCircular(final Context context, final AttributeSet attrs)
+  public BotaoCircular(final Context cnt, final AttributeSet atr)
   {
-    super(context, attrs);
-    try
-    {
-      this.iniciar(attrs);
-    }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
-    }
+    super(cnt, atr);
+
+    this.iniciar(atr);
   }
 
-  public BotaoCircular(final Context context, final AttributeSet attrs, final int defStyle)
+  public BotaoCircular(final Context cnt, final AttributeSet atr, final int defStyle)
   {
-    super(context, attrs, defStyle);
-    try
-    {
-      this.iniciar(attrs);
-    }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
-    }
+    super(cnt, atr, defStyle);
+
+    this.iniciar(atr);
   }
 
   @Override
@@ -77,20 +48,10 @@ public class BotaoCircular extends CircleButton implements IControleMain
   @Override
   public void iniciar(final AttributeSet ats)
   {
-    try
-    {
-      this.inicializar();
-      this.inicializar(ats);
-      this.montarLayout();
-      this.setEventos();
-    }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
-    }
+    this.inicializar();
+    this.inicializar(ats);
+    this.montarLayout();
+    this.setEventos();
   }
 
   @Override
@@ -102,17 +63,8 @@ public class BotaoCircular extends CircleButton implements IControleMain
   protected void onMeasure(final int widthMeasureSpec, final int heightMeasureSpec)
   {
     super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-    try
-    {
-      this.finalizar();
-    }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
-    }
+
+    this.finalizar();
   }
 
   @Override

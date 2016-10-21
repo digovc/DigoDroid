@@ -2,7 +2,6 @@ package com.digosofter.digodroid.database;
 
 import android.content.Intent;
 import android.database.Cursor;
-import android.support.annotation.Nullable;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.SubMenu;
@@ -13,90 +12,80 @@ import com.digosofter.digodroid.activity.ActCadastroMain;
 import com.digosofter.digodroid.activity.ActConsulta;
 import com.digosofter.digodroid.activity.ActDetalhe;
 import com.digosofter.digodroid.activity.ActMain;
-import com.digosofter.digodroid.erro.ErroAndroid;
+import com.digosofter.digodroid.dominio.DominioAndroidMain;
 import com.digosofter.digojava.Utils;
 import com.digosofter.digojava.Utils.EnmDataFormato;
-import com.digosofter.digojava.Utils.EnmStrTipo;
 import com.digosofter.digojava.database.Coluna;
-import com.digosofter.digojava.database.Dominio;
 import com.digosofter.digojava.database.Filtro;
 import com.digosofter.digojava.database.OnChangeArg;
 import com.digosofter.digojava.database.Tabela;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
 
 /**
- * Classe que faz a abstração de uma tabela do banco de dados SQLite no aparelho. Esta classe faz todo o intermédio de
- * dados entre a aplicação e a persistência do banco SQLite do Android. Possuim métodos para salvamento, recuperação,
- * deleção, e etc.<br/> Esta classe precisa ser implementada pelas classes que representarão as tabelas da aplicação em
- * específico, pois esta não pode ter instância, já que é abstrada. É indicado que as classes que herdam esta façam uso
- * da técnica "singleton", garantinho uma instância apenas para interação com esta tabela.
+ * Classe que faz a abstração de uma tabela do banco de dados SQLite no aparelho. Esta classe faz todo o intermédio de dados entre a aplicação e a
+ * persistência do banco SQLite do Android. Possuim métodos para salvamento, recuperação, deleção, e etc.<br/> Esta classe precisa ser implementada
+ * pelas classes que representarão as tabelas da aplicação em específico, pois esta não pode ter instância, já que é abstrada. É indicado que as
+ * classes que herdam esta façam uso da técnica "singleton", garantinho uma instância apenas para interação com esta tabela.
  *
  * @param <T>
  * @author r-vieira
  */
-public abstract class TabelaAndroid<T extends Dominio> extends Tabela<T>
+public abstract class TabelaAndroid<T extends DominioAndroidMain> extends Tabela<T>
 {
-
   public static final String STR_MENU_ADICIONAR = "Adicionar";
   public static final String STR_MENU_APAGAR = "Apagar";
   private static final String STR_MENU_ALTERAR = "Alterar";
   private static final String STR_MENU_DETALHAR = "Ver detalhes";
   private static final String STR_MENU_PESQUISAR_POR = "Pesquisar por";
-
-  private boolean _booSinc = true;
+  private boolean _booMostrarSalvarNovo;
+  private boolean _booSincronizada = true;
+  private ColunaAndroid _clnBooAtivo;
+  private ColunaAndroid _clnDttAlteracao;
+  private ColunaAndroid _clnDttCadastro;
+  private ColunaAndroid _clnIntId;
+  private ColunaAndroid _clnIntUsuarioAlteracaoId;
+  private ColunaAndroid _clnIntUsuarioCadastroId;
   private ColunaAndroid _clnPesquisa;
   private Class<? extends ActMain> _clsActCadastro;
-  private int _intRegistroRefId;
+  private DataBaseAndroid _dbe;
   private List<ViewAndroid> _lstViwAndroid;
   private MenuItem _mniOrdemDecrescente;
-  private DataBaseAndroid _objDb;
+  private String _sqlCursorAdapterId;
   private TabelaAndroid<?> _viwPrincipal;
 
   /**
-   * Constroe uma nova instância dessa tabela. Este processo cria também a tabela e suas colunas no banco de dados
-   * SQLite caso ela não exista.
+   * Constroe uma nova instância dessa tabela. Este processo cria também a tabela e suas colunas no banco de dados SQLite caso ela não exista.
    *
    * @param strNome Nome da tabela no banco de dados.
-   * @param clsDominio Classe que representa o domínio desta tabela.
    */
-  protected TabelaAndroid(String strNome, Class<T> clsDominio)
+  protected TabelaAndroid(String strNome, DataBaseAndroid dbeAndroid)
   {
-    super(strNome, clsDominio);
-    try
-    {
-      this.criar();
-    }
-    catch (Exception ex)
-    {
-      new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(122), ex);
-    }
-    finally
-    {
-    }
+    super(strNome, dbeAndroid);
   }
 
   /**
-   * Atalho para {@link #abrirActCadastro(ActMain, int, int)}
+   * Atalho para {@link #abrirCadastro(ActMain, int, int)}
    *
    * @param act Activity "parent" da tela de cadastro que será aberta.
    */
-  public void abrirActCadastro(final ActMain act)
+  public void abrirCadastro(final ActMain act)
   {
-    this.abrirActCadastro(act, 0, 0);
+    this.abrirCadastro(act, 0, null, 0);
   }
 
   /**
-   * Atalho para {@link #abrirActCadastro(ActMain, int, int)}
+   * Atalho para {@link #abrirCadastro(ActMain, int, int)}
    *
    * @param act Activity "parent" da tela de cadastro que será aberta.
    * @param intId Código do registro para alteração.
    */
-  public void abrirActCadastro(final ActMain act, int intId)
+  public void abrirCadastro(final ActMain act, int intId)
   {
-    this.abrirActCadastro(act, intId, 0);
+    this.abrirCadastro(act, intId, null, 0);
   }
 
   /**
@@ -104,111 +93,93 @@ public abstract class TabelaAndroid<T extends Dominio> extends Tabela<T>
    *
    * @param act Activity "parent" que está chamando este novo activity de cadastro.
    * @param intRegistroId Código do registro, no caso de ser uma alteração num registro já salvo.
-   * @param intRegistroRefId Código do registro de referência caso este cadastro seja de um item ou se esse tem alguma
-   * ligação com outra tabela.
+   * @param intRegistroRefId Código do registro de referência caso este cadastro seja de um item ou se esse tem alguma ligação com outra tabela.
    */
-  public void abrirActCadastro(final ActMain act, int intRegistroId, int intRegistroRefId)
+  public void abrirCadastro(final ActMain act, int intRegistroId, TabelaAndroid tblPai, int intRegistroRefId)
   {
-    Intent itt;
-    try
+    if (act == null)
     {
-      if (act == null)
-      {
-        return;
-      }
-      if (this.getClsActCadastro() == null)
-      {
-        return;
-      }
-      itt = new Intent(act, this.getClsActCadastro());
-      itt.putExtra(ActCadastroMain.STR_EXTRA_IN_INT_REGISTRO_ID, intRegistroId);
-      itt.putExtra(ActCadastroMain.STR_EXTRA_IN_INT_REGISTRO_REF_ID, intRegistroRefId);
-      itt.putExtra(ActCadastroMain.STR_EXTRA_IN_INT_TBL_OBJETO_ID, this.getIntObjetoId());
-      this.setIntRegistroRefId(intRegistroRefId);
-      act.startActivity(itt);
+      return;
     }
-    catch (Exception ex)
+
+    if (this.getClsActCadastro() == null)
     {
-      new ErroAndroid("Erro inesperado.\n", ex);
+      return;
     }
-    finally
-    {
-    }
+
+    Intent itt = new Intent(act, this.getClsActCadastro());
+
+    itt.putExtra(ActCadastroMain.STR_EXTRA_IN_BOO_MOSTRAR_SALVAR_NOVO, (this.getBooMostrarSalvarNovo() || (intRegistroRefId > 0)));
+    itt.putExtra(ActCadastroMain.STR_EXTRA_IN_INT_REGISTRO_ID, intRegistroId);
+    itt.putExtra(ActCadastroMain.STR_EXTRA_IN_INT_REGISTRO_REF_ID, intRegistroRefId);
+    itt.putExtra(ActCadastroMain.STR_EXTRA_IN_INT_TBL_OBJETO_ID, this.getIntObjetoId());
+    itt.putExtra(ActCadastroMain.STR_EXTRA_IN_INT_TBL_PAI_OBJETO_ID, (tblPai != null) ? tblPai.getIntObjetoId() : -1);
+
+    act.startActivity(itt);
   }
 
   /**
-   * Atalho para {@link #abrirActConsulta(ActMain, Intent)}.
+   * Atalho para {@link #abrirConsulta(ActMain, Intent)}.
    */
-  public void abrirActConsulta(ActMain act)
+  public void abrirConsulta(ActMain act)
   {
-    this.abrirActConsulta(act, null);
+    this.abrirConsulta(act, null);
   }
 
   /**
-   * Abre uma nova tela (Activity) com uma lista que representa os registros retornados, levando em consideração os
-   * filtros carregados em {@link #getLstFilConsulta()}. Esta lista de filtros será limpada logo que a tela seja
-   * apresentada para o usuário, necessitando que os filtros sejam carregados novamente na próxima vez que este método
-   * for chamado.<br/>
+   * Abre uma nova tela (Activity) com uma lista que representa os registros retornados, levando em consideração os filtros carregados em {@link
+   * #getLstFilConsulta()}. Esta lista de filtros será limpada logo que a tela seja apresentada para o usuário, necessitando que os filtros sejam
+   * carregados novamente na próxima vez que este método for chamado.<br/>
    *
    * @param act Activity "parent" (que vem antes na hierarquia de chamadas) da tela de consulta que será aberta.
-   * @param itt Intent com parâmetros de entrada da tela ActConsulta para configurar sua aparência e comportamento.<br/>
-   * O valor "null" pode ser passado para que a tela tenha o seu comportamento padrão.
+   * @param itt Intent com parâmetros de entrada da tela ActConsulta para configurar sua aparência e comportamento.<br/> O valor "null" pode ser
+   * passado para que a tela tenha o seu comportamento padrão.
    */
-  public void abrirActConsulta(ActMain act, Intent itt)
+  public void abrirConsulta(ActMain act, Intent itt)
   {
-    try
+    if (act == null)
     {
-      if (itt == null)
-      {
-        itt = new Intent();
-      }
-      itt.setClass(act, ActConsulta.class);
-      itt.putExtra(ActConsulta.STR_EXTRA_IN_INT_TBL_OBJETO_ID, this.getViwPrincipal().getIntObjetoId());
-      act.startActivityForResult(itt, ActConsulta.EnmResultado.REGISTRO_SELECIONADO.ordinal());
+      return;
     }
-    catch (Exception ex)
+
+    if (itt == null)
     {
-      new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(123), ex);
+      itt = new Intent();
     }
-    finally
-    {
-    }
+
+    itt.setClass(act, ActConsulta.class);
+
+    itt.putExtra(ActConsulta.STR_EXTRA_IN_INT_TBL_OBJETO_ID, this.getViwPrincipal().getIntObjetoId());
+
+    act.startActivityForResult(itt, ActConsulta.EnmResultado.REGISTRO_SELECIONADO.ordinal());
   }
 
   /**
-   * Atalho para {@link #abrirActConsulta(ActMain, Intent)}. A diferença é que este abre uma tela de consulta que tenha
-   * referência para uma outra tabela.
+   * Atalho para {@link #abrirConsulta(ActMain, Intent)}. A diferença é que este abre uma tela de consulta que tenha referência para uma outra
+   * tabela.
    *
    * @param act Activity "parent" (que vem antes na hierarquia de chamadas) da tela de consulta que será aberta.
    * @param intRegistroRefId Código do registro da tabela que faz referência a esta.
    */
-  public void abrirActConsulta(ActMain act, int intRegistroRefId)
+  public void abrirConsulta(ActMain act, TabelaAndroid tblPai, int intRegistroRefId)
   {
-    Intent itt;
-    try
+    if (act == null)
     {
-      if (act == null)
-      {
-        return;
-      }
-      if (intRegistroRefId < 1)
-      {
-        return;
-      }
-      this.setIntRegistroRefId(intRegistroRefId);
-      this.getViwPrincipal().setIntRegistroRefId(intRegistroRefId);
-      itt = new Intent();
-      itt.putExtra(ActConsulta.STR_EXTRA_IN_BOO_REGISTRO_SELECIONAVEL, false);
-      itt.putExtra(ActConsulta.STR_EXTRA_IN_INT_REGISTRO_REF_ID, intRegistroRefId);
-      this.abrirActConsulta(act, itt);
+      return;
     }
-    catch (Exception ex)
+
+    if (intRegistroRefId < 1)
     {
-      new ErroAndroid("Erro inesperado.\n", ex);
+      return;
     }
-    finally
-    {
-    }
+
+    Intent itt = new Intent();
+
+    itt.putExtra(ActConsulta.STR_EXTRA_IN_BOO_REGISTRO_SELECIONAVEL, false);
+    itt.putExtra(ActConsulta.STR_EXTRA_IN_INT_REGISTRO_REF_ID, intRegistroRefId);
+    itt.putExtra(ActConsulta.STR_EXTRA_IN_INT_TBL_PAI_OBJETO_ID, (tblPai != null) ? tblPai.getIntObjetoId() : -1);
+
+    this.abrirConsulta(act, itt);
   }
 
   /**
@@ -217,93 +188,75 @@ public abstract class TabelaAndroid<T extends Dominio> extends Tabela<T>
    * @param act Activity "parent" (que vem antes na hierarquia de chamadas) da tela de consulta que será aberta.
    * @param intRegistroId Id que indica o registro que será apresentado em detalhes.
    */
-  public void abrirActDetalhe(ActMain act, int intRegistroId)
+  public void abrirDetalhe(ActMain act, int intRegistroId)
   {
-    Intent itt;
-    try
+    if (act == null)
     {
-      if (act == null)
-      {
-        return;
-      }
-      if (intRegistroId < 1)
-      {
-        return;
-      }
-      this.getViwPrincipal().recuperar(intRegistroId);
-      if (this.getViwPrincipal().getClnChavePrimaria().getIntValor() < 1)
-      {
-        AppAndroid.getI().notificar("Registro não econtrado.");
-        return;
-      }
-      itt = new Intent(act, ActDetalhe.class);
-      itt.putExtra(ActDetalhe.STR_EXTRA_IN_INT_REGISTRO_ID, intRegistroId);
-      itt.putExtra(ActDetalhe.STR_EXTRA_IN_INT_TBL_OBJETO_ID, this.getViwPrincipal().getIntObjetoId());
-      act.startActivity(itt);
+      return;
     }
-    catch (Exception ex)
+
+    if (intRegistroId < 1)
     {
-      new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(123), ex);
+      return;
     }
-    finally
+
+    this.getViwPrincipal().recuperar(intRegistroId);
+
+    if (this.getViwPrincipal().getClnIntId().getIntValor() < 1)
     {
+      AppAndroid.getI().notificar("Registro não econtrado.");
+      return;
     }
+
+    Intent itt = new Intent(act, ActDetalhe.class);
+
+    itt.putExtra(ActDetalhe.STR_EXTRA_IN_INT_REGISTRO_ID, intRegistroId);
+    itt.putExtra(ActDetalhe.STR_EXTRA_IN_INT_TBL_OBJETO_ID, this.getViwPrincipal().getIntObjetoId());
+
+    act.startActivity(itt);
   }
 
   void addViw(ViewAndroid viwAndroid)
   {
-    try
+    if (viwAndroid == null)
     {
-      if (viwAndroid == null)
-      {
-        return;
-      }
-      if (this.getLstViwAndroid().contains(viwAndroid))
-      {
-        return;
-      }
-      this.getLstViwAndroid().add(viwAndroid);
-    }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
+      return;
     }
 
+    if (this.getLstViwAndroid().contains(viwAndroid))
+    {
+      return;
+    }
+
+    this.setViwPrincipal(null);
+
+    this.getLstViwAndroid().add(viwAndroid);
   }
 
   /**
    * Apaga o registro da tabela.
    *
-   * @param intId Id do registro que será apagado da tabela.
+   * @param intRegistroId Id do registro que será apagado da tabela.
    */
   @Override
-  public void apagar(int intId)
+  public void apagar(int intRegistroId)
   {
-    String sql;
-    try
+    if (intRegistroId < 1)
     {
-      if (intId < 1)
-      {
-        return;
-      }
-      sql = "delete from _tbl_nome where _tbl_nome._cln_nome='_registro_id';";
-      sql = sql.replace("_tbl_nome", this.getSqlNome());
-      sql = sql.replace("_cln_nome", this.getClnChavePrimaria().getSqlNome());
-      sql = sql.replace("_registro_id", String.valueOf(intId));
-      this.getObjDb().execSql(sql);
-      this.dispararEvtOnApagarDispatcherView(intId);
-      super.apagar(intId);
+      return;
     }
-    catch (Exception ex)
-    {
-      new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(126), ex);
-    }
-    finally
-    {
-    }
+
+    String sql = "delete from _tbl_nome where _tbl_nome._cln_nome='_registro_id';";
+
+    sql = sql.replace("_tbl_nome", this.getSqlNome());
+    sql = sql.replace("_cln_nome", this.getClnIntId().getSqlNome());
+    sql = sql.replace("_registro_id", String.valueOf(intRegistroId));
+
+    this.getDbe().execSql(sql);
+
+    this.dispararEvtOnApagarDispatcherView(intRegistroId);
+
+    super.apagar(intRegistroId);
   }
 
   /**
@@ -313,178 +266,212 @@ public abstract class TabelaAndroid<T extends Dominio> extends Tabela<T>
    */
   public void apagar(final List<Filtro> lstFil)
   {
-    String sql;
-    try
+    if (lstFil == null)
     {
-      if (lstFil == null)
-      {
-        return;
-      }
-      sql = "delete from _tbl_nome where _where;";
-      sql = sql.replace("_tbl_nome", this.getSqlNome());
-      sql = sql.replace("where _where", lstFil != null && lstFil.size() > 0 ? "where _where" : Utils.STR_VAZIA);
-      sql = sql.replace("_where", this.getSqlWhere(lstFil));
-      this.getObjDb().execSql(sql);
-      this.dispararEvtOnApagarDispatcherView(-1);
-      super.apagar(-1);
+      return;
     }
-    catch (Exception ex)
-    {
-      new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(126), ex);
-    }
-    finally
-    {
-    }
+
+    String sql = "delete from _tbl_nome where _where;";
+
+    sql = sql.replace("_tbl_nome", this.getSqlNome());
+    sql = sql.replace("where _where", lstFil != null && lstFil.size() > 0 ? "where _where" : Utils.STR_VAZIA);
+    sql = sql.replace("_where", this.getSqlWhere(lstFil));
+
+    this.getDbe().execSql(sql);
+
+    this.dispararEvtOnApagarDispatcherView(-1);
+
+    super.apagar(-1);
   }
 
   private void carregarDados(Cursor crs)
   {
-    try
+    if (crs == null)
     {
-      this.limparColunas();
-      if (crs == null)
-      {
-        return;
-      }
-      if (!crs.moveToFirst())
-      {
-        return;
-      }
-      for (Coluna cln : this.getLstCln())
-      {
-        cln.setStrValor(crs.getString(crs.getColumnIndex(cln.getSqlNome())));
-      }
+      return;
     }
-    catch (Exception ex)
+
+    if (!crs.moveToFirst())
     {
-      new ErroAndroid("Erro inesperado.\n", ex);
+      return;
     }
-    finally
+
+    for (Coluna cln : this.getLstCln())
     {
+      cln.setStrValor(crs.getString(crs.getColumnIndex(cln.getSqlNome())));
     }
   }
 
   private T carregarDominio(Cursor crs)
   {
-    T objDominio;
+    if (crs == null)
+    {
+      return null;
+    }
+
+    T objDominio = null;
+
     try
     {
-      if (crs == null)
-      {
-        return null;
-      }
       objDominio = this.getClsDominio().newInstance();
-      for (Coluna cln : this.getLstCln())
-      {
-        if (cln == null)
-        {
-          continue;
-        }
-        if (!(cln instanceof ColunaAndroid))
-        {
-          continue;
-        }
-        ((ColunaAndroid) cln).carregarDominio(crs, objDominio);
-      }
-      return objDominio;
     }
     catch (Exception ex)
     {
-      new ErroAndroid("Erro inesperado.\n", ex);
+      ex.printStackTrace();
     }
-    finally
+
+    if (objDominio == null)
     {
+      return null;
     }
-    return null;
+
+    for (Coluna cln : this.getLstCln())
+    {
+      if (cln == null)
+      {
+        continue;
+      }
+
+      if (!(cln instanceof ColunaAndroid))
+      {
+        continue;
+      }
+
+      ((ColunaAndroid) cln).carregarDominio(crs, objDominio);
+    }
+
+    return objDominio;
   }
 
   /**
-   * Este método pode ser sobescrito para carregar os filtros da propriedade {#link #getLstFilConsulta} que será
-   * utilizada para pesquisar os registros para serem apresentados na tela de consulta.
+   * Este método pode ser sobescrito para carregar os filtros da propriedade {#link #getLstFilConsulta} que será utilizada para pesquisar os registros
+   * para serem apresentados na tela de consulta.
    *
+   * @param actConsulta
    * @param lstFilConsulta Ponteiro para o atributo {@link @getLstFilConsulta} desta tabela.
    */
-  protected void carregarLstFilConsulta(List<Filtro> lstFilConsulta)
+  protected void carregarLstFilConsulta(final ActConsulta actConsulta, List<Filtro> lstFilConsulta)
   {
-    Filtro filPesquisa;
-    try
+    this.carregarLstFilConsultaClnPesquisa(lstFilConsulta);
+    this.carregarLstFilConsultaClnRef(actConsulta, lstFilConsulta);
+  }
+
+  private void carregarLstFilConsultaClnPesquisa(final List<Filtro> lstFilConsulta)
+  {
+    if (Utils.getBooStrVazia(this.getStrPesquisa()))
     {
-      if (Utils.getBooStrVazia(this.getStrPesquisa()))
+      return;
+    }
+
+    if (this.getClnPesquisa() == null)
+    {
+      return;
+    }
+
+    Filtro filPesquisa = new Filtro(this.getClnPesquisa(), this.getStrPesquisa());
+
+    if (this.getClnPesquisa() == this.getClnIntId())
+    {
+      filPesquisa.setEnmOperador(Filtro.EnmOperador.IGUAL);
+    }
+    else
+    {
+      filPesquisa.setEnmOperador(Filtro.EnmOperador.CONTEM);
+    }
+
+    lstFilConsulta.add(filPesquisa);
+  }
+
+  private void carregarLstFilConsultaClnRef(final ActConsulta actConsulta, final List<Filtro> lstFilConsulta)
+  {
+    if (actConsulta == null)
+    {
+      return;
+    }
+
+    if (actConsulta.getTblPai() == null)
+    {
+      return;
+    }
+
+    if (actConsulta.getIntRegistroRefId() < 1)
+    {
+      return;
+    }
+
+    for (Coluna cln : this.getLstCln())
+    {
+      if (this.carregarLstFilConsultaClnRef(actConsulta, lstFilConsulta, cln))
       {
         return;
       }
-      if (this.getClnPesquisa() == null)
-      {
-        return;
-      }
-      filPesquisa = new Filtro(this.getClnPesquisa(), this.getStrPesquisa());
-      if (this.getClnPesquisa().getBooChavePrimaria())
-      {
-        filPesquisa.setEnmOperador(Filtro.EnmOperador.IGUAL);
-      }
-      else
-      {
-        filPesquisa.setEnmOperador(Filtro.EnmOperador.CONTEM);
-      }
-      lstFilConsulta.add(filPesquisa);
-    }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
     }
   }
 
-  /**
-   * Cria esta tabela e suas respectivas colunas no banco de dados.
-   */
-  public void criar()
+  private boolean carregarLstFilConsultaClnRef(final ActConsulta actConsulta, final List<Filtro> lstFilConsulta, final Coluna cln)
   {
-    String sql;
-    try
+    if (cln == null)
     {
-      if (this.getBooExiste())
+      return false;
+    }
+
+    if (cln.getClnRef() == null)
+    {
+      return false;
+    }
+
+    if (cln.getClnRef().getTbl() == null)
+    {
+      return false;
+    }
+
+    if (!cln.getClnRef().getTbl().getTblPrincipal().equals(actConsulta.getTblPai()))
+    {
+      return false;
+    }
+
+    lstFilConsulta.add(new Filtro(cln, actConsulta.getIntRegistroRefId()));
+
+    return true;
+  }
+
+  private void carregarValorDefault()
+  {
+    if (this.getLstCln() == null)
+    {
+      return;
+    }
+
+    for (Coluna cln : this.getLstCln())
+    {
+      if (cln == null)
       {
-        return;
+        continue;
       }
-      sql = "CREATE TABLE IF NOT EXISTS _tbl_nome (_cln_pk_nome _cln_pk_tipo PRIMARY KEY);";
-      sql = sql.replace("_tbl_nome", this.getSqlNome());
-      sql = sql.replace("_cln_pk_nome", this.getClnChavePrimaria().getSqlNome());
-      sql = sql.replace("_cln_pk_tipo", ((ColunaAndroid) this.getClnChavePrimaria()).getSqlTipo());
-      this.getObjDb().execSql(sql);
-    }
-    catch (Exception ex)
-    {
-      new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(124), ex);
-    }
-    finally
-    {
-      this.criarColuna();
+
+      cln.carregarValorDefault();
     }
   }
 
-  private void criarColuna()
+  protected void criar()
   {
-    try
+    if (this.getDbe() == null)
     {
-      for (Coluna cln : this.getLstCln())
-      {
-        if (cln == null)
-        {
-          continue;
-        }
-        ((ColunaAndroid) cln).criar();
-      }
+      return;
     }
-    catch (Exception ex)
+
+    if (this.getBooExiste())
     {
-      new ErroAndroid("Erro inesperado.\n", ex);
+      return;
     }
-    finally
-    {
-    }
+
+    String sql = "create table if not exists _tbl_nome (_cln_pk_nome _cln_pk_tipo primary key);";
+
+    sql = sql.replace("_tbl_nome", this.getSqlNome());
+    sql = sql.replace("_cln_pk_nome", this.getClnIntId().getSqlNome());
+    sql = sql.replace("_cln_pk_tipo", ((ColunaAndroid) this.getClnIntId()).getSqlTipo());
+
+    this.getDbe().execSql(sql);
   }
 
   /**
@@ -492,182 +479,200 @@ public abstract class TabelaAndroid<T extends Dominio> extends Tabela<T>
    */
   public void criarView()
   {
-    try
+    if (this.getLstViwAndroid() == null)
     {
-      if (this.getLstViwAndroid() == null)
-      {
-        return;
-      }
-      for (ViewAndroid viw : this.getLstViwAndroid())
-      {
-        this.criarView(viw);
-      }
+      return;
     }
-    catch (Exception ex)
+
+    for (ViewAndroid viw : this.getLstViwAndroid())
     {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
+      this.criarView(viw);
     }
   }
 
   private void criarView(final ViewAndroid viw)
   {
-    try
+    if (viw == null)
     {
-      if (viw == null)
-      {
-        return;
-      }
-      viw.criar();
-    }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
+      return;
     }
 
+    viw.criar();
   }
 
   private void dispararEvtOnAdicionarAtualizarListener(boolean booAdicionar)
   {
-    OnChangeArg arg;
-    try
+    OnChangeArg arg = new OnChangeArg();
+
+    arg.setIntRegistroId(this.getClnIntId().getIntValor());
+
+    this.dispararEvtOnAdicionarAtualizarListenerView(arg, booAdicionar);
+
+    if (booAdicionar)
     {
-      arg = new OnChangeArg();
-      arg.setIntRegistroId(this.getClnChavePrimaria().getIntValor());
-      this.dispararEvtOnAdicionarAtualizarListenerView(arg, booAdicionar);
-      if (booAdicionar)
-      {
-        this.dispararEvtOnAdicionarReg(arg);
-        return;
-      }
-      this.dispararEvtOnAtualizarReg(arg);
+      this.dispararEvtOnAdicionarReg(arg);
+      return;
     }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
-    }
+
+    this.dispararEvtOnAtualizarReg(arg);
   }
 
   private void dispararEvtOnAdicionarAtualizarListenerView(OnChangeArg arg, boolean booAdicionar)
   {
-    try
+    if (arg == null)
     {
-      if (arg == null)
-      {
-        return;
-      }
-      for (ViewAndroid viw : this.getLstViwAndroid())
-      {
-        if (viw == null)
-        {
-          continue;
-        }
-        if (booAdicionar)
-        {
-          viw.dispararEvtOnAdicionarReg(arg);
-          continue;
-        }
-        viw.dispararEvtOnAtualizarReg(arg);
-      }
+      return;
     }
-    catch (Exception ex)
+
+    for (ViewAndroid viw : this.getLstViwAndroid())
     {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
+      if (viw == null)
+      {
+        continue;
+      }
+
+      if (booAdicionar)
+      {
+        viw.dispararEvtOnAdicionarReg(arg);
+        continue;
+      }
+
+      viw.dispararEvtOnAtualizarReg(arg);
     }
   }
 
   private void dispararEvtOnApagarDispatcherView(int intRegistroId)
   {
-    OnChangeArg arg;
-    try
+    if (intRegistroId < 1)
     {
-      if (intRegistroId < 1)
-      {
-        return;
-      }
-      arg = new OnChangeArg();
-      arg.setIntRegistroId(intRegistroId);
-      for (ViewAndroid viw : this.getLstViwAndroid())
-      {
-        if (viw == null)
-        {
-          continue;
-        }
-        viw.dispararEvtOnApagarReg(arg);
-      }
+      return;
     }
-    catch (Exception ex)
+
+    OnChangeArg arg = new OnChangeArg();
+
+    arg.setIntRegistroId(intRegistroId);
+
+    for (ViewAndroid viw : this.getLstViwAndroid())
     {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
+      if (viw == null)
+      {
+        continue;
+      }
+
+      viw.dispararEvtOnApagarReg(arg);
     }
   }
 
   protected boolean getBooExiste()
   {
-    boolean booResultado;
-    Cursor crs;
-    String sql;
-    try
+    if (this.getDbe() == null)
     {
-      sql = "select name from sqlite_master where type='table' and name='_tbl_nome';";
-      sql = sql.replace("_tbl_nome", this.getSqlNome());
-      crs = this.getObjDb().execSqlComRetorno(sql);
-      booResultado = ((crs != null) && (crs.moveToFirst()) && (crs.getCount() > 0));
-      crs.close();
-      return booResultado;
+      return false;
     }
-    catch (Exception ex)
-    {
-      new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(127), ex);
-    }
-    finally
-    {
-    }
-    return false;
+
+    String sql = "select max(1) from sqlite_master where type='table' and name='_tbl_nome';";
+
+    sql = sql.replace("_tbl_nome", this.getSqlNome());
+
+    return this.getDbe().execSqlGetBoo(sql);
+  }
+
+  private boolean getBooMostrarSalvarNovo()
+  {
+    return _booMostrarSalvarNovo;
   }
 
   public boolean getBooRegistroExiste(int intRegistroId)
   {
-    String sql;
-    try
+    if (intRegistroId < 1)
     {
-      if (intRegistroId < 1)
-      {
-        return false;
-      }
-      sql = "select 1 from _tbl_nome where _cln_pk_nome = '_registro_id';";
-      sql = sql.replace("_tbl_nome", this.getSqlNome());
-      sql = sql.replace("_cln_pk_nome", this.getClnChavePrimaria().getSqlNome());
-      sql = sql.replace("_registro_id", String.valueOf(intRegistroId));
-      return this.getObjDb().execSqlGetBoo(sql);
+      return false;
     }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
-    }
-    return false;
+
+    String sql = "select 1 from _tbl_nome where _cln_pk_nome = '_registro_id';";
+
+    sql = sql.replace("_tbl_nome", this.getSqlNome());
+    sql = sql.replace("_cln_pk_nome", this.getClnIntId().getSqlNome());
+    sql = sql.replace("_registro_id", String.valueOf(intRegistroId));
+
+    return this.getDbe().execSqlGetBoo(sql);
   }
 
-  public boolean getBooSinc()
+  public boolean getBooSincronizada()
   {
-    return _booSinc;
+    return _booSincronizada;
+  }
+
+  public ColunaAndroid getClnBooAtivo()
+  {
+    if (_clnBooAtivo != null)
+    {
+      return _clnBooAtivo;
+    }
+
+    _clnBooAtivo = new ColunaAndroid("boo_ativo", this, Coluna.EnmTipo.BOOLEAN);
+
+    return _clnBooAtivo;
+  }
+
+  public ColunaAndroid getClnDttAlteracao()
+  {
+    if (_clnDttAlteracao != null)
+    {
+      return _clnDttAlteracao;
+    }
+
+    _clnDttAlteracao = new ColunaAndroid("dtt_alteracao", this, Coluna.EnmTipo.DATE_TIME);
+
+    return _clnDttAlteracao;
+  }
+
+  public ColunaAndroid getClnDttCadastro()
+  {
+    if (_clnDttCadastro != null)
+    {
+      return _clnDttCadastro;
+    }
+
+    _clnDttCadastro = new ColunaAndroid("dtt_cadastro", this, Coluna.EnmTipo.DATE_TIME);
+
+    return _clnDttCadastro;
+  }
+
+  public ColunaAndroid getClnIntId()
+  {
+    if (_clnIntId != null)
+    {
+      return _clnIntId;
+    }
+
+    _clnIntId = new ColunaAndroid("int_id", this, Coluna.EnmTipo.BIGINT);
+
+    return _clnIntId;
+  }
+
+  public ColunaAndroid getClnIntUsuarioAlteracaoId()
+  {
+    if (_clnIntUsuarioAlteracaoId != null)
+    {
+      return _clnIntUsuarioAlteracaoId;
+    }
+
+    _clnIntUsuarioAlteracaoId = new ColunaAndroid("int_usuario_alteracao_id", this, Coluna.EnmTipo.BIGINT);
+
+    return _clnIntUsuarioAlteracaoId;
+  }
+
+  public ColunaAndroid getClnIntUsuarioCadastroId()
+  {
+    if (_clnIntUsuarioCadastroId != null)
+    {
+      return _clnIntUsuarioCadastroId;
+    }
+
+    _clnIntUsuarioCadastroId = new ColunaAndroid("int_usuario_cadastro_id", this, Coluna.EnmTipo.BIGINT);
+
+    return _clnIntUsuarioCadastroId;
   }
 
   /**
@@ -677,21 +682,13 @@ public abstract class TabelaAndroid<T extends Dominio> extends Tabela<T>
    */
   public ColunaAndroid getClnPesquisa()
   {
-    try
+    if (_clnPesquisa != null)
     {
-      if (_clnPesquisa != null)
-      {
-        return _clnPesquisa;
-      }
-      _clnPesquisa = (ColunaAndroid) this.getClnNome();
+      return _clnPesquisa;
     }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
-    }
+
+    _clnPesquisa = (ColunaAndroid) this.getClnNome();
+
     return _clnPesquisa;
   }
 
@@ -700,73 +697,70 @@ public abstract class TabelaAndroid<T extends Dominio> extends Tabela<T>
     return _clsActCadastro;
   }
 
-  protected int getIntRegistroRefId()
+  @Override
+  public DataBaseAndroid getDbe()
   {
-    return _intRegistroRefId;
+    if (_dbe != null)
+    {
+      return _dbe;
+    }
+
+    if (super.getDbe() == null)
+    {
+      return null;
+    }
+
+    _dbe = (DataBaseAndroid) super.getDbe();
+
+    return _dbe;
   }
 
   public List<Integer> getLstInt(Coluna cln, List<Filtro> lstFil)
   {
-    List<Integer> lstIntResultado;
-    List<String> lstStr;
-    try
+    List<String> lstStr = this.getLstStr(cln, lstFil);
+    List<Integer> lstIntResultado = new ArrayList<>();
+
+    if (lstStr == null)
     {
-      lstStr = this.getLstStr(cln, lstFil);
-      lstIntResultado = new ArrayList<>();
-      if (lstStr == null)
-      {
-        return lstIntResultado;
-      }
-      if (lstStr.isEmpty())
-      {
-        return lstIntResultado;
-      }
-      for (String str : lstStr)
-      {
-        lstIntResultado.add(Integer.valueOf(str));
-      }
       return lstIntResultado;
     }
-    catch (Exception ex)
+
+    if (lstStr.isEmpty())
     {
-      new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(0), ex);
+      return lstIntResultado;
     }
-    finally
+
+    for (String str : lstStr)
     {
+      lstIntResultado.add(Integer.valueOf(str));
     }
-    return null;
+
+    return lstIntResultado;
   }
 
   public List<String> getLstStr(Coluna cln, List<Filtro> lstFil)
   {
-    Cursor crs;
-    List<String> lstStrResultado = null;
-    try
+    Cursor crs = this.pesquisar(cln, lstFil);
+    List<String> lstStrResultado = new ArrayList<>();
+
+    if (crs == null)
     {
-      crs = this.pesquisar(cln, lstFil);
-      lstStrResultado = new ArrayList<>();
-      if (crs == null)
-      {
-        return lstStrResultado;
-      }
-      if (!crs.moveToFirst())
-      {
-        return lstStrResultado;
-      }
-      do
-      {
-        lstStrResultado.add(crs.getString(0));
-      }
-      while (crs.moveToNext());
-      crs.close();
+      return lstStrResultado;
     }
-    catch (Exception ex)
+
+    if (!crs.moveToFirst())
     {
-      new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(0), ex);
+      return lstStrResultado;
     }
-    finally
+
+    do
     {
+      lstStrResultado.add(crs.getString(0));
     }
+    while (crs.moveToNext());
+
+    crs.close();
+
     return lstStrResultado;
   }
 
@@ -777,22 +771,15 @@ public abstract class TabelaAndroid<T extends Dominio> extends Tabela<T>
    */
   public List<ViewAndroid> getLstViwAndroid()
   {
-    try
+    if (_lstViwAndroid != null)
     {
-      if (_lstViwAndroid != null)
-      {
-        return _lstViwAndroid;
-      }
-      _lstViwAndroid = new ArrayList<>();
-      this.inicializarLstViwAndroid();
+      return _lstViwAndroid;
     }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
-    }
+
+    _lstViwAndroid = new ArrayList<>();
+
+    this.inicializarLstViwAndroid(_lstViwAndroid);
+
     return _lstViwAndroid;
   }
 
@@ -801,709 +788,456 @@ public abstract class TabelaAndroid<T extends Dominio> extends Tabela<T>
     return _mniOrdemDecrescente;
   }
 
-  @Override
-  public DataBaseAndroid getObjDb()
+  private String getSqlClnNomeInsert()
   {
-    try
-    {
-      if (_objDb != null)
-      {
-        return _objDb;
-      }
-      _objDb = AppAndroid.getI().getObjDbPrincipal();
-    }
-    catch (Exception ex)
-    {
-      new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(0), ex);
-    }
-    finally
-    {
-    }
-    return _objDb;
-  }
+    StringBuilder stbResultado = new StringBuilder();
 
-  private String getSqlColunasNomes()
-  {
-    String strResultado = null;
-    String str;
-    try
-    {
-      if (this.getLstCln() == null)
-      {
-        return "*";
-      }
-      if (this.getLstCln().isEmpty())
-      {
-        return "*";
-      }
-      strResultado = Utils.STR_VAZIA;
-      for (Coluna cln : this.getLstCln())
-      {
-        str = "_tbl_nome._cln_nome, ";
-        str = str.replace("_tbl_nome", cln.getTbl().getSqlNome());
-        str = str.replace("_cln_nome", cln.getSqlNome());
-        strResultado += str;
-      }
-      strResultado = Utils.removerUltimaLetra(strResultado, 2);
-    }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
-    }
-    return strResultado;
-  }
-
-  private String getSqlColunasNomesInsert()
-  {
-    String strResultado;
-    String str;
-    try
-    {
-      strResultado = Utils.STR_VAZIA;
-      for (Coluna cln : this.getLstCln())
-      {
-        if (cln == null)
-        {
-          continue;
-        }
-        if (Utils.getBooStrVazia(cln.getStrValor()))
-        {
-          continue;
-        }
-        if (cln.getBooChavePrimaria() && cln.getIntValor() < 1)
-        {
-          continue;
-        }
-        if (cln.getClnRef() != null && "0".equals(cln.getStrValor()))
-        {
-          continue;
-        }
-        str = "_cln_nome, ";
-        str = str.replace("_cln_nome", cln.getSqlNome());
-        strResultado += str;
-      }
-      strResultado = Utils.removerUltimaLetra(strResultado, 2);
-      return strResultado;
-    }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
-    }
-    return null;
-  }
-
-  private String getSqlColunasNomesValorUpdate()
-  {
-    String strResultado;
-    String str;
-
-    try
-    {
-      strResultado = Utils.STR_VAZIA;
-
-      for (Coluna cln : this.getLstCln())
-      {
-        if (cln == null)
-        {
-          continue;
-        }
-
-        if (Utils.getBooStrVazia(cln.getStrValor()))
-        {
-          continue;
-        }
-
-        if (cln.getBooChavePrimaria())
-        {
-          continue;
-        }
-
-        if ((cln.getClnRef() != null) && (cln.getIntValor() < 1))
-        {
-          continue;
-        }
-
-        str = "_cln_nome = '_cln_valor', ";
-
-        str = str.replace("_cln_nome", cln.getSqlNome());
-        str = str.replace("_cln_valor", cln.getStrValorSql());
-
-        strResultado += str;
-      }
-
-      strResultado = Utils.removerUltimaLetra(strResultado, 2);
-
-      return strResultado;
-    }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
-    }
-    return null;
-  }
-
-  private String getSqlColunasValoresInsert()
-  {
-    String str;
-    String strResultado;
-    try
-    {
-      strResultado = Utils.STR_VAZIA;
-      for (Coluna cln : this.getLstCln())
-      {
-        if (cln == null)
-        {
-          continue;
-        }
-        if (Utils.getBooStrVazia(cln.getStrValor()))
-        {
-          continue;
-        }
-        if (cln.getBooChavePrimaria() && cln.getIntValor() < 1)
-        {
-          continue;
-        }
-        if (cln.getClnRef() != null && (cln.getIntValor() < 1))
-        {
-          continue;
-        }
-        str = "'_cln_valor', ";
-        str = str.replace("_cln_valor", cln.getStrValorSql());
-        strResultado += str;
-      }
-      strResultado = Utils.removerUltimaLetra(strResultado, 2);
-      return strResultado;
-    }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
-    }
-    return null;
-  }
-
-  private String getSqlSelectColunaCursorAdapterId()
-  {
-    String strResultado;
-    try
-    {
-      strResultado = " _tbl_nome._cln_pk_nome _id";
-      strResultado = strResultado.replace("_tbl_nome", this.getSqlNome());
-      strResultado = strResultado.replace("_cln_pk_nome", this.getClnChavePrimaria().getSqlNome());
-      return strResultado;
-    }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
-    }
-    return null;
-  }
-
-  private String getSqlSelectColunasNomes(List<Coluna> lstCln)
-  {
-    String strResultado = null;
-    String str;
-    try
-    {
-      if (lstCln == null)
-      {
-        return "*";
-      }
-      if (lstCln.isEmpty())
-      {
-        return "*";
-      }
-      strResultado = Utils.STR_VAZIA;
-      for (Coluna cln : lstCln)
-      {
-        str = "_tbl_nome._cln_nome, ";
-        str = str.replace("_tbl_nome", cln.getTbl().getSqlNome());
-        str = str.replace("_cln_nome", cln.getSqlNome());
-        strResultado += str;
-      }
-      strResultado = Utils.removerUltimaLetra(strResultado, 2);
-    }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
-    }
-    return strResultado;
-  }
-
-  private String getSqlSelectColunasNomesConsulta()
-  {
-    List<Coluna> lstClnAdicionada;
-    String strResultado;
-    try
-    {
-      lstClnAdicionada = new ArrayList<>();
-      strResultado = Utils.STR_VAZIA;
-      for (Coluna cln : this.getLstClnConsulta())
-      {
-        strResultado += this.getSqlSelectColunasNomesConsulta(lstClnAdicionada, cln);
-      }
-      strResultado += this.getSqlSelectColunaCursorAdapterId();
-      strResultado = strResultado.replace(" null", Utils.STR_VAZIA);
-      return strResultado;
-    }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
-    }
-    return null;
-  }
-
-  @Nullable
-  private String getSqlSelectColunasNomesConsulta(List<Coluna> lstClnAdicionada, Coluna cln)
-  {
-    try
+    for (Coluna cln : this.getLstCln())
     {
       if (cln == null)
       {
-        return null;
+        continue;
       }
-      if (lstClnAdicionada.contains(cln))
+
+      if (Utils.getBooStrVazia(cln.getSqlNomeInsert()))
       {
-        return null;
+        continue;
       }
-      lstClnAdicionada.add(cln);
-      if (cln.getClnRef() == null)
+
+      stbResultado.append(cln.getSqlNomeInsert());
+    }
+
+    return Utils.removerUltimaLetra(stbResultado.toString(), 2);
+  }
+
+  private String getSqlClnSelect()
+  {
+    List<Coluna> lstClnAdicionada = new ArrayList<>();
+
+    StringBuilder stbResultado = new StringBuilder();
+
+    for (Coluna cln : this.getLstClnConsulta())
+    {
+      if (cln == null)
       {
-        return cln.getStrTblNomeClnNome();
+        continue;
       }
-      return cln.getSqlSubSelectClnRef();
+
+      this.getSqlClnSelect(lstClnAdicionada, cln, stbResultado);
     }
-    catch (Exception ex)
+
+    stbResultado.append(this.getSqlCursorAdapterId());
+
+    return stbResultado.toString().replace(" null", Utils.STR_VAZIA);
+  }
+
+  private void getSqlClnSelect(List<Coluna> lstClnAdicionada, Coluna cln, final StringBuilder stb)
+  {
+    if (cln == null)
     {
-      new ErroAndroid("Erro inesperado.\n", ex);
+      return;
     }
-    finally
+
+    if (lstClnAdicionada.contains(cln))
     {
+      return;
     }
-    return null;
+
+    lstClnAdicionada.add(cln);
+
+    if (cln.getClnRef() == null)
+    {
+      stb.append(cln.getSqlSelect());
+    }
+
+    stb.append(cln.getSqlSubSelect());
+  }
+
+  private String getSqlClnSelect(List<Coluna> lstCln)
+  {
+    if (lstCln == null)
+    {
+      return "*";
+    }
+
+    if (lstCln.isEmpty())
+    {
+      return "*";
+    }
+
+    StringBuilder stbResultado = new StringBuilder();
+
+    for (Coluna cln : lstCln)
+    {
+      if (cln == null)
+      {
+        continue;
+      }
+
+      stbResultado.append(cln.getSqlSelect());
+    }
+
+    return Utils.removerUltimaLetra(stbResultado.toString(), 2);
+  }
+
+  private String getSqlClnUpdate()
+  {
+    StringBuilder stbResultado = new StringBuilder();
+
+    for (Coluna cln : this.getLstCln())
+    {
+      if (cln == null)
+      {
+        continue;
+      }
+
+      if (Utils.getBooStrVazia(cln.getSqlUpdate()))
+      {
+        continue;
+      }
+
+      stbResultado.append(cln.getSqlUpdate());
+    }
+
+    return Utils.removerUltimaLetra(stbResultado.toString(), 2);
+  }
+
+  private String getSqlClnValorInsert()
+  {
+    StringBuilder stbResultado = new StringBuilder();
+
+    for (Coluna cln : this.getLstCln())
+    {
+      if (cln == null)
+      {
+        continue;
+      }
+
+      if (Utils.getBooStrVazia(cln.getSqlValorInsert()))
+      {
+        continue;
+      }
+
+      stbResultado.append(cln.getSqlValorInsert());
+    }
+
+    return Utils.removerUltimaLetra(stbResultado.toString(), 2);
+  }
+
+  private String getSqlCursorAdapterId()
+  {
+    if (_sqlCursorAdapterId != null)
+    {
+      return _sqlCursorAdapterId;
+    }
+
+    return _sqlCursorAdapterId = String.format(" %s.%s _id", this.getSqlNome(), this.getClnIntId().getSqlNome());
   }
 
   private String getSqlWhere(List<Filtro> lstFil)
   {
-    boolean booPrimeiroTermo;
-    String str;
-    String strResultado;
-    try
+    if (lstFil == null)
     {
-      if (lstFil == null)
-      {
-        return Utils.STR_VAZIA;
-      }
-      if (lstFil.isEmpty())
-      {
-        return Utils.STR_VAZIA;
-      }
-      booPrimeiroTermo = true;
-      strResultado = Utils.STR_VAZIA;
-      for (Filtro fil : lstFil)
-      {
-        str = "_filtro ";
-        str = str.replace("_filtro", fil.getSqlFiltro(booPrimeiroTermo));
-        strResultado += str;
-        booPrimeiroTermo = false;
-      }
-      strResultado = Utils.removerUltimaLetra(strResultado);
-      return strResultado;
+      return Utils.STR_VAZIA;
     }
-    catch (Exception ex)
+
+    if (lstFil.isEmpty())
     {
-      new ErroAndroid("Erro inesperado.\n", ex);
+      return Utils.STR_VAZIA;
     }
-    finally
+
+    boolean booPrimeiroTermo = true;
+    String strResultado = Utils.STR_VAZIA;
+
+    for (Filtro fil : lstFil)
     {
+      if (fil == null)
+      {
+        continue;
+      }
+
+      strResultado += fil.getSqlFiltro(booPrimeiroTermo).concat(" ");
+
+      booPrimeiroTermo = false;
     }
-    return null;
+
+    return Utils.removerUltimaLetra(strResultado);
   }
 
   /**
-   * Esta é a view que representa esta tabela. A primeira view da lista de views. Caso a lista não contenha nenhuma
-   * view, retorna a instância desta tabela.
+   * Esta é a view que representa esta tabela. A primeira view da lista de views. Caso a lista não contenha nenhuma view, retorna a instância desta
+   * tabela.
    *
    * @return A view principal desta tabela.
    */
   public TabelaAndroid<?> getViwPrincipal()
   {
-    try
+    if (_viwPrincipal != null)
     {
-      if (_viwPrincipal != null)
-      {
-        return _viwPrincipal;
-      }
-      if (this.getLstViwAndroid() == null)
-      {
-        _viwPrincipal = this;
-        return _viwPrincipal;
-      }
-      if (this.getLstViwAndroid().isEmpty())
-      {
-        _viwPrincipal = this;
-        return _viwPrincipal;
-      }
-      _viwPrincipal = this.getLstViwAndroid().get(0);
+      return _viwPrincipal;
     }
-    catch (Exception ex)
+
+    if (this.getLstViwAndroid() == null)
     {
-      new ErroAndroid("Erro inesperado.\n", ex);
+      _viwPrincipal = this;
+
+      return _viwPrincipal;
     }
-    finally
+
+    if (this.getLstViwAndroid().isEmpty())
     {
+      _viwPrincipal = this;
+
+      return _viwPrincipal;
     }
+
+    _viwPrincipal = this.getLstViwAndroid().get(0);
+
     return _viwPrincipal;
+  }
+
+  @Override
+  protected void inicializar()
+  {
+    super.inicializar();
+
+    if (this instanceof ViewAndroid)
+    {
+      return;
+    }
+
+    this.getClnBooAtivo().setBooValorDefault(true);
   }
 
   /**
    * Este método tem a responsabilidade de inicializar a lista de views desta tabela.
+   * @param lstViw
    */
-  protected void inicializarLstViwAndroid()
+  protected void inicializarLstViwAndroid(final List<ViewAndroid> lstViw)
   {
   }
 
   private void lerDominio(T objDominio)
   {
-    try
+    this.limparDados();
+
+    if (objDominio == null)
     {
-      this.limparColunas();
-      if (objDominio == null)
-      {
-        return;
-      }
-      for (Coluna cln : this.getLstCln())
-      {
-        if (cln == null)
-        {
-          continue;
-        }
-        cln.lerDominio(objDominio);
-      }
+      return;
     }
-    catch (Exception ex)
+
+    for (Coluna cln : this.getLstCln())
     {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
+      if (cln == null)
+      {
+        continue;
+      }
+
+      cln.lerDominio(objDominio);
     }
   }
 
   public void montarMenu(Menu mnu)
   {
-    try
+    if (mnu == null)
     {
-      if (mnu == null)
-      {
-        return;
-      }
-      this.montarMenuPesquisa(mnu);
-      this.montarMenuCampo(mnu);
-      this.montarMenuOrdenar(mnu);
+      return;
     }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
-    }
+
+    this.montarMenuPesquisa(mnu);
+    this.montarMenuCampo(mnu);
+    this.montarMenuOrdenar(mnu);
   }
 
   private void montarMenuCampo(Menu mnu)
   {
-    SubMenu smn;
-    try
+    if (mnu == null)
     {
-      if (mnu == null)
-      {
-        return;
-      }
-      smn = mnu.addSubMenu("Campos");
-      smn.getItem().setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
-      smn.setIcon(R.drawable.visualizar);
-      this.montarMenuCampoColuna(smn);
+      return;
     }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
-    }
+
+    SubMenu smn = mnu.addSubMenu("Campos");
+
+    smn.getItem().setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
+    smn.setIcon(R.drawable.visualizar);
+
+    this.montarMenuCampoColuna(smn);
   }
 
   private void montarMenuCampoColuna(SubMenu smn)
   {
-    try
+    if (smn == null)
     {
-      if (smn == null)
-      {
-        return;
-      }
-      for (Coluna cln : this.getLstClnOrdenado())
-      {
-        if (cln == null)
-        {
-          continue;
-        }
-        ((ColunaAndroid) cln).montarMenuCampo(smn);
-      }
+      return;
     }
-    catch (Exception ex)
+
+    for (Coluna cln : this.getLstClnOrdenado())
     {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
+      if (cln == null)
+      {
+        continue;
+      }
+
+      ((ColunaAndroid) cln).montarMenuCampo(smn);
     }
   }
 
-  public void montarMenuItem(Menu mnu, int intRegistroId, boolean booDetalhar)
+  public void montarMenuItem(Menu mnu, int intRegistroId, boolean booActConsulta)
   {
-    try
+    if (mnu == null)
     {
-      if (mnu == null)
-      {
-        return;
-      }
-      if (intRegistroId < 1)
-      {
-        return;
-      }
-      if (booDetalhar)
-      {
-        this.montarMenuItemDetalhar(mnu);
-      }
-      this.montarMenuItemAlterar(mnu, intRegistroId);
-      this.montarMenuItemApagar(mnu, intRegistroId);
+      return;
     }
-    catch (Exception ex)
+
+    if (intRegistroId < 1)
     {
-      new ErroAndroid("Erro inesperado.\n", ex);
+      return;
     }
-    finally
-    {
-    }
+
+    this.montarMenuItemDetalhar(mnu, booActConsulta);
+    this.montarMenuItemAlterar(mnu, intRegistroId);
+    this.montarMenuItemApagar(mnu, intRegistroId);
   }
 
   protected void montarMenuItemAlterar(Menu mnu, int intRegistroId)
   {
-    try
+    if (mnu == null)
     {
-      if (mnu == null)
-      {
-        return;
-      }
-      if (this.getClsActCadastro() == null)
-      {
-        return;
-      }
-      if (!this.getBooMenuAlterar())
-      {
-        return;
-      }
-      mnu.add(TabelaAndroid.STR_MENU_ALTERAR);
+      return;
     }
-    catch (Exception ex)
+
+    if (this.getClsActCadastro() == null)
     {
-      new ErroAndroid("Erro inesperado.\n", ex);
+      return;
     }
-    finally
+
+    if (!this.getBooPermitirAlterar())
     {
+      return;
     }
+
+    mnu.add(TabelaAndroid.STR_MENU_ALTERAR);
   }
 
   protected void montarMenuItemApagar(Menu mnu, int intRegistroId)
   {
-    try
+    if (mnu == null)
     {
-      if (mnu == null)
-      {
-        return;
-      }
-      if (intRegistroId < 1)
-      {
-        return;
-      }
-      if (!this.getBooMenuApagar())
-      {
-        return;
-      }
-      mnu.add(TabelaAndroid.STR_MENU_APAGAR);
+      return;
     }
-    catch (Exception ex)
+
+    if (intRegistroId < 1)
     {
-      new ErroAndroid("Erro inesperado.\n", ex);
+      return;
     }
-    finally
+
+    if (!this.getBooPermitirApagar())
     {
+      return;
     }
+
+    mnu.add(TabelaAndroid.STR_MENU_APAGAR);
   }
 
-  private void montarMenuItemDetalhar(Menu mnu)
+  private void montarMenuItemDetalhar(Menu mnu, final boolean booActConsulta)
   {
-    try
+    if (mnu == null)
     {
-      if (mnu == null)
-      {
-        return;
-      }
-      mnu.add(TabelaAndroid.STR_MENU_DETALHAR);
+      return;
     }
-    catch (Exception ex)
+
+    if (!booActConsulta)
     {
-      new ErroAndroid("Erro inesperado.\n", ex);
+      return;
     }
-    finally
-    {
-    }
+
+    mnu.add(TabelaAndroid.STR_MENU_DETALHAR);
   }
 
   private void montarMenuOrdenar(Menu mnu)
   {
-    SubMenu smn;
-    try
+    if (mnu == null)
     {
-      if (mnu == null)
-      {
-        return;
-      }
-      smn = mnu.addSubMenu("Ordenar");
-      smn.getItem().setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
-      smn.setIcon(R.drawable.ordenar);
-      this.montarMenuOrdenarColuna(smn);
-      this.montarMenuOrdenarDecrescente(smn);
+      return;
     }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
-    }
+
+    SubMenu smn = mnu.addSubMenu("Ordenar");
+
+    smn.getItem().setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
+    smn.setIcon(R.drawable.ordenar);
+
+    this.montarMenuOrdenarColuna(smn);
+    this.montarMenuOrdenarDecrescente(smn);
   }
 
   private void montarMenuOrdenarColuna(SubMenu smn)
   {
-    try
+    if (smn == null)
     {
-      if (smn == null)
-      {
-        return;
-      }
-      ((ColunaAndroid) this.getClnChavePrimaria()).montarMenuOrdenar(smn);
-      ((ColunaAndroid) this.getClnNome()).montarMenuOrdenar(smn);
-      for (Coluna cln : this.getLstClnConsultaOrdenado())
-      {
-        if (cln == null)
-        {
-          continue;
-        }
-        if (!cln.getBooVisivelConsulta())
-        {
-          continue;
-        }
-        ((ColunaAndroid) cln).montarMenuOrdenar(smn);
-      }
+      return;
     }
-    catch (Exception ex)
+
+    ((ColunaAndroid) this.getClnIntId()).montarMenuOrdenar(smn);
+    ((ColunaAndroid) this.getClnNome()).montarMenuOrdenar(smn);
+
+    for (Coluna cln : this.getLstClnConsultaOrdenado())
     {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
+      if (cln == null)
+      {
+        continue;
+      }
+
+      if (!cln.getBooVisivelConsulta())
+      {
+        continue;
+      }
+
+      ((ColunaAndroid) cln).montarMenuOrdenar(smn);
     }
   }
 
   private void montarMenuOrdenarDecrescente(SubMenu smn)
   {
-    try
+    if (smn == null)
     {
-      if (smn == null)
-      {
-        return;
-      }
-      this.setMniOrdemDecrescente(smn.add("Ordem decrescente"));
-      this.getMniOrdemDecrescente().setChecked(this.getClnOrdem().getBooOrdemDecrescente());
-      this.getMniOrdemDecrescente().setCheckable(true);
+      return;
     }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
-    }
+
+    this.setMniOrdemDecrescente(smn.add("Ordem decrescente"));
+    this.getMniOrdemDecrescente().setChecked(this.getClnOrdem().getBooOrdemDecrescente());
+    this.getMniOrdemDecrescente().setCheckable(true);
   }
 
   private void montarMenuPesquisa(final Menu mnu)
   {
-    SubMenu smn;
-    try
+    if (mnu == null)
     {
-      if (mnu == null)
-      {
-        return;
-      }
-      smn = mnu.addSubMenu(STR_MENU_PESQUISAR_POR);
-      smn.getItem().setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
-      smn.setIcon(R.drawable.opcoes_pesquisa);
-      this.montarMenuPesquisa(smn);
+      return;
     }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
-    }
+
+    SubMenu smn = mnu.addSubMenu(STR_MENU_PESQUISAR_POR);
+
+    smn.getItem().setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
+    smn.setIcon(R.drawable.opcoes_pesquisa);
+
+    this.montarMenuPesquisa(smn);
   }
 
   private void montarMenuPesquisa(final SubMenu smn)
   {
-    try
+    if (smn == null)
     {
-      if (smn == null)
-      {
-        return;
-      }
-      for (Coluna cln : this.getLstClnOrdenado())
-      {
-        if (cln == null)
-        {
-          continue;
-        }
-        ((ColunaAndroid) cln).montarMenuPesquisa(smn);
-      }
+      return;
     }
-    catch (Exception ex)
+
+    for (Coluna cln : this.getLstClnOrdenado())
     {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
+      if (cln == null)
+      {
+        continue;
+      }
+
+      ((ColunaAndroid) cln).montarMenuPesquisa(smn);
     }
   }
 
@@ -1514,21 +1248,11 @@ public abstract class TabelaAndroid<T extends Dominio> extends Tabela<T>
 
   public Cursor pesquisar(Coluna cln)
   {
-    List<Coluna> lstCln;
-    try
-    {
-      lstCln = new ArrayList<>();
-      lstCln.add(cln);
-      return this.pesquisar(lstCln, null);
-    }
-    catch (Exception ex)
-    {
-      new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(0), ex);
-    }
-    finally
-    {
-    }
-    return null;
+    List<Coluna> lstCln = new ArrayList<>();
+
+    lstCln.add(cln);
+
+    return this.pesquisar(lstCln, null);
   }
 
   public Cursor pesquisar(Coluna clnFiltro, boolean booFiltro)
@@ -1548,63 +1272,33 @@ public abstract class TabelaAndroid<T extends Dominio> extends Tabela<T>
 
   public Cursor pesquisar(Coluna cln, List<Filtro> lstFil)
   {
-    List<Coluna> lstCln;
-    try
-    {
-      lstCln = new ArrayList<>();
-      lstCln.add(cln);
-      return this.pesquisar(lstCln, lstFil);
-    }
-    catch (Exception ex)
-    {
-      new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(0), ex);
-    }
-    finally
-    {
-    }
-    return null;
+    List<Coluna> lstCln = new ArrayList<>();
+
+    lstCln.add(cln);
+
+    return this.pesquisar(lstCln, lstFil);
   }
 
   public Cursor pesquisar(Coluna clnFiltro, String strFiltro)
   {
-    List<Filtro> lstFil;
-    try
-    {
-      lstFil = new ArrayList<>();
-      lstFil.add(new Filtro(clnFiltro, strFiltro));
-      return this.pesquisar(lstFil);
-    }
-    catch (Exception ex)
-    {
-      new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(128), ex);
-    }
-    finally
-    {
-    }
-    return null;
+    List<Filtro> lstFil = new ArrayList<>();
+
+    lstFil.add(new Filtro(clnFiltro, strFiltro));
+
+    return this.pesquisar(lstFil);
   }
 
   public Cursor pesquisar(List<Coluna> lstCln, List<Filtro> lstFil)
   {
-    String sql;
-    try
-    {
-      sql = "select _clns_nome from _tbl_nome where _where order by _tbl_nome._order;";
-      sql = sql.replace("_clns_nome", this.getSqlSelectColunasNomes(lstCln));
-      sql = sql.replace("_tbl_nome", this.getSqlNome());
-      sql = sql.replace("where _where", lstFil != null && lstFil.size() > 0 ? "where _where" : Utils.STR_VAZIA);
-      sql = sql.replace("_where", this.getSqlWhere(lstFil));
-      sql = sql.replace("_order", this.getClnOrdem().getSqlNome());
-      return this.getObjDb().execSqlComRetorno(sql);
-    }
-    catch (Exception ex)
-    {
-      new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(128), ex);
-    }
-    finally
-    {
-    }
-    return null;
+    String sql = "select _clns_nome from _tbl_nome where _where order by _tbl_nome._order;";
+
+    sql = sql.replace("_clns_nome", this.getSqlClnSelect(lstCln));
+    sql = sql.replace("_tbl_nome", this.getSqlNome());
+    sql = sql.replace("where _where", lstFil != null && lstFil.size() > 0 ? "where _where" : Utils.STR_VAZIA);
+    sql = sql.replace("_where", this.getSqlWhere(lstFil));
+    sql = sql.replace("_order", this.getClnOrdem().getSqlNome());
+
+    return this.getDbe().execSqlComRetorno(sql);
   }
 
   public Cursor pesquisar(List<Filtro> lstFil)
@@ -1615,73 +1309,62 @@ public abstract class TabelaAndroid<T extends Dominio> extends Tabela<T>
   /**
    * Retorna os dados que serão mostrados na tela de consulta.
    *
+   * @param actConsulta
    * @return Os dados que serão mostrados na tela de consulta.
    */
-  public Cursor pesquisarConsulta()
+  public Cursor pesquisarConsulta(final ActConsulta actConsulta)
   {
-    Cursor crsResultado;
-    String sql;
-    try
+    if (actConsulta == null)
     {
-      this.carregarLstFilConsulta(this.getLstFilConsulta());
+      return null;
+    }
 
-      sql = "select _clns_nome from _tbl_nome where _where order by _order _asc_desc;";
-      sql = sql.replace("_clns_nome", this.getSqlSelectColunasNomesConsulta());
-      sql = sql.replace("_tbl_nome", this.getSqlNome());
-      sql = sql.replace("where _where", (!this.getLstFilConsulta().isEmpty()) ? "where _where" : Utils.STR_VAZIA);
-      sql = sql.replace("_where", this.getSqlWhere(this.getLstFilConsulta()));
-      sql = sql.replace("_order", this.getClnOrdem().getSqlNome());
-      sql = sql.replace("_asc_desc", !this.getClnOrdem().getBooOrdemDecrescente() ? "asc" : "desc");
-      crsResultado = this.getObjDb().execSqlComRetorno(sql);
-      this.getLstFilConsulta().clear();
-      return crsResultado;
-    }
-    catch (Exception ex)
-    {
-      new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(128), ex);
-    }
-    finally
-    {
-    }
-    return null;
+    this.carregarLstFilConsulta(actConsulta, this.getLstFilConsulta());
+
+    String sql = "select _clns_nome from _tbl_nome where _where order by _order _asc_desc;";
+
+    sql = sql.replace("_clns_nome", this.getSqlClnSelect());
+    sql = sql.replace("_tbl_nome", this.getSqlNome());
+    sql = sql.replace("where _where", (!this.getLstFilConsulta().isEmpty()) ? "where _where" : Utils.STR_VAZIA);
+    sql = sql.replace("_where", this.getSqlWhere(this.getLstFilConsulta()));
+    sql = sql.replace("_order", this.getClnOrdem().getSqlNome());
+    sql = sql.replace("_asc_desc", !this.getClnOrdem().getBooOrdemDecrescente() ? "asc" : "desc");
+
+    Cursor crsResultado = this.getDbe().execSqlComRetorno(sql);
+
+    this.getLstFilConsulta().clear();
+
+    return crsResultado;
   }
 
   private List<T> pesquisarDominio(Cursor crs)
   {
-    List<T> lstResultado;
-    T objDominio;
-    try
+    if (crs == null)
     {
-      if (crs == null)
-      {
-        return null;
-      }
-      lstResultado = new ArrayList<>();
-      do
-      {
-        objDominio = this.carregarDominio(crs);
-        if (objDominio == null)
-        {
-          continue;
-        }
-        if (objDominio.getIntId() < 1)
-        {
-          continue;
-        }
-        lstResultado.add(objDominio);
+      return null;
+    }
 
+    List<T> lstResultado = new ArrayList<>();
+
+    do
+    {
+      T objDominio = this.carregarDominio(crs);
+
+      if (objDominio == null)
+      {
+        continue;
       }
-      while (crs.moveToNext());
-      return lstResultado;
+      if (objDominio.getIntId() < 1)
+      {
+        continue;
+      }
+
+      lstResultado.add(objDominio);
+
     }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
-    }
-    return null;
+    while (crs.moveToNext());
+
+    return lstResultado;
   }
 
   public List<T> pesquisarDominio(Coluna clnFiltro, boolean booFiltro)
@@ -1696,22 +1379,12 @@ public abstract class TabelaAndroid<T extends Dominio> extends Tabela<T>
 
   public List<T> pesquisarDominio(Coluna clnFiltro, GregorianCalendar dttFiltro)
   {
-    try
+    if (dttFiltro == null)
     {
-      if (dttFiltro == null)
-      {
-        return null;
-      }
-      return this.pesquisarDominio(clnFiltro, Utils.getStrDataFormatada(dttFiltro, EnmDataFormato.YYYY_MM_DD_HH_MM_SS));
+      return null;
     }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
-    }
-    return null;
+
+    return this.pesquisarDominio(clnFiltro, Utils.getStrDataFormatada(dttFiltro, EnmDataFormato.YYYY_MM_DD_HH_MM_SS));
   }
 
   public List<T> pesquisarDominio(Coluna clnFiltro, int intFiltro)
@@ -1726,406 +1399,345 @@ public abstract class TabelaAndroid<T extends Dominio> extends Tabela<T>
 
   public List<T> pesquisarDominio(Filtro fil)
   {
-    List<Filtro> lstFil;
-    try
+    if (fil == null)
     {
-      if (fil == null)
-      {
-        return null;
-      }
-      lstFil = new ArrayList<>();
-      lstFil.add(fil);
-      return this.pesquisarDominio(lstFil);
+      return null;
     }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
-    }
-    return null;
+
+    List<Filtro> lstFil = new ArrayList<>();
+
+    lstFil.add(fil);
+
+    return this.pesquisarDominio(lstFil);
   }
 
   public List<T> pesquisarDominio(List<Filtro> lstFil)
   {
-    Cursor crs;
-    List<T> lstObjDominioResultado;
-    try
+    if (lstFil == null)
     {
-      if (lstFil == null)
-      {
-        return null;
-      }
-      crs = this.pesquisar(lstFil);
-      if (crs == null)
-      {
-        return null;
-      }
-      if (!crs.moveToFirst())
-      {
-        return null;
-      }
-      lstObjDominioResultado = this.pesquisarDominio(crs);
-      crs.close();
-      return lstObjDominioResultado;
+      return null;
     }
-    catch (Exception ex)
+
+    Cursor crs = this.pesquisar(lstFil);
+
+    if (crs == null)
     {
-      new ErroAndroid("Erro inesperado.\n", ex);
+      return null;
     }
-    finally
+
+    if (!crs.moveToFirst())
     {
+      return null;
     }
-    return null;
+
+    List<T> lstObjDominioResultado = this.pesquisarDominio(crs);
+
+    crs.close();
+
+    return lstObjDominioResultado;
   }
 
   public boolean processarMenu(ActMain act, MenuItem mni)
   {
-    try
+    if (act == null)
     {
-      if (act == null)
-      {
-        return false;
-      }
-      if (mni == null)
-      {
-        return false;
-      }
-      if (this.processarMenuPesquisa(act, mni))
-      {
-        return false;
-      }
-      if (this.processarMenuCampo(act, mni))
-      {
-        ((ActConsulta) act).atualizarLista();
-        return false;
-      }
-      if (this.processarMenuOrdenar(act, mni))
-      {
-        ((ActConsulta) act).atualizarLista();
-        return false;
-      }
-      if (mni.equals(this.getMniOrdemDecrescente()))
-      {
-        return this.processarMenuOrdenarDecrescente((ActConsulta) act);
-      }
-      switch (mni.getTitle().toString())
-      {
-        case TabelaAndroid.STR_MENU_ADICIONAR:
-          return this.processarMenuAdicionar(act);
-      }
+      return false;
     }
-    catch (Exception ex)
+
+    if (mni == null)
     {
-      new ErroAndroid("Erro inesperado.\n", ex);
+      return false;
     }
-    finally
+
+    if (this.processarMenuPesquisa(act, mni))
     {
+      return false;
     }
+
+    if (this.processarMenuCampo(act, mni))
+    {
+      ((ActConsulta) act).atualizarLista();
+      return false;
+    }
+
+    if (this.processarMenuOrdenar(act, mni))
+    {
+      ((ActConsulta) act).atualizarLista();
+      return false;
+    }
+
+    if (mni.equals(this.getMniOrdemDecrescente()))
+    {
+      return this.processarMenuOrdenarDecrescente((ActConsulta) act);
+    }
+
+    switch (mni.getTitle().toString())
+    {
+      case TabelaAndroid.STR_MENU_ADICIONAR:
+        return this.processarMenuAdicionar(act);
+    }
+
     return false;
   }
 
   private boolean processarMenuAdicionar(ActMain act)
   {
-    Intent itt;
-    try
+    if (act == null)
     {
-      if (act == null)
-      {
-        return false;
-      }
-      if (this.getClsActCadastro() == null)
-      {
-        return false;
-      }
-      itt = new Intent(act, this.getClsActCadastro());
-      itt.putExtra(ActCadastroMain.STR_EXTRA_IN_INT_REGISTRO_REF_ID, this.getIntRegistroRefId());
-      act.startActivity(itt);
+      return false;
     }
-    catch (Exception ex)
+
+    if (!(act instanceof ActConsulta))
     {
-      new ErroAndroid("Erro inesperado.\n", ex);
+      return false;
     }
-    finally
-    {
-    }
+
+    ActConsulta actConsulta = (ActConsulta) act;
+
+    this.abrirCadastro(act, 0, actConsulta.getTblPai(), actConsulta.getIntRegistroRefId());
     return true;
   }
 
   private boolean processarMenuCampo(ActMain act, MenuItem mni)
   {
-    try
+    if (act == null)
     {
-      if (act == null)
-      {
-        return false;
-      }
-      if (!(act instanceof ActConsulta))
-      {
-        return false;
-      }
-      if (mni == null)
-      {
-        return false;
-      }
-      for (Coluna cln : this.getLstCln())
-      {
-        if (cln == null)
-        {
-          continue;
-        }
-        if (!mni.equals(((ColunaAndroid) cln).getMniCampo()))
-        {
-          continue;
-        }
-        ((ColunaAndroid) cln).processarMenuCampo(mni);
-        act.invalidateOptionsMenu();
-        return true;
-      }
+      return false;
     }
-    catch (Exception ex)
+
+    if (!(act instanceof ActConsulta))
     {
-      new ErroAndroid("Erro inesperado.\n", ex);
+      return false;
     }
-    finally
+
+    if (mni == null)
     {
+      return false;
     }
+
+    for (Coluna cln : this.getLstCln())
+    {
+      if (cln == null)
+      {
+        continue;
+      }
+
+      if (!mni.equals(((ColunaAndroid) cln).getMniCampo()))
+      {
+        continue;
+      }
+
+      ((ColunaAndroid) cln).processarMenuCampo(mni);
+
+      act.invalidateOptionsMenu();
+
+      return true;
+    }
+
     return false;
   }
 
   public boolean processarMenuItem(ActMain act, MenuItem mni, int intRegistroId)
   {
-    try
+    if (act == null)
     {
-      if (act == null)
-      {
-        return false;
-      }
-      if (mni == null)
-      {
-        return false;
-      }
-      switch (mni.getTitle().toString())
-      {
-        case TabelaAndroid.STR_MENU_ALTERAR:
-          return this.processarMenuItemAlterar(act, intRegistroId);
-        case TabelaAndroid.STR_MENU_APAGAR:
-          return this.processarMenuItemApagar(act, intRegistroId);
-        case TabelaAndroid.STR_MENU_DETALHAR:
-          return this.processarMenuItemDetalhar(act, intRegistroId);
-      }
+      return false;
     }
-    catch (Exception ex)
+
+    if (mni == null)
     {
-      new ErroAndroid("Erro inesperado.\n", ex);
+      return false;
     }
-    finally
+
+    if (intRegistroId < 1)
     {
+      return false;
     }
+
+    switch (mni.getTitle().toString())
+    {
+      case TabelaAndroid.STR_MENU_ALTERAR:
+        return this.processarMenuItemAlterar(act, intRegistroId);
+
+      case TabelaAndroid.STR_MENU_APAGAR:
+        return this.processarMenuItemApagar(act, intRegistroId);
+
+      case TabelaAndroid.STR_MENU_DETALHAR:
+        return this.processarMenuItemDetalhar(act, intRegistroId);
+    }
+
     return false;
   }
 
   private boolean processarMenuItemAlterar(ActMain act, int intRegistroId)
   {
-    Intent itt;
-    try
+    if (act == null)
     {
-      if (act == null)
-      {
-        return false;
-      }
-      if (intRegistroId < 1)
-      {
-        return false;
-      }
-      if (this.getClsActCadastro() == null)
-      {
-        return false;
-      }
-      itt = new Intent(act, this.getClsActCadastro());
-      itt.putExtra(ActCadastroMain.STR_EXTRA_IN_INT_REGISTRO_ID, intRegistroId);
-      itt.putExtra(ActCadastroMain.STR_EXTRA_IN_INT_REGISTRO_REF_ID, this.getIntRegistroRefId());
-      itt.putExtra(ActCadastroMain.STR_EXTRA_IN_INT_TBL_OBJETO_ID, this.getIntObjetoId());
-      act.startActivity(itt);
+      return false;
     }
-    catch (Exception ex)
+
+    if (intRegistroId < 1)
     {
-      new ErroAndroid("Erro inesperado.\n", ex);
+      return false;
     }
-    finally
+
+    if (!(act instanceof ActConsulta))
     {
+      return false;
     }
+
+    ActConsulta actConsulta = (ActConsulta) act;
+
+    this.abrirCadastro(act, intRegistroId, actConsulta.getTblPai(), actConsulta.getIntRegistroRefId());
     return true;
   }
 
   private boolean processarMenuItemApagar(ActMain act, int intId)
   {
-    try
+    if (act == null)
     {
-      if (act == null)
-      {
-        return false;
-      }
-      if (intId < 1)
-      {
-        return false;
-      }
-      this.apagar(intId);
-      if (!(act instanceof ActDetalhe))
-      {
-        return true;
-      }
-      act.finish();
+      return false;
     }
-    catch (Exception ex)
+
+    if (intId < 1)
     {
-      new ErroAndroid("Erro inesperado.\n", ex);
+      return false;
     }
-    finally
+
+    this.apagar(intId);
+
+    if (!(act instanceof ActDetalhe))
     {
+      return true;
     }
+
+    act.finish();
+
     return true;
   }
 
   private boolean processarMenuItemDetalhar(ActMain act, int intId)
   {
-    try
+    if (act == null)
     {
-      if (act == null)
-      {
-        return false;
-      }
-      if (intId < 1)
-      {
-        return false;
-      }
-      this.abrirActDetalhe(act, intId);
+      return false;
     }
-    catch (Exception ex)
+
+    if (intId < 1)
     {
-      new ErroAndroid("Erro inesperado.\n", ex);
+      return false;
     }
-    finally
-    {
-    }
+
+    this.abrirDetalhe(act, intId);
+
     return true;
   }
 
   private boolean processarMenuOrdenar(ActMain act, MenuItem mni)
   {
-    try
+    if (act == null)
     {
-      if (act == null)
-      {
-        return false;
-      }
-      if (!(act instanceof ActConsulta))
-      {
-        return false;
-      }
-      if (mni == null)
-      {
-        return false;
-      }
-      if (mni.isChecked())
-      {
-        return false;
-      }
-      if (mni.equals(((ColunaAndroid) this.getClnChavePrimaria()).getMniOrdenar()))
-      {
-        ((ColunaAndroid) this.getClnChavePrimaria()).processarMenuOrdenar(mni);
-        return true;
-      }
-      if (mni.equals(((ColunaAndroid) this.getClnNome()).getMniOrdenar()))
-      {
-        ((ColunaAndroid) this.getClnNome()).processarMenuOrdenar(mni);
-        return true;
-      }
-      for (Coluna cln : this.getLstClnConsulta())
-      {
-        if (cln == null)
-        {
-          continue;
-        }
-        if (!mni.equals(((ColunaAndroid) cln).getMniOrdenar()))
-        {
-          continue;
-        }
-        ((ColunaAndroid) cln).processarMenuOrdenar(mni);
-        return true;
-      }
+      return false;
     }
-    catch (Exception ex)
+
+    if (!(act instanceof ActConsulta))
     {
-      new ErroAndroid("Erro inesperado.\n", ex);
+      return false;
     }
-    finally
+
+    if (mni == null)
     {
+      return false;
     }
+
+    if (mni.isChecked())
+    {
+      return false;
+    }
+
+    if (mni.equals(((ColunaAndroid) this.getClnIntId()).getMniOrdenar()))
+    {
+      ((ColunaAndroid) this.getClnIntId()).processarMenuOrdenar(mni);
+      return true;
+    }
+
+    if (mni.equals(((ColunaAndroid) this.getClnNome()).getMniOrdenar()))
+    {
+      ((ColunaAndroid) this.getClnNome()).processarMenuOrdenar(mni);
+      return true;
+    }
+
+    for (Coluna cln : this.getLstClnConsulta())
+    {
+      if (cln == null)
+      {
+        continue;
+      }
+
+      if (!mni.equals(((ColunaAndroid) cln).getMniOrdenar()))
+      {
+        continue;
+      }
+
+      ((ColunaAndroid) cln).processarMenuOrdenar(mni);
+
+      return true;
+    }
+
     return false;
   }
 
   private boolean processarMenuOrdenarDecrescente(ActConsulta actConsulta)
   {
-    try
+    if (actConsulta == null)
     {
-      if (actConsulta == null)
-      {
-        return false;
-      }
-      this.getMniOrdemDecrescente().setChecked(!this.getMniOrdemDecrescente().isChecked());
-      this.getClnOrdem().setBooOrdemDecrescente(this.getMniOrdemDecrescente().isChecked());
-      actConsulta.atualizarLista();
+      return false;
     }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
-    }
+
+    this.getMniOrdemDecrescente().setChecked(!this.getMniOrdemDecrescente().isChecked());
+    this.getClnOrdem().setBooOrdemDecrescente(this.getMniOrdemDecrescente().isChecked());
+
+    actConsulta.atualizarLista();
+
     return true;
   }
 
   private boolean processarMenuPesquisa(ActMain act, MenuItem mni)
   {
-    try
+    if (act == null)
     {
-      if (act == null)
-      {
-        return false;
-      }
-      if (!(act instanceof ActConsulta))
-      {
-        return false;
-      }
-      if (mni == null)
-      {
-        return false;
-      }
-      for (Coluna cln : this.getLstCln())
-      {
-        if (cln == null)
-        {
-          continue;
-        }
-        if (!mni.equals(((ColunaAndroid) cln).getMniPesquisa()))
-        {
-          continue;
-        }
-        ((ColunaAndroid) cln).processarMenuPesquisa(mni);
-        act.invalidateOptionsMenu();
-        return true;
-      }
+      return false;
     }
-    catch (Exception ex)
+
+    if (!(act instanceof ActConsulta))
     {
-      new ErroAndroid("Erro inesperado.\n", ex);
+      return false;
     }
-    finally
+
+    if (mni == null)
     {
+      return false;
     }
+
+    for (Coluna cln : this.getLstCln())
+    {
+      if (cln == null)
+      {
+        continue;
+      }
+
+      if (!mni.equals(((ColunaAndroid) cln).getMniPesquisa()))
+      {
+        continue;
+      }
+
+      ((ColunaAndroid) cln).processarMenuPesquisa(mni);
+
+      act.invalidateOptionsMenu();
+
+      return true;
+    }
+
     return false;
   }
 
@@ -2141,21 +1753,13 @@ public abstract class TabelaAndroid<T extends Dominio> extends Tabela<T>
 
   public TabelaAndroid recuperar(Coluna clnFiltro, GregorianCalendar dttFiltro)
   {
-    try
+    if (dttFiltro == null)
     {
-      if (dttFiltro == null)
-      {
-        return this;
-      }
-      this.recuperar(clnFiltro, Utils.getStrDataFormatada(dttFiltro, EnmDataFormato.YYYY_MM_DD_HH_MM_SS));
+      return this;
     }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
-    }
+
+    this.recuperar(clnFiltro, Utils.getStrDataFormatada(dttFiltro, EnmDataFormato.YYYY_MM_DD_HH_MM_SS));
+
     return this;
   }
 
@@ -2171,54 +1775,46 @@ public abstract class TabelaAndroid<T extends Dominio> extends Tabela<T>
 
   public TabelaAndroid recuperar(Filtro fil)
   {
-    List<Filtro> lstFil;
-    try
+    if (fil == null)
     {
-      if (fil == null)
-      {
-        return this;
-      }
-      lstFil = new ArrayList<>();
-      lstFil.add(fil);
-      this.recuperar(lstFil);
+      return this;
     }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
-    }
+
+    List<Filtro> lstFil = new ArrayList<>();
+
+    lstFil.add(fil);
+
+    this.recuperar(lstFil);
+
     return this;
   }
 
   public TabelaAndroid recuperar(int intId)
   {
-    return this.recuperar(this.getClnChavePrimaria(), intId);
+    return this.recuperar(this.getClnIntId(), intId);
   }
 
   public TabelaAndroid recuperar(List<Filtro> lstFil)
   {
-    Cursor crs;
-    String sql;
-    try
+    this.limparDados();
+
+    if (this.getDbe() == null)
     {
-      sql = "select _clns_nome from _tbl_nome where _where order by _tbl_nome._order;";
-      sql = sql.replace("_clns_nome", this.getSqlColunasNomes());
-      sql = sql.replace("_tbl_nome", this.getSqlNome());
-      sql = sql.replace("_where", this.getSqlWhere(lstFil));
-      sql = sql.replace("_order", this.getClnChavePrimaria().getSqlNome());
-      crs = this.getObjDb().execSqlComRetorno(sql);
-      this.carregarDados(crs);
-      crs.close();
+      return this;
     }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
-    }
+
+    String sql = "select * from _tbl_nome where _where order by _tbl_nome._order;";
+
+    sql = sql.replace("_tbl_nome", this.getSqlNome());
+    sql = sql.replace("_where", this.getSqlWhere(lstFil));
+    sql = sql.replace("_order", this.getClnIntId().getSqlNome());
+
+    Cursor crs = this.getDbe().execSqlComRetorno(sql);
+
+    this.carregarDados(crs);
+
+    crs.close();
+
     return this;
   }
 
@@ -2234,22 +1830,12 @@ public abstract class TabelaAndroid<T extends Dominio> extends Tabela<T>
 
   public T recuperarDominio(Coluna clnFiltro, GregorianCalendar dttFiltro)
   {
-    try
+    if (dttFiltro == null)
     {
-      if (dttFiltro == null)
-      {
-        return null;
-      }
-      return this.recuperarDominio(clnFiltro, Utils.getStrDataFormatada(dttFiltro, EnmDataFormato.YYYY_MM_DD_HH_MM_SS));
+      return null;
     }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
-    }
-    return null;
+
+    return this.recuperarDominio(clnFiltro, Utils.getStrDataFormatada(dttFiltro, EnmDataFormato.YYYY_MM_DD_HH_MM_SS));
   }
 
   public T recuperarDominio(Coluna clnFiltro, int intFiltro)
@@ -2264,195 +1850,120 @@ public abstract class TabelaAndroid<T extends Dominio> extends Tabela<T>
 
   public T recuperarDominio(Filtro fil)
   {
-    List<Filtro> lstFil;
-    try
+    if (fil == null)
     {
-      if (fil == null)
-      {
-        return null;
-      }
-      lstFil = new ArrayList<>();
-      lstFil.add(fil);
-      return this.recuperarDominio(lstFil);
+      return null;
     }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
-    }
-    return null;
+
+    List<Filtro> lstFil = new ArrayList<>();
+
+    lstFil.add(fil);
+
+    return this.recuperarDominio(lstFil);
   }
 
   public T recuperarDominio(int intId)
   {
-    return this.recuperarDominio(this.getClnChavePrimaria(), intId);
+    return this.recuperarDominio(this.getClnIntId(), intId);
   }
 
   public T recuperarDominio(List<Filtro> lstFil)
   {
-    List<T> lstObjDominio;
-    try
+    if (lstFil == null)
     {
-      if (lstFil == null)
-      {
-        return null;
-      }
-      lstObjDominio = this.pesquisarDominio(lstFil);
-      if (lstObjDominio == null)
-      {
-        return null;
-      }
-      if (lstObjDominio.size() < 1)
-      {
-        return null;
-      }
-      return lstObjDominio.get(0);
+      return null;
     }
-    catch (Exception ex)
+
+    List<T> lstObjDominio = this.pesquisarDominio(lstFil);
+
+    if (lstObjDominio == null)
     {
-      new ErroAndroid("Erro inesperado.\n", ex);
+      return null;
     }
-    finally
+
+    if (lstObjDominio.size() < 1)
     {
+      return null;
     }
-    return null;
+
+    return lstObjDominio.get(0);
   }
 
-  public boolean salvar(boolean booValidar)
+  public TabelaAndroid salvar()
   {
-    try
+    this.getClnDttAlteracao().setDttValor(Calendar.getInstance());
+
+    this.carregarValorDefault();
+
+    if (!this.getBooRegistroExiste(this.getClnIntId().getIntValor()))
     {
-      if (booValidar && !this.validarDados())
-      {
-        return false;
-      }
-      if (!this.getBooRegistroExiste(this.getClnChavePrimaria().getIntValor()))
-      {
-        this.salvarInsert();
-        return true;
-      }
-      this.salvarUpdate();
+      this.salvarInsert();
+      return this;
     }
-    catch (Exception ex)
-    {
-      new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(129), ex);
-    }
-    finally
-    {
-      //      this.recuperar(this.getClnChavePrimaria().getIntValor());
-    }
-    return true;
+
+    this.salvarUpdate();
+    return this;
   }
 
-  public boolean salvar(T objDominio, boolean booValidar)
+  public T salvar(final T objDominio)
   {
-    boolean booResultado;
-    try
+    if (objDominio == null)
     {
-      if (objDominio == null)
-      {
-        return false;
-      }
-      this.lerDominio(objDominio);
-      booResultado = this.salvar(booValidar);
-      objDominio.setIntId(this.getClnChavePrimaria().getIntValor());
-      return booResultado;
+      return null;
     }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
-    }
-    return false;
-  }
 
-  public void salvarAleatorio()
-  {
-    try
-    {
-      for (Coluna cln : this.getLstCln())
-      {
-        switch (cln.getEnmTipo())
-        {
-          case INTEGER:
-            cln.setStrValor(Utils.getStrAleatoria(5, EnmStrTipo.NUMERICO));
-            break;
-          case REAL:
-            cln.setStrValor(Utils.getStrAleatoria(5, EnmStrTipo.NUMERICO));
-            break;
-          case NUMERIC:
-            cln.setStrValor(Utils.getStrAleatoria(5, EnmStrTipo.NUMERICO));
-            break;
-          default:
-            cln.setStrValor(Utils.getStrAleatoria(5, EnmStrTipo.ALPHA));
-            break;
-        }
-      }
-      this.salvar(false);
-    }
-    catch (Exception ex)
-    {
-      new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(130), ex);
-    }
-    finally
-    {
-    }
+    this.lerDominio(objDominio);
+
+    this.salvar();
+
+    objDominio.setIntId(this.getClnIntId().getIntValor());
+
+    return objDominio;
   }
 
   private void salvarInsert()
   {
-    int intId;
-    String sql;
-    try
-    {
-      sql = "insert into _tbl_nome (_cln_nome) values (_cln_valor);";
-      sql = sql.replace("_tbl_nome", this.getSqlNome());
-      sql = sql.replace("_cln_nome", this.getSqlColunasNomesInsert());
-      sql = sql.replace("_cln_valor", this.getSqlColunasValoresInsert());
-      this.getObjDb().execSql(sql);
-      sql = "select last_insert_rowid();";
-      intId = this.getObjDb().execSqlGetInt(sql);
-      this.getClnChavePrimaria().setIntValor(intId);
-      this.dispararEvtOnAdicionarAtualizarListener(true);
-    }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
-    }
+    this.getClnDttCadastro().setDttValor(Calendar.getInstance());
+
+    String sql = "insert into _tbl_nome (_cln_nome) values (_cln_valor);";
+
+    sql = sql.replace("_tbl_nome", this.getSqlNome());
+    sql = sql.replace("_cln_nome", this.getSqlClnNomeInsert());
+    sql = sql.replace("_cln_valor", this.getSqlClnValorInsert());
+
+    this.getDbe().execSql(sql);
+
+    sql = "select last_insert_rowid();";
+
+    int intId = this.getDbe().execSqlGetInt(sql);
+
+    this.getClnIntId().setIntValor(intId);
+
+    this.dispararEvtOnAdicionarAtualizarListener(true);
   }
 
   private void salvarUpdate()
   {
-    String sql;
-    try
-    {
-      sql = "update _tbl_nome set _cln_nome_valor where _cln_pk_nome = '_registro_id';";
-      sql = sql.replace("_tbl_nome", this.getSqlNome());
-      sql = sql.replace("_cln_nome_valor", this.getSqlColunasNomesValorUpdate());
-      sql = sql.replace("_cln_pk_nome", this.getClnChavePrimaria().getSqlNome());
-      sql = sql.replace("_registro_id", this.getClnChavePrimaria().getStrValorSql());
-      this.getObjDb().execSql(sql);
-      this.dispararEvtOnAdicionarAtualizarListener(false);
-    }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
-    }
+    String sql = "update _tbl_nome set _cln_nome_valor where _cln_pk_nome = '_registro_id';";
+
+    sql = sql.replace("_tbl_nome", this.getSqlNome());
+    sql = sql.replace("_cln_nome_valor", this.getSqlClnUpdate());
+    sql = sql.replace("_cln_pk_nome", this.getClnIntId().getSqlNome());
+    sql = sql.replace("_registro_id", this.getClnIntId().getSqlValor());
+
+    this.getDbe().execSql(sql);
+
+    this.dispararEvtOnAdicionarAtualizarListener(false);
   }
 
-  public void setBooSinc(boolean booSinc)
+  protected void setBooMostrarSalvarNovo(boolean booMostrarSalvarNovo)
   {
-    _booSinc = booSinc;
+    _booMostrarSalvarNovo = booMostrarSalvarNovo;
+  }
+
+  public void setBooSincronizada(boolean booSincronizada)
+  {
+    _booSincronizada = booSincronizada;
   }
 
   /**
@@ -2470,11 +1981,6 @@ public abstract class TabelaAndroid<T extends Dominio> extends Tabela<T>
     _clsActCadastro = clsActFrm;
   }
 
-  public void setIntRegistroRefId(int intRegistroRefId)
-  {
-    _intRegistroRefId = intRegistroRefId;
-  }
-
   private void setMniOrdemDecrescente(MenuItem mniOrdemDecrescente)
   {
     _mniOrdemDecrescente = mniOrdemDecrescente;
@@ -2482,38 +1988,35 @@ public abstract class TabelaAndroid<T extends Dominio> extends Tabela<T>
 
   public void setObjDb(DataBaseAndroid objDb)
   {
-    _objDb = objDb;
+    _dbe = objDb;
+  }
+
+  private void setViwPrincipal(final ViewAndroid viwPrincipal)
+  {
+    _viwPrincipal = viwPrincipal;
   }
 
   /**
-   * Este métod é chamado quando o usário termina de preencher os dados nos campos da Activity de cadastro e clica na
-   * opção salvar.
+   * Este métod é chamado quando o usário termina de preencher os dados nos campos da Activity de cadastro e clica na opção sincronizar.
    *
+   * @param act
    * @return True caso tudo esteja satisfatório para o salvamento do registro, ou false caso contrário.
    */
-  public boolean validarDados()
+  public boolean validarDados(final ActCadastroMain act)
   {
-    try
+    for (Coluna cln : this.getLstCln())
     {
-      for (Coluna cln : this.getLstCln())
+      if (cln == null)
       {
-        if (cln == null)
-        {
-          continue;
-        }
-        if (!((ColunaAndroid) cln).validarDados())
-        {
-          return false;
-        }
+        continue;
+      }
+
+      if (!((ColunaAndroid) cln).validarDados(act))
+      {
+        return false;
       }
     }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
-    }
+
     return true;
   }
 }

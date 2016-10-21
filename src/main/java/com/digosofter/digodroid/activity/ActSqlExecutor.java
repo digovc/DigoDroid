@@ -10,7 +10,6 @@ import com.digosofter.digojava.Utils;
 
 public class ActSqlExecutor extends ActMain implements View.OnClickListener
 {
-
   private Button _btnExecutarScript;
   private EditText _txtSqlScript;
 
@@ -20,7 +19,13 @@ public class ActSqlExecutor extends ActMain implements View.OnClickListener
     {
       return;
     }
-    AppAndroid.getI().getObjDbPrincipal().execSql(this.getTxtSqlScript().getText().toString());
+
+    if (AppAndroid.getI().getDbe() == null)
+    {
+      return;
+    }
+
+    AppAndroid.getI().getDbe().execSql(this.getTxtSqlScript().getText().toString());
   }
 
   private Button getBtnExecutarScript()
@@ -29,12 +34,14 @@ public class ActSqlExecutor extends ActMain implements View.OnClickListener
     {
       return _btnExecutarScript;
     }
+
     _btnExecutarScript = this.getView(R.id.actSqlExecutor_btnExecutarScript, Button.class);
+
     return _btnExecutarScript;
   }
 
   @Override
-  protected int getIntLayoutId()
+  public int getIntLayoutId()
   {
     return R.layout.act_sql_executor;
   }
@@ -45,7 +52,9 @@ public class ActSqlExecutor extends ActMain implements View.OnClickListener
     {
       return _txtSqlScript;
     }
+
     _txtSqlScript = this.getView(R.id.actSqlExecutor_txtSqlScript, EditText.class);
+
     return _txtSqlScript;
   }
 
@@ -63,6 +72,7 @@ public class ActSqlExecutor extends ActMain implements View.OnClickListener
   protected void setEventos()
   {
     super.setEventos();
+
     this.getBtnExecutarScript().setOnClickListener(this);
   }
 }
