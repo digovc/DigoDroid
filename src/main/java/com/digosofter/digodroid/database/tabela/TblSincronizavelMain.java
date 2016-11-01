@@ -37,7 +37,7 @@ public abstract class TblSincronizavelMain<T extends DominioSincronizavelMain> e
     super(strNome, dbeAndroid);
   }
 
-  private ColunaAndroid getClnBooSincronizado()
+  public ColunaAndroid getClnBooSincronizado()
   {
     if (_clnBooSincronizado != null)
     {
