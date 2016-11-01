@@ -7,9 +7,9 @@ import android.database.sqlite.SQLiteOpenHelper;
 import com.digosofter.digodroid.AppAndroid;
 import com.digosofter.digodroid.activity.ActMain;
 import com.digosofter.digodroid.arquivo.ArquivoDb;
-import com.digosofter.digojava.database.DbeBase;
+import com.digosofter.digojava.database.DbeMain;
 
-public abstract class DbeAndroidBase extends DbeBase
+public abstract class DbeAndroidMain extends DbeMain
 {
   public static final String STR_FILE_PREFIXO = ".sqlite";
 
@@ -18,7 +18,7 @@ public abstract class DbeAndroidBase extends DbeBase
   private SQLiteDatabase _dbeLeitura;
   private SQLiteOpenHelper _objSqLiteOpenHelper;
 
-  public DbeAndroidBase(String strNome)
+  public DbeAndroidMain(String strNome)
   {
     this.setStrNome(strNome + STR_FILE_PREFIXO);
   }
@@ -132,13 +132,13 @@ public abstract class DbeAndroidBase extends DbeBase
       @Override
       public void onCreate(SQLiteDatabase objSQLiteDatabase)
       {
-        DbeAndroidBase.this.onCreateSQLiteOpenHelper(objSQLiteDatabase);
+        DbeAndroidMain.this.onCreateSQLiteOpenHelper(objSQLiteDatabase);
       }
 
       @Override
       public void onUpgrade(SQLiteDatabase objSQLiteDatabase, int intOldVersion, int intNewVersion)
       {
-        DbeAndroidBase.this.onUpdateSQLiteOpenHelper(objSQLiteDatabase, intOldVersion, intNewVersion);
+        DbeAndroidMain.this.onUpdateSQLiteOpenHelper(objSQLiteDatabase, intOldVersion, intNewVersion);
       }
     };
 

@@ -9,6 +9,7 @@ import com.digosofter.digojava.Utils;
 import com.digosofter.digojava.database.Coluna;
 
 import java.util.Calendar;
+import java.util.List;
 
 public class TblSincronizacao extends TabelaAndroid<DominioAndroidMain>
 {
@@ -93,13 +94,11 @@ public class TblSincronizacao extends TabelaAndroid<DominioAndroidMain>
   }
 
   @Override
-  protected int inicializarLstCln(int intOrdem)
+  protected void inicializarLstCln(List<Coluna> lstCln)
   {
-    intOrdem = super.inicializarLstCln(intOrdem);
+    super.inicializarLstCln(lstCln);
 
-    this.getClnDttUltimoRecebimento().setIntOrdem(++intOrdem);
-    this.getClnSqlTblNome().setIntOrdem(++intOrdem);
-
-    return intOrdem;
+    lstCln.add(this.getClnDttUltimoRecebimento());
+    lstCln.add(this.getClnSqlTblNome());
   }
 }

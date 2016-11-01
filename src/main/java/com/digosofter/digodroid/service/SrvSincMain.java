@@ -3,7 +3,7 @@ package com.digosofter.digodroid.service;
 import android.os.SystemClock;
 
 import com.digosofter.digodroid.AppAndroid;
-import com.digosofter.digodroid.database.DbeAndroidBase;
+import com.digosofter.digodroid.database.DbeAndroidMain;
 import com.digosofter.digodroid.database.tabela.TblSincronizavelMain;
 import com.digosofter.digodroid.log.LogSinc;
 import com.digosofter.digodroid.server.ServerHttpSincMain;
@@ -88,7 +88,7 @@ public abstract class SrvSincMain<T extends ServerHttpSincMain> extends ServiceM
     return _clsSrvHttpSinc;
   }
 
-  protected abstract DbeAndroidBase getDbe();
+  protected abstract DbeAndroidMain getDbe();
 
   private List<TblSincronizavelMain> getLstTbl()
   {

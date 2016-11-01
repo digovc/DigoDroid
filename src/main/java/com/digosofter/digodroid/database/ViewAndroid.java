@@ -9,6 +9,7 @@ import com.digosofter.digojava.database.OnChangeArg;
 import org.apache.commons.io.IOUtils;
 
 import java.io.IOException;
+import java.util.List;
 
 public abstract class ViewAndroid extends TabelaAndroid<DominioAndroidMain>
 {
@@ -16,7 +17,7 @@ public abstract class ViewAndroid extends TabelaAndroid<DominioAndroidMain>
   private TabelaAndroid _tbl;
   private TabelaAndroid _tblPrincipal;
 
-  protected ViewAndroid(String strNome, TabelaAndroid tbl, DbeAndroidBase dbeAndroid)
+  protected ViewAndroid(String strNome, TabelaAndroid tbl, DbeAndroidMain dbeAndroid)
   {
     super(strNome, dbeAndroid);
 
@@ -160,13 +161,11 @@ public abstract class ViewAndroid extends TabelaAndroid<DominioAndroidMain>
   }
 
   @Override
-  protected int inicializarLstCln(int intOrdem)
+  protected void inicializarLstCln(List<Coluna> lstCln)
   {
     // intOrdem = super.inicializarLstCln(intOrdem);
 
-    this.getClnIntId().setIntOrdem(++intOrdem);
-
-    return intOrdem;
+    lstCln.add(this.getClnIntId());
   }
 
   @Override

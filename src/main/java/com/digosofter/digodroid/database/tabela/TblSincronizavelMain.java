@@ -2,7 +2,7 @@ package com.digosofter.digodroid.database.tabela;
 
 import com.digosofter.digodroid.Aparelho;
 import com.digosofter.digodroid.database.ColunaAndroid;
-import com.digosofter.digodroid.database.DbeAndroidBase;
+import com.digosofter.digodroid.database.DbeAndroidMain;
 import com.digosofter.digodroid.database.TabelaAndroid;
 import com.digosofter.digodroid.dominio.DominioSincronizavelMain;
 import com.digosofter.digodroid.log.LogSinc;
@@ -32,7 +32,7 @@ public abstract class TblSincronizavelMain<T extends DominioSincronizavelMain> e
   private String _sqlServerNome;
   private SrvSincMain _srvSinc;
 
-  protected TblSincronizavelMain(final String strNome, final DbeAndroidBase dbeAndroid)
+  protected TblSincronizavelMain(final String strNome, final DbeAndroidMain dbeAndroid)
   {
     super(strNome, dbeAndroid);
   }
@@ -122,16 +122,14 @@ public abstract class TblSincronizavelMain<T extends DominioSincronizavelMain> e
   }
 
   @Override
-  protected int inicializarLstCln(int intOrdem)
+  protected void inicializarLstCln(List<Coluna> lstCln)
   {
-    intOrdem = super.inicializarLstCln(intOrdem);
+    super.inicializarLstCln(lstCln);
 
-    this.getClnBooSincronizado().setIntOrdem(++intOrdem);
-    this.getClnBooSincronizar().setIntOrdem(++intOrdem);
-    this.getClnStrAparelhoId().setIntOrdem(++intOrdem);
-    this.getClnStrSincCritica().setIntOrdem(++intOrdem);
-
-    return intOrdem;
+    lstCln.add(this.getClnBooSincronizado());
+    lstCln.add(this.getClnBooSincronizar());
+    lstCln.add(this.getClnStrAparelhoId());
+    lstCln.add(this.getClnStrSincCritica());
   }
 
   protected void prepararRetornoSincronizacao(final T objDominio)

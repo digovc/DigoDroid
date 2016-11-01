@@ -7,6 +7,8 @@ import com.digosofter.digodroid.dominio.DominioAndroidMain;
 import com.digosofter.digodroid.server.message.RspPesquisar;
 import com.digosofter.digojava.database.Coluna;
 
+import java.util.List;
+
 public class TblSincronizacaoItem extends TabelaAndroid<DominioAndroidMain>
 {
   private static TblSincronizacaoItem _i;
@@ -76,13 +78,11 @@ public class TblSincronizacaoItem extends TabelaAndroid<DominioAndroidMain>
   }
 
   @Override
-  protected int inicializarLstCln(int intOrdem)
+  protected void inicializarLstCln(List<Coluna> lstCln)
   {
-    intOrdem = super.inicializarLstCln(intOrdem);
+    super.inicializarLstCln(lstCln);
 
-    this.getClnIntRegistroQuantidade().setIntOrdem(++intOrdem);
-    this.getClnIntSincronizacaoId().setIntOrdem(++intOrdem);
-
-    return intOrdem;
+    lstCln.add(this.getClnIntRegistroQuantidade());
+    lstCln.add(this.getClnIntSincronizacaoId());
   }
 }

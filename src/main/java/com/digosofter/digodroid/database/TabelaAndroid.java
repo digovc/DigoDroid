@@ -51,7 +51,7 @@ public abstract class TabelaAndroid<T extends DominioAndroidMain> extends Tabela
   private ColunaAndroid _clnIntUsuarioCadastroId;
   private ColunaAndroid _clnPesquisa;
   private Class<? extends ActMain> _clsActCadastro;
-  private DbeAndroidBase _dbe;
+  private DbeAndroidMain _dbe;
   private List<ViewAndroid> _lstViwAndroid;
   private MenuItem _mniOrdemDecrescente;
   private String _sqlCursorAdapterId;
@@ -62,13 +62,13 @@ public abstract class TabelaAndroid<T extends DominioAndroidMain> extends Tabela
    *
    * @param strNome Nome da tabela no banco de dados.
    */
-  protected TabelaAndroid(String strNome, DbeAndroidBase dbeAndroid)
+  protected TabelaAndroid(String strNome, DbeAndroidMain dbeAndroid)
   {
     super(strNome, dbeAndroid);
   }
 
   /**
-   * Atalho para {@link #abrirCadastro(ActMain, int, int)}
+   * Atalho para {@link #abrirCadastro(ActMain, int, TabelaAndroid, int)}
    *
    * @param act Activity "parent" da tela de cadastro que será aberta.
    */
@@ -78,7 +78,7 @@ public abstract class TabelaAndroid<T extends DominioAndroidMain> extends Tabela
   }
 
   /**
-   * Atalho para {@link #abrirCadastro(ActMain, int, int)}
+   * Atalho para {@link #abrirCadastro(ActMain, int, TabelaAndroid, int)}
    *
    * @param act Activity "parent" da tela de cadastro que será aberta.
    * @param intId Código do registro para alteração.
@@ -93,7 +93,8 @@ public abstract class TabelaAndroid<T extends DominioAndroidMain> extends Tabela
    *
    * @param act Activity "parent" que está chamando este novo activity de cadastro.
    * @param intRegistroId Código do registro, no caso de ser uma alteração num registro já salvo.
-   * @param intRegistroRefId Código do registro de referência caso este cadastro seja de um consulta_item ou se esse tem alguma ligação com outra tabela.
+   * @param intRegistroRefId Código do registro de referência caso este cadastro seja de um consulta_item ou se esse tem alguma ligação com outra
+   * tabela.
    */
   public void abrirCadastro(final ActMain act, int intRegistroId, TabelaAndroid tblPai, int intRegistroRefId)
   {
@@ -698,7 +699,7 @@ public abstract class TabelaAndroid<T extends DominioAndroidMain> extends Tabela
   }
 
   @Override
-  public DbeAndroidBase getDbe()
+  public DbeAndroidMain getDbe()
   {
     if (_dbe != null)
     {
@@ -710,7 +711,7 @@ public abstract class TabelaAndroid<T extends DominioAndroidMain> extends Tabela
       return null;
     }
 
-    _dbe = (DbeAndroidBase) super.getDbe();
+    _dbe = (DbeAndroidMain) super.getDbe();
 
     return _dbe;
   }
@@ -1011,6 +1012,7 @@ public abstract class TabelaAndroid<T extends DominioAndroidMain> extends Tabela
 
   /**
    * Este método tem a responsabilidade de inicializar a lista de views desta tabela.
+   *
    * @param lstViw
    */
   protected void inicializarLstViwAndroid(final List<ViewAndroid> lstViw)
@@ -1177,10 +1179,11 @@ public abstract class TabelaAndroid<T extends DominioAndroidMain> extends Tabela
       return;
     }
 
-    ((ColunaAndroid) this.getClnIntId()).montarMenuOrdenar(smn);
+    this.getClnIntId().montarMenuOrdenar(smn);
+
     ((ColunaAndroid) this.getClnNome()).montarMenuOrdenar(smn);
 
-    for (Coluna cln : this.getLstClnConsultaOrdenado())
+    for (Coluna cln : this.getLstClnConsulta())
     {
       if (cln == null)
       {
@@ -1986,7 +1989,7 @@ public abstract class TabelaAndroid<T extends DominioAndroidMain> extends Tabela
     _mniOrdemDecrescente = mniOrdemDecrescente;
   }
 
-  public void setObjDb(DbeAndroidBase objDb)
+  public void setObjDb(DbeAndroidMain objDb)
   {
     _dbe = objDb;
   }

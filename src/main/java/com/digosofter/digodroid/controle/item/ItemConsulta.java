@@ -91,7 +91,7 @@ public class ItemConsulta extends ItemMain implements View.OnClickListener, View
       return;
     }
 
-    for (Coluna cln : this.getTbl().getLstClnConsultaOrdenado())
+    for (Coluna cln : this.getTbl().getLstClnConsulta())
     {
       this.carregarDadosItem(crs, (ColunaAndroid) cln);
     }
