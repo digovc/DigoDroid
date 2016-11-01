@@ -130,9 +130,9 @@ public class ItemConsulta extends ItemMain implements View.OnClickListener, View
   }
 
   /**
-   * Retorna o código do registro que este item representa.
+   * Retorna o código do registro que este consulta_item representa.
    *
-   * @return O código do registro que este item representa
+   * @return O código do registro que este consulta_item representa
    */
   public int getIntRegistroId()
   {
@@ -217,9 +217,9 @@ public class ItemConsulta extends ItemMain implements View.OnClickListener, View
   }
 
   /**
-   * Retorna o nome do registro que este item representa.
+   * Retorna o nome do registro que este consulta_item representa.
    *
-   * @return O nome do registro que este item representa.
+   * @return O nome do registro que este consulta_item representa.
    */
   public String getStrRegistroNome()
   {

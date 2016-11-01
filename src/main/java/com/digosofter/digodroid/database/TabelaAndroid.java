@@ -89,11 +89,11 @@ public abstract class TabelaAndroid<T extends DominioAndroidMain> extends Tabela
   }
 
   /**
-   * Abre a tela de cadastro para que um novo item seja inserido.
+   * Abre a tela de cadastro para que um novo consulta_item seja inserido.
    *
    * @param act Activity "parent" que está chamando este novo activity de cadastro.
    * @param intRegistroId Código do registro, no caso de ser uma alteração num registro já salvo.
-   * @param intRegistroRefId Código do registro de referência caso este cadastro seja de um item ou se esse tem alguma ligação com outra tabela.
+   * @param intRegistroRefId Código do registro de referência caso este cadastro seja de um consulta_item ou se esse tem alguma ligação com outra tabela.
    */
   public void abrirCadastro(final ActMain act, int intRegistroId, TabelaAndroid tblPai, int intRegistroRefId)
   {

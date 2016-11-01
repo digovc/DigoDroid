@@ -242,7 +242,7 @@ public abstract class TblSincronizavelMain<T extends DominioSincronizavelMain> e
   {
     if (objDominio == null)
     {
-      LogSinc.getI().addLog(Log.EnmTipo.ERRO, String.format("Erro ao converter o item do resultado da pesquisa para salvar na tabela %s.", this.getStrNomeExibicao()));
+      LogSinc.getI().addLog(Log.EnmTipo.ERRO, String.format("Erro ao converter o consulta_item do resultado da pesquisa para salvar na tabela %s.", this.getStrNomeExibicao()));
       return;
     }
 
@@ -330,7 +330,7 @@ public abstract class TblSincronizavelMain<T extends DominioSincronizavelMain> e
 
     if (objDominio == null)
     {
-      LogSinc.getI().addLog(Log.EnmTipo.ERRO, String.format("Erro ao converter o item do resultado do envio da tabela %s.", this.getStrNomeExibicao()));
+      LogSinc.getI().addLog(Log.EnmTipo.ERRO, String.format("Erro ao converter o consulta_item do resultado do envio da tabela %s.", this.getStrNomeExibicao()));
       return;
     }
 

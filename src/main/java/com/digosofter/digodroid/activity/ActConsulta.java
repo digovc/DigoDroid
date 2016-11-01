@@ -59,7 +59,7 @@ public class ActConsulta extends ActMain implements OnTblChangeListener, TextWat
   public static final String STR_EXTRA_IN_INT_TBL_PAI_OBJETO_ID = "int_tbl_pai_objeto_id";
 
   /**
-   * Código do registro que indica o item que o usuário selecionou na lista desta tela.
+   * Código do registro que indica o consulta_item que o usuário selecionou na lista desta tela.
    */
   public static final String STR_EXTRA_OUT_INT_REGISTRO_ID = "int_registro_id";
 

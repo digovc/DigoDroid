@@ -23,7 +23,7 @@ public abstract class ActCadastroMain extends ActMain
   public static final String STR_EXTRA_IN_BOO_MOSTRAR_SALVAR_NOVO = "boo_salvar_novo";
 
   /**
-   * Código do registro que indica o item que o usuário selecionou na lista desta tela.
+   * Código do registro que indica o consulta_item que o usuário selecionou na lista desta tela.
    */
   public static final String STR_EXTRA_IN_INT_REGISTRO_ID = "int_registro_id";
 

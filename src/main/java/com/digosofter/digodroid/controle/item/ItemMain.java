@@ -26,7 +26,7 @@ public abstract class ItemMain extends PainelGeral
   /**
    * Este método recarrega os valores apresentados nos itens com o registro selecionado no cursor.
    *
-   * @param crs Cursor com os dados para fazer a reciclagem do item.
+   * @param crs Cursor com os dados para fazer a reciclagem do consulta_item.
    */
   public void carregarDados(Cursor crs)
   {
