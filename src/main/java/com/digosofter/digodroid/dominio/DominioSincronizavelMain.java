@@ -4,8 +4,6 @@ public abstract class DominioSincronizavelMain extends DominioAndroidMain
 {
   private boolean _booSincronizado;
   private boolean _booSincronizar;
-  private int _intClientRegistroId;
-  private int _intServerId;
   private String _strAparelhoId;
   private String _strSincCritica;
 
@@ -17,16 +15,6 @@ public abstract class DominioSincronizavelMain extends DominioAndroidMain
   public boolean getBooSincronizar()
   {
     return _booSincronizar;
-  }
-
-  public int getIntClientRegistroId()
-  {
-    return _intClientRegistroId;
-  }
-
-  public int getIntServerId()
-  {
-    return _intServerId;
   }
 
   public String getStrAparelhoId()
@@ -47,16 +35,6 @@ public abstract class DominioSincronizavelMain extends DominioAndroidMain
   public void setBooSincronizar(boolean booSincronizar)
   {
     _booSincronizar = booSincronizar;
-  }
-
-  public void setIntClientRegistroId(int intClientRegistroId)
-  {
-    _intClientRegistroId = intClientRegistroId;
-  }
-
-  public void setIntServerId(int intServerId)
-  {
-    _intServerId = intServerId;
   }
 
   public void setStrAparelhoId(String strAparelhoId)

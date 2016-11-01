@@ -275,7 +275,7 @@ public class ColunaAndroid extends Coluna
 
     sql = sql.replace("_tbl_nome", this.getTbl().getSqlNome());
 
-    Cursor crs = ((DataBaseAndroid) this.getTbl().getDbe()).execSqlComRetorno(sql);
+    Cursor crs = ((DbeAndroidBase) this.getTbl().getDbe()).execSqlComRetorno(sql);
 
     if (crs == null)
     {

@@ -16,7 +16,7 @@ public abstract class ViewAndroid extends TabelaAndroid<DominioAndroidMain>
   private TabelaAndroid _tbl;
   private TabelaAndroid _tblPrincipal;
 
-  protected ViewAndroid(String strNome, TabelaAndroid tbl, DataBaseAndroid dbeAndroid)
+  protected ViewAndroid(String strNome, TabelaAndroid tbl, DbeAndroidBase dbeAndroid)
   {
     super(strNome, dbeAndroid);
 

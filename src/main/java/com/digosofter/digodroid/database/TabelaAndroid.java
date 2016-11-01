@@ -51,7 +51,7 @@ public abstract class TabelaAndroid<T extends DominioAndroidMain> extends Tabela
   private ColunaAndroid _clnIntUsuarioCadastroId;
   private ColunaAndroid _clnPesquisa;
   private Class<? extends ActMain> _clsActCadastro;
-  private DataBaseAndroid _dbe;
+  private DbeAndroidBase _dbe;
   private List<ViewAndroid> _lstViwAndroid;
   private MenuItem _mniOrdemDecrescente;
   private String _sqlCursorAdapterId;
@@ -62,7 +62,7 @@ public abstract class TabelaAndroid<T extends DominioAndroidMain> extends Tabela
    *
    * @param strNome Nome da tabela no banco de dados.
    */
-  protected TabelaAndroid(String strNome, DataBaseAndroid dbeAndroid)
+  protected TabelaAndroid(String strNome, DbeAndroidBase dbeAndroid)
   {
     super(strNome, dbeAndroid);
   }
@@ -698,7 +698,7 @@ public abstract class TabelaAndroid<T extends DominioAndroidMain> extends Tabela
   }
 
   @Override
-  public DataBaseAndroid getDbe()
+  public DbeAndroidBase getDbe()
   {
     if (_dbe != null)
     {
@@ -710,7 +710,7 @@ public abstract class TabelaAndroid<T extends DominioAndroidMain> extends Tabela
       return null;
     }
 
-    _dbe = (DataBaseAndroid) super.getDbe();
+    _dbe = (DbeAndroidBase) super.getDbe();
 
     return _dbe;
   }
@@ -1986,7 +1986,7 @@ public abstract class TabelaAndroid<T extends DominioAndroidMain> extends Tabela
     _mniOrdemDecrescente = mniOrdemDecrescente;
   }
 
-  public void setObjDb(DataBaseAndroid objDb)
+  public void setObjDb(DbeAndroidBase objDb)
   {
     _dbe = objDb;
   }

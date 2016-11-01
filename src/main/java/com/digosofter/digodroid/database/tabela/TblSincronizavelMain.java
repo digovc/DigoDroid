@@ -2,7 +2,7 @@ package com.digosofter.digodroid.database.tabela;
 
 import com.digosofter.digodroid.Aparelho;
 import com.digosofter.digodroid.database.ColunaAndroid;
-import com.digosofter.digodroid.database.DataBaseAndroid;
+import com.digosofter.digodroid.database.DbeAndroidBase;
 import com.digosofter.digodroid.database.TabelaAndroid;
 import com.digosofter.digodroid.dominio.DominioSincronizavelMain;
 import com.digosofter.digodroid.log.LogSinc;
@@ -25,7 +25,6 @@ public abstract class TblSincronizavelMain<T extends DominioSincronizavelMain> e
 {
   private ColunaAndroid _clnBooSincronizado;
   private ColunaAndroid _clnBooSincronizar;
-  private ColunaAndroid _clnIntServerId;
   private ColunaAndroid _clnStrAparelhoId;
   private ColunaAndroid _clnStrSincCritica;
   private MsgSalvar _msgSalvar;
@@ -33,7 +32,7 @@ public abstract class TblSincronizavelMain<T extends DominioSincronizavelMain> e
   private String _sqlServerNome;
   private SrvSincMain _srvSinc;
 
-  protected TblSincronizavelMain(final String strNome, final DataBaseAndroid dbeAndroid)
+  protected TblSincronizavelMain(final String strNome, final DbeAndroidBase dbeAndroid)
   {
     super(strNome, dbeAndroid);
   }
@@ -60,18 +59,6 @@ public abstract class TblSincronizavelMain<T extends DominioSincronizavelMain> e
     _clnBooSincronizar = new ColunaAndroid("boo_sincronizar", this, Coluna.EnmTipo.BOOLEAN);
 
     return _clnBooSincronizar;
-  }
-
-  private ColunaAndroid getClnIntServerId()
-  {
-    if (_clnIntServerId != null)
-    {
-      return _clnIntServerId;
-    }
-
-    _clnIntServerId = new ColunaAndroid("int_server_id", this, Coluna.EnmTipo.BIGINT);
-
-    return _clnIntServerId;
   }
 
   public ColunaAndroid getClnStrAparelhoId()
@@ -141,23 +128,14 @@ public abstract class TblSincronizavelMain<T extends DominioSincronizavelMain> e
 
     this.getClnBooSincronizado().setIntOrdem(++intOrdem);
     this.getClnBooSincronizar().setIntOrdem(++intOrdem);
-    this.getClnIntServerId().setIntOrdem(++intOrdem);
     this.getClnStrAparelhoId().setIntOrdem(++intOrdem);
     this.getClnStrSincCritica().setIntOrdem(++intOrdem);
 
     return intOrdem;
   }
 
-  private void prepararRetornoSincronizacao(final T objDominio)
+  protected void prepararRetornoSincronizacao(final T objDominio)
   {
-    if (objDominio == null)
-    {
-      return;
-    }
-
-    objDominio.setIntServerId(objDominio.getIntId());
-
-    objDominio.setIntId(objDominio.getIntClientRegistroId());
   }
 
   protected void prepararSincronizacao(final T objDominio)
@@ -166,10 +144,6 @@ public abstract class TblSincronizavelMain<T extends DominioSincronizavelMain> e
     {
       return;
     }
-
-    objDominio.setIntClientRegistroId(objDominio.getIntId());
-
-    objDominio.setIntId(0);
 
     objDominio.setStrAparelhoId(Aparelho.getI().getStrDeviceId());
     objDominio.setStrSincCritica(null);
@@ -247,7 +221,6 @@ public abstract class TblSincronizavelMain<T extends DominioSincronizavelMain> e
     }
 
     objDominio.setBooSincronizado(true);
-    objDominio.setIntServerId(objDominio.getIntId());
 
     this.salvar(objDominio);
 

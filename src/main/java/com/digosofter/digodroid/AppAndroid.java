@@ -15,7 +15,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
 import com.digosofter.digodroid.activity.ActMain;
-import com.digosofter.digodroid.database.DataBaseAndroid;
+import com.digosofter.digodroid.database.DbeAndroidBase;
 import com.digosofter.digodroid.database.TabelaAndroid;
 import com.digosofter.digodroid.design.TemaDefault;
 import com.digosofter.digodroid.service.OnSrvSincCreateListener;
@@ -40,7 +40,7 @@ public abstract class AppAndroid extends App
   private ActMain _actPrincipal;
   private boolean _booDebug;
   private Context _cnt;
-  private DataBaseAndroid _dbePrincipal;
+  private DbeAndroidBase _dbePrincipal;
   private String _dir;
   private List<OnSrvSincCreateListener> _lstEvtOnSrvSincCreateListener;
   private List<OnSrvSincDestroyListener> _lstEvtOnSrvSincDestroyListener;
@@ -173,7 +173,7 @@ public abstract class AppAndroid extends App
     return _cnt;
   }
 
-  public abstract DataBaseAndroid getDbe();
+  public abstract DbeAndroidBase getDbe();
 
   /**
    * Diretório no dispositivo de armazenamento externo dedicado à arquivos da aplicação.
