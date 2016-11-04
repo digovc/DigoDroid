@@ -50,6 +50,7 @@ public abstract class TabelaAndroid<T extends DominioAndroidMain> extends Tabela
   private ColunaAndroid _clnIntUsuarioAlteracaoId;
   private ColunaAndroid _clnIntUsuarioCadastroId;
   private ColunaAndroid _clnPesquisa;
+  private ColunaAndroid _clnStrObservacao;
   private Class<? extends ActMain> _clsActCadastro;
   private DbeAndroidMain _dbe;
   private List<ViewAndroid> _lstViwAndroid;
@@ -693,6 +694,18 @@ public abstract class TabelaAndroid<T extends DominioAndroidMain> extends Tabela
     return _clnPesquisa;
   }
 
+  public ColunaAndroid getClnStrObservacao()
+  {
+    if (_clnStrObservacao != null)
+    {
+      return _clnStrObservacao;
+    }
+
+    _clnStrObservacao = new ColunaAndroid("str_observacao", this, Coluna.EnmTipo.TEXT);
+
+    return _clnStrObservacao;
+  }
+
   public Class<? extends ActMain> getClsActCadastro()
   {
     return _clsActCadastro;
@@ -1008,6 +1021,7 @@ public abstract class TabelaAndroid<T extends DominioAndroidMain> extends Tabela
     }
 
     this.getClnBooAtivo().setBooValorDefault(true);
+    this.getClnStrObservacao().setStrNomeExibicao("Observação");
   }
 
   /**

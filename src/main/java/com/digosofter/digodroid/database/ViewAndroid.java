@@ -120,6 +120,12 @@ public abstract class ViewAndroid extends TabelaAndroid<DominioAndroidMain>
     return null;
   }
 
+  @Override
+  public ColunaAndroid getClnStrObservacao()
+  {
+    return null;
+  }
+
   protected abstract int getIntRawFileId();
 
   protected abstract String getSqlClnIntIdNome();

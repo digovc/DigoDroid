@@ -366,7 +366,6 @@ public abstract class TblSincronizavelMain<T extends DominioSincronizavelMain> e
       return;
     }
 
-    // TODO: Validar o status da conexão com o servidor.
     this.sincronizarReceber();
     this.sincronizarEnviar();
   }
