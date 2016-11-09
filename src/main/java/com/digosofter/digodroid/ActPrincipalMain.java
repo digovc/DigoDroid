@@ -4,6 +4,17 @@ import com.digosofter.digodroid.activity.ActMain;
 
 public abstract class ActPrincipalMain extends ActMain
 {
+  @Override
+  protected void abrirMenu()
+  {
+    if (!this.getBooMostrarMenu())
+    {
+      return;
+    }
+    
+    super.abrirMenu();
+  }
+
   protected abstract AppAndroid getAppAndroid();
 
   @Override
@@ -15,16 +26,31 @@ public abstract class ActPrincipalMain extends ActMain
 
     this.getActionBar().setDisplayShowTitleEnabled(false);
     this.getActionBar().setDisplayShowHomeEnabled(false);
+
+    this.setTitle(null);
   }
 
   private void inicializarApp()
   {
-    if (this.getAppAndroid() == null)
+    this.getAppAndroid().setActPrincipal(this);
+  }
+
+  @Override
+  public boolean onOptionsItemSelected(final android.view.MenuItem mni)
+  {
+    switch (mni.getItemId())
     {
-      return;
+      case android.R.id.home:
+        this.abrirMenu();
+        return true;
     }
 
-    this.getAppAndroid().setActPrincipal(this);
+    if (super.onOptionsItemSelected(mni))
+    {
+      return true;
+    }
+
+    return false;
   }
 
 }

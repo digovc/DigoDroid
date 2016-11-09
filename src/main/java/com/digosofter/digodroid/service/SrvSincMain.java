@@ -10,7 +10,6 @@ import com.digosofter.digodroid.server.ServerHttpSincMain;
 import com.digosofter.digojava.Utils;
 import com.digosofter.digojava.log.Log;
 
-import java.lang.reflect.ParameterizedType;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,10 +24,7 @@ public abstract class SrvSincMain<T extends ServerHttpSincMain> extends ServiceM
     return _i;
   }
 
-  private Class<T> _clsSrvHttpSinc;
   private List<TblSincronizavelMain> _lstTbl;
-  private T _srvHttpSinc;
-  private String _urlServer;
 
   public SrvSincMain()
   {
@@ -59,33 +55,6 @@ public abstract class SrvSincMain<T extends ServerHttpSincMain> extends ServiceM
     super.finalizar();
 
     this.setI(null);
-  }
-
-  private Class<T> getClsSrvHttpSinc()
-  {
-    if (_clsSrvHttpSinc != null)
-    {
-      return _clsSrvHttpSinc;
-    }
-
-    if (!(this.getClass().getGenericSuperclass() instanceof ParameterizedType))
-    {
-      return null;
-    }
-
-    if (((ParameterizedType) this.getClass().getGenericSuperclass()).getActualTypeArguments() == null)
-    {
-      return null;
-    }
-
-    if (((ParameterizedType) this.getClass().getGenericSuperclass()).getActualTypeArguments().length < 1)
-    {
-      return null;
-    }
-
-    _clsSrvHttpSinc = ((Class<T>) ((ParameterizedType) this.getClass().getGenericSuperclass()).getActualTypeArguments()[0]);
-
-    return _clsSrvHttpSinc;
   }
 
   protected abstract DbeAndroidMain getDbe();
