@@ -52,7 +52,7 @@ public class ActDetalhe extends ActMain
       return _lblIntRegistroId;
     }
 
-    _lblIntRegistroId = this.getView(R.id.actDetalhe_lblIntRegistroId, LabelGeral.class);
+    _lblIntRegistroId = this.getView(R.id.actDetalhe_lblIntRegistroId);
 
     return _lblIntRegistroId;
   }
@@ -64,7 +64,7 @@ public class ActDetalhe extends ActMain
       return _lblStrRegistroNome;
     }
 
-    _lblStrRegistroNome = this.getView(R.id.actDetalhe_lblStrRegistroNome, LabelGeral.class);
+    _lblStrRegistroNome = this.getView(R.id.actDetalhe_lblStrRegistroNome);
 
     return _lblStrRegistroNome;
   }
@@ -88,7 +88,7 @@ public class ActDetalhe extends ActMain
       return _pnlCampos;
     }
 
-    _pnlCampos = this.getView(R.id.actDetalhe_pnlCampos, LinearLayout.class);
+    _pnlCampos = this.getView(R.id.actDetalhe_pnlCampos);
 
     return _pnlCampos;
   }

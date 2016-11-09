@@ -165,7 +165,7 @@ public class ActConsulta extends ActMain implements OnTblChangeListener, TextWat
       return _btnPesquisaLimpar;
     }
 
-    _btnPesquisaLimpar = this.getView(R.id.actConsulta_btnPesquisaLimpar, BotaoCircular.class);
+    _btnPesquisaLimpar = this.getView(R.id.actConsulta_btnPesquisaLimpar);
 
     return _btnPesquisaLimpar;
   }
@@ -200,7 +200,7 @@ public class ActConsulta extends ActMain implements OnTblChangeListener, TextWat
       return _lblVazio;
     }
 
-    _lblVazio = this.getView(R.id.actConsulta_lblVazio, LabelGeral.class);
+    _lblVazio = this.getView(R.id.actConsulta_lblVazio);
 
     return _lblVazio;
   }
@@ -212,7 +212,7 @@ public class ActConsulta extends ActMain implements OnTblChangeListener, TextWat
       return _pnlLista;
     }
 
-    _pnlLista = this.getView(R.id.actConsulta_pnlLista, ListView.class);
+    _pnlLista = this.getView(R.id.actConsulta_pnlLista);
 
     _pnlLista.setCacheColorHint(Color.TRANSPARENT);
 
@@ -226,7 +226,7 @@ public class ActConsulta extends ActMain implements OnTblChangeListener, TextWat
       return _pnlPesquisa;
     }
 
-    _pnlPesquisa = this.getView(R.id.actConsulta_pnlPesquisa, PainelGeralRelativo.class);
+    _pnlPesquisa = this.getView(R.id.actConsulta_pnlPesquisa);
 
     return _pnlPesquisa;
   }
@@ -296,7 +296,7 @@ public class ActConsulta extends ActMain implements OnTblChangeListener, TextWat
       return _txtPesquisa;
     }
 
-    _txtPesquisa = this.getView(R.id.actConsulta_txtPesquisa, TextBoxGeral.class);
+    _txtPesquisa = this.getView(R.id.actConsulta_txtPesquisa);
 
     return _txtPesquisa;
   }
@@ -308,7 +308,7 @@ public class ActConsulta extends ActMain implements OnTblChangeListener, TextWat
       return _txtTblDescricao;
     }
 
-    _txtTblDescricao = this.getView(R.id.actConsulta_pnlPesquisa, TextView.class);
+    _txtTblDescricao = this.getView(R.id.actConsulta_pnlPesquisa);
 
     return _txtTblDescricao;
   }

@@ -92,7 +92,7 @@ public class ActLog extends ActMain
       return _lblLog;
     }
 
-    _lblLog = this.getView(R.id.actLog_lblLog, LabelGeral.class);
+    _lblLog = this.getView(R.id.actLog_lblLog);
 
     return _lblLog;
   }

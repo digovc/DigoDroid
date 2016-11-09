@@ -35,7 +35,7 @@ public class ActSqlExecutor extends ActMain implements View.OnClickListener
       return _btnExecutarScript;
     }
 
-    _btnExecutarScript = this.getView(R.id.actSqlExecutor_btnExecutarScript, Button.class);
+    _btnExecutarScript = this.getView(R.id.actSqlExecutor_btnExecutarScript);
 
     return _btnExecutarScript;
   }
@@ -53,7 +53,7 @@ public class ActSqlExecutor extends ActMain implements View.OnClickListener
       return _txtSqlScript;
     }
 
-    _txtSqlScript = this.getView(R.id.actSqlExecutor_txtSqlScript, EditText.class);
+    _txtSqlScript = this.getView(R.id.actSqlExecutor_txtSqlScript);
 
     return _txtSqlScript;
   }

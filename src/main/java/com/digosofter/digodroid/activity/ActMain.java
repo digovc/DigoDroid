@@ -23,9 +23,9 @@ public abstract class ActMain extends Activity
   public static final String STR_EXTRA_OUT_BOO_FECHAR = "boo_fechar";
 
   private boolean _booVisivel;
-  private List<OnResultListener> _lstEvtOnResultListener;
   private List<OnDestroyListener> _lstEvtOnDestroyListener;
   private List<OnRequestPermissionResultListener> _lstEvtOnRequestPermissionResultListener;
+  private List<OnResultListener> _lstEvtOnResultListener;
   private DrawerMenuMain _viwDrawerMenu;
   private ViewGroup _viwRoot;
 
@@ -47,21 +47,6 @@ public abstract class ActMain extends Activity
     }
 
     this.getViwDrawerMenu().abrirMenu();
-  }
-
-  public void addEvtOnResultListener(OnResultListener evt)
-  {
-    if (evt == null)
-    {
-      return;
-    }
-
-    if (this.getLstEvtOnResultListener().contains(evt))
-    {
-      return;
-    }
-
-    this.getLstEvtOnResultListener().add(evt);
   }
 
   public void addEvtOnDestroyListener(OnDestroyListener evt)
@@ -94,33 +79,24 @@ public abstract class ActMain extends Activity
     this.getLstEvtOnRequestPermissionResultListener().add(evt);
   }
 
-  protected void addFragmento(int intViewGroupConteinerId, Fragment frg)
+  public void addEvtOnResultListener(OnResultListener evt)
   {
-    this.getFragmentManager().beginTransaction().add(intViewGroupConteinerId, frg).commit();
-  }
-
-  private void dispararEvtOnResultListener(final int intRequestCode, final int intResultCode, final Intent ittResult)
-  {
-    if (this.getLstEvtOnResultListener().isEmpty())
+    if (evt == null)
     {
       return;
     }
 
-    OnActivityResultArg arg = new OnActivityResultArg();
-
-    arg.setIntRequestCode(intRequestCode);
-    arg.setIntResultCode(intResultCode);
-    arg.setIttResult(ittResult);
-
-    for (OnResultListener evt : this.getLstEvtOnResultListener())
+    if (this.getLstEvtOnResultListener().contains(evt))
     {
-      if (evt == null)
-      {
-        continue;
-      }
-
-      evt.onActivityResult(this, arg);
+      return;
     }
+
+    this.getLstEvtOnResultListener().add(evt);
+  }
+
+  protected void addFragmento(int intViewGroupConteinerId, Fragment frg)
+  {
+    this.getFragmentManager().beginTransaction().add(intViewGroupConteinerId, frg).commit();
   }
 
   private void dispararEvtOnDestroyListener()
@@ -162,6 +138,30 @@ public abstract class ActMain extends Activity
       }
 
       evt.onRequestPermissionResult(this, arg);
+    }
+  }
+
+  private void dispararEvtOnResultListener(final int intRequestCode, final int intResultCode, final Intent ittResult)
+  {
+    if (this.getLstEvtOnResultListener().isEmpty())
+    {
+      return;
+    }
+
+    OnActivityResultArg arg = new OnActivityResultArg();
+
+    arg.setIntRequestCode(intRequestCode);
+    arg.setIntResultCode(intResultCode);
+    arg.setIttResult(ittResult);
+
+    for (OnResultListener evt : this.getLstEvtOnResultListener())
+    {
+      if (evt == null)
+      {
+        continue;
+      }
+
+      evt.onActivityResult(this, arg);
     }
   }
 
@@ -211,18 +211,6 @@ public abstract class ActMain extends Activity
     return _lstEvtOnDestroyListener;
   }
 
-  private List<OnResultListener> getLstEvtOnResultListener()
-  {
-    if (_lstEvtOnResultListener != null)
-    {
-      return _lstEvtOnResultListener;
-    }
-
-    _lstEvtOnResultListener = new ArrayList<>();
-
-    return _lstEvtOnResultListener;
-  }
-
   private List<OnRequestPermissionResultListener> getLstEvtOnRequestPermissionResultListener()
   {
     if (_lstEvtOnRequestPermissionResultListener != null)
@@ -235,7 +223,19 @@ public abstract class ActMain extends Activity
     return _lstEvtOnRequestPermissionResultListener;
   }
 
-  protected <T extends View> T getView(int intViewId, Class<T> t)
+  private List<OnResultListener> getLstEvtOnResultListener()
+  {
+    if (_lstEvtOnResultListener != null)
+    {
+      return _lstEvtOnResultListener;
+    }
+
+    _lstEvtOnResultListener = new ArrayList<>();
+
+    return _lstEvtOnResultListener;
+  }
+
+  protected <T extends View> T getView(int intViewId)
   {
     return (T) this.findViewById(intViewId);
   }
@@ -452,16 +452,6 @@ public abstract class ActMain extends Activity
     this.setBooVisivel(false);
   }
 
-  public void removerEvtOnResultListener(OnResultListener evt)
-  {
-    if (evt == null)
-    {
-      return;
-    }
-
-    this.getLstEvtOnResultListener().remove(evt);
-  }
-
   public void removerEvtOnDestroyListener(OnDestroyListener evt)
   {
     if (evt == null)
@@ -480,6 +470,16 @@ public abstract class ActMain extends Activity
     }
 
     this.getLstEvtOnRequestPermissionResultListener().remove(evt);
+  }
+
+  public void removerEvtOnResultListener(OnResultListener evt)
+  {
+    if (evt == null)
+    {
+      return;
+    }
+
+    this.getLstEvtOnResultListener().remove(evt);
   }
 
   private void setBooVisivel(boolean booVisivel)

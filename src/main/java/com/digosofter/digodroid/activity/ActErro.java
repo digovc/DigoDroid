@@ -25,7 +25,7 @@ public class ActErro extends ActMain
       return _lblDescricao;
     }
 
-    _lblDescricao = this.getView(R.id.actErro_lblDescricao, LabelGeral.class);
+    _lblDescricao = this.getView(R.id.actErro_lblDescricao);
 
     return _lblDescricao;
   }
@@ -37,7 +37,7 @@ public class ActErro extends ActMain
       return _lblTitulo;
     }
 
-    _lblTitulo = this.getView(R.id.actErro_lblTitulo, LabelGeral.class);
+    _lblTitulo = this.getView(R.id.actErro_lblTitulo);
 
     return _lblTitulo;
   }
