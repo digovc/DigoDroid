@@ -1,7 +1,7 @@
 package com.digosofter.digodroid.database.tabela;
 
 import com.digosofter.digodroid.database.DbeAndroidMain;
-import com.digosofter.digodroid.dominio.DominioEditavelMain;
+import com.digosofter.digodroid.database.dominio.DominioEditavelMain;
 
 public abstract class TblEditavelMain<T extends DominioEditavelMain> extends TblSincronizavelMain<T>
 {

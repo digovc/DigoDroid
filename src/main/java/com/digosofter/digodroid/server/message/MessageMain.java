@@ -14,6 +14,7 @@ import java.lang.reflect.ParameterizedType;
 public abstract class MessageMain<T extends RespostaMain> implements Response.Listener, Response.ErrorListener
 {
   private transient Class<T> _clsResposta;
+  private String _strAparelhoId;
 
   protected MessageMain()
   {
@@ -23,6 +24,11 @@ public abstract class MessageMain<T extends RespostaMain> implements Response.Li
   private Class<T> getClsResposta()
   {
     return _clsResposta;
+  }
+
+  public String getStrAparelhoId()
+  {
+    return _strAparelhoId;
   }
 
   protected void inicializar()
@@ -111,6 +117,11 @@ public abstract class MessageMain<T extends RespostaMain> implements Response.Li
   private void setClsResposta(Class<T> clsResposta)
   {
     _clsResposta = clsResposta;
+  }
+
+  public void setStrAparelhoId(String strAparelhoId)
+  {
+    _strAparelhoId = strAparelhoId;
   }
 
   public String toJson()

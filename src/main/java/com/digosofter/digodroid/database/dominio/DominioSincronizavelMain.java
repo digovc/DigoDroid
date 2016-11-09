@@ -1,4 +1,4 @@
-package com.digosofter.digodroid.dominio;
+package com.digosofter.digodroid.database.dominio;
 
 public abstract class DominioSincronizavelMain extends DominioAndroidMain
 {

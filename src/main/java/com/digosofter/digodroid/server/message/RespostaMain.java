@@ -5,7 +5,7 @@ public abstract class RespostaMain<T extends MessageMain>
   private T _msg;
   private String _strCritica;
 
-  protected T getMsg()
+  public T getMsg()
   {
     return _msg;
   }

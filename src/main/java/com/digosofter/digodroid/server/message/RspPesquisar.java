@@ -1,6 +1,6 @@
 package com.digosofter.digodroid.server.message;
 
-import com.digosofter.digodroid.dominio.DominioAndroidMain;
+import com.digosofter.digodroid.database.dominio.DominioAndroidMain;
 
 import java.util.ArrayList;
 import java.util.List;

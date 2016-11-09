@@ -12,7 +12,7 @@ import com.digosofter.digodroid.activity.ActCadastroMain;
 import com.digosofter.digodroid.activity.ActConsulta;
 import com.digosofter.digodroid.activity.ActDetalhe;
 import com.digosofter.digodroid.activity.ActMain;
-import com.digosofter.digodroid.dominio.DominioAndroidMain;
+import com.digosofter.digodroid.database.dominio.DominioAndroidMain;
 import com.digosofter.digojava.Utils;
 import com.digosofter.digojava.Utils.EnmDataFormato;
 import com.digosofter.digojava.database.Coluna;

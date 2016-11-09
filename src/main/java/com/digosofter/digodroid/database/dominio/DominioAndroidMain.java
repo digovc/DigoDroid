@@ -1,4 +1,4 @@
-package com.digosofter.digodroid.dominio;
+package com.digosofter.digodroid.database.dominio;
 
 import com.digosofter.digojava.dominio.DominioMain;
 

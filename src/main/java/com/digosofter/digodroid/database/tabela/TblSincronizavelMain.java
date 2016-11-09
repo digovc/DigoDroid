@@ -4,10 +4,12 @@ import com.digosofter.digodroid.Aparelho;
 import com.digosofter.digodroid.database.ColunaAndroid;
 import com.digosofter.digodroid.database.DbeAndroidMain;
 import com.digosofter.digodroid.database.TabelaAndroid;
-import com.digosofter.digodroid.dominio.DominioSincronizavelMain;
+import com.digosofter.digodroid.database.dominio.DominioSincronizavelMain;
 import com.digosofter.digodroid.log.LogSinc;
+import com.digosofter.digodroid.server.message.MsgCodigoReserva;
 import com.digosofter.digodroid.server.message.MsgPesquisar;
 import com.digosofter.digodroid.server.message.MsgSalvar;
+import com.digosofter.digodroid.server.message.RspCodigoReserva;
 import com.digosofter.digodroid.server.message.RspPesquisar;
 import com.digosofter.digodroid.server.message.RspSalvar;
 import com.digosofter.digodroid.service.SrvSincMain;
@@ -27,6 +29,7 @@ public abstract class TblSincronizavelMain<T extends DominioSincronizavelMain> e
   private ColunaAndroid _clnBooSincronizar;
   private ColunaAndroid _clnStrAparelhoId;
   private ColunaAndroid _clnStrSincCritica;
+  private MsgCodigoReserva _msgCodigoReserva;
   private MsgSalvar _msgSalvar;
   private MsgPesquisar _msgSincronizar;
   private String _sqlServerNome;
@@ -83,6 +86,11 @@ public abstract class TblSincronizavelMain<T extends DominioSincronizavelMain> e
     _clnStrSincCritica = new ColunaAndroid("str_sinc_critica", this, Coluna.EnmTipo.TEXT);
 
     return _clnStrSincCritica;
+  }
+
+  private MsgCodigoReserva getMsgCodigoReserva()
+  {
+    return _msgCodigoReserva;
   }
 
   private MsgSalvar getMsgSalvar()
@@ -234,6 +242,20 @@ public abstract class TblSincronizavelMain<T extends DominioSincronizavelMain> e
     this.setMsgSincronizar(null);
   }
 
+  public void processarReservarCodigo(final RspCodigoReserva rsp)
+  {
+    if (rsp == null)
+    {
+      return;
+    }
+
+    LogSinc.getI().addLog(Log.EnmTipo.INFO, "Analisando resposta de reserva de código do servidor.");
+
+    LogSinc.getI().addLog(Log.EnmTipo.INFO, String.format("O servidor disponibilizou %s códigos para serem usados na tabela %s", rsp.getMsg().getIntQuantidadeDisponibilizado(), this.getStrNomeExibicao()));
+
+    TblReservaCodigo.getI().reservarCodigo(rsp);
+  }
+
   public void processarSalvar(final RspSalvar rspSalvar)
   {
     if (rspSalvar == null)
@@ -332,6 +354,11 @@ public abstract class TblSincronizavelMain<T extends DominioSincronizavelMain> e
     this.setMsgSalvar(null);
   }
 
+  private void setMsgCodigoReserva(MsgCodigoReserva msgCodigoReserva)
+  {
+    _msgCodigoReserva = msgCodigoReserva;
+  }
+
   private void setMsgSalvar(MsgSalvar msgSalvar)
   {
     _msgSalvar = msgSalvar;
@@ -368,6 +395,7 @@ public abstract class TblSincronizavelMain<T extends DominioSincronizavelMain> e
 
     this.sincronizarReceber();
     this.sincronizarEnviar();
+    this.sincronizarReservarCodigo();
   }
 
   private void sincronizarEnviar()
@@ -401,8 +429,9 @@ public abstract class TblSincronizavelMain<T extends DominioSincronizavelMain> e
 
     this.setMsgSalvar(new MsgSalvar());
 
-    this.getMsgSalvar().setTbl(this);
     this.getMsgSalvar().setJsnLstObjDominio(Json.getI().toJson(lstObjDominio));
+    this.getMsgSalvar().setStrAparelhoId(Aparelho.getI().getStrDeviceId());
+    this.getMsgSalvar().setTbl(this);
 
     this.getSrvSinc().getSrvHttpSinc().enviar(this.getMsgSalvar());
   }
@@ -416,9 +445,32 @@ public abstract class TblSincronizavelMain<T extends DominioSincronizavelMain> e
 
     this.setMsgSincronizar(new MsgPesquisar());
 
-    this.getMsgSincronizar().setTbl(this);
     this.getMsgSincronizar().setDttUltimoRecebimento(TblSincronizacao.getI().getDttUltimoRecebimento(this));
+    this.getMsgSincronizar().setStrAparelhoId(Aparelho.getI().getStrDeviceId());
+    this.getMsgSincronizar().setTbl(this);
 
     this.getSrvSinc().getSrvHttpSinc().enviar(this.getMsgSincronizar());
   }
+
+  private void sincronizarReservarCodigo()
+  {
+    if (this.getClsActCadastro() == null)
+    {
+      return;
+    }
+
+    if (this.getMsgCodigoReserva() != null)
+    {
+      return;
+    }
+
+    this.setMsgCodigoReserva(new MsgCodigoReserva());
+
+    this.getMsgCodigoReserva().setIntQuantidadeDisponibilizado(0);
+    this.getMsgCodigoReserva().setStrAparelhoId(Aparelho.getI().getStrDeviceId());
+    this.getMsgCodigoReserva().setTbl(this);
+
+    this.getSrvSinc().getSrvHttpSinc().enviar(this.getMsgCodigoReserva());
+  }
+
 }

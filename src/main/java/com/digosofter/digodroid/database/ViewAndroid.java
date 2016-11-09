@@ -1,7 +1,7 @@
 package com.digosofter.digodroid.database;
 
 import com.digosofter.digodroid.AppAndroid;
-import com.digosofter.digodroid.dominio.DominioAndroidMain;
+import com.digosofter.digodroid.database.dominio.DominioAndroidMain;
 import com.digosofter.digojava.Utils;
 import com.digosofter.digojava.database.Coluna;
 import com.digosofter.digojava.database.OnChangeArg;
