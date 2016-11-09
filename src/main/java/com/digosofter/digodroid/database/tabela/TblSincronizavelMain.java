@@ -371,22 +371,17 @@ public abstract class TblSincronizavelMain<T extends DominioSincronizavelMain> e
 
   private void setSrvSinc(final SrvSincMain srvSinc)
   {
-    if (_srvSinc == srvSinc)
-    {
-      return;
-    }
-
     _srvSinc = srvSinc;
   }
 
   public void sincronizar(final SrvSincMain srvSinc)
   {
-    this.setSrvSinc(srvSinc);
-
-    if (this.getSrvSinc() == null)
+    if (srvSinc == null)
     {
       return;
     }
+
+    this.setSrvSinc(srvSinc);
 
     if (!this.getBooSincronizada())
     {
@@ -430,7 +425,6 @@ public abstract class TblSincronizavelMain<T extends DominioSincronizavelMain> e
     this.setMsgSalvar(new MsgSalvar());
 
     this.getMsgSalvar().setJsnLstObjDominio(Json.getI().toJson(lstObjDominio));
-    this.getMsgSalvar().setStrAparelhoId(Aparelho.getI().getStrDeviceId());
     this.getMsgSalvar().setTbl(this);
 
     this.getSrvSinc().getSrvHttpSinc().enviar(this.getMsgSalvar());
@@ -446,7 +440,6 @@ public abstract class TblSincronizavelMain<T extends DominioSincronizavelMain> e
     this.setMsgSincronizar(new MsgPesquisar());
 
     this.getMsgSincronizar().setDttUltimoRecebimento(TblSincronizacao.getI().getDttUltimoRecebimento(this));
-    this.getMsgSincronizar().setStrAparelhoId(Aparelho.getI().getStrDeviceId());
     this.getMsgSincronizar().setTbl(this);
 
     this.getSrvSinc().getSrvHttpSinc().enviar(this.getMsgSincronizar());
@@ -467,7 +460,6 @@ public abstract class TblSincronizavelMain<T extends DominioSincronizavelMain> e
     this.setMsgCodigoReserva(new MsgCodigoReserva());
 
     this.getMsgCodigoReserva().setIntQuantidadeDisponibilizado(0);
-    this.getMsgCodigoReserva().setStrAparelhoId(Aparelho.getI().getStrDeviceId());
     this.getMsgCodigoReserva().setTbl(this);
 
     this.getSrvSinc().getSrvHttpSinc().enviar(this.getMsgCodigoReserva());

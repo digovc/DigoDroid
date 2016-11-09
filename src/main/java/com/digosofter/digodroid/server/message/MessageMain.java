@@ -4,6 +4,7 @@ import android.os.AsyncTask;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.digosofter.digodroid.Aparelho;
 import com.digosofter.digodroid.log.LogSinc;
 import com.digosofter.digojava.Utils;
 import com.digosofter.digojava.json.Json;
@@ -34,6 +35,7 @@ public abstract class MessageMain<T extends RespostaMain> implements Response.Li
   protected void inicializar()
   {
     this.setClsResposta((Class<T>) ((ParameterizedType) this.getClass().getGenericSuperclass()).getActualTypeArguments()[0]);
+    this.setStrAparelhoId(Aparelho.getI().getStrDeviceId());
   }
 
   private final void iniciar()
@@ -119,7 +121,7 @@ public abstract class MessageMain<T extends RespostaMain> implements Response.Li
     _clsResposta = clsResposta;
   }
 
-  public void setStrAparelhoId(String strAparelhoId)
+  private void setStrAparelhoId(String strAparelhoId)
   {
     _strAparelhoId = strAparelhoId;
   }

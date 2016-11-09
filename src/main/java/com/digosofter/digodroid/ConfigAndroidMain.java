@@ -13,11 +13,6 @@ public abstract class ConfigAndroidMain extends ConfigMain
   private Editor _objEditor;
   private SharedPreferences _objSharedPreferences;
 
-  protected ConfigAndroidMain()
-  {
-    this.iniciar();
-  }
-
   /**
    * Carrega os valores do arquivo de configuração XML para esta instância.
    */
@@ -159,17 +154,7 @@ public abstract class ConfigAndroidMain extends ConfigMain
 
     return this.getObjSharedPreferences().getString(strConfig, strDefault);
   }
-
-  protected void inicializar()
-  {
-    this.carregarDados();
-  }
-
-  private void iniciar()
-  {
-    this.inicializar();
-  }
-
+  
   /**
    * Persiste os dados desta intância no arquivo de configuração XML da aplicação.
    */
