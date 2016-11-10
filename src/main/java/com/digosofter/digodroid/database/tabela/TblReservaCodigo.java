@@ -2,7 +2,7 @@ package com.digosofter.digodroid.database.tabela;
 
 import com.digosofter.digodroid.AppAndroid;
 import com.digosofter.digodroid.database.ColunaAndroid;
-import com.digosofter.digodroid.database.TabelaAndroid;
+import com.digosofter.digodroid.database.TblAndroidMain;
 import com.digosofter.digodroid.database.dominio.DominioAndroidMain;
 import com.digosofter.digodroid.server.message.RspCodigoReserva;
 import com.digosofter.digojava.database.Coluna;
@@ -10,7 +10,7 @@ import com.digosofter.digojava.database.Coluna;
 import java.util.Calendar;
 import java.util.List;
 
-public class TblReservaCodigo extends TabelaAndroid<DominioAndroidMain>
+public class TblReservaCodigo extends TblAndroidMain<DominioAndroidMain>
 {
   private static TblReservaCodigo _i;
 

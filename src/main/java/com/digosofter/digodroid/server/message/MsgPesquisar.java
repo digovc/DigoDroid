@@ -23,6 +23,8 @@ public class MsgPesquisar extends MsgTabelaBase<RspPesquisar>
       return;
     }
 
+    this.getTbl().setMsgPesquisar(null);
+
     if (rsp == null)
     {
       return;

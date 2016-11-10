@@ -22,6 +22,8 @@ public class MsgSalvar extends MsgTabelaBase<RspSalvar>
       return;
     }
 
+    this.getTbl().setMsgSalvar(null);
+
     if (rsp == null)
     {
       return;

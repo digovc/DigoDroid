@@ -3,7 +3,7 @@ package com.digosofter.digodroid.database.tabela;
 import com.digosofter.digodroid.Aparelho;
 import com.digosofter.digodroid.database.ColunaAndroid;
 import com.digosofter.digodroid.database.DbeAndroidMain;
-import com.digosofter.digodroid.database.TabelaAndroid;
+import com.digosofter.digodroid.database.TblAndroidMain;
 import com.digosofter.digodroid.database.dominio.DominioSincronizavelMain;
 import com.digosofter.digodroid.log.LogSinc;
 import com.digosofter.digodroid.server.message.MsgCodigoReserva;
@@ -23,21 +23,27 @@ import com.google.gson.JsonElement;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class TblSincronizavelMain<T extends DominioSincronizavelMain> extends TabelaAndroid<T>
+public abstract class TblSincronizavelMain<T extends DominioSincronizavelMain> extends TblAndroidMain<T>
 {
+  private boolean _booEditavel;
   private ColunaAndroid _clnBooSincronizado;
   private ColunaAndroid _clnBooSincronizar;
   private ColunaAndroid _clnStrAparelhoId;
   private ColunaAndroid _clnStrSincCritica;
   private MsgCodigoReserva _msgCodigoReserva;
+  private MsgPesquisar _msgPesquisar;
   private MsgSalvar _msgSalvar;
-  private MsgPesquisar _msgSincronizar;
   private String _sqlServerNome;
   private SrvSincMain _srvSinc;
 
   protected TblSincronizavelMain(final String strNome, final DbeAndroidMain dbeAndroid)
   {
     super(strNome, dbeAndroid);
+  }
+
+  protected boolean getBooEditavel()
+  {
+    return _booEditavel;
   }
 
   public ColunaAndroid getClnBooSincronizado()
@@ -93,14 +99,14 @@ public abstract class TblSincronizavelMain<T extends DominioSincronizavelMain> e
     return _msgCodigoReserva;
   }
 
+  private MsgPesquisar getMsgPesquisar()
+  {
+    return _msgPesquisar;
+  }
+
   private MsgSalvar getMsgSalvar()
   {
     return _msgSalvar;
-  }
-
-  private MsgPesquisar getMsgSincronizar()
-  {
-    return _msgSincronizar;
   }
 
   public String getSqlServerNome()
@@ -238,8 +244,6 @@ public abstract class TblSincronizavelMain<T extends DominioSincronizavelMain> e
   private void processarPesquisaFinalizar(final RspPesquisar rspPesquisar)
   {
     TblSincronizacao.getI().atualizarRecebimento(this, rspPesquisar);
-
-    this.setMsgSincronizar(null);
   }
 
   public void processarReservarCodigo(final RspCodigoReserva rsp)
@@ -350,23 +354,21 @@ public abstract class TblSincronizavelMain<T extends DominioSincronizavelMain> e
   private void processarSalvarFinalizar(final RspSalvar rspSalvar)
   {
     // TODO: Persistir no banco de dados essa sincronização.
-
-    this.setMsgSalvar(null);
   }
 
-  private void setMsgCodigoReserva(MsgCodigoReserva msgCodigoReserva)
+  public void setMsgCodigoReserva(MsgCodigoReserva msgCodigoReserva)
   {
     _msgCodigoReserva = msgCodigoReserva;
   }
 
-  private void setMsgSalvar(MsgSalvar msgSalvar)
+  public void setMsgPesquisar(MsgPesquisar msgPesquisar)
   {
-    _msgSalvar = msgSalvar;
+    _msgPesquisar = msgPesquisar;
   }
 
-  private void setMsgSincronizar(MsgPesquisar msgSincronizar)
+  public void setMsgSalvar(MsgSalvar msgSalvar)
   {
-    _msgSincronizar = msgSincronizar;
+    _msgSalvar = msgSalvar;
   }
 
   private void setSrvSinc(final SrvSincMain srvSinc)
@@ -395,6 +397,11 @@ public abstract class TblSincronizavelMain<T extends DominioSincronizavelMain> e
 
   private void sincronizarEnviar()
   {
+    if (!this.getBooEditavel())
+    {
+      return;
+    }
+
     if (this.getMsgSalvar() != null)
     {
       return;
@@ -432,22 +439,22 @@ public abstract class TblSincronizavelMain<T extends DominioSincronizavelMain> e
 
   private void sincronizarReceber()
   {
-    if (this.getMsgSincronizar() != null)
+    if (this.getMsgPesquisar() != null)
     {
       return;
     }
 
-    this.setMsgSincronizar(new MsgPesquisar());
+    this.setMsgPesquisar(new MsgPesquisar());
 
-    this.getMsgSincronizar().setDttUltimoRecebimento(TblSincronizacao.getI().getDttUltimoRecebimento(this));
-    this.getMsgSincronizar().setTbl(this);
+    this.getMsgPesquisar().setDttUltimoRecebimento(TblSincronizacao.getI().getDttUltimoRecebimento(this));
+    this.getMsgPesquisar().setTbl(this);
 
-    this.getSrvSinc().getSrvHttpSinc().enviar(this.getMsgSincronizar());
+    this.getSrvSinc().getSrvHttpSinc().enviar(this.getMsgPesquisar());
   }
 
   private void sincronizarReservarCodigo()
   {
-    if (this.getClsActCadastro() == null)
+    if (!this.getBooEditavel())
     {
       return;
     }
@@ -459,10 +466,8 @@ public abstract class TblSincronizavelMain<T extends DominioSincronizavelMain> e
 
     this.setMsgCodigoReserva(new MsgCodigoReserva());
 
-    this.getMsgCodigoReserva().setIntQuantidadeDisponibilizado(0);
     this.getMsgCodigoReserva().setTbl(this);
 
     this.getSrvSinc().getSrvHttpSinc().enviar(this.getMsgCodigoReserva());
   }
-
 }

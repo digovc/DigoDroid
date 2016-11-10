@@ -11,13 +11,13 @@ import org.apache.commons.io.IOUtils;
 import java.io.IOException;
 import java.util.List;
 
-public abstract class ViewAndroid extends TabelaAndroid<DominioAndroidMain>
+public abstract class ViewAndroid extends TblAndroidMain<DominioAndroidMain>
 {
   private ColunaAndroid _clnIntId;
-  private TabelaAndroid _tbl;
-  private TabelaAndroid _tblPrincipal;
+  private TblAndroidMain _tbl;
+  private TblAndroidMain _tblPrincipal;
 
-  protected ViewAndroid(String strNome, TabelaAndroid tbl, DbeAndroidMain dbeAndroid)
+  protected ViewAndroid(String strNome, TblAndroidMain tbl, DbeAndroidMain dbeAndroid)
   {
     super(strNome, dbeAndroid);
 
@@ -46,7 +46,7 @@ public abstract class ViewAndroid extends TabelaAndroid<DominioAndroidMain>
     this.dispararEvtOnApagarReg(arg);
   }
 
-  private void atualizarTbl(final TabelaAndroid tbl)
+  private void atualizarTbl(final TblAndroidMain tbl)
   {
     if (tbl == null)
     {
@@ -149,12 +149,12 @@ public abstract class ViewAndroid extends TabelaAndroid<DominioAndroidMain>
     return null;
   }
 
-  public TabelaAndroid getTbl()
+  public TblAndroidMain getTbl()
   {
     return _tbl;
   }
 
-  public TabelaAndroid getTblPrincipal()
+  public TblAndroidMain getTblPrincipal()
   {
     if (_tblPrincipal != null)
     {
@@ -187,7 +187,7 @@ public abstract class ViewAndroid extends TabelaAndroid<DominioAndroidMain>
     this.setStrNomeExibicao(strNome.replace("viw_", ""));
   }
 
-  private void setTbl(TabelaAndroid<?> tbl)
+  private void setTbl(TblAndroidMain<?> tbl)
   {
     if (_tbl == tbl)
     {

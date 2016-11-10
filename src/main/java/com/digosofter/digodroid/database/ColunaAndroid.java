@@ -25,12 +25,12 @@ public class ColunaAndroid extends Coluna
   private MenuItem _mniPesquisa;
   private String _sqlTipo;
 
-  public ColunaAndroid(String strNome, TabelaAndroid<?> tbl, EnmTipo enmTipo)
+  public ColunaAndroid(String strNome, TblAndroidMain<?> tbl, EnmTipo enmTipo)
   {
     this(strNome, tbl, enmTipo, null);
   }
 
-  public ColunaAndroid(String strNome, TabelaAndroid<?> tbl, EnmTipo enmTipo, ColunaAndroid clnRef)
+  public ColunaAndroid(String strNome, TblAndroidMain<?> tbl, EnmTipo enmTipo, ColunaAndroid clnRef)
   {
     super(strNome, tbl, enmTipo, clnRef);
   }
@@ -427,7 +427,7 @@ public class ColunaAndroid extends Coluna
     }
 
     this.setMniPesquisa(smn.add(this.getStrNomeExibicao()));
-    this.getMniPesquisa().setChecked(this.equals(((TabelaAndroid) this.getTbl()).getClnPesquisa()));
+    this.getMniPesquisa().setChecked(this.equals(((TblAndroidMain) this.getTbl()).getClnPesquisa()));
     this.getMniPesquisa().setCheckable(true);
   }
 
@@ -464,7 +464,7 @@ public class ColunaAndroid extends Coluna
     this.setBooOrdem(true);
     this.getMniOrdenar().setChecked(true);
 
-    ((TabelaAndroid<?>) this.getTbl()).getMniOrdemDecrescente().setChecked(this.getBooOrdemDecrescente());
+    ((TblAndroidMain<?>) this.getTbl()).getMniOrdemDecrescente().setChecked(this.getBooOrdemDecrescente());
   }
 
   void processarMenuPesquisa(final MenuItem mni)
@@ -501,16 +501,16 @@ public class ColunaAndroid extends Coluna
 
     if (!_booPesquisa)
     {
-      ((TabelaAndroid) this.getTbl()).setClnPesquisa(null);
+      ((TblAndroidMain) this.getTbl()).setClnPesquisa(null);
       return;
     }
 
-    if (!this.equals(((TabelaAndroid) this.getTbl()).getClnPesquisa()))
+    if (!this.equals(((TblAndroidMain) this.getTbl()).getClnPesquisa()))
     {
-      ((TabelaAndroid) this.getTbl()).getClnPesquisa()._booPesquisa = false;
+      ((TblAndroidMain) this.getTbl()).getClnPesquisa()._booPesquisa = false;
     }
 
-    ((TabelaAndroid) this.getTbl()).setClnPesquisa(this);
+    ((TblAndroidMain) this.getTbl()).setClnPesquisa(this);
   }
 
   public void setCmp(final CampoMain cmp)

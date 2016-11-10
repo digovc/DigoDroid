@@ -16,14 +16,14 @@ import android.widget.Toast;
 
 import com.digosofter.digodroid.activity.ActMain;
 import com.digosofter.digodroid.database.DbeAndroidMain;
-import com.digosofter.digodroid.database.TabelaAndroid;
+import com.digosofter.digodroid.database.TblAndroidMain;
 import com.digosofter.digodroid.design.TemaDefault;
 import com.digosofter.digodroid.service.OnSrvSincCreateListener;
 import com.digosofter.digodroid.service.OnSrvSincDestroyListener;
 import com.digosofter.digodroid.service.SrvSincMain;
 import com.digosofter.digojava.App;
 import com.digosofter.digojava.Utils;
-import com.digosofter.digojava.database.Tabela;
+import com.digosofter.digojava.database.TabelaMain;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -85,19 +85,19 @@ public abstract class AppAndroid extends App
     this.getLstEvtOnSrvSincDestroyListener().add(evt);
   }
 
-  private void criarView(final Tabela tbl)
+  private void criarView(final TabelaMain tbl)
   {
     if (tbl == null)
     {
       return;
     }
 
-    if (!(tbl instanceof TabelaAndroid))
+    if (!(tbl instanceof TblAndroidMain))
     {
       return;
     }
 
-    ((TabelaAndroid) tbl).criarView();
+    ((TblAndroidMain) tbl).criarView();
   }
 
   public void dispararEvtOnSrvSincCreateListener(SrvSincMain srvSinc)

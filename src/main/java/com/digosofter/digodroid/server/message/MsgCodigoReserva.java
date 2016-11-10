@@ -20,6 +20,8 @@ public class MsgCodigoReserva extends MsgTabelaBase<RspCodigoReserva>
       return;
     }
 
+    this.getTbl().setMsgCodigoReserva(null);
+
     if (rsp == null)
     {
       return;

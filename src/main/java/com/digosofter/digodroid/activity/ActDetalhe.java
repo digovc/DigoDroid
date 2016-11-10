@@ -11,7 +11,7 @@ import com.digosofter.digodroid.controle.label.LabelGeral;
 import com.digosofter.digodroid.controle.painel.PainelGrupo;
 import com.digosofter.digodroid.database.ColunaAndroid;
 import com.digosofter.digodroid.database.Grupo;
-import com.digosofter.digodroid.database.TabelaAndroid;
+import com.digosofter.digodroid.database.TblAndroidMain;
 import com.digosofter.digojava.Utils;
 import com.digosofter.digojava.database.Coluna;
 
@@ -25,7 +25,7 @@ public class ActDetalhe extends ActMain
   private LabelGeral _lblIntRegistroId;
   private LabelGeral _lblStrRegistroNome;
   private LinearLayout _pnlCampos;
-  private TabelaAndroid<?> _tbl;
+  private TblAndroidMain<?> _tbl;
 
   @Override
   public int getIntLayoutId()
@@ -134,7 +134,7 @@ public class ActDetalhe extends ActMain
     return pnlGrupoResultado;
   }
 
-  private TabelaAndroid<?> getTbl()
+  private TblAndroidMain<?> getTbl()
   {
     if (_tbl != null)
     {
@@ -151,7 +151,7 @@ public class ActDetalhe extends ActMain
       return null;
     }
 
-    _tbl = (TabelaAndroid<?>) AppAndroid.getI().getDbe().getTbl(this.getIntent().getIntExtra(STR_EXTRA_IN_INT_TBL_OBJETO_ID, -1));
+    _tbl = (TblAndroidMain<?>) AppAndroid.getI().getDbe().getTbl(this.getIntent().getIntExtra(STR_EXTRA_IN_INT_TBL_OBJETO_ID, -1));
 
     return _tbl;
   }

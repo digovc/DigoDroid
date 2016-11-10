@@ -9,13 +9,13 @@ import android.widget.Filter;
 
 import com.digosofter.digodroid.activity.ActConsulta;
 import com.digosofter.digodroid.controle.item.ItemConsulta;
-import com.digosofter.digodroid.database.TabelaAndroid;
+import com.digosofter.digodroid.database.TblAndroidMain;
 
 public class AdapterConsulta extends CursorAdapter
 {
   private ActConsulta _actConsulta;
   private Cursor _crsConsulta;
-  private TabelaAndroid<?> _tbl;
+  private TblAndroidMain<?> _tbl;
 
   public AdapterConsulta(ActConsulta actConsulta)
   {
@@ -83,7 +83,7 @@ public class AdapterConsulta extends CursorAdapter
     return new ConsultaFilter(this);
   }
 
-  TabelaAndroid<?> getTbl()
+  TblAndroidMain<?> getTbl()
   {
     if (_tbl != null)
     {

@@ -9,7 +9,7 @@ import com.digosofter.digodroid.AppAndroid;
 import com.digosofter.digodroid.activity.ActConsulta;
 import com.digosofter.digodroid.activity.ActMain;
 import com.digosofter.digodroid.controle.botao.BotaoGeral;
-import com.digosofter.digodroid.database.TabelaAndroid;
+import com.digosofter.digodroid.database.TblAndroidMain;
 import com.digosofter.digodroid.database.ViewAndroid;
 
 public class CampoConsulta extends CampoMain implements View.OnClickListener
@@ -52,7 +52,7 @@ public class CampoConsulta extends CampoMain implements View.OnClickListener
 
     itt.putExtra(ActConsulta.STR_EXTRA_IN_BOO_REGISTRO_SELECIONAVEL, true);
 
-    ((TabelaAndroid) this.getCln().getClnRef().getTbl()).getViwPrincipal().abrirConsulta((ActMain) this.getContext(), itt);
+    ((TblAndroidMain) this.getCln().getClnRef().getTbl()).getViwPrincipal().abrirConsulta((ActMain) this.getContext(), itt);
   }
 
   @Override
@@ -85,7 +85,7 @@ public class CampoConsulta extends CampoMain implements View.OnClickListener
       return;
     }
 
-    String strNome = ((TabelaAndroid) this.getCln().getClnRef().getTbl()).getViwPrincipal().recuperar(this.getIntValor()).getClnNome().getStrValor();
+    String strNome = ((TblAndroidMain) this.getCln().getClnRef().getTbl()).getViwPrincipal().recuperar(this.getIntValor()).getClnNome().getStrValor();
 
     this.getBtn().setText(strNome);
   }
@@ -151,7 +151,7 @@ public class CampoConsulta extends CampoMain implements View.OnClickListener
       return;
     }
 
-    TabelaAndroid tbl = (TabelaAndroid) AppAndroid.getI().getDbe().getTbl(itt.getIntExtra(ActConsulta.STR_EXTRA_OUT_INT_TBL_OBJETO_ID, 0));
+    TblAndroidMain tbl = (TblAndroidMain) AppAndroid.getI().getDbe().getTbl(itt.getIntExtra(ActConsulta.STR_EXTRA_OUT_INT_TBL_OBJETO_ID, 0));
 
     ViewAndroid viw = null;
 

@@ -22,7 +22,7 @@ import com.digosofter.digodroid.controle.item.ItemConsulta;
 import com.digosofter.digodroid.controle.label.LabelGeral;
 import com.digosofter.digodroid.controle.painel.PainelGeralRelativo;
 import com.digosofter.digodroid.controle.textbox.TextBoxGeral;
-import com.digosofter.digodroid.database.TabelaAndroid;
+import com.digosofter.digodroid.database.TblAndroidMain;
 import com.digosofter.digojava.Utils;
 import com.digosofter.digojava.database.OnChangeArg;
 import com.digosofter.digojava.database.OnTblChangeListener;
@@ -78,8 +78,8 @@ public class ActConsulta extends ActMain implements OnTblChangeListener, TextWat
   private LabelGeral _lblVazio;
   private ListView _pnlLista;
   private PainelGeralRelativo _pnlPesquisa;
-  private TabelaAndroid<?> _tbl;
-  private TabelaAndroid _tblPai;
+  private TblAndroidMain<?> _tbl;
+  private TblAndroidMain _tblPai;
   private TextBoxGeral _txtPesquisa;
   private TextView _txtTblDescricao;
 
@@ -231,7 +231,7 @@ public class ActConsulta extends ActMain implements OnTblChangeListener, TextWat
     return _pnlPesquisa;
   }
 
-  public TabelaAndroid<?> getTbl()
+  public TblAndroidMain<?> getTbl()
   {
     if (_tbl != null)
     {
@@ -248,7 +248,7 @@ public class ActConsulta extends ActMain implements OnTblChangeListener, TextWat
       return null;
     }
 
-    _tbl = (TabelaAndroid<?>) AppAndroid.getI().getDbe().getTbl(this.getIntent().getIntExtra(STR_EXTRA_IN_INT_TBL_OBJETO_ID, -1));
+    _tbl = (TblAndroidMain<?>) AppAndroid.getI().getDbe().getTbl(this.getIntent().getIntExtra(STR_EXTRA_IN_INT_TBL_OBJETO_ID, -1));
 
     if (_tbl == null)
     {
@@ -260,7 +260,7 @@ public class ActConsulta extends ActMain implements OnTblChangeListener, TextWat
     return _tbl;
   }
 
-  public TabelaAndroid getTblPai()
+  public TblAndroidMain getTblPai()
   {
     if (_tblPai != null)
     {
@@ -277,14 +277,14 @@ public class ActConsulta extends ActMain implements OnTblChangeListener, TextWat
       return null;
     }
 
-    _tblPai = (TabelaAndroid) AppAndroid.getI().getDbe().getTbl(this.getIntent().getIntExtra(STR_EXTRA_IN_INT_TBL_PAI_OBJETO_ID, -1));
+    _tblPai = (TblAndroidMain) AppAndroid.getI().getDbe().getTbl(this.getIntent().getIntExtra(STR_EXTRA_IN_INT_TBL_PAI_OBJETO_ID, -1));
 
     if (_tblPai == null)
     {
       return null;
     }
 
-    _tblPai = (TabelaAndroid) _tblPai.getTblPrincipal();
+    _tblPai = (TblAndroidMain) _tblPai.getTblPrincipal();
 
     return _tblPai;
   }
@@ -586,7 +586,7 @@ public class ActConsulta extends ActMain implements OnTblChangeListener, TextWat
       return;
     }
 
-    MenuItem mni = mnu.add(TabelaAndroid.STR_MENU_ADICIONAR);
+    MenuItem mni = mnu.add(TblAndroidMain.STR_MENU_ADICIONAR);
 
     mni.setIcon(R.drawable.adicionar);
     mni.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);

@@ -14,7 +14,7 @@ import com.digosofter.digodroid.controle.label.LabelGeral;
 import com.digosofter.digodroid.controle.painel.PainelGeral;
 import com.digosofter.digodroid.controle.painel.PainelRipple;
 import com.digosofter.digodroid.database.ColunaAndroid;
-import com.digosofter.digodroid.database.TabelaAndroid;
+import com.digosofter.digodroid.database.TblAndroidMain;
 import com.digosofter.digojava.Utils;
 import com.digosofter.digojava.database.Coluna;
 
@@ -26,14 +26,14 @@ public class ItemConsulta extends ItemMain implements View.OnClickListener, View
   private PainelGeral _pnlConteudo;
   private PainelRipple _pnlRipple;
   private String _strRegistroNome;
-  private TabelaAndroid<?> _tbl;
+  private TblAndroidMain<?> _tbl;
 
   public ItemConsulta(Context cnt, AttributeSet atr)
   {
     super(cnt, atr);
   }
 
-  public ItemConsulta(Context cnt, TabelaAndroid tbl)
+  public ItemConsulta(Context cnt, TblAndroidMain tbl)
   {
     super(cnt);
 
@@ -45,7 +45,7 @@ public class ItemConsulta extends ItemMain implements View.OnClickListener, View
     super(cnt, atr, intDefStyleAttr);
   }
 
-  public ItemConsulta(Context cnt, AttributeSet atr, int intDefStyleAttr, TabelaAndroid tbl)
+  public ItemConsulta(Context cnt, AttributeSet atr, int intDefStyleAttr, TblAndroidMain tbl)
   {
     super(cnt, atr, intDefStyleAttr);
 
@@ -226,7 +226,7 @@ public class ItemConsulta extends ItemMain implements View.OnClickListener, View
     return _strRegistroNome;
   }
 
-  private TabelaAndroid<?> getTbl()
+  private TblAndroidMain<?> getTbl()
   {
     return _tbl;
   }
@@ -342,7 +342,7 @@ public class ItemConsulta extends ItemMain implements View.OnClickListener, View
     _strRegistroNome = strRegistroNome;
   }
 
-  private void setTbl(TabelaAndroid<?> tbl)
+  private void setTbl(TblAndroidMain<?> tbl)
   {
     _tbl = tbl;
   }

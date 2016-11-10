@@ -11,7 +11,7 @@ import com.digosofter.digodroid.R;
 import com.digosofter.digodroid.controle.campo.CampoConsulta;
 import com.digosofter.digodroid.controle.campo.CampoMain;
 import com.digosofter.digodroid.database.ColunaAndroid;
-import com.digosofter.digodroid.database.TabelaAndroid;
+import com.digosofter.digodroid.database.TblAndroidMain;
 import com.digosofter.digojava.Utils;
 import com.digosofter.digojava.database.Coluna;
 
@@ -53,8 +53,8 @@ public abstract class ActCadastroMain extends ActMain
   private int _intRegistroId;
   private int _intRegistroRefId;
   private List<CampoMain> _lstCmp;
-  private TabelaAndroid _tbl;
-  private TabelaAndroid _tblPai;
+  private TblAndroidMain _tbl;
+  private TblAndroidMain _tblPai;
 
   private void abrirNovo()
   {
@@ -211,7 +211,7 @@ public abstract class ActCadastroMain extends ActMain
     return _lstCmp;
   }
 
-  private TabelaAndroid<?> getTbl()
+  private TblAndroidMain<?> getTbl()
   {
     if (_tbl != null)
     {
@@ -228,19 +228,19 @@ public abstract class ActCadastroMain extends ActMain
       return null;
     }
 
-    _tbl = (TabelaAndroid) AppAndroid.getI().getDbe().getTbl(this.getIntent().getIntExtra(STR_EXTRA_IN_INT_TBL_OBJETO_ID, 0));
+    _tbl = (TblAndroidMain) AppAndroid.getI().getDbe().getTbl(this.getIntent().getIntExtra(STR_EXTRA_IN_INT_TBL_OBJETO_ID, 0));
 
     if (_tbl == null)
     {
       return null;
     }
 
-    _tbl = (TabelaAndroid) _tbl.getTblPrincipal();
+    _tbl = (TblAndroidMain) _tbl.getTblPrincipal();
 
     return _tbl;
   }
 
-  private TabelaAndroid getTblPai()
+  private TblAndroidMain getTblPai()
   {
     if (_tblPai != null)
     {
@@ -257,14 +257,14 @@ public abstract class ActCadastroMain extends ActMain
       return null;
     }
 
-    _tblPai = (TabelaAndroid) AppAndroid.getI().getDbe().getTbl(this.getIntent().getIntExtra(STR_EXTRA_IN_INT_TBL_PAI_OBJETO_ID, -1));
+    _tblPai = (TblAndroidMain) AppAndroid.getI().getDbe().getTbl(this.getIntent().getIntExtra(STR_EXTRA_IN_INT_TBL_PAI_OBJETO_ID, -1));
 
     if (_tblPai == null)
     {
       return null;
     }
 
-    _tblPai = (TabelaAndroid) _tblPai.getTblPrincipal();
+    _tblPai = (TblAndroidMain) _tblPai.getTblPrincipal();
 
     return _tblPai;
   }

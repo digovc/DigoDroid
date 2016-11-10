@@ -18,7 +18,7 @@ import com.digosofter.digojava.Utils.EnmDataFormato;
 import com.digosofter.digojava.database.Coluna;
 import com.digosofter.digojava.database.Filtro;
 import com.digosofter.digojava.database.OnChangeArg;
-import com.digosofter.digojava.database.Tabela;
+import com.digosofter.digojava.database.TabelaMain;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -34,7 +34,7 @@ import java.util.List;
  * @param <T>
  * @author r-vieira
  */
-public abstract class TabelaAndroid<T extends DominioAndroidMain> extends Tabela<T>
+public abstract class TblAndroidMain<T extends DominioAndroidMain> extends TabelaMain<T>
 {
   public static final String STR_MENU_ADICIONAR = "Adicionar";
   public static final String STR_MENU_APAGAR = "Apagar";
@@ -56,20 +56,20 @@ public abstract class TabelaAndroid<T extends DominioAndroidMain> extends Tabela
   private List<ViewAndroid> _lstViwAndroid;
   private MenuItem _mniOrdemDecrescente;
   private String _sqlCursorAdapterId;
-  private TabelaAndroid<?> _viwPrincipal;
+  private TblAndroidMain<?> _viwPrincipal;
 
   /**
    * Constroe uma nova instância dessa tabela. Este processo cria também a tabela e suas colunas no banco de dados SQLite caso ela não exista.
    *
    * @param strNome Nome da tabela no banco de dados.
    */
-  protected TabelaAndroid(String strNome, DbeAndroidMain dbeAndroid)
+  protected TblAndroidMain(String strNome, DbeAndroidMain dbeAndroid)
   {
     super(strNome, dbeAndroid);
   }
 
   /**
-   * Atalho para {@link #abrirCadastro(ActMain, int, TabelaAndroid, int)}
+   * Atalho para {@link #abrirCadastro(ActMain, int, TblAndroidMain, int)}
    *
    * @param act Activity "parent" da tela de cadastro que será aberta.
    */
@@ -79,7 +79,7 @@ public abstract class TabelaAndroid<T extends DominioAndroidMain> extends Tabela
   }
 
   /**
-   * Atalho para {@link #abrirCadastro(ActMain, int, TabelaAndroid, int)}
+   * Atalho para {@link #abrirCadastro(ActMain, int, TblAndroidMain, int)}
    *
    * @param act Activity "parent" da tela de cadastro que será aberta.
    * @param intId Código do registro para alteração.
@@ -97,7 +97,7 @@ public abstract class TabelaAndroid<T extends DominioAndroidMain> extends Tabela
    * @param intRegistroRefId Código do registro de referência caso este cadastro seja de um consulta_item ou se esse tem alguma ligação com outra
    * tabela.
    */
-  public void abrirCadastro(final ActMain act, int intRegistroId, TabelaAndroid tblPai, int intRegistroRefId)
+  public void abrirCadastro(final ActMain act, int intRegistroId, TblAndroidMain tblPai, int intRegistroRefId)
   {
     if (act == null)
     {
@@ -163,7 +163,7 @@ public abstract class TabelaAndroid<T extends DominioAndroidMain> extends Tabela
    * @param act Activity "parent" (que vem antes na hierarquia de chamadas) da tela de consulta que será aberta.
    * @param intRegistroRefId Código do registro da tabela que faz referência a esta.
    */
-  public void abrirConsulta(ActMain act, TabelaAndroid tblPai, int intRegistroRefId)
+  public void abrirConsulta(ActMain act, TblAndroidMain tblPai, int intRegistroRefId)
   {
     if (act == null)
     {
@@ -984,7 +984,7 @@ public abstract class TabelaAndroid<T extends DominioAndroidMain> extends Tabela
    *
    * @return A view principal desta tabela.
    */
-  public TabelaAndroid<?> getViwPrincipal()
+  public TblAndroidMain<?> getViwPrincipal()
   {
     if (_viwPrincipal != null)
     {
@@ -1132,7 +1132,7 @@ public abstract class TabelaAndroid<T extends DominioAndroidMain> extends Tabela
       return;
     }
 
-    mnu.add(TabelaAndroid.STR_MENU_ALTERAR);
+    mnu.add(TblAndroidMain.STR_MENU_ALTERAR);
   }
 
   protected void montarMenuItemApagar(Menu mnu, int intRegistroId)
@@ -1152,7 +1152,7 @@ public abstract class TabelaAndroid<T extends DominioAndroidMain> extends Tabela
       return;
     }
 
-    mnu.add(TabelaAndroid.STR_MENU_APAGAR);
+    mnu.add(TblAndroidMain.STR_MENU_APAGAR);
   }
 
   private void montarMenuItemDetalhar(Menu mnu, final boolean booActConsulta)
@@ -1167,7 +1167,7 @@ public abstract class TabelaAndroid<T extends DominioAndroidMain> extends Tabela
       return;
     }
 
-    mnu.add(TabelaAndroid.STR_MENU_DETALHAR);
+    mnu.add(TblAndroidMain.STR_MENU_DETALHAR);
   }
 
   private void montarMenuOrdenar(Menu mnu)
@@ -1490,7 +1490,7 @@ public abstract class TabelaAndroid<T extends DominioAndroidMain> extends Tabela
 
     switch (mni.getTitle().toString())
     {
-      case TabelaAndroid.STR_MENU_ADICIONAR:
+      case TblAndroidMain.STR_MENU_ADICIONAR:
         return this.processarMenuAdicionar(act);
     }
 
@@ -1573,13 +1573,13 @@ public abstract class TabelaAndroid<T extends DominioAndroidMain> extends Tabela
 
     switch (mni.getTitle().toString())
     {
-      case TabelaAndroid.STR_MENU_ALTERAR:
+      case TblAndroidMain.STR_MENU_ALTERAR:
         return this.processarMenuItemAlterar(act, intRegistroId);
 
-      case TabelaAndroid.STR_MENU_APAGAR:
+      case TblAndroidMain.STR_MENU_APAGAR:
         return this.processarMenuItemApagar(act, intRegistroId);
 
-      case TabelaAndroid.STR_MENU_DETALHAR:
+      case TblAndroidMain.STR_MENU_DETALHAR:
         return this.processarMenuItemDetalhar(act, intRegistroId);
     }
 
@@ -1758,17 +1758,17 @@ public abstract class TabelaAndroid<T extends DominioAndroidMain> extends Tabela
     return false;
   }
 
-  public TabelaAndroid recuperar(Coluna clnFiltro, boolean booFiltro)
+  public TblAndroidMain recuperar(Coluna clnFiltro, boolean booFiltro)
   {
     return this.recuperar(clnFiltro, (booFiltro ? 1 : 0));
   }
 
-  public TabelaAndroid recuperar(Coluna clnFiltro, double dblFiltro)
+  public TblAndroidMain recuperar(Coluna clnFiltro, double dblFiltro)
   {
     return this.recuperar(clnFiltro, String.valueOf(dblFiltro));
   }
 
-  public TabelaAndroid recuperar(Coluna clnFiltro, GregorianCalendar dttFiltro)
+  public TblAndroidMain recuperar(Coluna clnFiltro, GregorianCalendar dttFiltro)
   {
     if (dttFiltro == null)
     {
@@ -1780,17 +1780,17 @@ public abstract class TabelaAndroid<T extends DominioAndroidMain> extends Tabela
     return this;
   }
 
-  public TabelaAndroid recuperar(Coluna clnFiltro, int intFiltro)
+  public TblAndroidMain recuperar(Coluna clnFiltro, int intFiltro)
   {
     return this.recuperar(clnFiltro, (double) intFiltro);
   }
 
-  public TabelaAndroid recuperar(Coluna clnFiltro, String strFiltro)
+  public TblAndroidMain recuperar(Coluna clnFiltro, String strFiltro)
   {
     return this.recuperar(new Filtro(clnFiltro, strFiltro));
   }
 
-  public TabelaAndroid recuperar(Filtro fil)
+  public TblAndroidMain recuperar(Filtro fil)
   {
     if (fil == null)
     {
@@ -1806,12 +1806,12 @@ public abstract class TabelaAndroid<T extends DominioAndroidMain> extends Tabela
     return this;
   }
 
-  public TabelaAndroid recuperar(int intId)
+  public TblAndroidMain recuperar(int intId)
   {
     return this.recuperar(this.getClnIntId(), intId);
   }
 
-  public TabelaAndroid recuperar(List<Filtro> lstFil)
+  public TblAndroidMain recuperar(List<Filtro> lstFil)
   {
     this.limparDados();
 
@@ -1906,16 +1906,24 @@ public abstract class TabelaAndroid<T extends DominioAndroidMain> extends Tabela
     return lstObjDominio.get(0);
   }
 
-  public TabelaAndroid salvar()
+  public TblAndroidMain salvar()
   {
-    this.getClnDttAlteracao().setDttValor(Calendar.getInstance());
-
     this.carregarValorDefault();
+
+    if (this.getClnDttCadastro().getBooVazia())
+    {
+      this.getClnDttCadastro().setDttValor(Calendar.getInstance());
+    }
 
     if (!this.getBooRegistroExiste(this.getClnIntId().getIntValor()))
     {
       this.salvarInsert();
       return this;
+    }
+
+    if (this.getClnDttAlteracao().getBooVazia())
+    {
+      this.getClnDttAlteracao().setDttValor(Calendar.getInstance());
     }
 
     this.salvarUpdate();
@@ -1940,8 +1948,6 @@ public abstract class TabelaAndroid<T extends DominioAndroidMain> extends Tabela
 
   private void salvarInsert()
   {
-    this.getClnDttCadastro().setDttValor(Calendar.getInstance());
-
     String sql = "insert into _tbl_nome (_cln_nome) values (_cln_valor);";
 
     sql = sql.replace("_tbl_nome", this.getSqlNome());
