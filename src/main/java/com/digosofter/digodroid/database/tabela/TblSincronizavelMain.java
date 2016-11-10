@@ -168,17 +168,17 @@ public abstract class TblSincronizavelMain<T extends DominioSincronizavelMain> e
       return;
     }
 
-    LogSinc.getI().addLog(Log.EnmTipo.ERRO, "Analisando resposta de recebimento do servidor.");
+    LogSinc.getI().addLog(Log.EnmTipo.INFO, "Analisando resposta de recebimento do servidor.");
 
     if (rspPesquisar.getIntRegistroQuantidade() < 1)
     {
-      LogSinc.getI().addLog(Log.EnmTipo.ERRO, "A pesquisa não retornou nenhum registro.");
+      LogSinc.getI().addLog(Log.EnmTipo.INFO, "A pesquisa não retornou nenhum registro.");
       return;
     }
 
     if (Utils.getBooStrVazia(rspPesquisar.getJsnLstObjDominio()))
     {
-      LogSinc.getI().addLog(Log.EnmTipo.ERRO, "A pesquisa não retornou nenhum registro.");
+      LogSinc.getI().addLog(Log.EnmTipo.INFO, "A pesquisa não retornou nenhum registro.");
       return;
     }
 
@@ -192,7 +192,7 @@ public abstract class TblSincronizavelMain<T extends DominioSincronizavelMain> e
 
     if (arrJsnElement.length < 1)
     {
-      LogSinc.getI().addLog(Log.EnmTipo.ERRO, "A pesquisa não retornou nenhum registro.");
+      LogSinc.getI().addLog(Log.EnmTipo.INFO, "A pesquisa não retornou nenhum registro.");
       return;
     }
 
@@ -267,17 +267,17 @@ public abstract class TblSincronizavelMain<T extends DominioSincronizavelMain> e
       return;
     }
 
-    LogSinc.getI().addLog(Log.EnmTipo.ERRO, String.format("Analisando resposta de sincronização da tabela %s.", this.getStrNomeExibicao()));
+    LogSinc.getI().addLog(Log.EnmTipo.INFO, String.format("Analisando resposta de sincronização da tabela %s.", this.getStrNomeExibicao()));
 
     if (rspSalvar.getIntRegistroQuantidade() < 1)
     {
-      LogSinc.getI().addLog(Log.EnmTipo.ERRO, String.format("A resposta de sincronização da tabela %s está vazia.", this.getStrNomeExibicao()));
+      LogSinc.getI().addLog(Log.EnmTipo.INFO, String.format("A resposta de sincronização da tabela %s está vazia.", this.getStrNomeExibicao()));
       return;
     }
 
     if (Utils.getBooStrVazia(rspSalvar.getJsnLstObjDominio()))
     {
-      LogSinc.getI().addLog(Log.EnmTipo.ERRO, String.format("A resposta de sincronização da tabela %s está vazia.", this.getStrNomeExibicao()));
+      LogSinc.getI().addLog(Log.EnmTipo.INFO, String.format("A resposta de sincronização da tabela %s está vazia.", this.getStrNomeExibicao()));
       return;
     }
 
@@ -291,7 +291,7 @@ public abstract class TblSincronizavelMain<T extends DominioSincronizavelMain> e
 
     if (arrJsnElement.length < 1)
     {
-      LogSinc.getI().addLog(Log.EnmTipo.ERRO, String.format("A resposta de sincronização da tabela %s não retornou nenhum registro.", this.getStrNomeExibicao()));
+      LogSinc.getI().addLog(Log.EnmTipo.INFO, String.format("A resposta de sincronização da tabela %s não retornou nenhum registro.", this.getStrNomeExibicao()));
       return;
     }
 
@@ -327,11 +327,11 @@ public abstract class TblSincronizavelMain<T extends DominioSincronizavelMain> e
 
     if (objDominio == null)
     {
-      LogSinc.getI().addLog(Log.EnmTipo.ERRO, String.format("Erro ao converter o consulta_item do resultado do envio da tabela %s.", this.getStrNomeExibicao()));
+      LogSinc.getI().addLog(Log.EnmTipo.ERRO, String.format("Erro ao converter o item da consulta da tabela %s.", this.getStrNomeExibicao()));
       return;
     }
 
-    LogSinc.getI().addLog(Log.EnmTipo.ERRO, String.format("Analisando a resposta de sincronização do registro %s da tabela %s.", objDominio.getIntId(), this.getStrNomeExibicao()));
+    LogSinc.getI().addLog(Log.EnmTipo.INFO, String.format("Analisando a resposta de sincronização do registro %s da tabela %s.", objDominio.getIntId(), this.getStrNomeExibicao()));
 
     if (Utils.getBooStrVazia(objDominio.getStrSincCritica()))
     {
