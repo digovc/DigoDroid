@@ -94,6 +94,8 @@ public abstract class TblSincronizavelMain<T extends DominioSincronizavelMain> e
     return _clnStrSincCritica;
   }
 
+  protected abstract int getIntSincRegistroLimite();
+
   private MsgCodigoReserva getMsgCodigoReserva()
   {
     return _msgCodigoReserva;
@@ -446,7 +448,9 @@ public abstract class TblSincronizavelMain<T extends DominioSincronizavelMain> e
 
     this.setMsgPesquisar(new MsgPesquisar());
 
+    this.getMsgPesquisar().setBooPrimeiraPesquisa(this.getIntRegistroQuantidade() < 1);
     this.getMsgPesquisar().setDttUltimoRecebimento(TblSincronizacao.getI().getDttUltimoRecebimento(this));
+    this.getMsgPesquisar().setIntSincRegistroLimite(this.getIntSincRegistroLimite());
     this.getMsgPesquisar().setTbl(this);
 
     this.getSrvSinc().getSrvHttpSinc().enviar(this.getMsgPesquisar());

@@ -8,11 +8,23 @@ import java.util.Calendar;
 
 public class MsgPesquisar extends MsgTabelaBase<RspPesquisar>
 {
+  private boolean _booPrimeiraPesquisa;
   private Calendar _dttUltimoRecebimento;
+  private int _intSincRegistroLimite;
+
+  public boolean getBooPrimeiraPesquisa()
+  {
+    return _booPrimeiraPesquisa;
+  }
 
   public Calendar getDttUltimoRecebimento()
   {
     return _dttUltimoRecebimento;
+  }
+
+  public int getIntSincRegistroLimite()
+  {
+    return _intSincRegistroLimite;
   }
 
   @Override
@@ -39,8 +51,18 @@ public class MsgPesquisar extends MsgTabelaBase<RspPesquisar>
     this.getTbl().processarPesquisa(rsp);
   }
 
+  public void setBooPrimeiraPesquisa(boolean booPrimeiraPesquisa)
+  {
+    _booPrimeiraPesquisa = booPrimeiraPesquisa;
+  }
+
   public void setDttUltimoRecebimento(Calendar dttUltimoRecebimento)
   {
     _dttUltimoRecebimento = dttUltimoRecebimento;
+  }
+
+  public void setIntSincRegistroLimite(int intSincRegistroLimite)
+  {
+    _intSincRegistroLimite = intSincRegistroLimite;
   }
 }
