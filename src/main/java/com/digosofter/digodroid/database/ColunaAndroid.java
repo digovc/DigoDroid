@@ -380,6 +380,19 @@ public class ColunaAndroid extends Coluna
     }
   }
 
+  @Override
+  protected void limparOrdem()
+  {
+    super.limparOrdem();
+
+    if (this.getMniOrdenar() == null)
+    {
+      return;
+    }
+
+    this.getMniOrdenar().setChecked(false);
+  }
+
   void montarMenuCampo(SubMenu smn)
   {
     if (smn == null)
@@ -410,7 +423,7 @@ public class ColunaAndroid extends Coluna
     }
 
     this.setMniOrdenar(smn.add(this.getStrNomeExibicao()));
-    this.getMniOrdenar().setChecked(this.getBooOrdem());
+    this.getMniOrdenar().setChecked(!EnmOrdem.NONE.equals(this.getEnmOrdem()));
     this.getMniOrdenar().setCheckable(true);
   }
 
@@ -449,6 +462,11 @@ public class ColunaAndroid extends Coluna
 
   void processarMenuOrdenar(MenuItem mni)
   {
+    if (this.getMniOrdenar() == null)
+    {
+      return;
+    }
+
     if (mni == null)
     {
       return;
@@ -459,12 +477,7 @@ public class ColunaAndroid extends Coluna
       return;
     }
 
-    ((ColunaAndroid) this.getTbl().getClnOrdem()).getMniOrdenar().setChecked(false);
-
-    this.setBooOrdem(true);
-    this.getMniOrdenar().setChecked(true);
-
-    ((TblAndroidMain<?>) this.getTbl()).getMniOrdemDecrescente().setChecked(this.getBooOrdemDecrescente());
+    this.setEnmOrdem(((TblAndroidMain<?>) this.getTbl()).getMniOrdemDecrescente().isChecked() ? EnmOrdem.DECRESCENTE : EnmOrdem.CRESCENTE);
   }
 
   void processarMenuPesquisa(final MenuItem mni)
@@ -478,8 +491,6 @@ public class ColunaAndroid extends Coluna
     {
       return;
     }
-
-    ((ColunaAndroid) this.getTbl().getClnOrdem()).getMniPesquisa().setChecked(false);
 
     this.setBooPesquisa(true);
     this.getMniPesquisa().setChecked(true);
@@ -516,6 +527,17 @@ public class ColunaAndroid extends Coluna
   public void setCmp(final CampoMain cmp)
   {
     _cmp = cmp;
+  }
+
+  @Override
+  public void setEnmOrdem(final EnmOrdem enmOrdem)
+  {
+    super.setEnmOrdem(enmOrdem);
+
+    if (this.getMniOrdenar() != null)
+    {
+      this.getMniOrdenar().setChecked(true);
+    }
   }
 
   private void setMniCampo(MenuItem mniCampo)

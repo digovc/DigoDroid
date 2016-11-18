@@ -154,7 +154,7 @@ public abstract class ConfigAndroidMain extends ConfigMain
 
     return this.getObjSharedPreferences().getString(strConfig, strDefault);
   }
-  
+
   /**
    * Persiste os dados desta intância no arquivo de configuração XML da aplicação.
    */

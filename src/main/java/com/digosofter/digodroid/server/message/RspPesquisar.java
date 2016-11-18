@@ -7,6 +7,7 @@ import java.util.List;
 
 public class RspPesquisar extends RspContainerDominioMain<MsgPesquisar>
 {
+  private boolean _booSincCompleto;
   private int _intSincronizacaoId;
   private List<DominioAndroidMain> _lstObjDominioSincronizado;
 
@@ -25,6 +26,11 @@ public class RspPesquisar extends RspContainerDominioMain<MsgPesquisar>
     this.getLstObjDominioSincronizado().add(objDominio);
   }
 
+  public boolean getBooSincCompleto()
+  {
+    return _booSincCompleto;
+  }
+
   public int getIntSincronizacaoId()
   {
     return _intSincronizacaoId;
@@ -40,6 +46,11 @@ public class RspPesquisar extends RspContainerDominioMain<MsgPesquisar>
     _lstObjDominioSincronizado = new ArrayList<>();
 
     return _lstObjDominioSincronizado;
+  }
+
+  public void setBooSincCompleto(boolean booSincCompleto)
+  {
+    _booSincCompleto = booSincCompleto;
   }
 
   public void setIntSincronizacaoId(int intSincronizacaoId)

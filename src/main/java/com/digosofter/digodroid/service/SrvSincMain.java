@@ -49,6 +49,28 @@ public abstract class SrvSincMain<T extends ServerHttpSincMain> extends ServiceM
     AppAndroid.getI().dispararEvtOnSrvSincDestroyListener(this);
   }
 
+  private void esperarIntervaloLoop()
+  {
+    int i = (INT_LOOP_DELAY / 100);
+    int t = 0;
+
+    while (true)
+    {
+      if (t >= INT_LOOP_DELAY)
+      {
+        return;
+      }
+
+      if (this.getBooParar())
+      {
+        return;
+      }
+
+      SystemClock.sleep(i * 100);
+      t += (i * 100);
+    }
+  }
+
   @Override
   protected void finalizar()
   {
@@ -125,7 +147,7 @@ public abstract class SrvSincMain<T extends ServerHttpSincMain> extends ServiceM
     {
       this.loop();
 
-      SystemClock.sleep(INT_LOOP_DELAY);
+      this.esperarIntervaloLoop();
     }
   }
 
@@ -155,6 +177,11 @@ public abstract class SrvSincMain<T extends ServerHttpSincMain> extends ServiceM
 
     for (TblSincronizavelMain tbl : this.getLstTbl())
     {
+      if (this.getBooParar())
+      {
+        return;
+      }
+
       this.sincronizar(tbl);
     }
   }

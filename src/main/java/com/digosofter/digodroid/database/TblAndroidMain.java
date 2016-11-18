@@ -1221,7 +1221,18 @@ public abstract class TblAndroidMain<T extends DominioAndroidMain> extends Tabel
     }
 
     this.setMniOrdemDecrescente(smn.add("Ordem decrescente"));
-    this.getMniOrdemDecrescente().setChecked(this.getClnOrdem().getBooOrdemDecrescente());
+
+    for (Coluna cln : this.getLstCln())
+    {
+      if (Coluna.EnmOrdem.NONE.equals(cln.getEnmOrdem()))
+      {
+        continue;
+      }
+
+      this.getMniOrdemDecrescente().setChecked(Coluna.EnmOrdem.DECRESCENTE.equals(cln));
+      break;
+    }
+
     this.getMniOrdemDecrescente().setCheckable(true);
   }
 
@@ -1307,13 +1318,18 @@ public abstract class TblAndroidMain<T extends DominioAndroidMain> extends Tabel
 
   public Cursor pesquisar(List<Coluna> lstCln, List<Filtro> lstFil)
   {
-    String sql = "select _clns_nome from _tbl_nome where _where order by _tbl_nome._order;";
+    String sql = "select _clns_nome from _tbl_nome where _where order by _order_by;";
 
     sql = sql.replace("_clns_nome", this.getSqlClnSelect(lstCln));
     sql = sql.replace("_tbl_nome", this.getSqlNome());
-    sql = sql.replace("where _where", lstFil != null && lstFil.size() > 0 ? "where _where" : Utils.STR_VAZIA);
+
+    sql = sql.replace("where _where", (lstFil != null && lstFil.size() > 0) ? "where _where" : Utils.STR_VAZIA);
+
     sql = sql.replace("_where", this.getSqlWhere(lstFil));
-    sql = sql.replace("_order", this.getClnOrdem().getSqlNome());
+
+    sql = sql.replace("order by _order_by", (!Utils.getBooStrVazia(this.getSqlOrderBy()) ? "order by _order_by" : Utils.STR_VAZIA));
+
+    sql = sql.replace("_order_by", Utils.removerUltimaLetra(this.getSqlOrderBy(), 2));
 
     return this.getDbe().execSqlComRetorno(sql);
   }
@@ -1338,14 +1354,18 @@ public abstract class TblAndroidMain<T extends DominioAndroidMain> extends Tabel
 
     this.carregarLstFilConsulta(actConsulta, this.getLstFilConsulta());
 
-    String sql = "select _clns_nome from _tbl_nome where _where order by _order _asc_desc;";
+    String sql = "select _clns_nome from _tbl_nome where _where order by _order_by;";
 
     sql = sql.replace("_clns_nome", this.getSqlClnSelect());
     sql = sql.replace("_tbl_nome", this.getSqlNome());
+
     sql = sql.replace("where _where", (!this.getLstFilConsulta().isEmpty()) ? "where _where" : Utils.STR_VAZIA);
+
     sql = sql.replace("_where", this.getSqlWhere(this.getLstFilConsulta()));
-    sql = sql.replace("_order", this.getClnOrdem().getSqlNome());
-    sql = sql.replace("_asc_desc", !this.getClnOrdem().getBooOrdemDecrescente() ? "asc" : "desc");
+
+    sql = sql.replace("order by _order_by", (!Utils.getBooStrVazia(this.getSqlOrderBy()) ? "order by _order_by" : Utils.STR_VAZIA));
+
+    sql = sql.replace("_order_by", Utils.removerUltimaLetra(this.getSqlOrderBy(), 2));
 
     Cursor crsResultado = this.getDbe().execSqlComRetorno(sql);
 
@@ -1712,7 +1732,17 @@ public abstract class TblAndroidMain<T extends DominioAndroidMain> extends Tabel
     }
 
     this.getMniOrdemDecrescente().setChecked(!this.getMniOrdemDecrescente().isChecked());
-    this.getClnOrdem().setBooOrdemDecrescente(this.getMniOrdemDecrescente().isChecked());
+
+    for (Coluna cln : this.getLstCln())
+    {
+      if (Coluna.EnmOrdem.NONE.equals(cln.getEnmOrdem()))
+      {
+        continue;
+      }
+
+      cln.setEnmOrdem(this.getMniOrdemDecrescente().isChecked() ? Coluna.EnmOrdem.DECRESCENTE : Coluna.EnmOrdem.CRESCENTE);
+      break;
+    }
 
     actConsulta.atualizarLista();
 

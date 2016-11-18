@@ -5,7 +5,7 @@ import com.digosofter.digojava.log.Log;
 
 public class MsgCodigoReserva extends MsgTabelaBase<RspCodigoReserva>
 {
-  private int _intQuantidadeDisponibilizado = 10;
+  private int _intQuantidadeDisponibilizado = 25;
 
   public int getIntQuantidadeDisponibilizado()
   {

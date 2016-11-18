@@ -1,12 +1,17 @@
 package com.digosofter.digodroid.database.tabela;
 
+import android.database.Cursor;
+
 import com.digosofter.digodroid.AppAndroid;
 import com.digosofter.digodroid.database.ColunaAndroid;
 import com.digosofter.digodroid.database.TblAndroidMain;
 import com.digosofter.digodroid.database.dominio.DominioAndroidMain;
 import com.digosofter.digodroid.server.message.RspCodigoReserva;
+import com.digosofter.digojava.Utils;
 import com.digosofter.digojava.database.Coluna;
+import com.digosofter.digojava.database.Filtro;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
@@ -28,7 +33,7 @@ public class TblReservaCodigo extends TblAndroidMain<DominioAndroidMain>
 
   private ColunaAndroid _clnIntCodigoInicial;
   private ColunaAndroid _clnIntQuantidadeDisponibilizado;
-  private ColunaAndroid _clnIntQuantidadeUtilizado;
+  private ColunaAndroid _clnIntQuantidadeRestante;
   private ColunaAndroid _clnIntReservaCodigoServerId;
   private ColunaAndroid _clnSqlTblNome;
 
@@ -61,16 +66,16 @@ public class TblReservaCodigo extends TblAndroidMain<DominioAndroidMain>
     return _clnIntQuantidadeDisponibilizado;
   }
 
-  private ColunaAndroid getClnIntQuantidadeUtilizado()
+  private ColunaAndroid getClnIntQuantidadeRestante()
   {
-    if (_clnIntQuantidadeUtilizado != null)
+    if (_clnIntQuantidadeRestante != null)
     {
-      return _clnIntQuantidadeUtilizado;
+      return _clnIntQuantidadeRestante;
     }
 
-    _clnIntQuantidadeUtilizado = new ColunaAndroid("int_quantidade_utilizado", this, Coluna.EnmTipo.INTEGER);
+    _clnIntQuantidadeRestante = new ColunaAndroid("int_quantidade_restante", this, Coluna.EnmTipo.INTEGER);
 
-    return _clnIntQuantidadeUtilizado;
+    return _clnIntQuantidadeRestante;
   }
 
   private ColunaAndroid getClnIntReservaCodigoServerId()
@@ -97,6 +102,49 @@ public class TblReservaCodigo extends TblAndroidMain<DominioAndroidMain>
     return _clnSqlTblNome;
   }
 
+  public int getIntCodigoDisponivelQuantidade(final TblSincronizavelMain tbl)
+  {
+    if (tbl == null)
+    {
+      return 0;
+    }
+
+    if (Utils.getBooStrVazia(tbl.getSqlNome()))
+    {
+      return 0;
+    }
+
+    ArrayList<Filtro> lstFil = new ArrayList<>();
+
+    lstFil.add(new Filtro(this.getClnSqlTblNome(), tbl.getSqlNome()));
+    lstFil.add(new Filtro(this.getClnBooAtivo(), true));
+    lstFil.add(new Filtro(this.getClnIntQuantidadeRestante(), 0, Filtro.EnmOperador.MAIOR));
+
+    Cursor crs = this.pesquisar(this.getClnSqlTblNome(), tbl.getSqlNome());
+
+    if (crs == null)
+    {
+      return 0;
+    }
+
+    if (!crs.moveToFirst())
+    {
+      return 0;
+    }
+
+    int intResultado = 0;
+
+    do
+    {
+      intResultado += crs.getInt(crs.getColumnIndex(this.getClnIntQuantidadeRestante().getSqlNome()));
+    }
+    while (crs.moveToNext());
+
+    crs.close();
+
+    return intResultado;
+  }
+
   @Override
   protected void inicializarLstCln(final List<Coluna> lstCln)
   {
@@ -104,7 +152,7 @@ public class TblReservaCodigo extends TblAndroidMain<DominioAndroidMain>
 
     lstCln.add(this.getClnIntCodigoInicial());
     lstCln.add(this.getClnIntQuantidadeDisponibilizado());
-    lstCln.add(this.getClnIntQuantidadeUtilizado());
+    lstCln.add(this.getClnIntQuantidadeRestante());
     lstCln.add(this.getClnIntReservaCodigoServerId());
     lstCln.add(this.getClnSqlTblNome());
   }
@@ -128,7 +176,7 @@ public class TblReservaCodigo extends TblAndroidMain<DominioAndroidMain>
     this.getClnDttCadastro().setDttValor(Calendar.getInstance());
     this.getClnIntCodigoInicial().setIntValor(rsp.getIntCodigoInicial());
     this.getClnIntQuantidadeDisponibilizado().setIntValor(rsp.getMsg().getIntQuantidadeDisponibilizado());
-    this.getClnIntQuantidadeUtilizado().setIntValor(0);
+    this.getClnIntQuantidadeRestante().setIntValor(0);
     this.getClnIntReservaCodigoServerId().setIntValor(rsp.getIntReservaCodigoId());
     this.getClnSqlTblNome().setStrValor(rsp.getMsg().getTbl().getSqlNome());
 

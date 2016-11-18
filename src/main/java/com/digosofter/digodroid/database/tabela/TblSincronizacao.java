@@ -7,7 +7,9 @@ import com.digosofter.digodroid.database.dominio.DominioAndroidMain;
 import com.digosofter.digodroid.server.message.RspPesquisar;
 import com.digosofter.digojava.Utils;
 import com.digosofter.digojava.database.Coluna;
+import com.digosofter.digojava.database.Filtro;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
@@ -27,7 +29,10 @@ public class TblSincronizacao extends TblAndroidMain<DominioAndroidMain>
     return _i;
   }
 
+  private ColunaAndroid _clnBooSincCompleto;
   private ColunaAndroid _clnDttUltimoRecebimento;
+  private ColunaAndroid _clnIntRegistroQuantidade;
+  private ColunaAndroid _clnIntSincronizacaoId;
   private ColunaAndroid _clnSqlTblNome;
 
   private TblSincronizacao()
@@ -42,16 +47,27 @@ public class TblSincronizacao extends TblAndroidMain<DominioAndroidMain>
       return;
     }
 
-    this.recuperar(this.getClnSqlTblNome(), tbl.getSqlNome());
+    this.limparDados();
 
+    this.getClnBooSincCompleto().setBooValor(rspPesquisar.getBooSincCompleto());
     this.getClnDttUltimoRecebimento().setDttValor(Calendar.getInstance());
+    this.getClnIntRegistroQuantidade().setIntValor(rspPesquisar.getIntRegistroQuantidade());
+    this.getClnIntSincronizacaoId().setIntValor(rspPesquisar.getIntSincronizacaoId());
     this.getClnSqlTblNome().setStrValor(tbl.getSqlNome());
 
-    this.salvar();
+    rspPesquisar.setIntSincronizacaoId(this.salvar().getClnIntId().getIntValor());
+  }
 
-    rspPesquisar.setIntSincronizacaoId(this.getClnIntId().getIntValor());
+  private ColunaAndroid getClnBooSincCompleto()
+  {
+    if (_clnBooSincCompleto != null)
+    {
+      return _clnBooSincCompleto;
+    }
 
-    TblSincronizacaoItem.getI().atualizarRecebimento(tbl, rspPesquisar);
+    _clnBooSincCompleto = new ColunaAndroid("boo_sinc_completo", this, Coluna.EnmTipo.BOOLEAN);
+
+    return _clnBooSincCompleto;
   }
 
   private ColunaAndroid getClnDttUltimoRecebimento()
@@ -64,6 +80,30 @@ public class TblSincronizacao extends TblAndroidMain<DominioAndroidMain>
     _clnDttUltimoRecebimento = new ColunaAndroid("dtt_ultimo_recebimento", this, Coluna.EnmTipo.DATE_TIME);
 
     return _clnDttUltimoRecebimento;
+  }
+
+  private ColunaAndroid getClnIntRegistroQuantidade()
+  {
+    if (_clnIntRegistroQuantidade != null)
+    {
+      return _clnIntRegistroQuantidade;
+    }
+
+    _clnIntRegistroQuantidade = new ColunaAndroid("int_registro_quantidade", this, Coluna.EnmTipo.INTEGER);
+
+    return _clnIntRegistroQuantidade;
+  }
+
+  private ColunaAndroid getClnIntSincronizacaoId()
+  {
+    if (_clnIntSincronizacaoId != null)
+    {
+      return _clnIntSincronizacaoId;
+    }
+
+    _clnIntSincronizacaoId = new ColunaAndroid("int_sincronizacao_id", this, Coluna.EnmTipo.BIGINT, TblSincronizacao.getI().getClnIntId());
+
+    return _clnIntSincronizacaoId;
   }
 
   private ColunaAndroid getClnSqlTblNome()
@@ -90,6 +130,11 @@ public class TblSincronizacao extends TblAndroidMain<DominioAndroidMain>
       return null;
     }
 
+    List<Filtro> lstFil = new ArrayList<>();
+
+    lstFil.add(new Filtro(this.getClnSqlTblNome(), tbl.getSqlNome()));
+    lstFil.add(new Filtro(this.getClnBooSincCompleto(), true));
+
     return ((TblSincronizacao) this.recuperar(this.getClnSqlTblNome(), tbl.getSqlNome())).getClnDttUltimoRecebimento().getDttValor();
   }
 
@@ -98,7 +143,10 @@ public class TblSincronizacao extends TblAndroidMain<DominioAndroidMain>
   {
     super.inicializarLstCln(lstCln);
 
+    lstCln.add(this.getClnBooSincCompleto());
     lstCln.add(this.getClnDttUltimoRecebimento());
+    lstCln.add(this.getClnIntRegistroQuantidade());
+    lstCln.add(this.getClnIntSincronizacaoId());
     lstCln.add(this.getClnSqlTblNome());
   }
 }

@@ -94,6 +94,13 @@ public abstract class TblSincronizavelMain<T extends DominioSincronizavelMain> e
     return _clnStrSincCritica;
   }
 
+  protected int getIntCodigoDisponivelQuantidade()
+  {
+    return TblReservaCodigo.getI().getIntCodigoDisponivelQuantidade(this);
+  }
+
+  protected abstract int getIntReservaCodigoQuantidade();
+
   protected abstract int getIntSincRegistroLimite();
 
   private MsgCodigoReserva getMsgCodigoReserva()
@@ -246,6 +253,17 @@ public abstract class TblSincronizavelMain<T extends DominioSincronizavelMain> e
   private void processarPesquisaFinalizar(final RspPesquisar rspPesquisar)
   {
     TblSincronizacao.getI().atualizarRecebimento(this, rspPesquisar);
+
+    if (rspPesquisar.getBooSincCompleto())
+    {
+      return;
+    }
+
+    this.setMsgPesquisar(rspPesquisar.getMsg());
+
+    this.getMsgPesquisar().setIntPesquisaParte(this.getMsgPesquisar().getIntPesquisaParte() + 1);
+
+    this.getSrvSinc().getSrvHttpSinc().enviar(this.getMsgPesquisar());
   }
 
   public void processarReservarCodigo(final RspCodigoReserva rsp)
@@ -450,6 +468,7 @@ public abstract class TblSincronizavelMain<T extends DominioSincronizavelMain> e
 
     this.getMsgPesquisar().setBooPrimeiraPesquisa(this.getIntRegistroQuantidade() < 1);
     this.getMsgPesquisar().setDttUltimoRecebimento(TblSincronizacao.getI().getDttUltimoRecebimento(this));
+    this.getMsgPesquisar().setIntPesquisaParte(1);
     this.getMsgPesquisar().setIntSincRegistroLimite(this.getIntSincRegistroLimite());
     this.getMsgPesquisar().setTbl(this);
 
@@ -468,9 +487,15 @@ public abstract class TblSincronizavelMain<T extends DominioSincronizavelMain> e
       return;
     }
 
+    if (this.getIntCodigoDisponivelQuantidade() > this.getIntReservaCodigoQuantidade())
+    {
+      return;
+    }
+
     this.setMsgCodigoReserva(new MsgCodigoReserva());
 
     this.getMsgCodigoReserva().setTbl(this);
+    this.getMsgCodigoReserva().setIntQuantidadeDisponibilizado(this.getIntReservaCodigoQuantidade());
 
     this.getSrvSinc().getSrvHttpSinc().enviar(this.getMsgCodigoReserva());
   }

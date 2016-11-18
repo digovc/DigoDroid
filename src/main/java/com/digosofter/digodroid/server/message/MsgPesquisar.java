@@ -10,6 +10,7 @@ public class MsgPesquisar extends MsgTabelaBase<RspPesquisar>
 {
   private boolean _booPrimeiraPesquisa;
   private Calendar _dttUltimoRecebimento;
+  private int _intPesquisaParte;
   private int _intSincRegistroLimite;
 
   public boolean getBooPrimeiraPesquisa()
@@ -20,6 +21,11 @@ public class MsgPesquisar extends MsgTabelaBase<RspPesquisar>
   public Calendar getDttUltimoRecebimento()
   {
     return _dttUltimoRecebimento;
+  }
+
+  public int getIntPesquisaParte()
+  {
+    return _intPesquisaParte;
   }
 
   public int getIntSincRegistroLimite()
@@ -59,6 +65,11 @@ public class MsgPesquisar extends MsgTabelaBase<RspPesquisar>
   public void setDttUltimoRecebimento(Calendar dttUltimoRecebimento)
   {
     _dttUltimoRecebimento = dttUltimoRecebimento;
+  }
+
+  public void setIntPesquisaParte(int intPesquisaParte)
+  {
+    _intPesquisaParte = intPesquisaParte;
   }
 
   public void setIntSincRegistroLimite(int intSincRegistroLimite)
