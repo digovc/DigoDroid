@@ -22,9 +22,9 @@
             android:id="@+id/actErro_lblTitulo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
             android:paddingBottom="50dp"
-            android:text="Erro desconhecido."
-            android:textAlignment="center"/>
+            android:text="Erro desconhecido."/>
 
         <ScrollView
             android:layout_width="wrap_content"
@@ -46,15 +46,5 @@
         </ScrollView>
 
     </com.digosofter.digodroid.controle.painel.PainelConteudo>
-
-    <com.digosofter.digodroid.controle.botao.BotaoCircular
-        android:id="@+id/actErro_btnOk"
-        android:layout_width="65dp"
-        android:layout_height="65dp"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_margin="15dp"
-        app:cb_pressedRingWidth="10dp"/>
 
 </com.digosofter.digodroid.controle.painel.PainelGeralRelativo>

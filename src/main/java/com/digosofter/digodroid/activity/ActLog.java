@@ -1,6 +1,5 @@
 package com.digosofter.digodroid.activity;
 
-import android.content.Intent;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -44,19 +43,17 @@ public class ActLog extends ActMain
 
   private boolean compartilhar()
   {
+    if (AppAndroid.getI() == null)
+    {
+      return false;
+    }
+
     if (this.getLogManager() == null)
     {
       return false;
     }
 
-    Intent itt = new Intent(android.content.Intent.ACTION_SEND);
-
-    itt.setType("text/plain");
-
-    itt.putExtra(android.content.Intent.EXTRA_SUBJECT, this.getLogManager().getStrNome());
-    itt.putExtra(android.content.Intent.EXTRA_TEXT, this.getLogManager().getStrLog());
-
-    this.startActivity(Intent.createChooser(itt, this.getLogManager().getStrNome()));
+    AppAndroid.getI().compartilhar(this, this.getLogManager().getStrNome(), this.getLogManager().getStrLog());
 
     return true;
   }

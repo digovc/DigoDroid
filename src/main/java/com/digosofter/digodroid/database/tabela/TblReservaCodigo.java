@@ -35,7 +35,7 @@ public class TblReservaCodigo extends TblAndroidMain<DominioAndroidMain>
   private ColunaAndroid _clnIntQuantidadeDisponibilizado;
   private ColunaAndroid _clnIntQuantidadeRestante;
   private ColunaAndroid _clnIntReservaCodigoServerId;
-  private ColunaAndroid _clnSqlTblNome;
+  private ColunaAndroid _clnSqlTabelaNome;
 
   private TblReservaCodigo()
   {
@@ -90,16 +90,16 @@ public class TblReservaCodigo extends TblAndroidMain<DominioAndroidMain>
     return _clnIntReservaCodigoServerId;
   }
 
-  private ColunaAndroid getClnSqlTblNome()
+  private ColunaAndroid getClnSqlTabelaNome()
   {
-    if (_clnSqlTblNome != null)
+    if (_clnSqlTabelaNome != null)
     {
-      return _clnSqlTblNome;
+      return _clnSqlTabelaNome;
     }
 
-    _clnSqlTblNome = new ColunaAndroid("sql_tbl_nome", this, Coluna.EnmTipo.TEXT);
+    _clnSqlTabelaNome = new ColunaAndroid("sql_tabela_nome", this, Coluna.EnmTipo.TEXT);
 
-    return _clnSqlTblNome;
+    return _clnSqlTabelaNome;
   }
 
   public int getIntCodigoDisponivelQuantidade(final TblSincronizavelMain tbl)
@@ -116,11 +116,11 @@ public class TblReservaCodigo extends TblAndroidMain<DominioAndroidMain>
 
     ArrayList<Filtro> lstFil = new ArrayList<>();
 
-    lstFil.add(new Filtro(this.getClnSqlTblNome(), tbl.getSqlNome()));
+    lstFil.add(new Filtro(this.getClnSqlTabelaNome(), tbl.getSqlNome()));
     lstFil.add(new Filtro(this.getClnBooAtivo(), true));
     lstFil.add(new Filtro(this.getClnIntQuantidadeRestante(), 0, Filtro.EnmOperador.MAIOR));
 
-    Cursor crs = this.pesquisar(this.getClnSqlTblNome(), tbl.getSqlNome());
+    Cursor crs = this.pesquisar(lstFil);
 
     if (crs == null)
     {
@@ -154,7 +154,7 @@ public class TblReservaCodigo extends TblAndroidMain<DominioAndroidMain>
     lstCln.add(this.getClnIntQuantidadeDisponibilizado());
     lstCln.add(this.getClnIntQuantidadeRestante());
     lstCln.add(this.getClnIntReservaCodigoServerId());
-    lstCln.add(this.getClnSqlTblNome());
+    lstCln.add(this.getClnSqlTabelaNome());
   }
 
   public void reservarCodigo(final RspCodigoReserva rsp)
@@ -176,9 +176,9 @@ public class TblReservaCodigo extends TblAndroidMain<DominioAndroidMain>
     this.getClnDttCadastro().setDttValor(Calendar.getInstance());
     this.getClnIntCodigoInicial().setIntValor(rsp.getIntCodigoInicial());
     this.getClnIntQuantidadeDisponibilizado().setIntValor(rsp.getMsg().getIntQuantidadeDisponibilizado());
-    this.getClnIntQuantidadeRestante().setIntValor(0);
+    this.getClnIntQuantidadeRestante().setIntValor(rsp.getMsg().getIntQuantidadeDisponibilizado()); // TODO: Recuperar a quantidade restante do servidor.
     this.getClnIntReservaCodigoServerId().setIntValor(rsp.getIntReservaCodigoId());
-    this.getClnSqlTblNome().setStrValor(rsp.getMsg().getTbl().getSqlNome());
+    this.getClnSqlTabelaNome().setStrValor(rsp.getMsg().getTbl().getSqlNome());
 
     this.salvar();
   }

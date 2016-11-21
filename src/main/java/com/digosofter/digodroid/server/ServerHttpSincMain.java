@@ -34,7 +34,7 @@ public abstract class ServerHttpSincMain
 
   private void enviarWelcome()
   {
-    LogSinc.getI().addLog(Log.EnmTipo.INFO, "Enviando mensagem de boas vindas para o servidor.");
+    LogSinc.getI().addLog(Log.EnmTipo.INFO, String.format("Enviando mensagem de boas vindas para o servidor (%s).", this.getUrlServer()));
 
     this.enviar(new MsgWelcome());
   }

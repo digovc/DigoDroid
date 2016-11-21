@@ -32,7 +32,7 @@ public class TblSincronizacao extends TblAndroidMain<DominioAndroidMain>
   private ColunaAndroid _clnBooSincCompleto;
   private ColunaAndroid _clnDttUltimoRecebimento;
   private ColunaAndroid _clnIntRegistroQuantidade;
-  private ColunaAndroid _clnIntSincronizacaoId;
+  private ColunaAndroid _clnIntServerSincronizacaoId;
   private ColunaAndroid _clnSqlTblNome;
 
   private TblSincronizacao()
@@ -52,7 +52,7 @@ public class TblSincronizacao extends TblAndroidMain<DominioAndroidMain>
     this.getClnBooSincCompleto().setBooValor(rspPesquisar.getBooSincCompleto());
     this.getClnDttUltimoRecebimento().setDttValor(Calendar.getInstance());
     this.getClnIntRegistroQuantidade().setIntValor(rspPesquisar.getIntRegistroQuantidade());
-    this.getClnIntSincronizacaoId().setIntValor(rspPesquisar.getIntSincronizacaoId());
+    this.getClnIntServerSincronizacaoId().setIntValor(rspPesquisar.getIntSincronizacaoId());
     this.getClnSqlTblNome().setStrValor(tbl.getSqlNome());
 
     rspPesquisar.setIntSincronizacaoId(this.salvar().getClnIntId().getIntValor());
@@ -94,16 +94,16 @@ public class TblSincronizacao extends TblAndroidMain<DominioAndroidMain>
     return _clnIntRegistroQuantidade;
   }
 
-  private ColunaAndroid getClnIntSincronizacaoId()
+  private ColunaAndroid getClnIntServerSincronizacaoId()
   {
-    if (_clnIntSincronizacaoId != null)
+    if (_clnIntServerSincronizacaoId != null)
     {
-      return _clnIntSincronizacaoId;
+      return _clnIntServerSincronizacaoId;
     }
 
-    _clnIntSincronizacaoId = new ColunaAndroid("int_sincronizacao_id", this, Coluna.EnmTipo.BIGINT, TblSincronizacao.getI().getClnIntId());
+    _clnIntServerSincronizacaoId = new ColunaAndroid("int_sincronizacao_id", this, Coluna.EnmTipo.BIGINT);
 
-    return _clnIntSincronizacaoId;
+    return _clnIntServerSincronizacaoId;
   }
 
   private ColunaAndroid getClnSqlTblNome()
@@ -146,7 +146,7 @@ public class TblSincronizacao extends TblAndroidMain<DominioAndroidMain>
     lstCln.add(this.getClnBooSincCompleto());
     lstCln.add(this.getClnDttUltimoRecebimento());
     lstCln.add(this.getClnIntRegistroQuantidade());
-    lstCln.add(this.getClnIntSincronizacaoId());
+    lstCln.add(this.getClnIntServerSincronizacaoId());
     lstCln.add(this.getClnSqlTblNome());
   }
 }

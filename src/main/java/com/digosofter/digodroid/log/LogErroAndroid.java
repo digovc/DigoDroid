@@ -31,8 +31,9 @@ public class LogErroAndroid extends LogManagerAndroidMain
   {
     Intent itt = new Intent(cnt, ActErro.class);
 
-    itt.putExtra(ActErro.STR_EXTRA_INT_STR_ERRO_TITULO, ex.getMessage());
+    itt.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
     itt.putExtra(ActErro.STR_EXTRA_INT_STR_ERRO_DESCRICAO, this.getStrDescricao(ex.getStackTrace()));
+    itt.putExtra(ActErro.STR_EXTRA_INT_STR_ERRO_TITULO, ex.getMessage());
 
     cnt.startActivity(itt);
   }

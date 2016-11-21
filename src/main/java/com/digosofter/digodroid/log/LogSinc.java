@@ -1,5 +1,8 @@
 package com.digosofter.digodroid.log;
 
+import com.digosofter.digodroid.AppAndroid;
+import com.digosofter.digojava.log.Log;
+
 public class LogSinc extends LogManagerAndroidMain
 {
   private static LogSinc _i;
@@ -19,5 +22,28 @@ public class LogSinc extends LogManagerAndroidMain
   private LogSinc()
   {
     super("Log de sincronização");
+  }
+
+  @Override
+  public void addLog(final Log log)
+  {
+    super.addLog(log);
+
+    this.addLogErro(log);
+  }
+
+  private void addLogErro(final Log logErro)
+  {
+    if (logErro == null)
+    {
+      return;
+    }
+
+    if (!Log.EnmTipo.ERRO.equals(logErro.getEnmTipo()))
+    {
+      return;
+    }
+
+    LogErroAndroid.getI().addLog(AppAndroid.getI().getCnt(), new Exception(logErro.getStrLog()));
   }
 }

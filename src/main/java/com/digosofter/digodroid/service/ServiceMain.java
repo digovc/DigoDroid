@@ -9,10 +9,13 @@ public abstract class ServiceMain extends IntentService
 {
   private boolean _booParar;
   private Intent _itt;
+  private String _strNome;
 
   public ServiceMain(String strNome)
   {
     super(AppAndroid.getI().getStrNomeExibicao() + " - " + strNome);
+
+    this.setStrNome(strNome);
   }
 
   protected void finalizar()
@@ -27,6 +30,11 @@ public abstract class ServiceMain extends IntentService
   protected Intent getItt()
   {
     return _itt;
+  }
+
+  private String getStrNome()
+  {
+    return _strNome;
   }
 
   protected void inicializar()
@@ -46,8 +54,25 @@ public abstract class ServiceMain extends IntentService
     }
     catch (Exception ex)
     {
-      ex.printStackTrace();
+      this.processarErro(ex);
     }
+  }
+
+  protected void processarErro(final Exception ex)
+  {
+    if (ex == null)
+    {
+      return;
+    }
+
+    ex.printStackTrace();
+
+    if (AppAndroid.getI() == null)
+    {
+      return;
+    }
+
+    AppAndroid.getI().notificar(String.format("Erro no serviço %s. Reinicie a aplicação e se o problema persistir entre em contato com o administrador do sistema.", this.getStrNome()));
   }
 
   protected void servico()
@@ -67,5 +92,10 @@ public abstract class ServiceMain extends IntentService
   private void setItt(Intent itt)
   {
     _itt = itt;
+  }
+
+  private void setStrNome(String strNome)
+  {
+    _strNome = strNome;
   }
 }

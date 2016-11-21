@@ -1329,7 +1329,7 @@ public abstract class TblAndroidMain<T extends DominioAndroidMain> extends Tabel
 
     sql = sql.replace("order by _order_by", (!Utils.getBooStrVazia(this.getSqlOrderBy()) ? "order by _order_by" : Utils.STR_VAZIA));
 
-    sql = sql.replace("_order_by", Utils.removerUltimaLetra(this.getSqlOrderBy(), 2));
+    sql = sql.replace("_order_by", (!Utils.getBooStrVazia(this.getSqlOrderBy()) ? Utils.removerUltimaLetra(this.getSqlOrderBy(), 2) : Utils.STR_VAZIA));
 
     return this.getDbe().execSqlComRetorno(sql);
   }
@@ -1365,7 +1365,7 @@ public abstract class TblAndroidMain<T extends DominioAndroidMain> extends Tabel
 
     sql = sql.replace("order by _order_by", (!Utils.getBooStrVazia(this.getSqlOrderBy()) ? "order by _order_by" : Utils.STR_VAZIA));
 
-    sql = sql.replace("_order_by", Utils.removerUltimaLetra(this.getSqlOrderBy(), 2));
+    sql = sql.replace("_order_by", (!Utils.getBooStrVazia(this.getSqlOrderBy()) ? Utils.removerUltimaLetra(this.getSqlOrderBy(), 2) : Utils.STR_VAZIA));
 
     Cursor crsResultado = this.getDbe().execSqlComRetorno(sql);
 

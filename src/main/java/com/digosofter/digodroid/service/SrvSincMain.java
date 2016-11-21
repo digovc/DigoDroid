@@ -102,13 +102,7 @@ public abstract class SrvSincMain<T extends ServerHttpSincMain> extends ServiceM
   {
     super.inicializar();
 
-    if (this.getDbe() == null)
-    {
-      this.setBooParar(true);
-      return;
-    }
-
-    if (this.getSrvHttpSinc() == null)
+    if (!this.validarInicializacao())
     {
       this.setBooParar(true);
       return;
@@ -128,14 +122,20 @@ public abstract class SrvSincMain<T extends ServerHttpSincMain> extends ServiceM
 
   private void loop()
   {
-    if (Utils.getBooStrVazia(this.getSrvHttpSinc().getUrlServer()))
+    this.sincronizar();
+  }
+
+  @Override
+  protected void processarErro(final Exception ex)
+  {
+    super.processarErro(ex);
+
+    if (ex == null)
     {
-      LogSinc.getI().addLog(Log.EnmTipo.ERRO, "A url do servidor de sincronização não está configurada.");
-      this.setBooParar(true);
       return;
     }
 
-    this.sincronizar();
+    LogSinc.getI().addLog(Log.EnmTipo.ERRO, String.format("Erro no serviço de sincronização:\n%s", ex.getMessage()));
   }
 
   @Override
@@ -165,16 +165,6 @@ public abstract class SrvSincMain<T extends ServerHttpSincMain> extends ServiceM
 
   private void sincronizar()
   {
-    if (AppAndroid.getI() == null)
-    {
-      return;
-    }
-
-    if (AppAndroid.getI().getDbe() == null)
-    {
-      return;
-    }
-
     for (TblSincronizavelMain tbl : this.getLstTbl())
     {
       if (this.getBooParar())
@@ -194,5 +184,28 @@ public abstract class SrvSincMain<T extends ServerHttpSincMain> extends ServiceM
     }
 
     tbl.sincronizar(this);
+  }
+
+  private boolean validarInicializacao()
+  {
+    if (this.getDbe() == null)
+    {
+      LogSinc.getI().addLog(Log.EnmTipo.ERRO, "O banco de dados de sincronização não foi indicado.");
+      return false;
+    }
+
+    if (this.getSrvHttpSinc() == null)
+    {
+      LogSinc.getI().addLog(Log.EnmTipo.ERRO, "O servidor HTTP de sincronização não foi indicado.");
+      return false;
+    }
+
+    if (Utils.getBooStrVazia(this.getSrvHttpSinc().getUrlServer()))
+    {
+      LogSinc.getI().addLog(Log.EnmTipo.ERRO, "A url do servidor HTTP de sincronização não foi indicada.");
+      return false;
+    }
+
+    return true;
   }
 }
