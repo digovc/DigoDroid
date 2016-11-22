@@ -254,6 +254,11 @@ public abstract class TblSincronizavelMain<T extends DominioSincronizavelMain> e
   {
     TblSincronizacao.getI().atualizarRecebimento(this, rspPesquisar);
 
+    this.processarPesquisaFinalizarIncompleto(rspPesquisar);
+  }
+
+  private void processarPesquisaFinalizarIncompleto(final RspPesquisar rspPesquisar)
+  {
     if (rspPesquisar.getBooSincCompleto())
     {
       return;

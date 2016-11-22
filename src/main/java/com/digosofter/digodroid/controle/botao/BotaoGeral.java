@@ -37,6 +37,7 @@ public class BotaoGeral extends Button implements IControleMain
   @Override
   public void inicializar(final AttributeSet ats)
   {
+    this.setAllCaps(false);
   }
 
   @Override

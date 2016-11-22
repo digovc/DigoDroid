@@ -2,18 +2,22 @@ package com.digosofter.digodroid.activity;
 
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.digosofter.digodroid.AppAndroid;
 import com.digosofter.digodroid.R;
+import com.digosofter.digodroid.controle.botao.BotaoGeral;
 import com.digosofter.digodroid.controle.label.LabelGeral;
+import com.digosofter.digodroid.log.LogErroAndroid;
 import com.digosofter.digojava.Utils;
 
-public class ActErro extends ActMain
+public class ActErro extends ActMain implements View.OnClickListener
 {
   public static final String STR_EXTRA_INT_STR_ERRO_DESCRICAO = "str_erro_descricao";
   public static final String STR_EXTRA_INT_STR_ERRO_TITULO = "str_erro_titulo";
 
   private static final String STR_MENU_COMPARTILHAR = "Compartilhar";
+  private BotaoGeral _btnIgnorarTodos;
   private LabelGeral _lblDescricao;
   private LabelGeral _lblTitulo;
 
@@ -38,6 +42,26 @@ public class ActErro extends ActMain
     AppAndroid.getI().compartilhar(this, this.getLblTitulo().getText().toString(), strConteudo);
 
     return true;
+  }
+
+  @Override
+  protected void finalizar()
+  {
+    super.finalizar();
+
+    LogErroAndroid.getI().removerActErro(this);
+  }
+
+  private BotaoGeral getBtnIgnorarTodos()
+  {
+    if (_btnIgnorarTodos != null)
+    {
+      return _btnIgnorarTodos;
+    }
+
+    _btnIgnorarTodos = this.getView(R.id.actErro_btnIgnorarTodos);
+
+    return _btnIgnorarTodos;
   }
 
   @Override
@@ -70,12 +94,26 @@ public class ActErro extends ActMain
     return _lblTitulo;
   }
 
+  private void ignorarTodos()
+  {
+    LogErroAndroid.getI().ignorarTodos();
+  }
+
   @Override
   protected void inicializar()
   {
     super.inicializar();
 
     this.setTitle("Erro");
+
+    LogErroAndroid.getI().addActErro(this);
+
+    this.inicializarBtnIgnorarTodos();
+  }
+
+  private void inicializarBtnIgnorarTodos()
+  {
+    this.getBtnIgnorarTodos().setVisibility((LogErroAndroid.getI().getLstActErro().size() > 1) ? View.VISIBLE : View.GONE);
   }
 
   @Override
@@ -112,6 +150,16 @@ public class ActErro extends ActMain
   }
 
   @Override
+  public void onClick(final View viw)
+  {
+    if (viw.equals(this.getBtnIgnorarTodos()))
+    {
+      this.ignorarTodos();
+      return;
+    }
+  }
+
+  @Override
   public boolean onCreateOptionsMenu(final Menu mnu)
   {
     if (!super.onCreateOptionsMenu(mnu))
@@ -144,5 +192,13 @@ public class ActErro extends ActMain
     }
 
     return false;
+  }
+
+  @Override
+  protected void setEventos()
+  {
+    super.setEventos();
+
+    this.getBtnIgnorarTodos().setOnClickListener(this);
   }
 }

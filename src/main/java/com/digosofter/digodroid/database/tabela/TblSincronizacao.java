@@ -35,6 +35,20 @@ public class TblSincronizacao extends TblAndroidMain<DominioAndroidMain>
   private ColunaAndroid _clnIntServerSincronizacaoId;
   private ColunaAndroid _clnSqlTblNome;
 
+  private ColunaAndroid _clnStrCritica;
+
+  private ColunaAndroid getClnStrCritica()
+  {
+    if (_clnStrCritica != null)
+    {
+      return _clnStrCritica;
+    }
+
+    _clnStrCritica = new ColunaAndroid("str_critica", this, Coluna.EnmTipo.TEXT);
+
+    return _clnStrCritica;
+  }
+
   private TblSincronizacao()
   {
     super("tbl_sincronizacao", AppAndroid.getI().getDbe());
@@ -54,6 +68,7 @@ public class TblSincronizacao extends TblAndroidMain<DominioAndroidMain>
     this.getClnIntRegistroQuantidade().setIntValor(rspPesquisar.getIntRegistroQuantidade());
     this.getClnIntServerSincronizacaoId().setIntValor(rspPesquisar.getIntSincronizacaoId());
     this.getClnSqlTblNome().setStrValor(tbl.getSqlNome());
+    this.getClnStrCritica().setStrValor(rspPesquisar.getStrCritica());
 
     rspPesquisar.setIntSincronizacaoId(this.salvar().getClnIntId().getIntValor());
   }
@@ -148,5 +163,6 @@ public class TblSincronizacao extends TblAndroidMain<DominioAndroidMain>
     lstCln.add(this.getClnIntRegistroQuantidade());
     lstCln.add(this.getClnIntServerSincronizacaoId());
     lstCln.add(this.getClnSqlTblNome());
+    lstCln.add(this.getClnStrCritica());
   }
 }

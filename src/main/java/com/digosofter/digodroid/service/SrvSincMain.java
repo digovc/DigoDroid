@@ -196,13 +196,13 @@ public abstract class SrvSincMain<T extends ServerHttpSincMain> extends ServiceM
 
     if (this.getSrvHttpSinc() == null)
     {
-      LogSinc.getI().addLog(Log.EnmTipo.ERRO, "O servidor HTTP de sincronização não foi indicado.");
+      LogSinc.getI().addLog(Log.EnmTipo.ERRO, "O servidor de sincronização não foi indicado.");
       return false;
     }
 
     if (Utils.getBooStrVazia(this.getSrvHttpSinc().getUrlServer()))
     {
-      LogSinc.getI().addLog(Log.EnmTipo.ERRO, "A url do servidor HTTP de sincronização não foi indicada.");
+      LogSinc.getI().addLog(Log.EnmTipo.ERRO, "A url do servidor de sincronização não foi indicada.");
       return false;
     }
 

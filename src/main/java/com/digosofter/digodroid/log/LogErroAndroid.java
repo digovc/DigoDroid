@@ -6,6 +6,9 @@ import android.content.Intent;
 import com.digosofter.digodroid.activity.ActErro;
 import com.digosofter.digojava.log.Log;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class LogErroAndroid extends LogManagerAndroidMain
 {
   private static LogErroAndroid _i;
@@ -21,6 +24,8 @@ public class LogErroAndroid extends LogManagerAndroidMain
 
     return _i;
   }
+
+  private List<ActErro> _lstActErro;
 
   private LogErroAndroid()
   {
@@ -38,6 +43,21 @@ public class LogErroAndroid extends LogManagerAndroidMain
     cnt.startActivity(itt);
   }
 
+  public void addActErro(final ActErro actErro)
+  {
+    if (actErro == null)
+    {
+      return;
+    }
+
+    if (this.getLstActErro().contains(actErro))
+    {
+      return;
+    }
+
+    this.getLstActErro().add(actErro);
+  }
+
   public void addLog(final Context cnt, final Exception ex)
   {
     if (ex == null)
@@ -48,6 +68,18 @@ public class LogErroAndroid extends LogManagerAndroidMain
     super.addLog(Log.EnmTipo.ERRO, ex.getMessage());
 
     this.abrirActErro(cnt, ex);
+  }
+
+  public List<ActErro> getLstActErro()
+  {
+    if (_lstActErro != null)
+    {
+      return _lstActErro;
+    }
+
+    _lstActErro = new ArrayList<>();
+
+    return _lstActErro;
   }
 
   private String getStrDescricao(final StackTraceElement[] arrObjStackTracelElement)
@@ -71,5 +103,35 @@ public class LogErroAndroid extends LogManagerAndroidMain
     }
 
     return stbResultado.toString();
+  }
+
+  public void ignorarTodos()
+  {
+    while (!this.getLstActErro().isEmpty())
+    {
+      this.ignorarTodos(this.getLstActErro().get(0));
+    }
+  }
+
+  private void ignorarTodos(final ActErro actErro)
+  {
+    if (actErro == null)
+    {
+      return;
+    }
+
+    this.removerActErro(actErro);
+
+    actErro.finish();
+  }
+
+  public void removerActErro(final ActErro actErro)
+  {
+    if (!this.getLstActErro().contains(actErro))
+    {
+      return;
+    }
+
+    this.getLstActErro().remove(actErro);
   }
 }
