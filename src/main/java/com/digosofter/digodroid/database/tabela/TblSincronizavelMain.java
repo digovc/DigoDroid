@@ -26,6 +26,7 @@ import java.util.List;
 public abstract class TblSincronizavelMain<T extends DominioSincronizavelMain> extends TblAndroidMain<T>
 {
   private boolean _booEditavel;
+  private boolean _booSincronizada = true;
   private ColunaAndroid _clnBooSincronizado;
   private ColunaAndroid _clnBooSincronizar;
   private ColunaAndroid _clnStrAparelhoId;
@@ -44,6 +45,11 @@ public abstract class TblSincronizavelMain<T extends DominioSincronizavelMain> e
   protected boolean getBooEditavel()
   {
     return _booEditavel;
+  }
+
+  public boolean getBooSincronizada()
+  {
+    return _booSincronizada;
   }
 
   public ColunaAndroid getClnBooSincronizado()
@@ -379,6 +385,11 @@ public abstract class TblSincronizavelMain<T extends DominioSincronizavelMain> e
   private void processarSalvarFinalizar(final RspSalvar rspSalvar)
   {
     // TODO: Persistir no banco de dados essa sincronização.
+  }
+
+  public void setBooSincronizada(boolean booSincronizada)
+  {
+    _booSincronizada = booSincronizada;
   }
 
   public void setMsgCodigoReserva(MsgCodigoReserva msgCodigoReserva)

@@ -7,7 +7,10 @@ public abstract class FrgPreferenceMain extends PreferenceFragment
 {
   protected void inicializar()
   {
+    this.addPreferencesFromResource(this.getIntLayoutId());
   }
+
+  protected abstract int getIntLayoutId();
 
   private void iniciar()
   {
