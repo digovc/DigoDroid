@@ -51,7 +51,6 @@ public abstract class SrvSincMain<T extends ServerHttpSincMain> extends ServiceM
 
   private void esperarIntervaloLoop()
   {
-    int i = (INT_LOOP_DELAY / 100);
     int t = 0;
 
     while (true)
@@ -66,8 +65,9 @@ public abstract class SrvSincMain<T extends ServerHttpSincMain> extends ServiceM
         return;
       }
 
-      SystemClock.sleep(i * 100);
-      t += (i * 100);
+      SystemClock.sleep(100);
+
+      t += (100);
     }
   }
 
