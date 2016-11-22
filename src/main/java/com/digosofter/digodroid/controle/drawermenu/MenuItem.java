@@ -237,10 +237,17 @@ public class MenuItem extends PainelGeral implements View.OnClickListener, View.
     this.atualizarImgIcon(imgIcon);
   }
 
-  private void setStrTitulo(String strTitulo)
+  public void setStrTitulo(String strTitulo)
   {
     _strTitulo = strTitulo;
 
-    this.getLblTitulo().setText(_strTitulo);
+    this.getLblTitulo().post(new Runnable()
+    {
+      @Override
+      public void run()
+      {
+        MenuItem.this.getLblTitulo().setText(_strTitulo);
+      }
+    });
   }
 }
