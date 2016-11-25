@@ -1,6 +1,8 @@
 package com.digosofter.digodroid.server.message;
 
 import com.digosofter.digodroid.database.tabela.TblSincronizavelMain;
+import com.digosofter.digodroid.log.LogSinc;
+import com.digosofter.digojava.log.Log;
 
 public abstract class MsgTabelaBase<T extends RespostaMain> extends MessageMain<T>
 {
@@ -15,6 +17,14 @@ public abstract class MsgTabelaBase<T extends RespostaMain> extends MessageMain<
   public TblSincronizavelMain getTbl()
   {
     return _tbl;
+  }
+
+  @Override
+  protected void notificarErroServidor(final T rsp)
+  {
+    // super.notificarErroServidor(rsp);
+
+    LogSinc.getI().addLog(Log.EnmTipo.ERRO, String.format("Erro de sincronização (%s) na tabela %s no servidor: %s", rsp.getClass().getSimpleName(), this.getTbl().getStrNomeExibicao(), rsp.getStrCritica()));
   }
 
   private void setSqlTblServerNome(String sqlTblServerNome)

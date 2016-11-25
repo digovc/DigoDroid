@@ -26,7 +26,7 @@ import java.util.List;
 public abstract class TblSincronizavelMain<T extends DominioSincronizavelMain> extends TblAndroidMain<T>
 {
   private boolean _booEditavel;
-  private boolean _booSincronizada = true;
+  private boolean _booSincronizada;
   private ColunaAndroid _clnBooSincronizado;
   private ColunaAndroid _clnBooSincronizar;
   private ColunaAndroid _clnStrAparelhoId;
@@ -145,6 +145,8 @@ public abstract class TblSincronizavelMain<T extends DominioSincronizavelMain> e
   protected void inicializar()
   {
     super.inicializar();
+
+    this.setBooSincronizada(true);
 
     this.getClnBooSincronizado().setBooValorDefault(false);
     this.getClnBooSincronizar().setBooValorDefault(true);

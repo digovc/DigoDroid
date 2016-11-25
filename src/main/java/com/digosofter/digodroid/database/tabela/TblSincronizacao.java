@@ -37,18 +37,6 @@ public class TblSincronizacao extends TblAndroidMain<DominioAndroidMain>
 
   private ColunaAndroid _clnStrCritica;
 
-  private ColunaAndroid getClnStrCritica()
-  {
-    if (_clnStrCritica != null)
-    {
-      return _clnStrCritica;
-    }
-
-    _clnStrCritica = new ColunaAndroid("str_critica", this, Coluna.EnmTipo.TEXT);
-
-    return _clnStrCritica;
-  }
-
   private TblSincronizacao()
   {
     super("tbl_sincronizacao", AppAndroid.getI().getDbe());
@@ -133,6 +121,18 @@ public class TblSincronizacao extends TblAndroidMain<DominioAndroidMain>
     return _clnSqlTblNome;
   }
 
+  private ColunaAndroid getClnStrCritica()
+  {
+    if (_clnStrCritica != null)
+    {
+      return _clnStrCritica;
+    }
+
+    _clnStrCritica = new ColunaAndroid("str_critica", this, Coluna.EnmTipo.TEXT);
+
+    return _clnStrCritica;
+  }
+
   public Calendar getDttUltimoRecebimento(final TblSincronizavelMain tbl)
   {
     if (tbl == null)
@@ -145,10 +145,16 @@ public class TblSincronizacao extends TblAndroidMain<DominioAndroidMain>
       return null;
     }
 
+    this.limparOrdem();
+
+    this.getClnIntId().setEnmOrdem(Coluna.EnmOrdem.DECRESCENTE);
+
     List<Filtro> lstFil = new ArrayList<>();
 
-    lstFil.add(new Filtro(this.getClnSqlTblNome(), tbl.getSqlNome()));
     lstFil.add(new Filtro(this.getClnBooSincCompleto(), true));
+    lstFil.add(new Filtro(this.getClnIntRegistroQuantidade(), 0, Filtro.EnmOperador.MAIOR));
+    lstFil.add(new Filtro(this.getClnSqlTblNome(), tbl.getSqlNome()));
+    lstFil.add(new Filtro(this.getClnStrCritica(), Filtro.EnmOperador.IS_NOT_NULL));
 
     return ((TblSincronizacao) this.recuperar(this.getClnSqlTblNome(), tbl.getSqlNome())).getClnDttUltimoRecebimento().getDttValor();
   }

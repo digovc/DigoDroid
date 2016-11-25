@@ -43,6 +43,11 @@ public abstract class MessageMain<T extends RespostaMain> implements Response.Li
     this.inicializar();
   }
 
+  protected void notificarErroServidor(final T rsp)
+  {
+    LogSinc.getI().addLog(Log.EnmTipo.ERRO, String.format("Erro de sincronização (%s) no servidor: %s", rsp.getClass().getSimpleName(), rsp.getStrCritica()));
+  }
+
   @Override
   public void onErrorResponse(final VolleyError objVolleyError)
   {
@@ -107,7 +112,7 @@ public abstract class MessageMain<T extends RespostaMain> implements Response.Li
 
     if (!Utils.getBooStrVazia(rsp.getStrCritica()))
     {
-      LogSinc.getI().addLog(Log.EnmTipo.ERRO, String.format("Erro de sincronização (%s) no servidor: %s", this.getClsResposta().getSimpleName(), rsp.getStrCritica()));
+      this.notificarErroServidor(rsp);
       return;
     }
 

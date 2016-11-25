@@ -125,6 +125,16 @@ public abstract class SrvSincMain<T extends ServerHttpSincMain> extends ServiceM
     this.sincronizar();
   }
 
+  protected void notificarErroServerUrl()
+  {
+    if (AppAndroid.getI() == null)
+    {
+      return;
+    }
+
+    AppAndroid.getI().notificar("O endereço do servidor não foi configurado.");
+  }
+
   @Override
   protected void processarErro(final Exception ex)
   {
@@ -202,7 +212,7 @@ public abstract class SrvSincMain<T extends ServerHttpSincMain> extends ServiceM
 
     if (Utils.getBooStrVazia(this.getSrvHttpSinc().getUrlServer()))
     {
-      LogSinc.getI().addLog(Log.EnmTipo.ERRO, "A url do servidor de sincronização não foi indicada.");
+      this.notificarErroServerUrl();
       return false;
     }
 
