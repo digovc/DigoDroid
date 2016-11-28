@@ -127,10 +127,6 @@ public abstract class SrvSincMain<T extends ServerHttpSincMain> extends ServiceM
     this.sincronizar();
   }
 
-  private void loopFinalizar()
-  {
-  }
-
   protected void notificarUrlServidorVazio()
   {
     LogSinc.getI().addLog(Log.EnmTipo.INFO, "O endereço do servidor de sincronização não foi indicado.");

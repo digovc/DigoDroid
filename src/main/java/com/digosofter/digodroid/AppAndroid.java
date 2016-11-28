@@ -18,6 +18,7 @@ import com.digosofter.digodroid.activity.ActMain;
 import com.digosofter.digodroid.database.DbeAndroidMain;
 import com.digosofter.digodroid.database.TblAndroidMain;
 import com.digosofter.digodroid.design.TemaDefault;
+import com.digosofter.digodroid.server.message.RspWelcome;
 import com.digosofter.digodroid.service.OnSrvSincCreateListener;
 import com.digosofter.digodroid.service.OnSrvSincDestroyListener;
 import com.digosofter.digodroid.service.SrvSincMain;
@@ -394,6 +395,8 @@ public abstract class AppAndroid extends App
 
     objToast.show();
   }
+
+  public abstract void processarRspWelcome(final RspWelcome rspWelcome);
 
   /**
    * Reinicia a aplicação.

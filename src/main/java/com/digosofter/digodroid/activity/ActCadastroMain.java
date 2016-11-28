@@ -503,7 +503,7 @@ public abstract class ActCadastroMain extends ActMain
     return true;
   }
 
-  private void salvarAbrirNovo()
+  protected void salvarAbrirNovo()
   {
     if (!this.salvar())
     {

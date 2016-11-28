@@ -176,7 +176,7 @@ public abstract class ViewAndroid extends TblAndroidMain<DominioAndroidMain>
   @Override
   protected void inicializarLstCln(List<Coluna> lstCln)
   {
-    // intOrdem = super.inicializarLstCln(intOrdem);
+    // super.inicializarLstCln(intOrdem);
 
     lstCln.add(this.getClnIntId());
   }

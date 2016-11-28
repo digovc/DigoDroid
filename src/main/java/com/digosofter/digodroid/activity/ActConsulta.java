@@ -113,6 +113,7 @@ public class ActConsulta extends ActMain implements OnTblChangeListener, TextWat
       {
 
         ActConsulta.this.getAdpCadastro().atualizarLista();
+
         ActConsulta.this.montarLayoutVazio();
       }
     });

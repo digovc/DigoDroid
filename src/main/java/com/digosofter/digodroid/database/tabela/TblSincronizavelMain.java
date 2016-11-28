@@ -224,8 +224,15 @@ public abstract class TblSincronizavelMain<T extends DominioSincronizavelMain> e
 
     for (JsonElement jsnElement : arrJsnElement)
     {
+      if (this.getSrvSinc().getBooParar())
+      {
+        return;
+      }
+
       this.processarPesquisa(rspPesquisar, jsnElement);
     }
+
+    LogSinc.getI().addLog(Log.EnmTipo.INFO, String.format("Salvo %s registros na tabela %s.", arrJsnElement.length, this.getStrNomeExibicao()));
 
     this.processarPesquisaFinalizar(rspPesquisar);
   }

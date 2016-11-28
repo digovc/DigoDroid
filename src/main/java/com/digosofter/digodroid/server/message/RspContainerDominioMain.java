@@ -24,5 +24,4 @@ public abstract class RspContainerDominioMain<T extends MessageMain> extends Res
   {
     _jsnLstObjDominio = jsnData;
   }
-
 }

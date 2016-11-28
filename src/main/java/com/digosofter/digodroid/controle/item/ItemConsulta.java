@@ -76,6 +76,7 @@ public class ItemConsulta extends ItemMain implements View.OnClickListener, View
     strTitulo = strTitulo.replace("_registro_nome", (!Utils.getBooStrVazia(this.getStrRegistroNome()) ? this.getStrRegistroNome() : String.valueOf(this.getIntRegistroId())));
 
     this.getLblRegistroTitulo().setText(strTitulo);
+
     this.carregarDadosItem(crs);
   }
 

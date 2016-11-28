@@ -22,7 +22,7 @@ public abstract class ServiceMain extends IntentService
   {
   }
 
-  protected boolean getBooParar()
+  public boolean getBooParar()
   {
     return _booParar;
   }

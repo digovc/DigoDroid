@@ -14,7 +14,6 @@ import com.digosofter.digodroid.activity.ActDetalhe;
 import com.digosofter.digodroid.activity.ActMain;
 import com.digosofter.digodroid.database.dominio.DominioAndroidMain;
 import com.digosofter.digodroid.database.tabela.TblReservaCodigo;
-import com.digosofter.digodroid.log.LogErro;
 import com.digosofter.digojava.Utils;
 import com.digosofter.digojava.Utils.EnmDataFormato;
 import com.digosofter.digojava.database.Coluna;
@@ -43,6 +42,7 @@ public abstract class TblAndroidMain<T extends DominioAndroidMain> extends Tabel
   private static final String STR_MENU_ALTERAR = "Alterar";
   private static final String STR_MENU_DETALHAR = "Ver detalhes";
   private static final String STR_MENU_PESQUISAR_POR = "Pesquisar por";
+
   private boolean _booMostrarSalvarNovo;
   private ColunaAndroid _clnBooAtivo;
   private ColunaAndroid _clnDttAlteracao;
@@ -1223,18 +1223,18 @@ public abstract class TblAndroidMain<T extends DominioAndroidMain> extends Tabel
 
     this.setMniOrdemDecrescente(smn.add("Ordem decrescente"));
 
-    for (Coluna cln : this.getLstCln())
+    this.getMniOrdemDecrescente().setCheckable(true);
+
+    for (Coluna cln : this.getLstClnOrdem())
     {
       if (Coluna.EnmOrdem.NONE.equals(cln.getEnmOrdem()))
       {
         continue;
       }
 
-      this.getMniOrdemDecrescente().setChecked(Coluna.EnmOrdem.DECRESCENTE.equals(cln));
-      break;
+      this.getMniOrdemDecrescente().setChecked(Coluna.EnmOrdem.DECRESCENTE.equals(cln.getEnmOrdem()));
+      return;
     }
-
-    this.getMniOrdemDecrescente().setCheckable(true);
   }
 
   private void montarMenuPesquisa(final Menu mnu)
@@ -1358,6 +1358,7 @@ public abstract class TblAndroidMain<T extends DominioAndroidMain> extends Tabel
     String sql = "select _clns_nome from _tbl_nome where _where order by _order_by;";
 
     sql = sql.replace("_clns_nome", this.getSqlClnSelect());
+
     sql = sql.replace("_tbl_nome", this.getSqlNome());
 
     sql = sql.replace("where _where", (!this.getLstFilConsulta().isEmpty()) ? "where _where" : Utils.STR_VAZIA);
@@ -1555,24 +1556,32 @@ public abstract class TblAndroidMain<T extends DominioAndroidMain> extends Tabel
 
     for (Coluna cln : this.getLstCln())
     {
-      if (cln == null)
+      if (this.processarMenuCampo(act, mni, cln))
       {
-        continue;
+        return true;
       }
-
-      if (!mni.equals(((ColunaAndroid) cln).getMniCampo()))
-      {
-        continue;
-      }
-
-      ((ColunaAndroid) cln).processarMenuCampo(mni);
-
-      act.invalidateOptionsMenu();
-
-      return true;
     }
 
     return false;
+  }
+
+  private boolean processarMenuCampo(final ActMain act, final MenuItem mni, final Coluna cln)
+  {
+    if (cln == null)
+    {
+      return false;
+    }
+
+    if (!mni.equals(((ColunaAndroid) cln).getMniCampo()))
+    {
+      return false;
+    }
+
+    ((ColunaAndroid) cln).processarMenuCampo(mni);
+
+    act.invalidateOptionsMenu();
+
+    return true;
   }
 
   public boolean processarMenuItem(ActMain act, MenuItem mni, int intRegistroId)
@@ -1688,24 +1697,7 @@ public abstract class TblAndroidMain<T extends DominioAndroidMain> extends Tabel
       return false;
     }
 
-    if (mni.isChecked())
-    {
-      return false;
-    }
-
-    if (mni.equals(((ColunaAndroid) this.getClnIntId()).getMniOrdenar()))
-    {
-      ((ColunaAndroid) this.getClnIntId()).processarMenuOrdenar(mni);
-      return true;
-    }
-
-    if (mni.equals(((ColunaAndroid) this.getClnNome()).getMniOrdenar()))
-    {
-      ((ColunaAndroid) this.getClnNome()).processarMenuOrdenar(mni);
-      return true;
-    }
-
-    for (Coluna cln : this.getLstClnConsulta())
+    for (Coluna cln : this.getLstCln())
     {
       if (cln == null)
       {
