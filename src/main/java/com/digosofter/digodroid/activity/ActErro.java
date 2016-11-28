@@ -8,7 +8,7 @@ import com.digosofter.digodroid.AppAndroid;
 import com.digosofter.digodroid.R;
 import com.digosofter.digodroid.controle.botao.BotaoGeral;
 import com.digosofter.digodroid.controle.label.LabelGeral;
-import com.digosofter.digodroid.log.LogErroAndroid;
+import com.digosofter.digodroid.log.LogErro;
 import com.digosofter.digojava.Utils;
 
 public class ActErro extends ActMain implements View.OnClickListener
@@ -49,7 +49,7 @@ public class ActErro extends ActMain implements View.OnClickListener
   {
     super.finalizar();
 
-    LogErroAndroid.getI().removerActErro(this);
+    LogErro.getI().removerActErro(this);
   }
 
   private BotaoGeral getBtnIgnorarTodos()
@@ -96,7 +96,7 @@ public class ActErro extends ActMain implements View.OnClickListener
 
   private void ignorarTodos()
   {
-    LogErroAndroid.getI().ignorarTodos();
+    LogErro.getI().ignorarTodos();
   }
 
   @Override
@@ -106,14 +106,14 @@ public class ActErro extends ActMain implements View.OnClickListener
 
     this.setTitle("Erro");
 
-    LogErroAndroid.getI().addActErro(this);
+    LogErro.getI().addActErro(this);
 
     this.inicializarBtnIgnorarTodos();
   }
 
   private void inicializarBtnIgnorarTodos()
   {
-    this.getBtnIgnorarTodos().setVisibility((LogErroAndroid.getI().getLstActErro().size() > 1) ? View.VISIBLE : View.GONE);
+    this.getBtnIgnorarTodos().setVisibility((LogErro.getI().getLstActErro().size() > 1) ? View.VISIBLE : View.GONE);
   }
 
   @Override

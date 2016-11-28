@@ -5,6 +5,7 @@ import com.digosofter.digodroid.database.ColunaAndroid;
 import com.digosofter.digodroid.database.DbeAndroidMain;
 import com.digosofter.digodroid.database.TblAndroidMain;
 import com.digosofter.digodroid.database.dominio.DominioSincronizavelMain;
+import com.digosofter.digodroid.log.LogErro;
 import com.digosofter.digodroid.log.LogSinc;
 import com.digosofter.digodroid.server.message.MsgCodigoReserva;
 import com.digosofter.digodroid.server.message.MsgPesquisar;
@@ -26,7 +27,7 @@ import java.util.List;
 public abstract class TblSincronizavelMain<T extends DominioSincronizavelMain> extends TblAndroidMain<T>
 {
   private boolean _booEditavel;
-  private boolean _booSincronizada;
+  private boolean _booReceberDados;
   private ColunaAndroid _clnBooSincronizado;
   private ColunaAndroid _clnBooSincronizar;
   private ColunaAndroid _clnStrAparelhoId;
@@ -47,9 +48,9 @@ public abstract class TblSincronizavelMain<T extends DominioSincronizavelMain> e
     return _booEditavel;
   }
 
-  public boolean getBooSincronizada()
+  public boolean getBooReceberDados()
   {
-    return _booSincronizada;
+    return _booReceberDados;
   }
 
   public ColunaAndroid getClnBooSincronizado()
@@ -146,7 +147,7 @@ public abstract class TblSincronizavelMain<T extends DominioSincronizavelMain> e
   {
     super.inicializar();
 
-    this.setBooSincronizada(true);
+    this.setBooReceberDados(true);
 
     this.getClnBooSincronizado().setBooValorDefault(false);
     this.getClnBooSincronizar().setBooValorDefault(true);
@@ -389,9 +390,30 @@ public abstract class TblSincronizavelMain<T extends DominioSincronizavelMain> e
     // TODO: Persistir no banco de dados essa sincronização.
   }
 
-  public void setBooSincronizada(boolean booSincronizada)
+  @Override
+  public TblAndroidMain salvar()
   {
-    _booSincronizada = booSincronizada;
+    if (this.getClnIntId().getIntValor() > 0)
+    {
+      return super.salvar();
+    }
+
+    int intCodigoReservado = TblReservaCodigo.getI().getIntProximoCodigoDisponivel(this);
+
+    if (intCodigoReservado < 1)
+    {
+      LogErro.getI().addLog(Log.EnmTipo.ERRO, String.format("Erro ao tentar recuperar o código reservado para a tabela %s.", this.getStrNomeExibicao()));
+      return this;
+    }
+
+    this.getClnIntId().setIntValor(intCodigoReservado);
+
+    return super.salvar();
+  }
+
+  public void setBooReceberDados(boolean booReceberDados)
+  {
+    _booReceberDados = booReceberDados;
   }
 
   public void setMsgCodigoReserva(MsgCodigoReserva msgCodigoReserva)
@@ -423,7 +445,7 @@ public abstract class TblSincronizavelMain<T extends DominioSincronizavelMain> e
 
     this.setSrvSinc(srvSinc);
 
-    if (!this.getBooSincronizada())
+    if (!this.getBooReceberDados())
     {
       return;
     }

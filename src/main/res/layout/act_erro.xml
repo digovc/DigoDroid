@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.digosofter.digodroid.activity.ActErro">
+    tools:context=".activity.ActErro">
 
     <com.digosofter.digodroid.controle.painel.PainelConteudo
         android:layout_width="match_parent"
@@ -25,26 +25,37 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
+            android:padding="10dp"
             android:text="Erro desconhecido."/>
 
-        <ScrollView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+        <com.digosofter.digodroid.controle.painel.PainelGrupo
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:strTitulo="Detalhes">
 
-            <HorizontalScrollView
-                android:layout_width="wrap_content"
+            <ScrollView
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <com.digosofter.digodroid.controle.label.LabelGeral
-                    android:id="@+id/actErro_lblDescricao"
+                <com.digosofter.digodroid.controle.painel.PainelGeral
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:scrollHorizontally="true"
-                    android:text="Sem mais detalhes."
-                    app:enmFonteTamanho="PEQUENO"/>
+                    android:padding="10dp">
 
-            </HorizontalScrollView>
-        </ScrollView>
+                    <com.digosofter.digodroid.controle.label.LabelGeral
+                        android:id="@+id/actErro_lblDescricao"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:scrollHorizontally="true"
+                        android:text="Sem mais detalhes."
+                        app:enmFonteTamanho="PEQUENO"/>
+
+                </com.digosofter.digodroid.controle.painel.PainelGeral>
+
+            </ScrollView>
+
+        </com.digosofter.digodroid.controle.painel.PainelGrupo>
+
 
     </com.digosofter.digodroid.controle.painel.PainelConteudo>
 

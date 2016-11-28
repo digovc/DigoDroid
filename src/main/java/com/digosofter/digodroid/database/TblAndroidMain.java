@@ -13,6 +13,8 @@ import com.digosofter.digodroid.activity.ActConsulta;
 import com.digosofter.digodroid.activity.ActDetalhe;
 import com.digosofter.digodroid.activity.ActMain;
 import com.digosofter.digodroid.database.dominio.DominioAndroidMain;
+import com.digosofter.digodroid.database.tabela.TblReservaCodigo;
+import com.digosofter.digodroid.log.LogErro;
 import com.digosofter.digojava.Utils;
 import com.digosofter.digojava.Utils.EnmDataFormato;
 import com.digosofter.digojava.database.Coluna;
@@ -564,6 +566,11 @@ public abstract class TblAndroidMain<T extends DominioAndroidMain> extends Tabel
     }
   }
 
+  public boolean getBooCodigoDisponivel()
+  {
+    return TblReservaCodigo.getI().getBooCodigoDisponivel(this);
+  }
+
   protected boolean getBooExiste()
   {
     if (this.getDbe() == null)
@@ -1027,7 +1034,7 @@ public abstract class TblAndroidMain<T extends DominioAndroidMain> extends Tabel
   {
   }
 
-  private void lerDominio(T objDominio)
+  public void lerDominio(T objDominio)
   {
     this.limparDados();
 

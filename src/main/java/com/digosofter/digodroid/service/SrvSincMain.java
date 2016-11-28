@@ -2,9 +2,11 @@ package com.digosofter.digodroid.service;
 
 import android.os.SystemClock;
 
+import com.digosofter.digodroid.Aparelho;
 import com.digosofter.digodroid.AppAndroid;
 import com.digosofter.digodroid.database.DbeAndroidMain;
 import com.digosofter.digodroid.database.tabela.TblSincronizavelMain;
+import com.digosofter.digodroid.log.LogErro;
 import com.digosofter.digodroid.log.LogSinc;
 import com.digosofter.digodroid.server.ServerHttpSincMain;
 import com.digosofter.digojava.Utils;
@@ -43,10 +45,11 @@ public abstract class SrvSincMain<T extends ServerHttpSincMain> extends ServiceM
     if (srvSinc != null)
     {
       AppAndroid.getI().dispararEvtOnSrvSincCreateListener(this);
-      return;
     }
-
-    AppAndroid.getI().dispararEvtOnSrvSincDestroyListener(this);
+    else
+    {
+      AppAndroid.getI().dispararEvtOnSrvSincDestroyListener(this);
+    }
   }
 
   private void esperarIntervaloLoop()
@@ -55,12 +58,12 @@ public abstract class SrvSincMain<T extends ServerHttpSincMain> extends ServiceM
 
     while (true)
     {
-      if (t >= INT_LOOP_DELAY)
+      if (this.getBooParar())
       {
         return;
       }
 
-      if (this.getBooParar())
+      if (t >= INT_LOOP_DELAY)
       {
         return;
       }
@@ -102,13 +105,12 @@ public abstract class SrvSincMain<T extends ServerHttpSincMain> extends ServiceM
   {
     super.inicializar();
 
+    this.inicializarServerHttpSinc();
+
     if (!this.validarInicializacao())
     {
       this.setBooParar(true);
-      return;
     }
-
-    this.inicializarServerHttpSinc();
   }
 
   protected abstract void inicializarLstTbl(final List<TblSincronizavelMain> lstTbl);
@@ -125,14 +127,13 @@ public abstract class SrvSincMain<T extends ServerHttpSincMain> extends ServiceM
     this.sincronizar();
   }
 
-  protected void notificarErroServerUrl()
+  private void loopFinalizar()
   {
-    if (AppAndroid.getI() == null)
-    {
-      return;
-    }
+  }
 
-    AppAndroid.getI().notificar("O endereço do servidor não foi configurado.");
+  protected void notificarUrlServidorVazio()
+  {
+    LogSinc.getI().addLog(Log.EnmTipo.INFO, "O endereço do servidor de sincronização não foi indicado.");
   }
 
   @Override
@@ -173,7 +174,7 @@ public abstract class SrvSincMain<T extends ServerHttpSincMain> extends ServiceM
     this.atualizarI(i);
   }
 
-  private void sincronizar()
+  protected void sincronizar()
   {
     for (TblSincronizavelMain tbl : this.getLstTbl())
     {
@@ -210,9 +211,21 @@ public abstract class SrvSincMain<T extends ServerHttpSincMain> extends ServiceM
       return false;
     }
 
+    if (!Aparelho.getI().getBooConectado())
+    {
+      LogErro.getI().addLog(this, new Exception("O aparelho não está conectado."));
+      return false;
+    }
+
     if (Utils.getBooStrVazia(this.getSrvHttpSinc().getUrlServer()))
     {
-      this.notificarErroServerUrl();
+      this.notificarUrlServidorVazio();
+      return false;
+    }
+
+    if (!this.getSrvHttpSinc().pingServer(this.getSrvHttpSinc().getUrlServer()))
+    {
+      LogErro.getI().addLog(this, new Exception(String.format("Não foi possível se conectar ao servidor (%s).", this.getSrvHttpSinc().getUrlServer())));
       return false;
     }
 

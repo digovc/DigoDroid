@@ -44,6 +44,6 @@ public class LogSinc extends LogManagerAndroidMain
       return;
     }
 
-    LogErroAndroid.getI().addLog(AppAndroid.getI().getCnt(), new Exception(logErro.getStrLog()));
+    LogErro.getI().addLog(AppAndroid.getI().getCnt(), new Exception(logErro.getStrLog()));
   }
 }

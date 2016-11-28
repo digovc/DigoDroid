@@ -50,11 +50,14 @@ public abstract class ServiceMain extends IntentService
     {
       this.inicializar();
       this.servico();
-      this.finalizar();
     }
     catch (Exception ex)
     {
       this.processarErro(ex);
+    }
+    finally
+    {
+      this.finalizar();
     }
   }
 

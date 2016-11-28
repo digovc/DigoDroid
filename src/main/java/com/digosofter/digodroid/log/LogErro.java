@@ -9,25 +9,25 @@ import com.digosofter.digojava.log.Log;
 import java.util.ArrayList;
 import java.util.List;
 
-public class LogErroAndroid extends LogManagerAndroidMain
+public class LogErro extends LogManagerAndroidMain
 {
-  private static LogErroAndroid _i;
+  private static LogErro _i;
 
-  public static LogErroAndroid getI()
+  public static LogErro getI()
   {
     if (_i != null)
     {
       return _i;
     }
 
-    _i = new LogErroAndroid();
+    _i = new LogErro();
 
     return _i;
   }
 
   private List<ActErro> _lstActErro;
 
-  private LogErroAndroid()
+  private LogErro()
   {
     super("Log de erros");
   }

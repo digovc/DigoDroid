@@ -12,8 +12,10 @@ import com.digosofter.digodroid.controle.campo.CampoConsulta;
 import com.digosofter.digodroid.controle.campo.CampoMain;
 import com.digosofter.digodroid.database.ColunaAndroid;
 import com.digosofter.digodroid.database.TblAndroidMain;
+import com.digosofter.digodroid.log.LogErro;
 import com.digosofter.digojava.Utils;
 import com.digosofter.digojava.database.Coluna;
+import com.digosofter.digojava.log.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -272,6 +274,11 @@ public abstract class ActCadastroMain extends ActMain
   @Override
   protected void inicializar()
   {
+    if (!this.validarCodigoDisponivel())
+    {
+      return;
+    }
+
     super.inicializar();
 
     this.inicializarTbl();
@@ -509,6 +516,24 @@ public abstract class ActCadastroMain extends ActMain
   protected void setBooFocoAutomatico(boolean BooFocoInicial)
   {
     _booFocoAutomatico = BooFocoInicial;
+  }
+
+  private boolean validarCodigoDisponivel()
+  {
+    if (this.getTbl() == null)
+    {
+      return false;
+    }
+
+    boolean booResultado = this.getTbl().getBooCodigoDisponivel();
+
+    if (!booResultado)
+    {
+      LogErro.getI().addLog(Log.EnmTipo.ERRO, "Esta aparelho não possui reserva de código para adicionar novos registro nessa tabela. Favor sincronizar os dados para prosseguir.");
+      this.finish();
+    }
+
+    return booResultado;
   }
 
   private boolean validarDados()

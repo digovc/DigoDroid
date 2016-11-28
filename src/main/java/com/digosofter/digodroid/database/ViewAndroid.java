@@ -1,6 +1,7 @@
 package com.digosofter.digodroid.database;
 
 import com.digosofter.digodroid.AppAndroid;
+import com.digosofter.digodroid.activity.ActMain;
 import com.digosofter.digodroid.database.dominio.DominioAndroidMain;
 import com.digosofter.digojava.Utils;
 import com.digosofter.digojava.database.Coluna;
@@ -124,6 +125,12 @@ public abstract class ViewAndroid extends TblAndroidMain<DominioAndroidMain>
   public ColunaAndroid getClnStrObservacao()
   {
     return null;
+  }
+
+  @Override
+  public Class<? extends ActMain> getClsActCadastro()
+  {
+    return this.getTbl().getClsActCadastro();
   }
 
   protected abstract int getIntRawFileId();

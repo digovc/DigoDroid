@@ -42,6 +42,44 @@ public class TblReservaCodigo extends TblAndroidMain<DominioAndroidMain>
     super("tbl_reserva_codigo", AppAndroid.getI().getDbe());
   }
 
+  public boolean getBooCodigoDisponivel(final TblAndroidMain tbl)
+  {
+    if (tbl == null)
+    {
+      return false;
+    }
+
+    if (Utils.getBooStrVazia(tbl.getSqlNome()))
+    {
+      return false;
+    }
+
+    List<Filtro> lstFil = new ArrayList<>();
+
+    lstFil.add(new Filtro(this.getClnBooAtivo(), true));
+    lstFil.add(new Filtro(this.getClnIntQuantidadeDisponibilizado(), 0, Filtro.EnmOperador.MAIOR));
+    lstFil.add(new Filtro(this.getClnIntQuantidadeRestante(), 0, Filtro.EnmOperador.MAIOR));
+    lstFil.add(new Filtro(this.getClnSqlTabelaNome(), tbl.getSqlNome()));
+
+    this.limparOrdem();
+
+    this.getClnIntId().setEnmOrdem(Coluna.EnmOrdem.DECRESCENTE);
+
+    Cursor crs = this.pesquisar(lstFil);
+
+    if (crs == null)
+    {
+      return false;
+    }
+
+    if (!crs.moveToFirst())
+    {
+      return false;
+    }
+
+    return true;
+  }
+
   private ColunaAndroid getClnIntCodigoInicial()
   {
     if (_clnIntCodigoInicial != null)
@@ -116,9 +154,10 @@ public class TblReservaCodigo extends TblAndroidMain<DominioAndroidMain>
 
     ArrayList<Filtro> lstFil = new ArrayList<>();
 
-    lstFil.add(new Filtro(this.getClnSqlTabelaNome(), tbl.getSqlNome()));
     lstFil.add(new Filtro(this.getClnBooAtivo(), true));
+    lstFil.add(new Filtro(this.getClnIntQuantidadeDisponibilizado(), 0, Filtro.EnmOperador.MAIOR));
     lstFil.add(new Filtro(this.getClnIntQuantidadeRestante(), 0, Filtro.EnmOperador.MAIOR));
+    lstFil.add(new Filtro(this.getClnSqlTabelaNome(), tbl.getSqlNome()));
 
     Cursor crs = this.pesquisar(lstFil);
 
@@ -141,6 +180,45 @@ public class TblReservaCodigo extends TblAndroidMain<DominioAndroidMain>
     while (crs.moveToNext());
 
     crs.close();
+
+    return intResultado;
+  }
+
+  int getIntProximoCodigoDisponivel(final TblSincronizavelMain tbl)
+  {
+    if (tbl == null)
+    {
+      return 0;
+    }
+
+    if (Utils.getBooStrVazia(tbl.getSqlNome()))
+    {
+      return 0;
+    }
+
+    this.limparOrdem();
+
+    this.getClnIntId().setEnmOrdem(Coluna.EnmOrdem.CRESCENTE);
+
+    ArrayList<Filtro> lstFil = new ArrayList<>();
+
+    lstFil.add(new Filtro(this.getClnBooAtivo(), true));
+    lstFil.add(new Filtro(this.getClnIntQuantidadeDisponibilizado(), 0, Filtro.EnmOperador.MAIOR));
+    lstFil.add(new Filtro(this.getClnIntQuantidadeRestante(), 0, Filtro.EnmOperador.MAIOR));
+    lstFil.add(new Filtro(this.getClnSqlTabelaNome(), tbl.getSqlNome()));
+
+    this.recuperar(lstFil);
+
+    if (this.getClnIntId().getIntValor() < 1)
+    {
+      return -1;
+    }
+
+    int intResultado = (this.getClnIntCodigoInicial().getIntValor() + this.getClnIntQuantidadeDisponibilizado().getIntValor() - this.getClnIntQuantidadeRestante().getIntValor());
+
+    this.getClnIntQuantidadeRestante().setIntValor(this.getClnIntQuantidadeRestante().getIntValor() - 1);
+
+    this.salvar();
 
     return intResultado;
   }
