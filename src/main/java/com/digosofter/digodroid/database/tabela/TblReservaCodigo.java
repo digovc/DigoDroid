@@ -184,16 +184,31 @@ public class TblReservaCodigo extends TblAndroidMain<DominioAndroidMain>
     return intResultado;
   }
 
-  int getIntProximoCodigoDisponivel(final TblSincronizavelMain tbl)
+  @Override
+  protected void inicializarLstCln(final List<Coluna> lstCln)
+  {
+    super.inicializarLstCln(lstCln);
+
+    lstCln.add(this.getClnIntCodigoInicial());
+    lstCln.add(this.getClnIntQuantidadeDisponibilizado());
+    lstCln.add(this.getClnIntQuantidadeRestante());
+    lstCln.add(this.getClnIntReservaCodigoServerId());
+    lstCln.add(this.getClnSqlTabelaNome());
+  }
+
+  void prepararProximoCodigoDisponivel(final TblSincronizavelMain tbl)
   {
     if (tbl == null)
     {
-      return 0;
+      return;
     }
+
+    tbl.getClnIntId().limpar();
+    tbl.getClnIntReservaCodigoId().limpar();
 
     if (Utils.getBooStrVazia(tbl.getSqlNome()))
     {
-      return 0;
+      return;
     }
 
     this.limparOrdem();
@@ -211,28 +226,17 @@ public class TblReservaCodigo extends TblAndroidMain<DominioAndroidMain>
 
     if (this.getClnIntId().getIntValor() < 1)
     {
-      return -1;
+      return;
     }
 
-    int intResultado = (this.getClnIntCodigoInicial().getIntValor() + this.getClnIntQuantidadeDisponibilizado().getIntValor() - this.getClnIntQuantidadeRestante().getIntValor());
+    int intCodigoProximo = (this.getClnIntCodigoInicial().getIntValor() + this.getClnIntQuantidadeDisponibilizado().getIntValor() - this.getClnIntQuantidadeRestante().getIntValor());
 
     this.getClnIntQuantidadeRestante().setIntValor(this.getClnIntQuantidadeRestante().getIntValor() - 1);
 
     this.salvar();
 
-    return intResultado;
-  }
-
-  @Override
-  protected void inicializarLstCln(final List<Coluna> lstCln)
-  {
-    super.inicializarLstCln(lstCln);
-
-    lstCln.add(this.getClnIntCodigoInicial());
-    lstCln.add(this.getClnIntQuantidadeDisponibilizado());
-    lstCln.add(this.getClnIntQuantidadeRestante());
-    lstCln.add(this.getClnIntReservaCodigoServerId());
-    lstCln.add(this.getClnSqlTabelaNome());
+    tbl.getClnIntId().setIntValor(intCodigoProximo);
+    tbl.getClnIntReservaCodigoId().setIntValor(this.getClnIntReservaCodigoServerId().getIntValor());
   }
 
   public void reservarCodigo(final RspCodigoReserva rsp)

@@ -30,6 +30,7 @@ public abstract class TblSincronizavelMain<T extends DominioSincronizavelMain> e
   private boolean _booReceberDados;
   private ColunaAndroid _clnBooSincronizado;
   private ColunaAndroid _clnBooSincronizar;
+  private ColunaAndroid _clnIntReservaCodigoId;
   private ColunaAndroid _clnStrAparelhoId;
   private ColunaAndroid _clnStrSincCritica;
   private MsgCodigoReserva _msgCodigoReserva;
@@ -43,7 +44,7 @@ public abstract class TblSincronizavelMain<T extends DominioSincronizavelMain> e
     super(strNome, dbeAndroid);
   }
 
-  protected boolean getBooEditavel()
+  private boolean getBooEditavel()
   {
     return _booEditavel;
   }
@@ -75,6 +76,18 @@ public abstract class TblSincronizavelMain<T extends DominioSincronizavelMain> e
     _clnBooSincronizar = new ColunaAndroid("boo_sincronizar", this, Coluna.EnmTipo.BOOLEAN);
 
     return _clnBooSincronizar;
+  }
+
+  ColunaAndroid getClnIntReservaCodigoId()
+  {
+    if (_clnIntReservaCodigoId != null)
+    {
+      return _clnIntReservaCodigoId;
+    }
+
+    _clnIntReservaCodigoId = new ColunaAndroid("int_reserva_codigo_id", this, Coluna.EnmTipo.BIGINT);
+
+    return _clnIntReservaCodigoId;
   }
 
   public ColunaAndroid getClnStrAparelhoId()
@@ -160,6 +173,7 @@ public abstract class TblSincronizavelMain<T extends DominioSincronizavelMain> e
 
     lstCln.add(this.getClnBooSincronizado());
     lstCln.add(this.getClnBooSincronizar());
+    lstCln.add(this.getClnIntReservaCodigoId());
     lstCln.add(this.getClnStrAparelhoId());
     lstCln.add(this.getClnStrSincCritica());
   }
@@ -381,6 +395,7 @@ public abstract class TblSincronizavelMain<T extends DominioSincronizavelMain> e
     }
     else
     {
+      objDominio.setBooSincronizado(false);
       LogSinc.getI().addLog(Log.EnmTipo.ERRO, String.format("Erro ao sincronizar o registro %s da tabela %s. %s", objDominio.getIntId(), this.getStrNomeExibicao(), objDominio.getStrSincCritica()));
     }
 
@@ -405,17 +420,20 @@ public abstract class TblSincronizavelMain<T extends DominioSincronizavelMain> e
       return super.salvar();
     }
 
-    int intCodigoReservado = TblReservaCodigo.getI().getIntProximoCodigoDisponivel(this);
+    TblReservaCodigo.getI().prepararProximoCodigoDisponivel(this);
 
-    if (intCodigoReservado < 1)
+    if (this.getClnIntId().getIntValor() < 1)
     {
       LogErro.getI().addLog(Log.EnmTipo.ERRO, String.format("Erro ao tentar recuperar o código reservado para a tabela %s.", this.getStrNomeExibicao()));
       return this;
     }
 
-    this.getClnIntId().setIntValor(intCodigoReservado);
-
     return super.salvar();
+  }
+
+  protected void setBooEditavel(final boolean booEditavel)
+  {
+    _booEditavel = booEditavel;
   }
 
   public void setBooReceberDados(boolean booReceberDados)
@@ -513,7 +531,6 @@ public abstract class TblSincronizavelMain<T extends DominioSincronizavelMain> e
 
     this.setMsgPesquisar(new MsgPesquisar());
 
-    this.getMsgPesquisar().setBooPrimeiraPesquisa(this.getIntRegistroQuantidade() < 1);
     this.getMsgPesquisar().setDttUltimoRecebimento(TblSincronizacao.getI().getDttUltimoRecebimento(this));
     this.getMsgPesquisar().setIntPesquisaParte(1);
     this.getMsgPesquisar().setIntSincRegistroLimite(this.getIntSincRegistroLimite());

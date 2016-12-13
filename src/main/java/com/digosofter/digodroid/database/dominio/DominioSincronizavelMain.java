@@ -4,6 +4,7 @@ public abstract class DominioSincronizavelMain extends DominioAndroidMain
 {
   private boolean _booSincronizado;
   private boolean _booSincronizar;
+  private int _intReservaCodigoId;
   private String _strAparelhoId;
   private String _strSincCritica;
 
@@ -15,6 +16,11 @@ public abstract class DominioSincronizavelMain extends DominioAndroidMain
   public boolean getBooSincronizar()
   {
     return _booSincronizar;
+  }
+
+  public int getIntReservaCodigoId()
+  {
+    return _intReservaCodigoId;
   }
 
   public String getStrAparelhoId()
@@ -37,6 +43,11 @@ public abstract class DominioSincronizavelMain extends DominioAndroidMain
     _booSincronizar = booSincronizar;
   }
 
+  public void setIntReservaCodigoId(int intReservaCodigoId)
+  {
+    _intReservaCodigoId = intReservaCodigoId;
+  }
+
   public void setStrAparelhoId(String strAparelhoId)
   {
     _strAparelhoId = strAparelhoId;
@@ -46,4 +57,5 @@ public abstract class DominioSincronizavelMain extends DominioAndroidMain
   {
     _strSincCritica = strSincCritica;
   }
+
 }

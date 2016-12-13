@@ -57,7 +57,7 @@ public class MsgPesquisar extends MsgTabelaBase<RspPesquisar>
     this.getTbl().processarPesquisa(rsp);
   }
 
-  public void setBooPrimeiraPesquisa(boolean booPrimeiraPesquisa)
+  private void setBooPrimeiraPesquisa(boolean booPrimeiraPesquisa)
   {
     _booPrimeiraPesquisa = booPrimeiraPesquisa;
   }
@@ -65,6 +65,8 @@ public class MsgPesquisar extends MsgTabelaBase<RspPesquisar>
   public void setDttUltimoRecebimento(Calendar dttUltimoRecebimento)
   {
     _dttUltimoRecebimento = dttUltimoRecebimento;
+
+    this.setBooPrimeiraPesquisa(_dttUltimoRecebimento == null);
   }
 
   public void setIntPesquisaParte(int intPesquisaParte)

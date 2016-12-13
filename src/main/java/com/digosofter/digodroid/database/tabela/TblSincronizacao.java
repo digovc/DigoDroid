@@ -30,7 +30,7 @@ public class TblSincronizacao extends TblAndroidMain<DominioAndroidMain>
   }
 
   private ColunaAndroid _clnBooSincCompleto;
-  private ColunaAndroid _clnDttUltimoRecebimento;
+  private ColunaAndroid _clnDttRecebimento;
   private ColunaAndroid _clnIntRegistroQuantidade;
   private ColunaAndroid _clnIntServerSincronizacaoId;
   private ColunaAndroid _clnSqlTblNome;
@@ -52,7 +52,7 @@ public class TblSincronizacao extends TblAndroidMain<DominioAndroidMain>
     this.limparDados();
 
     this.getClnBooSincCompleto().setBooValor(rspPesquisar.getBooSincCompleto());
-    this.getClnDttUltimoRecebimento().setDttValor(Calendar.getInstance());
+    this.getClnDttRecebimento().setDttValor(Calendar.getInstance());
     this.getClnIntRegistroQuantidade().setIntValor(rspPesquisar.getIntRegistroQuantidade());
     this.getClnIntServerSincronizacaoId().setIntValor(rspPesquisar.getIntSincronizacaoId());
     this.getClnSqlTblNome().setStrValor(tbl.getSqlNome());
@@ -73,16 +73,16 @@ public class TblSincronizacao extends TblAndroidMain<DominioAndroidMain>
     return _clnBooSincCompleto;
   }
 
-  private ColunaAndroid getClnDttUltimoRecebimento()
+  private ColunaAndroid getClnDttRecebimento()
   {
-    if (_clnDttUltimoRecebimento != null)
+    if (_clnDttRecebimento != null)
     {
-      return _clnDttUltimoRecebimento;
+      return _clnDttRecebimento;
     }
 
-    _clnDttUltimoRecebimento = new ColunaAndroid("dtt_ultimo_recebimento", this, Coluna.EnmTipo.DATE_TIME);
+    _clnDttRecebimento = new ColunaAndroid("dtt_recebimento", this, Coluna.EnmTipo.DATE_TIME);
 
-    return _clnDttUltimoRecebimento;
+    return _clnDttRecebimento;
   }
 
   private ColunaAndroid getClnIntRegistroQuantidade()
@@ -154,9 +154,23 @@ public class TblSincronizacao extends TblAndroidMain<DominioAndroidMain>
     lstFil.add(new Filtro(this.getClnBooSincCompleto(), true));
     lstFil.add(new Filtro(this.getClnIntRegistroQuantidade(), 0, Filtro.EnmOperador.MAIOR));
     lstFil.add(new Filtro(this.getClnSqlTblNome(), tbl.getSqlNome()));
-    lstFil.add(new Filtro(this.getClnStrCritica(), Filtro.EnmOperador.IS_NOT_NULL));
+    lstFil.add(new Filtro(this.getClnStrCritica(), Filtro.EnmOperador.IS_NULL));
 
-    return ((TblSincronizacao) this.recuperar(this.getClnSqlTblNome(), tbl.getSqlNome())).getClnDttUltimoRecebimento().getDttValor();
+    this.recuperar(lstFil);
+
+    if (this.getClnIntId().getIntValor() < 1)
+    {
+      return null;
+    }
+
+    if (this.getClnDttRecebimento().getDttValor() == null)
+    {
+      return null;
+    }
+
+    this.getClnDttRecebimento().getDttValor().add(Calendar.MINUTE, -15);
+
+    return this.getClnDttRecebimento().getDttValor();
   }
 
   @Override
@@ -165,7 +179,7 @@ public class TblSincronizacao extends TblAndroidMain<DominioAndroidMain>
     super.inicializarLstCln(lstCln);
 
     lstCln.add(this.getClnBooSincCompleto());
-    lstCln.add(this.getClnDttUltimoRecebimento());
+    lstCln.add(this.getClnDttRecebimento());
     lstCln.add(this.getClnIntRegistroQuantidade());
     lstCln.add(this.getClnIntServerSincronizacaoId());
     lstCln.add(this.getClnSqlTblNome());

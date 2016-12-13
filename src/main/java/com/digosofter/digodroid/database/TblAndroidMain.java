@@ -472,7 +472,7 @@ public abstract class TblAndroidMain<T extends DominioAndroidMain> extends Tabel
 
     sql = sql.replace("_tbl_nome", this.getSqlNome());
     sql = sql.replace("_cln_pk_nome", this.getClnIntId().getSqlNome());
-    sql = sql.replace("_cln_pk_tipo", ((ColunaAndroid) this.getClnIntId()).getSqlTipo());
+    sql = sql.replace("_cln_pk_tipo", this.getClnIntId().getSqlTipo());
 
     this.getDbe().execSql(sql);
   }
