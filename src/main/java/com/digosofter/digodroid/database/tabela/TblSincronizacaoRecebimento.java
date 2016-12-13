@@ -13,18 +13,18 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-public class TblSincronizacao extends TblAndroidMain<DominioAndroidMain>
+class TblSincronizacaoRecebimento extends TblAndroidMain<DominioAndroidMain>
 {
-  private static TblSincronizacao _i;
+  private static TblSincronizacaoRecebimento _i;
 
-  public static TblSincronizacao getI()
+  public static TblSincronizacaoRecebimento getI()
   {
     if (_i != null)
     {
       return _i;
     }
 
-    _i = new TblSincronizacao();
+    _i = new TblSincronizacaoRecebimento();
 
     return _i;
   }
@@ -34,31 +34,11 @@ public class TblSincronizacao extends TblAndroidMain<DominioAndroidMain>
   private ColunaAndroid _clnIntRegistroQuantidade;
   private ColunaAndroid _clnIntServerSincronizacaoId;
   private ColunaAndroid _clnSqlTblNome;
-
   private ColunaAndroid _clnStrCritica;
 
-  private TblSincronizacao()
+  private TblSincronizacaoRecebimento()
   {
-    super("tbl_sincronizacao", AppAndroid.getI().getDbe());
-  }
-
-  void atualizarRecebimento(final TblSincronizavelMain tbl, final RspPesquisar rspPesquisar)
-  {
-    if (tbl == null)
-    {
-      return;
-    }
-
-    this.limparDados();
-
-    this.getClnBooSincCompleto().setBooValor(rspPesquisar.getBooSincCompleto());
-    this.getClnDttRecebimento().setDttValor(Calendar.getInstance());
-    this.getClnIntRegistroQuantidade().setIntValor(rspPesquisar.getIntRegistroQuantidade());
-    this.getClnIntServerSincronizacaoId().setIntValor(rspPesquisar.getIntSincronizacaoId());
-    this.getClnSqlTblNome().setStrValor(tbl.getSqlNome());
-    this.getClnStrCritica().setStrValor(rspPesquisar.getStrCritica());
-
-    rspPesquisar.setIntSincronizacaoId(this.salvar().getClnIntId().getIntValor());
+    super("tbl_sincronizacao_recebimento", AppAndroid.getI().getDbe());
   }
 
   private ColunaAndroid getClnBooSincCompleto()
@@ -133,7 +113,7 @@ public class TblSincronizacao extends TblAndroidMain<DominioAndroidMain>
     return _clnStrCritica;
   }
 
-  public Calendar getDttUltimoRecebimento(final TblSincronizavelMain tbl)
+  Calendar getDttUltimoRecebimento(final TblSincronizavelMain tbl)
   {
     if (tbl == null)
     {
@@ -184,5 +164,24 @@ public class TblSincronizacao extends TblAndroidMain<DominioAndroidMain>
     lstCln.add(this.getClnIntServerSincronizacaoId());
     lstCln.add(this.getClnSqlTblNome());
     lstCln.add(this.getClnStrCritica());
+  }
+
+  void salvarRecebimento(final TblSincronizavelMain tbl, final RspPesquisar rspPesquisar)
+  {
+    if (tbl == null)
+    {
+      return;
+    }
+
+    this.limparDados();
+
+    this.getClnBooSincCompleto().setBooValor(rspPesquisar.getBooSincCompleto());
+    this.getClnDttRecebimento().setDttValor(Calendar.getInstance());
+    this.getClnIntRegistroQuantidade().setIntValor(rspPesquisar.getIntRegistroQuantidade());
+    this.getClnIntServerSincronizacaoId().setIntValor(rspPesquisar.getIntSincronizacaoId());
+    this.getClnSqlTblNome().setStrValor(tbl.getSqlNome());
+    this.getClnStrCritica().setStrValor(rspPesquisar.getStrCritica());
+
+    rspPesquisar.setIntSincronizacaoId(this.salvar().getClnIntId().getIntValor());
   }
 }

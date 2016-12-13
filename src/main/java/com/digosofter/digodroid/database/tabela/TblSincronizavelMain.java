@@ -282,7 +282,7 @@ public abstract class TblSincronizavelMain<T extends DominioSincronizavelMain> e
 
   private void processarPesquisaFinalizar(final RspPesquisar rspPesquisar)
   {
-    TblSincronizacao.getI().atualizarRecebimento(this, rspPesquisar);
+    TblSincronizacaoRecebimento.getI().salvarRecebimento(this, rspPesquisar);
 
     this.processarPesquisaFinalizarIncompleto(rspPesquisar);
   }
@@ -360,8 +360,6 @@ public abstract class TblSincronizavelMain<T extends DominioSincronizavelMain> e
     {
       this.processarSalvar(rspSalvar, jsnElement);
     }
-
-    this.processarSalvarFinalizar(rspSalvar);
   }
 
   private void processarSalvar(final RspSalvar rspSalvar, final JsonElement jsnObjDominio)
@@ -405,11 +403,8 @@ public abstract class TblSincronizavelMain<T extends DominioSincronizavelMain> e
     {
       LogSinc.getI().addLog(Log.EnmTipo.INFO, String.format("Registro %s da tabela %s sincronizado com sucesso.", objDominio.getIntId(), this.getStrNomeExibicao()));
     }
-  }
 
-  private void processarSalvarFinalizar(final RspSalvar rspSalvar)
-  {
-    // TODO: Persistir no banco de dados essa sincronização.
+    TblSincronizacaoEnvio.getI().salvarEnvio(this, rspSalvar, objDominio);
   }
 
   @Override
@@ -531,7 +526,7 @@ public abstract class TblSincronizavelMain<T extends DominioSincronizavelMain> e
 
     this.setMsgPesquisar(new MsgPesquisar());
 
-    this.getMsgPesquisar().setDttUltimoRecebimento(TblSincronizacao.getI().getDttUltimoRecebimento(this));
+    this.getMsgPesquisar().setDttUltimoRecebimento(TblSincronizacaoRecebimento.getI().getDttUltimoRecebimento(this));
     this.getMsgPesquisar().setIntPesquisaParte(1);
     this.getMsgPesquisar().setIntSincRegistroLimite(this.getIntSincRegistroLimite());
     this.getMsgPesquisar().setTbl(this);
