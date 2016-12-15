@@ -1,9 +1,7 @@
 package com.digosofter.digodroid.controle.painel;
 
-import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.os.Build;
 import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.View;
@@ -134,15 +132,15 @@ public class PainelGrupo extends PainelGeral implements View.OnClickListener
     return _strTitulo;
   }
 
-  @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
   @Override
   public void inicializar()
   {
     super.inicializar();
 
-    this.setBackground(this.getResources().getDrawable(R.drawable.bkg_borda));
+    this.setBackgroundColor(this.getContext().getResources().getColor(R.color.cor_fundo));
     this.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
     this.setOrientation(VERTICAL);
+
     this.inicializarImgSeta();
     this.inicializarLblTitulo();
     this.inicializarPnlCabecalho();
@@ -196,6 +194,10 @@ public class PainelGrupo extends PainelGeral implements View.OnClickListener
   private void inicializarPnlConteudo()
   {
     this.getPnlConteudo().setOrientation(VERTICAL);
+
+    int intPadding = UtilsAndroid.dpToPx(10, this.getContext());
+
+    this.getPnlConteudo().setPadding(intPadding, intPadding, intPadding, intPadding);
   }
 
   @Override

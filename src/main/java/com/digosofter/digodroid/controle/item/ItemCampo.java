@@ -2,6 +2,7 @@ package com.digosofter.digodroid.controle.item;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.graphics.Typeface;
 import android.view.View;
 import android.view.View.OnClickListener;
 
@@ -109,6 +110,7 @@ public class ItemCampo extends ItemMain implements OnClickListener
 
     this.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
     this.setOrientation(HORIZONTAL);
+
     this.inicializarLblRegistroNome();
     this.inicializarLblRegistroValor();
   }
@@ -123,9 +125,10 @@ public class ItemCampo extends ItemMain implements OnClickListener
   private void inicializarLblRegistroValor()
   {
     this.getLblRegistroValor().setEnmFonteTamanho(TemaDefault.EnmFonteTamanho.PEQUENO);
-    this.getLblRegistroValor().setMaxLines(1);
     this.getLblRegistroValor().setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
+    this.getLblRegistroValor().setMaxLines(1);
     this.getLblRegistroValor().setText(null);
+    this.getLblRegistroValor().setTypeface(null, Typeface.BOLD);
   }
 
   @Override
