@@ -323,6 +323,12 @@ public abstract class ActMain extends Activity
 
   private void iniciar()
   {
+    if (!this.validarAbertura())
+    {
+      this.finish();
+      return;
+    }
+
     this.inicializar();
     this.montarLayout();
     this.setEventos();
@@ -489,5 +495,10 @@ public abstract class ActMain extends Activity
 
   protected void setEventos()
   {
+  }
+
+  public boolean validarAbertura()
+  {
+    return true;
   }
 }

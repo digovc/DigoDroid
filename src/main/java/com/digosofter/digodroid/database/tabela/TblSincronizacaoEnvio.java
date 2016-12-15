@@ -5,13 +5,15 @@ import com.digosofter.digodroid.database.ColunaAndroid;
 import com.digosofter.digodroid.database.TblAndroidMain;
 import com.digosofter.digodroid.database.dominio.DominioAndroidMain;
 import com.digosofter.digodroid.database.dominio.DominioSincronizavelMain;
+import com.digosofter.digodroid.server.message.RespostaMain;
 import com.digosofter.digodroid.server.message.RspSalvar;
+import com.digosofter.digojava.Utils;
 import com.digosofter.digojava.database.Coluna;
 
 import java.util.Calendar;
 import java.util.List;
 
-class TblSincronizacaoEnvio extends TblAndroidMain<DominioAndroidMain>
+public class TblSincronizacaoEnvio extends TblAndroidMain<DominioAndroidMain>
 {
   private static TblSincronizacaoEnvio _i;
 
@@ -124,6 +126,35 @@ class TblSincronizacaoEnvio extends TblAndroidMain<DominioAndroidMain>
     this.getClnIntUsuarioCadastroId().setIntValor(objDominio.getIntUsuarioCadastroId());
     this.getClnSqlTblNome().setStrValor(tbl.getSqlNome());
     this.getClnStrCritica().setStrValor(objDominio.getStrSincCritica());
+
+    this.salvar();
+  }
+
+  public void salvarEnvioServidorErro(final TblSincronizavelMain tbl, final RespostaMain rsp)
+  {
+    if (tbl == null)
+    {
+      return;
+    }
+
+    if (rsp == null)
+    {
+      return;
+    }
+
+    if (Utils.getBooStrVazia(rsp.getStrCritica()))
+    {
+      return;
+    }
+
+    this.limparDados();
+
+    this.getClnBooAtivo().setBooValor(true);
+    this.getClnDttAlteracao().setDttValor(Calendar.getInstance());
+    this.getClnDttCadastro().setDttValor(Calendar.getInstance());
+    this.getClnDttEnvio().setDttValor(Calendar.getInstance());
+    this.getClnSqlTblNome().setStrValor(tbl.getSqlNome());
+    this.getClnStrCritica().setStrValor(rsp.getStrCritica());
 
     this.salvar();
   }

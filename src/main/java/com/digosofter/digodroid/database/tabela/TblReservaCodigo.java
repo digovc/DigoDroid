@@ -61,10 +61,6 @@ public class TblReservaCodigo extends TblAndroidMain<DominioAndroidMain>
     lstFil.add(new Filtro(this.getClnIntQuantidadeRestante(), 0, Filtro.EnmOperador.MAIOR));
     lstFil.add(new Filtro(this.getClnSqlTabelaNome(), tbl.getSqlNome()));
 
-    this.limparOrdem();
-
-    this.getClnIntId().setEnmOrdem(Coluna.EnmOrdem.DECRESCENTE);
-
     Cursor crs = this.pesquisar(lstFil);
 
     if (crs == null)
@@ -231,12 +227,13 @@ public class TblReservaCodigo extends TblAndroidMain<DominioAndroidMain>
 
     int intCodigoProximo = (this.getClnIntCodigoInicial().getIntValor() + this.getClnIntQuantidadeDisponibilizado().getIntValor() - this.getClnIntQuantidadeRestante().getIntValor());
 
+    tbl.getClnIntId().setIntValor(intCodigoProximo);
+    tbl.getClnIntReservaCodigoId().setIntValor(this.getClnIntReservaCodigoServerId().getIntValor());
+
     this.getClnIntQuantidadeRestante().setIntValor(this.getClnIntQuantidadeRestante().getIntValor() - 1);
 
     this.salvar();
 
-    tbl.getClnIntId().setIntValor(intCodigoProximo);
-    tbl.getClnIntReservaCodigoId().setIntValor(this.getClnIntReservaCodigoServerId().getIntValor());
   }
 
   public void reservarCodigo(final RspCodigoReserva rsp)

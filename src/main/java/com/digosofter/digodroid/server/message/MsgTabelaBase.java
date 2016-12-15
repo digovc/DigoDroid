@@ -20,11 +20,18 @@ public abstract class MsgTabelaBase<T extends RespostaMain> extends MessageMain<
   }
 
   @Override
-  protected void notificarErroServidor(final T rsp)
+  protected void onResponseServidorError(final T rsp)
   {
-    // super.notificarErroServidor(rsp);
+    // super.onResponseServidorError(rsp);
+
+    if (this.getTbl() == null)
+    {
+      return;
+    }
 
     LogSinc.getI().addLog(Log.EnmTipo.ERRO, String.format("Erro de sincronização (%s) na tabela %s no servidor: %s", rsp.getClass().getSimpleName(), this.getTbl().getStrNomeExibicao(), rsp.getStrCritica()));
+
+    this.getTbl().onServidorErrroSinc(this, rsp);
   }
 
   private void setSqlTblServerNome(String sqlTblServerNome)

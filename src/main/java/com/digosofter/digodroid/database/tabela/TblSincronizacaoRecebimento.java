@@ -173,6 +173,11 @@ class TblSincronizacaoRecebimento extends TblAndroidMain<DominioAndroidMain>
       return;
     }
 
+    if (rspPesquisar == null)
+    {
+      return;
+    }
+
     this.limparDados();
 
     this.getClnBooSincCompleto().setBooValor(rspPesquisar.getBooSincCompleto());

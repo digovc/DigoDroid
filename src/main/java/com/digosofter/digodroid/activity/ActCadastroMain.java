@@ -274,11 +274,6 @@ public abstract class ActCadastroMain extends ActMain
   @Override
   protected void inicializar()
   {
-    if (!this.validarCodigoDisponivel())
-    {
-      return;
-    }
-
     super.inicializar();
 
     this.inicializarTbl();
@@ -518,6 +513,22 @@ public abstract class ActCadastroMain extends ActMain
     _booFocoAutomatico = BooFocoInicial;
   }
 
+  @Override
+  public boolean validarAbertura()
+  {
+    if (!super.validarAbertura())
+    {
+      return false;
+    }
+
+    if (!this.validarCodigoDisponivel())
+    {
+      return false;
+    }
+
+    return true;
+  }
+
   private boolean validarCodigoDisponivel()
   {
     if (this.getTbl() == null)
@@ -529,8 +540,7 @@ public abstract class ActCadastroMain extends ActMain
 
     if (!booResultado)
     {
-      LogErro.getI().addLog(Log.EnmTipo.ERRO, "Esta aparelho não possui reserva de código para adicionar novos registro nessa tabela. Favor sincronizar os dados para prosseguir.");
-      this.finish();
+      LogErro.getI().addLog(this, new Exception("Este aparelho não possui reserva de código para adicionar novos registros nesta tabela. Favor sincronizar os dados para prosseguir."));
     }
 
     return booResultado;

@@ -249,11 +249,11 @@ public abstract class TblAndroidMain<T extends DominioAndroidMain> extends Tabel
       return;
     }
 
-    String sql = "delete from _tbl_nome where _tbl_nome._cln_nome='_registro_id';";
+    String sql = "delete from _tbl_nome where _tbl_nome._cln_nome = '_record_id';";
 
     sql = sql.replace("_tbl_nome", this.getSqlNome());
     sql = sql.replace("_cln_nome", this.getClnIntId().getSqlNome());
-    sql = sql.replace("_registro_id", String.valueOf(intRegistroId));
+    sql = sql.replace("_record_id", String.valueOf(intRegistroId));
 
     this.getDbe().execSql(sql);
 
@@ -597,11 +597,11 @@ public abstract class TblAndroidMain<T extends DominioAndroidMain> extends Tabel
       return false;
     }
 
-    String sql = "select 1 from _tbl_nome where _cln_pk_nome = '_registro_id';";
+    String sql = "select 1 from _tbl_nome where _cln_pk_nome = '_record_id';";
 
     sql = sql.replace("_tbl_nome", this.getSqlNome());
     sql = sql.replace("_cln_pk_nome", this.getClnIntId().getSqlNome());
-    sql = sql.replace("_registro_id", String.valueOf(intRegistroId));
+    sql = sql.replace("_record_id", String.valueOf(intRegistroId));
 
     return this.getDbe().execSqlGetBoo(sql);
   }
@@ -1990,12 +1990,12 @@ public abstract class TblAndroidMain<T extends DominioAndroidMain> extends Tabel
 
   private void salvarUpdate()
   {
-    String sql = "update _tbl_nome set _cln_nome_valor where _cln_pk_nome = '_registro_id';";
+    String sql = "update _tbl_nome set _cln_nome_valor where _cln_pk_nome = '_record_id';";
 
     sql = sql.replace("_tbl_nome", this.getSqlNome());
     sql = sql.replace("_cln_nome_valor", this.getSqlClnUpdate());
     sql = sql.replace("_cln_pk_nome", this.getClnIntId().getSqlNome());
-    sql = sql.replace("_registro_id", this.getClnIntId().getSqlValor());
+    sql = sql.replace("_record_id", this.getClnIntId().getSqlValor());
 
     this.getDbe().execSql(sql);
 

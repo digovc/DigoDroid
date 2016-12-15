@@ -13,7 +13,7 @@ public class MsgSalvar extends MsgTabelaBase<RspSalvar>
   {
     return _jsnLstObjDominio;
   }
-
+  
   @Override
   protected void onResposta(final RspSalvar rsp)
   {
@@ -38,6 +38,7 @@ public class MsgSalvar extends MsgTabelaBase<RspSalvar>
     String strErro = String.format("Erro ao tentar salvar os dados da tabela %s.\n$s", this.getTbl().getStrNomeExibicao(), rsp.getStrCritica());
 
     AppAndroid.getI().notificar(strErro);
+
     LogSinc.getI().addLog(Log.EnmTipo.ERRO, strErro);
   }
 

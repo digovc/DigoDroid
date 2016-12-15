@@ -10,6 +10,8 @@ import com.digosofter.digodroid.log.LogSinc;
 import com.digosofter.digodroid.server.message.MsgCodigoReserva;
 import com.digosofter.digodroid.server.message.MsgPesquisar;
 import com.digosofter.digodroid.server.message.MsgSalvar;
+import com.digosofter.digodroid.server.message.MsgTabelaBase;
+import com.digosofter.digodroid.server.message.RespostaMain;
 import com.digosofter.digodroid.server.message.RspCodigoReserva;
 import com.digosofter.digodroid.server.message.RspPesquisar;
 import com.digosofter.digodroid.server.message.RspSalvar;
@@ -178,6 +180,51 @@ public abstract class TblSincronizavelMain<T extends DominioSincronizavelMain> e
     lstCln.add(this.getClnStrSincCritica());
   }
 
+  public <T extends RespostaMain> void onServidorErrroSinc(final MsgTabelaBase<T> msg, final RespostaMain rsp)
+  {
+    if (msg == null)
+    {
+      return;
+    }
+
+    if (msg.getClass().equals(MsgCodigoReserva.class))
+    {
+      this.onServidorErrroSincMsgCodigoReserva((MsgCodigoReserva) msg, (RspCodigoReserva) rsp);
+      return;
+    }
+
+    if (msg.getClass().equals(MsgPesquisar.class))
+    {
+      this.onServidorErrroSincMsgPesquisar((MsgPesquisar) msg, (RspPesquisar) rsp);
+      return;
+    }
+
+    if (msg.getClass().equals(MsgSalvar.class))
+    {
+      this.onServidorErrroSincMsgSalvar((MsgSalvar) msg, (RspSalvar) rsp);
+      return;
+    }
+  }
+
+  private void onServidorErrroSincMsgCodigoReserva(final MsgCodigoReserva msg, final RspCodigoReserva rsp)
+  {
+    this.setMsgCodigoReserva(null);
+  }
+
+  private void onServidorErrroSincMsgPesquisar(final MsgPesquisar msg, final RspPesquisar rsp)
+  {
+    this.setMsgPesquisar(null);
+
+    TblSincronizacaoRecebimento.getI().salvarRecebimento(this, rsp);
+  }
+
+  private void onServidorErrroSincMsgSalvar(final MsgSalvar msg, final RspSalvar rsp)
+  {
+    this.setMsgSalvar(null);
+
+    TblSincronizacaoEnvio.getI().salvarEnvioServidorErro(this, rsp);
+  }
+
   protected void prepararRetornoSincronizacao(final T objDominio)
   {
   }
@@ -277,7 +324,7 @@ public abstract class TblSincronizavelMain<T extends DominioSincronizavelMain> e
 
     rspPesquisar.addObjDominioSincronizado(objDominio);
 
-    LogSinc.getI().addLog(Log.EnmTipo.INFO, String.format("Registro %s salvo com sucesso na tabela %s.", objDominio.getIntId(), this.getStrNomeExibicao()));
+    // LogSinc.getI().addLog(Log.EnmTipo.INFO, String.format("Registro %s salvo com sucesso na tabela %s.", objDominio.getIntId(), this.getStrNomeExibicao()));
   }
 
   private void processarPesquisaFinalizar(final RspPesquisar rspPesquisar)
@@ -310,7 +357,7 @@ public abstract class TblSincronizavelMain<T extends DominioSincronizavelMain> e
 
     LogSinc.getI().addLog(Log.EnmTipo.INFO, "Analisando resposta de reserva de código do servidor.");
 
-    LogSinc.getI().addLog(Log.EnmTipo.INFO, String.format("O servidor disponibilizou %s códigos para serem usados na tabela %s", rsp.getMsg().getIntQuantidadeDisponibilizado(), this.getStrNomeExibicao()));
+    LogSinc.getI().addLog(Log.EnmTipo.INFO, String.format("O servidor disponibilizou %s códigos a serem usados na tabela %s", rsp.getMsg().getIntQuantidadeDisponibilizado(), this.getStrNomeExibicao()));
 
     TblReservaCodigo.getI().reservarCodigo(rsp);
   }
