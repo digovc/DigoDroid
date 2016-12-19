@@ -129,7 +129,7 @@ public abstract class SrvSincMain<T extends ServerHttpSincMain> extends ServiceM
     _objNotificationBuilder.setContentIntent(objPendingIntent);
     _objNotificationBuilder.setContentIntent(objPendingIntent);
     _objNotificationBuilder.setContentText("Sincronização ligada.");
-    _objNotificationBuilder.setContentTitle("Ideal");
+    _objNotificationBuilder.setContentTitle(AppAndroid.getI().getStrNome());
     _objNotificationBuilder.setOngoing(true);
     _objNotificationBuilder.setSmallIcon(this.getIntNotificacaoIconId());
 
