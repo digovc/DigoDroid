@@ -31,6 +31,7 @@ public class TemaDefault extends Objeto
 
   private final int INT_FONTE_TAMANHO_FATOR = 12;
   private int _corTema = -1;
+  private int _corTemaClaro = -1;
   private int _intEspacamento;
   private int _intFontGrande;
   private int _intFontMedio;
@@ -76,6 +77,18 @@ public class TemaDefault extends Objeto
     _corTema = Color.parseColor("#137ea9");
 
     return _corTema;
+  }
+
+  public int getCorTemaClaro()
+  {
+    if (_corTemaClaro > -1)
+    {
+      return _corTemaClaro;
+    }
+
+    _corTemaClaro = Color.parseColor("#87b2c6");
+
+    return _corTemaClaro;
   }
 
   /**

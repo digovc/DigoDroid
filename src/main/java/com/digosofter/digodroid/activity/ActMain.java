@@ -21,6 +21,7 @@ import java.util.List;
 public abstract class ActMain extends Activity
 {
   public static final String STR_EXTRA_OUT_BOO_FECHAR = "boo_fechar";
+  public static final String STR_EXTRA_OUT_BOO_FECHAR_TUDO = "boo_fechar_tudo";
 
   private boolean _booVisivel;
   private List<OnDestroyListener> _lstEvtOnDestroyListener;
@@ -371,18 +372,19 @@ public abstract class ActMain extends Activity
   {
     super.onActivityResult(intRequestCode, intResultCode, ittResult);
 
+    if (ittResult == null)
+    {
+      return;
+    }
+
     this.onActivityResultFechar(ittResult);
+    this.onActivityResultFecharTudo(ittResult);
 
     this.dispararEvtOnResultListener(intRequestCode, intResultCode, ittResult);
   }
 
   private void onActivityResultFechar(final Intent itt)
   {
-    if (itt == null)
-    {
-      return;
-    }
-
     if (!itt.getBooleanExtra(STR_EXTRA_OUT_BOO_FECHAR, false))
     {
       return;
@@ -394,6 +396,18 @@ public abstract class ActMain extends Activity
     }
 
     this.setResult(0, new Intent().putExtra(STR_EXTRA_OUT_BOO_FECHAR, true));
+
+    this.finish();
+  }
+
+  private void onActivityResultFecharTudo(final Intent itt)
+  {
+    if (!itt.getBooleanExtra(STR_EXTRA_OUT_BOO_FECHAR_TUDO, false))
+    {
+      return;
+    }
+
+    this.setResult(0, new Intent().putExtra(STR_EXTRA_OUT_BOO_FECHAR_TUDO, true));
 
     this.finish();
   }

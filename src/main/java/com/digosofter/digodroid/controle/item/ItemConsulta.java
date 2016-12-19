@@ -3,6 +3,7 @@ package com.digosofter.digodroid.controle.item;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.database.Cursor;
+import android.graphics.Color;
 import android.os.Build;
 import android.util.AttributeSet;
 import android.view.View;
@@ -238,8 +239,10 @@ public class ItemConsulta extends ItemMain implements View.OnClickListener, View
   {
     super.inicializar();
 
-    this.setBackground(this.getResources().getDrawable(R.drawable.bkg_borda));
     this.setOrientation(VERTICAL);
+
+    this.setBackgroundColor(Color.WHITE);
+
     this.inicializarLblRegistroTitulo();
     this.inicializarPnlCampos();
     this.inicializarPnlConteudo();
@@ -247,10 +250,11 @@ public class ItemConsulta extends ItemMain implements View.OnClickListener, View
 
   private void inicializarLblRegistroTitulo()
   {
-    this.getLblRegistroTitulo().setBackgroundColor(this.getContext().getResources().getColor(R.color.cor_borda));
+    this.getLblRegistroTitulo().setBackgroundColor(this.getContext().getResources().getColor(R.color.cor_tema_claro));
     this.getLblRegistroTitulo().setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
     this.getLblRegistroTitulo().setPadding(UtilsAndroid.dpToPx(10, this.getContext()), 0, UtilsAndroid.dpToPx(10, this.getContext()), 0);
     this.getLblRegistroTitulo().setText("999 - Nome que representa este registro");
+    this.getLblRegistroTitulo().setTextColor(Color.WHITE);
   }
 
   private void inicializarPnlCampos()

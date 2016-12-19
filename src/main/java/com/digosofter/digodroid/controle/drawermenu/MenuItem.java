@@ -2,6 +2,7 @@ package com.digosofter.digodroid.controle.drawermenu;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.view.Gravity;
@@ -175,6 +176,7 @@ public class MenuItem extends PainelGeral implements View.OnClickListener, View.
     this.getLblTitulo().setEnmFonteTamanho(TemaDefault.EnmFonteTamanho.PEQUENO);
     this.getLblTitulo().setGravity(Gravity.CENTER_VERTICAL);
     this.getLblTitulo().setLayoutParams(new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, LayoutParams.MATCH_PARENT));
+    this.getLblTitulo().setTextColor(Color.WHITE);
   }
 
   private void inicializarPnlRipple()

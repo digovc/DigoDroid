@@ -13,7 +13,6 @@ import com.digosofter.digojava.Utils;
 
 public class LabelGeral extends TextView implements IControleMain
 {
-  private int _corTexto;
   private TemaDefault.EnmFonteTamanho _enmFonteTamanho;
   private int _intTexto;
 
@@ -38,11 +37,6 @@ public class LabelGeral extends TextView implements IControleMain
     this.iniciar(atr);
   }
 
-  private void atualizarCorTexto(final int corTexto)
-  {
-    this.setTextColor(corTexto);
-  }
-
   private void atualizarEnmFonteTamanho(final TemaDefault.EnmFonteTamanho enmFonteTamanho)
   {
     this.setTextSize(TypedValue.COMPLEX_UNIT_SP, TemaDefault.getI().enmFonteTamanhoToInt(enmFonteTamanho));
@@ -51,11 +45,6 @@ public class LabelGeral extends TextView implements IControleMain
   @Override
   public void finalizar()
   {
-  }
-
-  private int getCorTexto()
-  {
-    return _corTexto;
   }
 
   private TemaDefault.EnmFonteTamanho getEnmFonteTamanho()
@@ -121,23 +110,6 @@ public class LabelGeral extends TextView implements IControleMain
     super.onMeasure(widthMeasureSpec, heightMeasureSpec);
 
     this.finalizar();
-  }
-
-  /**
-   * Indica a cor do texto.
-   *
-   * @param corTexto Cor do texto.
-   */
-  public void setCorTexto(int corTexto)
-  {
-    if (_corTexto == corTexto)
-    {
-      return;
-    }
-
-    _corTexto = corTexto;
-
-    this.atualizarCorTexto(_corTexto);
   }
 
   public void setEnmFonteTamanho(TemaDefault.EnmFonteTamanho enmFonteTamanho)

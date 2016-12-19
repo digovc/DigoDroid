@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 
 import com.digosofter.digodroid.activity.ActErro;
+import com.digosofter.digodroid.activity.ActMain;
 import com.digosofter.digojava.log.Log;
 
 import java.util.ArrayList;
@@ -121,6 +122,8 @@ public class LogErro extends LogManagerAndroidMain
     }
 
     this.removerActErro(actErro);
+
+    actErro.setResult(0, new Intent().putExtra(ActMain.STR_EXTRA_OUT_BOO_FECHAR, true));
 
     actErro.finish();
   }

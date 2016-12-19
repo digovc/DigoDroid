@@ -2,11 +2,13 @@ package com.digosofter.digodroid.controle.painel;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.Color;
 import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.RelativeLayout;
 
+import com.digosofter.digodroid.AppAndroid;
 import com.digosofter.digodroid.R;
 import com.digosofter.digodroid.UtilsAndroid;
 import com.digosofter.digodroid.animacao.Animar;
@@ -20,8 +22,8 @@ public class PainelGrupo extends PainelGeral implements View.OnClickListener
   private boolean _booAberto = true;
   private ImagemGeral _imgSeta;
   private LabelGeral _lblTitulo;
-  private PainelGeralRelativo _pnlCabecalho;
   private PainelGeral _pnlConteudo;
+  private PainelGeralRelativo _pnlCabecalho;
   private String _strTitulo = "<desconhecido>";
 
   public PainelGrupo(Context cnt)
@@ -137,7 +139,7 @@ public class PainelGrupo extends PainelGeral implements View.OnClickListener
   {
     super.inicializar();
 
-    this.setBackgroundColor(this.getContext().getResources().getColor(R.color.cor_fundo));
+    this.setBackgroundColor(Color.WHITE);
     this.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
     this.setOrientation(VERTICAL);
 
@@ -180,13 +182,14 @@ public class PainelGrupo extends PainelGeral implements View.OnClickListener
   {
     this.getLblTitulo().setGravity(Gravity.CENTER_VERTICAL);
     this.getLblTitulo().setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.MATCH_PARENT));
+    this.getLblTitulo().setTextColor(Color.WHITE);
   }
 
   private void inicializarPnlCabecalho()
   {
     int intPadding = UtilsAndroid.dpToPx(TemaDefault.getI().getIntEspacamento(), this.getContext());
 
-    this.getPnlCabecalho().setBackgroundColor(this.getContext().getResources().getColor(R.color.cor_borda));
+    this.getPnlCabecalho().setBackgroundColor(AppAndroid.getI().getObjTema().getCorTemaClaro());
     this.getPnlCabecalho().setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, UtilsAndroid.dpToPx(40, this.getContext())));
     this.getPnlCabecalho().setPadding(intPadding, 0, intPadding, 0);
   }
