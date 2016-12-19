@@ -130,8 +130,6 @@ public abstract class AppAndroid extends App
 
   public void dispararEvtOnSrvSincCreateListener(SrvSincMain srvSinc)
   {
-    this.notificar("Serviço de sincronização inicializado.");
-
     if (this.getLstEvtOnSrvSincCreateListener().isEmpty())
     {
       return;
@@ -150,8 +148,6 @@ public abstract class AppAndroid extends App
 
   public void dispararEvtOnSrvSincDestroyListener(SrvSincMain srvSinc)
   {
-    this.notificar("Serviço de sincronização finalizado.");
-
     if (this.getLstEvtOnSrvSincDestroyListener().isEmpty())
     {
       return;

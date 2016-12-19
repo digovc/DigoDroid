@@ -1,6 +1,10 @@
 package com.digosofter.digodroid.service;
 
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Intent;
 import android.os.SystemClock;
+import android.support.v4.app.NotificationCompat;
 
 import com.digosofter.digodroid.Aparelho;
 import com.digosofter.digodroid.AppAndroid;
@@ -18,6 +22,7 @@ import java.util.List;
 public abstract class SrvSincMain<T extends ServerHttpSincMain> extends ServiceMain
 {
   private static final int INT_LOOP_DELAY = (1000 * 60 * 5);
+  private static final int INT_NOTIFICACAO_ID = 1010;
 
   private static SrvSincMain _i;
 
@@ -27,6 +32,7 @@ public abstract class SrvSincMain<T extends ServerHttpSincMain> extends ServiceM
   }
 
   private List<TblSincronizavelMain> _lstTbl;
+  private NotificationCompat.Builder _objNotificationBuilder;
 
   public SrvSincMain()
   {
@@ -80,9 +86,20 @@ public abstract class SrvSincMain<T extends ServerHttpSincMain> extends ServiceM
     super.finalizar();
 
     this.setI(null);
+
+    this.finalizarNotificar();
+  }
+
+  private void finalizarNotificar()
+  {
+    AppAndroid.getI().notificar("Serviço de sincronização finalizado.");
+
+    ((NotificationManager) this.getSystemService(NOTIFICATION_SERVICE)).cancel(INT_NOTIFICACAO_ID);
   }
 
   protected abstract DbeAndroidMain getDbe();
+
+  protected abstract int getIntNotificacaoIconId();
 
   private List<TblSincronizavelMain> getLstTbl()
   {
@@ -98,12 +115,35 @@ public abstract class SrvSincMain<T extends ServerHttpSincMain> extends ServiceM
     return _lstTbl;
   }
 
+  private NotificationCompat.Builder getObjNotificationBuilder()
+  {
+    if (_objNotificationBuilder != null)
+    {
+      return _objNotificationBuilder;
+    }
+
+    PendingIntent objPendingIntent = PendingIntent.getActivity(this, 0, (new Intent(this, AppAndroid.getI().getActPrincipal().getClass())), PendingIntent.FLAG_UPDATE_CURRENT);
+
+    _objNotificationBuilder = new NotificationCompat.Builder(this);
+
+    _objNotificationBuilder.setContentIntent(objPendingIntent);
+    _objNotificationBuilder.setContentIntent(objPendingIntent);
+    _objNotificationBuilder.setContentText("Sincronização ligada.");
+    _objNotificationBuilder.setContentTitle("Ideal");
+    _objNotificationBuilder.setOngoing(true);
+    _objNotificationBuilder.setSmallIcon(this.getIntNotificacaoIconId());
+
+    return _objNotificationBuilder;
+  }
+
   public abstract T getSrvHttpSinc();
 
   @Override
   protected void inicializar()
   {
     super.inicializar();
+
+    this.inicializarNotificar();
 
     this.inicializarServerHttpSinc();
 
@@ -114,6 +154,13 @@ public abstract class SrvSincMain<T extends ServerHttpSincMain> extends ServiceM
   }
 
   protected abstract void inicializarLstTbl(final List<TblSincronizavelMain> lstTbl);
+
+  private void inicializarNotificar()
+  {
+    AppAndroid.getI().notificar("Serviço de sincronização inicializado.");
+
+    ((NotificationManager) this.getSystemService(NOTIFICATION_SERVICE)).notify(INT_NOTIFICACAO_ID, this.getObjNotificationBuilder().build());
+  }
 
   private void inicializarServerHttpSinc()
   {
