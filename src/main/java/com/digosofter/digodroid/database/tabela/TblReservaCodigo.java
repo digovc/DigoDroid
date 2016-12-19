@@ -192,7 +192,7 @@ public class TblReservaCodigo extends TblAndroidMain<DominioAndroidMain>
     lstCln.add(this.getClnSqlTabelaNome());
   }
 
-  void prepararProximoCodigoDisponivel(final TblSincronizavelMain tbl)
+  public void prepararProximoCodigoDisponivel(final TblSincronizavelMain tbl)
   {
     if (tbl == null)
     {

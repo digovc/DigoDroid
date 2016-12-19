@@ -170,16 +170,11 @@ public abstract class AppAndroid extends App
     imm.hideSoftInputFromWindow(null, 0);
   }
 
-  public void fechar(ActMain act)
+  public void fechar()
   {
-    if (act == null)
-    {
-      return;
-    }
+    ((NotificationManager) this.getCnt().getSystemService(Context.NOTIFICATION_SERVICE)).cancelAll();
 
-    act.setResult(0, new Intent().putExtra(ActMain.STR_EXTRA_OUT_BOO_FECHAR_TUDO, true));
-
-    act.finish();
+    System.exit(0);
   }
 
   public ActMain getActPrincipal()

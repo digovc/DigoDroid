@@ -566,6 +566,20 @@ public abstract class TblAndroidMain<T extends DominioAndroidMain> extends Tabel
     }
   }
 
+  public int duplicar(final int intId)
+  {
+    if (intId < 1)
+    {
+      return 0;
+    }
+
+    this.recuperar(intId);
+
+    this.getClnIntId().limpar();
+
+    return this.salvar().getClnIntId().getIntValor();
+  }
+
   public boolean getBooCodigoDisponivel()
   {
     return TblReservaCodigo.getI().getBooCodigoDisponivel(this);

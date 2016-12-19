@@ -27,6 +27,18 @@ public class ActDetalhe extends ActMain
   private LinearLayout _pnlCampos;
   private TblAndroidMain<?> _tbl;
 
+  private Grupo getGrpGeral()
+  {
+    if (_grpGeral != null)
+    {
+      return _grpGeral;
+    }
+
+    _grpGeral = new Grupo("geral");
+
+    return _grpGeral;
+  }
+
   @Override
   public int getIntLayoutId()
   {
@@ -67,18 +79,6 @@ public class ActDetalhe extends ActMain
     _lblStrRegistroNome = this.getView(R.id.actDetalhe_lblStrRegistroNome);
 
     return _lblStrRegistroNome;
-  }
-
-  private Grupo getObjDbGrupoGeral()
-  {
-    if (_grpGeral != null)
-    {
-      return _grpGeral;
-    }
-
-    _grpGeral = new Grupo("geral");
-
-    return _grpGeral;
   }
 
   private LinearLayout getPnlCampos()
@@ -125,13 +125,14 @@ public class ActDetalhe extends ActMain
       return (PainelGrupo) this.getPnlCampos().getChildAt(i);
     }
 
-    PainelGrupo pnlGrupoResultado = new PainelGrupo(this);
+    PainelGrupo pnlGrupoNovo = new PainelGrupo(this);
 
-    pnlGrupoResultado.setStrTitulo(grp.getStrNomeExibicao());
+    pnlGrupoNovo.setBooPermitirFechar(false);
+    pnlGrupoNovo.setStrTitulo(grp.getStrNomeExibicao());
 
-    this.getPnlCampos().addView(pnlGrupoResultado);
+    this.getPnlCampos().addView(pnlGrupoNovo);
 
-    return pnlGrupoResultado;
+    return pnlGrupoNovo;
   }
 
   private TblAndroidMain<?> getTbl()
@@ -194,6 +195,7 @@ public class ActDetalhe extends ActMain
   {
     super.montarLayout();
 
+    this.montarLayoutPnlGrupoGeral();
     this.montarLayoutItem();
   }
 
@@ -234,7 +236,7 @@ public class ActDetalhe extends ActMain
 
     if (cln.getObjDbGrupo() == null)
     {
-      cln.setObjDbGrupo(this.getObjDbGrupoGeral());
+      cln.setObjDbGrupo(this.getGrpGeral());
     }
 
     ItemDetalhe itmDetalhe = new ItemDetalhe(this, cln);
@@ -259,6 +261,15 @@ public class ActDetalhe extends ActMain
     }
 
     pnlGrupo.addView(itmDetalhe);
+  }
+
+  private void montarLayoutPnlGrupoGeral()
+  {
+    PainelGrupo pnlGrupoGeral = new PainelGrupo(this);
+
+    pnlGrupoGeral.setStrTitulo("Geral");
+
+    this.getPnlCampos().addView(pnlGrupoGeral);
   }
 
   @Override

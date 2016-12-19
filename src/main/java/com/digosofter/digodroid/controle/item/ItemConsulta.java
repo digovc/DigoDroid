@@ -252,6 +252,7 @@ public class ItemConsulta extends ItemMain implements View.OnClickListener, View
   {
     this.getLblRegistroTitulo().setBackgroundColor(this.getContext().getResources().getColor(R.color.cor_tema_claro));
     this.getLblRegistroTitulo().setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
+    this.getLblRegistroTitulo().setMinHeight(UtilsAndroid.dpToPx(50, this.getContext()));
     this.getLblRegistroTitulo().setPadding(UtilsAndroid.dpToPx(10, this.getContext()), 0, UtilsAndroid.dpToPx(10, this.getContext()), 0);
     this.getLblRegistroTitulo().setText("999 - Nome que representa este registro");
     this.getLblRegistroTitulo().setTextColor(Color.WHITE);

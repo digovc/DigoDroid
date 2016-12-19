@@ -20,10 +20,11 @@ import com.digosofter.digojava.Utils;
 public class PainelGrupo extends PainelGeral implements View.OnClickListener
 {
   private boolean _booAberto = true;
+  private boolean _booPermitirFechar;
   private ImagemGeral _imgSeta;
   private LabelGeral _lblTitulo;
-  private PainelGeral _pnlConteudo;
   private PainelGeralRelativo _pnlCabecalho;
+  private PainelGeral _pnlConteudo;
   private String _strTitulo = "<desconhecido>";
 
   public PainelGrupo(Context cnt)
@@ -79,6 +80,11 @@ public class PainelGrupo extends PainelGeral implements View.OnClickListener
   private boolean getBooAberto()
   {
     return _booAberto;
+  }
+
+  private boolean getBooPermitirFechar()
+  {
+    return _booPermitirFechar;
   }
 
   private ImagemGeral getImgSeta()
@@ -176,6 +182,7 @@ public class PainelGrupo extends PainelGeral implements View.OnClickListener
     this.getImgSeta().setImageResource(R.drawable.abrir_fechar_grupo);
     this.getImgSeta().setLayoutParams(objLayoutParams);
     this.getImgSeta().setRight(0);
+    this.getImgSeta().setVisibility(GONE);
   }
 
   private void inicializarLblTitulo()
@@ -223,15 +230,17 @@ public class PainelGrupo extends PainelGeral implements View.OnClickListener
 
   private void setBooAberto(boolean booAberto)
   {
+    _booAberto = (this.getImgSeta().getVisibility() == VISIBLE);
+
     _booAberto = booAberto;
   }
 
-  @Override
-  public void setEventos()
+  public void setBooPermitirFechar(boolean booPermitirFechar)
   {
-    super.setEventos();
+    _booPermitirFechar = booPermitirFechar;
 
-    this.getPnlCabecalho().setOnClickListener(this);
+    this.getImgSeta().setVisibility(_booPermitirFechar ? VISIBLE : GONE);
+    this.getPnlCabecalho().setOnClickListener(_booPermitirFechar ? this : null);
   }
 
   public void setStrTitulo(String strTitulo)
