@@ -287,7 +287,7 @@ public abstract class ActMain extends Activity
     this.inicializarContentView();
   }
 
-  private void inicializarActionBar()
+  protected void inicializarActionBar()
   {
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2)
     {

@@ -11,16 +11,14 @@ public abstract class ActPrincipalMain extends ActMain
     {
       return;
     }
-    
+
     super.abrirMenu();
   }
-
-  protected abstract AppAndroid getAppAndroid();
 
   @Override
   protected void inicializar()
   {
-    this.inicializarApp();
+    AppAndroid.getI().setActPrincipal(this);
 
     super.inicializar();
 
@@ -28,11 +26,6 @@ public abstract class ActPrincipalMain extends ActMain
     this.getActionBar().setDisplayShowHomeEnabled(false);
 
     this.setTitle(null);
-  }
-
-  private void inicializarApp()
-  {
-    this.getAppAndroid().setActPrincipal(this);
   }
 
   @Override
