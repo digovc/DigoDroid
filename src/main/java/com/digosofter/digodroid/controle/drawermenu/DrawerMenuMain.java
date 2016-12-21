@@ -123,6 +123,16 @@ public abstract class DrawerMenuMain extends DrawerLayout
   {
   }
 
+  /**
+   * Método que é chamado após o activity que contém este menu ser renderizado.
+   *
+   * @param act Activity que contém este menu.
+   */
+  public void inicializar(ActMain act)
+  {
+
+  }
+
   private void inicializarPnlMenu()
   {
     DrawerLayout.LayoutParams objLayoutParams = new DrawerLayout.LayoutParams(UtilsAndroid.dpToPx(300, this.getContext()), ViewGroup.LayoutParams.MATCH_PARENT);
@@ -146,8 +156,6 @@ public abstract class DrawerMenuMain extends DrawerLayout
     this.setEventos();
     this.finalizar();
   }
-
-
 
   protected void montarLayout()
   {

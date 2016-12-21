@@ -36,7 +36,7 @@ public abstract class ActSplashScreenMain extends ActMain
       {
         ActSplashScreenMain.this.inicializarActPrincipalDelay();
       }
-    }, 2500);
+    }, 750);
   }
 
   private void inicializarActPrincipalDelay()

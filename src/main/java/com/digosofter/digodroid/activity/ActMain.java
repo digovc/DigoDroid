@@ -320,6 +320,8 @@ public abstract class ActMain extends Activity
     }
 
     this.setContentView(this.getViwDrawerMenu());
+
+    this.getViwDrawerMenu().inicializar(this);
   }
 
   private void iniciar()

@@ -3,11 +3,13 @@ package com.digosofter.digodroid.controle.imagem;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 
 public class ImagemCircular extends ImagemGeral
@@ -27,38 +29,61 @@ public class ImagemCircular extends ImagemGeral
     super(cnt, atr, intDefStyleAttr);
   }
 
-  public Bitmap getBmpClip()
+  public Bitmap getCroppedBitmap(Bitmap bmp, int radius)
   {
-    if (this.getDrawable() == null)
+    Bitmap sbmp;
+
+    if (bmp.getWidth() != radius || bmp.getHeight() != radius)
     {
-      return null;
+      float smallest = Math.min(bmp.getWidth(), bmp.getHeight());
+      float factor = smallest / radius;
+      sbmp = Bitmap.createScaledBitmap(bmp, (int) (bmp.getWidth() / factor), (int) (bmp.getHeight() / factor), false);
+    }
+    else
+    {
+      sbmp = bmp;
     }
 
-    Bitmap bmp = ((BitmapDrawable) this.getDrawable()).getBitmap();
-    Bitmap bmpOutup = Bitmap.createBitmap(bmp.getWidth(), bmp.getHeight(), Bitmap.Config.ARGB_8888);
+    Bitmap output = Bitmap.createBitmap(radius, radius, Bitmap.Config.ARGB_8888);
+    Canvas canvas = new Canvas(output);
 
-    Canvas cnv = new Canvas(bmpOutup);
+    final String color = "#BAB399";
+    final Paint paint = new Paint();
+    final Rect rect = new Rect(0, 0, radius, radius);
 
-    final int intColor = 0xff424242;
-    final Paint objPaint = new Paint();
-    final Rect rct = new Rect(0, 0, bmp.getWidth(), bmp.getHeight());
+    paint.setAntiAlias(true);
+    paint.setFilterBitmap(true);
+    paint.setDither(true);
+    canvas.drawARGB(0, 0, 0, 0);
+    paint.setColor(Color.parseColor(color));
+    canvas.drawCircle(radius / 2 + 0.7f, radius / 2 + 0.7f, radius / 2 + 0.1f, paint);
+    paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
+    canvas.drawBitmap(sbmp, rect, rect, paint);
 
-    objPaint.setAntiAlias(true);
-    cnv.drawARGB(0, 0, 0, 0);
-    cnv.drawCircle(bmp.getWidth() / 2, bmp.getHeight() / 2, bmp.getWidth() / 2, objPaint);
-
-    objPaint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
-    cnv.drawBitmap(bmp, rct, rct, objPaint);
-
-    return bmpOutup;
+    return output;
   }
 
   @Override
   public void onDraw(Canvas cnv)
   {
-    Paint objPaint = new Paint();
+    Drawable drawable = getDrawable();
 
-    cnv.drawBitmap(this.getBmpClip(), 30, 20, objPaint);
+    if (drawable == null)
+    {
+      return;
+    }
+
+    if (getWidth() == 0 || getHeight() == 0)
+    {
+      return;
+    }
+    Bitmap b = ((BitmapDrawable) drawable).getBitmap();
+    Bitmap bitmap = b.copy(Bitmap.Config.ARGB_8888, true);
+
+    int w = getWidth();
+    @SuppressWarnings("unused") int h = getHeight();
+
+    Bitmap roundBitmap = getCroppedBitmap(bitmap, w);
+    cnv.drawBitmap(roundBitmap, 0, 0, null);
   }
-
 }
