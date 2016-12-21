@@ -53,6 +53,24 @@ public class ItemConsulta extends ItemMain implements View.OnClickListener, View
     this.setTbl(tbl);
   }
 
+  private void atualizarVisibilidadeItem()
+  {
+    for (int i = 0; i < this.getPnlCampos().getChildCount(); i++)
+    {
+      if (!this.getPnlCampos().getChildAt(i).getClass().equals(ItemCampo.class))
+      {
+        continue;
+      }
+
+      if (((ItemCampo) this.getPnlCampos().getChildAt(i)).getCln().getBooVisivelConsulta())
+      {
+        continue;
+      }
+
+      this.getPnlCampos().removeViewAt(i);
+    }
+  }
+
   @Override
   public void carregarDados(Cursor crs)
   {
@@ -79,6 +97,7 @@ public class ItemConsulta extends ItemMain implements View.OnClickListener, View
     this.getLblRegistroTitulo().setText(strTitulo);
 
     this.carregarDadosItem(crs);
+    this.atualizarVisibilidadeItem();
   }
 
   private void carregarDadosItem(Cursor crs)
