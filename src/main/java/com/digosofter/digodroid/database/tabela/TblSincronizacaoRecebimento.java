@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-class TblSincronizacaoRecebimento extends TblAndroidMain<DominioAndroidMain>
+public class TblSincronizacaoRecebimento extends TblAndroidMain<DominioAndroidMain>
 {
   private static TblSincronizacaoRecebimento _i;
 
@@ -33,8 +33,9 @@ class TblSincronizacaoRecebimento extends TblAndroidMain<DominioAndroidMain>
   private ColunaAndroid _clnDttRecebimento;
   private ColunaAndroid _clnIntRegistroQuantidade;
   private ColunaAndroid _clnIntServerSincronizacaoId;
-  private ColunaAndroid _clnSqlTblNome;
+  private ColunaAndroid _clnSqlTabelaNome;
   private ColunaAndroid _clnStrCritica;
+  private ColunaAndroid _clnStrTabelaNomeExibicao;
 
   private TblSincronizacaoRecebimento()
   {
@@ -89,16 +90,16 @@ class TblSincronizacaoRecebimento extends TblAndroidMain<DominioAndroidMain>
     return _clnIntServerSincronizacaoId;
   }
 
-  private ColunaAndroid getClnSqlTblNome()
+  private ColunaAndroid getClnSqlTabelaNome()
   {
-    if (_clnSqlTblNome != null)
+    if (_clnSqlTabelaNome != null)
     {
-      return _clnSqlTblNome;
+      return _clnSqlTabelaNome;
     }
 
-    _clnSqlTblNome = new ColunaAndroid("sql_tbl_nome", this, Coluna.EnmTipo.TEXT);
+    _clnSqlTabelaNome = new ColunaAndroid("sql_tabela_nome", this, Coluna.EnmTipo.TEXT);
 
-    return _clnSqlTblNome;
+    return _clnSqlTabelaNome;
   }
 
   private ColunaAndroid getClnStrCritica()
@@ -111,6 +112,18 @@ class TblSincronizacaoRecebimento extends TblAndroidMain<DominioAndroidMain>
     _clnStrCritica = new ColunaAndroid("str_critica", this, Coluna.EnmTipo.TEXT);
 
     return _clnStrCritica;
+  }
+
+  private ColunaAndroid getClnStrTabelaNomeExibicao()
+  {
+    if (_clnStrTabelaNomeExibicao != null)
+    {
+      return _clnStrTabelaNomeExibicao;
+    }
+
+    _clnStrTabelaNomeExibicao = new ColunaAndroid("str_tabela_nome_exibicao", this, Coluna.EnmTipo.TEXT);
+
+    return _clnStrTabelaNomeExibicao;
   }
 
   Calendar getDttUltimoRecebimento(final TblSincronizavelMain tbl)
@@ -133,7 +146,7 @@ class TblSincronizacaoRecebimento extends TblAndroidMain<DominioAndroidMain>
 
     lstFil.add(new Filtro(this.getClnBooSincCompleto(), true));
     lstFil.add(new Filtro(this.getClnIntRegistroQuantidade(), 0, Filtro.EnmOperador.MAIOR));
-    lstFil.add(new Filtro(this.getClnSqlTblNome(), tbl.getSqlNome()));
+    lstFil.add(new Filtro(this.getClnSqlTabelaNome(), tbl.getSqlNome()));
     lstFil.add(new Filtro(this.getClnStrCritica(), Filtro.EnmOperador.IS_NULL));
 
     this.recuperar(lstFil);
@@ -154,6 +167,29 @@ class TblSincronizacaoRecebimento extends TblAndroidMain<DominioAndroidMain>
   }
 
   @Override
+  protected void inicializar()
+  {
+    super.inicializar();
+
+    this.setStrNomeExibicao("Log recebimento");
+
+    this.getClnBooSincCompleto().setBooVisivelConsulta(true);
+    this.getClnBooSincCompleto().setStrNomeExibicao("Sincronização parcial");
+
+    this.getClnIntRegistroQuantidade().setBooVisivelConsulta(true);
+    this.getClnIntRegistroQuantidade().setStrNomeExibicao("Registro (quantidade)");
+
+    this.getClnIntServerSincronizacaoId().setStrNomeExibicao("Código da sincronização (servidor)");
+
+    this.getClnSqlTabelaNome().setStrNomeExibicao("Tabela (nome interno)");
+
+    this.getClnStrCritica().setStrNomeExibicao("Crítica");
+
+    this.getClnStrTabelaNomeExibicao().setBooNome(true);
+    this.getClnStrTabelaNomeExibicao().setStrNomeExibicao("Tabela");
+  }
+
+  @Override
   protected void inicializarLstCln(List<Coluna> lstCln)
   {
     super.inicializarLstCln(lstCln);
@@ -162,8 +198,9 @@ class TblSincronizacaoRecebimento extends TblAndroidMain<DominioAndroidMain>
     lstCln.add(this.getClnDttRecebimento());
     lstCln.add(this.getClnIntRegistroQuantidade());
     lstCln.add(this.getClnIntServerSincronizacaoId());
-    lstCln.add(this.getClnSqlTblNome());
+    lstCln.add(this.getClnSqlTabelaNome());
     lstCln.add(this.getClnStrCritica());
+    lstCln.add(this.getClnStrTabelaNomeExibicao());
   }
 
   void salvarRecebimento(final TblSincronizavelMain tbl, final RspPesquisar rspPesquisar)
@@ -184,8 +221,9 @@ class TblSincronizacaoRecebimento extends TblAndroidMain<DominioAndroidMain>
     this.getClnDttRecebimento().setDttValor(Calendar.getInstance());
     this.getClnIntRegistroQuantidade().setIntValor(rspPesquisar.getIntRegistroQuantidade());
     this.getClnIntServerSincronizacaoId().setIntValor(rspPesquisar.getIntSincronizacaoId());
-    this.getClnSqlTblNome().setStrValor(tbl.getSqlNome());
+    this.getClnSqlTabelaNome().setStrValor(tbl.getSqlNome());
     this.getClnStrCritica().setStrValor(rspPesquisar.getStrCritica());
+    this.getClnStrTabelaNomeExibicao().setStrValor(tbl.getStrNomeExibicao());
 
     rspPesquisar.setIntSincronizacaoId(this.salvar().getClnIntId().getIntValor());
   }

@@ -190,6 +190,8 @@ public abstract class AppAndroid extends App
     return _booDebug;
   }
 
+  public abstract Class<?> getClsActSplashScreen();
+
   public abstract Class getClsViwDrawerMenu();
 
   public Context getCnt()

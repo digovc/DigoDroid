@@ -29,10 +29,11 @@ public class TblSincronizacaoEnvio extends TblAndroidMain<DominioAndroidMain>
     return _i;
   }
 
+  private ColunaAndroid _ClnSqlTabelaNome;
   private ColunaAndroid _clnDttEnvio;
   private ColunaAndroid _clnIntRegistroId;
-  private ColunaAndroid _clnSqlTblNome;
   private ColunaAndroid _clnStrCritica;
+  private ColunaAndroid _clnStrTblNomeExibicao;
 
   private TblSincronizacaoEnvio()
   {
@@ -63,16 +64,16 @@ public class TblSincronizacaoEnvio extends TblAndroidMain<DominioAndroidMain>
     return _clnIntRegistroId;
   }
 
-  private ColunaAndroid getClnSqlTblNome()
+  private ColunaAndroid getClnSqlTabelaNome()
   {
-    if (_clnSqlTblNome != null)
+    if (_ClnSqlTabelaNome != null)
     {
-      return _clnSqlTblNome;
+      return _ClnSqlTabelaNome;
     }
 
-    _clnSqlTblNome = new ColunaAndroid("sql_tbl_nome", this, Coluna.EnmTipo.TEXT);
+    _ClnSqlTabelaNome = new ColunaAndroid("sql_tabela_nome", this, Coluna.EnmTipo.TEXT);
 
-    return _clnSqlTblNome;
+    return _ClnSqlTabelaNome;
   }
 
   private ColunaAndroid getClnStrCritica()
@@ -87,6 +88,37 @@ public class TblSincronizacaoEnvio extends TblAndroidMain<DominioAndroidMain>
     return _clnStrCritica;
   }
 
+  private ColunaAndroid getclnStrTblNomeExibicao()
+  {
+    if (_clnStrTblNomeExibicao != null)
+    {
+      return _clnStrTblNomeExibicao;
+    }
+
+    _clnStrTblNomeExibicao = new ColunaAndroid("str_tabela_nome_exibicao", this, Coluna.EnmTipo.TEXT);
+
+    return _clnStrTblNomeExibicao;
+  }
+
+  @Override
+  protected void inicializar()
+  {
+    super.inicializar();
+
+    this.setStrNomeExibicao("Log de envio");
+
+    this.getClnDttEnvio().setBooVisivelConsulta(true);
+
+    this.getClnIntRegistroId().setBooVisivelConsulta(true);
+
+    this.getClnSqlTabelaNome().setStrNomeExibicao("Tabela (nome interno)");
+
+    this.getClnStrCritica().setStrNomeExibicao("Crítica");
+
+    this.getclnStrTblNomeExibicao().setBooNome(true);
+    this.getclnStrTblNomeExibicao().setStrNomeExibicao("Tabela");
+  }
+
   @Override
   protected void inicializarLstCln(final List<Coluna> lstCln)
   {
@@ -94,8 +126,9 @@ public class TblSincronizacaoEnvio extends TblAndroidMain<DominioAndroidMain>
 
     lstCln.add(this.getClnDttEnvio());
     lstCln.add(this.getClnIntRegistroId());
-    lstCln.add(this.getClnSqlTblNome());
+    lstCln.add(this.getClnSqlTabelaNome());
     lstCln.add(this.getClnStrCritica());
+    lstCln.add(this.getclnStrTblNomeExibicao());
   }
 
   void salvarEnvio(final TblSincronizavelMain tbl, final RspSalvar rspSalvar, final DominioSincronizavelMain objDominio)
@@ -124,13 +157,14 @@ public class TblSincronizacaoEnvio extends TblAndroidMain<DominioAndroidMain>
     this.getClnIntRegistroId().setIntValor(objDominio.getIntId());
     this.getClnIntUsuarioAlteracaoId().setIntValor(objDominio.getIntUsuarioCadastroId());
     this.getClnIntUsuarioCadastroId().setIntValor(objDominio.getIntUsuarioCadastroId());
-    this.getClnSqlTblNome().setStrValor(tbl.getSqlNome());
+    this.getClnSqlTabelaNome().setStrValor(tbl.getSqlNome());
     this.getClnStrCritica().setStrValor(objDominio.getStrSincCritica());
+    this.getclnStrTblNomeExibicao().setStrValor(tbl.getStrNomeExibicao());
 
     this.salvar();
   }
 
-  public void salvarEnvioServidorErro(final TblSincronizavelMain tbl, final RespostaMain rsp)
+  void salvarEnvioServidorErro(final TblSincronizavelMain tbl, final RespostaMain rsp)
   {
     if (tbl == null)
     {
@@ -153,7 +187,7 @@ public class TblSincronizacaoEnvio extends TblAndroidMain<DominioAndroidMain>
     this.getClnDttAlteracao().setDttValor(Calendar.getInstance());
     this.getClnDttCadastro().setDttValor(Calendar.getInstance());
     this.getClnDttEnvio().setDttValor(Calendar.getInstance());
-    this.getClnSqlTblNome().setStrValor(tbl.getSqlNome());
+    this.getClnSqlTabelaNome().setStrValor(tbl.getSqlNome());
     this.getClnStrCritica().setStrValor(rsp.getStrCritica());
 
     this.salvar();

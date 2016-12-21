@@ -122,7 +122,7 @@ public abstract class SrvSincMain<T extends ServerHttpSincMain> extends ServiceM
       return _objNotificationBuilder;
     }
 
-    PendingIntent objPendingIntent = PendingIntent.getActivity(this, 0, (new Intent(this, AppAndroid.getI().getActPrincipal().getClass())), PendingIntent.FLAG_UPDATE_CURRENT);
+    PendingIntent objPendingIntent = PendingIntent.getActivity(this, 0, (new Intent(this, AppAndroid.getI().getClsActSplashScreen())), PendingIntent.FLAG_UPDATE_CURRENT);
 
     _objNotificationBuilder = new NotificationCompat.Builder(this);
 
