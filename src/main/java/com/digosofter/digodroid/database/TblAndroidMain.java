@@ -1132,11 +1132,6 @@ public abstract class TblAndroidMain<T extends DominioAndroidMain> extends Tabel
 
   protected void montarMenuItemAlterar(Menu mnu, int intRegistroId)
   {
-    if (mnu == null)
-    {
-      return;
-    }
-
     if (this.getClsActCadastro() == null)
     {
       return;
@@ -1152,16 +1147,6 @@ public abstract class TblAndroidMain<T extends DominioAndroidMain> extends Tabel
 
   protected void montarMenuItemApagar(Menu mnu, int intRegistroId)
   {
-    if (mnu == null)
-    {
-      return;
-    }
-
-    if (intRegistroId < 1)
-    {
-      return;
-    }
-
     if (!this.getBooPermitirApagar())
     {
       return;
@@ -1172,11 +1157,6 @@ public abstract class TblAndroidMain<T extends DominioAndroidMain> extends Tabel
 
   private void montarMenuItemDetalhar(Menu mnu, final boolean booActConsulta)
   {
-    if (mnu == null)
-    {
-      return;
-    }
-
     if (!booActConsulta)
     {
       return;
