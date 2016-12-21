@@ -26,6 +26,7 @@ public class ActSqlExecutor extends ActMain implements View.OnClickListener
     }
 
     AppAndroid.getI().getDbe().execSql(this.getTxtSqlScript().getText().toString());
+    AppAndroid.getI().notificar("Script executado.");
   }
 
   private Button getBtnExecutarScript()
