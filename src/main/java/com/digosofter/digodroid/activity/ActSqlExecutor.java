@@ -6,6 +6,7 @@ import android.widget.EditText;
 
 import com.digosofter.digodroid.AppAndroid;
 import com.digosofter.digodroid.R;
+import com.digosofter.digodroid.log.LogErro;
 import com.digosofter.digojava.Utils;
 
 public class ActSqlExecutor extends ActMain implements View.OnClickListener
@@ -25,7 +26,16 @@ public class ActSqlExecutor extends ActMain implements View.OnClickListener
       return;
     }
 
-    AppAndroid.getI().getDbe().execSql(this.getTxtSqlScript().getText().toString());
+    try
+    {
+      AppAndroid.getI().getDbe().execSql(this.getTxtSqlScript().getText().toString());
+    }
+    catch (Exception ex)
+    {
+      LogErro.getI().addLog(this, ex);
+      return;
+    }
+
     AppAndroid.getI().notificar("Script executado.");
   }
 
