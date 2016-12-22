@@ -107,6 +107,10 @@ public class TblSincronizacaoEnvio extends TblAndroidMain<DominioAndroidMain>
 
     this.setStrNomeExibicao("Log de envio");
 
+    this.getClnDttAlteracao().setBooVisivelConsulta(true);
+
+    this.getClnDttCadastro().setBooVisivelConsulta(true);
+
     this.getClnDttEnvio().setBooVisivelConsulta(true);
 
     this.getClnIntRegistroId().setBooVisivelConsulta(true);

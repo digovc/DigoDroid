@@ -176,6 +176,10 @@ public class TblSincronizacaoRecebimento extends TblAndroidMain<DominioAndroidMa
     this.getClnBooSincCompleto().setBooVisivelConsulta(true);
     this.getClnBooSincCompleto().setStrNomeExibicao("Sincronização parcial");
 
+    this.getClnDttAlteracao().setBooVisivelConsulta(true);
+
+    this.getClnDttCadastro().setBooVisivelConsulta(true);
+
     this.getClnIntRegistroQuantidade().setBooVisivelConsulta(true);
     this.getClnIntRegistroQuantidade().setStrNomeExibicao("Registro (quantidade)");
 
