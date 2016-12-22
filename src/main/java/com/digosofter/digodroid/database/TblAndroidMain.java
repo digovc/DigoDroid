@@ -409,6 +409,9 @@ public abstract class TblAndroidMain<T extends DominioAndroidMain> extends Tabel
         return;
       }
     }
+
+    // Adiciona filtro "impossível" caso não encontre uma coluna de referência com a tabela pai.
+    lstFilConsulta.add(new Filtro(this.getClnIntId(), -1));
   }
 
   private boolean carregarLstFilConsultaClnRef(final ActConsulta actConsulta, final List<Filtro> lstFilConsulta, final Coluna cln)
