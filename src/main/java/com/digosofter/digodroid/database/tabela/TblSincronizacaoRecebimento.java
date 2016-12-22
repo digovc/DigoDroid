@@ -180,6 +180,8 @@ public class TblSincronizacaoRecebimento extends TblAndroidMain<DominioAndroidMa
 
     this.getClnDttCadastro().setBooVisivelConsulta(true);
 
+    this.getClnIntId().setEnmOrdem(Coluna.EnmOrdem.DECRESCENTE);
+
     this.getClnIntRegistroQuantidade().setBooVisivelConsulta(true);
     this.getClnIntRegistroQuantidade().setStrNomeExibicao("Registro (quantidade)");
 

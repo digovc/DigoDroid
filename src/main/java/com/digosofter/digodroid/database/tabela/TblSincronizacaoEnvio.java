@@ -113,6 +113,8 @@ public class TblSincronizacaoEnvio extends TblAndroidMain<DominioAndroidMain>
 
     this.getClnDttEnvio().setBooVisivelConsulta(true);
 
+    this.getClnIntId().setEnmOrdem(Coluna.EnmOrdem.DECRESCENTE);
+
     this.getClnIntRegistroId().setBooVisivelConsulta(true);
 
     this.getClnSqlTabelaNome().setStrNomeExibicao("Tabela (nome interno)");

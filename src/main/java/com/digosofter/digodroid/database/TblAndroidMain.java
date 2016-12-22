@@ -1935,15 +1935,15 @@ public abstract class TblAndroidMain<T extends DominioAndroidMain> extends Tabel
       this.getClnDttCadastro().setDttValor(Calendar.getInstance());
     }
 
+    if (this.getClnDttAlteracao().getBooVazia())
+    {
+      this.getClnDttAlteracao().setDttValor(Calendar.getInstance());
+    }
+
     if (!this.getBooRegistroExiste(this.getClnIntId().getIntValor()))
     {
       this.salvarInsert();
       return this;
-    }
-
-    if (this.getClnDttAlteracao().getBooVazia())
-    {
-      this.getClnDttAlteracao().setDttValor(Calendar.getInstance());
     }
 
     this.salvarUpdate();

@@ -33,11 +33,11 @@ dependencies {
 
     compile project(':digoJava')
 
-    compile 'commons-io:commons-io:+'
-    compile 'commons-net:commons-net:+'
+    compile 'commons-io:commons-io:2.5'
+    compile 'commons-net:commons-net:3.5'
 
-    compile 'com.android.volley:volley:+'
-    compile 'com.balysv:material-ripple:+'
-    compile 'com.github.markushi:circlebutton:+'
-    compile 'com.google.android.gms:play-services:+'
+    compile 'com.android.volley:volley:1.0.0'
+    compile 'com.balysv:material-ripple:1.0.2'
+    compile 'com.github.markushi:circlebutton:1.1'
+    compile 'com.google.android.gms:play-services:9.8.0'
 }

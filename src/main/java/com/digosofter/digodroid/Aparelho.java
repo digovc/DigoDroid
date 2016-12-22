@@ -16,6 +16,7 @@ import android.provider.Settings.Secure;
 import android.telephony.TelephonyManager;
 
 import com.digosofter.digodroid.activity.ActMain;
+import com.digosofter.digodroid.log.LogErro;
 import com.digosofter.digojava.Objeto;
 import com.digosofter.digojava.Utils;
 
@@ -40,6 +41,22 @@ public class Aparelho extends Objeto
   private Point _pntTelaTamanho;
   private String _strDeviceId;
   private String _strImei;
+
+  public void abrirLink(String url)
+  {
+    if (!Utils.getBooUrlValida(url))
+    {
+      LogErro.getI().addLog(this.getCnt(), new Exception("URL inválida."));
+      return;
+    }
+
+    if (!url.startsWith("http://"))
+    {
+      url = "http://".concat(url);
+    }
+
+    this.getCnt().startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(url)));
+  }
 
   public void abrirMapa(String strEnderecoCompleto)
   {
