@@ -13,9 +13,9 @@ import com.digosofter.digodroid.controle.campo.CampoMain;
 import com.digosofter.digodroid.database.ColunaAndroid;
 import com.digosofter.digodroid.database.TblAndroidMain;
 import com.digosofter.digodroid.log.LogErro;
+import com.digosofter.digodroid.service.SrvSincMain;
 import com.digosofter.digojava.Utils;
 import com.digosofter.digojava.database.Coluna;
-import com.digosofter.digojava.log.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -493,6 +493,7 @@ public abstract class ActCadastroMain extends ActMain
     }
 
     this.getTbl().salvar();
+    this.salvarAcordarSinc();
     this.finish();
 
     return true;
@@ -506,6 +507,21 @@ public abstract class ActCadastroMain extends ActMain
     }
 
     this.abrirNovo();
+  }
+
+  private void salvarAcordarSinc()
+  {
+    if (this.getTbl() == null)
+    {
+      return;
+    }
+
+    if (SrvSincMain.getI() == null)
+    {
+      return;
+    }
+
+    SrvSincMain.getI().setBooAcordar(true);
   }
 
   protected void setBooFocoAutomatico(boolean BooFocoInicial)

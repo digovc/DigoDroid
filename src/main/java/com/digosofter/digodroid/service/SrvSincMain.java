@@ -31,6 +31,7 @@ public abstract class SrvSincMain<T extends ServerHttpSincMain> extends ServiceM
     return _i;
   }
 
+  private boolean _booAcordar;
   private List<TblSincronizavelMain> _lstTbl;
   private NotificationCompat.Builder _objNotificationBuilder;
 
@@ -64,6 +65,12 @@ public abstract class SrvSincMain<T extends ServerHttpSincMain> extends ServiceM
 
     while (true)
     {
+      if (this.getBooAcordar())
+      {
+        this.setBooAcordar(false);
+        return;
+      }
+
       if (this.getBooParar())
       {
         return;
@@ -95,6 +102,11 @@ public abstract class SrvSincMain<T extends ServerHttpSincMain> extends ServiceM
     AppAndroid.getI().notificar("Serviço de sincronização finalizado.");
 
     ((NotificationManager) this.getSystemService(NOTIFICATION_SERVICE)).cancel(INT_NOTIFICACAO_ID);
+  }
+
+  private boolean getBooAcordar()
+  {
+    return _booAcordar;
   }
 
   protected abstract DbeAndroidMain getDbe();
@@ -203,6 +215,11 @@ public abstract class SrvSincMain<T extends ServerHttpSincMain> extends ServiceM
 
       this.esperarIntervaloLoop();
     }
+  }
+
+  public void setBooAcordar(boolean booAcordar)
+  {
+    _booAcordar = booAcordar;
   }
 
   private void setI(SrvSincMain i)
