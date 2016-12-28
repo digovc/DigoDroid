@@ -50,8 +50,8 @@ public abstract class ActCadastroMain extends ActMain
   protected static final String STR_MENU_SALVAR = "Salvar";
   private static final String STR_MENU_SALVAR_NOVO = "Salvar e novo";
 
-  private boolean _booFocoAutomatico = true;
   private CampoMain _cmpFocoInicial;
+  private int _intRegistroAnteriorId;
   private int _intRegistroId;
   private int _intRegistroRefId;
   private List<CampoMain> _lstCmp;
@@ -84,6 +84,8 @@ public abstract class ActCadastroMain extends ActMain
     {
       return;
     }
+
+    this.getTbl().limparDados();
 
     for (Coluna cln : this.getTbl().getLstCln())
     {
@@ -143,11 +145,6 @@ public abstract class ActCadastroMain extends ActMain
     return true;
   }
 
-  protected boolean getBooFocoAutomatico()
-  {
-    return _booFocoAutomatico;
-  }
-
   protected boolean getBooMostrarMenuSalvarNovo()
   {
     return this.getIntent().getBooleanExtra(STR_EXTRA_IN_BOO_MOSTRAR_SALVAR_NOVO, false);
@@ -173,6 +170,18 @@ public abstract class ActCadastroMain extends ActMain
     _cmpFocoInicial = this.getLstCmp().get(0);
 
     return _cmpFocoInicial;
+  }
+
+  protected int getIntRegistroAnteriorId()
+  {
+    if (_intRegistroAnteriorId != 0)
+    {
+      return _intRegistroAnteriorId;
+    }
+
+    _intRegistroAnteriorId = this.getIntent().getIntExtra(STR_EXTRA_IN_INT_REGISTRO_ANTERIOR_ID, 0);
+
+    return _intRegistroAnteriorId;
   }
 
   protected int getIntRegistroId()
@@ -279,11 +288,7 @@ public abstract class ActCadastroMain extends ActMain
     this.inicializarTbl();
     this.inicializarTitulo();
     this.inicializarLstCmp();
-
-    if (this.getBooFocoAutomatico())
-    {
-      this.inicializarFoco();
-    }
+    this.inicializarFoco();
   }
 
   protected void inicializarFoco()
@@ -522,11 +527,6 @@ public abstract class ActCadastroMain extends ActMain
     }
 
     SrvSincMain.getI().setBooAcordar(true);
-  }
-
-  protected void setBooFocoAutomatico(boolean BooFocoInicial)
-  {
-    _booFocoAutomatico = BooFocoInicial;
   }
 
   @Override

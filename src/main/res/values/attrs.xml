@@ -34,6 +34,7 @@
     <declare-styleable name="MenuItem">
 
         <attr name="srcIcone" format="integer"/>
+        <attr name="strTituloMenu" default="Menu desconhecido" format="string"/>
 
     </declare-styleable>
 
