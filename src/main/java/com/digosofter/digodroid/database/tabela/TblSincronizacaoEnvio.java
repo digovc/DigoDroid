@@ -154,7 +154,7 @@ public class TblSincronizacaoEnvio extends TblAndroidMain<DominioAndroidMain>
       return;
     }
 
-    this.limparOrdem();
+    this.limparDados();
 
     this.getClnBooAtivo().setBooValor(true);
     this.getClnDttAlteracao().setDttValor(Calendar.getInstance());

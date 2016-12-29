@@ -231,6 +231,8 @@ public class TblSincronizacaoRecebimento extends TblAndroidMain<DominioAndroidMa
     this.getClnStrCritica().setStrValor(rspPesquisar.getStrCritica());
     this.getClnStrTabelaNomeExibicao().setStrValor(tbl.getStrNomeExibicao());
 
-    rspPesquisar.setIntSincronizacaoId(this.salvar().getClnIntId().getIntValor());
+    this.salvar();
+
+    rspPesquisar.setIntSincronizacaoId(this.getClnIntId().getIntValor());
   }
 }
