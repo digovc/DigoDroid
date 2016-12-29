@@ -2,12 +2,12 @@ package com.digosofter.digodroid.server.message;
 
 public class RspWelcome extends RespostaMain<MsgWelcome>
 {
-  private String _strEmpresaNome;
+  private int _intPessoaEmpresaId;
   private String _strServerVersao;
 
-  public String getStrEmpresaNome()
+  public int getIntPessoaEmpresaId()
   {
-    return _strEmpresaNome;
+    return _intPessoaEmpresaId;
   }
 
   public String getStrServerVersao()
@@ -15,9 +15,9 @@ public class RspWelcome extends RespostaMain<MsgWelcome>
     return _strServerVersao;
   }
 
-  public void setStrEmpresaNome(String strEmpresaNome)
+  public void setIntPessoaEmpresaId(int intPessoaEmpresaId)
   {
-    _strEmpresaNome = strEmpresaNome;
+    _intPessoaEmpresaId = intPessoaEmpresaId;
   }
 
   public void setStrServerVersao(String strServerVersao)

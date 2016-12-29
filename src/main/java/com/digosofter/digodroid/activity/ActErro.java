@@ -1,9 +1,11 @@
 package com.digosofter.digodroid.activity;
 
+import android.content.Intent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.digosofter.digodroid.Aparelho;
 import com.digosofter.digodroid.AppAndroid;
 import com.digosofter.digodroid.R;
 import com.digosofter.digodroid.controle.botao.BotaoGeral;
@@ -15,7 +17,7 @@ public class ActErro extends ActMain implements View.OnClickListener
 {
   public static final String STR_EXTRA_INT_STR_ERRO_DESCRICAO = "str_erro_descricao";
   public static final String STR_EXTRA_INT_STR_ERRO_TITULO = "str_erro_titulo";
-
+  public static final String STR_EXTRA_OUT_BOO_ERRO_IGNORAR_TODOS = "boo_erro_ignorar_todos";
   private static final String STR_MENU_COMPARTILHAR = "Compartilhar";
   private BotaoGeral _btnIgnorarTodos;
   private LabelGeral _lblDescricao;
@@ -39,7 +41,7 @@ public class ActErro extends ActMain implements View.OnClickListener
 
     String strConteudo = String.format("%s\n\n%s", this.getLblTitulo().getText().toString(), this.getLblDescricao().getText().toString());
 
-    AppAndroid.getI().compartilhar(this, this.getLblTitulo().getText().toString(), strConteudo);
+    Aparelho.getI().compartilhar(this, this.getLblTitulo().getText().toString(), strConteudo);
 
     return true;
   }
@@ -147,6 +149,31 @@ public class ActErro extends ActMain implements View.OnClickListener
     }
 
     this.getLblTitulo().setText(strTitulo);
+  }
+
+  @Override
+  protected void onActivityResult(final int intRequestCode, final int intResultCode, final Intent ittResult)
+  {
+    super.onActivityResult(intRequestCode, intResultCode, ittResult);
+
+    if (ittResult == null)
+    {
+      return;
+    }
+
+    this.onActivityResultIgnorarTodos(ittResult);
+  }
+
+  private void onActivityResultIgnorarTodos(final Intent ittResult)
+  {
+    if (!ittResult.getBooleanExtra(STR_EXTRA_OUT_BOO_ERRO_IGNORAR_TODOS, false))
+    {
+      return;
+    }
+
+    this.setResult(0, new Intent().putExtra(STR_EXTRA_OUT_BOO_ERRO_IGNORAR_TODOS, true));
+
+    this.finish();
   }
 
   @Override

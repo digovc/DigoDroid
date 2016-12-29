@@ -86,33 +86,6 @@ public abstract class AppAndroid extends App
     this.getLstEvtOnSrvSincDestroyListener().add(evt);
   }
 
-  public void compartilhar(ActMain act, String strAssunto, String strConteudo)
-  {
-    if (act == null)
-    {
-      return;
-    }
-
-    if (Utils.getBooStrVazia(strAssunto))
-    {
-      return;
-    }
-
-    if (Utils.getBooStrVazia(strConteudo))
-    {
-      return;
-    }
-
-    Intent itt = new Intent(android.content.Intent.ACTION_SEND);
-
-    itt.setType("text/plain");
-
-    itt.putExtra(android.content.Intent.EXTRA_SUBJECT, strAssunto);
-    itt.putExtra(android.content.Intent.EXTRA_TEXT, strConteudo);
-
-    act.startActivity(Intent.createChooser(itt, strAssunto));
-  }
-
   private void criarView(final TabelaMain tbl)
   {
     if (tbl == null)

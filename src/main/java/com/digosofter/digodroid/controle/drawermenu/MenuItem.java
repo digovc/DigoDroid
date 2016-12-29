@@ -21,6 +21,7 @@ import com.digosofter.digodroid.design.TemaDefault;
 public class MenuItem extends PainelGeral implements View.OnClickListener, View.OnLongClickListener
 {
   private static final int INT_MENU_ITEM_HEIGHT = 60;
+
   private Drawable _imgIcon;
   private ImagemGeral _imgIcone;
   private LabelGeral _lblTitulo;
@@ -156,9 +157,9 @@ public class MenuItem extends PainelGeral implements View.OnClickListener, View.
 
   private void inicializarLblTitulo(AttributeSet ats)
   {
-    TypedArray objTypedArray = this.getContext().obtainStyledAttributes(ats, R.styleable.MenuItem);
+    TypedArray objTypedArray = this.getContext().obtainStyledAttributes(ats, R.styleable.View);
 
-    this.setStrTitulo(objTypedArray.getString(R.styleable.MenuItem_strTituloMenu));
+    this.setStrTitulo(objTypedArray.getString(R.styleable.View_strTitulo));
   }
 
   private void inicializarLblTitulo()

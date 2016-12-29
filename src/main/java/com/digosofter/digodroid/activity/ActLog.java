@@ -3,6 +3,7 @@ package com.digosofter.digodroid.activity;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.digosofter.digodroid.Aparelho;
 import com.digosofter.digodroid.AppAndroid;
 import com.digosofter.digodroid.R;
 import com.digosofter.digodroid.controle.label.LabelGeral;
@@ -53,7 +54,7 @@ public class ActLog extends ActMain
       return false;
     }
 
-    AppAndroid.getI().compartilhar(this, this.getLogManager().getStrNome(), this.getLogManager().getStrLog());
+    Aparelho.getI().compartilhar(this, this.getLogManager().getStrNome(), this.getLogManager().getStrLog());
 
     return true;
   }

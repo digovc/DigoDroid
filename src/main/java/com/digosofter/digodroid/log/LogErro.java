@@ -123,7 +123,7 @@ public class LogErro extends LogManagerAndroidMain
 
     this.removerActErro(actErro);
 
-    actErro.setResult(0, new Intent().putExtra(ActMain.STR_EXTRA_OUT_BOO_FECHAR, true));
+    actErro.setResult(0, new Intent().putExtra(ActErro.STR_EXTRA_OUT_BOO_ERRO_IGNORAR_TODOS, true));
 
     actErro.finish();
   }

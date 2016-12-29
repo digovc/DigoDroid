@@ -74,6 +74,33 @@ public class Aparelho extends Objeto
     this.getCnt().getApplicationContext().getApplicationContext().startActivity(itt);
   }
 
+  public void compartilhar(ActMain act, String strAssunto, String strConteudo)
+  {
+    if (act == null)
+    {
+      return;
+    }
+
+    if (Utils.getBooStrVazia(strAssunto))
+    {
+      return;
+    }
+
+    if (Utils.getBooStrVazia(strConteudo))
+    {
+      return;
+    }
+
+    Intent itt = new Intent(android.content.Intent.ACTION_SEND);
+
+    itt.setType("text/plain");
+
+    itt.putExtra(android.content.Intent.EXTRA_SUBJECT, strAssunto);
+    itt.putExtra(android.content.Intent.EXTRA_TEXT, strConteudo);
+
+    act.startActivity(Intent.createChooser(itt, strAssunto));
+  }
+
   public void discar(String strNumero)
   {
     if (Utils.getBooStrVazia(strNumero))

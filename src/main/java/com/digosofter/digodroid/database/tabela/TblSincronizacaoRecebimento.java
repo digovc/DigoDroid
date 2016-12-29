@@ -209,7 +209,7 @@ public class TblSincronizacaoRecebimento extends TblAndroidMain<DominioAndroidMa
     lstCln.add(this.getClnStrTabelaNomeExibicao());
   }
 
-  void salvarRecebimento(final TblSincronizavelMain tbl, final RspPesquisar rspPesquisar)
+  synchronized void salvarRecebimento(final TblSincronizavelMain tbl, final RspPesquisar rspPesquisar)
   {
     if (tbl == null)
     {

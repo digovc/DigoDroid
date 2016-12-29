@@ -5,7 +5,6 @@ import com.digosofter.digodroid.database.ColunaAndroid;
 import com.digosofter.digodroid.database.TblAndroidMain;
 import com.digosofter.digodroid.database.dominio.DominioAndroidMain;
 import com.digosofter.digodroid.database.dominio.DominioSincronizavelMain;
-import com.digosofter.digodroid.server.message.RespostaMain;
 import com.digosofter.digodroid.server.message.RspSalvar;
 import com.digosofter.digojava.Utils;
 import com.digosofter.digojava.database.Coluna;
@@ -30,6 +29,7 @@ public class TblSincronizacaoEnvio extends TblAndroidMain<DominioAndroidMain>
   }
 
   private ColunaAndroid _ClnSqlTabelaNome;
+  private ColunaAndroid _clnBooSucesso;
   private ColunaAndroid _clnDttEnvio;
   private ColunaAndroid _clnIntRegistroId;
   private ColunaAndroid _clnStrCritica;
@@ -38,6 +38,18 @@ public class TblSincronizacaoEnvio extends TblAndroidMain<DominioAndroidMain>
   private TblSincronizacaoEnvio()
   {
     super("tbl_sincronizacao_envio", AppAndroid.getI().getDbe());
+  }
+
+  private ColunaAndroid getClnBooSucesso()
+  {
+    if (_clnBooSucesso != null)
+    {
+      return _clnBooSucesso;
+    }
+
+    _clnBooSucesso = new ColunaAndroid("boo_sucesso", this, Coluna.EnmTipo.BOOLEAN);
+
+    return _clnBooSucesso;
   }
 
   private ColunaAndroid getClnDttEnvio()
@@ -107,6 +119,8 @@ public class TblSincronizacaoEnvio extends TblAndroidMain<DominioAndroidMain>
 
     this.setStrNomeExibicao("Log de envio");
 
+    this.getClnBooSucesso().setBooVisivelConsulta(true);
+
     this.getClnDttAlteracao().setBooVisivelConsulta(true);
 
     this.getClnDttCadastro().setBooVisivelConsulta(true);
@@ -130,6 +144,7 @@ public class TblSincronizacaoEnvio extends TblAndroidMain<DominioAndroidMain>
   {
     super.inicializarLstCln(lstCln);
 
+    lstCln.add(this.getClnBooSucesso());
     lstCln.add(this.getClnDttEnvio());
     lstCln.add(this.getClnIntRegistroId());
     lstCln.add(this.getClnSqlTabelaNome());
@@ -137,7 +152,7 @@ public class TblSincronizacaoEnvio extends TblAndroidMain<DominioAndroidMain>
     lstCln.add(this.getclnStrTblNomeExibicao());
   }
 
-  void salvarEnvio(final TblSincronizavelMain tbl, final RspSalvar rspSalvar, final DominioSincronizavelMain objDominio)
+  synchronized void salvarEnvio(final TblSincronizavelMain tbl, final RspSalvar rspSalvar, final DominioSincronizavelMain objDominio)
   {
     if (tbl == null)
     {
@@ -157,6 +172,7 @@ public class TblSincronizacaoEnvio extends TblAndroidMain<DominioAndroidMain>
     this.limparDados();
 
     this.getClnBooAtivo().setBooValor(true);
+    this.getClnBooSucesso().setBooValor(Utils.getBooStrVazia(objDominio.getStrSincCritica()));
     this.getClnDttAlteracao().setDttValor(Calendar.getInstance());
     this.getClnDttCadastro().setDttValor(Calendar.getInstance());
     this.getClnDttEnvio().setDttValor(Calendar.getInstance());
@@ -170,7 +186,7 @@ public class TblSincronizacaoEnvio extends TblAndroidMain<DominioAndroidMain>
     this.salvar();
   }
 
-  void salvarEnvioServidorErro(final TblSincronizavelMain tbl, final RespostaMain rsp)
+  synchronized void salvarEnvioServidorErro(final TblSincronizavelMain tbl, final RspSalvar rsp)
   {
     if (tbl == null)
     {
@@ -190,6 +206,7 @@ public class TblSincronizacaoEnvio extends TblAndroidMain<DominioAndroidMain>
     this.limparDados();
 
     this.getClnBooAtivo().setBooValor(true);
+    this.getClnBooSucesso().setBooValor(false);
     this.getClnDttAlteracao().setDttValor(Calendar.getInstance());
     this.getClnDttCadastro().setDttValor(Calendar.getInstance());
     this.getClnDttEnvio().setDttValor(Calendar.getInstance());
