@@ -9,12 +9,10 @@ import android.widget.TextView;
 import com.digosofter.digodroid.R;
 import com.digosofter.digodroid.controle.IControleMain;
 import com.digosofter.digodroid.design.TemaDefault;
-import com.digosofter.digojava.Utils;
 
 public class LabelGeral extends TextView implements IControleMain
 {
   private TemaDefault.EnmFonteTamanho _enmFonteTamanho;
-  private int _intTexto;
 
   public LabelGeral(Context cnt)
   {
@@ -50,23 +48,6 @@ public class LabelGeral extends TextView implements IControleMain
   private TemaDefault.EnmFonteTamanho getEnmFonteTamanho()
   {
     return _enmFonteTamanho;
-  }
-
-  public int getIntTexto()
-  {
-    if (this.getText() == null)
-    {
-      return 0;
-    }
-
-    if (Utils.getBooStrVazia(this.getText().toString()))
-    {
-      return 0;
-    }
-
-    _intTexto = Integer.valueOf(this.getText().toString());
-
-    return _intTexto;
   }
 
   @Override
@@ -127,12 +108,5 @@ public class LabelGeral extends TextView implements IControleMain
   @Override
   public void setEventos()
   {
-  }
-
-  public void setIntTexto(int intTexto)
-  {
-    _intTexto = intTexto;
-
-    this.setText(String.valueOf(_intTexto));
   }
 }

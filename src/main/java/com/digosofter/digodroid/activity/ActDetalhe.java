@@ -171,7 +171,7 @@ public class ActDetalhe extends ActMain
 
     this.setTitle(this.getTbl().getStrNomeExibicao());
     this.getTbl().recuperar(this.getIntRegistroId());
-    this.getLblIntRegistroId().setIntTexto(this.getIntRegistroId());
+    this.getLblIntRegistroId().setText(this.getIntRegistroId());
     this.getLblStrRegistroNome().setText(this.getTbl().getClnNome().getStrValorExibicao());
   }
 

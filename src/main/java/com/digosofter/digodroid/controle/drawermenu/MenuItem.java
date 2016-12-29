@@ -43,11 +43,6 @@ public class MenuItem extends PainelGeral implements View.OnClickListener, View.
     super(cnt, atr, intDefStyleAttr);
   }
 
-  private void atualizarImgIcon(final Drawable imgIcon)
-  {
-    this.getImgIcone().setImageDrawable(imgIcon);
-  }
-
   @Override
   public void finalizar()
   {
@@ -120,6 +115,11 @@ public class MenuItem extends PainelGeral implements View.OnClickListener, View.
   {
     super.inicializar(ats);
 
+    if (ats == null)
+    {
+      return;
+    }
+
     this.inicializarImgIcone(ats);
     this.inicializarLblTitulo(ats);
   }
@@ -140,11 +140,6 @@ public class MenuItem extends PainelGeral implements View.OnClickListener, View.
 
   private void inicializarImgIcone(AttributeSet ats)
   {
-    if (ats == null)
-    {
-      return;
-    }
-
     TypedArray objTypedArray = this.getContext().obtainStyledAttributes(ats, R.styleable.MenuItem);
 
     this.setImgIcon(objTypedArray.getDrawable(R.styleable.MenuItem_srcIcone));
@@ -161,14 +156,9 @@ public class MenuItem extends PainelGeral implements View.OnClickListener, View.
 
   private void inicializarLblTitulo(AttributeSet ats)
   {
-    if (ats == null)
-    {
-      return;
-    }
+    TypedArray objTypedArray = this.getContext().obtainStyledAttributes(ats, R.styleable.MenuItem);
 
-    TypedArray objTypedArray = this.getContext().obtainStyledAttributes(ats, R.styleable.View);
-
-    this.setStrTitulo(objTypedArray.getString(R.styleable.View_strTitulo));
+    this.setStrTitulo(objTypedArray.getString(R.styleable.MenuItem_strTituloMenu));
   }
 
   private void inicializarLblTitulo()
@@ -236,7 +226,7 @@ public class MenuItem extends PainelGeral implements View.OnClickListener, View.
 
     _imgIcon = imgIcon;
 
-    this.atualizarImgIcon(imgIcon);
+    this.getImgIcone().setImageDrawable(_imgIcon);
   }
 
   public void setStrTitulo(String strTitulo)
