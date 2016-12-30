@@ -1,5 +1,6 @@
 package com.digosofter.digodroid.database;
 
+import android.content.DialogInterface;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -16,6 +17,7 @@ public abstract class DbeAndroidMain extends DbeMain
   private ArquivoDb _arq;
   private SQLiteDatabase _dbeEscrita;
   private SQLiteDatabase _dbeLeitura;
+  private DialogInterface.OnClickListener _evtDlgApagar;
   private SQLiteOpenHelper _objSqLiteOpenHelper;
 
   public DbeAndroidMain(String strNome)
@@ -35,13 +37,22 @@ public abstract class DbeAndroidMain extends DbeMain
       return;
     }
 
+    String strPergunta = "Todos os dados serão perdidos, inclusive aqueles que ainda não foram sincronizados. A aplicação será fechada.\n\n Tem certeza desta ação?";
+
+    AppAndroid.getI().perguntar(act, strPergunta, this.getEvtDlgApagar());
+  }
+
+  private void apagar()
+  {
     this.setDbeEscrita(null);
     this.setDbeLeitura(null);
     this.setObjSQLiteOpenHelper(null);
 
-    act.deleteDatabase(this.getStrNome());
+    AppAndroid.getI().getCnt().deleteDatabase(this.getStrNome());
 
     AppAndroid.getI().notificar("Banco de dados apagado.");
+
+    AppAndroid.getI().fechar();
   }
 
   /**
@@ -118,6 +129,34 @@ public abstract class DbeAndroidMain extends DbeMain
     _dbeLeitura = this.getObjSQLiteOpenHelper().getReadableDatabase();
 
     return _dbeLeitura;
+  }
+
+  private DialogInterface.OnClickListener getEvtDlgApagar()
+  {
+    if (_evtDlgApagar != null)
+    {
+      return _evtDlgApagar;
+    }
+
+    _evtDlgApagar = new DialogInterface.OnClickListener()
+    {
+      @Override
+      public void onClick(final DialogInterface dlg, final int intWhich)
+      {
+        switch (intWhich)
+        {
+          case DialogInterface.BUTTON_POSITIVE:
+            DbeAndroidMain.this.apagar();
+            return;
+
+          case DialogInterface.BUTTON_NEGATIVE:
+            AppAndroid.getI().notificar("Processo cancelado.");
+            return;
+        }
+      }
+    };
+
+    return _evtDlgApagar;
   }
 
   private SQLiteOpenHelper getObjSQLiteOpenHelper()

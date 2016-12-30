@@ -6,6 +6,7 @@ import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
@@ -146,6 +147,8 @@ public abstract class AppAndroid extends App
   public void fechar()
   {
     ((NotificationManager) this.getCnt().getSystemService(Context.NOTIFICATION_SERVICE)).cancelAll();
+
+    this.getActPrincipal().finish();
 
     System.exit(0);
   }
@@ -372,6 +375,26 @@ public abstract class AppAndroid extends App
     this.getLstObjToast().add(objToast);
 
     objToast.show();
+  }
+
+  public void perguntar(final ActMain act, final String strPergunta, final DialogInterface.OnClickListener evtOnClick)
+  {
+    if (act == null)
+    {
+      return;
+    }
+
+    if (Utils.getBooStrVazia(strPergunta))
+    {
+      return;
+    }
+
+    if (evtOnClick == null)
+    {
+      return;
+    }
+
+    new AlertDialog.Builder(act).setMessage(strPergunta).setPositiveButton("Sim", evtOnClick).setNegativeButton("Não", evtOnClick).show();
   }
 
   public abstract void processarRspWelcome(final RspWelcome rspWelcome);
