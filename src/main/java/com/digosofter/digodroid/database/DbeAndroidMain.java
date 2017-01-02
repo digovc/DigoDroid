@@ -37,7 +37,7 @@ public abstract class DbeAndroidMain extends DbeMain
       return;
     }
 
-    String strPergunta = "Todos os dados serão perdidos, inclusive aqueles que ainda não foram sincronizados. A aplicação será fechada.\n\n Tem certeza desta ação?";
+    String strPergunta = "Todos os dados serão perdidos, inclusive aqueles que ainda não foram sincronizados.\n A aplicação será fechada.\n\n Tem certeza desta ação?";
 
     AppAndroid.getI().perguntar(act, strPergunta, this.getEvtDlgApagar());
   }
