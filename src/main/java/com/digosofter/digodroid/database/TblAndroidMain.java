@@ -1272,6 +1272,11 @@ public abstract class TblAndroidMain<T extends DominioAndroidMain> extends Tabel
     return this.pesquisar(this.getLstCln(), null);
   }
 
+  public Cursor pesquisar(final int intId)
+  {
+    return this.pesquisar(this.getClnIntId(), intId);
+  }
+
   public Cursor pesquisar(Coluna cln)
   {
     List<Coluna> lstCln = new ArrayList<>();
