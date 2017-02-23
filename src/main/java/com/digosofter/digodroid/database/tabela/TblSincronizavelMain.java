@@ -341,6 +341,8 @@ public abstract class TblSincronizavelMain<T extends DominioSincronizavelMain> e
       return;
     }
 
+    this.getSrvSinc().setBooReiniciarLoop(true);
+
     this.setMsgPesquisar(rspPesquisar.getMsg());
 
     this.getMsgPesquisar().setIntPesquisaParte(this.getMsgPesquisar().getIntPesquisaParte() + 1);
