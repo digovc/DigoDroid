@@ -260,15 +260,9 @@ public class Aparelho extends Objeto
     return _strImei;
   }
 
-  @TargetApi(Build.VERSION_CODES.M) // TODO: Remover todas essas anotações de versão do Android.
   public void ligar(String strNumero)
   {
     if (this.getCnt() == null)
-    {
-      return;
-    }
-
-    if (this.getCnt().checkSelfPermission(Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED)
     {
       return;
     }

@@ -1,11 +1,7 @@
 package com.digosofter.digodroid.activity;
 
-import android.Manifest;
-import android.annotation.TargetApi;
 import android.content.Context;
-import android.content.pm.PackageManager;
 import android.location.LocationManager;
-import android.os.Build;
 import android.os.Bundle;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -159,16 +155,5 @@ public abstract class ActMapaMain extends ActMain implements OnLocationChangedLi
   private void setObjGoogleMap(GoogleMap objGoogleMap)
   {
     _objGoogleMap = objGoogleMap;
-  }
-
-  @TargetApi(Build.VERSION_CODES.M)
-  protected void solicitarLocalizacao()
-  {
-    if (this.checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)
-    {
-      return;
-    }
-
-    this.getObjLocationManager().requestSingleUpdate(LocationManager.GPS_PROVIDER, null);
   }
 }

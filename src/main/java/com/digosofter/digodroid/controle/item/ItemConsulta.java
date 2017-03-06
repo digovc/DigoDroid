@@ -252,7 +252,6 @@ public class ItemConsulta extends ItemMain implements View.OnClickListener, View
     return _tbl;
   }
 
-  @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
   @Override
   public void inicializar()
   {
