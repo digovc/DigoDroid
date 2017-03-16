@@ -44,7 +44,7 @@ public abstract class LinearLayoutMain extends LinearLayout implements IControle
   @Override
   public void inicializar()
   {
-    this.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
+//    this.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
   }
 
   @Override
