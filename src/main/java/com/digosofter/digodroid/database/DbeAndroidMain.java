@@ -12,7 +12,7 @@ import com.digosofter.digojava.database.DbeMain;
 
 public abstract class DbeAndroidMain extends DbeMain
 {
-  public static final String STR_FILE_PREFIXO = ".sqlite";
+  private static final String STR_FILE_PREFIXO = ".sqlite";
 
   private ArquivoDb _arq;
   private SQLiteDatabase _dbeEscrita;
@@ -44,15 +44,24 @@ public abstract class DbeAndroidMain extends DbeMain
 
   private void apagar()
   {
-    this.setDbeEscrita(null);
-    this.setDbeLeitura(null);
-    this.setObjSQLiteOpenHelper(null);
+    try
+    {
+      this.bloquearThread();
 
-    AppAndroid.getI().getCnt().deleteDatabase(this.getStrNome());
+      this.setDbeEscrita(null);
+      this.setDbeLeitura(null);
+      this.setObjSQLiteOpenHelper(null);
 
-    AppAndroid.getI().notificar("Banco de dados apagado.");
+      AppAndroid.getI().getCnt().deleteDatabase(this.getStrNome());
 
-    AppAndroid.getI().fechar();
+      AppAndroid.getI().notificar("Banco de dados apagado.");
+
+      AppAndroid.getI().fechar();
+    }
+    finally
+    {
+      this.liberarThread();
+    }
   }
 
   /**
@@ -62,20 +71,47 @@ public abstract class DbeAndroidMain extends DbeMain
    */
   public void backup(final ActMain act)
   {
-    this.getArq().copiar(AppAndroid.getI().getDir());
+    try
+    {
+      this.bloquearThread();
 
-    AppAndroid.getI().notificar("Backup efetuado com sucesso.");
+      this.getArq().copiar(AppAndroid.getI().getDir());
+
+      AppAndroid.getI().notificar("Backup efetuado com sucesso.");
+    }
+    finally
+    {
+      this.liberarThread();
+    }
   }
 
   @Override
   public void execSql(String sql)
   {
-    this.getDbeEscrita().execSQL(sql);
+    try
+    {
+      this.bloquearThread();
+
+      this.getDbeEscrita().execSQL(sql);
+    }
+    finally
+    {
+      this.liberarThread();
+    }
   }
 
   public Cursor execSqlComRetorno(String sql)
   {
-    return this.getDbeLeitura().rawQuery(sql, null);
+    try
+    {
+      this.bloquearThread();
+
+      return this.getDbeLeitura().rawQuery(sql, null);
+    }
+    finally
+    {
+      this.liberarThread();
+    }
   }
 
   @Override
@@ -83,7 +119,12 @@ public abstract class DbeAndroidMain extends DbeMain
   {
     Cursor crs = this.execSqlComRetorno(sql);
 
-    if (crs == null || !crs.moveToFirst())
+    if (crs == null)
+    {
+      return null;
+    }
+
+    if (!crs.moveToFirst())
     {
       return null;
     }

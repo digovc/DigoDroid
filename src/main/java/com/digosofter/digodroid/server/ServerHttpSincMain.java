@@ -1,11 +1,9 @@
 package com.digosofter.digodroid.server;
 
-import com.android.volley.Request;
 import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.digosofter.digodroid.activity.ActMain;
+import com.digosofter.digodroid.log.LogErro;
 import com.digosofter.digodroid.log.LogSinc;
 import com.digosofter.digodroid.server.message.MessageMain;
 import com.digosofter.digodroid.server.message.MsgWelcome;
@@ -13,17 +11,21 @@ import com.digosofter.digodroid.service.SrvSincMain;
 import com.digosofter.digojava.Utils;
 import com.digosofter.digojava.log.Log;
 
+import java.util.ArrayList;
+
 public abstract class ServerHttpSincMain
 {
-  private int _intPing;
+  protected final String STR_ERRO_URL_SERVER_VAZIO = "O endereço do servidor não foi configurado.";
+
+  private ArrayList<String> _lstUrlServer;
   private RequestQueue _objRequestQueue;
-  private Response.ErrorListener _onPingErrorResponse;
-  private Response.Listener<String> _onPingResponse;
   private SrvSincMain _srvSinc;
+
+  private String _urlServerAtual;
 
   public void enviar(final MessageMain msg)
   {
-    if (Utils.getBooStrVazia(this.getUrlServer()))
+    if (Utils.getBooStrVazia(this.getUrlServerAtual()))
     {
       return;
     }
@@ -34,83 +36,66 @@ public abstract class ServerHttpSincMain
       return;
     }
 
-    String url = this.getUrlServer().concat("/").concat(msg.getClass().getSimpleName().toLowerCase());
+    String url = this.getUrlServerAtual().concat("/").concat(msg.getClass().getSimpleName().toLowerCase());
 
     this.getObjRequestQueue().add(new SincJsonRequest(msg, url));
   }
 
-  private void enviarWelcome()
+  public void enviarDiverso(final ActMain act, final MessageMain msg)
   {
-    if (Utils.getBooStrVazia(this.getUrlServer()))
+    if (Utils.getBooStrVazia(this.getUrlServerAtual()))
+    {
+      LogErro.getI().addLog(act, new Exception("O serviço de sincronização precisa ser ligado antes dessa operação."));
+      return;
+    }
+
+    if (msg == null)
     {
       return;
     }
 
-    LogSinc.getI().addLog(Log.EnmTipo.INFO, String.format("Enviando mensagem de boas vindas para o servidor (%s).", this.getUrlServer()));
+    String url = this.getUrlServerAtual().concat("/").concat(msg.getClass().getSimpleName().toLowerCase());
+
+    Volley.newRequestQueue(act).add(new SincJsonRequest(msg, url));
+  }
+
+  private void enviarWelcome()
+  {
+    if (Utils.getBooStrVazia(this.getUrlServerAtual()))
+    {
+      return;
+    }
+
+    LogSinc.getI().addLog(Log.EnmTipo.INFO, String.format("Enviando mensagem de boas vindas para o servidor (%s).", this.getUrlServerAtual()));
 
     this.enviar(new MsgWelcome());
   }
 
-  private int getIntPing()
+  protected ArrayList<String> getLstUrlServer()
   {
-    return _intPing;
+    if (_lstUrlServer != null)
+    {
+      return _lstUrlServer;
+    }
+
+    _lstUrlServer = new ArrayList<>();
+
+    this.inicializarLstUrlServer(_lstUrlServer);
+
+    return _lstUrlServer;
   }
 
-  protected RequestQueue getObjRequestQueue()
+  private RequestQueue getObjRequestQueue()
   {
     if (_objRequestQueue != null)
     {
       return _objRequestQueue;
     }
 
+    //    _objRequestQueue = Volley.newRequestQueue(AppAndroid.getI().getCnt());
     _objRequestQueue = Volley.newRequestQueue(this.getSrvSinc());
 
     return _objRequestQueue;
-  }
-
-  private Response.ErrorListener getOnPingErrorResponse()
-  {
-    if (_onPingErrorResponse != null)
-    {
-      return _onPingErrorResponse;
-    }
-
-    _onPingErrorResponse = new Response.ErrorListener()
-    {
-      @Override
-      public void onErrorResponse(final VolleyError objVolleyError)
-      {
-        ServerHttpSincMain.this.setIntPing(0);
-      }
-    };
-
-    return _onPingErrorResponse;
-  }
-
-  private Response.Listener<String> getOnPingResponse()
-  {
-    if (_onPingResponse != null)
-    {
-      return _onPingResponse;
-    }
-
-    _onPingResponse = new Response.Listener<String>()
-    {
-      @Override
-      public void onResponse(final String strResposta)
-      {
-        if ("pong".equals(strResposta))
-        {
-          ServerHttpSincMain.this.setIntPing(1);
-        }
-        else
-        {
-          ServerHttpSincMain.this.setIntPing(0);
-        }
-      }
-    };
-
-    return _onPingResponse;
   }
 
   public SrvSincMain getSrvSinc()
@@ -118,7 +103,30 @@ public abstract class ServerHttpSincMain
     return _srvSinc;
   }
 
-  public abstract String getUrlServer();
+  private String getUrlServerAtual()
+  {
+    if (_urlServerAtual != null)
+    {
+      return _urlServerAtual;
+    }
+
+    if (this.getLstUrlServer().size() < 1)
+    {
+      return null;
+    }
+
+    for (String urlServer : this.getLstUrlServer())
+    {
+      if (!this.validarUrlServer(urlServer))
+      {
+        continue;
+      }
+
+      return _urlServerAtual = urlServer;
+    }
+
+    return _urlServerAtual;
+  }
 
   private void inicializar()
   {
@@ -127,59 +135,62 @@ public abstract class ServerHttpSincMain
     this.enviarWelcome();
   }
 
+  protected abstract void inicializarLstUrlServer(final ArrayList<String> lstUrlServer);
+
   public void iniciar()
   {
     this.inicializar();
   }
 
-  public boolean pingServer(final String urlServer)
+  protected void notificarUrlServidorVazio()
+  {
+    LogSinc.getI().addLog(Log.EnmTipo.ERRO, STR_ERRO_URL_SERVER_VAZIO);
+  }
+
+  public void setSrvSinc(SrvSincMain srvSinc)
+  {
+    _srvSinc = srvSinc;
+  }
+
+  public boolean validarInicializacao()
+  {
+    if (this.getLstUrlServer().size() < 1)
+    {
+      this.notificarUrlServidorVazio();
+      return false;
+    }
+
+    if (Utils.getBooStrVazia(this.getUrlServerAtual()))
+    {
+      LogErro.getI().addLog(this.getSrvSinc(), new Exception("Não foi possível se comunicar com o servidor. Ele pode estar desligado ou o endereço utilizado está incorreto."));
+      return false;
+    }
+
+    return true;
+  }
+
+  private boolean validarUrlServer(final String urlServer)
   {
     if (Utils.getBooStrVazia(urlServer))
     {
       return false;
     }
 
-    LogSinc.getI().addLog(Log.EnmTipo.INFO, String.format("Tentando estabelecer comunicação com o servidor (%s).", urlServer));
+    LogSinc.getI().addLog(Log.EnmTipo.INFO, String.format("Validando o servidor \"%s.\".", urlServer));
 
-    this.setIntPing(-1);
+    String strPong = Utils.downloadString(urlServer + "/ping");
 
-    StringRequest objStringRequest = new StringRequest(Request.Method.GET, urlServer.concat("/ping"), this.getOnPingResponse(), this.getOnPingErrorResponse());
-
-    this.getObjRequestQueue().add(objStringRequest);
-
-    while (this.getIntPing() < 0)
-    {
-      try
-      {
-        Thread.sleep(1000);
-      }
-      catch (InterruptedException e)
-      {
-        e.printStackTrace();
-      }
-    }
-
-    boolean booResultado = (this.getIntPing() > 0) ? true : false;
+    boolean booResultado = "pong".equals(strPong);
 
     if (booResultado)
     {
-      LogSinc.getI().addLog(Log.EnmTipo.INFO, String.format("Conexão estabelecida com sucesso no servidor (%s).", urlServer));
+      LogSinc.getI().addLog(Log.EnmTipo.INFO, String.format("Utilizando o link \"%s.\" para se comunicar com o servidor.", urlServer));
     }
     else
     {
-      LogSinc.getI().addLog(Log.EnmTipo.INFO, String.format("Falha ao tentar estabelecer comunicação com o servidor (%s).", urlServer));
+      LogSinc.getI().addLog(Log.EnmTipo.INFO, String.format("Servidor \"%s.\" não responde.", urlServer));
     }
 
     return booResultado;
-  }
-
-  private void setIntPing(int intPing)
-  {
-    _intPing = intPing;
-  }
-
-  public void setSrvSinc(SrvSincMain srvSinc)
-  {
-    _srvSinc = srvSinc;
   }
 }

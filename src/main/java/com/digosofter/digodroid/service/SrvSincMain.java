@@ -13,7 +13,6 @@ import com.digosofter.digodroid.database.tabela.TblSincronizavelMain;
 import com.digosofter.digodroid.log.LogErro;
 import com.digosofter.digodroid.log.LogSinc;
 import com.digosofter.digodroid.server.ServerHttpSincMain;
-import com.digosofter.digojava.Utils;
 import com.digosofter.digojava.log.Log;
 
 import java.util.ArrayList;
@@ -41,23 +40,6 @@ public abstract class SrvSincMain<T extends ServerHttpSincMain> extends ServiceM
     super("Serviço de sincronização");
 
     this.setI(this);
-  }
-
-  private void atualizarI(final SrvSincMain srvSinc)
-  {
-    if (AppAndroid.getI() == null)
-    {
-      return;
-    }
-
-    if (srvSinc != null)
-    {
-      AppAndroid.getI().dispararEvtOnSrvSincCreateListener(this);
-    }
-    else
-    {
-      AppAndroid.getI().dispararEvtOnSrvSincDestroyListener(this);
-    }
   }
 
   private void esperarIntervaloLoop()
@@ -193,11 +175,6 @@ public abstract class SrvSincMain<T extends ServerHttpSincMain> extends ServiceM
     this.sincronizar();
   }
 
-  protected void notificarUrlServidorVazio()
-  {
-    LogSinc.getI().addLog(Log.EnmTipo.ERRO, "O endereço do servidor de sincronização não foi indicado.");
-  }
-
   @Override
   protected void processarErro(final Exception ex)
   {
@@ -248,7 +225,19 @@ public abstract class SrvSincMain<T extends ServerHttpSincMain> extends ServiceM
 
     _i = i;
 
-    this.atualizarI(i);
+    if (AppAndroid.getI() == null)
+    {
+      return;
+    }
+
+    if (_i != null)
+    {
+      AppAndroid.getI().dispararEvtOnSrvSincCreateListener(this);
+    }
+    else
+    {
+      AppAndroid.getI().dispararEvtOnSrvSincDestroyListener(this);
+    }
   }
 
   protected void sincronizar()
@@ -294,15 +283,8 @@ public abstract class SrvSincMain<T extends ServerHttpSincMain> extends ServiceM
       return false;
     }
 
-    if (Utils.getBooStrVazia(this.getSrvHttpSinc().getUrlServer()))
+    if (!this.getSrvHttpSinc().validarInicializacao())
     {
-      this.notificarUrlServidorVazio();
-      return false;
-    }
-
-    if (!this.getSrvHttpSinc().pingServer(this.getSrvHttpSinc().getUrlServer()))
-    {
-      LogErro.getI().addLog(this, new Exception(String.format("Não foi possível se conectar ao servidor (%s).", this.getSrvHttpSinc().getUrlServer())));
       return false;
     }
 

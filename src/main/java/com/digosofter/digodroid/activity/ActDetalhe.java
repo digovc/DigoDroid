@@ -12,6 +12,7 @@ import com.digosofter.digodroid.controle.painel.PainelGrupo;
 import com.digosofter.digodroid.database.ColunaAndroid;
 import com.digosofter.digodroid.database.Grupo;
 import com.digosofter.digodroid.database.TblAndroidMain;
+import com.digosofter.digodroid.log.LogErro;
 import com.digosofter.digojava.Utils;
 import com.digosofter.digojava.database.Coluna;
 
@@ -170,9 +171,18 @@ public class ActDetalhe extends ActMain
     }
 
     this.setTitle(this.getTbl().getStrNomeExibicao());
-    this.getTbl().recuperar(this.getIntRegistroId());
-    this.getLblIntRegistroId().setText(String.valueOf(this.getIntRegistroId()));
-    this.getLblStrRegistroNome().setText(this.getTbl().getClnNome().getStrValorExibicao());
+
+    try
+    {
+      this.getTbl().recuperar(this.getIntRegistroId());
+
+      this.getLblIntRegistroId().setText(String.valueOf(this.getIntRegistroId()));
+      this.getLblStrRegistroNome().setText(this.getTbl().getClnNome().getStrValorExibicao());
+    }
+    finally
+    {
+      this.getTbl().liberarThread();
+    }
   }
 
   private boolean inicializarValidar()
@@ -293,16 +303,25 @@ public class ActDetalhe extends ActMain
   @Override
   public boolean onOptionsItemSelected(MenuItem mni)
   {
-    if (super.onOptionsItemSelected(mni))
+    try
     {
-      return true;
+      if (super.onOptionsItemSelected(mni))
+      {
+        return true;
+      }
+
+      if (this.getTbl() == null)
+      {
+        return false;
+      }
+
+      return this.getTbl().processarMenuItem(this, mni, this.getIntRegistroId());
+    }
+    catch (Exception ex)
+    {
+      LogErro.getI().addLog(this, ex);
     }
 
-    if (this.getTbl() == null)
-    {
-      return false;
-    }
-
-    return this.getTbl().processarMenuItem(this, mni, this.getIntRegistroId());
+    return false;
   }
 }

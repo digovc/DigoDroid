@@ -1,6 +1,10 @@
 package com.digosofter.digodroid.activity;
 
+import android.app.NotificationManager;
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -10,6 +14,7 @@ import com.digosofter.digodroid.AppAndroid;
 import com.digosofter.digodroid.R;
 import com.digosofter.digodroid.controle.botao.BotaoGeral;
 import com.digosofter.digodroid.controle.label.LabelGeral;
+import com.digosofter.digodroid.controle.painel.PainelGrupo;
 import com.digosofter.digodroid.log.LogErro;
 import com.digosofter.digojava.Utils;
 
@@ -19,9 +24,11 @@ public class ActErro extends ActMain implements View.OnClickListener
   public static final String STR_EXTRA_INT_STR_ERRO_TITULO = "str_erro_titulo";
   public static final String STR_EXTRA_OUT_BOO_ERRO_IGNORAR_TODOS = "boo_erro_ignorar_todos";
   private static final String STR_MENU_COMPARTILHAR = "Compartilhar";
+
   private BotaoGeral _btnIgnorarTodos;
   private LabelGeral _lblDescricao;
   private LabelGeral _lblTitulo;
+  private PainelGrupo _pnlDetalhe;
 
   private boolean compartilhar()
   {
@@ -96,6 +103,18 @@ public class ActErro extends ActMain implements View.OnClickListener
     return _lblTitulo;
   }
 
+  private PainelGrupo getPnlDetalhe()
+  {
+    if (_pnlDetalhe != null)
+    {
+      return _pnlDetalhe;
+    }
+
+    _pnlDetalhe = this.getView(R.id.actErro_pnlDetalhe);
+
+    return _pnlDetalhe;
+  }
+
   private void ignorarTodos()
   {
     LogErro.getI().ignorarTodos();
@@ -106,7 +125,11 @@ public class ActErro extends ActMain implements View.OnClickListener
   {
     super.inicializar();
 
+    ((NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE)).cancelAll();
+
     this.setTitle("Erro");
+
+    this.getActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#f44336")));
 
     LogErro.getI().addActErro(this);
 

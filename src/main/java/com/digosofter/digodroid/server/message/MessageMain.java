@@ -24,6 +24,28 @@ public abstract class MessageMain<T extends RespostaMain> implements Response.Li
 
   private Class<T> getClsResposta()
   {
+    if (_clsResposta != null)
+    {
+      return _clsResposta;
+    }
+
+    if (this.getClass().getGenericSuperclass() == null)
+    {
+      return null;
+    }
+
+    if (((ParameterizedType) this.getClass().getGenericSuperclass()).getActualTypeArguments() == null)
+    {
+      return null;
+    }
+
+    if (((ParameterizedType) this.getClass().getGenericSuperclass()).getActualTypeArguments().length < 1)
+    {
+      return null;
+    }
+
+    _clsResposta = (Class<T>) ((ParameterizedType) this.getClass().getGenericSuperclass()).getActualTypeArguments()[0];
+
     return _clsResposta;
   }
 
@@ -34,18 +56,12 @@ public abstract class MessageMain<T extends RespostaMain> implements Response.Li
 
   protected void inicializar()
   {
-    this.setClsResposta((Class<T>) ((ParameterizedType) this.getClass().getGenericSuperclass()).getActualTypeArguments()[0]);
     this.setStrAparelhoId(Aparelho.getI().getStrDeviceId());
   }
 
   private final void iniciar()
   {
     this.inicializar();
-  }
-
-  protected void onResponseServidorError(final T rsp)
-  {
-    LogSinc.getI().addLog(Log.EnmTipo.ERRO, String.format("Erro de sincronização (%s) no servidor: %s", rsp.getClass().getSimpleName(), rsp.getStrCritica()));
   }
 
   @Override
@@ -119,12 +135,12 @@ public abstract class MessageMain<T extends RespostaMain> implements Response.Li
     this.onResposta(rsp);
   }
 
-  protected abstract void onResposta(final T rsp);
-
-  private void setClsResposta(Class<T> clsResposta)
+  protected void onResponseServidorError(final T rsp)
   {
-    _clsResposta = clsResposta;
+    LogSinc.getI().addLog(Log.EnmTipo.ERRO, String.format("Erro de sincronização (%s) no servidor: %s", rsp.getClass().getSimpleName(), rsp.getStrCritica()));
   }
+
+  protected abstract void onResposta(final T rsp);
 
   private void setStrAparelhoId(String strAparelhoId)
   {

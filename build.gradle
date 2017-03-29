@@ -4,7 +4,6 @@ android {
 
     compileSdkVersion 24
     buildToolsVersion '25.0.0'
-    useLibrary 'org.apache.http.legacy'
 
     compileOptions {
 
@@ -34,10 +33,9 @@ dependencies {
     compile project(':digoJava')
 
     compile 'commons-io:commons-io:2.5'
-    compile 'commons-net:commons-net:3.5'
 
     compile 'com.android.volley:volley:1.0.0'
     compile 'com.balysv:material-ripple:1.0.2'
     compile 'com.github.markushi:circlebutton:1.1'
-    compile 'com.google.android.gms:play-services:10.0.1'
+    compile 'com.google.android.gms:play-services:10.2.0'
 }

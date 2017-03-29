@@ -123,6 +123,8 @@ public abstract class TblSincronizavelMain<T extends DominioSincronizavelMain> e
 
   protected abstract int getIntReservaCodigoQuantidade();
 
+  protected abstract int getIntSincMesRetroativo();
+
   protected abstract int getIntSincRegistroLimite();
 
   private MsgCodigoReserva getMsgCodigoReserva()
@@ -240,7 +242,7 @@ public abstract class TblSincronizavelMain<T extends DominioSincronizavelMain> e
     objDominio.setStrSincCritica(null);
   }
 
-  public void processarPesquisa(final RspPesquisar rspPesquisar)
+  public void processarPesquisa(final MsgPesquisar msgPesquisar, final RspPesquisar rspPesquisar)
   {
     if (rspPesquisar == null)
     {
@@ -281,6 +283,11 @@ public abstract class TblSincronizavelMain<T extends DominioSincronizavelMain> e
       return;
     }
 
+    if (msgPesquisar.getIntPesquisaParte() == 1)
+    {
+      LogSinc.getI().addLog(Log.EnmTipo.INFO, String.format("O servidor encontrou %s registro para tabela %s.", rspPesquisar.getIntRegistroQuantidadeTotal(), this.getStrNomeExibicao()));
+    }
+
     LogSinc.getI().addLog(Log.EnmTipo.INFO, String.format("Salvamento de %s registros iniciado na tabela %s.", arrJsnElement.length, this.getStrNomeExibicao()));
 
     for (JsonElement jsnElement : arrJsnElement)
@@ -295,7 +302,7 @@ public abstract class TblSincronizavelMain<T extends DominioSincronizavelMain> e
 
     LogSinc.getI().addLog(Log.EnmTipo.INFO, String.format("Salvo %s registros na tabela %s.", arrJsnElement.length, this.getStrNomeExibicao()));
 
-    this.processarPesquisaFinalizar(rspPesquisar);
+    this.processarPesquisaFinalizar(msgPesquisar, rspPesquisar);
   }
 
   private void processarPesquisa(final RspPesquisar rspPesquisar, final JsonElement jsnObjDominio)
@@ -327,19 +334,23 @@ public abstract class TblSincronizavelMain<T extends DominioSincronizavelMain> e
     // LogSinc.getI().addLog(Log.EnmTipo.INFO, String.format("Registro %s salvo com sucesso na tabela %s.", objDominio.getIntId(), this.getStrNomeExibicao()));
   }
 
-  private void processarPesquisaFinalizar(final RspPesquisar rspPesquisar)
+  private void processarPesquisaFinalizar(final MsgPesquisar msgPesquisar, final RspPesquisar rspPesquisar)
   {
     TblSincronizacaoRecebimento.getI().salvarRecebimento(this, rspPesquisar);
 
-    this.processarPesquisaFinalizarIncompleto(rspPesquisar);
+    this.processarPesquisaFinalizarIncompleto(msgPesquisar, rspPesquisar);
   }
 
-  private void processarPesquisaFinalizarIncompleto(final RspPesquisar rspPesquisar)
+  private void processarPesquisaFinalizarIncompleto(final MsgPesquisar msgPesquisar, final RspPesquisar rspPesquisar)
   {
     if (rspPesquisar.getBooSincCompleto())
     {
       return;
     }
+
+    int intResto = (rspPesquisar.getIntRegistroQuantidadeTotal() - msgPesquisar.getIntPesquisaParte() * msgPesquisar.getIntSincRegistroLimite());
+
+    LogSinc.getI().addLog(Log.EnmTipo.INFO, String.format("Restam %s registros a serem salvos na tabela %s.", intResto, this.getStrNomeExibicao()));
 
     this.getSrvSinc().setBooReiniciarLoop(true);
 
@@ -514,11 +525,6 @@ public abstract class TblSincronizavelMain<T extends DominioSincronizavelMain> e
 
     this.setSrvSinc(srvSinc);
 
-    if (!this.getBooReceberDados())
-    {
-      return;
-    }
-
     this.sincronizarReceber();
     this.sincronizarEnviar();
     this.sincronizarReservarCodigo();
@@ -568,6 +574,11 @@ public abstract class TblSincronizavelMain<T extends DominioSincronizavelMain> e
 
   private void sincronizarReceber()
   {
+    if (!this.getBooReceberDados())
+    {
+      return;
+    }
+
     if (this.getMsgPesquisar() != null)
     {
       return;
@@ -575,6 +586,7 @@ public abstract class TblSincronizavelMain<T extends DominioSincronizavelMain> e
 
     this.setMsgPesquisar(new MsgPesquisar());
 
+    this.getMsgPesquisar().setIntMesRetroativo(this.getIntSincMesRetroativo());
     this.getMsgPesquisar().setDttUltimoRecebimento(TblSincronizacaoRecebimento.getI().getDttUltimoRecebimento(this));
     this.getMsgPesquisar().setIntPesquisaParte(1);
     this.getMsgPesquisar().setIntSincRegistroLimite(this.getIntSincRegistroLimite());

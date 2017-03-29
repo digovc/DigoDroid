@@ -218,25 +218,31 @@ public class TblReservaCodigo extends TblAndroidMain<DominioAndroidMain>
     lstFil.add(new Filtro(this.getClnIntQuantidadeRestante(), 0, Filtro.EnmOperador.MAIOR));
     lstFil.add(new Filtro(this.getClnSqlTabelaNome(), tbl.getSqlNome()));
 
-    this.recuperar(lstFil);
-
-    if (this.getClnIntId().getIntValor() < 1)
+    try
     {
-      return;
+      this.recuperar(lstFil);
+
+      if (this.getClnIntId().getIntValor() < 1)
+      {
+        return;
+      }
+
+      int intCodigoProximo = (this.getClnIntCodigoInicial().getIntValor() + this.getClnIntQuantidadeDisponibilizado().getIntValor() - this.getClnIntQuantidadeRestante().getIntValor());
+
+      tbl.getClnIntId().setIntValor(intCodigoProximo);
+      tbl.getClnIntReservaCodigoId().setIntValor(this.getClnIntReservaCodigoServerId().getIntValor());
+
+      this.getClnIntQuantidadeRestante().setIntValor(this.getClnIntQuantidadeRestante().getIntValor() - 1);
+
+      this.salvar();
     }
-
-    int intCodigoProximo = (this.getClnIntCodigoInicial().getIntValor() + this.getClnIntQuantidadeDisponibilizado().getIntValor() - this.getClnIntQuantidadeRestante().getIntValor());
-
-    tbl.getClnIntId().setIntValor(intCodigoProximo);
-    tbl.getClnIntReservaCodigoId().setIntValor(this.getClnIntReservaCodigoServerId().getIntValor());
-
-    this.getClnIntQuantidadeRestante().setIntValor(this.getClnIntQuantidadeRestante().getIntValor() - 1);
-
-    this.salvar();
-
+    finally
+    {
+      this.liberarThread();
+    }
   }
 
-  public void reservarCodigo(final RspCodigoReserva rsp)
+  void reservarCodigo(final RspCodigoReserva rsp)
   {
     if (rsp == null)
     {
@@ -248,17 +254,24 @@ public class TblReservaCodigo extends TblAndroidMain<DominioAndroidMain>
       return;
     }
 
-    this.limparDados();
+    try
+    {
+      this.limparDados();
 
-    this.getClnBooAtivo().setBooValor(true);
-    this.getClnDttAlteracao().setDttValor(Calendar.getInstance());
-    this.getClnDttCadastro().setDttValor(Calendar.getInstance());
-    this.getClnIntCodigoInicial().setIntValor(rsp.getIntCodigoInicial());
-    this.getClnIntQuantidadeDisponibilizado().setIntValor(rsp.getMsg().getIntQuantidadeDisponibilizado());
-    this.getClnIntQuantidadeRestante().setIntValor(rsp.getMsg().getIntQuantidadeDisponibilizado()); // TODO: Recuperar a quantidade restante do servidor.
-    this.getClnIntReservaCodigoServerId().setIntValor(rsp.getIntReservaCodigoId());
-    this.getClnSqlTabelaNome().setStrValor(rsp.getMsg().getTbl().getSqlNome());
+      this.getClnBooAtivo().setBooValor(true);
+      this.getClnDttAlteracao().setDttValor(Calendar.getInstance());
+      this.getClnDttCadastro().setDttValor(Calendar.getInstance());
+      this.getClnIntCodigoInicial().setIntValor(rsp.getIntCodigoInicial());
+      this.getClnIntQuantidadeDisponibilizado().setIntValor(rsp.getMsg().getIntQuantidadeDisponibilizado());
+      this.getClnIntQuantidadeRestante().setIntValor(rsp.getMsg().getIntQuantidadeDisponibilizado()); // TODO: Recuperar a quantidade restante do servidor.
+      this.getClnIntReservaCodigoServerId().setIntValor(rsp.getIntReservaCodigoId());
+      this.getClnSqlTabelaNome().setStrValor(rsp.getMsg().getTbl().getSqlNome());
 
-    this.salvar();
+      this.salvar();
+    }
+    finally
+    {
+      this.liberarThread();
+    }
   }
 }

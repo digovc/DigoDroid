@@ -23,6 +23,7 @@ import com.digosofter.digodroid.controle.label.LabelGeral;
 import com.digosofter.digodroid.controle.painel.PainelGeralRelativo;
 import com.digosofter.digodroid.controle.textbox.TextBoxGeral;
 import com.digosofter.digodroid.database.TblAndroidMain;
+import com.digosofter.digodroid.log.LogErro;
 import com.digosofter.digojava.Utils;
 import com.digosofter.digojava.database.OnChangeArg;
 import com.digosofter.digojava.database.OnTblChangeListener;
@@ -33,9 +34,7 @@ public class ActConsulta extends ActMain implements OnTblChangeListener, TextWat
 
   public enum EnmResultado
   {
-    NONE,
-    REGISTRO_SELECIONADO,
-    VOLTAR,
+    NONE, REGISTRO_SELECIONADO, VOLTAR,
   }
 
   /**
@@ -415,17 +414,26 @@ public class ActConsulta extends ActMain implements OnTblChangeListener, TextWat
   @Override
   public boolean onContextItemSelected(MenuItem mni)
   {
-    if (super.onContextItemSelected(mni))
+    try
     {
-      return true;
+      if (super.onContextItemSelected(mni))
+      {
+        return true;
+      }
+
+      if (this.getTbl() == null)
+      {
+        return false;
+      }
+
+      return this.getTbl().processarMenuItem(this, mni, this.getItmSelecionado().getIntRegistroId());
+    }
+    catch (Exception ex)
+    {
+      LogErro.getI().addLog(this, ex);
     }
 
-    if (this.getTbl() == null)
-    {
-      return false;
-    }
-
-    return this.getTbl().processarMenuItem(this, mni, this.getItmSelecionado().getIntRegistroId());
+    return false;
   }
 
   @Override

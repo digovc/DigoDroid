@@ -9,13 +9,13 @@ import com.digosofter.digodroid.server.message.MessageMain;
 
 import java.io.UnsupportedEncodingException;
 
-public class SincJsonRequest extends JsonRequest
+class SincJsonRequest extends JsonRequest
 {
   private static final int INT_TIME_OUT = (5 * 60 * 1000);
 
   private MessageMain _msg;
 
-  public SincJsonRequest(final MessageMain msg, final String url)
+  SincJsonRequest(final MessageMain msg, final String url)
   {
     super(Method.POST, url, msg.toJson(), msg, msg);
 

@@ -18,6 +18,11 @@ public abstract class ActPrincipalMain extends ActMain
   @Override
   protected void inicializar()
   {
+    if (AppAndroid.getI() == null)
+    {
+      this.finish();
+    }
+
     AppAndroid.getI().setActPrincipal(this);
 
     super.inicializar();

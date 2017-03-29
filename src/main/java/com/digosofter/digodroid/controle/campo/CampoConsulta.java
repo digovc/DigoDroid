@@ -2,6 +2,7 @@ package com.digosofter.digodroid.controle.campo;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.util.AttributeSet;
 import android.view.View;
 
@@ -85,9 +86,16 @@ public class CampoConsulta extends CampoMain implements View.OnClickListener
       return;
     }
 
-    String strNome = ((TblAndroidMain) this.getCln().getClnRef().getTbl()).getViwPrincipal().recuperar(this.getIntValor()).getClnNome().getStrValor();
+    try
+    {
+      String strNome = ((TblAndroidMain) this.getCln().getClnRef().getTbl()).getViwPrincipal().recuperar(this.getIntValor()).getClnNome().getStrValor();
 
-    this.getBtn().setText(strNome);
+      this.getBtn().setText(strNome);
+    }
+    finally
+    {
+      ((TblAndroidMain) this.getCln().getClnRef().getTbl()).getViwPrincipal().liberarThread();
+    }
   }
 
   private BotaoGeral getBtn()
@@ -108,7 +116,11 @@ public class CampoConsulta extends CampoMain implements View.OnClickListener
     super.inicializar();
 
     this.getBtn().setFocusable(true);
-    this.getBtn().setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);
+
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1)
+    {
+      this.getBtn().setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);
+    }
   }
 
   @Override
