@@ -9,6 +9,7 @@ import com.digosofter.digojava.Utils;
 import com.digosofter.digojava.log.Log;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 public class LogErro extends LogManagerAndroidMain
@@ -27,6 +28,7 @@ public class LogErro extends LogManagerAndroidMain
     return _i;
   }
 
+  private Calendar _dttIgnorarTodosUltimo;
   private List<ActErro> _lstActErro;
 
   private LogErro()
@@ -93,6 +95,11 @@ public class LogErro extends LogManagerAndroidMain
     this.abrirActErro(AppAndroid.getI().getCnt(), new Exception(strErro));
   }
 
+  private Calendar getDttIgnorarTodosUltimo()
+  {
+    return _dttIgnorarTodosUltimo;
+  }
+
   public List<ActErro> getLstActErro()
   {
     if (_lstActErro != null)
@@ -130,6 +137,8 @@ public class LogErro extends LogManagerAndroidMain
 
   public void ignorarTodos()
   {
+    this.setDttIgnorarTodosUltimo(Calendar.getInstance());
+
     while (!this.getLstActErro().isEmpty())
     {
       this.ignorarTodos(this.getLstActErro().get(0));
@@ -158,5 +167,10 @@ public class LogErro extends LogManagerAndroidMain
     }
 
     this.getLstActErro().remove(actErro);
+  }
+
+  private void setDttIgnorarTodosUltimo(Calendar dttIgnorarTodosUltimo)
+  {
+    _dttIgnorarTodosUltimo = dttIgnorarTodosUltimo;
   }
 }
