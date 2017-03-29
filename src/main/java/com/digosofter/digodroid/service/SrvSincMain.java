@@ -76,7 +76,7 @@ public abstract class SrvSincMain<T extends ServerHttpSincMain> extends ServiceM
         return;
       }
 
-      if (t >= INT_LOOP_DELAY)
+      if (t >= this.getIntDelay())
       {
         return;
       }
@@ -110,6 +110,11 @@ public abstract class SrvSincMain<T extends ServerHttpSincMain> extends ServiceM
   }
 
   protected abstract DbeAndroidMain getDbe();
+
+  protected int getIntDelay()
+  {
+    return INT_LOOP_DELAY;
+  }
 
   protected abstract int getIntNotificacaoIconId();
 

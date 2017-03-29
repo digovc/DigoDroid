@@ -30,7 +30,6 @@ import com.digosofter.digojava.database.OnTblChangeListener;
 /**/
 public class ActConsulta extends ActMain implements OnTblChangeListener, TextWatcher, OnClickListener
 {
-
   public enum EnmResultado
   {
     NONE,
