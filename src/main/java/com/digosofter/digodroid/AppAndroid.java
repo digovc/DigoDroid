@@ -42,7 +42,6 @@ public abstract class AppAndroid extends App
   private ActMain _actPrincipal;
   private boolean _booDebug;
   private Context _cnt;
-  private DbeAndroidMain _dbePrincipal;
   private String _dir;
   private List<OnSrvSincCreateListener> _lstEvtOnSrvSincCreateListener;
   private List<OnSrvSincDestroyListener> _lstEvtOnSrvSincDestroyListener;
@@ -464,5 +463,4 @@ public abstract class AppAndroid extends App
 
     AppAndroid._i = i;
   }
-
 }

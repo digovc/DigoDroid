@@ -3,8 +3,9 @@ package com.digosofter.digodroid.log;
 import android.content.Context;
 import android.content.Intent;
 
+import com.digosofter.digodroid.AppAndroid;
 import com.digosofter.digodroid.activity.ActErro;
-import com.digosofter.digodroid.activity.ActMain;
+import com.digosofter.digojava.Utils;
 import com.digosofter.digojava.log.Log;
 
 import java.util.ArrayList;
@@ -51,12 +52,16 @@ public class LogErro extends LogManagerAndroidMain
       return;
     }
 
-    if (this.getLstActErro().contains(actErro))
+    try
     {
-      return;
-    }
+      this.bloquearThread();
 
-    this.getLstActErro().add(actErro);
+      this.getLstActErro().add(actErro);
+    }
+    finally
+    {
+      this.liberarThread();
+    }
   }
 
   public void addLog(final Context cnt, final Exception ex)
@@ -69,6 +74,23 @@ public class LogErro extends LogManagerAndroidMain
     super.addLog(Log.EnmTipo.ERRO, ex.getMessage());
 
     this.abrirActErro(cnt, ex);
+  }
+
+  public void addLog(final String strErro)
+  {
+    if (Utils.getBooStrVazia(strErro))
+    {
+      return;
+    }
+
+    super.addLog(Log.EnmTipo.ERRO, strErro);
+
+    if (AppAndroid.getI() == null)
+    {
+      return;
+    }
+
+    this.abrirActErro(AppAndroid.getI().getCnt(), new Exception(strErro));
   }
 
   public List<ActErro> getLstActErro()

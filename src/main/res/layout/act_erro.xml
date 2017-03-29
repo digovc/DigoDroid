@@ -21,15 +21,23 @@
             android:layout_gravity="center"
             android:padding="25dp"/>
 
-        <com.digosofter.digodroid.controle.label.LabelGeral
-            android:id="@+id/actErro_lblTitulo"
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_horizontal"
-            android:padding="10dp"
-            android:text="Erro desconhecido."/>
+            android:layout_height="150dp"
+        >
+
+            <com.digosofter.digodroid.controle.label.LabelGeral
+                android:id="@+id/actErro_lblTitulo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:padding="10dp"
+                android:text="Erro desconhecido."/>
+        </ScrollView>
+
 
         <com.digosofter.digodroid.controle.painel.PainelGrupo
+            android:id="@+id/actErro_pnlDetalhe"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:strTitulo="Detalhes">

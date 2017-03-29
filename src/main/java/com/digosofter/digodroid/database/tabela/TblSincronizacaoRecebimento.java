@@ -149,21 +149,28 @@ public class TblSincronizacaoRecebimento extends TblAndroidMain<DominioAndroidMa
     lstFil.add(new Filtro(this.getClnSqlTabelaNome(), tbl.getSqlNome()));
     lstFil.add(new Filtro(this.getClnStrCritica(), Filtro.EnmOperador.IS_NULL));
 
-    this.recuperar(lstFil);
-
-    if (this.getClnIntId().getIntValor() < 1)
+    try
     {
-      return null;
-    }
+      this.recuperar(lstFil);
 
-    if (this.getClnDttRecebimento().getDttValor() == null)
+      if (this.getClnIntId().getIntValor() < 1)
+      {
+        return null;
+      }
+
+      if (this.getClnDttRecebimento().getDttValor() == null)
+      {
+        return null;
+      }
+
+      this.getClnDttRecebimento().getDttValor().add(Calendar.MINUTE, -15);
+
+      return this.getClnDttRecebimento().getDttValor();
+    }
+    finally
     {
-      return null;
+      this.liberarThread();
     }
-
-    this.getClnDttRecebimento().getDttValor().add(Calendar.MINUTE, -15);
-
-    return this.getClnDttRecebimento().getDttValor();
   }
 
   @Override
@@ -174,7 +181,7 @@ public class TblSincronizacaoRecebimento extends TblAndroidMain<DominioAndroidMa
     this.setStrNomeExibicao("Log recebimento");
 
     this.getClnBooSincCompleto().setBooVisivelConsulta(true);
-    this.getClnBooSincCompleto().setStrNomeExibicao("Sincronização parcial");
+    this.getClnBooSincCompleto().setStrNomeExibicao("Sincronização completa");
 
     this.getClnDttAlteracao().setBooVisivelConsulta(true);
 
@@ -221,18 +228,25 @@ public class TblSincronizacaoRecebimento extends TblAndroidMain<DominioAndroidMa
       return;
     }
 
-    this.limparDados();
+    try
+    {
+      this.limparDados();
 
-    this.getClnBooSincCompleto().setBooValor(rspPesquisar.getBooSincCompleto());
-    this.getClnDttRecebimento().setDttValor(Calendar.getInstance());
-    this.getClnIntRegistroQuantidade().setIntValor(rspPesquisar.getIntRegistroQuantidade());
-    this.getClnIntServerSincronizacaoId().setIntValor(rspPesquisar.getIntSincronizacaoId());
-    this.getClnSqlTabelaNome().setStrValor(tbl.getSqlNome());
-    this.getClnStrCritica().setStrValor(rspPesquisar.getStrCritica());
-    this.getClnStrTabelaNomeExibicao().setStrValor(tbl.getStrNomeExibicao());
+      this.getClnBooSincCompleto().setBooValor(rspPesquisar.getBooSincCompleto());
+      this.getClnDttRecebimento().setDttValor(Calendar.getInstance());
+      this.getClnIntRegistroQuantidade().setIntValor(rspPesquisar.getIntRegistroQuantidade());
+      this.getClnIntServerSincronizacaoId().setIntValor(rspPesquisar.getIntSincronizacaoId());
+      this.getClnSqlTabelaNome().setStrValor(tbl.getSqlNome());
+      this.getClnStrCritica().setStrValor(rspPesquisar.getStrCritica());
+      this.getClnStrTabelaNomeExibicao().setStrValor(tbl.getStrNomeExibicao());
 
-    this.salvar();
+      this.salvar();
 
-    rspPesquisar.setIntSincronizacaoId(this.getClnIntId().getIntValor());
+      rspPesquisar.setIntSincronizacaoId(this.getClnIntId().getIntValor());
+    }
+    finally
+    {
+      this.liberarThread();
+    }
   }
 }

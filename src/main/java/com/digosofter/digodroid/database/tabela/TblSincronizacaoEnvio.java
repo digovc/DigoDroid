@@ -169,21 +169,28 @@ public class TblSincronizacaoEnvio extends TblAndroidMain<DominioAndroidMain>
       return;
     }
 
-    this.limparDados();
+    try
+    {
+      this.limparDados();
 
-    this.getClnBooAtivo().setBooValor(true);
-    this.getClnBooSucesso().setBooValor(Coluna.STR_VALOR_NULO.equals(objDominio.getStrSincCritica()));
-    this.getClnDttAlteracao().setDttValor(Calendar.getInstance());
-    this.getClnDttCadastro().setDttValor(Calendar.getInstance());
-    this.getClnDttEnvio().setDttValor(Calendar.getInstance());
-    this.getClnIntRegistroId().setIntValor(objDominio.getIntId());
-    this.getClnIntUsuarioAlteracaoId().setIntValor(objDominio.getIntUsuarioCadastroId());
-    this.getClnIntUsuarioCadastroId().setIntValor(objDominio.getIntUsuarioCadastroId());
-    this.getClnSqlTabelaNome().setStrValor(tbl.getSqlNome());
-    this.getClnStrCritica().setStrValor(objDominio.getStrSincCritica());
-    this.getclnStrTblNomeExibicao().setStrValor(tbl.getStrNomeExibicao());
+      this.getClnBooAtivo().setBooValor(true);
+      this.getClnBooSucesso().setBooValor(Coluna.STR_VALOR_NULO.equals(objDominio.getStrSincCritica()));
+      this.getClnDttAlteracao().setDttValor(Calendar.getInstance());
+      this.getClnDttCadastro().setDttValor(Calendar.getInstance());
+      this.getClnDttEnvio().setDttValor(Calendar.getInstance());
+      this.getClnIntRegistroId().setIntValor(objDominio.getIntId());
+      this.getClnIntUsuarioAlteracaoId().setIntValor(objDominio.getIntUsuarioCadastroId());
+      this.getClnIntUsuarioCadastroId().setIntValor(objDominio.getIntUsuarioCadastroId());
+      this.getClnSqlTabelaNome().setStrValor(tbl.getSqlNome());
+      this.getClnStrCritica().setStrValor(objDominio.getStrSincCritica());
+      this.getclnStrTblNomeExibicao().setStrValor(tbl.getStrNomeExibicao());
 
-    this.salvar();
+      this.salvar();
+    }
+    finally
+    {
+      this.liberarThread();
+    }
   }
 
   synchronized void salvarEnvioServidorErro(final TblSincronizavelMain tbl, final RspSalvar rsp)
@@ -203,16 +210,23 @@ public class TblSincronizacaoEnvio extends TblAndroidMain<DominioAndroidMain>
       return;
     }
 
-    this.limparDados();
+    try
+    {
+      this.limparDados();
 
-    this.getClnBooAtivo().setBooValor(true);
-    this.getClnBooSucesso().setBooValor(false);
-    this.getClnDttAlteracao().setDttValor(Calendar.getInstance());
-    this.getClnDttCadastro().setDttValor(Calendar.getInstance());
-    this.getClnDttEnvio().setDttValor(Calendar.getInstance());
-    this.getClnSqlTabelaNome().setStrValor(tbl.getSqlNome());
-    this.getClnStrCritica().setStrValor(rsp.getStrCritica());
+      this.getClnBooAtivo().setBooValor(true);
+      this.getClnBooSucesso().setBooValor(false);
+      this.getClnDttAlteracao().setDttValor(Calendar.getInstance());
+      this.getClnDttCadastro().setDttValor(Calendar.getInstance());
+      this.getClnDttEnvio().setDttValor(Calendar.getInstance());
+      this.getClnSqlTabelaNome().setStrValor(tbl.getSqlNome());
+      this.getClnStrCritica().setStrValor(rsp.getStrCritica());
 
-    this.salvar();
+      this.salvar();
+    }
+    finally
+    {
+      this.liberarThread();
+    }
   }
 }

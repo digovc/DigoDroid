@@ -203,20 +203,27 @@ public abstract class TblAndroidMain<T extends DominioAndroidMain> extends Tabel
       return;
     }
 
-    this.getViwPrincipal().recuperar(intRegistroId);
-
-    if (this.getViwPrincipal().getClnIntId().getIntValor() < 1)
+    try
     {
-      AppAndroid.getI().notificar("Registro não econtrado.");
-      return;
+      this.getViwPrincipal().recuperar(intRegistroId);
+
+      if (this.getViwPrincipal().getClnIntId().getIntValor() < 1)
+      {
+        AppAndroid.getI().notificar("Registro não econtrado.");
+        return;
+      }
+
+      Intent itt = new Intent(act, ActDetalhe.class);
+
+      itt.putExtra(ActDetalhe.STR_EXTRA_IN_INT_REGISTRO_ID, intRegistroId);
+      itt.putExtra(ActDetalhe.STR_EXTRA_IN_INT_TBL_OBJETO_ID, this.getViwPrincipal().getIntObjetoId());
+
+      act.startActivity(itt);
     }
-
-    Intent itt = new Intent(act, ActDetalhe.class);
-
-    itt.putExtra(ActDetalhe.STR_EXTRA_IN_INT_REGISTRO_ID, intRegistroId);
-    itt.putExtra(ActDetalhe.STR_EXTRA_IN_INT_TBL_OBJETO_ID, this.getViwPrincipal().getIntObjetoId());
-
-    act.startActivity(itt);
+    finally
+    {
+      this.getViwPrincipal().liberarThread();
+    }
   }
 
   void addViw(ViewAndroid viwAndroid)
@@ -298,6 +305,8 @@ public abstract class TblAndroidMain<T extends DominioAndroidMain> extends Tabel
     {
       return;
     }
+
+    this.bloquearThread();
 
     for (Coluna cln : this.getLstCln())
     {
@@ -576,11 +585,18 @@ public abstract class TblAndroidMain<T extends DominioAndroidMain> extends Tabel
       return 0;
     }
 
-    this.recuperar(intId);
+    try
+    {
+      this.recuperar(intId);
 
-    this.getClnIntId().limpar();
+      this.getClnIntId().limpar();
 
-    return this.salvar().getClnIntId().getIntValor();
+      return this.salvar().getClnIntId().getIntValor();
+    }
+    finally
+    {
+      this.liberarThread();
+    }
   }
 
   public boolean getBooCodigoDisponivel()
@@ -588,7 +604,7 @@ public abstract class TblAndroidMain<T extends DominioAndroidMain> extends Tabel
     return TblReservaCodigo.getI().getBooCodigoDisponivel(this);
   }
 
-  protected boolean getBooExiste()
+  private boolean getBooExiste()
   {
     if (this.getDbe() == null)
     {
@@ -1272,6 +1288,11 @@ public abstract class TblAndroidMain<T extends DominioAndroidMain> extends Tabel
     return this.pesquisar(this.getLstCln(), null);
   }
 
+  public Cursor pesquisar(final int intId)
+  {
+    return this.pesquisar(this.getClnIntId(), intId);
+  }
+
   public Cursor pesquisar(Coluna cln)
   {
     List<Coluna> lstCln = new ArrayList<>();
@@ -1928,6 +1949,8 @@ public abstract class TblAndroidMain<T extends DominioAndroidMain> extends Tabel
 
   public TblAndroidMain salvar()
   {
+    this.bloquearThread();
+
     this.carregarValorDefault();
 
     if (this.getClnDttCadastro().getBooVazia())
@@ -1957,13 +1980,20 @@ public abstract class TblAndroidMain<T extends DominioAndroidMain> extends Tabel
       return null;
     }
 
-    this.lerDominio(objDominio);
+    try
+    {
+      this.lerDominio(objDominio);
 
-    this.salvar();
+      this.salvar();
 
-    objDominio.setIntId(this.getClnIntId().getIntValor());
+      objDominio.setIntId(this.getClnIntId().getIntValor());
 
-    return objDominio;
+      return objDominio;
+    }
+    finally
+    {
+      this.liberarThread();
+    }
   }
 
   private void salvarInsert()

@@ -73,9 +73,16 @@ public abstract class ActCadastroMain extends ActMain
     itt.putExtra(ActCadastroMain.STR_EXTRA_IN_INT_TBL_PAI_OBJETO_ID, (this.getTblPai() != null) ? this.getTblPai().getIntObjetoId() : -1);
     itt.putExtra(ActCadastroMain.STR_EXTRA_IN_INT_REGISTRO_ANTERIOR_ID, this.getTbl().getClnIntId().getIntValor());
 
-    this.getTbl().limparDados();
+    try
+    {
+      this.getTbl().limparDados();
 
-    this.startActivity(itt);
+      this.startActivity(itt);
+    }
+    finally
+    {
+      this.getTbl().liberarThread();
+    }
   }
 
   protected void carregarDados()
@@ -85,11 +92,18 @@ public abstract class ActCadastroMain extends ActMain
       return;
     }
 
-    this.getTbl().limparDados();
-
-    for (Coluna cln : this.getTbl().getLstCln())
+    try
     {
-      this.carregarDados((ColunaAndroid) cln);
+      this.getTbl().limparDados();
+
+      for (Coluna cln : this.getTbl().getLstCln())
+      {
+        this.carregarDados((ColunaAndroid) cln);
+      }
+    }
+    finally
+    {
+      this.getTbl().liberarThread();
     }
   }
 
@@ -372,14 +386,21 @@ public abstract class ActCadastroMain extends ActMain
       return;
     }
 
-    this.getTbl().limparDados();
-
-    if (this.getIntRegistroId() < 1)
+    try
     {
-      return;
-    }
+      this.getTbl().limparDados();
 
-    this.getTbl().recuperar(this.getIntRegistroId());
+      if (this.getIntRegistroId() < 1)
+      {
+        return;
+      }
+
+      this.getTbl().recuperar(this.getIntRegistroId());
+    }
+    finally
+    {
+      this.getTbl().liberarThread();
+    }
   }
 
   private void inicializarTitulo()
@@ -497,11 +518,18 @@ public abstract class ActCadastroMain extends ActMain
       return false;
     }
 
-    this.getTbl().salvar();
-    this.salvarAcordarSinc();
-    this.finish();
+    try
+    {
+      this.getTbl().salvar();
+      this.salvarAcordarSinc();
+      this.finish();
 
-    return true;
+      return true;
+    }
+    finally
+    {
+      this.getTbl().liberarThread();
+    }
   }
 
   protected void salvarAbrirNovo()

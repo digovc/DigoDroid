@@ -13,7 +13,6 @@ import com.digosofter.digodroid.database.tabela.TblSincronizavelMain;
 import com.digosofter.digodroid.log.LogErro;
 import com.digosofter.digodroid.log.LogSinc;
 import com.digosofter.digodroid.server.ServerHttpSincMain;
-import com.digosofter.digojava.Utils;
 import com.digosofter.digojava.log.Log;
 
 import java.util.ArrayList;
@@ -21,7 +20,7 @@ import java.util.List;
 
 public abstract class SrvSincMain<T extends ServerHttpSincMain> extends ServiceMain
 {
-  private static final int INT_LOOP_DELAY = (1000 * 60 * 5);
+  private static final int INT_LOOP_DELAY = (1000 * 60 * 15);
   private static final int INT_NOTIFICACAO_ID = 1010;
 
   private static SrvSincMain _i;
@@ -32,39 +31,29 @@ public abstract class SrvSincMain<T extends ServerHttpSincMain> extends ServiceM
   }
 
   private boolean _booAcordar;
+  private boolean _booReiniciarLoop;
   private List<TblSincronizavelMain> _lstTbl;
   private NotificationCompat.Builder _objNotificationBuilder;
 
-  public SrvSincMain()
+  protected SrvSincMain()
   {
     super("Serviço de sincronização");
 
     this.setI(this);
   }
 
-  private void atualizarI(final SrvSincMain srvSinc)
-  {
-    if (AppAndroid.getI() == null)
-    {
-      return;
-    }
-
-    if (srvSinc != null)
-    {
-      AppAndroid.getI().dispararEvtOnSrvSincCreateListener(this);
-    }
-    else
-    {
-      AppAndroid.getI().dispararEvtOnSrvSincDestroyListener(this);
-    }
-  }
-
   private void esperarIntervaloLoop()
   {
     int t = 0;
 
-    while (true)
+    while (t < INT_LOOP_DELAY)
     {
+      if (this.getBooReiniciarLoop())
+    {
+        t = 0;
+        this.setBooReiniciarLoop(false);
+    }
+
       if (this.getBooAcordar())
       {
         this.setBooAcordar(false);
@@ -72,11 +61,6 @@ public abstract class SrvSincMain<T extends ServerHttpSincMain> extends ServiceM
       }
 
       if (this.getBooParar())
-      {
-        return;
-      }
-
-      if (t >= this.getIntDelay())
       {
         return;
       }
@@ -107,6 +91,11 @@ public abstract class SrvSincMain<T extends ServerHttpSincMain> extends ServiceM
   private boolean getBooAcordar()
   {
     return _booAcordar;
+  }
+
+  private boolean getBooReiniciarLoop()
+  {
+    return _booReiniciarLoop;
   }
 
   protected abstract DbeAndroidMain getDbe();
@@ -191,11 +180,6 @@ public abstract class SrvSincMain<T extends ServerHttpSincMain> extends ServiceM
     this.sincronizar();
   }
 
-  protected void notificarUrlServidorVazio()
-  {
-    LogSinc.getI().addLog(Log.EnmTipo.ERRO, "O endereço do servidor de sincronização não foi indicado.");
-  }
-
   @Override
   protected void processarErro(final Exception ex)
   {
@@ -227,6 +211,11 @@ public abstract class SrvSincMain<T extends ServerHttpSincMain> extends ServiceM
     _booAcordar = booAcordar;
   }
 
+  public void setBooReiniciarLoop(boolean booReiniciarLoop)
+  {
+    _booReiniciarLoop = booReiniciarLoop;
+  }
+
   private void setI(SrvSincMain i)
   {
     if (_i == i)
@@ -234,9 +223,26 @@ public abstract class SrvSincMain<T extends ServerHttpSincMain> extends ServiceM
       return;
     }
 
+    if (_i != null)
+    {
+      _i.setBooParar(true);
+    }
+
     _i = i;
 
-    this.atualizarI(i);
+    if (AppAndroid.getI() == null)
+    {
+      return;
+  }
+
+    if (_i != null)
+    {
+      AppAndroid.getI().dispararEvtOnSrvSincCreateListener(this);
+    }
+    else
+    {
+      AppAndroid.getI().dispararEvtOnSrvSincDestroyListener(this);
+    }
   }
 
   protected void sincronizar()
@@ -282,15 +288,8 @@ public abstract class SrvSincMain<T extends ServerHttpSincMain> extends ServiceM
       return false;
     }
 
-    if (Utils.getBooStrVazia(this.getSrvHttpSinc().getUrlServer()))
+    if (!this.getSrvHttpSinc().validarInicializacao())
     {
-      this.notificarUrlServidorVazio();
-      return false;
-    }
-
-    if (!this.getSrvHttpSinc().pingServer(this.getSrvHttpSinc().getUrlServer()))
-    {
-      LogErro.getI().addLog(this, new Exception(String.format("Não foi possível se conectar ao servidor (%s).", this.getSrvHttpSinc().getUrlServer())));
       return false;
     }
 
