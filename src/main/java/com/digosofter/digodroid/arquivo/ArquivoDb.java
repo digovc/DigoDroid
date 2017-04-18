@@ -7,6 +7,6 @@ public class ArquivoDb extends AndroidArquivo
 {
   public ArquivoDb(DbeAndroidMain objDataBase)
   {
-    this.setDirCompleto(AppAndroid.getI().getCnt().getDatabasePath(objDataBase.getStrNome()).getPath());
+    this.setDirCompleto(AppAndroid.getI().getActPrincipal().getDatabasePath(objDataBase.getStrNome()).getPath());
   }
 }

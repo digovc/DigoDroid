@@ -90,7 +90,7 @@ public class LogErro extends LogManagerAndroidMain
       return;
     }
 
-    this.abrirActErro(AppAndroid.getI().getCnt(), new Exception(strErro));
+    this.abrirActErro(AppAndroid.getI().getActPrincipal(), new Exception(strErro));
   }
 
   public List<ActErro> getLstActErro()

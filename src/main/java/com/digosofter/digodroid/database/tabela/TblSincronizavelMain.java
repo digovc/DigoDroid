@@ -554,7 +554,7 @@ public abstract class TblSincronizavelMain<T extends DominioSincronizavelMain> e
       return;
     }
 
-    if (lstObjDominio.size() < 1)
+    if (lstObjDominio.isEmpty())
     {
       return;
     }

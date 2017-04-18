@@ -14,7 +14,6 @@ import com.digosofter.digodroid.AppAndroid;
 import com.digosofter.digodroid.R;
 import com.digosofter.digodroid.controle.botao.BotaoGeral;
 import com.digosofter.digodroid.controle.label.LabelGeral;
-import com.digosofter.digodroid.controle.painel.PainelGrupo;
 import com.digosofter.digodroid.log.LogErro;
 import com.digosofter.digojava.Utils;
 
@@ -26,9 +25,8 @@ public class ActErro extends ActMain implements View.OnClickListener
   private static final String STR_MENU_COMPARTILHAR = "Compartilhar";
 
   private BotaoGeral _btnIgnorarTodos;
-  private LabelGeral _lblDescricao;
   private LabelGeral _lblTitulo;
-  private PainelGrupo _pnlDetalhe;
+  private String _strDescricao;
 
   private boolean compartilhar()
   {
@@ -41,14 +39,10 @@ public class ActErro extends ActMain implements View.OnClickListener
     {
       return false;
     }
-    if (Utils.getBooStrVazia(this.getLblDescricao().getText().toString()))
-    {
-      return false;
-    }
 
-    String strConteudo = String.format("%s\n\n%s", this.getLblTitulo().getText().toString(), this.getLblDescricao().getText().toString());
+    String strConteudo = String.format("%s\n\n%s", this.getLblTitulo().getText().toString(), this.getStrDescricao().toString());
 
-    Aparelho.getI().compartilhar(this, this.getLblTitulo().getText().toString(), strConteudo);
+    Aparelho.getI().compartilhar(this, String.format("Erro no %s", AppAndroid.getI().getStrNome()), strConteudo);
 
     return true;
   }
@@ -79,18 +73,6 @@ public class ActErro extends ActMain implements View.OnClickListener
     return R.layout.act_erro;
   }
 
-  private LabelGeral getLblDescricao()
-  {
-    if (_lblDescricao != null)
-    {
-      return _lblDescricao;
-    }
-
-    _lblDescricao = this.getView(R.id.actErro_lblDescricao);
-
-    return _lblDescricao;
-  }
-
   private LabelGeral getLblTitulo()
   {
     if (_lblTitulo != null)
@@ -103,16 +85,9 @@ public class ActErro extends ActMain implements View.OnClickListener
     return _lblTitulo;
   }
 
-  private PainelGrupo getPnlDetalhe()
+  private String getStrDescricao()
   {
-    if (_pnlDetalhe != null)
-    {
-      return _pnlDetalhe;
-    }
-
-    _pnlDetalhe = this.getView(R.id.actErro_pnlDetalhe);
-
-    return _pnlDetalhe;
+    return _strDescricao;
   }
 
   private void ignorarTodos()
@@ -138,7 +113,7 @@ public class ActErro extends ActMain implements View.OnClickListener
 
   private void inicializarBtnIgnorarTodos()
   {
-    this.getBtnIgnorarTodos().setVisibility((LogErro.getI().getLstActErro().size() > 1) ? View.VISIBLE : View.GONE);
+    this.getBtnIgnorarTodos().setVisibility((!LogErro.getI().getLstActErro().isEmpty()) ? View.VISIBLE : View.GONE);
   }
 
   @Override
@@ -159,7 +134,7 @@ public class ActErro extends ActMain implements View.OnClickListener
       return;
     }
 
-    this.getLblDescricao().setText(strDescricao);
+    this.setStrDescricao(strDescricao);
   }
 
   private void montarLayoutLblTitulo()
@@ -217,14 +192,9 @@ public class ActErro extends ActMain implements View.OnClickListener
       return false;
     }
 
-    this.onCreateOptionsMenuCompartilhar(mnu);
+    mnu.add(STR_MENU_COMPARTILHAR);
 
     return true;
-  }
-
-  private void onCreateOptionsMenuCompartilhar(final Menu mnu)
-  {
-    MenuItem mniCompartilhar = mnu.add(STR_MENU_COMPARTILHAR);
   }
 
   @Override
@@ -250,5 +220,10 @@ public class ActErro extends ActMain implements View.OnClickListener
     super.setEventos();
 
     this.getBtnIgnorarTodos().setOnClickListener(this);
+  }
+
+  private void setStrDescricao(String strDescricao)
+  {
+    _strDescricao = strDescricao;
   }
 }

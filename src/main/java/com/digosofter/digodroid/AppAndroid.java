@@ -1,5 +1,6 @@
 package com.digosofter.digodroid;
 
+import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.AlertDialog;
 import android.app.Notification;
@@ -8,7 +9,6 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Environment;
@@ -40,8 +40,6 @@ public abstract class AppAndroid extends App
   }
 
   private ActMain _actPrincipal;
-  private boolean _booDebug;
-  private Context _cnt;
   private String _dir;
   private List<OnSrvSincCreateListener> _lstEvtOnSrvSincCreateListener;
   private List<OnSrvSincDestroyListener> _lstEvtOnSrvSincDestroyListener;
@@ -139,13 +137,13 @@ public abstract class AppAndroid extends App
 
   public void esconderTeclado()
   {
-    InputMethodManager imm = (InputMethodManager) this.getCnt().getSystemService(Context.INPUT_METHOD_SERVICE);
+    InputMethodManager imm = (InputMethodManager) this.getActPrincipal().getSystemService(Context.INPUT_METHOD_SERVICE);
     imm.hideSoftInputFromWindow(null, 0);
   }
 
   public void fechar()
   {
-    ((NotificationManager) this.getCnt().getSystemService(Context.NOTIFICATION_SERVICE)).cancelAll();
+    ((NotificationManager) this.getActPrincipal().getSystemService(Context.NOTIFICATION_SERVICE)).cancelAll();
 
     this.getActPrincipal().finish();
 
@@ -157,29 +155,9 @@ public abstract class AppAndroid extends App
     return _actPrincipal;
   }
 
-  @Override
-  public boolean getBooDebug()
-  {
-    _booDebug = (0 != (this.getActPrincipal().getApplicationInfo().flags & ApplicationInfo.FLAG_DEBUGGABLE));
-
-    return _booDebug;
-  }
-
   public abstract Class<?> getClsActSplashScreen();
 
   public abstract Class getClsViwDrawerMenu();
-
-  public Context getCnt()
-  {
-    if (this.getActPrincipal() == null)
-    {
-      return null;
-    }
-
-    _cnt = this.getActPrincipal().getApplicationContext();
-
-    return _cnt;
-  }
 
   public abstract DbeAndroidMain getDbe();
 
@@ -246,7 +224,7 @@ public abstract class AppAndroid extends App
       return _objNotificationManager;
     }
 
-    _objNotificationManager = (NotificationManager) this.getCnt().getSystemService(Context.NOTIFICATION_SERVICE);
+    _objNotificationManager = (NotificationManager) this.getActPrincipal().getSystemService(Context.NOTIFICATION_SERVICE);
 
     return _objNotificationManager;
   }
@@ -260,7 +238,7 @@ public abstract class AppAndroid extends App
 
     try
     {
-      _objPackageInfo = this.getCnt().getPackageManager().getPackageInfo(this.getCnt().getPackageName(), 0);
+      _objPackageInfo = this.getActPrincipal().getPackageManager().getPackageInfo(this.getActPrincipal().getPackageName(), 0);
     }
     catch (PackageManager.NameNotFoundException ex)
     {
@@ -369,19 +347,26 @@ public abstract class AppAndroid extends App
 
     int intTempo = strMensagem.length() > 50 ? Toast.LENGTH_LONG : Toast.LENGTH_SHORT;
 
-    Toast objToast = Toast.makeText(AppAndroid.this.getCnt(), strMensagem, intTempo);
+    Toast objToast = Toast.makeText(this.getActPrincipal(), strMensagem, intTempo);
 
     this.getLstObjToast().add(objToast);
 
     objToast.show();
   }
 
-  public void perguntar(final ActMain act, final String strPergunta, final DialogInterface.OnClickListener evtOnClick)
+  public void perguntar(Activity act, final String strPergunta, final DialogInterface.OnClickListener evtOnClick)
   {
+    if (act == null)
+    {
+      act = this.getActPrincipal();
+    }
+
     if (act == null)
     {
       return;
     }
+
+    final Activity actFinal = act;
 
     if (Utils.getBooStrVazia(strPergunta))
     {
@@ -393,7 +378,19 @@ public abstract class AppAndroid extends App
       return;
     }
 
-    new AlertDialog.Builder(act).setMessage(strPergunta).setPositiveButton("Sim", evtOnClick).setNegativeButton("Não", evtOnClick).show();
+    if (this.getActPrincipal() == null)
+    {
+      return;
+    }
+
+    actFinal.runOnUiThread(new Runnable()
+    {
+      @Override
+      public void run()
+      {
+        new AlertDialog.Builder(actFinal).setMessage(strPergunta).setPositiveButton("Sim", evtOnClick).setNegativeButton("Não", evtOnClick).show();
+      }
+    });
   }
 
   public abstract void processarRspWelcome(final RspWelcome rspWelcome);

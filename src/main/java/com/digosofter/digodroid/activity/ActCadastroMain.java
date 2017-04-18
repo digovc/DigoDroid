@@ -22,8 +22,6 @@ import java.util.List;
 
 public abstract class ActCadastroMain extends ActMain
 {
-  public static final String STR_EXTRA_IN_BOO_MOSTRAR_SALVAR_NOVO = "boo_salvar_novo";
-
   /**
    * Código do registro que indica o consulta_item que o usuário selecionou na lista desta tela.
    */
@@ -67,7 +65,6 @@ public abstract class ActCadastroMain extends ActMain
 
     Intent itt = new Intent(this, this.getClass());
 
-    itt.putExtra(ActCadastroMain.STR_EXTRA_IN_BOO_MOSTRAR_SALVAR_NOVO, this.getBooMostrarMenuSalvarNovo());
     itt.putExtra(ActCadastroMain.STR_EXTRA_IN_INT_REGISTRO_REF_ID, this.getIntRegistroRefId());
     itt.putExtra(ActCadastroMain.STR_EXTRA_IN_INT_TBL_OBJETO_ID, (this.getTbl() != null) ? this.getTbl().getIntObjetoId() : -1);
     itt.putExtra(ActCadastroMain.STR_EXTRA_IN_INT_TBL_PAI_OBJETO_ID, (this.getTblPai() != null) ? this.getTblPai().getIntObjetoId() : -1);
@@ -161,7 +158,7 @@ public abstract class ActCadastroMain extends ActMain
 
   protected boolean getBooMostrarMenuSalvarNovo()
   {
-    return this.getIntent().getBooleanExtra(STR_EXTRA_IN_BOO_MOSTRAR_SALVAR_NOVO, false);
+    return false;
   }
 
   protected CampoMain getCmpFocoInicial()
@@ -476,10 +473,10 @@ public abstract class ActCadastroMain extends ActMain
       return;
     }
 
-    MenuItem mniSalvar = mnu.add(STR_MENU_SALVAR_NOVO);
+    MenuItem mniSalvarNovo = mnu.add(STR_MENU_SALVAR_NOVO);
 
-    mniSalvar.setIcon(R.drawable.continuar);
-    mniSalvar.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+    mniSalvarNovo.setIcon(R.drawable.continuar);
+    mniSalvarNovo.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
   }
 
   @Override

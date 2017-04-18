@@ -15,6 +15,7 @@ import java.lang.reflect.ParameterizedType;
 public abstract class MessageMain<T extends RespostaMain> implements Response.Listener, Response.ErrorListener
 {
   private transient Class<T> _clsResposta;
+  private transient T _rsp;
   private String _strAparelhoId;
 
   protected MessageMain()
@@ -47,6 +48,11 @@ public abstract class MessageMain<T extends RespostaMain> implements Response.Li
     _clsResposta = (Class<T>) ((ParameterizedType) this.getClass().getGenericSuperclass()).getActualTypeArguments()[0];
 
     return _clsResposta;
+  }
+
+  protected T getRsp()
+  {
+    return _rsp;
   }
 
   public String getStrAparelhoId()
@@ -132,6 +138,8 @@ public abstract class MessageMain<T extends RespostaMain> implements Response.Li
       return;
     }
 
+    this.setRsp(rsp);
+
     this.onResposta(rsp);
   }
 
@@ -141,6 +149,11 @@ public abstract class MessageMain<T extends RespostaMain> implements Response.Li
   }
 
   protected abstract void onResposta(final T rsp);
+
+  private void setRsp(T rsp)
+  {
+    _rsp = rsp;
+  }
 
   private void setStrAparelhoId(String strAparelhoId)
   {

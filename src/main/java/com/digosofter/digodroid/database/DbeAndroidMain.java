@@ -10,14 +10,13 @@ import com.digosofter.digodroid.activity.ActMain;
 import com.digosofter.digodroid.arquivo.ArquivoDb;
 import com.digosofter.digojava.database.DbeMain;
 
-public abstract class DbeAndroidMain extends DbeMain
+public abstract class DbeAndroidMain extends DbeMain implements DialogInterface.OnClickListener
 {
   private static final String STR_FILE_PREFIXO = ".sqlite";
 
   private ArquivoDb _arq;
   private SQLiteDatabase _dbeEscrita;
   private SQLiteDatabase _dbeLeitura;
-  private DialogInterface.OnClickListener _evtDlgApagar;
   private SQLiteOpenHelper _objSqLiteOpenHelper;
 
   public DbeAndroidMain(String strNome)
@@ -37,9 +36,7 @@ public abstract class DbeAndroidMain extends DbeMain
       return;
     }
 
-    String strPergunta = "Todos os dados serão perdidos, inclusive aqueles que ainda não foram sincronizados.\n A aplicação será fechada.\n\n Tem certeza desta ação?";
-
-    AppAndroid.getI().perguntar(act, strPergunta, this.getEvtDlgApagar());
+    AppAndroid.getI().perguntar(act, "Todos os dados serão perdidos, inclusive aqueles que ainda não foram sincronizados.\n A aplicação será fechada.\n\n Tem certeza desta ação?", this);
   }
 
   private void apagar()
@@ -52,7 +49,7 @@ public abstract class DbeAndroidMain extends DbeMain
       this.setDbeLeitura(null);
       this.setObjSQLiteOpenHelper(null);
 
-      AppAndroid.getI().getCnt().deleteDatabase(this.getStrNome());
+      AppAndroid.getI().getActPrincipal().deleteDatabase(this.getStrNome());
 
       AppAndroid.getI().notificar("Banco de dados apagado.");
 
@@ -172,34 +169,6 @@ public abstract class DbeAndroidMain extends DbeMain
     return _dbeLeitura;
   }
 
-  private DialogInterface.OnClickListener getEvtDlgApagar()
-  {
-    if (_evtDlgApagar != null)
-    {
-      return _evtDlgApagar;
-    }
-
-    _evtDlgApagar = new DialogInterface.OnClickListener()
-    {
-      @Override
-      public void onClick(final DialogInterface dlg, final int intWhich)
-      {
-        switch (intWhich)
-        {
-          case DialogInterface.BUTTON_POSITIVE:
-            DbeAndroidMain.this.apagar();
-            return;
-
-          case DialogInterface.BUTTON_NEGATIVE:
-            AppAndroid.getI().notificar("Processo cancelado.");
-            return;
-        }
-      }
-    };
-
-    return _evtDlgApagar;
-  }
-
   private SQLiteOpenHelper getObjSQLiteOpenHelper()
   {
     if (_objSqLiteOpenHelper != null)
@@ -207,7 +176,7 @@ public abstract class DbeAndroidMain extends DbeMain
       return _objSqLiteOpenHelper;
     }
 
-    _objSqLiteOpenHelper = new SQLiteOpenHelper(AppAndroid.getI().getCnt(), this.getStrNome(), null, AppAndroid.getI().getIntVersao())
+    _objSqLiteOpenHelper = new SQLiteOpenHelper(AppAndroid.getI().getActPrincipal(), this.getStrNome(), null, AppAndroid.getI().getIntVersao())
     {
       @Override
       public void onCreate(SQLiteDatabase objSQLiteDatabase)
@@ -223,6 +192,17 @@ public abstract class DbeAndroidMain extends DbeMain
     };
 
     return _objSqLiteOpenHelper;
+  }
+
+  @Override
+  public void onClick(final DialogInterface dialog, final int which)
+  {
+    if (which != DialogInterface.BUTTON_POSITIVE)
+    {
+      return;
+    }
+
+    DbeAndroidMain.this.apagar();
   }
 
   private void onCreateSQLiteOpenHelper(final SQLiteDatabase objSQLiteDatabase)

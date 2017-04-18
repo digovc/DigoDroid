@@ -135,12 +135,12 @@ public abstract class ConfigAndroidMain extends ConfigMain
       return _objSharedPreferences;
     }
 
-    if (AppAndroid.getI().getCnt() == null)
+    if (AppAndroid.getI().getActPrincipal() == null)
     {
       return null;
     }
 
-    _objSharedPreferences = PreferenceManager.getDefaultSharedPreferences(AppAndroid.getI().getCnt());
+    _objSharedPreferences = PreferenceManager.getDefaultSharedPreferences(AppAndroid.getI().getActPrincipal());
 
     return _objSharedPreferences;
   }

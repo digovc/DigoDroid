@@ -190,7 +190,7 @@ public abstract class ActMain extends Activity
 
   protected boolean getBooMostrarMenu()
   {
-    return true;
+    return false;
   }
 
   public boolean getBooVisivel()

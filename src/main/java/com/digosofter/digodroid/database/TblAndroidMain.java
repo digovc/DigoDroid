@@ -112,7 +112,6 @@ public abstract class TblAndroidMain<T extends DominioAndroidMain> extends Tabel
 
     Intent itt = new Intent(act, this.getClsActCadastro());
 
-    itt.putExtra(ActCadastroMain.STR_EXTRA_IN_BOO_MOSTRAR_SALVAR_NOVO, (this.getBooMostrarSalvarNovo() || (intRegistroRefId > 0)));
     itt.putExtra(ActCadastroMain.STR_EXTRA_IN_INT_REGISTRO_ID, intRegistroId);
     itt.putExtra(ActCadastroMain.STR_EXTRA_IN_INT_REGISTRO_REF_ID, intRegistroRefId);
     itt.putExtra(ActCadastroMain.STR_EXTRA_IN_INT_TBL_OBJETO_ID, this.getIntObjetoId());
@@ -284,7 +283,7 @@ public abstract class TblAndroidMain<T extends DominioAndroidMain> extends Tabel
     String sql = "delete from _tbl_nome where _where;";
 
     sql = sql.replace("_tbl_nome", this.getSqlNome());
-    sql = sql.replace("where _where", lstFil != null && lstFil.size() > 0 ? "where _where" : Utils.STR_VAZIA);
+    sql = sql.replace("where _where", lstFil != null && !lstFil.isEmpty() ? "where _where" : Utils.STR_VAZIA);
     sql = sql.replace("_where", this.getSqlWhere(lstFil));
 
     this.getDbe().execSql(sql);
@@ -1342,7 +1341,7 @@ public abstract class TblAndroidMain<T extends DominioAndroidMain> extends Tabel
     sql = sql.replace("_clns_nome", this.getSqlClnSelect(lstCln));
     sql = sql.replace("_tbl_nome", this.getSqlNome());
 
-    sql = sql.replace("where _where", (lstFil != null && lstFil.size() > 0) ? "where _where" : Utils.STR_VAZIA);
+    sql = sql.replace("where _where", (lstFil != null && !lstFil.isEmpty()) ? "where _where" : Utils.STR_VAZIA);
 
     sql = sql.replace("_where", this.getSqlWhere(lstFil));
 
@@ -1939,7 +1938,7 @@ public abstract class TblAndroidMain<T extends DominioAndroidMain> extends Tabel
       return null;
     }
 
-    if (lstObjDominio.size() < 1)
+    if (lstObjDominio.isEmpty())
     {
       return null;
     }

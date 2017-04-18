@@ -424,7 +424,7 @@ public class ColunaAndroid extends Coluna
       return;
     }
 
-    this.setMniPesquisa(smn.add(this.getStrNomeExibicao()));
+    this.setMniPesquisa(smn.add((!this.equals(this.getTbl().getClnIntId())) ? this.getStrNomeExibicao() : "Código"));
     this.getMniPesquisa().setChecked(this.equals(((TblAndroidMain) this.getTbl()).getClnPesquisa()));
     this.getMniPesquisa().setCheckable(true);
   }

@@ -92,7 +92,7 @@ public abstract class ServerHttpSincMain
       return _objRequestQueue;
     }
 
-    //    _objRequestQueue = Volley.newRequestQueue(AppAndroid.getI().getCnt());
+    //    _objRequestQueue = Volley.newRequestQueue(AppAndroid.getI().getActPrincipal());
     _objRequestQueue = Volley.newRequestQueue(this.getSrvSinc());
 
     return _objRequestQueue;
@@ -110,7 +110,7 @@ public abstract class ServerHttpSincMain
       return _urlServerAtual;
     }
 
-    if (this.getLstUrlServer().size() < 1)
+    if (this.getLstUrlServer().isEmpty())
     {
       return null;
     }
@@ -154,7 +154,7 @@ public abstract class ServerHttpSincMain
 
   public boolean validarInicializacao()
   {
-    if (this.getLstUrlServer().size() < 1)
+    if (this.getLstUrlServer().isEmpty())
     {
       this.notificarUrlServidorVazio();
       return false;

@@ -1,15 +1,11 @@
 package com.digosofter.digodroid;
 
-import android.Manifest;
-import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.graphics.Point;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Environment;
 import android.os.Vibrator;
 import android.provider.Settings.Secure;
@@ -36,7 +32,6 @@ public class Aparelho extends Objeto
     return _i;
   }
 
-  private Context _cnt;
   private TelephonyManager _objTelephonyManager;
   private Point _pntTelaTamanho;
   private String _strDeviceId;
@@ -46,7 +41,7 @@ public class Aparelho extends Objeto
   {
     if (!Utils.getBooUrlValida(url))
     {
-      LogErro.getI().addLog(this.getCnt(), new Exception("URL inválida."));
+      LogErro.getI().addLog(AppAndroid.getI().getActPrincipal(), new Exception("URL inválida."));
       return;
     }
 
@@ -55,7 +50,7 @@ public class Aparelho extends Objeto
       url = "http://".concat(url);
     }
 
-    this.getCnt().startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(url)));
+    AppAndroid.getI().getActPrincipal().startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(url)));
   }
 
   public void abrirMapa(String strEnderecoCompleto)
@@ -71,7 +66,7 @@ public class Aparelho extends Objeto
 
     itt.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
-    this.getCnt().getApplicationContext().getApplicationContext().startActivity(itt);
+    AppAndroid.getI().getActPrincipal().getApplicationContext().getApplicationContext().startActivity(itt);
   }
 
   public void compartilhar(ActMain act, String strAssunto, String strConteudo)
@@ -115,7 +110,7 @@ public class Aparelho extends Objeto
     itt.setData(Uri.parse("tel:" + strNumero));
     itt.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
-    this.getCnt().startActivity(itt);
+    AppAndroid.getI().getActPrincipal().startActivity(itt);
   }
 
   /**
@@ -168,23 +163,11 @@ public class Aparelho extends Objeto
 
   public boolean getBooConectado()
   {
-    ConnectivityManager objConnectivityManager = (ConnectivityManager) this.getCnt().getSystemService(Context.CONNECTIVITY_SERVICE);
+    ConnectivityManager objConnectivityManager = (ConnectivityManager) AppAndroid.getI().getActPrincipal().getSystemService(Context.CONNECTIVITY_SERVICE);
 
     NetworkInfo objNetworkInfo = objConnectivityManager.getActiveNetworkInfo();
 
     return ((objNetworkInfo != null) && objNetworkInfo.isConnected());
-  }
-
-  private Context getCnt()
-  {
-    if (_cnt != null)
-    {
-      return _cnt;
-    }
-
-    _cnt = AppAndroid.getI().getCnt();
-
-    return _cnt;
   }
 
   private TelephonyManager getObjTelephonyManager()
@@ -194,12 +177,12 @@ public class Aparelho extends Objeto
       return _objTelephonyManager;
     }
 
-    if (this.getCnt() == null)
+    if (AppAndroid.getI().getActPrincipal() == null)
     {
       return null;
     }
 
-    _objTelephonyManager = (TelephonyManager) this.getCnt().getSystemService(Context.TELEPHONY_SERVICE);
+    _objTelephonyManager = (TelephonyManager) AppAndroid.getI().getActPrincipal().getSystemService(Context.TELEPHONY_SERVICE);
 
     return _objTelephonyManager;
   }
@@ -233,12 +216,12 @@ public class Aparelho extends Objeto
       return _strDeviceId;
     }
 
-    if (this.getCnt() == null)
+    if (AppAndroid.getI().getActPrincipal() == null)
     {
       return null;
     }
 
-    _strDeviceId = Secure.getString(this.getCnt().getContentResolver(), Secure.ANDROID_ID);
+    _strDeviceId = Secure.getString(AppAndroid.getI().getActPrincipal().getContentResolver(), Secure.ANDROID_ID);
 
     return _strDeviceId;
   }
@@ -262,7 +245,7 @@ public class Aparelho extends Objeto
 
   public void ligar(String strNumero)
   {
-    if (this.getCnt() == null)
+    if (AppAndroid.getI().getActPrincipal() == null)
     {
       return;
     }
@@ -279,7 +262,7 @@ public class Aparelho extends Objeto
     itt.setData(Uri.parse("tel:" + strNumero));
     itt.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
-    this.getCnt().startActivity(itt);
+    AppAndroid.getI().getActPrincipal().startActivity(itt);
   }
 
   /**
@@ -294,11 +277,11 @@ public class Aparelho extends Objeto
       return;
     }
 
-    if (this.getCnt() == null)
+    if (AppAndroid.getI().getActPrincipal() == null)
     {
       return;
     }
 
-    ((Vibrator) this.getCnt().getSystemService(Context.VIBRATOR_SERVICE)).vibrate(arrIntMs, -1);
+    ((Vibrator) AppAndroid.getI().getActPrincipal().getSystemService(Context.VIBRATOR_SERVICE)).vibrate(arrIntMs, -1);
   }
 }

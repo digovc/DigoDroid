@@ -146,7 +146,7 @@ public abstract class ViewAndroid extends TblAndroidMain<DominioAndroidMain>
         return Utils.STR_VAZIA;
       }
 
-      return IOUtils.toString(AppAndroid.getI().getCnt().getResources().openRawResource(this.getIntRawFileId()), "UTF-8");
+      return IOUtils.toString(AppAndroid.getI().getActPrincipal().getResources().openRawResource(this.getIntRawFileId()), "UTF-8");
     }
     catch (IOException ex)
     {

@@ -16,6 +16,12 @@ public abstract class ActPrincipalMain extends ActMain
   }
 
   @Override
+  protected boolean getBooMostrarMenu()
+  {
+    return true;
+  }
+
+  @Override
   protected void inicializar()
   {
     if (AppAndroid.getI() == null)
@@ -50,5 +56,4 @@ public abstract class ActPrincipalMain extends ActMain
 
     return false;
   }
-
 }
