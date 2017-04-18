@@ -4,6 +4,7 @@ import android.content.Context;
 import android.util.AttributeSet;
 
 import com.digosofter.digodroid.controle.textbox.TextBoxGeral;
+import com.digosofter.digojava.Utils;
 
 public class CampoNumerico extends CampoAlfanumerico
 {
@@ -27,9 +28,19 @@ public class CampoNumerico extends CampoAlfanumerico
   {
     super.atualizarStrValor(strValor);
 
+    if ("0".equals(strValor))
+    {
+      this.setStrValor(null);
+    }
+
     if ("0.0".equals(strValor))
     {
       this.setStrValor(null);
+    }
+
+    if (!Utils.getBooStrVazia(strValor) && strValor.endsWith(".0"))
+    {
+      this.setStrValor(Utils.removerUltimaLetra(strValor, 2));
     }
   }
 

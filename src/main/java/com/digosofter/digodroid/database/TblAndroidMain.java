@@ -179,7 +179,7 @@ public abstract class TblAndroidMain<T extends DominioAndroidMain> extends Tabel
 
     itt.putExtra(ActConsulta.STR_EXTRA_IN_BOO_REGISTRO_SELECIONAVEL, false);
     itt.putExtra(ActConsulta.STR_EXTRA_IN_INT_REGISTRO_REF_ID, intRegistroRefId);
-    itt.putExtra(ActConsulta.STR_EXTRA_IN_INT_TBL_PAI_OBJETO_ID, (tblPai != null) ? tblPai.getIntObjetoId() : -1);
+    itt.putExtra(ActConsulta.STR_EXTRA_IN_INT_TBL_PAI_OBJETO_ID, ((tblPai != null) ? tblPai.getIntObjetoId() : -1));
 
     this.abrirConsulta(act, itt);
   }

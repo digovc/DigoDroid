@@ -49,10 +49,10 @@ public abstract class SrvSincMain<T extends ServerHttpSincMain> extends ServiceM
     while (t < INT_LOOP_DELAY)
     {
       if (this.getBooReiniciarLoop())
-      {
+    {
         t = 0;
         this.setBooReiniciarLoop(false);
-      }
+    }
 
       if (this.getBooAcordar())
       {
@@ -99,6 +99,11 @@ public abstract class SrvSincMain<T extends ServerHttpSincMain> extends ServiceM
   }
 
   protected abstract DbeAndroidMain getDbe();
+
+  protected int getIntDelay()
+  {
+    return INT_LOOP_DELAY;
+  }
 
   protected abstract int getIntNotificacaoIconId();
 
@@ -228,7 +233,7 @@ public abstract class SrvSincMain<T extends ServerHttpSincMain> extends ServiceM
     if (AppAndroid.getI() == null)
     {
       return;
-    }
+  }
 
     if (_i != null)
     {
