@@ -409,7 +409,7 @@ public class ColunaAndroid extends Coluna
       return;
     }
 
-    this.setMniOrdenar(smn.add(this.getStrNomeExibicao()));
+    this.setMniOrdenar(smn.add((!this.equals(this.getTbl().getClnIntId())) ? this.getStrNomeExibicao() : "Código"));
   }
 
   void montarMenuPesquisa(final SubMenu smn)

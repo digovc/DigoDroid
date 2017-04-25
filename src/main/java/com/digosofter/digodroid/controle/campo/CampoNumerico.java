@@ -24,9 +24,17 @@ public class CampoNumerico extends CampoAlfanumerico
   }
 
   @Override
-  protected void atualizarStrValor(final String strValor)
+  public void inicializar()
   {
-    super.atualizarStrValor(strValor);
+    super.inicializar();
+
+    this.getTxt().setEnmFormato(TextBoxGeral.EnmFormato.NUMERICO_INTEIRO);
+  }
+
+  @Override
+  public void setStrValor(final String strValor)
+  {
+    super.setStrValor(strValor);
 
     if ("0".equals(strValor))
     {
@@ -42,13 +50,5 @@ public class CampoNumerico extends CampoAlfanumerico
     {
       this.setStrValor(Utils.removerUltimaLetra(strValor, 2));
     }
-  }
-
-  @Override
-  public void inicializar()
-  {
-    super.inicializar();
-
-    this.getTxt().setEnmFormato(TextBoxGeral.EnmFormato.NUMERICO_INTEIRO);
   }
 }

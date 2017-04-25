@@ -2,21 +2,16 @@ package com.digosofter.digodroid.controle.campo;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.Build;
 import android.util.AttributeSet;
-import android.view.View;
 
 import com.digosofter.digodroid.AppAndroid;
 import com.digosofter.digodroid.activity.ActConsulta;
 import com.digosofter.digodroid.activity.ActMain;
-import com.digosofter.digodroid.controle.botao.BotaoGeral;
 import com.digosofter.digodroid.database.TblAndroidMain;
 import com.digosofter.digodroid.database.ViewAndroid;
 
-public class CampoConsulta extends CampoMain implements View.OnClickListener
+public class CampoConsulta extends CampoBotaoMain
 {
-  private BotaoGeral _btn;
-
   public CampoConsulta(Context cnt)
   {
     super(cnt);
@@ -54,81 +49,6 @@ public class CampoConsulta extends CampoMain implements View.OnClickListener
     itt.putExtra(ActConsulta.STR_EXTRA_IN_BOO_REGISTRO_SELECIONAVEL, true);
 
     ((TblAndroidMain) this.getCln().getClnRef().getTbl()).getViwPrincipal().abrirConsulta((ActMain) this.getContext(), itt);
-  }
-
-  @Override
-  protected void atualizarStrValor(final String strValor)
-  {
-    super.atualizarStrValor(strValor);
-
-    this.atualizarStrValorNome();
-  }
-
-  private void atualizarStrValorNome()
-  {
-    if (this.getCln() == null)
-    {
-      return;
-    }
-
-    if (this.getCln().getClnRef() == null)
-    {
-      return;
-    }
-
-    if (this.getCln().getClnRef().getTbl() == null)
-    {
-      return;
-    }
-
-    if (this.getIntValor() < 1)
-    {
-      return;
-    }
-
-    try
-    {
-      String strNome = ((TblAndroidMain) this.getCln().getClnRef().getTbl()).getViwPrincipal().recuperar(this.getIntValor()).getClnNome().getStrValor();
-
-      this.getBtn().setText(strNome);
-    }
-    finally
-    {
-      ((TblAndroidMain) this.getCln().getClnRef().getTbl()).getViwPrincipal().liberarThread();
-    }
-  }
-
-  private BotaoGeral getBtn()
-  {
-    if (_btn != null)
-    {
-      return _btn;
-    }
-
-    _btn = new BotaoGeral(this.getContext());
-
-    return _btn;
-  }
-
-  @Override
-  public void inicializar()
-  {
-    super.inicializar();
-
-    this.getBtn().setFocusable(true);
-
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1)
-    {
-      this.getBtn().setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);
-    }
-  }
-
-  @Override
-  public void montarLayout()
-  {
-    super.montarLayout();
-
-    this.addView(this.getBtn());
   }
 
   public void onActivityResult(final Intent itt)
@@ -189,42 +109,52 @@ public class CampoConsulta extends CampoMain implements View.OnClickListener
   }
 
   @Override
-  public void onClick(final View viw)
+  protected void processarBtnClick()
   {
-    if (this.getBtn().equals(viw))
+    this.abrirConsulta();
+  }
+
+  @Override
+  public void setIntValor(final int intValor)
+  {
+    super.setIntValor(intValor);
+
+    this.setIntValorNome(intValor);
+  }
+
+  private void setIntValorNome(final int intId)
+  {
+    this.getBtn().setText(null);
+
+    if (this.getCln() == null)
     {
-      this.abrirConsulta();
       return;
     }
-  }
 
-  @Override
-  public void receberFoco()
-  {
-    if (this.getIntValor() > 0)
+    if (this.getCln().getClnRef() == null)
     {
-      this.getBtn().requestFocus();
+      return;
     }
-    else
+
+    if (this.getCln().getClnRef().getTbl() == null)
     {
-      this.getBtn().performClick();
+      return;
     }
-  }
 
-  @Override
-  protected void setBooSomenteLeitura(final boolean booSomenteLeitura)
-  {
-    super.setBooSomenteLeitura(booSomenteLeitura);
+    if (intId < 1)
+    {
+      return;
+    }
 
-    this.getBtn().setEnabled(!booSomenteLeitura);
-  }
+    try
+    {
+      String strNome = ((TblAndroidMain) this.getCln().getClnRef().getTbl()).getViwPrincipal().recuperar(intId).getClnNome().getStrValor();
 
-  @Override
-  public void setEventos()
-  {
-    super.setEventos();
-
-    this.setOnClickListener(this);
-    this.getBtn().setOnClickListener(this);
+      this.getBtn().setText(strNome);
+    }
+    finally
+    {
+      ((TblAndroidMain) this.getCln().getClnRef().getTbl()).getViwPrincipal().liberarThread();
+    }
   }
 }

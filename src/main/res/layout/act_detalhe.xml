@@ -31,6 +31,7 @@
             android:layout_height="wrap_content"
             android:text="_registro_nome"
             android:textColor="@android:color/white"
+            android:textStyle="bold"
             app:enmFonteTamanho="NORMAL"/>
 
     </com.digosofter.digodroid.controle.painel.PainelDetalheCabecalho>
@@ -44,8 +45,7 @@
             android:id="@+id/actDetalhe_pnlCampos"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="10dp">
+            android:orientation="vertical">
         </com.digosofter.digodroid.controle.painel.PainelGeral>
 
     </ScrollView>

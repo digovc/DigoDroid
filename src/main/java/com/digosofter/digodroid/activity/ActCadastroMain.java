@@ -93,6 +93,13 @@ public abstract class ActCadastroMain extends ActMain
     {
       this.getTbl().limparDados();
 
+      this.getTbl().getClnIntUsuarioAlteracaoId().setIntValor(this.getIntUsuarioId());
+
+      if (this.getIntRegistroId() < 1)
+      {
+        this.getTbl().getClnIntUsuarioCadastroId().setIntValor(this.getIntUsuarioId());
+      }
+
       for (Coluna cln : this.getTbl().getLstCln())
       {
         this.carregarDados((ColunaAndroid) cln);
@@ -218,6 +225,8 @@ public abstract class ActCadastroMain extends ActMain
 
     return _intRegistroRefId;
   }
+
+  protected abstract int getIntUsuarioId();
 
   private List<CampoMain> getLstCmp()
   {

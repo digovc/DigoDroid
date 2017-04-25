@@ -47,10 +47,10 @@
         android:layout_height="match_parent"
         android:cacheColorHint="@android:color/transparent"
         android:divider="@null"
-        android:dividerHeight="10dp"
+        android:dividerHeight="1dp"
         android:listSelector="@android:color/transparent"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp">
+        android:paddingLeft="1dp"
+        android:paddingRight="1dp">
     </ListView>
 
     <com.digosofter.digodroid.controle.label.LabelGeral

@@ -1,5 +1,6 @@
 package com.digosofter.digodroid.database;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.view.Menu;
@@ -1656,7 +1657,7 @@ public abstract class TblAndroidMain<T extends DominioAndroidMain> extends Tabel
     return true;
   }
 
-  private boolean processarMenuItemApagar(ActMain act, int intId)
+  private boolean processarMenuItemApagar(final ActMain act, final int intId)
   {
     if (act == null)
     {
@@ -1668,14 +1669,24 @@ public abstract class TblAndroidMain<T extends DominioAndroidMain> extends Tabel
       return false;
     }
 
-    this.apagar(intId);
+    String strPergunta = String.format("Deseja realmente apagar o registro %s da tabela %s?", intId, this.getStrNomeExibicao());
 
-    if (!(act instanceof ActDetalhe))
+    AppAndroid.getI().perguntar(act, strPergunta, new DialogInterface.OnClickListener()
     {
-      return true;
-    }
+      @Override
+      public void onClick(final DialogInterface dialog, final int intWhich)
+      {
+        if (DialogInterface.BUTTON_POSITIVE == intWhich)
+        {
+          TblAndroidMain.this.apagar(intId);
 
-    act.finish();
+          if (act instanceof ActDetalhe)
+          {
+            act.finish();
+          }
+        }
+      }
+    });
 
     return true;
   }

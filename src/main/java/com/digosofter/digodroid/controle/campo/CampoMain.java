@@ -16,6 +16,7 @@ import com.digosofter.digojava.OnValorAlteradoListener;
 import com.digosofter.digojava.Utils;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 public abstract class CampoMain extends PainelLinha implements OnDestroyListener
@@ -26,6 +27,7 @@ public abstract class CampoMain extends PainelLinha implements OnDestroyListener
   private boolean _booValor;
   private ColunaAndroid _cln;
   private double _dblValor;
+  private Calendar _dttValor;
   private int _intValor;
   private LabelGeral _lblTitulo;
   private List<OnValorAlteradoListener> _lstEvtOnValorAlteradoListener;
@@ -74,11 +76,6 @@ public abstract class CampoMain extends PainelLinha implements OnDestroyListener
     this.setStrTitulo(cln.getStrNomeExibicao());
 
     cln.setCmp(this);
-  }
-
-  protected void atualizarStrValor(final String strValor)
-  {
-    this.dispararEvtOnValorAlteradoListener();
   }
 
   public void carregarValorCln()
@@ -145,6 +142,18 @@ public abstract class CampoMain extends PainelLinha implements OnDestroyListener
     _dblValor = Double.valueOf(this.getStrValor());
 
     return _dblValor;
+  }
+
+  public Calendar getDttValor()
+  {
+    if (Utils.getBooStrVazia(this.getStrValor()))
+    {
+      return null;
+    }
+
+    _dttValor = Utils.strToDtt(this.getStrValor());
+
+    return _dttValor;
   }
 
   public int getIntValor()
@@ -285,6 +294,18 @@ public abstract class CampoMain extends PainelLinha implements OnDestroyListener
     this.setStrValor(String.valueOf(_dblValor));
   }
 
+  public void setDttValor(Calendar dttValor)
+  {
+    if (_dttValor == dttValor)
+    {
+      return;
+    }
+
+    _dttValor = dttValor;
+
+    this.setStrValor(Utils.getStrDataFormatada(dttValor, Utils.EnmDataFormato.DD_MM_YYYY_HH_MM_SS));
+  }
+
   @Override
   public void setEventos()
   {
@@ -345,7 +366,7 @@ public abstract class CampoMain extends PainelLinha implements OnDestroyListener
 
     _strValor = strValor;
 
-    this.atualizarStrValor(_strValor);
+    this.dispararEvtOnValorAlteradoListener();
   }
 
   private void setStrValorAnterior(String strValorAnterior)

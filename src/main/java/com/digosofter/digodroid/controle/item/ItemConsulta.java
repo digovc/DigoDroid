@@ -1,17 +1,17 @@
 package com.digosofter.digodroid.controle.item;
 
-import android.annotation.TargetApi;
 import android.content.Context;
 import android.database.Cursor;
 import android.graphics.Color;
-import android.os.Build;
+import android.graphics.Typeface;
 import android.util.AttributeSet;
+import android.view.Gravity;
 import android.view.View;
 
-import com.digosofter.digodroid.R;
 import com.digosofter.digodroid.UtilsAndroid;
 import com.digosofter.digodroid.activity.ActConsulta;
 import com.digosofter.digodroid.controle.label.LabelGeral;
+import com.digosofter.digodroid.controle.linha.LinhaGeral;
 import com.digosofter.digodroid.controle.painel.PainelGeral;
 import com.digosofter.digodroid.controle.painel.PainelRipple;
 import com.digosofter.digodroid.database.ColunaAndroid;
@@ -28,6 +28,7 @@ public class ItemConsulta extends ItemMain implements View.OnClickListener, View
   private PainelRipple _pnlRipple;
   private String _strRegistroNome;
   private TblAndroidMain<?> _tbl;
+  private LinhaGeral _viwLinha;
 
   public ItemConsulta(Context cnt, AttributeSet atr)
   {
@@ -252,6 +253,18 @@ public class ItemConsulta extends ItemMain implements View.OnClickListener, View
     return _tbl;
   }
 
+  private LinhaGeral getViwLinha()
+  {
+    if (_viwLinha != null)
+    {
+      return _viwLinha;
+    }
+
+    _viwLinha = new LinhaGeral(this.getContext());
+
+    return _viwLinha;
+  }
+
   @Override
   public void inicializar()
   {
@@ -261,6 +274,8 @@ public class ItemConsulta extends ItemMain implements View.OnClickListener, View
 
     this.setBackgroundColor(Color.WHITE);
 
+    this.getViwLinha().setEnmDisposicao(LinhaGeral.EnmDisposicao.HORIZONTAL);
+
     this.inicializarLblRegistroTitulo();
     this.inicializarPnlCampos();
     this.inicializarPnlConteudo();
@@ -268,12 +283,12 @@ public class ItemConsulta extends ItemMain implements View.OnClickListener, View
 
   private void inicializarLblRegistroTitulo()
   {
-    this.getLblRegistroTitulo().setBackgroundColor(this.getContext().getResources().getColor(R.color.cor_tema_claro));
+    this.getLblRegistroTitulo().setGravity(Gravity.CENTER_VERTICAL);
     this.getLblRegistroTitulo().setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
-    this.getLblRegistroTitulo().setMinHeight(UtilsAndroid.dpToPx(50, this.getContext()));
+    this.getLblRegistroTitulo().setMinHeight(UtilsAndroid.dpToPx(55, this.getContext()));
     this.getLblRegistroTitulo().setPadding(UtilsAndroid.dpToPx(10, this.getContext()), 0, UtilsAndroid.dpToPx(10, this.getContext()), 0);
     this.getLblRegistroTitulo().setText("999 - Nome que representa este registro");
-    this.getLblRegistroTitulo().setTextColor(Color.WHITE);
+    this.getLblRegistroTitulo().setTypeface(null, Typeface.BOLD);
   }
 
   private void inicializarPnlCampos()
@@ -299,7 +314,9 @@ public class ItemConsulta extends ItemMain implements View.OnClickListener, View
     this.addView(this.getPnlRipple());
 
     this.getPnlRipple().addView(this.getPnlConteudo());
+
     this.getPnlConteudo().addView(this.getLblRegistroTitulo());
+    this.getPnlConteudo().addView(this.getViwLinha());
     this.getPnlConteudo().addView(this.getPnlCampos());
   }
 
@@ -325,7 +342,7 @@ public class ItemConsulta extends ItemMain implements View.OnClickListener, View
   }
 
   @Override
-  public boolean onLongClick(final View v)
+  public boolean onLongClick(final View viw)
   {
     if (this.getIntRegistroId() < 1)
     {

@@ -35,6 +35,7 @@ public abstract class TblSincronizavelMain<T extends DominioSincronizavelMain> e
   private ColunaAndroid _clnIntReservaCodigoId;
   private ColunaAndroid _clnStrAparelhoId;
   private ColunaAndroid _clnStrSincCritica;
+  private List<Filtro> _lstFilSincronizacao;
   private MsgCodigoReserva _msgCodigoReserva;
   private MsgPesquisar _msgPesquisar;
   private MsgSalvar _msgSalvar;
@@ -127,6 +128,23 @@ public abstract class TblSincronizavelMain<T extends DominioSincronizavelMain> e
 
   protected abstract int getIntSincRegistroLimite();
 
+  private List<Filtro> getLstFilSincronizacao()
+  {
+    if (_lstFilSincronizacao != null)
+    {
+      return _lstFilSincronizacao;
+    }
+
+    _lstFilSincronizacao = new ArrayList<>();
+
+    _lstFilSincronizacao.add(new Filtro(this.getClnBooSincronizado(), false));
+    _lstFilSincronizacao.add(new Filtro(this.getClnBooSincronizar(), true));
+
+    this.inicializarLstFilSincronizacao(_lstFilSincronizacao);
+
+    return _lstFilSincronizacao;
+  }
+
   private MsgCodigoReserva getMsgCodigoReserva()
   {
     return _msgCodigoReserva;
@@ -180,6 +198,11 @@ public abstract class TblSincronizavelMain<T extends DominioSincronizavelMain> e
     lstCln.add(this.getClnIntReservaCodigoId());
     lstCln.add(this.getClnStrAparelhoId());
     lstCln.add(this.getClnStrSincCritica());
+  }
+
+  protected void inicializarLstFilSincronizacao(final List<Filtro> lstFilSincronizacao)
+  {
+
   }
 
   public <T extends RespostaMain> void onServidorErrroSinc(final MsgTabelaBase<T> msg, final RespostaMain rsp)
@@ -542,12 +565,7 @@ public abstract class TblSincronizavelMain<T extends DominioSincronizavelMain> e
       return;
     }
 
-    List<Filtro> lstFil = new ArrayList<>();
-
-    lstFil.add(new Filtro(this.getClnBooSincronizado(), false));
-    lstFil.add(new Filtro(this.getClnBooSincronizar(), true));
-
-    List<T> lstObjDominio = this.pesquisarDominio(lstFil);
+    List<T> lstObjDominio = this.pesquisarDominio(this.getLstFilSincronizacao());
 
     if (lstObjDominio == null)
     {

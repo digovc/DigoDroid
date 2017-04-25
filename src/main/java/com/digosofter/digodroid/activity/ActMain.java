@@ -95,7 +95,7 @@ public abstract class ActMain extends Activity
     this.getLstEvtOnResultListener().add(evt);
   }
 
-  protected void addFragmento(int intViewGroupConteinerId, Fragment frg)
+  public void addFragmento(int intViewGroupConteinerId, Fragment frg)
   {
     this.getFragmentManager().beginTransaction().add(intViewGroupConteinerId, frg).commit();
   }

@@ -129,7 +129,7 @@ public class ItemCampo extends ItemMain implements OnClickListener
     this.getLblRegistroValor().setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
     this.getLblRegistroValor().setMaxLines(1);
     this.getLblRegistroValor().setText(null);
-    this.getLblRegistroValor().setTypeface(null, Typeface.BOLD);
+//    this.getLblRegistroValor().setTypeface(null, Typeface.BOLD);
   }
 
   @Override
