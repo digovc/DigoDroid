@@ -1,170 +1,208 @@
 package com.digosofter.digodroid.database;
 
 import com.digosofter.digodroid.AppAndroid;
-import com.digosofter.digodroid.erro.ErroAndroid;
+import com.digosofter.digodroid.activity.ActMain;
+import com.digosofter.digodroid.database.dominio.DominioAndroidMain;
 import com.digosofter.digojava.Utils;
-import com.digosofter.digojava.database.Dominio;
+import com.digosofter.digojava.database.Coluna;
 import com.digosofter.digojava.database.OnChangeArg;
 
 import org.apache.commons.io.IOUtils;
 
-public abstract class ViewAndroid extends TabelaAndroid<Dominio>
+import java.io.IOException;
+import java.util.List;
+
+public abstract class ViewAndroid extends TblAndroidMain<DominioAndroidMain>
 {
+  private ColunaAndroid _clnIntId;
+  private TblAndroidMain _tbl;
+  private TblAndroidMain _tblPrincipal;
 
-  private TabelaAndroid<?> _tbl;
-
-  protected ViewAndroid(String strNome, TabelaAndroid tbl)
+  protected ViewAndroid(String strNome, TblAndroidMain tbl, DbeAndroidMain dbeAndroid)
   {
-    super(strNome, null);
-    try
-    {
-      this.setTbl(tbl);
-    }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
-    }
-  }
+    super(strNome, dbeAndroid);
 
-  @Override
-  protected void addAppLstTbl()
-  {
-    // Impede que uma view seja adicionada para a lista de
-    // tabelas da aplicação.
+    this.setTbl(tbl);
   }
 
   @Override
   public void apagar(int intRegistroId)
   {
-    OnChangeArg arg;
-    try
+    if (intRegistroId < 1)
     {
-      if (this.getTbl() == null)
-      {
-        return;
-      }
-      this.getTbl().apagar(intRegistroId);
-      arg = new OnChangeArg();
-      arg.setIntRegistroId(intRegistroId);
-      this.dispararEvtOnApagarReg(arg);
+      return;
     }
-    catch (Exception ex)
+
+    if (this.getTbl() == null)
     {
-      new ErroAndroid("Erro inesperado.\n", ex);
+      return;
     }
-    finally
-    {
-    }
+
+    this.getTbl().apagar(intRegistroId);
+
+    OnChangeArg arg = new OnChangeArg();
+
+    arg.setIntRegistroId(intRegistroId);
+
+    this.dispararEvtOnApagarReg(arg);
   }
 
-  private void atualizarTbl()
+  private void atualizarTbl(final TblAndroidMain tbl)
   {
-    try
+    if (tbl == null)
     {
-      if (this.getTbl() == null)
-      {
-        return;
-      }
-      this.getTbl().addViw(this);
+      return;
     }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
-    }
+
+    tbl.addViw(this);
   }
 
   @Override
   public void criar()
   {
-    String sql;
-    try
+    if (this.getIntRawFileId() == 0)
     {
-      if (this.getIntRawFileId() == 0)
-      {
-        return;
-      }
-      sql = "drop view if exists _viw_nome;";
-      sql = sql.replace("_viw_nome", this.getSqlNome());
-      this.getObjDb().execSql(sql);
-      this.getObjDb().execSql(this.getSqlSelect());
+      return;
     }
-    catch (Exception ex)
+
+    String sql = "drop view if exists _viw_nome;";
+
+    sql = sql.replace("_viw_nome", this.getSqlNome());
+
+    this.getDbe().execSql(sql);
+    this.getDbe().execSql(this.getSqlSelect());
+  }
+
+  @Override
+  protected void criarColuna()
+  {
+    // super.criarColuna();
+  }
+
+  @Override
+  public ColunaAndroid getClnBooAtivo()
+  {
+    return null;
+  }
+
+  @Override
+  public ColunaAndroid getClnDttAlteracao()
+  {
+    return null;
+  }
+
+  @Override
+  public ColunaAndroid getClnDttCadastro()
+  {
+    return null;
+  }
+
+  public ColunaAndroid getClnIntId()
+  {
+    if (_clnIntId != null)
     {
-      new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(124), ex);
+      return _clnIntId;
     }
-    finally
-    {
-    }
+
+    _clnIntId = new ColunaAndroid(this.getSqlClnIntIdNome(), this, Coluna.EnmTipo.BIGINT);
+
+    return _clnIntId;
+  }
+
+  @Override
+  public ColunaAndroid getClnIntUsuarioAlteracaoId()
+  {
+    return null;
+  }
+
+  @Override
+  public ColunaAndroid getClnIntUsuarioCadastroId()
+  {
+    return null;
+  }
+
+  @Override
+  public ColunaAndroid getClnStrObservacao()
+  {
+    return null;
+  }
+
+  @Override
+  public Class<? extends ActMain> getClsActCadastro()
+  {
+    return this.getTbl().getClsActCadastro();
   }
 
   protected abstract int getIntRawFileId();
 
+  protected abstract String getSqlClnIntIdNome();
+
   private String getSqlSelect()
   {
-    String strResultado = Utils.STR_VAZIA;
     try
     {
       if (this.getIntRawFileId() == 0)
       {
         return Utils.STR_VAZIA;
       }
-      strResultado = IOUtils.toString(AppAndroid.getI().getCnt().getResources().openRawResource(this.getIntRawFileId()), "UTF-8");
+
+      return IOUtils.toString(AppAndroid.getI().getActPrincipal().getResources().openRawResource(this.getIntRawFileId()), "UTF-8");
     }
-    catch (Exception ex)
+    catch (IOException ex)
     {
-      new ErroAndroid("Erro inesperado.\n", ex);
+      ex.printStackTrace();
     }
-    finally
-    {
-    }
-    return strResultado;
+
+    return null;
   }
 
-  public TabelaAndroid<?> getTbl()
+  public TblAndroidMain getTbl()
   {
     return _tbl;
+  }
+
+  public TblAndroidMain getTblPrincipal()
+  {
+    if (_tblPrincipal != null)
+    {
+      return _tblPrincipal;
+    }
+
+    _tblPrincipal = this.getTbl();
+
+    return _tblPrincipal;
+  }
+
+  @Override
+  protected void inicializarLstCln(List<Coluna> lstCln)
+  {
+    // super.inicializarLstCln(intOrdem);
+
+    lstCln.add(this.getClnIntId());
   }
 
   @Override
   public void setStrNome(final String strNome)
   {
     super.setStrNome(strNome);
-    try
+
+    if (Utils.getBooStrVazia(strNome))
     {
-      if (Utils.getBooStrVazia(strNome))
-      {
-        return;
-      }
-      this.setStrNomeExibicao(strNome.replace("viw_", ""));
+      return;
     }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
-    }
+
+    this.setStrNomeExibicao(strNome.replace("viw_", ""));
   }
 
-  private void setTbl(TabelaAndroid<?> tbl)
+  private void setTbl(TblAndroidMain<?> tbl)
   {
-    try
+    if (_tbl == tbl)
     {
-      _tbl = tbl;
-      this.atualizarTbl();
+      return;
     }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
-    }
+
+    _tbl = tbl;
+
+    this.atualizarTbl(tbl);
   }
 }

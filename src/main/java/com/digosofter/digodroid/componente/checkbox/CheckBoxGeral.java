@@ -1,64 +1,32 @@
-package com.digosofter.digodroid.componente.checkbox;
+package com.digosofter.digodroid.controle.checkbox;
 
 import android.content.Context;
 import android.util.AttributeSet;
 import android.widget.CheckBox;
 
-import com.digosofter.digodroid.componente.IComponenteMain;
-import com.digosofter.digodroid.erro.ErroAndroid;
+import com.digosofter.digodroid.controle.IControleMain;
 
-public class CheckBoxGeral extends CheckBox implements IComponenteMain
+public class CheckBoxGeral extends CheckBox implements IControleMain
 {
-
-  public CheckBoxGeral(Context context)
+  public CheckBoxGeral(Context cnt)
   {
-    super(context);
-    try
-    {
-      this.iniciar(null);
+    super(cnt);
 
-    }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
-    }
+    this.iniciar(null);
   }
 
-  public CheckBoxGeral(Context context, AttributeSet attrs)
+  public CheckBoxGeral(Context cnt, AttributeSet atr)
   {
-    super(context, attrs);
-    try
-    {
-      this.iniciar(attrs);
+    super(cnt, atr);
 
-    }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
-    }
+    this.iniciar(atr);
   }
 
-  public CheckBoxGeral(Context context, AttributeSet attrs, int defStyleAttr)
+  public CheckBoxGeral(Context cnt, AttributeSet atr, int intDefStyleAttr)
   {
-    super(context, attrs, defStyleAttr);
-    try
-    {
-      this.iniciar(attrs);
+    super(cnt, atr, intDefStyleAttr);
 
-    }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
-    }
+    this.iniciar(atr);
   }
 
   @Override
@@ -79,21 +47,10 @@ public class CheckBoxGeral extends CheckBox implements IComponenteMain
   @Override
   public void iniciar(AttributeSet ats)
   {
-    try
-    {
-      this.inicializar();
-      this.inicializar(ats);
-      this.montarLayout();
-      this.setEventos();
-
-    }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
-    }
+    this.inicializar();
+    this.inicializar(ats);
+    this.montarLayout();
+    this.setEventos();
   }
 
   @Override
@@ -105,18 +62,8 @@ public class CheckBoxGeral extends CheckBox implements IComponenteMain
   protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec)
   {
     super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-    try
-    {
-      this.finalizar();
 
-    }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
-    }
+    this.finalizar();
   }
 
   @Override

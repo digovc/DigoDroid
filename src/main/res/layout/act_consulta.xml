@@ -2,11 +2,10 @@
     android:id="@+id/actConsulta_pnlGeral"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context=".activitys.ActCadastro">
+    android:background="@color/cor_fundo"
+    android:orientation="vertical">
 
 
     <com.digosofter.digodroid.componente.painel.PainelGeralRelativo
@@ -48,10 +47,10 @@
         android:layout_height="match_parent"
         android:cacheColorHint="@android:color/transparent"
         android:divider="@null"
-        android:dividerHeight="10dp"
+        android:dividerHeight="1dp"
         android:listSelector="@android:color/transparent"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp">
+        android:paddingLeft="1dp"
+        android:paddingRight="1dp">
     </ListView>
 
     <com.digosofter.digodroid.componente.label.LabelGeral

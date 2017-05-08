@@ -1,294 +1,229 @@
 package com.digosofter.digodroid.activity;
 
+import android.app.NotificationManager;
+import android.content.Context;
+import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
-import android.widget.TextView;
 
+import com.digosofter.digodroid.Aparelho;
 import com.digosofter.digodroid.AppAndroid;
 import com.digosofter.digodroid.R;
-import com.digosofter.digodroid.erro.ErroAndroid;
+import com.digosofter.digodroid.controle.botao.BotaoGeral;
+import com.digosofter.digodroid.controle.label.LabelGeral;
+import com.digosofter.digodroid.log.LogErro;
 import com.digosofter.digojava.Utils;
 
-public class ActErro extends ActMain
+public class ActErro extends ActMain implements View.OnClickListener
 {
+  public static final String STR_EXTRA_INT_STR_ERRO_DESCRICAO = "str_erro_descricao";
+  public static final String STR_EXTRA_INT_STR_ERRO_TITULO = "str_erro_titulo";
+  public static final String STR_EXTRA_OUT_BOO_ERRO_IGNORAR_TODOS = "boo_erro_ignorar_todos";
+  private static final String STR_MENU_COMPARTILHAR = "Compartilhar";
 
-  public static final String STR_EXTRA_IN_OBJ_ERRO = "obj_erro";
-  private static boolean _booIgnorarTodos;
-  private static int _intQtdErroVisivel;
-  private ErroAndroid _err;
-  private TextView _txtAppNome;
-  private TextView _txtErroMensagem;
-  private TextView _txtErroTitulo;
+  private BotaoGeral _btnIgnorarTodos;
+  private LabelGeral _lblTitulo;
+  private String _strDescricao;
 
-  public ActErro()
+  private boolean compartilhar()
   {
-    try
+    if (AppAndroid.getI() == null)
     {
-      this.setIntQtdErroVisivel(this.getIntQtdErroVisivel() + 1);
+      return false;
     }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
-    }
-  }
 
-  public void actErro_btnIgnorarTodos_onClick(View viw)
-  {
-    try
+    if (Utils.getBooStrVazia(this.getLblTitulo().getText().toString()))
     {
-      this.setbooIgnorarTodos(true);
-      this.finish();
+      return false;
     }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.", ex);
-    }
-    finally
-    {
-    }
-  }
 
-  public void actErro_btnIgnorar_onClick(View viw)
-  {
-    try
-    {
-      this.finish();
-    }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.", ex);
-    }
-    finally
-    {
-    }
-  }
+    String strConteudo = String.format("%s\n\n%s", this.getLblTitulo().getText().toString(), this.getStrDescricao().toString());
 
-  private void atualizarIntQtdErroVisivel()
-  {
-    try
-    {
-      if (_intQtdErroVisivel != 0)
-      {
-        return;
-      }
-      this.setbooIgnorarTodos(false);
-    }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
-    }
-  }
+    Aparelho.getI().compartilhar(this, String.format("Erro no %s", AppAndroid.getI().getStrNome()), strConteudo);
 
-  private boolean getBooIgnorarTodos()
-  {
-    return _booIgnorarTodos;
-  }
-
-  public ErroAndroid getErr()
-  {
-    try
-    {
-      if (_err != null)
-      {
-        return _err;
-      }
-      _err = (ErroAndroid) this.getIntent().getSerializableExtra(ActErro.STR_EXTRA_IN_OBJ_ERRO);
-    }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.", ex);
-    }
-    finally
-    {
-    }
-    return _err;
+    return true;
   }
 
   @Override
-  protected int getIntLayoutId()
+  protected void finalizar()
+  {
+    super.finalizar();
+
+    LogErro.getI().removerActErro(this);
+  }
+
+  private BotaoGeral getBtnIgnorarTodos()
+  {
+    if (_btnIgnorarTodos != null)
+    {
+      return _btnIgnorarTodos;
+    }
+
+    _btnIgnorarTodos = this.getView(R.id.actErro_btnIgnorarTodos);
+
+    return _btnIgnorarTodos;
+  }
+
+  @Override
+  public int getIntLayoutId()
   {
     return R.layout.act_erro;
   }
 
-  private int getIntQtdErroVisivel()
+  private LabelGeral getLblTitulo()
   {
-    return _intQtdErroVisivel;
+    if (_lblTitulo != null)
+    {
+      return _lblTitulo;
+    }
+
+    _lblTitulo = this.getView(R.id.actErro_lblTitulo);
+
+    return _lblTitulo;
   }
 
-  private TextView getTxtAppNome()
+  private String getStrDescricao()
   {
-    try
-    {
-      if (_txtAppNome != null)
-      {
-        return _txtAppNome;
-      }
-      _txtAppNome = this.getView(R.id.actErro_txtAppNome, TextView.class);
-    }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.", ex);
-    }
-    finally
-    {
-    }
-    return _txtAppNome;
+    return _strDescricao;
   }
 
-  private TextView getTxtErroMensagem()
+  private void ignorarTodos()
   {
-    try
-    {
-      if (_txtErroMensagem != null)
-      {
-        return _txtErroMensagem;
-      }
-      _txtErroMensagem = this.getView(R.id.actErro_txtErroMensagem, TextView.class);
-    }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.", ex);
-    }
-    finally
-    {
-    }
-    return _txtErroMensagem;
+    LogErro.getI().ignorarTodos();
   }
 
-  private TextView getTxtErroTitulo()
+  @Override
+  protected void inicializar()
   {
-    try
-    {
-      if (_txtErroTitulo != null)
-      {
-        return _txtErroTitulo;
-      }
-      _txtErroTitulo = this.getView(R.id.actErro_txtErroTitulo, TextView.class);
-    }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.", ex);
-    }
-    finally
-    {
-    }
-    return _txtErroTitulo;
+    super.inicializar();
+
+    ((NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE)).cancelAll();
+
+    this.setTitle("Erro");
+
+    this.getActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#f44336")));
+
+    LogErro.getI().addActErro(this);
+
+    this.inicializarBtnIgnorarTodos();
+  }
+
+  private void inicializarBtnIgnorarTodos()
+  {
+    this.getBtnIgnorarTodos().setVisibility((!LogErro.getI().getLstActErro().isEmpty()) ? View.VISIBLE : View.GONE);
   }
 
   @Override
   protected void montarLayout()
   {
     super.montarLayout();
-    String strFormatada;
-    try
-    {
-      if (this.getTxtAppNome() == null)
-      {
-        return;
-      }
-      this.montarLayoutIgnorarTodos();
-      this.getTxtAppNome().setText((AppAndroid.getI() != null) ? AppAndroid.getI().getStrNome() : "App Android");
-      this.getTxtErroTitulo().setText(this.getErr().getStrNome());
-      if (Utils.getBooStrVazia(this.getErr().getStrMsgDetalhe()))
-      {
-        this.getTxtErroMensagem().setText(this.getErr().getStrMsg());
-        return;
-      }
-      strFormatada = "_msg\n\nDetalhes: _detalhe";
-      strFormatada = strFormatada.replace("_msg", this.getErr().getStrMsg());
-      strFormatada = strFormatada.replace("_detalhe", this.getErr().getStrMsgDetalhe());
-      this.getTxtErroMensagem().setText(strFormatada);
-    }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.", ex);
-    }
-    finally
-    {
-    }
+
+    this.montarLayoutLblDescricao();
+    this.montarLayoutLblTitulo();
   }
 
-  private void montarLayoutIgnorarTodos()
+  private void montarLayoutLblDescricao()
   {
-    try
+    String strDescricao = this.getIntent().getStringExtra(STR_EXTRA_INT_STR_ERRO_DESCRICAO);
+
+    if (Utils.getBooStrVazia(strDescricao))
     {
-      if (this.getIntQtdErroVisivel() < 2)
-      {
-        return;
-      }
-      this.getView(R.id.actErro_btnIgnorarTodos, Button.class).setVisibility(View.VISIBLE);
+      return;
     }
-    catch (Exception ex)
+
+    this.setStrDescricao(strDescricao);
+  }
+
+  private void montarLayoutLblTitulo()
+  {
+    String strTitulo = this.getIntent().getStringExtra(STR_EXTRA_INT_STR_ERRO_TITULO);
+
+    if (Utils.getBooStrVazia(strTitulo))
     {
-      new ErroAndroid("Erro inesperado.\n", ex);
+      return;
     }
-    finally
+
+    this.getLblTitulo().setText(strTitulo);
+  }
+
+  @Override
+  protected void onActivityResult(final int intRequestCode, final int intResultCode, final Intent ittResult)
+  {
+    super.onActivityResult(intRequestCode, intResultCode, ittResult);
+
+    if (ittResult == null)
     {
+      return;
+    }
+
+    this.onActivityResultIgnorarTodos(ittResult);
+  }
+
+  private void onActivityResultIgnorarTodos(final Intent ittResult)
+  {
+    if (!ittResult.getBooleanExtra(STR_EXTRA_OUT_BOO_ERRO_IGNORAR_TODOS, false))
+    {
+      return;
+    }
+
+    this.setResult(0, new Intent().putExtra(STR_EXTRA_OUT_BOO_ERRO_IGNORAR_TODOS, true));
+
+    this.finish();
+  }
+
+  @Override
+  public void onClick(final View viw)
+  {
+    if (viw.equals(this.getBtnIgnorarTodos()))
+    {
+      this.ignorarTodos();
+      return;
     }
   }
 
   @Override
-  protected void onDestroy()
+  public boolean onCreateOptionsMenu(final Menu mnu)
   {
-    super.onDestroy();
-    try
+    if (!super.onCreateOptionsMenu(mnu))
     {
-      this.setIntQtdErroVisivel(this.getIntQtdErroVisivel() - 1);
+      return false;
     }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
-    }
+
+    mnu.add(STR_MENU_COMPARTILHAR);
+
+    return true;
   }
 
   @Override
-  protected void onStart()
+  public boolean onOptionsItemSelected(final MenuItem mni)
   {
-    super.onStart();
-    try
+    if (super.onOptionsItemSelected(mni))
     {
-      if (!this.getBooIgnorarTodos())
-      {
-        return;
-      }
-      this.finish();
+      return true;
     }
-    catch (Exception ex)
+
+    switch (mni.getTitle().toString())
     {
-      new ErroAndroid("Erro inesperado.\n", ex);
+      case STR_MENU_COMPARTILHAR:
+        return this.compartilhar();
     }
-    finally
-    {
-    }
+
+    return false;
   }
 
-  private void setIntQtdErroVisivel(int intQtdErroVisivel)
+  @Override
+  protected void setEventos()
   {
-    try
-    {
-      _intQtdErroVisivel = intQtdErroVisivel;
-      this.atualizarIntQtdErroVisivel();
-    }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
-    }
+    super.setEventos();
+
+    this.getBtnIgnorarTodos().setOnClickListener(this);
   }
 
-  private void setbooIgnorarTodos(boolean booIgnorarTodos)
+  private void setStrDescricao(String strDescricao)
   {
-    _booIgnorarTodos = booIgnorarTodos;
+    _strDescricao = strDescricao;
   }
 }

@@ -1,49 +1,38 @@
-package com.digosofter.digodroid.componente.campo;
+package com.digosofter.digodroid.controle.campo;
 
 import android.content.Context;
 import android.util.AttributeSet;
 
-import com.digosofter.digodroid.componente.checkbox.CheckBoxGeral;
-import com.digosofter.digodroid.erro.ErroAndroid;
+import com.digosofter.digodroid.controle.checkbox.CheckBoxGeral;
 
 public class CampoCheckBox extends CampoMain
 {
-
   private CheckBoxGeral _ckb;
 
-  public CampoCheckBox(Context context)
+  public CampoCheckBox(Context cnt)
   {
-    super(context);
+    super(cnt);
   }
 
-  public CampoCheckBox(Context context, AttributeSet attrs)
+  public CampoCheckBox(Context cnt, AttributeSet atr)
   {
-    super(context, attrs);
+    super(cnt, atr);
   }
 
-  public CampoCheckBox(Context context, AttributeSet attrs, int defStyleAttr)
+  public CampoCheckBox(Context cnt, AttributeSet atr, int intDefStyleAttr)
   {
-    super(context, attrs, defStyleAttr);
+    super(cnt, atr, intDefStyleAttr);
   }
 
   private CheckBoxGeral getCkb()
   {
-    try
+    if (_ckb != null)
     {
-      if (_ckb != null)
-      {
-        return _ckb;
-      }
-      _ckb = new CheckBoxGeral(this.getContext());
+      return _ckb;
+    }
 
-    }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
-    }
+    _ckb = new CheckBoxGeral(this.getContext());
+
     return _ckb;
   }
 
@@ -51,57 +40,34 @@ public class CampoCheckBox extends CampoMain
   public void inicializar()
   {
     super.inicializar();
-    try
-    {
-      this.inicializarCkb();
 
-    }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
-    }
+    this.inicializarCkb();
   }
 
   private void inicializarCkb()
   {
-    try
-    {
-      this.getCkb().setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
-
-    }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
-    }
+    this.getCkb().setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
   }
 
   @Override
   public void montarLayout()
   {
     super.montarLayout();
-    try
-    {
-      this.addView(this.getCkb());
 
-    }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
-    }
+    this.addView(this.getCkb());
   }
 
   @Override
   public void receberFoco()
   {
     this.getCkb().requestFocus();
+  }
+
+  @Override
+  protected void setBooSomenteLeitura(final boolean booSomenteLeitura)
+  {
+    super.setBooSomenteLeitura(booSomenteLeitura);
+
+    this.getCkb().setEnabled(booSomenteLeitura);
   }
 }

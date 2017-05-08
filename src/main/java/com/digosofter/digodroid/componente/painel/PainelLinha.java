@@ -7,45 +7,33 @@ import android.util.AttributeSet;
 import com.digosofter.digodroid.R;
 import com.digosofter.digodroid.UtilsAndroid;
 import com.digosofter.digodroid.design.TemaDefault;
-import com.digosofter.digodroid.erro.ErroAndroid;
 
 public class PainelLinha extends PainelMain
 {
-
   private int _intNivelQuantidade;
 
-  public PainelLinha(Context context)
+  public PainelLinha(Context cnt)
   {
-    super(context);
+    super(cnt);
   }
 
-  public PainelLinha(Context context, AttributeSet attrs)
+  public PainelLinha(Context cnt, AttributeSet atr)
   {
-    super(context, attrs);
+    super(cnt, atr);
   }
 
-  public PainelLinha(Context context, AttributeSet attrs, int defStyleAttr)
+  public PainelLinha(Context cnt, AttributeSet atr, int intDefStyleAttr)
   {
-    super(context, attrs, defStyleAttr);
+    super(cnt, atr, intDefStyleAttr);
   }
 
   @Override
   public void finalizar()
   {
     super.finalizar();
-    try
-    {
-      this.getLayoutParams().height = UtilsAndroid.dpToPx(this.getIntNivelQuantidade() * TemaDefault.getI().getIntHeightNivel(), this.getContext());
-      this.getLayoutParams().width = LayoutParams.MATCH_PARENT;
 
-    }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
-    }
+    this.getLayoutParams().height = UtilsAndroid.dpToPx(this.getIntNivelQuantidade() * TemaDefault.getI().getIntHeightNivel(), this.getContext());
+    this.getLayoutParams().width = LayoutParams.MATCH_PARENT;
   }
 
   private int getIntNivelQuantidade()
@@ -57,47 +45,28 @@ public class PainelLinha extends PainelMain
   public void inicializar()
   {
     super.inicializar();
-    int intPaddingDp;
-    try
-    {
-      intPaddingDp = UtilsAndroid.dpToPx(TemaDefault.getI().getIntEspacamento(), this.getContext());
-      this.setPadding(intPaddingDp, intPaddingDp, intPaddingDp, intPaddingDp);
 
-    }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
-    }
+    int intPaddingDp = UtilsAndroid.dpToPx(TemaDefault.getI().getIntEspacamento(), this.getContext());
+
+    this.setPadding(intPaddingDp, intPaddingDp, intPaddingDp, intPaddingDp);
   }
 
   @Override
   public void inicializar(AttributeSet ats)
   {
     super.inicializar(ats);
-    TypedArray objTypedArray;
-    try
-    {
-      if (ats == null)
-      {
-        return;
-      }
-      objTypedArray = this.getContext().obtainStyledAttributes(ats, R.styleable.PainelLinha);
-      this.setIntNivelQuantidade(objTypedArray.getInt(R.styleable.PainelLinha_intNivelQuantidade, 1));
 
-    }
-    catch (Exception ex)
+    if (ats == null)
     {
-      new ErroAndroid("Erro inesperado.\n", ex);
+      return;
     }
-    finally
-    {
-    }
+
+    TypedArray objTypedArray = this.getContext().obtainStyledAttributes(ats, R.styleable.PainelLinha);
+
+    this.setIntNivelQuantidade(objTypedArray.getInt(R.styleable.PainelLinha_intNivelQuantidade, 1));
   }
 
-  private void setIntNivelQuantidade(int intNivelQuantidade)
+  protected void setIntNivelQuantidade(int intNivelQuantidade)
   {
     _intNivelQuantidade = intNivelQuantidade;
   }

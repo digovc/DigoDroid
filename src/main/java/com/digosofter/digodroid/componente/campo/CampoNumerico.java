@@ -1,43 +1,54 @@
-package com.digosofter.digodroid.componente.campo;
+package com.digosofter.digodroid.controle.campo;
 
 import android.content.Context;
 import android.util.AttributeSet;
 
-import com.digosofter.digodroid.componente.textbox.TextBoxGeral;
-import com.digosofter.digodroid.erro.ErroAndroid;
+import com.digosofter.digodroid.controle.textbox.TextBoxGeral;
+import com.digosofter.digojava.Utils;
 
 public class CampoNumerico extends CampoAlfanumerico
 {
-
-  public CampoNumerico(Context context)
+  public CampoNumerico(Context cnt)
   {
-    super(context);
+    super(cnt);
   }
 
-  public CampoNumerico(Context context, AttributeSet attrs)
+  public CampoNumerico(Context cnt, AttributeSet atr)
   {
-    super(context, attrs);
+    super(cnt, atr);
   }
 
-  public CampoNumerico(Context context, AttributeSet attrs, int defStyleAttr)
+  public CampoNumerico(Context cnt, AttributeSet atr, int intDefStyleAttr)
   {
-    super(context, attrs, defStyleAttr);
+    super(cnt, atr, intDefStyleAttr);
   }
 
   @Override
   public void inicializar()
   {
     super.inicializar();
-    try
+
+    this.getTxt().setEnmFormato(TextBoxGeral.EnmFormato.NUMERICO_INTEIRO);
+  }
+
+  @Override
+  public void setStrValor(final String strValor)
+  {
+    super.setStrValor(strValor);
+
+    if ("0".equals(strValor))
     {
-      this.getTxt().setEnmFormato(TextBoxGeral.EnmFormato.NUMERICO_INTEIRO);
+      this.setStrValor(null);
     }
-    catch (Exception ex)
+
+    if ("0.0".equals(strValor))
     {
-      new ErroAndroid("Erro inesperado.\n", ex);
+      this.setStrValor(null);
     }
-    finally
+
+    if (!Utils.getBooStrVazia(strValor) && strValor.endsWith(".0"))
     {
+      this.setStrValor(Utils.removerUltimaLetra(strValor, 2));
     }
   }
 }

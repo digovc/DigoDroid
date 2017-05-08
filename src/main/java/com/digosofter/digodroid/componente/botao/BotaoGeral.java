@@ -1,61 +1,32 @@
-package com.digosofter.digodroid.componente.botao;
+package com.digosofter.digodroid.controle.botao;
 
 import android.content.Context;
 import android.util.AttributeSet;
 import android.widget.Button;
 
-import com.digosofter.digodroid.componente.IComponenteMain;
-import com.digosofter.digodroid.erro.ErroAndroid;
+import com.digosofter.digodroid.controle.IControleMain;
 
-public class BotaoGeral extends Button implements IComponenteMain
+public class BotaoGeral extends Button implements IControleMain
 {
-
-  public BotaoGeral(final Context context)
+  public BotaoGeral(final Context cnt)
   {
-    super(context);
-    try
-    {
-      this.iniciar(null);
-    }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
-    }
+    super(cnt);
+
+    this.iniciar(null);
   }
 
-  public BotaoGeral(final Context context, final AttributeSet attrs)
+  public BotaoGeral(final Context cnt, final AttributeSet atr)
   {
-    super(context, attrs);
-    try
-    {
-      this.iniciar(attrs);
-    }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
-    }
+    super(cnt, atr);
+
+    this.iniciar(atr);
   }
 
-  public BotaoGeral(final Context context, final AttributeSet attrs, final int defStyleAttr)
+  public BotaoGeral(final Context cnt, final AttributeSet atr, final int intDefStyleAttr)
   {
-    super(context, attrs, defStyleAttr);
-    try
-    {
-      this.iniciar(attrs);
-    }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
-    }
+    super(cnt, atr, intDefStyleAttr);
+
+    this.iniciar(atr);
   }
 
   @Override
@@ -66,6 +37,7 @@ public class BotaoGeral extends Button implements IComponenteMain
   @Override
   public void inicializar(final AttributeSet ats)
   {
+    this.setAllCaps(false);
   }
 
   @Override
@@ -76,20 +48,10 @@ public class BotaoGeral extends Button implements IComponenteMain
   @Override
   public void iniciar(final AttributeSet ats)
   {
-    try
-    {
-      this.inicializar();
-      this.inicializar(ats);
-      this.montarLayout();
-      this.setEventos();
-    }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
-    }
+    this.inicializar();
+    this.inicializar(ats);
+    this.montarLayout();
+    this.setEventos();
   }
 
   @Override
@@ -101,17 +63,8 @@ public class BotaoGeral extends Button implements IComponenteMain
   protected void onMeasure(final int widthMeasureSpec, final int heightMeasureSpec)
   {
     super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-    try
-    {
-      this.finalizar();
-    }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
-    }
+
+    this.finalizar();
   }
 
   @Override

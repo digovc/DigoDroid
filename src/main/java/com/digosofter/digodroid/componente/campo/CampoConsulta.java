@@ -1,244 +1,160 @@
-package com.digosofter.digodroid.componente.campo;
+package com.digosofter.digodroid.controle.campo;
 
 import android.content.Context;
 import android.content.Intent;
 import android.util.AttributeSet;
-import android.view.View;
 
 import com.digosofter.digodroid.AppAndroid;
 import com.digosofter.digodroid.activity.ActConsulta;
 import com.digosofter.digodroid.activity.ActMain;
-import com.digosofter.digodroid.componente.botao.BotaoGeral;
-import com.digosofter.digodroid.database.TabelaAndroid;
+import com.digosofter.digodroid.database.TblAndroidMain;
 import com.digosofter.digodroid.database.ViewAndroid;
-import com.digosofter.digodroid.erro.ErroAndroid;
 
-public class CampoConsulta extends CampoMain implements View.OnClickListener
+public class CampoConsulta extends CampoBotaoMain
 {
-
-  private BotaoGeral _btn;
-
-  public CampoConsulta(Context context)
+  public CampoConsulta(Context cnt)
   {
-    super(context);
+    super(cnt);
   }
 
-  public CampoConsulta(Context context, AttributeSet attrs)
+  public CampoConsulta(Context cnt, AttributeSet atr)
   {
-    super(context, attrs);
+    super(cnt, atr);
   }
 
-  public CampoConsulta(Context context, AttributeSet attrs, int defStyleAttr)
+  public CampoConsulta(Context cnt, AttributeSet atr, int intDefStyleAttr)
   {
-    super(context, attrs, defStyleAttr);
+    super(cnt, atr, intDefStyleAttr);
   }
 
-  @Override
-  protected void atualizarStrValor()
+  public void abrirConsulta()
   {
-    super.atualizarStrValor();
-    try
+    if (this.getBooSomenteLeitura())
     {
-      this.atualizarStrValorNome();
+      return;
     }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
-    }
-  }
 
-  private void atualizarStrValorNome()
-  {
-    String strNome;
-    try
+    if (this.getCln() == null)
     {
-      if (this.getCln() == null)
-      {
-        return;
-      }
-      if (this.getCln().getClnRef() == null)
-      {
-        return;
-      }
-      if (this.getCln().getClnRef().getTbl() == null)
-      {
-        return;
-      }
-      if (this.getIntValor() < 1)
-      {
-        return;
-      }
-      strNome = ((TabelaAndroid) this.getCln().getClnRef().getTbl()).getViwPrincipal().recuperar(this.getIntValor()).getClnNome().getStrValor();
-      this.getBtn().setText(strNome);
+      return;
     }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
-    }
-  }
 
-  private BotaoGeral getBtn()
-  {
-    try
+    if (this.getCln().getClnRef() == null)
     {
-      if (_btn != null)
-      {
-        return _btn;
-      }
-      _btn = new BotaoGeral(this.getContext());
+      return;
     }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
-    }
-    return _btn;
-  }
 
-  @Override
-  public void inicializar()
-  {
-    super.inicializar();
-    try
-    {
-      this.getBtn().setFocusable(true);
-    }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
-    }
-  }
+    Intent itt = new Intent();
 
-  @Override
-  public void montarLayout()
-  {
-    super.montarLayout();
-    try
-    {
-      this.addView(this.getBtn());
-    }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
-    }
+    itt.putExtra(ActConsulta.STR_EXTRA_IN_BOO_REGISTRO_SELECIONAVEL, true);
+
+    ((TblAndroidMain) this.getCln().getClnRef().getTbl()).getViwPrincipal().abrirConsulta((ActMain) this.getContext(), itt);
   }
 
   public void onActivityResult(final Intent itt)
   {
-    int intRegistroId;
-    TabelaAndroid tbl;
-    ViewAndroid viw;
-    try
+    if (itt == null)
     {
-      if (itt == null)
-      {
-        return;
-      }
-      if (this.getCln() == null)
-      {
-        return;
-      }
-      if (this.getCln().getClnRef() == null)
-      {
-        return;
-      }
-      if (this.getCln().getClnRef().getTbl() == null)
-      {
-        return;
-      }
-      tbl = AppAndroid.getI().getTbl(itt.getIntExtra(ActConsulta.STR_EXTRA_OUT_INT_TBL_OBJETO_ID, 0));
-      viw = null;
-      if (ViewAndroid.class.isAssignableFrom(tbl.getClass()))
-      {
-        viw = ((ViewAndroid) tbl);
-        tbl = viw.getTbl();
-      }
-      if (!this.getCln().getClnRef().getTbl().equals(tbl) && !this.getCln().getClnRef().getTbl().equals(viw))
-      {
-        return;
-      }
-      intRegistroId = itt.getIntExtra(ActConsulta.STR_EXTRA_OUT_INT_REGISTRO_ID, 0);
-      if (intRegistroId < 1)
-      {
-        return;
-      }
-      this.setIntValor(intRegistroId);
+      return;
     }
-    catch (Exception ex)
+
+    if (this.getCln() == null)
     {
-      new ErroAndroid("Erro inesperado.\n", ex);
+      return;
     }
-    finally
+
+    if (this.getCln().getClnRef() == null)
     {
+      return;
     }
+
+    if (this.getCln().getClnRef().getTbl() == null)
+    {
+      return;
+    }
+
+    if (AppAndroid.getI() == null)
+    {
+      return;
+    }
+
+    if (AppAndroid.getI().getDbe() == null)
+    {
+      return;
+    }
+
+    TblAndroidMain tbl = (TblAndroidMain) AppAndroid.getI().getDbe().getTbl(itt.getIntExtra(ActConsulta.STR_EXTRA_OUT_INT_TBL_OBJETO_ID, 0));
+
+    ViewAndroid viw = null;
+
+    if (ViewAndroid.class.isAssignableFrom(tbl.getClass()))
+    {
+      viw = ((ViewAndroid) tbl);
+      tbl = viw.getTbl();
+    }
+
+    if (!this.getCln().getClnRef().getTbl().equals(tbl) && !this.getCln().getClnRef().getTbl().equals(viw))
+    {
+      return;
+    }
+
+    int intRegistroId = itt.getIntExtra(ActConsulta.STR_EXTRA_OUT_INT_REGISTRO_ID, 0);
+
+    if (intRegistroId < 1)
+    {
+      return;
+    }
+
+    this.setIntValor(intRegistroId);
   }
 
   @Override
-  public void onClick(final View v)
+  protected void processarBtnClick()
   {
-    Intent itt;
-    try
-    {
-      if (this.getBooSomenteLeitura())
-      {
-        return;
-      }
-      if (this.getCln() == null)
-      {
-        return;
-      }
-      if (this.getCln().getClnRef() == null)
-      {
-        return;
-      }
-      itt = new Intent();
-      itt.putExtra(ActConsulta.STR_EXTRA_IN_BOO_REGISTRO_SELECIONAVEL, true);
-      ((TabelaAndroid) this.getCln().getClnRef().getTbl()).abrirActConsulta((ActMain) this.getContext(), itt);
-    }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
-    }
+    this.abrirConsulta();
   }
 
   @Override
-  public void receberFoco()
+  public void setIntValor(final int intValor)
   {
-    this.getBtn().performClick();
+    super.setIntValor(intValor);
+
+    this.setIntValorNome(intValor);
   }
 
-  @Override
-  public void setEventos()
+  private void setIntValorNome(final int intId)
   {
-    super.setEventos();
+    this.getBtn().setText(null);
+
+    if (this.getCln() == null)
+    {
+      return;
+    }
+
+    if (this.getCln().getClnRef() == null)
+    {
+      return;
+    }
+
+    if (this.getCln().getClnRef().getTbl() == null)
+    {
+      return;
+    }
+
+    if (intId < 1)
+    {
+      return;
+    }
+
     try
     {
-      this.setOnClickListener(this);
-      this.getBtn().setOnClickListener(this);
-    }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
+      String strNome = ((TblAndroidMain) this.getCln().getClnRef().getTbl()).getViwPrincipal().recuperar(intId).getClnNome().getStrValor();
+
+      this.getBtn().setText(strNome);
     }
     finally
     {
+      ((TblAndroidMain) this.getCln().getClnRef().getTbl()).getViwPrincipal().liberarThread();
     }
   }
 }

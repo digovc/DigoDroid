@@ -1,34 +1,32 @@
-package com.digosofter.digodroid.componente.item;
+package com.digosofter.digodroid.controle.item;
 
 import android.content.Context;
 import android.database.Cursor;
 import android.util.AttributeSet;
 
-import com.digosofter.digodroid.componente.painel.PainelGeral;
-import com.digosofter.digodroid.erro.ErroAndroid;
+import com.digosofter.digodroid.controle.painel.PainelGeral;
 
 public abstract class ItemMain extends PainelGeral
 {
-
-  public ItemMain(Context context)
+  public ItemMain(Context cnt)
   {
-    super(context);
+    super(cnt);
   }
 
-  public ItemMain(Context context, AttributeSet attrs)
+  public ItemMain(Context cnt, AttributeSet atr)
   {
-    super(context, attrs);
+    super(cnt, atr);
   }
 
-  public ItemMain(Context context, AttributeSet attrs, int defStyleAttr)
+  public ItemMain(Context cnt, AttributeSet atr, int intDefStyleAttr)
   {
-    super(context, attrs, defStyleAttr);
+    super(cnt, atr, intDefStyleAttr);
   }
 
   /**
    * Este método recarrega os valores apresentados nos itens com o registro selecionado no cursor.
    *
-   * @param crs Cursor com os dados para fazer a reciclagem do item.
+   * @param crs Cursor com os dados para fazer a reciclagem do consulta_item.
    */
   public void carregarDados(Cursor crs)
   {
@@ -38,17 +36,7 @@ public abstract class ItemMain extends PainelGeral
   public void inicializar()
   {
     super.inicializar();
-    try
-    {
-      this.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
-      this.setOrientation(VERTICAL);
-    }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
-    }
+
+    this.setOrientation(VERTICAL);
   }
 }

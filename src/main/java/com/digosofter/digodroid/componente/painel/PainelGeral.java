@@ -5,19 +5,18 @@ import android.util.AttributeSet;
 
 public class PainelGeral extends PainelMain
 {
-
-  public PainelGeral(Context context)
+  public PainelGeral(Context cnt)
   {
-    super(context);
+    super(cnt);
   }
 
-  public PainelGeral(Context context, AttributeSet attrs)
+  public PainelGeral(Context cnt, AttributeSet atr)
   {
-    super(context, attrs);
+    super(cnt, atr);
   }
 
-  public PainelGeral(Context context, AttributeSet attrs, int defStyleAttr)
+  public PainelGeral(Context cnt, AttributeSet atr, int intDefStyleAttr)
   {
-    super(context, attrs, defStyleAttr);
+    super(cnt, atr, intDefStyleAttr);
   }
 }

@@ -4,7 +4,6 @@ import com.digosofter.digojava.EventArg;
 
 public class OnRequestPermissionResultArg extends EventArg
 {
-
   private String[] _arrStrPermissions;
   private int[] _intArrGrantResults;
   private int _intRequestCode;

@@ -3,44 +3,31 @@ package com.digosofter.digodroid.componente.painel;
 import android.content.Context;
 import android.util.AttributeSet;
 
-import com.digosofter.digodroid.R;
-import com.digosofter.digodroid.erro.ErroAndroid;
+import com.digosofter.digodroid.AppAndroid;
+import com.digosofter.digodroid.design.TemaDefault;
 
-/**
- * Created by Rodrigo on 02/12/2015.
- */
 public class PainelDetalheCabecalho extends PainelGeral
 {
-
-  public PainelDetalheCabecalho(Context context)
+  public PainelDetalheCabecalho(Context cnt)
   {
-    super(context);
+    super(cnt);
   }
 
-  public PainelDetalheCabecalho(Context context, AttributeSet attrs)
+  public PainelDetalheCabecalho(Context cnt, AttributeSet atr)
   {
-    super(context, attrs);
+    super(cnt, atr);
   }
 
-  public PainelDetalheCabecalho(Context context, AttributeSet attrs, int defStyleAttr)
+  public PainelDetalheCabecalho(Context cnt, AttributeSet atr, int intDefStyleAttr)
   {
-    super(context, attrs, defStyleAttr);
+    super(cnt, atr, intDefStyleAttr);
   }
 
   @Override
   public void inicializar()
   {
     super.inicializar();
-    try
-    {
-      this.setBackgroundColor(this.getContext().getResources().getColor(R.color.cor_tema));
-    }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
-    }
+
+    this.setBackgroundColor(AppAndroid.getI().getObjTema().getCorTema());
   }
 }

@@ -3,30 +3,20 @@ package com.digosofter.digodroid.preference;
 import android.os.Bundle;
 import android.preference.PreferenceFragment;
 
-import com.digosofter.digodroid.erro.ErroAndroid;
-
 public abstract class FrgPreferenceMain extends PreferenceFragment
 {
-
   protected void inicializar()
   {
+    this.addPreferencesFromResource(this.getIntLayoutId());
   }
+
+  protected abstract int getIntLayoutId();
 
   private void iniciar()
   {
-    try
-    {
-      this.inicializar();
-      this.montarLayout();
-      this.setEventos();
-    }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
-    }
+    this.inicializar();
+    this.montarLayout();
+    this.setEventos();
   }
 
   protected void montarLayout()
@@ -37,17 +27,8 @@ public abstract class FrgPreferenceMain extends PreferenceFragment
   public void onCreate(final Bundle savedInstanceState)
   {
     super.onCreate(savedInstanceState);
-    try
-    {
-      this.iniciar();
-    }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
-    }
+
+    this.iniciar();
   }
 
   protected void setEventos()

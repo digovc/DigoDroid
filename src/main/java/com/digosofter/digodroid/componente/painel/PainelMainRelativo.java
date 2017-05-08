@@ -7,19 +7,18 @@ import com.digosofter.digodroid.componente.viewgroup.RelativeLayoutMain;
 
 public abstract class PainelMainRelativo extends RelativeLayoutMain
 {
-
-  public PainelMainRelativo(Context context)
+  public PainelMainRelativo(Context cnt)
   {
-    super(context);
+    super(cnt);
   }
 
-  public PainelMainRelativo(Context context, AttributeSet attrs)
+  public PainelMainRelativo(Context cnt, AttributeSet atr)
   {
-    super(context, attrs);
+    super(cnt, atr);
   }
 
-  public PainelMainRelativo(Context context, AttributeSet attrs, int defStyleAttr)
+  public PainelMainRelativo(Context cnt, AttributeSet atr, int intDefStyleAttr)
   {
-    super(context, attrs, defStyleAttr);
+    super(cnt, atr, intDefStyleAttr);
   }
 }

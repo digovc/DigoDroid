@@ -1,83 +1,50 @@
-<RelativeLayout
-    android:id="@+id/actErro_pnlGeral"
+<?xml version="1.0" encoding="utf-8"?>
+<com.digosofter.digodroid.controle.painel.PainelGeral
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/cor_fundo"
     android:orientation="vertical"
-    tools:context=".ActErro">
+    tools:context=".activity.ActErro">
 
-    <LinearLayout
-        android:id="@+id/actErro_pnlInfo"
+    <com.digosofter.digodroid.controle.painel.PainelConteudo
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/actErro_pnlComando"
-        android:orientation="vertical"
-        android:padding="10dp">
+        android:layout_marginBottom="65dp"
+        android:orientation="vertical">
 
-        <ImageView
-            android:id="@+id/actErro_imgAppLogo"
-            android:layout_width="match_parent"
+        <com.digosofter.digodroid.controle.imagem.ImagemGeral
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/cancelar_processo"/>
-
-        <TextView
-            android:id="@+id/actErro_txtAppNome"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_horizontal"
-            android:paddingBottom="25dp"
-            android:text="App"
-            android:textAppearance="?android:attr/textAppearanceLarge"/>
-
-        <TextView
-            android:id="@+id/actErro_txtErroTitulo"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="Erro"
-            android:textAppearance="?android:attr/textAppearanceMedium"/>
+            android:layout_gravity="center"
+            android:padding="25dp"/>
 
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <TextView
-                android:id="@+id/actErro_txtErroMensagem"
+            <com.digosofter.digodroid.controle.label.LabelGeral
+                android:id="@+id/actErro_lblTitulo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="Um erro inesperado aconteceu."
-                android:textAppearance="?android:attr/textAppearanceSmall"/>
-
+                android:text="Erro desconhecido."/>
         </ScrollView>
-    </LinearLayout>
 
-    <LinearLayout
-        android:id="@+id/actErro_pnlComando"
+    </com.digosofter.digodroid.controle.painel.PainelConteudo>
+
+    <com.digosofter.digodroid.controle.painel.PainelConteudo
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_alignParentBottom="true"
-        android:gravity="right"
-        android:orientation="horizontal">
+        android:layout_height="75dp"
+        android:layout_marginTop="-75dp"
+        android:gravity="right">
 
-        <Button
-            android:id="@+id/actErro_btnIgnorar"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:onClick="actErro_btnIgnorar_onClick"
-            android:text="Ignorar"/>
-
-        <Button
+        <com.digosofter.digodroid.controle.botao.BotaoGeral
             android:id="@+id/actErro_btnIgnorarTodos"
-            android:layout_width="0dp"
+            android:layout_width="150dp"
             android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:onClick="actErro_btnIgnorarTodos_onClick"
             android:text="Ignorar todos"
-            android:visibility="gone"/>
+            android:textAllCaps="false"/>
+    </com.digosofter.digodroid.controle.painel.PainelConteudo>
 
-    </LinearLayout>
-
-</RelativeLayout>
+</com.digosofter.digodroid.controle.painel.PainelGeral>

@@ -1,61 +1,32 @@
-package com.digosofter.digodroid.componente.viewgroup;
+package com.digosofter.digodroid.controle.viewgroup;
 
 import android.content.Context;
 import android.util.AttributeSet;
 import android.widget.RelativeLayout;
 
-import com.digosofter.digodroid.componente.IComponenteMain;
-import com.digosofter.digodroid.erro.ErroAndroid;
+import com.digosofter.digodroid.controle.IControleMain;
 
-public abstract class RelativeLayoutMain extends RelativeLayout implements IComponenteMain
+public abstract class RelativeLayoutMain extends RelativeLayout implements IControleMain
 {
-
-  public RelativeLayoutMain(Context context)
+  public RelativeLayoutMain(Context cnt)
   {
-    super(context);
-    try
-    {
-      this.iniciar(null);
-    }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
-    }
+    super(cnt);
+
+    this.iniciar(null);
   }
 
-  public RelativeLayoutMain(Context context, AttributeSet attrs)
+  public RelativeLayoutMain(Context cnt, AttributeSet atr)
   {
-    super(context, attrs);
-    try
-    {
-      this.iniciar(attrs);
-    }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
-    }
+    super(cnt, atr);
+
+    this.iniciar(atr);
   }
 
-  public RelativeLayoutMain(Context context, AttributeSet attrs, int defStyleAttr)
+  public RelativeLayoutMain(Context cnt, AttributeSet atr, int intDefStyleAttr)
   {
-    super(context, attrs, defStyleAttr);
-    try
-    {
-      this.iniciar(attrs);
-    }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
-    }
+    super(cnt, atr, intDefStyleAttr);
+
+    this.iniciar(atr);
   }
 
   @Override
@@ -66,24 +37,6 @@ public abstract class RelativeLayoutMain extends RelativeLayout implements IComp
   @Override
   public void inicializar(AttributeSet ats)
   {
-    //    TypedArray objTypedArray;
-    //
-    //    try {
-    //
-    //      if (ats == null) {
-    //
-    //        return;
-    //      }
-    //
-    //      objTypedArray = this.getContext().obtainStyledAttributes(ats, R.styleable.ControleMain);
-    //
-    //      this.setStrTitulo(objTypedArray.getString(R.styleable.ControleMain_strTitulo));
-    //
-    //    } catch (Exception ex) {
-    //
-    //      new ErroAndroid("Erro inesperado.\n", ex);
-    //    } finally {
-    //    }
   }
 
   @Override
@@ -94,20 +47,10 @@ public abstract class RelativeLayoutMain extends RelativeLayout implements IComp
   @Override
   public void iniciar(AttributeSet ats)
   {
-    try
-    {
-      this.inicializar(ats);
-      this.inicializar();
-      this.montarLayout();
-      this.setEventos();
-    }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
-    }
+    this.inicializar(ats);
+    this.inicializar();
+    this.montarLayout();
+    this.setEventos();
   }
 
   @Override
@@ -119,17 +62,8 @@ public abstract class RelativeLayoutMain extends RelativeLayout implements IComp
   protected void onMeasure(final int widthMeasureSpec, final int heightMeasureSpec)
   {
     super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-    try
-    {
-      this.finalizar();
-    }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
-    }
+
+    this.finalizar();
   }
 
   @Override

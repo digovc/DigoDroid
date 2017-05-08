@@ -7,19 +7,18 @@ import com.digosofter.digodroid.componente.viewgroup.LinearLayoutMain;
 
 public abstract class PainelMain extends LinearLayoutMain
 {
-
-  public PainelMain(Context context)
+  public PainelMain(Context cnt)
   {
-    super(context);
+    super(cnt);
   }
 
-  public PainelMain(Context context, AttributeSet attrs)
+  public PainelMain(Context cnt, AttributeSet atr)
   {
-    super(context, attrs);
+    super(cnt, atr);
   }
 
-  public PainelMain(Context context, AttributeSet attrs, int defStyleAttr)
+  public PainelMain(Context cnt, AttributeSet atr, int intDefStyleAttr)
   {
-    super(context, attrs, defStyleAttr);
+    super(cnt, atr, intDefStyleAttr);
   }
 }

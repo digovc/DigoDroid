@@ -4,24 +4,25 @@ import android.app.IntentService;
 import android.content.Intent;
 
 import com.digosofter.digodroid.AppAndroid;
-import com.digosofter.digodroid.erro.ErroAndroid;
-import com.digosofter.digojava.App;
 
 public abstract class ServiceMain extends IntentService
 {
   private boolean _booParar;
   private Intent _itt;
+  private String _strNome;
 
   public ServiceMain(String strNome)
   {
     super(AppAndroid.getI().getStrNomeExibicao() + " - " + strNome);
+
+    this.setStrNome(strNome);
   }
 
   protected void finalizar()
   {
   }
 
-  protected boolean getBooParar()
+  public boolean getBooParar()
   {
     return _booParar;
   }
@@ -31,44 +32,50 @@ public abstract class ServiceMain extends IntentService
     return _itt;
   }
 
-  /**
-   * Responsável pela inicialização de propriedades antes de iniciar o serviço.
-   */
-  protected void inicializar()
+  private String getStrNome()
   {
+    return _strNome;
   }
 
-  private void iniciar()
+  protected void inicializar()
   {
-    this.inicializar();
-    this.setEventos();
   }
 
   @Override
   protected void onHandleIntent(Intent itt)
   {
+    this.setItt(itt);
+
     try
     {
-      this.setItt(itt);
-
-      if (!this.validarDados())
-      {
-        this.setBooParar(true);
-        return;
-      }
-
-      this.iniciar();
-
+      this.inicializar();
       this.servico();
     }
     catch (Exception ex)
     {
-      new ErroAndroid(App.getI().getStrTextoPadrao(0), ex);
+      this.processarErro(ex);
     }
     finally
     {
       this.finalizar();
     }
+  }
+
+  protected void processarErro(final Exception ex)
+  {
+    if (ex == null)
+    {
+      return;
+    }
+
+    ex.printStackTrace();
+
+    if (AppAndroid.getI() == null)
+    {
+      return;
+    }
+
+    AppAndroid.getI().notificar(String.format("Erro no serviço %s. Reinicie a aplicação e se o problema persistir entre em contato com o administrador do sistema.", this.getStrNome()));
   }
 
   protected void servico()
@@ -85,19 +92,13 @@ public abstract class ServiceMain extends IntentService
     _booParar = booParar;
   }
 
-  protected void setEventos()
-  {
-
-  }
-
   private void setItt(Intent itt)
   {
     _itt = itt;
   }
 
-  protected boolean validarDados()
+  private void setStrNome(String strNome)
   {
-
-    return true;
+    _strNome = strNome;
   }
 }

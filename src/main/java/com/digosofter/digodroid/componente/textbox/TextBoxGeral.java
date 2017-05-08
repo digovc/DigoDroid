@@ -1,4 +1,4 @@
-package com.digosofter.digodroid.componente.textbox;
+package com.digosofter.digodroid.controle.textbox;
 
 import android.content.Context;
 import android.text.InputType;
@@ -6,17 +6,16 @@ import android.util.AttributeSet;
 import android.view.ViewGroup;
 import android.widget.EditText;
 
-import com.digosofter.digodroid.componente.IComponenteMain;
-import com.digosofter.digodroid.erro.ErroAndroid;
+import com.digosofter.digodroid.controle.IControleMain;
 import com.digosofter.digojava.OnValorAlteradoArg;
 import com.digosofter.digojava.OnValorAlteradoListener;
+import com.digosofter.digojava.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class TextBoxGeral extends EditText implements IComponenteMain
+public class TextBoxGeral extends EditText implements IControleMain
 {
-
   public enum EnmFormato
   {
     /**
@@ -44,198 +43,110 @@ public class TextBoxGeral extends EditText implements IComponenteMain
   private String _strValor;
   private String _strValorAnterior;
 
-  public TextBoxGeral(Context context)
+  public TextBoxGeral(Context cnt)
   {
-    super(context);
-    try
-    {
-      this.iniciar(null);
-    }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
-    }
+    super(cnt);
+
+    this.iniciar(null);
   }
 
-  public TextBoxGeral(Context context, AttributeSet attrs)
+  public TextBoxGeral(Context cnt, AttributeSet atr)
   {
-    super(context, attrs);
-    try
-    {
-      this.iniciar(attrs);
-    }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
-    }
+    super(cnt, atr);
+
+    this.iniciar(atr);
   }
 
-  public TextBoxGeral(Context context, AttributeSet attrs, int defStyleAttr)
+  public TextBoxGeral(Context cnt, AttributeSet atr, int intDefStyleAttr)
   {
-    super(context, attrs, defStyleAttr);
-    try
-    {
-      this.iniciar(null);
-    }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
-    }
+    super(cnt, atr, intDefStyleAttr);
+
+    this.iniciar(null);
   }
 
   public void addEvtOnValorAlteradoListener(OnValorAlteradoListener evt)
   {
-    try
+    if (evt == null)
     {
-      if (evt == null)
-      {
-        return;
-      }
-      if (this.getLstEvtOnValorAlteradoListener().contains(evt))
-      {
-        return;
-      }
-      this.getLstEvtOnValorAlteradoListener().add(evt);
+      return;
     }
-    catch (Exception ex)
+
+    if (this.getLstEvtOnValorAlteradoListener().contains(evt))
     {
-      new ErroAndroid("Erro inesperado.\n", ex);
+      return;
     }
-    finally
-    {
-    }
+
+    this.getLstEvtOnValorAlteradoListener().add(evt);
   }
 
-  private void atualizarEnmFormato()
+  private void atualizarEnmFormato(final EnmFormato enmFormato)
   {
-    try
+    switch (enmFormato)
     {
-      switch (this.getEnmFormato())
-      {
-        case ALFANUMERICO:
-          this.atualizarEnmFormatoAlfanumerico();
-          return;
-        case NUMERICO_INTEIRO:
-          this.atualizarEnmFormatoNumericoInteiro();
-          return;
-        case NUMERICO_PONTO_FLUTUANTE:
-          this.atualizarEnmFormatoNumericoPontoFlutuante();
-          return;
-      }
-    }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
+      case ALFANUMERICO:
+        this.atualizarEnmFormatoAlfanumerico();
+        return;
+
+      case NUMERICO_INTEIRO:
+        this.atualizarEnmFormatoNumericoInteiro();
+        return;
+
+      case NUMERICO_PONTO_FLUTUANTE:
+        this.atualizarEnmFormatoNumericoPontoFlutuante();
+        return;
     }
   }
 
   private void atualizarEnmFormatoAlfanumerico()
   {
-    try
-    {
-    }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
-    }
   }
 
   private void atualizarEnmFormatoNumericoInteiro()
   {
-    try
-    {
-      this.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
-    }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
-    }
+    this.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
   }
 
   private void atualizarEnmFormatoNumericoPontoFlutuante()
   {
-    try
-    {
-      this.setInputType(InputType.TYPE_NUMBER_FLAG_DECIMAL);
-    }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
-    }
+    this.setInputType(InputType.TYPE_NUMBER_FLAG_DECIMAL);
   }
 
-  private void atualizarStrValor()
+  private void atualizarStrValor(final String strValor)
   {
-    try
+    if ((strValor != null) ? !strValor.equals(this.getText().toString()) : (this.getText().toString() != null))
     {
-      if (!((this.getStrValor() != null) ? this.getStrValor().equals(this.getText().toString()) : (this.getText().toString() == null)))
-      {
-        this.setText(this.getStrValor());
-        return;
-      }
-      this.dispararEvtOnValorAlteradoListener();
+      this.setText(strValor);
+      return;
     }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
-    }
+
+    this.dispararEvtOnValorAlteradoListener();
   }
 
   private void dispararEvtOnValorAlteradoListener()
   {
-    OnValorAlteradoArg arg;
-    try
+    if (this.getLstEvtOnValorAlteradoListener().isEmpty())
     {
-      if (this.getLstEvtOnValorAlteradoListener().isEmpty())
-      {
-        return;
-      }
-      if ((this.getStrValor() != null) ? (this.getStrValor().equals(this.getStrValorAnterior())) : (this.getStrValorAnterior() == null))
-      {
-        return;
-      }
-      arg = new OnValorAlteradoArg();
-      arg.setStrValor(this.getStrValor());
-      arg.setStrValorAnterior(this.getStrValorAnterior());
-      for (OnValorAlteradoListener evt : this.getLstEvtOnValorAlteradoListener())
-      {
-        if (evt == null)
-        {
-          continue;
-        }
-        evt.onValorAlterado(this, arg);
-      }
+      return;
     }
-    catch (Exception ex)
+
+    if ((this.getStrValor() != null) ? (this.getStrValor().equals(this.getStrValorAnterior())) : (this.getStrValorAnterior() == null))
     {
-      new ErroAndroid("Erro inesperado.\n", ex);
+      return;
     }
-    finally
+
+    OnValorAlteradoArg arg = new OnValorAlteradoArg();
+
+    arg.setStrValor(this.getStrValor());
+    arg.setStrValorAnterior(this.getStrValorAnterior());
+
+    for (OnValorAlteradoListener evt : this.getLstEvtOnValorAlteradoListener())
     {
+      if (evt == null)
+      {
+        continue;
+      }
+
+      evt.onValorAlterado(this, arg);
     }
   }
 
@@ -251,33 +162,20 @@ public class TextBoxGeral extends EditText implements IComponenteMain
 
   public boolean getBooValor()
   {
-    try
-    {
-      _booValor = Boolean.valueOf(this.getStrValor());
-    }
-    catch (Exception ex)
-    {
-      _booValor = false;
-    }
-    finally
-    {
-    }
+    _booValor = Utils.getBoo(this.getStrValor());
+
     return _booValor;
   }
 
   public double getDblValor()
   {
-    try
+    if (Utils.getBooStrVazia(this.getStrValor()))
     {
-      _dblValor = Double.valueOf(this.getStrValor());
+      return 0;
     }
-    catch (Exception ex)
-    {
-      _dblValor = 0;
-    }
-    finally
-    {
-    }
+
+    _dblValor = Double.valueOf(this.getStrValor());
+
     return _dblValor;
   }
 
@@ -293,21 +191,13 @@ public class TextBoxGeral extends EditText implements IComponenteMain
 
   private List<OnValorAlteradoListener> getLstEvtOnValorAlteradoListener()
   {
-    try
+    if (_lstEvtOnValorAlteradoListener != null)
     {
-      if (_lstEvtOnValorAlteradoListener != null)
-      {
-        return _lstEvtOnValorAlteradoListener;
-      }
-      _lstEvtOnValorAlteradoListener = new ArrayList<>();
+      return _lstEvtOnValorAlteradoListener;
     }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
-    }
+
+    _lstEvtOnValorAlteradoListener = new ArrayList<>();
+
     return _lstEvtOnValorAlteradoListener;
   }
 
@@ -329,18 +219,8 @@ public class TextBoxGeral extends EditText implements IComponenteMain
   @Override
   public void inicializar()
   {
-    try
-    {
-      this.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-      this.setMaxLines(1);
-    }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
-    }
+    this.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+    this.setMaxLines(1);
   }
 
   @Override
@@ -353,17 +233,7 @@ public class TextBoxGeral extends EditText implements IComponenteMain
    */
   public void limparTexto()
   {
-    try
-    {
-      this.setText(null);
-    }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
-    }
+    this.setText(null);
   }
 
   @Override
@@ -375,123 +245,63 @@ public class TextBoxGeral extends EditText implements IComponenteMain
   protected void onTextChanged(final CharSequence objCharSequence, final int intStart, final int intLengthBefore, final int intLengthAfter)
   {
     super.onTextChanged(objCharSequence, intStart, intLengthBefore, intLengthAfter);
-    try
-    {
-      this.setStrValor((objCharSequence != null) ? objCharSequence.toString() : null);
-    }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
-    }
+
+    this.setStrValor((objCharSequence != null) ? objCharSequence.toString() : null);
   }
 
   public void receberFoco()
   {
-    try
+    this.post(new Runnable()
     {
-      this.post(new Runnable()
+      @Override
+      public void run()
       {
-        @Override
-        public void run()
-        {
-          TextBoxGeral.this.requestFocus();
-        }
-      });
-    }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
-    }
+        TextBoxGeral.this.requestFocus();
+      }
+    });
   }
 
   public void removerEvtOnValorAlteradoListener(OnValorAlteradoListener evt)
   {
-    try
+    if (evt == null)
     {
-      if (evt == null)
-      {
-        return;
-      }
-      this.getLstEvtOnValorAlteradoListener().remove(evt);
+      return;
     }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
-    }
+
+    this.getLstEvtOnValorAlteradoListener().remove(evt);
   }
 
   public void setBooSomenteLeitura(boolean booSomenteLeitura)
   {
-    try
-    {
-      _booSomenteLeitura = booSomenteLeitura;
-      // TODO: Implementar somente leitura.
-      //      this.atualizarBooSomenteLeitura();
-    }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
-    }
+    _booSomenteLeitura = booSomenteLeitura;
+
+    this.setEnabled(!_booSomenteLeitura);
   }
 
   public void setBooValor(boolean booValor)
   {
-    try
-    {
-      _booValor = booValor;
-      this.setStrValor(String.valueOf(_booValor));
-    }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
-    }
+    _booValor = booValor;
+
+    this.setStrValor(String.valueOf(_booValor));
   }
 
   public void setDblValor(double dblValor)
   {
-    try
-    {
-      _dblValor = dblValor;
-      this.setStrValor(String.valueOf(_dblValor));
-    }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
-    }
+    _dblValor = dblValor;
+
+    this.setStrValor(String.valueOf(_dblValor));
   }
 
   public void setEnmFormato(EnmFormato enmFormato)
   {
-    try
+    if (_enmFormato == enmFormato)
     {
-      _enmFormato = enmFormato;
-      this.atualizarEnmFormato();
+      return;
     }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
-    }
+
+    _enmFormato = enmFormato;
+
+    this.atualizarEnmFormato(enmFormato);
   }
 
   @Override
@@ -501,35 +311,23 @@ public class TextBoxGeral extends EditText implements IComponenteMain
 
   public void setIntValor(int intValor)
   {
-    try
-    {
-      _intValor = intValor;
-      this.setDblValor(_intValor);
-    }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
-    }
+    _intValor = intValor;
+
+    this.setDblValor(_intValor);
   }
 
   public void setStrValor(String strValor)
   {
-    try
+    if (_strValor == strValor)
     {
-      this.setStrValorAnterior(_strValor);
-      _strValor = strValor;
-      this.atualizarStrValor();
+      return;
     }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
-    }
+
+    this.setStrValorAnterior(_strValor);
+
+    _strValor = strValor;
+
+    this.atualizarStrValor(strValor);
   }
 
   private void setStrValorAnterior(String strValorAnterior)

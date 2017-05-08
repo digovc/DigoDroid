@@ -11,8 +11,9 @@ import com.digosofter.digodroid.R;
 import com.digosofter.digodroid.componente.campo.CampoConsulta;
 import com.digosofter.digodroid.componente.campo.CampoMain;
 import com.digosofter.digodroid.database.ColunaAndroid;
-import com.digosofter.digodroid.database.TabelaAndroid;
-import com.digosofter.digodroid.erro.ErroAndroid;
+import com.digosofter.digodroid.database.TblAndroidMain;
+import com.digosofter.digodroid.log.LogErro;
+import com.digosofter.digodroid.service.SrvSincMain;
 import com.digosofter.digojava.Utils;
 import com.digosofter.digojava.database.Coluna;
 
@@ -22,7 +23,7 @@ import java.util.List;
 public abstract class ActCadastroMain extends ActMain
 {
   /**
-   * Código do registro que indica o item que o usuário selecionou na lista desta tela.
+   * Código do registro que indica o consulta_item que o usuário selecionou na lista desta tela.
    */
   public static final String STR_EXTRA_IN_INT_REGISTRO_ID = "int_registro_id";
 
@@ -32,17 +33,135 @@ public abstract class ActCadastroMain extends ActMain
   public static final String STR_EXTRA_IN_INT_REGISTRO_REF_ID = "int_registro_ref_id";
 
   /**
-   * Código do objeto da tabela que esta lista representa.
+   * Código do objeto da tabela.
    */
   public static final String STR_EXTRA_IN_INT_TBL_OBJETO_ID = "int_tbl_objeto_id";
 
+  /**
+   * Código do objeto da tabela pai.
+   */
+  public static final String STR_EXTRA_IN_INT_TBL_PAI_OBJETO_ID = "int_tbl_pai_objeto_id";
+  /**
+   * Código do último registro salvo.
+   */
+  protected static final String STR_EXTRA_IN_INT_REGISTRO_ANTERIOR_ID = "int_registro_anterior_id";
   protected static final String STR_MENU_SALVAR = "Salvar";
   private static final String STR_MENU_SALVAR_NOVO = "Salvar e novo";
+
   private CampoMain _cmpFocoInicial;
+  private int _intRegistroAnteriorId;
   private int _intRegistroId;
   private int _intRegistroRefId;
   private List<CampoMain> _lstCmp;
-  private TabelaAndroid<?> _tbl;
+  private TblAndroidMain _tbl;
+  private TblAndroidMain _tblPai;
+
+  private void abrirNovo()
+  {
+    if (this.getTbl() == null)
+    {
+      return;
+    }
+
+    Intent itt = new Intent(this, this.getClass());
+
+    itt.putExtra(ActCadastroMain.STR_EXTRA_IN_INT_REGISTRO_REF_ID, this.getIntRegistroRefId());
+    itt.putExtra(ActCadastroMain.STR_EXTRA_IN_INT_TBL_OBJETO_ID, (this.getTbl() != null) ? this.getTbl().getIntObjetoId() : -1);
+    itt.putExtra(ActCadastroMain.STR_EXTRA_IN_INT_TBL_PAI_OBJETO_ID, (this.getTblPai() != null) ? this.getTblPai().getIntObjetoId() : -1);
+    itt.putExtra(ActCadastroMain.STR_EXTRA_IN_INT_REGISTRO_ANTERIOR_ID, this.getTbl().getClnIntId().getIntValor());
+
+    try
+    {
+      this.getTbl().limparDados();
+
+      this.startActivity(itt);
+    }
+    finally
+    {
+      this.getTbl().liberarThread();
+    }
+  }
+
+  protected void carregarDados()
+  {
+    if (this.getTbl() == null)
+    {
+      return;
+    }
+
+    try
+    {
+      this.getTbl().limparDados();
+
+      this.getTbl().getClnIntUsuarioAlteracaoId().setIntValor(this.getIntUsuarioId());
+
+      if (this.getIntRegistroId() < 1)
+      {
+        this.getTbl().getClnIntUsuarioCadastroId().setIntValor(this.getIntUsuarioId());
+      }
+
+      for (Coluna cln : this.getTbl().getLstCln())
+      {
+        this.carregarDados((ColunaAndroid) cln);
+      }
+    }
+    finally
+    {
+      this.getTbl().liberarThread();
+    }
+  }
+
+  private void carregarDados(final ColunaAndroid cln)
+  {
+    if (cln == null)
+    {
+      return;
+    }
+
+    if (this.carregarDadosRef(cln))
+    {
+      return;
+    }
+
+    if (cln.getCmp() == null)
+    {
+      return;
+    }
+
+    cln.getCmp().carregarValorCln();
+  }
+
+  private boolean carregarDadosRef(final ColunaAndroid cln)
+  {
+    if (this.getIntRegistroRefId() < 1)
+    {
+      return false;
+    }
+
+    if (this.getTblPai() == null)
+    {
+      return false;
+    }
+
+    if (cln.getClnRef() == null)
+    {
+      return false;
+    }
+
+    if (cln.getClnRef().getTbl() == null)
+    {
+      return false;
+    }
+
+    if (!cln.getClnRef().getTbl().equals(this.getTblPai()))
+    {
+      return false;
+    }
+
+    cln.setIntValor(this.getIntRegistroRefId());
+
+    return true;
+  }
 
   protected boolean getBooMostrarMenuSalvarNovo()
   {
@@ -51,487 +170,439 @@ public abstract class ActCadastroMain extends ActMain
 
   protected CampoMain getCmpFocoInicial()
   {
-    try
+    if (_cmpFocoInicial != null)
     {
-      if (_cmpFocoInicial != null)
-      {
-        return _cmpFocoInicial;
-      }
-      if (this.getLstCmp() == null)
-      {
-        return null;
-      }
-      if (this.getLstCmp().isEmpty())
-      {
-        return null;
-      }
-      _cmpFocoInicial = this.getLstCmp().get(0);
+      return _cmpFocoInicial;
     }
-    catch (Exception ex)
+
+    if (this.getLstCmp() == null)
     {
-      new ErroAndroid("Erro inesperado.\n", ex);
+      return null;
     }
-    finally
+
+    if (this.getLstCmp().isEmpty())
     {
+      return null;
     }
+
+    _cmpFocoInicial = this.getLstCmp().get(0);
+
     return _cmpFocoInicial;
+  }
+
+  protected int getIntRegistroAnteriorId()
+  {
+    if (_intRegistroAnteriorId != 0)
+    {
+      return _intRegistroAnteriorId;
+    }
+
+    _intRegistroAnteriorId = this.getIntent().getIntExtra(STR_EXTRA_IN_INT_REGISTRO_ANTERIOR_ID, 0);
+
+    return _intRegistroAnteriorId;
   }
 
   protected int getIntRegistroId()
   {
-    try
+    if (_intRegistroId != 0)
     {
-      if (_intRegistroId != 0)
-      {
-        return _intRegistroId;
-      }
-      _intRegistroId = this.getIntent().getIntExtra(STR_EXTRA_IN_INT_REGISTRO_ID, -1);
+      return _intRegistroId;
     }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
-    }
+
+    _intRegistroId = this.getIntent().getIntExtra(STR_EXTRA_IN_INT_REGISTRO_ID, -1);
+
     return _intRegistroId;
   }
 
   protected int getIntRegistroRefId()
   {
-    try
+    if (_intRegistroRefId != 0)
     {
-      if (_intRegistroRefId != 0)
-      {
-        return _intRegistroRefId;
-      }
-      _intRegistroRefId = this.getIntent().getIntExtra(STR_EXTRA_IN_INT_REGISTRO_REF_ID, -1);
+      return _intRegistroRefId;
     }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
-    }
+
+    _intRegistroRefId = this.getIntent().getIntExtra(STR_EXTRA_IN_INT_REGISTRO_REF_ID, -1);
+
     return _intRegistroRefId;
   }
 
+  protected abstract int getIntUsuarioId();
+
   private List<CampoMain> getLstCmp()
   {
-    try
+    if (_lstCmp != null)
     {
-      if (_lstCmp != null)
-      {
-        return _lstCmp;
-      }
-      _lstCmp = this.inicializarLstCmp();
+      return _lstCmp;
     }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
-    }
+
+    _lstCmp = new ArrayList<>();
+
+    this.inicializarLstCmp(_lstCmp, this.getViwRoot());
+
     return _lstCmp;
   }
 
-  private TabelaAndroid<?> getTbl()
+  private TblAndroidMain<?> getTbl()
   {
-    try
+    if (_tbl != null)
     {
-      if (_tbl != null)
-      {
-        return _tbl;
-      }
-      _tbl = AppAndroid.getI().getTbl(this.getIntent().getIntExtra(STR_EXTRA_IN_INT_TBL_OBJETO_ID, 0));
+      return _tbl;
     }
-    catch (Exception ex)
+
+    if (AppAndroid.getI() == null)
     {
-      new ErroAndroid("Erro inesperado.\n", ex);
+      return null;
     }
-    finally
+
+    if (AppAndroid.getI().getDbe() == null)
     {
+      return null;
     }
+
+    _tbl = (TblAndroidMain) AppAndroid.getI().getDbe().getTbl(this.getIntent().getIntExtra(STR_EXTRA_IN_INT_TBL_OBJETO_ID, 0));
+
+    if (_tbl == null)
+    {
+      return null;
+    }
+
+    _tbl = (TblAndroidMain) _tbl.getTblPrincipal();
+
     return _tbl;
+  }
+
+  private TblAndroidMain getTblPai()
+  {
+    if (_tblPai != null)
+    {
+      return _tblPai;
+    }
+
+    if (AppAndroid.getI() == null)
+    {
+      return null;
+    }
+
+    if (AppAndroid.getI().getDbe() == null)
+    {
+      return null;
+    }
+
+    _tblPai = (TblAndroidMain) AppAndroid.getI().getDbe().getTbl(this.getIntent().getIntExtra(STR_EXTRA_IN_INT_TBL_PAI_OBJETO_ID, -1));
+
+    if (_tblPai == null)
+    {
+      return null;
+    }
+
+    _tblPai = (TblAndroidMain) _tblPai.getTblPrincipal();
+
+    return _tblPai;
   }
 
   @Override
   protected void inicializar()
   {
     super.inicializar();
-    try
-    {
-      this.inicializarTbl();
-      this.inicializarTitulo();
-      this.inicializarCampos();
-      this.inicializarFoco();
-    }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
-    }
 
+    this.inicializarTbl();
+    this.inicializarTitulo();
+    this.inicializarLstCmp();
+    this.inicializarFoco();
   }
 
-  private void inicializarTbl()
+  protected void inicializarFoco()
   {
-    if (this.getTbl() == null) {
-
+    if (this.getIntRegistroId() > 0)
+    {
       return;
     }
 
-    if (this.getIntRegistroId() < 1) {
-
-      this.getTbl().limparColunas();
+    if (this.getCmpFocoInicial() == null)
+    {
       return;
     }
 
-    this.getTbl().recuperar(this.getIntRegistroId());
+    this.getCmpFocoInicial().receberFoco();
   }
 
-  private void inicializarCampos()
+  private void inicializarLstCmp()
   {
-    try
+    for (CampoMain cmp : this.getLstCmp())
     {
-      for (CampoMain cmp : this.getLstCmp())
-      {
-        this.inicializarCampos(cmp);
-      }
-    }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
+      this.inicializarLstCmp(cmp);
     }
   }
 
-  private void inicializarCampos(final CampoMain cmp)
+  private void inicializarLstCmp(final CampoMain cmp)
   {
-    Coluna cln;
-    try
+    if (cmp == null)
     {
-      if (cmp == null)
-      {
-        return;
-      }
-      if (Utils.getBooStrVazia(cmp.getStrClnNomeSql()))
-      {
-        return;
-      }
-      if (this.getTbl() == null)
-      {
-        return;
-      }
-      cln = this.getTbl().getCln(cmp.getStrClnNomeSql());
-      if (cln == null)
-      {
-        return;
-      }
-      cmp.setCln((ColunaAndroid) cln);
+      return;
     }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
-    }
-  }
 
-  private void inicializarFoco()
-  {
-    try
+    if (Utils.getBooStrVazia(cmp.getStrClnNomeSql()))
     {
-      if (this.getIntRegistroId() > 0)
-      {
-        return;
-      }
-      if (this.getCmpFocoInicial() == null)
-      {
-        return;
-      }
-      this.getCmpFocoInicial().receberFoco();
+      return;
     }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
-    }
-  }
 
-  private List<CampoMain> inicializarLstCmp()
-  {
-    List<CampoMain> lstCmpResultado;
-    try
+    if (this.getTbl() == null)
     {
-      lstCmpResultado = new ArrayList<>();
-      this.inicializarLstCmp(lstCmpResultado, this.getViwRoot());
-      return lstCmpResultado;
+      return;
     }
-    catch (Exception ex)
+
+    Coluna cln = this.getTbl().getCln(cmp.getStrClnNomeSql());
+
+    if (cln == null)
     {
-      new ErroAndroid("Erro inesperado.\n", ex);
+      return;
     }
-    finally
-    {
-    }
-    return null;
+
+    cmp.setCln((ColunaAndroid) cln);
   }
 
   private void inicializarLstCmp(final List<CampoMain> lstCmp, final View viw)
   {
+    if (viw == null)
+    {
+      return;
+    }
+
+    if (CampoMain.class.isAssignableFrom(viw.getClass()))
+    {
+      lstCmp.add((CampoMain) viw);
+      return;
+    }
+
+    if (!ViewGroup.class.isAssignableFrom(viw.getClass()))
+    {
+      return;
+    }
+
+    for (int i = 0; i < ((ViewGroup) viw).getChildCount(); i++)
+    {
+      this.inicializarLstCmp(lstCmp, ((ViewGroup) viw).getChildAt(i));
+    }
+  }
+
+  private void inicializarTbl()
+  {
+    if (this.getTbl() == null)
+    {
+      return;
+    }
+
     try
     {
-      if (viw == null)
+      this.getTbl().limparDados();
+
+      if (this.getIntRegistroId() < 1)
       {
         return;
       }
-      if (CampoMain.class.isAssignableFrom(viw.getClass()))
-      {
-        lstCmp.add((CampoMain) viw);
-        return;
-      }
-      if (!ViewGroup.class.isAssignableFrom(viw.getClass()))
-      {
-        return;
-      }
-      for (int i = 0; i < ((ViewGroup) viw).getChildCount(); i++)
-      {
-        this.inicializarLstCmp(lstCmp, ((ViewGroup) viw).getChildAt(i));
-      }
-    }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
+
+      this.getTbl().recuperar(this.getIntRegistroId());
     }
     finally
     {
+      this.getTbl().liberarThread();
     }
   }
 
   private void inicializarTitulo()
   {
-    try
+    if (this.getTbl() == null)
     {
-      if (this.getTbl() == null)
-      {
-        this.setTitle("<desconhecido>");
-        return;
-      }
-      this.setTitle(this.getTbl().getStrNomeExibicao());
+      this.setTitle("<desconhecido>");
+      return;
     }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
-    }
+
+    this.setTitle(this.getTbl().getStrNomeExibicao());
   }
 
   @Override
   protected void onActivityResult(final int intRequestCode, final int intResultCode, final Intent ittResult)
   {
     super.onActivityResult(intRequestCode, intResultCode, ittResult);
-    try
+
+    if (intResultCode != ActConsulta.EnmResultado.REGISTRO_SELECIONADO.ordinal())
     {
-      if (intResultCode != ActConsulta.EnmResultado.REGISTRO_SELECIONADO.ordinal())
-      {
-        return;
-      }
-      for (CampoMain cmp : this.getLstCmp())
-      {
-        this.onActivityResult(cmp, ittResult);
-      }
+      return;
     }
-    catch (Exception ex)
+
+    for (CampoMain cmp : this.getLstCmp())
     {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
+      this.onActivityResult(cmp, ittResult);
     }
   }
 
   private void onActivityResult(final CampoMain cmp, final Intent itt)
   {
-    try
+    if (cmp == null)
     {
-      if (cmp == null)
-      {
-        return;
-      }
-      if (!CampoConsulta.class.isAssignableFrom(cmp.getClass()))
-      {
-        return;
-      }
-      if (itt == null)
-      {
-        return;
-      }
-      ((CampoConsulta) cmp).onActivityResult(itt);
+      return;
     }
-    catch (Exception ex)
+
+    if (!CampoConsulta.class.isAssignableFrom(cmp.getClass()))
     {
-      new ErroAndroid("Erro inesperado.\n", ex);
+      return;
     }
-    finally
+
+    if (itt == null)
     {
+      return;
     }
+
+    ((CampoConsulta) cmp).onActivityResult(itt);
   }
 
   @Override
   public boolean onCreateOptionsMenu(final Menu mnu)
   {
     super.onCreateOptionsMenu(mnu);
-    try
-    {
-      this.onCreateOptionsMenuSalvarNovo(mnu);
-      this.onCreateOptionsMenuSalvar(mnu);
-    }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
-    }
+
+    this.onCreateOptionsMenuSalvarNovo(mnu);
+    this.onCreateOptionsMenuSalvar(mnu);
+
     return true;
   }
 
   protected void onCreateOptionsMenuSalvar(final Menu mnu)
   {
-    MenuItem mniSalvar;
-    try
-    {
-      mniSalvar = mnu.add(STR_MENU_SALVAR);
-      mniSalvar.setIcon(R.drawable.salvar);
-      mniSalvar.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
-    }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
-    }
+    MenuItem mniSalvar = mnu.add(STR_MENU_SALVAR);
+
+    mniSalvar.setIcon(R.drawable.salvar);
+    mniSalvar.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
   }
 
   private void onCreateOptionsMenuSalvarNovo(final Menu mnu)
   {
-    MenuItem mniSalvar;
-    try
+    if (!this.getBooMostrarMenuSalvarNovo())
     {
-      if (!this.getBooMostrarMenuSalvarNovo())
-      {
-        return;
-      }
-      mniSalvar = mnu.add(STR_MENU_SALVAR_NOVO);
-      mniSalvar.setIcon(R.drawable.continuar);
-      mniSalvar.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+      return;
     }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
-    }
+
+    MenuItem mniSalvarNovo = mnu.add(STR_MENU_SALVAR_NOVO);
+
+    mniSalvarNovo.setIcon(R.drawable.continuar);
+    mniSalvarNovo.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
   }
 
   @Override
   public boolean onOptionsItemSelected(final MenuItem mni)
   {
-    try
+    if (super.onOptionsItemSelected(mni))
     {
-      if (super.onOptionsItemSelected(mni))
-      {
+      return true;
+    }
+
+    switch (mni.getTitle().toString())
+    {
+      case STR_MENU_SALVAR:
+        this.salvar();
         return true;
-      }
-      switch (mni.getTitle().toString())
-      {
-        case STR_MENU_SALVAR:
-          this.salvar(false);
-          return true;
-        case STR_MENU_SALVAR_NOVO:
-          this.salvar(true);
-          return true;
-      }
+
+      case STR_MENU_SALVAR_NOVO:
+        this.salvarAbrirNovo();
+        return true;
     }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
-    }
+
     return false;
   }
 
-  /**
-   * Salva o registro atual da tela.
-   *
-   * @param booNovo Indica se logo após o salvamento será aberto um novo cadastro.
-   */
-  protected void salvar(boolean booNovo)
+  protected boolean salvar()
   {
-    Intent itt;
+    if (this.getTbl() == null)
+    {
+      return false;
+    }
+
+    this.carregarDados();
+
+    if (!this.validarDados())
+    {
+      return false;
+    }
+
     try
     {
-      if (this.getTbl() == null)
-      {
-        return;
-      }
-      if (!this.validarDados())
-      {
-        return;
-      }
-      this.getTbl().salvar(false);
+      this.getTbl().salvar();
+      this.salvarAcordarSinc();
       this.finish();
-      if (!booNovo)
-      {
-        return;
-      }
-      this.getTbl().limparColunas();
-      itt = new Intent(this, this.getClass());
-      itt.putExtra(ActCadastroMain.STR_EXTRA_IN_INT_REGISTRO_REF_ID, this.getIntRegistroRefId());
-      itt.putExtra(ActCadastroMain.STR_EXTRA_IN_INT_TBL_OBJETO_ID, this.getTbl().getIntObjetoId());
-      this.startActivity(itt);
-    }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
+
+      return true;
     }
     finally
     {
+      this.getTbl().liberarThread();
     }
+  }
+
+  protected void salvarAbrirNovo()
+  {
+    if (!this.salvar())
+    {
+      return;
+    }
+
+    this.abrirNovo();
+  }
+
+  private void salvarAcordarSinc()
+  {
+    if (this.getTbl() == null)
+    {
+      return;
+    }
+
+    if (SrvSincMain.getI() == null)
+    {
+      return;
+    }
+
+    SrvSincMain.getI().setBooAcordar(true);
+  }
+
+  @Override
+  public boolean validarAbertura()
+  {
+    if (!super.validarAbertura())
+    {
+      return false;
+    }
+
+    if (!this.validarCodigoDisponivel())
+    {
+      return false;
+    }
+
+    return true;
+  }
+
+  private boolean validarCodigoDisponivel()
+  {
+    if (this.getTbl() == null)
+    {
+      return false;
+    }
+
+    boolean booResultado = this.getTbl().getBooCodigoDisponivel();
+
+    if (!booResultado)
+    {
+      LogErro.getI().addLog(this, new Exception("Este aparelho não possui reserva de código para adicionar novos registros nesta tabela. Favor sincronizar os dados para prosseguir."));
+    }
+
+    return booResultado;
   }
 
   private boolean validarDados()
   {
-    try
+    if (this.getTbl() == null)
     {
-      if (!this.getTbl().validarDados())
-      {
-        return false;
-      }
+      return false;
     }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
-    }
-    return true;
+
+    return this.getTbl().validarDados(this);
   }
 }

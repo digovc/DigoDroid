@@ -1,61 +1,32 @@
-package com.digosofter.digodroid.componente.painel;
+package com.digosofter.digodroid.controle.painel;
 
 import android.content.Context;
 import android.util.AttributeSet;
 
 import com.balysv.materialripple.MaterialRippleLayout;
-import com.digosofter.digodroid.componente.IComponenteMain;
-import com.digosofter.digodroid.erro.ErroAndroid;
+import com.digosofter.digodroid.controle.IControleMain;
 
-public class PainelRipple extends MaterialRippleLayout implements IComponenteMain
+public class PainelRipple extends MaterialRippleLayout implements IControleMain
 {
-
-  public PainelRipple(final Context context)
+  public PainelRipple(final Context cnt)
   {
-    super(context);
-    try
-    {
-      this.iniciar(null);
-    }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
-    }
+    super(cnt);
+
+    this.iniciar(null);
   }
 
-  public PainelRipple(final Context context, final AttributeSet attrs)
+  public PainelRipple(final Context cnt, final AttributeSet atr)
   {
-    super(context, attrs);
-    try
-    {
-      this.iniciar(attrs);
-    }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
-    }
+    super(cnt, atr);
+
+    this.iniciar(atr);
   }
 
-  public PainelRipple(final Context context, final AttributeSet attrs, final int defStyle)
+  public PainelRipple(final Context cnt, final AttributeSet atr, final int intDefStyle)
   {
-    super(context, attrs, defStyle);
-    try
-    {
-      this.iniciar(attrs);
-    }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
-    }
+    super(cnt, atr, intDefStyle);
+
+    this.iniciar(atr);
   }
 
   @Override
@@ -76,20 +47,10 @@ public class PainelRipple extends MaterialRippleLayout implements IComponenteMai
   @Override
   public void iniciar(final AttributeSet ats)
   {
-    try
-    {
-      this.inicializar();
-      this.inicializar(ats);
-      this.montarLayout();
-      this.setEventos();
-    }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
-    }
+    this.inicializar();
+    this.inicializar(ats);
+    this.montarLayout();
+    this.setEventos();
   }
 
   @Override
@@ -101,17 +62,8 @@ public class PainelRipple extends MaterialRippleLayout implements IComponenteMai
   protected void onMeasure(final int widthMeasureSpec, final int heightMeasureSpec)
   {
     super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-    try
-    {
-      this.finalizar();
-    }
-    catch (Exception ex)
-    {
-      new ErroAndroid("Erro inesperado.\n", ex);
-    }
-    finally
-    {
-    }
+
+    this.finalizar();
   }
 
   @Override

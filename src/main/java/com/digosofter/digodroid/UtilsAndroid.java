@@ -4,14 +4,10 @@ import android.content.Context;
 import android.graphics.Color;
 import android.util.DisplayMetrics;
 
-import com.digosofter.digodroid.erro.ErroAndroid;
 import com.digosofter.digojava.Utils;
-
-import java.util.Random;
 
 public abstract class UtilsAndroid extends Utils
 {
-
   /**
    * Converte um valor em "density pixels" para "pixels".
    *
@@ -21,41 +17,24 @@ public abstract class UtilsAndroid extends Utils
    */
   public static int dpToPx(int intDp, Context cnt)
   {
-    DisplayMetrics objDisplayMetrics;
-    try
+    if (intDp < 1)
     {
-      objDisplayMetrics = cnt.getResources().getDisplayMetrics();
-      return Math.round(intDp * (objDisplayMetrics.xdpi / DisplayMetrics.DENSITY_DEFAULT));
+      return 0;
+    }
 
-    }
-    catch (Exception ex)
+    if (cnt == null)
     {
-      new ErroAndroid("Erro inesperado.\n", ex);
+      return 0;
+    }
 
-    }
-    finally
-    {
-    }
-    return 0;
+    DisplayMetrics objDisplayMetrics = cnt.getResources().getDisplayMetrics();
+
+    return Math.round(intDp * (objDisplayMetrics.xdpi / DisplayMetrics.DENSITY_DEFAULT));
   }
 
   public static int getIntCorAleatoria()
   {
-    Random objRandom;
-    try
-    {
-      objRandom = new Random();
-      return Color.argb(255, objRandom.nextInt(256), objRandom.nextInt(256), objRandom.nextInt(256));
-
-    }
-    catch (Exception ex)
-    {
-      new ErroAndroid(AppAndroid.getI().getStrTextoPadrao(110), ex);
-    }
-    finally
-    {
-    }
-    return 0;
+    return Color.argb(255, Utils.getIntNumeroAleatorio(256), Utils.getIntNumeroAleatorio(256), Utils.getIntNumeroAleatorio(256));
   }
 
   /**
@@ -67,21 +46,18 @@ public abstract class UtilsAndroid extends Utils
    */
   public static int pxToDp(int intPx, Context cnt)
   {
-    DisplayMetrics objDisplayMetrics;
-    try
+    if (intPx < 1)
     {
-      objDisplayMetrics = cnt.getResources().getDisplayMetrics();
-      return Math.round(intPx / (objDisplayMetrics.xdpi / DisplayMetrics.DENSITY_DEFAULT));
+      return 0;
+    }
 
-    }
-    catch (Exception ex)
+    if (cnt == null)
     {
-      new ErroAndroid("Erro inesperado.\n", ex);
+      return 0;
+    }
 
-    }
-    finally
-    {
-    }
-    return 0;
+    DisplayMetrics objDisplayMetrics = cnt.getResources().getDisplayMetrics();
+
+    return Math.round(intPx / (objDisplayMetrics.xdpi / DisplayMetrics.DENSITY_DEFAULT));
   }
 }
