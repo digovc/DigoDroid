@@ -12,8 +12,8 @@ import android.view.View;
 import com.digosofter.digodroid.Aparelho;
 import com.digosofter.digodroid.AppAndroid;
 import com.digosofter.digodroid.R;
-import com.digosofter.digodroid.controle.botao.BotaoGeral;
-import com.digosofter.digodroid.controle.label.LabelGeral;
+import com.digosofter.digodroid.componente.botao.BotaoGeral;
+import com.digosofter.digodroid.componente.label.LabelGeral;
 import com.digosofter.digodroid.log.LogErro;
 import com.digosofter.digojava.Utils;
 

@@ -6,9 +6,9 @@ import android.widget.LinearLayout;
 
 import com.digosofter.digodroid.AppAndroid;
 import com.digosofter.digodroid.R;
-import com.digosofter.digodroid.controle.item.ItemDetalhe;
-import com.digosofter.digodroid.controle.label.LabelGeral;
-import com.digosofter.digodroid.controle.painel.PainelGrupo;
+import com.digosofter.digodroid.componente.item.ItemDetalhe;
+import com.digosofter.digodroid.componente.label.LabelGeral;
+import com.digosofter.digodroid.componente.painel.PainelGrupo;
 import com.digosofter.digodroid.database.ColunaAndroid;
 import com.digosofter.digodroid.database.Grupo;
 import com.digosofter.digodroid.database.TblAndroidMain;

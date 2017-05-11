@@ -1,11 +1,11 @@
-package com.digosofter.digodroid.controle.linha;
+package com.digosofter.digodroid.componente.linha;
 
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.util.AttributeSet;
 
 import com.digosofter.digodroid.R;
-import com.digosofter.digodroid.controle.painel.PainelGeral;
+import com.digosofter.digodroid.componente.painel.PainelGeral;
 
 public class LinhaGeral extends PainelGeral
 {

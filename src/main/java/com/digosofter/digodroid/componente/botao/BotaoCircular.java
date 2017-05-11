@@ -1,9 +1,9 @@
-package com.digosofter.digodroid.controle.botao;
+package com.digosofter.digodroid.componente.botao;
 
 import android.content.Context;
 import android.util.AttributeSet;
 
-import com.digosofter.digodroid.controle.IControleMain;
+import com.digosofter.digodroid.componente.IControleMain;
 
 import at.markushi.ui.CircleButton;
 

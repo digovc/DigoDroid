@@ -6,7 +6,7 @@ import android.view.SubMenu;
 
 import com.digosofter.digodroid.AppAndroid;
 import com.digosofter.digodroid.activity.ActCadastroMain;
-import com.digosofter.digodroid.controle.campo.CampoMain;
+import com.digosofter.digodroid.componente.campo.CampoMain;
 import com.digosofter.digojava.Utils;
 import com.digosofter.digojava.database.Coluna;
 import com.digosofter.digojava.dominio.DominioMain;

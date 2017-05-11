@@ -1,10 +1,10 @@
-package com.digosofter.digodroid.controle.imagem;
+package com.digosofter.digodroid.componente.imagem;
 
 import android.content.Context;
 import android.util.AttributeSet;
 import android.widget.ImageView;
 
-import com.digosofter.digodroid.controle.IControleMain;
+import com.digosofter.digodroid.componente.IControleMain;
 
 public class ImagemGeral extends ImageView implements IControleMain
 {

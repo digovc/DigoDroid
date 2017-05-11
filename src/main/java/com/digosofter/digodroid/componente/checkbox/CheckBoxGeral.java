@@ -1,10 +1,10 @@
-package com.digosofter.digodroid.controle.checkbox;
+package com.digosofter.digodroid.componente.checkbox;
 
 import android.content.Context;
 import android.util.AttributeSet;
 import android.widget.CheckBox;
 
-import com.digosofter.digodroid.controle.IControleMain;
+import com.digosofter.digodroid.componente.IControleMain;
 
 public class CheckBoxGeral extends CheckBox implements IControleMain
 {

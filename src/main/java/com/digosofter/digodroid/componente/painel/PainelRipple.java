@@ -1,10 +1,10 @@
-package com.digosofter.digodroid.controle.painel;
+package com.digosofter.digodroid.componente.painel;
 
 import android.content.Context;
 import android.util.AttributeSet;
 
 import com.balysv.materialripple.MaterialRippleLayout;
-import com.digosofter.digodroid.controle.IControleMain;
+import com.digosofter.digodroid.componente.IControleMain;
 
 public class PainelRipple extends MaterialRippleLayout implements IControleMain
 {

@@ -1,4 +1,4 @@
-package com.digosofter.digodroid.controle.campo;
+package com.digosofter.digodroid.componente.campo;
 
 import android.app.DatePickerDialog;
 import android.app.Dialog;

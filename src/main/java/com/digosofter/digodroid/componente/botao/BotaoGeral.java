@@ -1,10 +1,10 @@
-package com.digosofter.digodroid.controle.botao;
+package com.digosofter.digodroid.componente.botao;
 
 import android.content.Context;
 import android.util.AttributeSet;
 import android.widget.Button;
 
-import com.digosofter.digodroid.controle.IControleMain;
+import com.digosofter.digodroid.componente.IControleMain;
 
 public class BotaoGeral extends Button implements IControleMain
 {

@@ -1,4 +1,4 @@
-package com.digosofter.digodroid.controle.item;
+package com.digosofter.digodroid.componente.item;
 
 import android.content.Context;
 import android.database.Cursor;
@@ -10,10 +10,10 @@ import android.view.View;
 
 import com.digosofter.digodroid.UtilsAndroid;
 import com.digosofter.digodroid.activity.ActConsulta;
-import com.digosofter.digodroid.controle.label.LabelGeral;
-import com.digosofter.digodroid.controle.linha.LinhaGeral;
-import com.digosofter.digodroid.controle.painel.PainelGeral;
-import com.digosofter.digodroid.controle.painel.PainelRipple;
+import com.digosofter.digodroid.componente.label.LabelGeral;
+import com.digosofter.digodroid.componente.linha.LinhaGeral;
+import com.digosofter.digodroid.componente.painel.PainelGeral;
+import com.digosofter.digodroid.componente.painel.PainelRipple;
 import com.digosofter.digodroid.database.ColunaAndroid;
 import com.digosofter.digodroid.database.TblAndroidMain;
 import com.digosofter.digojava.Utils;

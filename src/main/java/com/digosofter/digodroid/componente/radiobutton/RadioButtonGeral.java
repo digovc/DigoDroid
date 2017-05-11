@@ -1,12 +1,12 @@
-package com.digosofter.digodroid.controle.radiobutton;
+package com.digosofter.digodroid.componente.radiobutton;
 
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.ViewGroup;
 import android.widget.RadioButton;
 
-import com.digosofter.digodroid.controle.IControleMain;
-import com.digosofter.digodroid.controle.campo.CampoMain;
+import com.digosofter.digodroid.componente.IControleMain;
+import com.digosofter.digodroid.componente.campo.CampoMain;
 import com.digosofter.digojava.Utils;
 
 public class RadioButtonGeral extends RadioButton implements IControleMain

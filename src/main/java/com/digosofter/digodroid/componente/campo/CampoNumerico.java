@@ -1,9 +1,9 @@
-package com.digosofter.digodroid.controle.campo;
+package com.digosofter.digodroid.componente.campo;
 
 import android.content.Context;
 import android.util.AttributeSet;
 
-import com.digosofter.digodroid.controle.textbox.TextBoxGeral;
+import com.digosofter.digodroid.componente.textbox.TextBoxGeral;
 import com.digosofter.digojava.Utils;
 
 public class CampoNumerico extends CampoAlfanumerico

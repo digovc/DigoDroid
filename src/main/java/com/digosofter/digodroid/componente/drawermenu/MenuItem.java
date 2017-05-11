@@ -1,4 +1,4 @@
-package com.digosofter.digodroid.controle.drawermenu;
+package com.digosofter.digodroid.componente.drawermenu;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -12,10 +12,10 @@ import android.widget.LinearLayout;
 
 import com.digosofter.digodroid.R;
 import com.digosofter.digodroid.UtilsAndroid;
-import com.digosofter.digodroid.controle.imagem.ImagemGeral;
-import com.digosofter.digodroid.controle.label.LabelGeral;
-import com.digosofter.digodroid.controle.painel.PainelGeral;
-import com.digosofter.digodroid.controle.painel.PainelRipple;
+import com.digosofter.digodroid.componente.imagem.ImagemGeral;
+import com.digosofter.digodroid.componente.label.LabelGeral;
+import com.digosofter.digodroid.componente.painel.PainelGeral;
+import com.digosofter.digodroid.componente.painel.PainelRipple;
 import com.digosofter.digodroid.design.TemaDefault;
 
 public class MenuItem extends PainelGeral implements View.OnClickListener, View.OnLongClickListener

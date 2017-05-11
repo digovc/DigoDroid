@@ -1,11 +1,12 @@
-package com.digosofter.digodroid.controle.campo;
+package com.digosofter.digodroid.componente.campo;
 
 import android.content.Context;
 import android.os.Build;
 import android.util.AttributeSet;
 import android.view.View;
 
-import com.digosofter.digodroid.controle.botao.BotaoGeral;
+import com.digosofter.digodroid.componente.botao.BotaoGeral;
+import com.digosofter.digodroid.componente.campo.CampoMain;
 
 public abstract class CampoBotaoMain extends CampoMain implements View.OnClickListener
 {

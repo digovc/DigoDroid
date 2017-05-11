@@ -1,10 +1,10 @@
-package com.digosofter.digodroid.controle.viewgroup;
+package com.digosofter.digodroid.componente.viewgroup;
 
 import android.content.Context;
 import android.util.AttributeSet;
 import android.widget.RelativeLayout;
 
-import com.digosofter.digodroid.controle.IControleMain;
+import com.digosofter.digodroid.componente.IControleMain;
 
 public abstract class RelativeLayoutMain extends RelativeLayout implements IControleMain
 {

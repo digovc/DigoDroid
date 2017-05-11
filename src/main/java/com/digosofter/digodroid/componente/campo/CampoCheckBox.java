@@ -1,9 +1,9 @@
-package com.digosofter.digodroid.controle.campo;
+package com.digosofter.digodroid.componente.campo;
 
 import android.content.Context;
 import android.util.AttributeSet;
 
-import com.digosofter.digodroid.controle.checkbox.CheckBoxGeral;
+import com.digosofter.digodroid.componente.checkbox.CheckBoxGeral;
 
 public class CampoCheckBox extends CampoMain
 {

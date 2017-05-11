@@ -1,4 +1,4 @@
-package com.digosofter.digodroid.controle.textbox;
+package com.digosofter.digodroid.componente.textbox;
 
 import android.content.Context;
 import android.text.InputType;
@@ -6,7 +6,7 @@ import android.util.AttributeSet;
 import android.view.ViewGroup;
 import android.widget.EditText;
 
-import com.digosofter.digodroid.controle.IControleMain;
+import com.digosofter.digodroid.componente.IControleMain;
 import com.digosofter.digojava.OnValorAlteradoArg;
 import com.digosofter.digojava.OnValorAlteradoListener;
 import com.digosofter.digojava.Utils;

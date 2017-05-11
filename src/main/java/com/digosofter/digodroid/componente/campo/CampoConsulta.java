@@ -1,4 +1,4 @@
-package com.digosofter.digodroid.controle.campo;
+package com.digosofter.digodroid.componente.campo;
 
 import android.content.Context;
 import android.content.Intent;
@@ -7,6 +7,7 @@ import android.util.AttributeSet;
 import com.digosofter.digodroid.AppAndroid;
 import com.digosofter.digodroid.activity.ActConsulta;
 import com.digosofter.digodroid.activity.ActMain;
+import com.digosofter.digodroid.componente.campo.CampoBotaoMain;
 import com.digosofter.digodroid.database.TblAndroidMain;
 import com.digosofter.digodroid.database.ViewAndroid;
 

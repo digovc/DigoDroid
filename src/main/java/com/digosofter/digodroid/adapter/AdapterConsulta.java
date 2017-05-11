@@ -8,7 +8,7 @@ import android.widget.CursorAdapter;
 import android.widget.Filter;
 
 import com.digosofter.digodroid.activity.ActConsulta;
-import com.digosofter.digodroid.controle.item.ItemConsulta;
+import com.digosofter.digodroid.componente.item.ItemConsulta;
 import com.digosofter.digodroid.database.TblAndroidMain;
 
 public class AdapterConsulta extends CursorAdapter

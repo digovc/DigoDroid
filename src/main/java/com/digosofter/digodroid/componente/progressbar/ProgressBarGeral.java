@@ -1,4 +1,4 @@
-package com.digosofter.digodroid.controle.progressbar;
+package com.digosofter.digodroid.componente.progressbar;
 
 import android.content.Context;
 import android.util.AttributeSet;
@@ -6,7 +6,7 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
 import com.digosofter.digodroid.UtilsAndroid;
-import com.digosofter.digodroid.controle.IControleMain;
+import com.digosofter.digodroid.componente.IControleMain;
 
 public class ProgressBarGeral extends ProgressBar implements IControleMain
 {

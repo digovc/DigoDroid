@@ -1,11 +1,11 @@
-package com.digosofter.digodroid.controle.viewgroup;
+package com.digosofter.digodroid.componente.viewgroup;
 
 import android.content.Context;
 import android.util.AttributeSet;
 import android.widget.LinearLayout;
 
 import com.digosofter.digodroid.UtilsAndroid;
-import com.digosofter.digodroid.controle.IControleMain;
+import com.digosofter.digodroid.componente.IControleMain;
 import com.digosofter.digodroid.design.TemaDefault;
 
 public abstract class LinearLayoutMain extends LinearLayout implements IControleMain

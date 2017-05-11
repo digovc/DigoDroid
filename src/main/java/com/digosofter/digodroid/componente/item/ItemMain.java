@@ -1,10 +1,10 @@
-package com.digosofter.digodroid.controle.item;
+package com.digosofter.digodroid.componente.item;
 
 import android.content.Context;
 import android.database.Cursor;
 import android.util.AttributeSet;
 
-import com.digosofter.digodroid.controle.painel.PainelGeral;
+import com.digosofter.digodroid.componente.painel.PainelGeral;
 
 public abstract class ItemMain extends PainelGeral
 {

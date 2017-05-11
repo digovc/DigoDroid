@@ -13,7 +13,7 @@ import android.view.inputmethod.InputMethodManager;
 
 import com.digosofter.digodroid.AppAndroid;
 import com.digosofter.digodroid.R;
-import com.digosofter.digodroid.controle.drawermenu.DrawerMenuMain;
+import com.digosofter.digodroid.componente.drawermenu.DrawerMenuMain;
 
 import java.util.ArrayList;
 import java.util.List;

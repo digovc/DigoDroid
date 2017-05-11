@@ -1,4 +1,4 @@
-package com.digosofter.digodroid.controle.drawermenu;
+package com.digosofter.digodroid.componente.drawermenu;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -13,7 +13,7 @@ import com.digosofter.digodroid.Aparelho;
 import com.digosofter.digodroid.AppAndroid;
 import com.digosofter.digodroid.UtilsAndroid;
 import com.digosofter.digodroid.activity.ActMain;
-import com.digosofter.digodroid.controle.painel.PainelGeral;
+import com.digosofter.digodroid.componente.painel.PainelGeral;
 import com.digosofter.digojava.Utils;
 
 public abstract class DrawerMenuMain extends DrawerLayout

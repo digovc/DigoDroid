@@ -1,4 +1,4 @@
-package com.digosofter.digodroid.controle.campo;
+package com.digosofter.digodroid.componente.campo;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -8,8 +8,8 @@ import com.digosofter.digodroid.R;
 import com.digosofter.digodroid.UtilsAndroid;
 import com.digosofter.digodroid.activity.ActMain;
 import com.digosofter.digodroid.activity.OnDestroyListener;
-import com.digosofter.digodroid.controle.label.LabelGeral;
-import com.digosofter.digodroid.controle.painel.PainelLinha;
+import com.digosofter.digodroid.componente.label.LabelGeral;
+import com.digosofter.digodroid.componente.painel.PainelLinha;
 import com.digosofter.digodroid.database.ColunaAndroid;
 import com.digosofter.digojava.OnValorAlteradoArg;
 import com.digosofter.digojava.OnValorAlteradoListener;
