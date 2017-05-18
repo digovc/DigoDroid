@@ -33,7 +33,9 @@ public class ActConsulta extends ActMain implements OnTblChangeListener, TextWat
 {
   public enum EnmResultado
   {
-    NONE, REGISTRO_SELECIONADO, VOLTAR,
+    NONE,
+    REGISTRO_SELECIONADO,
+    VOLTAR,
   }
 
   /**
