@@ -36,6 +36,7 @@ public abstract class TblSincronizavelMain<T extends DominioSincronizavelMain> e
   private ColunaAndroid _clnStrAparelhoId;
   private ColunaAndroid _clnStrSincCritica;
   private List<Filtro> _lstFilSincronizacao;
+  private List<TblSincronizavelMain> _lstTblDependencia;
   private MsgCodigoReserva _msgCodigoReserva;
   private MsgPesquisar _msgPesquisar;
   private MsgSalvar _msgSalvar;
@@ -145,6 +146,20 @@ public abstract class TblSincronizavelMain<T extends DominioSincronizavelMain> e
     return _lstFilSincronizacao;
   }
 
+  private List<TblSincronizavelMain> getLstTblDependencia()
+  {
+    if (_lstTblDependencia != null)
+    {
+      return _lstTblDependencia;
+    }
+
+    _lstTblDependencia = new ArrayList<>();
+
+    this.inicializarLstTblDependencia(_lstTblDependencia);
+
+    return _lstTblDependencia;
+  }
+
   private MsgCodigoReserva getMsgCodigoReserva()
   {
     return _msgCodigoReserva;
@@ -201,6 +216,11 @@ public abstract class TblSincronizavelMain<T extends DominioSincronizavelMain> e
   }
 
   protected void inicializarLstFilSincronizacao(final List<Filtro> lstFilSincronizacao)
+  {
+
+  }
+
+  protected void inicializarLstTblDependencia(final List<TblSincronizavelMain> lstTblDependencia)
   {
 
   }
@@ -555,12 +575,9 @@ public abstract class TblSincronizavelMain<T extends DominioSincronizavelMain> e
 
   private void sincronizarEnviar()
   {
-    if (!this.getBooEditavel())
-    {
-      return;
-    }
+    this.sincronizarEnviarDependencia();
 
-    if (this.getMsgSalvar() != null)
+    if (!this.sincronizarEnviarValidar())
     {
       return;
     }
@@ -588,6 +605,43 @@ public abstract class TblSincronizavelMain<T extends DominioSincronizavelMain> e
     this.getMsgSalvar().setTbl(this);
 
     this.getSrvSinc().getSrvHttpSinc().enviar(this.getMsgSalvar());
+  }
+
+  private void sincronizarEnviarDependencia()
+  {
+    for (TblSincronizavelMain tblDependencia : this.getLstTblDependencia())
+    {
+      tblDependencia.sincronizarEnviar();
+
+      try
+      {
+        Thread.sleep(1000);
+      }
+      catch (InterruptedException e)
+      {
+        e.printStackTrace();
+      }
+    }
+  }
+
+  private boolean sincronizarEnviarValidar()
+  {
+    if (!this.getBooEditavel())
+    {
+      return false;
+    }
+
+    if (this.getMsgSalvar() != null)
+    {
+      return false;
+    }
+
+    if (this.contar(this.getLstFilSincronizacao()) < 1)
+    {
+      return false;
+    }
+
+    return true;
   }
 
   private void sincronizarReceber()

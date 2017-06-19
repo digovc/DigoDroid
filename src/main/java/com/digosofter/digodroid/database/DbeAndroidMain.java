@@ -112,7 +112,7 @@ public abstract class DbeAndroidMain extends DbeMain implements DialogInterface.
   }
 
   @Override
-  public String execSqlGetStr(String sql)
+  public String execSqlStr(String sql)
   {
     Cursor crs = this.execSqlComRetorno(sql);
 

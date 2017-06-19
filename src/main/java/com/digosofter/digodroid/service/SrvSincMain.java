@@ -20,7 +20,7 @@ import java.util.List;
 
 public abstract class SrvSincMain<T extends ServerHttpSincMain> extends ServiceMain
 {
-  private static final int INT_LOOP_DELAY = (1000 * 60 * 15);
+  private static final int INT_LOOP_DELAY = (1000 * 60 * 5);
   private static final int INT_NOTIFICACAO_ID = 1010;
 
   private static SrvSincMain _i;
@@ -49,10 +49,10 @@ public abstract class SrvSincMain<T extends ServerHttpSincMain> extends ServiceM
     while (t < INT_LOOP_DELAY)
     {
       if (this.getBooReiniciarLoop())
-    {
+      {
         t = 0;
         this.setBooReiniciarLoop(false);
-    }
+      }
 
       if (this.getBooAcordar())
       {
@@ -233,7 +233,7 @@ public abstract class SrvSincMain<T extends ServerHttpSincMain> extends ServiceM
     if (AppAndroid.getI() == null)
     {
       return;
-  }
+    }
 
     if (_i != null)
     {

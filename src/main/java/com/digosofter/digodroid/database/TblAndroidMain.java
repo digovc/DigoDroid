@@ -281,10 +281,9 @@ public abstract class TblAndroidMain<T extends DominioAndroidMain> extends Tabel
       return;
     }
 
-    String sql = "delete from _tbl_nome where _where;";
+    String sql = "delete from _tbl_nome _where;";
 
     sql = sql.replace("_tbl_nome", this.getSqlNome());
-    sql = sql.replace("where _where", lstFil != null && !lstFil.isEmpty() ? "where _where" : Utils.STR_VAZIA);
     sql = sql.replace("_where", this.getSqlWhere(lstFil));
 
     this.getDbe().execSql(sql);
@@ -468,6 +467,17 @@ public abstract class TblAndroidMain<T extends DominioAndroidMain> extends Tabel
     }
   }
 
+  public int contar(List<Filtro> lstFil)
+  {
+    String sql = "select count(_cln_pk_nome) from _tbl_nome _where;";
+
+    sql = sql.replace("_cln_pk_nome", this.getClnIntId().getSqlNome());
+    sql = sql.replace("_tbl_nome", this.getSqlNome());
+    sql = sql.replace("_where", this.getSqlWhere(lstFil));
+
+    return this.getDbe().execSqlInt(sql);
+  }
+
   protected void criar()
   {
     if (this.getDbe() == null)
@@ -615,7 +625,7 @@ public abstract class TblAndroidMain<T extends DominioAndroidMain> extends Tabel
 
     sql = sql.replace("_tbl_nome", this.getSqlNome());
 
-    return this.getDbe().execSqlGetBoo(sql);
+    return this.getDbe().execSqlBoo(sql);
   }
 
   private boolean getBooMostrarSalvarNovo()
@@ -630,13 +640,21 @@ public abstract class TblAndroidMain<T extends DominioAndroidMain> extends Tabel
       return false;
     }
 
-    String sql = "select 1 from _tbl_nome where _cln_pk_nome = '_record_id';";
+    List<Filtro> lstFil = new ArrayList<>();
+
+    lstFil.add(new Filtro(this.getClnIntId(), intRegistroId));
+
+    return this.getBooRegistroExiste(lstFil);
+  }
+
+  public boolean getBooRegistroExiste(final List<Filtro> lstFil)
+  {
+    String sql = "select 1 from _tbl_nome _where;";
 
     sql = sql.replace("_tbl_nome", this.getSqlNome());
-    sql = sql.replace("_cln_pk_nome", this.getClnIntId().getSqlNome());
-    sql = sql.replace("_record_id", String.valueOf(intRegistroId));
+    sql = sql.replace("_where", this.getSqlWhere(lstFil));
 
-    return this.getDbe().execSqlGetBoo(sql);
+    return this.getDbe().execSqlBoo(sql);
   }
 
   public ColunaAndroid getClnBooAtivo()
@@ -995,7 +1013,8 @@ public abstract class TblAndroidMain<T extends DominioAndroidMain> extends Tabel
     }
 
     boolean booPrimeiroTermo = true;
-    String strResultado = Utils.STR_VAZIA;
+
+    String strResultado = "where ";
 
     for (Filtro fil : lstFil)
     {
@@ -1123,13 +1142,23 @@ public abstract class TblAndroidMain<T extends DominioAndroidMain> extends Tabel
 
     for (Coluna cln : this.getLstClnOrdenado())
     {
-      if (cln == null)
-      {
-        continue;
-      }
-
-      ((ColunaAndroid) cln).montarMenuCampo(smn);
+      this.montarMenuCampoColuna(smn, cln);
     }
+  }
+
+  protected void montarMenuCampoColuna(final SubMenu smn, final Coluna cln)
+  {
+    if (cln == null)
+    {
+      return;
+    }
+
+    if (!(cln instanceof ColunaAndroid))
+    {
+      return;
+    }
+
+    ((ColunaAndroid) cln).montarMenuCampo(smn);
   }
 
   public void montarMenuItem(Menu mnu, int intRegistroId, boolean booActConsulta)
@@ -1337,13 +1366,10 @@ public abstract class TblAndroidMain<T extends DominioAndroidMain> extends Tabel
 
   public Cursor pesquisar(List<Coluna> lstCln, List<Filtro> lstFil)
   {
-    String sql = "select _clns_nome from _tbl_nome where _where order by _order_by;";
+    String sql = "select _clns_nome from _tbl_nome _where order by _order_by;";
 
     sql = sql.replace("_clns_nome", this.getSqlClnSelect(lstCln));
     sql = sql.replace("_tbl_nome", this.getSqlNome());
-
-    sql = sql.replace("where _where", (lstFil != null && !lstFil.isEmpty()) ? "where _where" : Utils.STR_VAZIA);
-
     sql = sql.replace("_where", this.getSqlWhere(lstFil));
 
     sql = sql.replace("order by _order_by", (!Utils.getBooStrVazia(this.getSqlOrderBy()) ? "order by _order_by" : Utils.STR_VAZIA));
@@ -1373,13 +1399,11 @@ public abstract class TblAndroidMain<T extends DominioAndroidMain> extends Tabel
 
     this.carregarLstFilConsulta(actConsulta, this.getLstFilConsulta());
 
-    String sql = "select _clns_nome from _tbl_nome where _where order by _order_by;";
+    String sql = "select _clns_nome from _tbl_nome _where order by _order_by;";
 
     sql = sql.replace("_clns_nome", this.getSqlClnSelect());
 
     sql = sql.replace("_tbl_nome", this.getSqlNome());
-
-    sql = sql.replace("where _where", (!this.getLstFilConsulta().isEmpty()) ? "where _where" : Utils.STR_VAZIA);
 
     sql = sql.replace("_where", this.getSqlWhere(this.getLstFilConsulta()));
 
@@ -1470,11 +1494,6 @@ public abstract class TblAndroidMain<T extends DominioAndroidMain> extends Tabel
 
   public List<T> pesquisarDominio(List<Filtro> lstFil)
   {
-    if (lstFil == null)
-    {
-      return null;
-    }
-
     Cursor crs = this.pesquisar(lstFil);
 
     if (crs == null)
@@ -1871,7 +1890,7 @@ public abstract class TblAndroidMain<T extends DominioAndroidMain> extends Tabel
       return this;
     }
 
-    String sql = "select * from _tbl_nome where _where order by _tbl_nome._order;";
+    String sql = "select * from _tbl_nome _where order by _tbl_nome._order;";
 
     sql = sql.replace("_tbl_nome", this.getSqlNome());
     sql = sql.replace("_where", this.getSqlWhere(lstFil));
@@ -2018,7 +2037,7 @@ public abstract class TblAndroidMain<T extends DominioAndroidMain> extends Tabel
 
     sql = "select last_insert_rowid();";
 
-    int intId = this.getDbe().execSqlGetInt(sql);
+    int intId = this.getDbe().execSqlInt(sql);
 
     this.getClnIntId().setIntValor(intId);
 
