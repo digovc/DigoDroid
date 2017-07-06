@@ -575,12 +575,12 @@ public abstract class TblSincronizavelMain<T extends DominioSincronizavelMain> e
 
   private void sincronizarEnviar()
   {
-    this.sincronizarEnviarDependencia();
-
     if (!this.sincronizarEnviarValidar())
     {
       return;
     }
+
+    this.sincronizarEnviarDependencia();
 
     List<T> lstObjDominio = this.pesquisarDominio(this.getLstFilSincronizacao());
 

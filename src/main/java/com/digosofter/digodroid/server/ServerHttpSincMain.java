@@ -20,7 +20,6 @@ public abstract class ServerHttpSincMain
   private ArrayList<String> _lstUrlServer;
   private RequestQueue _objRequestQueue;
   private SrvSincMain _srvSinc;
-
   private String _urlServerAtual;
 
   public void enviar(final MessageMain msg)
@@ -37,6 +36,8 @@ public abstract class ServerHttpSincMain
     }
 
     String url = this.getUrlServerAtual().concat("/").concat(msg.getClass().getSimpleName().toLowerCase());
+
+    LogSinc.getI().addLog(Log.EnmTipo.INFO, String.format("Enviando uma solicitação do tipo \"%s\" para o servidor.", msg.getClass().getSimpleName()));
 
     this.getObjRequestQueue().add(new SincJsonRequest(msg, url));
   }
