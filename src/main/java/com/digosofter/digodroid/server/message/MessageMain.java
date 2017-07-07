@@ -6,6 +6,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.digosofter.digodroid.Aparelho;
 import com.digosofter.digodroid.log.LogSinc;
+import com.digosofter.digodroid.server.ServerHttpSincMain;
 import com.digosofter.digojava.Utils;
 import com.digosofter.digojava.json.Json;
 import com.digosofter.digojava.log.Log;
@@ -16,6 +17,7 @@ public abstract class MessageMain<T extends RespostaMain> implements Response.Li
 {
   private transient Class<T> _clsResposta;
   private transient T _rsp;
+  private transient ServerHttpSincMain _srvHttpSinc;
   private String _strAparelhoId;
 
   protected MessageMain()
@@ -55,6 +57,11 @@ public abstract class MessageMain<T extends RespostaMain> implements Response.Li
     return _rsp;
   }
 
+  private ServerHttpSincMain getSrvHttpSinc()
+  {
+    return _srvHttpSinc;
+  }
+
   public String getStrAparelhoId()
   {
     return _strAparelhoId;
@@ -78,7 +85,18 @@ public abstract class MessageMain<T extends RespostaMain> implements Response.Li
       @Override
       public void run()
       {
-        MessageMain.this.onErrorResponseLocal(objVolleyError);
+        try
+        {
+          MessageMain.this.onErrorResponseLocal(objVolleyError);
+        }
+        catch (Exception e)
+        {
+          e.printStackTrace();
+        }
+        finally
+        {
+          MessageMain.this.getSrvHttpSinc().removerMsgPendente(MessageMain.this);
+        }
       }
     });
   }
@@ -108,7 +126,18 @@ public abstract class MessageMain<T extends RespostaMain> implements Response.Li
       @Override
       public void run()
       {
-        MessageMain.this.onResponseLocal(objResponse);
+        try
+        {
+          MessageMain.this.onResponseLocal(objResponse);
+        }
+        catch (Exception e)
+        {
+          e.printStackTrace();
+        }
+        finally
+        {
+          MessageMain.this.getSrvHttpSinc().removerMsgPendente(MessageMain.this);
+        }
       }
     });
   }
@@ -153,6 +182,11 @@ public abstract class MessageMain<T extends RespostaMain> implements Response.Li
   private void setRsp(T rsp)
   {
     _rsp = rsp;
+  }
+
+  public void setSrvHttpSinc(ServerHttpSincMain srvHttpSinc)
+  {
+    _srvHttpSinc = srvHttpSinc;
   }
 
   private void setStrAparelhoId(String strAparelhoId)

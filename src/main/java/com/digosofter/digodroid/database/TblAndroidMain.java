@@ -44,7 +44,6 @@ public abstract class TblAndroidMain<T extends DominioAndroidMain> extends Tabel
   private static final String STR_MENU_DETALHAR = "Ver detalhes";
   private static final String STR_MENU_PESQUISAR_POR = "Pesquisar por";
 
-  private boolean _booMostrarSalvarNovo;
   private ColunaAndroid _clnBooAtivo;
   private ColunaAndroid _clnDttAlteracao;
   private ColunaAndroid _clnDttCadastro;
@@ -626,11 +625,6 @@ public abstract class TblAndroidMain<T extends DominioAndroidMain> extends Tabel
     sql = sql.replace("_tbl_nome", this.getSqlNome());
 
     return this.getDbe().execSqlBoo(sql);
-  }
-
-  private boolean getBooMostrarSalvarNovo()
-  {
-    return _booMostrarSalvarNovo;
   }
 
   public boolean getBooRegistroExiste(int intRegistroId)
@@ -2056,11 +2050,6 @@ public abstract class TblAndroidMain<T extends DominioAndroidMain> extends Tabel
     this.getDbe().execSql(sql);
 
     this.dispararEvtOnAdicionarAtualizarListener(false);
-  }
-
-  protected void setBooMostrarSalvarNovo(boolean booMostrarSalvarNovo)
-  {
-    _booMostrarSalvarNovo = booMostrarSalvarNovo;
   }
 
   /**

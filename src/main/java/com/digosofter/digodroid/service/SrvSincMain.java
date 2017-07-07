@@ -3,7 +3,6 @@ package com.digosofter.digodroid.service;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Intent;
-import android.os.SystemClock;
 import android.support.v4.app.NotificationCompat;
 
 import com.digosofter.digodroid.Aparelho;
@@ -20,7 +19,6 @@ import java.util.List;
 
 public abstract class SrvSincMain<T extends ServerHttpSincMain> extends ServiceMain
 {
-  private static final int INT_LOOP_DELAY = (1000 * 60 * 5);
   private static final int INT_NOTIFICACAO_ID = 1010;
 
   private static SrvSincMain _i;
@@ -40,35 +38,6 @@ public abstract class SrvSincMain<T extends ServerHttpSincMain> extends ServiceM
     super("Serviço de sincronização");
 
     this.setI(this);
-  }
-
-  private void esperarIntervaloLoop()
-  {
-    int t = 0;
-
-    while (t < INT_LOOP_DELAY)
-    {
-      if (this.getBooReiniciarLoop())
-      {
-        t = 0;
-        this.setBooReiniciarLoop(false);
-      }
-
-      if (this.getBooAcordar())
-      {
-        this.setBooAcordar(false);
-        return;
-      }
-
-      if (this.getBooParar())
-      {
-        return;
-      }
-
-      SystemClock.sleep(100);
-
-      t += (100);
-    }
   }
 
   @Override
@@ -99,11 +68,6 @@ public abstract class SrvSincMain<T extends ServerHttpSincMain> extends ServiceM
   }
 
   protected abstract DbeAndroidMain getDbe();
-
-  protected int getIntDelay()
-  {
-    return INT_LOOP_DELAY;
-  }
 
   protected abstract int getIntNotificacaoIconId();
 
@@ -175,11 +139,6 @@ public abstract class SrvSincMain<T extends ServerHttpSincMain> extends ServiceM
     this.getSrvHttpSinc().iniciar();
   }
 
-  private void loop()
-  {
-    this.sincronizar();
-  }
-
   @Override
   protected void processarErro(final Exception ex)
   {
@@ -198,12 +157,9 @@ public abstract class SrvSincMain<T extends ServerHttpSincMain> extends ServiceM
   {
     super.servico();
 
-    while (!this.getBooParar())
-    {
-      this.loop();
+    this.sincronizar();
 
-      this.esperarIntervaloLoop();
-    }
+    this.getSrvHttpSinc().aguardarSolicitacaoPendente();
   }
 
   public void setBooAcordar(boolean booAcordar)

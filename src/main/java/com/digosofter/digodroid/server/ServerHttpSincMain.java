@@ -7,6 +7,7 @@ import com.digosofter.digodroid.log.LogErro;
 import com.digosofter.digodroid.log.LogSinc;
 import com.digosofter.digodroid.server.message.MessageMain;
 import com.digosofter.digodroid.server.message.MsgWelcome;
+import com.digosofter.digodroid.server.message.RespostaMain;
 import com.digosofter.digodroid.service.SrvSincMain;
 import com.digosofter.digojava.Utils;
 import com.digosofter.digojava.log.Log;
@@ -16,11 +17,29 @@ import java.util.ArrayList;
 public abstract class ServerHttpSincMain
 {
   protected final String STR_ERRO_URL_SERVER_VAZIO = "O endereço do servidor não foi configurado.";
-
+  private ArrayList<MessageMain> _lstMsgPendente;
   private ArrayList<String> _lstUrlServer;
   private RequestQueue _objRequestQueue;
   private SrvSincMain _srvSinc;
   private String _urlServerAtual;
+
+  public void aguardarSolicitacaoPendente()
+  {
+
+    try
+    {
+      Thread.sleep(1000);
+
+      while (!this.getLstMsgPendente().isEmpty())
+      {
+        Thread.sleep(150);
+      }
+    }
+    catch (InterruptedException e)
+    {
+      e.printStackTrace();
+    }
+  }
 
   public void enviar(final MessageMain msg)
   {
@@ -34,6 +53,10 @@ public abstract class ServerHttpSincMain
       LogSinc.getI().addLog(Log.EnmTipo.ERRO, "Uma mensagem vazia não pode ser enviada para o servidor de sincronização.");
       return;
     }
+
+    msg.setSrvHttpSinc(this);
+
+    this.getLstMsgPendente().add(msg);
 
     String url = this.getUrlServerAtual().concat("/").concat(msg.getClass().getSimpleName().toLowerCase());
 
@@ -72,6 +95,18 @@ public abstract class ServerHttpSincMain
     this.enviar(new MsgWelcome());
   }
 
+  private ArrayList<MessageMain> getLstMsgPendente()
+  {
+    if (_lstMsgPendente != null)
+    {
+      return _lstMsgPendente;
+    }
+
+    _lstMsgPendente = new ArrayList<MessageMain>();
+
+    return _lstMsgPendente;
+  }
+
   protected ArrayList<String> getLstUrlServer()
   {
     if (_lstUrlServer != null)
@@ -93,7 +128,6 @@ public abstract class ServerHttpSincMain
       return _objRequestQueue;
     }
 
-    //    _objRequestQueue = Volley.newRequestQueue(AppAndroid.getI().getActPrincipal());
     _objRequestQueue = Volley.newRequestQueue(this.getSrvSinc());
 
     return _objRequestQueue;
@@ -146,6 +180,11 @@ public abstract class ServerHttpSincMain
   protected void notificarUrlServidorVazio()
   {
     LogSinc.getI().addLog(Log.EnmTipo.ERRO, STR_ERRO_URL_SERVER_VAZIO);
+  }
+
+  public <T extends RespostaMain> void removerMsgPendente(final MessageMain msg)
+  {
+    this.getLstMsgPendente().remove(msg);
   }
 
   public void setSrvSinc(SrvSincMain srvSinc)
