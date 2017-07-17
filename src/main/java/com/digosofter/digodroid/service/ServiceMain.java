@@ -39,6 +39,17 @@ public abstract class ServiceMain extends IntentService
 
   protected void inicializar()
   {
+    this.inicializarApp();
+  }
+
+  private void inicializarApp()
+  {
+    if (AppAndroid.getI() == null)
+    {
+      return;
+    }
+
+    AppAndroid.getI().dispararEvtOnSrvStartedListener(this);
   }
 
   @Override

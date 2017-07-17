@@ -13,15 +13,34 @@ import com.digosofter.digojava.Utils;
 import com.digosofter.digojava.log.Log;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public abstract class ServerHttpSincMain
 {
   protected final String STR_ERRO_URL_SERVER_VAZIO = "O endereço do servidor não foi configurado.";
+
+  private int _intMsgQuantidadeMaxima;
+  private List<OnProgressoChangedListener> _lstEvtOnProgressoChangedListener;
   private ArrayList<MessageMain> _lstMsgPendente;
   private ArrayList<String> _lstUrlServer;
   private RequestQueue _objRequestQueue;
   private SrvSincMain _srvSinc;
   private String _urlServerAtual;
+
+  public void addEvtOnProgressoChangedListener(OnProgressoChangedListener evt)
+  {
+    if (evt == null)
+    {
+      return;
+    }
+
+    if (this.getLstEvtOnProgressoChangedListener().contains(evt))
+    {
+      return;
+    }
+
+    this.getLstEvtOnProgressoChangedListener().add(evt);
+  }
 
   public void aguardarSolicitacaoPendente()
   {
@@ -41,6 +60,31 @@ public abstract class ServerHttpSincMain
     }
   }
 
+  private void dispararEvtOnProgressoChangedListener()
+  {
+    if (this.getLstEvtOnProgressoChangedListener().isEmpty())
+    {
+      return;
+    }
+
+    float fltProgresso = 0;
+
+    if (this.getLstMsgPendente().size() > 0)
+    {
+      fltProgresso = (((float)this.getIntMsgQuantidadeMaxima() - this.getLstMsgPendente().size()) / (float)this.getIntMsgQuantidadeMaxima());
+    }
+
+    for (OnProgressoChangedListener evt : this.getLstEvtOnProgressoChangedListener())
+    {
+      if (evt == null)
+      {
+        continue;
+      }
+
+      evt.onProgressoChanged(this, fltProgresso);
+    }
+  }
+
   public void enviar(final MessageMain msg)
   {
     if (Utils.getBooStrVazia(this.getUrlServerAtual()))
@@ -57,6 +101,10 @@ public abstract class ServerHttpSincMain
     msg.setSrvHttpSinc(this);
 
     this.getLstMsgPendente().add(msg);
+
+    this.setIntMsgQuantidadeMaxima(this.getIntMsgQuantidadeMaxima() + 1);
+
+    this.dispararEvtOnProgressoChangedListener();
 
     String url = this.getUrlServerAtual().concat("/").concat(msg.getClass().getSimpleName().toLowerCase());
 
@@ -93,6 +141,23 @@ public abstract class ServerHttpSincMain
     LogSinc.getI().addLog(Log.EnmTipo.INFO, String.format("Enviando mensagem de boas vindas para o servidor (%s).", this.getUrlServerAtual()));
 
     this.enviar(new MsgWelcome());
+  }
+
+  private int getIntMsgQuantidadeMaxima()
+  {
+    return _intMsgQuantidadeMaxima;
+  }
+
+  private List<OnProgressoChangedListener> getLstEvtOnProgressoChangedListener()
+  {
+    if (_lstEvtOnProgressoChangedListener != null)
+    {
+      return _lstEvtOnProgressoChangedListener;
+    }
+
+    _lstEvtOnProgressoChangedListener = new ArrayList<>();
+
+    return _lstEvtOnProgressoChangedListener;
   }
 
   private ArrayList<MessageMain> getLstMsgPendente()
@@ -182,9 +247,26 @@ public abstract class ServerHttpSincMain
     LogSinc.getI().addLog(Log.EnmTipo.ERRO, STR_ERRO_URL_SERVER_VAZIO);
   }
 
+  public void removerEvtOnProgressoChangedListener(OnProgressoChangedListener evt)
+  {
+    if (evt == null)
+    {
+      return;
+    }
+
+    this.getLstEvtOnProgressoChangedListener().remove(evt);
+  }
+
   public <T extends RespostaMain> void removerMsgPendente(final MessageMain msg)
   {
     this.getLstMsgPendente().remove(msg);
+
+    this.dispararEvtOnProgressoChangedListener();
+  }
+
+  private void setIntMsgQuantidadeMaxima(int intMsgQuantidadeMaxima)
+  {
+    _intMsgQuantidadeMaxima = intMsgQuantidadeMaxima;
   }
 
   public void setSrvSinc(SrvSincMain srvSinc)

@@ -22,6 +22,7 @@ import com.digosofter.digodroid.design.TemaDefault;
 import com.digosofter.digodroid.server.message.RspWelcome;
 import com.digosofter.digodroid.service.OnSrvSincCreateListener;
 import com.digosofter.digodroid.service.OnSrvSincDestroyListener;
+import com.digosofter.digodroid.service.ServiceMain;
 import com.digosofter.digodroid.service.SrvSincMain;
 import com.digosofter.digojava.App;
 import com.digosofter.digojava.Utils;
@@ -43,6 +44,7 @@ public abstract class AppAndroid extends App
   private String _dir;
   private List<OnSrvSincCreateListener> _lstEvtOnSrvSincCreateListener;
   private List<OnSrvSincDestroyListener> _lstEvtOnSrvSincDestroyListener;
+  private List<OnSrvStartedListener> _lstEvtOnSrvStartedListener;
   private List<Toast> _lstObjToast;
   private NotificationManager _objNotificationManager;
   private PackageInfo _objPackageInfo;
@@ -82,6 +84,21 @@ public abstract class AppAndroid extends App
     }
 
     this.getLstEvtOnSrvSincDestroyListener().add(evt);
+  }
+
+  public void addEvtOnSrvStartedListener(OnSrvStartedListener evt)
+  {
+    if (evt == null)
+    {
+      return;
+    }
+
+    if (this.getLstEvtOnSrvStartedListener().contains(evt))
+    {
+      return;
+    }
+
+    this.getLstEvtOnSrvStartedListener().add(evt);
   }
 
   private void criarView(final TabelaMain tbl)
@@ -132,6 +149,24 @@ public abstract class AppAndroid extends App
       }
 
       evt.onSrvSincDestroy(srvSinc);
+    }
+  }
+
+  public void dispararEvtOnSrvStartedListener(final ServiceMain srv)
+  {
+    if (this.getLstEvtOnSrvStartedListener().isEmpty())
+    {
+      return;
+    }
+
+    for (OnSrvStartedListener evt : this.getLstEvtOnSrvStartedListener())
+    {
+      if (evt == null)
+      {
+        continue;
+      }
+
+      evt.onSrvStarted(srv);
     }
   }
 
@@ -203,6 +238,18 @@ public abstract class AppAndroid extends App
     _lstEvtOnSrvSincDestroyListener = new ArrayList<>();
 
     return _lstEvtOnSrvSincDestroyListener;
+  }
+
+  private List<OnSrvStartedListener> getLstEvtOnSrvStartedListener()
+  {
+    if (_lstEvtOnSrvStartedListener != null)
+    {
+      return _lstEvtOnSrvStartedListener;
+    }
+
+    _lstEvtOnSrvStartedListener = new ArrayList<>();
+
+    return _lstEvtOnSrvStartedListener;
   }
 
   private List<Toast> getLstObjToast()
@@ -444,6 +491,16 @@ public abstract class AppAndroid extends App
     }
 
     this.getLstEvtOnSrvSincDestroyListener().remove(evt);
+  }
+
+  public void removerEvtOnSrvStartedListener(OnSrvStartedListener evt)
+  {
+    if (evt == null)
+    {
+      return;
+    }
+
+    this.getLstEvtOnSrvStartedListener().remove(evt);
   }
 
   public void setActPrincipal(ActMain actPrincipal)
