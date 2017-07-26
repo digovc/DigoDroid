@@ -13,7 +13,6 @@ import com.digosofter.digodroid.componente.campo.CampoMain;
 import com.digosofter.digodroid.database.ColunaAndroid;
 import com.digosofter.digodroid.database.TblAndroidMain;
 import com.digosofter.digodroid.log.LogErro;
-import com.digosofter.digodroid.service.SrvSincMain;
 import com.digosofter.digojava.Utils;
 import com.digosofter.digojava.database.Coluna;
 
@@ -499,18 +498,18 @@ public abstract class ActCadastroMain extends ActMain
     switch (mni.getTitle().toString())
     {
       case STR_MENU_SALVAR:
-        this.salvar();
+        this.salvar(false);
         return true;
 
       case STR_MENU_SALVAR_NOVO:
-        this.salvarAbrirNovo();
+        this.salvar(true);
         return true;
     }
 
     return false;
   }
 
-  protected boolean salvar()
+  protected boolean salvar(final boolean booAbrirNovo)
   {
     if (this.getTbl() == null)
     {
@@ -527,7 +526,6 @@ public abstract class ActCadastroMain extends ActMain
     try
     {
       this.getTbl().salvar();
-      this.salvarAcordarSinc();
       this.finish();
 
       return true;
@@ -535,32 +533,13 @@ public abstract class ActCadastroMain extends ActMain
     finally
     {
       this.getTbl().liberarThread();
+
+      if (booAbrirNovo)
+      {
+        this.abrirNovo();
+      }
+
     }
-  }
-
-  protected void salvarAbrirNovo()
-  {
-    if (!this.salvar())
-    {
-      return;
-    }
-
-    this.abrirNovo();
-  }
-
-  private void salvarAcordarSinc()
-  {
-    if (this.getTbl() == null)
-    {
-      return;
-    }
-
-    if (SrvSincMain.getI() == null)
-    {
-      return;
-    }
-
-    SrvSincMain.getI().setBooAcordar(true);
   }
 
   @Override
