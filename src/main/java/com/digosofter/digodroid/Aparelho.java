@@ -8,9 +8,11 @@ import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Environment;
 import android.os.Vibrator;
+import android.provider.MediaStore;
 import android.provider.Settings.Secure;
 import android.telephony.TelephonyManager;
 
+import com.digosofter.digodroid.activity.ActCodigoBarra;
 import com.digosofter.digodroid.activity.ActMain;
 import com.digosofter.digodroid.log.LogErro;
 import com.digosofter.digojava.Objeto;
@@ -18,6 +20,8 @@ import com.digosofter.digojava.Utils;
 
 public class Aparelho extends Objeto
 {
+  public static final int REQUEST_IMAGE_CAPTURE = 500;
+
   private static Aparelho _i;
 
   public static Aparelho getI()
@@ -32,6 +36,7 @@ public class Aparelho extends Objeto
     return _i;
   }
 
+  private OnCodigoBarraSucessoListener _evtOnCodigoBarraSucesso;
   private TelephonyManager _objTelephonyManager;
   private Point _pntTelaTamanho;
   private String _strDeviceId;
@@ -170,6 +175,11 @@ public class Aparelho extends Objeto
     return ((objNetworkInfo != null) && objNetworkInfo.isConnected());
   }
 
+  public OnCodigoBarraSucessoListener getEvtOnCodigoBarraSucesso()
+  {
+    return _evtOnCodigoBarraSucesso;
+  }
+
   private TelephonyManager getObjTelephonyManager()
   {
     if (_objTelephonyManager != null)
@@ -243,6 +253,18 @@ public class Aparelho extends Objeto
     return _strImei;
   }
 
+  public void lerCodigoBarra(final ActMain act, final OnCodigoBarraSucessoListener evtOnCodigoBarraSucesso)
+  {
+    if (evtOnCodigoBarraSucesso == null)
+    {
+      return;
+    }
+
+    this.setEvtOnCodigoBarraSucesso(evtOnCodigoBarraSucesso);
+
+    act.startActivity(new Intent(act, ActCodigoBarra.class));
+  }
+
   public void ligar(String strNumero)
   {
     if (AppAndroid.getI().getActPrincipal() == null)
@@ -265,6 +287,28 @@ public class Aparelho extends Objeto
     AppAndroid.getI().getActPrincipal().startActivity(itt);
   }
 
+  private void setEvtOnCodigoBarraSucesso(OnCodigoBarraSucessoListener evtOnCodigoBarraSucesso)
+  {
+    _evtOnCodigoBarraSucesso = evtOnCodigoBarraSucesso;
+  }
+
+  public void tirarFoto(ActMain act)
+  {
+    if (act == null)
+    {
+      return;
+    }
+
+    Intent ittTirarFoto = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+
+    if (ittTirarFoto.resolveActivity(act.getPackageManager()) == null)
+    {
+      return;
+    }
+
+    act.startActivityForResult(ittTirarFoto, REQUEST_IMAGE_CAPTURE);
+  }
+
   /**
    * Vibra o aparelho caso exista hardware para tal.
    *
@@ -284,4 +328,5 @@ public class Aparelho extends Objeto
 
     ((Vibrator) AppAndroid.getI().getActPrincipal().getSystemService(Context.VIBRATOR_SERVICE)).vibrate(arrIntMs, -1);
   }
+
 }
