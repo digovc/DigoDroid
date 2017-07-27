@@ -14,6 +14,7 @@ import com.digosofter.digodroid.log.LogSinc;
 import com.digosofter.digodroid.server.ServerHttpSincMain;
 import com.digosofter.digojava.log.Log;
 
+import java.lang.reflect.ParameterizedType;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,10 +29,10 @@ public abstract class SrvSincMain<T extends ServerHttpSincMain> extends ServiceM
     return _i;
   }
 
-  private boolean _booAcordar;
-  private boolean _booReiniciarLoop;
+  private Class<T> _clsSrvHttpSinc;
   private List<TblSincronizavelMain> _lstTbl;
   private NotificationCompat.Builder _objNotificationBuilder;
+  private T _srvHttpSinc;
 
   protected SrvSincMain()
   {
@@ -57,14 +58,31 @@ public abstract class SrvSincMain<T extends ServerHttpSincMain> extends ServiceM
     ((NotificationManager) this.getSystemService(NOTIFICATION_SERVICE)).cancel(INT_NOTIFICACAO_ID);
   }
 
-  private boolean getBooAcordar()
+  private Class<T> getClsSrvHttpSinc()
   {
-    return _booAcordar;
-  }
+    if (_clsSrvHttpSinc != null)
+    {
+      return _clsSrvHttpSinc;
+    }
 
-  private boolean getBooReiniciarLoop()
-  {
-    return _booReiniciarLoop;
+    if (this.getClass().getGenericSuperclass() == null)
+    {
+      return null;
+    }
+
+    if (((ParameterizedType) this.getClass().getGenericSuperclass()).getActualTypeArguments() == null)
+    {
+      return null;
+    }
+
+    if (((ParameterizedType) this.getClass().getGenericSuperclass()).getActualTypeArguments().length < 1)
+    {
+      return null;
+    }
+
+    _clsSrvHttpSinc = (Class<T>) ((ParameterizedType) this.getClass().getGenericSuperclass()).getActualTypeArguments()[0];
+
+    return _clsSrvHttpSinc;
   }
 
   protected abstract DbeAndroidMain getDbe();
@@ -106,7 +124,24 @@ public abstract class SrvSincMain<T extends ServerHttpSincMain> extends ServiceM
     return _objNotificationBuilder;
   }
 
-  public abstract T getSrvHttpSinc();
+  public final T getSrvHttpSinc()
+  {
+    if (_srvHttpSinc != null)
+    {
+      return _srvHttpSinc;
+    }
+
+    try
+    {
+      _srvHttpSinc = (T) this.getClsSrvHttpSinc().newInstance();
+    }
+    catch (Exception e)
+    {
+      e.printStackTrace();
+    }
+
+    return _srvHttpSinc;
+  }
 
   @Override
   protected void inicializar()
@@ -160,16 +195,6 @@ public abstract class SrvSincMain<T extends ServerHttpSincMain> extends ServiceM
     this.sincronizar();
 
     this.getSrvHttpSinc().aguardarSolicitacaoPendente();
-  }
-
-  public void setBooAcordar(boolean booAcordar)
-  {
-    _booAcordar = booAcordar;
-  }
-
-  public void setBooReiniciarLoop(boolean booReiniciarLoop)
-  {
-    _booReiniciarLoop = booReiniciarLoop;
   }
 
   private void setI(SrvSincMain i)

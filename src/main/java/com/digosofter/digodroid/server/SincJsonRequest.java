@@ -11,7 +11,7 @@ import java.io.UnsupportedEncodingException;
 
 class SincJsonRequest extends JsonRequest
 {
-  private static final int INT_TIME_OUT = (5 * 60 * 1000);
+  private static final int INT_TIME_OUT = (15 * 1000);
 
   private MessageMain _msg;
 

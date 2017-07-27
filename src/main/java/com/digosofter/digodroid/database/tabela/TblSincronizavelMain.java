@@ -392,8 +392,6 @@ public abstract class TblSincronizavelMain<T extends DominioSincronizavelMain> e
 
     LogSinc.getI().addLog(Log.EnmTipo.INFO, String.format("Restam %s registros a serem salvos na tabela %s.", intResto, this.getStrNomeExibicao()));
 
-    this.getSrvSinc().setBooReiniciarLoop(true);
-
     this.setMsgPesquisar(rspPesquisar.getMsg());
 
     this.getMsgPesquisar().setIntPesquisaParte(this.getMsgPesquisar().getIntPesquisaParte() + 1);
@@ -560,9 +558,11 @@ public abstract class TblSincronizavelMain<T extends DominioSincronizavelMain> e
 
     this.setSrvSinc(srvSinc);
 
-    this.sincronizarReceber();
-    this.sincronizarEnviar();
     this.sincronizarReservarCodigo();
+
+    this.sincronizarEnviar();
+
+    this.sincronizarReceber();
   }
 
   private void sincronizarEnviar()
