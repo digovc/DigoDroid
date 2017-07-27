@@ -29,7 +29,6 @@ import java.util.List;
 public abstract class TblSincronizavelMain<T extends DominioSincronizavelMain> extends TblAndroidMain<T>
 {
   private boolean _booEditavel;
-  private boolean _booReceberDados;
   private ColunaAndroid _clnBooSincronizado;
   private ColunaAndroid _clnBooSincronizar;
   private ColunaAndroid _clnIntReservaCodigoId;
@@ -53,9 +52,9 @@ public abstract class TblSincronizavelMain<T extends DominioSincronizavelMain> e
     return _booEditavel;
   }
 
-  private boolean getBooReceberDados()
+  protected boolean getBooReceberDados()
   {
-    return _booReceberDados;
+    return true;
   }
 
   public ColunaAndroid getClnBooSincronizado()
@@ -196,8 +195,6 @@ public abstract class TblSincronizavelMain<T extends DominioSincronizavelMain> e
   protected void inicializar()
   {
     super.inicializar();
-
-    this.setBooReceberDados(true);
 
     this.getClnBooSincronizado().setBooValorDefault(false);
     this.getClnBooSincronizar().setBooValorDefault(true);
@@ -532,11 +529,6 @@ public abstract class TblSincronizavelMain<T extends DominioSincronizavelMain> e
   protected void setBooEditavel(final boolean booEditavel)
   {
     _booEditavel = booEditavel;
-  }
-
-  public void setBooReceberDados(boolean booReceberDados)
-  {
-    _booReceberDados = booReceberDados;
   }
 
   public void setMsgCodigoReserva(MsgCodigoReserva msgCodigoReserva)

@@ -44,7 +44,8 @@
             android:layout_width="150dp"
             android:layout_height="match_parent"
             android:text="Ignorar todos"
-            android:textAllCaps="false"/>
+            android:textAllCaps="false"
+            android:visibility="gone"/>
     </com.digosofter.digodroid.componente.painel.PainelConteudo>
 
 </com.digosofter.digodroid.componente.painel.PainelGeral>
