@@ -2,6 +2,7 @@ package com.digosofter.digodroid.server;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
+import com.digosofter.digodroid.Aparelho;
 import com.digosofter.digodroid.activity.ActMain;
 import com.digosofter.digodroid.log.LogErro;
 import com.digosofter.digodroid.log.LogSinc;
@@ -71,7 +72,7 @@ public abstract class ServerHttpSincMain
 
     if (this.getLstMsgPendente().size() > 0)
     {
-      fltProgresso = (((float)this.getIntMsgQuantidadeMaxima() - this.getLstMsgPendente().size()) / (float)this.getIntMsgQuantidadeMaxima());
+      fltProgresso = (((float) this.getIntMsgQuantidadeMaxima() - this.getLstMsgPendente().size()) / (float) this.getIntMsgQuantidadeMaxima());
     }
 
     for (OnProgressoChangedListener evt : this.getLstEvtOnProgressoChangedListener())
@@ -110,25 +111,35 @@ public abstract class ServerHttpSincMain
 
     LogSinc.getI().addLog(Log.EnmTipo.INFO, String.format("Enviando uma solicitação do tipo \"%s\" para o servidor.", msg.getClass().getSimpleName()));
 
-    this.getObjRequestQueue().add(new SincJsonRequest(msg, url));
+    this.getObjRequestQueue().add(new SincJsonRequest(msg, url, (15 * 1000)));
   }
 
-  public void enviarDiverso(final ActMain act, final MessageMain msg)
+  public boolean enviarDiverso(final ActMain act, final MessageMain msg)
   {
-    if (Utils.getBooStrVazia(this.getUrlServerAtual()))
-    {
-      LogErro.getI().addLog(act, new Exception("O serviço de sincronização precisa ser ligado antes dessa operação."));
-      return;
-    }
-
     if (msg == null)
     {
-      return;
+      return false;
     }
+
+    if (!Aparelho.getI().getBooConectado())
+    {
+      LogErro.getI().addLog("O aparelho não está conectado.");
+      return false;
+    }
+
+    if (this.getUrlServerAtual() == null)
+    {
+      LogErro.getI().addLog("O endereço do servidor não foi indicado ou não foi possível se conectar a ele.");
+      return false;
+    }
+
+    msg.setSrvHttpSinc(this);
 
     String url = this.getUrlServerAtual().concat("/").concat(msg.getClass().getSimpleName().toLowerCase());
 
-    Volley.newRequestQueue(act).add(new SincJsonRequest(msg, url));
+    Volley.newRequestQueue(act).add(new SincJsonRequest(msg, url, (60 * 1000)));
+
+    return true;
   }
 
   private void enviarWelcome()

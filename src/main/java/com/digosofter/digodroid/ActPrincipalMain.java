@@ -27,6 +27,7 @@ public abstract class ActPrincipalMain extends ActMain
     if (AppAndroid.getI() == null)
     {
       this.finish();
+      return;
     }
 
     AppAndroid.getI().setActPrincipal(this);

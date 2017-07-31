@@ -11,17 +11,22 @@ import java.io.UnsupportedEncodingException;
 
 class SincJsonRequest extends JsonRequest
 {
-  private static final int INT_TIME_OUT = (15 * 1000);
-
+  private int _intTimeOut = (15 * 1000);
   private MessageMain _msg;
 
-  SincJsonRequest(final MessageMain msg, final String url)
+  SincJsonRequest(final MessageMain msg, final String url, final int intTimeOut)
   {
     super(Method.POST, url, msg.toJson(), msg, msg);
 
+    this.setIntTimeOut(intTimeOut);
     this.setMsg(msg);
 
     this.iniciar();
+  }
+
+  private int getIntTimeOut()
+  {
+    return _intTimeOut;
   }
 
   private MessageMain getMsg()
@@ -36,7 +41,7 @@ class SincJsonRequest extends JsonRequest
 
   private void inicializarRetryPolicy()
   {
-    this.setRetryPolicy(new DefaultRetryPolicy(INT_TIME_OUT, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+    this.setRetryPolicy(new DefaultRetryPolicy(this.getIntTimeOut(), 0, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
   }
 
   private void iniciar()
@@ -59,6 +64,11 @@ class SincJsonRequest extends JsonRequest
     }
 
     return Response.success(jsn, HttpHeaderParser.parseCacheHeaders(objNetworkResponse));
+  }
+
+  private void setIntTimeOut(int intTimeOut)
+  {
+    _intTimeOut = intTimeOut;
   }
 
   private void setMsg(MessageMain msg)

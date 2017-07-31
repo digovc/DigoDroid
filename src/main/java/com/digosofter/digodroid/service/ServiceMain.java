@@ -13,7 +13,7 @@ public abstract class ServiceMain extends IntentService
 
   public ServiceMain(String strNome)
   {
-    super(AppAndroid.getI().getStrNomeExibicao() + " - " + strNome);
+    super(strNome);
 
     this.setStrNome(strNome);
   }

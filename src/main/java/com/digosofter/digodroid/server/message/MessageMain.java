@@ -2,7 +2,10 @@ package com.digosofter.digodroid.server.message;
 
 import android.os.AsyncTask;
 
+import com.android.volley.NetworkError;
+import com.android.volley.NoConnectionError;
 import com.android.volley.Response;
+import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.digosofter.digodroid.Aparelho;
 import com.digosofter.digodroid.log.LogSinc;
@@ -103,9 +106,21 @@ public abstract class MessageMain<T extends RespostaMain> implements Response.Li
 
   private void onErrorResponseLocal(final VolleyError objVolleyError)
   {
+    if ((objVolleyError instanceof NetworkError) || (objVolleyError instanceof NoConnectionError))
+    {
+      LogSinc.getI().addLog(Log.EnmTipo.ERRO, String.format("Erro de sincronização (%s). Erro de instabilidade da rede.", this.getClsResposta().getSimpleName()));
+      return;
+    }
+
+    if (objVolleyError instanceof TimeoutError)
+    {
+      LogSinc.getI().addLog(Log.EnmTipo.ERRO, String.format("Erro de sincronização (%s). O tempo limite de espera foi atingido.", this.getClsResposta().getSimpleName()));
+      return;
+    }
+
     if ((objVolleyError == null) || (Utils.getBooStrVazia(objVolleyError.getMessage())))
     {
-      LogSinc.getI().addLog(Log.EnmTipo.ERRO, String.format("Erro de sincronização (%s). Motivo desconhecido.", this.getClsResposta().getSimpleName()));
+      LogSinc.getI().addLog(Log.EnmTipo.ERRO, String.format("Erro de sincronização (%s). Motivo desconhecido (%s).", this.getClsResposta().getSimpleName(), objVolleyError.getClass().getSimpleName()));
       return;
     }
 
