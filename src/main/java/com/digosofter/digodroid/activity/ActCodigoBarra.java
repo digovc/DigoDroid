@@ -52,7 +52,7 @@ public class ActCodigoBarra extends ActMain
       return;
     }
 
-    BarcodeDetector objBarcodeDetector = new BarcodeDetector.Builder(this).setBarcodeFormats(Barcode.DATA_MATRIX | Barcode.EAN_13 | Barcode.QR_CODE).build();
+    BarcodeDetector objBarcodeDetector = new BarcodeDetector.Builder(this).setBarcodeFormats(Barcode.EAN_13).build();
 
     if (!objBarcodeDetector.isOperational())
     {
@@ -66,7 +66,7 @@ public class ActCodigoBarra extends ActMain
 
     if ((arrObjBarcode == null) || (arrObjBarcode.size() < 1))
     {
-      LogErro.getI().addLog("Código de barra não encontrado.");
+      LogErro.getI().addLog("Código de barra não encontrado na imagem.");
       return;
     }
 
@@ -74,7 +74,7 @@ public class ActCodigoBarra extends ActMain
 
     if (Utils.getBooStrVazia(strCodigoBarra))
     {
-      LogErro.getI().addLog("Código de barra não encontrado.");
+      LogErro.getI().addLog("Código de barra não encontrado na imagem.");
       return;
     }
 

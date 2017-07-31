@@ -119,7 +119,7 @@ public abstract class MessageMain<T extends RespostaMain> implements Response.Li
   }
 
   @Override
-  public final void onResponse(final Object objResponse)
+  public void onResponse(final Object objResponse)
   {
     AsyncTask.execute(new Runnable()
     {
