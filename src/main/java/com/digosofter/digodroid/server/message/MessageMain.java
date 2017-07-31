@@ -103,13 +103,7 @@ public abstract class MessageMain<T extends RespostaMain> implements Response.Li
 
   private void onErrorResponseLocal(final VolleyError objVolleyError)
   {
-    if (objVolleyError == null)
-    {
-      LogSinc.getI().addLog(Log.EnmTipo.ERRO, String.format("Erro de sincronização (%s). Motivo desconhecido.", this.getClsResposta().getSimpleName()));
-      return;
-    }
-
-    if (Utils.getBooStrVazia(objVolleyError.getMessage()))
+    if ((objVolleyError == null) || (Utils.getBooStrVazia(objVolleyError.getMessage())))
     {
       LogSinc.getI().addLog(Log.EnmTipo.ERRO, String.format("Erro de sincronização (%s). Motivo desconhecido.", this.getClsResposta().getSimpleName()));
       return;

@@ -233,7 +233,7 @@ public class TblSincronizacaoRecebimento extends TblAndroidMain<DominioAndroidMa
       this.limparDados();
 
       this.getClnBooSincCompleto().setBooValor(rspPesquisar.getBooSincCompleto());
-      this.getClnDttRecebimento().setDttValor(Calendar.getInstance());
+      this.getClnDttRecebimento().setDttValor(rspPesquisar.getDttServidor());
       this.getClnIntRegistroQuantidade().setIntValor(rspPesquisar.getIntRegistroQuantidade());
       this.getClnIntServerSincronizacaoId().setIntValor(rspPesquisar.getIntSincronizacaoId());
       this.getClnSqlTabelaNome().setStrValor(tbl.getSqlNome());
