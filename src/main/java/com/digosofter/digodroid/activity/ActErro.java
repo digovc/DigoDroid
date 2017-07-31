@@ -113,7 +113,9 @@ public class ActErro extends ActMain implements View.OnClickListener
 
   private void inicializarBtnIgnorarTodos()
   {
-    this.getBtnIgnorarTodos().setVisibility((LogErro.getI().getLstActErro().size() > 1) ? View.VISIBLE : View.GONE);
+    // TODO: O processo de "ignorar todos" precisa ser corrigido.
+    //    this.getBtnIgnorarTodos().setVisibility((!LogErro.getI().getLstActErro().isEmpty()) ? View.VISIBLE : View.GONE);
+    this.getBtnIgnorarTodos().setVisibility(View.GONE);
   }
 
   @Override
