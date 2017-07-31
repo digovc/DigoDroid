@@ -57,5 +57,4 @@ public abstract class DominioSincronizavelMain extends DominioAndroidMain
   {
     _strSincCritica = strSincCritica;
   }
-
 }
