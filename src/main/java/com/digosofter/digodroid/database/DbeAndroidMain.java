@@ -39,7 +39,7 @@ public abstract class DbeAndroidMain extends DbeMain implements DialogInterface.
     AppAndroid.getI().perguntar(act, "Todos os dados serão perdidos, inclusive aqueles que ainda não foram sincronizados.\n A aplicação será fechada.\n\n Tem certeza desta ação?", this);
   }
 
-  private void apagar()
+  public void apagar()
   {
     try
     {

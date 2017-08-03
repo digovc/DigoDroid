@@ -36,9 +36,6 @@ public abstract class TblSincronizavelMain<T extends DominioSincronizavelMain> e
   private ColunaAndroid _clnStrSincCritica;
   private List<Filtro> _lstFilSincronizacao;
   private List<TblSincronizavelMain> _lstTblDependencia;
-  private MsgCodigoReserva _msgCodigoReserva;
-  private MsgPesquisar _msgPesquisar;
-  private MsgSalvar _msgSalvar;
   private String _sqlServerNome;
   private SrvSincMain _srvSinc;
 
@@ -159,21 +156,6 @@ public abstract class TblSincronizavelMain<T extends DominioSincronizavelMain> e
     return _lstTblDependencia;
   }
 
-  private MsgCodigoReserva getMsgCodigoReserva()
-  {
-    return _msgCodigoReserva;
-  }
-
-  private MsgPesquisar getMsgPesquisar()
-  {
-    return _msgPesquisar;
-  }
-
-  private MsgSalvar getMsgSalvar()
-  {
-    return _msgSalvar;
-  }
-
   public String getSqlServerNome()
   {
     if (_sqlServerNome != null)
@@ -214,24 +196,16 @@ public abstract class TblSincronizavelMain<T extends DominioSincronizavelMain> e
 
   protected void inicializarLstFilSincronizacao(final List<Filtro> lstFilSincronizacao)
   {
-
   }
 
   protected void inicializarLstTblDependencia(final List<TblSincronizavelMain> lstTblDependencia)
   {
-
   }
 
   public <T extends RespostaMain> void onServidorErrroSinc(final MsgTabelaBase<T> msg, final RespostaMain rsp)
   {
     if (msg == null)
     {
-      return;
-    }
-
-    if (msg.getClass().equals(MsgCodigoReserva.class))
-    {
-      this.onServidorErrroSincMsgCodigoReserva((MsgCodigoReserva) msg, (RspCodigoReserva) rsp);
       return;
     }
 
@@ -248,22 +222,13 @@ public abstract class TblSincronizavelMain<T extends DominioSincronizavelMain> e
     }
   }
 
-  private void onServidorErrroSincMsgCodigoReserva(final MsgCodigoReserva msg, final RspCodigoReserva rsp)
-  {
-    this.setMsgCodigoReserva(null);
-  }
-
   private void onServidorErrroSincMsgPesquisar(final MsgPesquisar msg, final RspPesquisar rsp)
   {
-    this.setMsgPesquisar(null);
-
     TblSincronizacaoRecebimento.getI().salvarRecebimento(this, rsp);
   }
 
   private void onServidorErrroSincMsgSalvar(final MsgSalvar msg, final RspSalvar rsp)
   {
-    this.setMsgSalvar(null);
-
     TblSincronizacaoEnvio.getI().salvarEnvioServidorErro(this, rsp);
   }
 
@@ -392,11 +357,9 @@ public abstract class TblSincronizavelMain<T extends DominioSincronizavelMain> e
 
     LogSinc.getI().addLog(Log.EnmTipo.INFO, String.format("Restam %s registros a serem salvos na tabela %s.", intResto, this.getStrNomeExibicao()));
 
-    this.setMsgPesquisar(rspPesquisar.getMsg());
+    rspPesquisar.getMsg().setIntPesquisaParte(rspPesquisar.getMsg().getIntPesquisaParte() + 1);
 
-    this.getMsgPesquisar().setIntPesquisaParte(this.getMsgPesquisar().getIntPesquisaParte() + 1);
-
-    this.getSrvSinc().getSrvHttpSinc().enviar(this.getMsgPesquisar());
+    this.getSrvSinc().getSrvHttpSinc().enviar(rspPesquisar.getMsg());
   }
 
   public void processarReservarCodigo(final RspCodigoReserva rsp)
@@ -529,21 +492,6 @@ public abstract class TblSincronizavelMain<T extends DominioSincronizavelMain> e
     _booEditavel = booEditavel;
   }
 
-  public void setMsgCodigoReserva(MsgCodigoReserva msgCodigoReserva)
-  {
-    _msgCodigoReserva = msgCodigoReserva;
-  }
-
-  public void setMsgPesquisar(MsgPesquisar msgPesquisar)
-  {
-    _msgPesquisar = msgPesquisar;
-  }
-
-  public void setMsgSalvar(MsgSalvar msgSalvar)
-  {
-    _msgSalvar = msgSalvar;
-  }
-
   private void setSrvSinc(final SrvSincMain srvSinc)
   {
     _srvSinc = srvSinc;
@@ -591,12 +539,12 @@ public abstract class TblSincronizavelMain<T extends DominioSincronizavelMain> e
       this.prepararSincronizacao(objDominio);
     }
 
-    this.setMsgSalvar(new MsgSalvar());
+    MsgSalvar msgSalvar = new MsgSalvar();
 
-    this.getMsgSalvar().setJsnLstObjDominio(Json.getI().toJson(lstObjDominio));
-    this.getMsgSalvar().setTbl(this);
+    msgSalvar.setJsnLstObjDominio(Json.getI().toJson(lstObjDominio));
+    msgSalvar.setTbl(this);
 
-    this.getSrvSinc().getSrvHttpSinc().enviar(this.getMsgSalvar());
+    this.getSrvSinc().getSrvHttpSinc().enviar(msgSalvar);
   }
 
   private void sincronizarEnviarDependencia()
@@ -623,11 +571,6 @@ public abstract class TblSincronizavelMain<T extends DominioSincronizavelMain> e
       return false;
     }
 
-    if (this.getMsgSalvar() != null)
-    {
-      return false;
-    }
-
     if (this.contar(this.getLstFilSincronizacao()) < 1)
     {
       return false;
@@ -643,20 +586,15 @@ public abstract class TblSincronizavelMain<T extends DominioSincronizavelMain> e
       return;
     }
 
-    if (this.getMsgPesquisar() != null)
-    {
-      return;
-    }
+    MsgPesquisar msgPesquisar = new MsgPesquisar();
 
-    this.setMsgPesquisar(new MsgPesquisar());
+    msgPesquisar.setIntMesRetroativo(this.getIntSincMesRetroativo());
+    msgPesquisar.setDttUltimoRecebimento(TblSincronizacaoRecebimento.getI().getDttUltimoRecebimento(this));
+    msgPesquisar.setIntPesquisaParte(1);
+    msgPesquisar.setIntSincRegistroLimite(this.getIntSincRegistroLimite());
+    msgPesquisar.setTbl(this);
 
-    this.getMsgPesquisar().setIntMesRetroativo(this.getIntSincMesRetroativo());
-    this.getMsgPesquisar().setDttUltimoRecebimento(TblSincronizacaoRecebimento.getI().getDttUltimoRecebimento(this));
-    this.getMsgPesquisar().setIntPesquisaParte(1);
-    this.getMsgPesquisar().setIntSincRegistroLimite(this.getIntSincRegistroLimite());
-    this.getMsgPesquisar().setTbl(this);
-
-    this.getSrvSinc().getSrvHttpSinc().enviar(this.getMsgPesquisar());
+    this.getSrvSinc().getSrvHttpSinc().enviar(msgPesquisar);
   }
 
   private void sincronizarReservarCodigo()
@@ -666,21 +604,16 @@ public abstract class TblSincronizavelMain<T extends DominioSincronizavelMain> e
       return;
     }
 
-    if (this.getMsgCodigoReserva() != null)
-    {
-      return;
-    }
-
     if (this.getIntCodigoDisponivelQuantidade() > this.getIntReservaCodigoQuantidade())
     {
       return;
     }
 
-    this.setMsgCodigoReserva(new MsgCodigoReserva());
+    MsgCodigoReserva msgCodigoReserva = new MsgCodigoReserva();
 
-    this.getMsgCodigoReserva().setTbl(this);
-    this.getMsgCodigoReserva().setIntQuantidadeDisponibilizado(this.getIntReservaCodigoQuantidade());
+    msgCodigoReserva.setTbl(this);
+    msgCodigoReserva.setIntQuantidadeDisponibilizado(this.getIntReservaCodigoQuantidade());
 
-    this.getSrvSinc().getSrvHttpSinc().enviar(this.getMsgCodigoReserva());
+    this.getSrvSinc().getSrvHttpSinc().enviar(msgCodigoReserva);
   }
 }
