@@ -2,8 +2,14 @@ package com.digosofter.digodroid.server.message;
 
 public abstract class RspContainerDominioMain<T extends MessageMain> extends RespostaMain<T>
 {
+  private boolean _booCompactado;
   private int _intRegistroQuantidade;
   private String _jsnLstObjDominio;
+
+  public boolean getBooCompactado()
+  {
+    return _booCompactado;
+  }
 
   public int getIntRegistroQuantidade()
   {
@@ -15,12 +21,17 @@ public abstract class RspContainerDominioMain<T extends MessageMain> extends Res
     return _jsnLstObjDominio;
   }
 
+  public void setBooCompactado(boolean booCompactado)
+  {
+    _booCompactado = booCompactado;
+  }
+
   private void setIntRegistroQuantidade(int intRegistroQuantidade)
   {
     _intRegistroQuantidade = intRegistroQuantidade;
   }
 
-  private void setJsnLstObjDominio(String jsnData)
+  public void setJsnLstObjDominio(String jsnData)
   {
     _jsnLstObjDominio = jsnData;
   }

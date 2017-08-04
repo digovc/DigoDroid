@@ -1,9 +1,11 @@
 package com.digosofter.digodroid.server.message;
 
+import com.digosofter.digodroid.UtilsAndroid;
 import com.digosofter.digodroid.log.LogSinc;
 import com.digosofter.digojava.Utils;
 import com.digosofter.digojava.log.Log;
 
+import java.io.IOException;
 import java.util.Calendar;
 
 public class MsgPesquisar extends MsgTabelaBase<RspPesquisar>
@@ -55,6 +57,22 @@ public class MsgPesquisar extends MsgTabelaBase<RspPesquisar>
     if (Utils.getBooStrVazia(rsp.getJsnLstObjDominio()))
     {
       LogSinc.getI().addLog(Log.EnmTipo.INFO, String.format("Não havia dados na pesquisa a serem salvos na tabela %s.", this.getTbl().getStrNomeExibicao()));
+      return;
+    }
+
+    if (!rsp.getBooCompactado())
+    {
+      this.getTbl().processarPesquisa(this, rsp);
+      return;
+    }
+
+    try
+    {
+      rsp.setJsnLstObjDominio(UtilsAndroid.descomprimir(rsp.getJsnLstObjDominio()));
+    }
+    catch (IOException e)
+    {
+      LogSinc.getI().addLog(Log.EnmTipo.ERRO, String.format("Erro ao tentar descomprimir os dados da tabela %s.", this.getTbl().getStrNomeExibicao()));
       return;
     }
 
