@@ -204,11 +204,6 @@ public abstract class SrvSincMain<T extends ServerHttpSincMain> extends ServiceM
       return;
     }
 
-    if (_i != null)
-    {
-      _i.setBooParar(true);
-    }
-
     _i = i;
 
     if (AppAndroid.getI() == null)
