@@ -8,6 +8,7 @@ import com.digosofter.digodroid.activity.ActMain;
 import com.digosofter.digodroid.log.LogErro;
 import com.digosofter.digodroid.log.LogSinc;
 import com.digosofter.digodroid.server.message.MessageMain;
+import com.digosofter.digodroid.server.message.MsgLongPolling;
 import com.digosofter.digodroid.server.message.MsgWelcome;
 import com.digosofter.digodroid.server.message.RespostaMain;
 import com.digosofter.digodroid.service.SrvSincMain;
@@ -112,7 +113,7 @@ public abstract class ServerHttpSincMain
 
     LogSinc.getI().addLog(Log.EnmTipo.INFO, String.format("Enviando uma solicitação do tipo \"%s\" para o servidor.", msg.getClass().getSimpleName()));
 
-    this.getObjRequestQueue().add(new SincJsonRequest(msg, url, (15 * 1000)));
+    this.getObjRequestQueue().add(new SincJsonRequest(msg, url));
   }
 
   public boolean enviarDiverso(final ActMain act, final MessageMain msg)
@@ -138,9 +139,14 @@ public abstract class ServerHttpSincMain
 
     String url = this.getUrlServerAtual().concat("/").concat(msg.getClass().getSimpleName().toLowerCase());
 
-    Volley.newRequestQueue(act).add(new SincJsonRequest(msg, url, (60 * 1000)));
+    Volley.newRequestQueue(act).add(new SincJsonRequest(msg, url));
 
     return true;
+  }
+
+  public void enviarLongPolling()
+  {
+    this.enviar(new MsgLongPolling());
   }
 
   private void enviarWelcome()

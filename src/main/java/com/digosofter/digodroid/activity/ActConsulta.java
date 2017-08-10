@@ -408,6 +408,24 @@ public class ActConsulta extends ActMain implements OnTblChangeListener, TextWat
   }
 
   @Override
+  public void onBackPressed()
+  {
+    if (this.getTbl() == null)
+    {
+      return;
+    }
+
+    Intent itt = new Intent();
+
+    itt.putExtra(ActConsulta.STR_EXTRA_OUT_INT_TABELA_OBJETO_ID, this.getTbl().getIntObjetoId());
+    itt.putExtra(ActConsulta.STR_EXTRA_OUT_INT_COLUNA_OBJETO_ID, this.getIntent().getIntExtra(STR_EXTRA_IN_INT_COLUNA_OBJETO_ID, -1));
+
+    this.setResult(EnmResultado.VOLTAR.ordinal(), itt);
+
+    super.onBackPressed();
+  }
+
+  @Override
   public void onClick(final View viw)
   {
     if (this.getBtnPesquisaLimpar().equals(viw))
@@ -508,10 +526,12 @@ public class ActConsulta extends ActMain implements OnTblChangeListener, TextWat
     {
       return;
     }
+
     if (this.getTbl() == null)
     {
       return;
     }
+
     Intent itt = new Intent();
 
     itt.putExtra(ActConsulta.STR_EXTRA_OUT_INT_REGISTRO_ID, intRegistroId);

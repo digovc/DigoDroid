@@ -29,6 +29,7 @@ public abstract class SrvSincMain<T extends ServerHttpSincMain> extends ServiceM
     return _i;
   }
 
+  private boolean _booPersistente;
   private Class<T> _clsSrvHttpSinc;
   private List<TblSincronizavelMain> _lstTbl;
   private NotificationCompat.Builder _objNotificationBuilder;
@@ -39,6 +40,21 @@ public abstract class SrvSincMain<T extends ServerHttpSincMain> extends ServiceM
     super("Serviço de sincronização");
 
     this.setI(this);
+  }
+
+  private void enviarLongPooling()
+  {
+    if (!this.getBooPersistente())
+    {
+      return;
+    }
+
+    if (this.getSrvHttpSinc() == null)
+    {
+      return;
+    }
+
+    this.getSrvHttpSinc().enviarLongPolling();
   }
 
   @Override
@@ -56,6 +72,11 @@ public abstract class SrvSincMain<T extends ServerHttpSincMain> extends ServiceM
     AppAndroid.getI().notificar("Serviço de sincronização finalizado.");
 
     ((NotificationManager) this.getSystemService(NOTIFICATION_SERVICE)).cancel(INT_NOTIFICACAO_ID);
+  }
+
+  protected boolean getBooPersistente()
+  {
+    return false;
   }
 
   private Class<T> getClsSrvHttpSinc()
@@ -192,9 +213,15 @@ public abstract class SrvSincMain<T extends ServerHttpSincMain> extends ServiceM
   {
     super.servico();
 
-    this.sincronizar();
+    do
+    {
+      this.sincronizar();
 
-    this.getSrvHttpSinc().aguardarSolicitacaoPendente();
+      this.enviarLongPooling();
+
+      this.getSrvHttpSinc().aguardarSolicitacaoPendente();
+    }
+    while (this.getBooPersistente() && !this.getBooParar());
   }
 
   private void setI(SrvSincMain i)

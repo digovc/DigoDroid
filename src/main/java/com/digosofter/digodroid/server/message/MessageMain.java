@@ -19,6 +19,7 @@ import java.lang.reflect.ParameterizedType;
 public abstract class MessageMain<T extends RespostaMain> implements Response.Listener, Response.ErrorListener
 {
   private transient Class<T> _clsResposta;
+  private int _intTimeOut;
   private transient T _rsp;
   private transient ServerHttpSincMain _srvHttpSinc;
   private String _strAparelhoId;
@@ -55,6 +56,18 @@ public abstract class MessageMain<T extends RespostaMain> implements Response.Li
     return _clsResposta;
   }
 
+  public int getIntTimeOut()
+  {
+    if (_intTimeOut != 0)
+    {
+      return _intTimeOut;
+    }
+
+    _intTimeOut = (15 * 1000);
+
+    return _intTimeOut;
+  }
+
   protected T getRsp()
   {
     return _rsp;
@@ -72,6 +85,8 @@ public abstract class MessageMain<T extends RespostaMain> implements Response.Li
 
   protected void inicializar()
   {
+    this._intTimeOut = this.getIntTimeOut();
+
     this.setStrAparelhoId(Aparelho.getI().getStrDeviceId());
   }
 
@@ -108,7 +123,7 @@ public abstract class MessageMain<T extends RespostaMain> implements Response.Li
   {
     if ((objVolleyError instanceof NetworkError) || (objVolleyError instanceof NoConnectionError))
     {
-      LogSinc.getI().addLog(Log.EnmTipo.ERRO, String.format("Erro de sincronização (%s). Erro de instabilidade da rede.", this.getClsResposta().getSimpleName()));
+      LogSinc.getI().addLog(Log.EnmTipo.ERRO, String.format("Erro de sincronização (%s). Erro de conexão.", this.getClsResposta().getSimpleName()));
       return;
     }
 
