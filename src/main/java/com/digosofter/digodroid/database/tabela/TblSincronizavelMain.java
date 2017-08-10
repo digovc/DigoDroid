@@ -7,6 +7,7 @@ import com.digosofter.digodroid.database.TblAndroidMain;
 import com.digosofter.digodroid.database.dominio.DominioSincronizavelMain;
 import com.digosofter.digodroid.log.LogErro;
 import com.digosofter.digodroid.log.LogSinc;
+import com.digosofter.digodroid.server.ServerHttpSincMain;
 import com.digosofter.digodroid.server.message.MsgCodigoReserva;
 import com.digosofter.digodroid.server.message.MsgPesquisar;
 import com.digosofter.digodroid.server.message.MsgSalvar;
@@ -508,19 +509,24 @@ public abstract class TblSincronizavelMain<T extends DominioSincronizavelMain> e
 
     this.sincronizarReservarCodigo();
 
-    this.sincronizarEnviar();
+    this.sincronizarEnviar(srvSinc.getSrvHttpSinc());
 
     this.sincronizarReceber();
   }
 
-  private void sincronizarEnviar()
+  protected void sincronizarEnviar(final ServerHttpSincMain srvHttpSinc)
   {
+    if (srvHttpSinc == null)
+    {
+      return;
+    }
+
     if (!this.sincronizarEnviarValidar())
     {
       return;
     }
 
-    this.sincronizarEnviarDependencia();
+    this.sincronizarEnviarDependencia(srvHttpSinc);
 
     List<T> lstObjDominio = this.pesquisarDominio(this.getLstFilSincronizacao());
 
@@ -544,14 +550,14 @@ public abstract class TblSincronizavelMain<T extends DominioSincronizavelMain> e
     msgSalvar.setJsnLstObjDominio(Json.getI().toJson(lstObjDominio));
     msgSalvar.setTbl(this);
 
-    this.getSrvSinc().getSrvHttpSinc().enviar(msgSalvar);
+    srvHttpSinc.enviar(msgSalvar);
   }
 
-  private void sincronizarEnviarDependencia()
+  private void sincronizarEnviarDependencia(final ServerHttpSincMain srvHttpSinc)
   {
     for (TblSincronizavelMain tblDependencia : this.getLstTblDependencia())
     {
-      tblDependencia.sincronizarEnviar();
+      tblDependencia.sincronizarEnviar(srvHttpSinc);
 
       try
       {

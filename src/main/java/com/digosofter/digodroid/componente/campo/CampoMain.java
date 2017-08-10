@@ -127,7 +127,7 @@ public abstract class CampoMain extends PainelLinha implements OnDestroyListener
     return _booValor;
   }
 
-  protected ColunaAndroid getCln()
+  public ColunaAndroid getCln()
   {
     return _cln;
   }

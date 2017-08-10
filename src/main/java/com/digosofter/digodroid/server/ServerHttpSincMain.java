@@ -3,6 +3,7 @@ package com.digosofter.digodroid.server;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
 import com.digosofter.digodroid.Aparelho;
+import com.digosofter.digodroid.AppAndroid;
 import com.digosofter.digodroid.activity.ActMain;
 import com.digosofter.digodroid.log.LogErro;
 import com.digosofter.digodroid.log.LogSinc;
@@ -204,7 +205,7 @@ public abstract class ServerHttpSincMain
       return _objRequestQueue;
     }
 
-    _objRequestQueue = Volley.newRequestQueue(this.getSrvSinc());
+    _objRequestQueue = Volley.newRequestQueue(AppAndroid.getI().getActPrincipal());
 
     return _objRequestQueue;
   }

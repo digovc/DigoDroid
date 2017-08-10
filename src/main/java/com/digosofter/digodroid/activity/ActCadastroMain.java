@@ -435,7 +435,7 @@ public abstract class ActCadastroMain extends ActMain
     }
   }
 
-  private void onActivityResult(final CampoMain cmp, final Intent itt)
+  protected void onActivityResult(final CampoMain cmp, final Intent itt)
   {
     if (cmp == null)
     {
@@ -447,12 +447,14 @@ public abstract class ActCadastroMain extends ActMain
       return;
     }
 
-    if (itt == null)
+    if (cmp.getCln().getIntObjetoId() != itt.getIntExtra(ActConsulta.STR_EXTRA_OUT_INT_COLUNA_OBJETO_ID, -1))
     {
       return;
     }
 
     ((CampoConsulta) cmp).onActivityResult(itt);
+
+    this.selecionarProximo(cmp);
   }
 
   @Override
@@ -540,6 +542,35 @@ public abstract class ActCadastroMain extends ActMain
       }
 
     }
+  }
+
+  private void selecionarProximo(final CampoMain cmp)
+  {
+    if (cmp == null)
+    {
+      return;
+    }
+
+    int i = this.getViwRoot().indexOfChild(cmp);
+
+    if (i < 0)
+    {
+      return;
+    }
+
+    View viw = this.getViwRoot().getChildAt(i + 1);
+
+    if (viw == null)
+    {
+      return;
+    }
+
+    if (!CampoMain.class.isAssignableFrom(viw.getClass()))
+    {
+      return;
+    }
+
+    ((CampoMain) viw).receberFoco();
   }
 
   @Override

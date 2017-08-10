@@ -47,16 +47,21 @@ public class ActConsulta extends ActMain implements OnTblChangeListener, TextWat
    * Indica se os registro da lista serão selecionados quando o usuário clicar.
    */
   public static final String STR_EXTRA_IN_BOO_REGISTRO_SELECIONAVEL = "boo_registro_selecionavel";
+
+  public static final String STR_EXTRA_IN_INT_COLUNA_OBJETO_ID = "int_coluna_objeto_id";
+
   /**
    * Código do registro de referência.
    */
   public static final String STR_EXTRA_IN_INT_REGISTRO_REF_ID = "int_registro_ref_id";
+
   /**
    * Código do objeto da tabela que esta lista representa.
    */
-  public static final String STR_EXTRA_IN_INT_TBL_OBJETO_ID = "int_tbl_objeto_id";
+  public static final String STR_EXTRA_IN_INT_TABELA_OBJETO_ID = "int_tabela_objeto_id";
+  public static final String STR_EXTRA_IN_INT_TABELA_PAI_OBJETO_ID = "int_tabela_pai_objeto_id";
 
-  public static final String STR_EXTRA_IN_INT_TBL_PAI_OBJETO_ID = "int_tbl_pai_objeto_id";
+  public static final String STR_EXTRA_OUT_INT_COLUNA_OBJETO_ID = "int_coluna_objeto_id_out";
 
   /**
    * Código do registro que indica o consulta_item que o usuário selecionou na lista desta tela.
@@ -66,7 +71,7 @@ public class ActConsulta extends ActMain implements OnTblChangeListener, TextWat
   /**
    * Código do objeto da tabela que esta lista representa.
    */
-  public static final String STR_EXTRA_OUT_INT_TBL_OBJETO_ID = "int_tbl_objeto_id";
+  public static final String STR_EXTRA_OUT_INT_TABELA_OBJETO_ID = "int_tabela_objeto_id";
 
   private static final String STR_MENU_PESQUISAR = "Pesquisar";
 
@@ -249,7 +254,7 @@ public class ActConsulta extends ActMain implements OnTblChangeListener, TextWat
       return null;
     }
 
-    _tbl = (TblAndroidMain<?>) AppAndroid.getI().getDbe().getTbl(this.getIntent().getIntExtra(STR_EXTRA_IN_INT_TBL_OBJETO_ID, -1));
+    _tbl = (TblAndroidMain<?>) AppAndroid.getI().getDbe().getTbl(this.getIntent().getIntExtra(STR_EXTRA_IN_INT_TABELA_OBJETO_ID, -1));
 
     if (_tbl == null)
     {
@@ -278,7 +283,7 @@ public class ActConsulta extends ActMain implements OnTblChangeListener, TextWat
       return null;
     }
 
-    _tblPai = (TblAndroidMain) AppAndroid.getI().getDbe().getTbl(this.getIntent().getIntExtra(STR_EXTRA_IN_INT_TBL_PAI_OBJETO_ID, -1));
+    _tblPai = (TblAndroidMain) AppAndroid.getI().getDbe().getTbl(this.getIntent().getIntExtra(STR_EXTRA_IN_INT_TABELA_PAI_OBJETO_ID, -1));
 
     if (_tblPai == null)
     {
@@ -471,6 +476,11 @@ public class ActConsulta extends ActMain implements OnTblChangeListener, TextWat
       return;
     }
 
+    if (this.onItemClickTabela(viwItem))
+    {
+      return;
+    }
+
     if (this.getBooRegistroSelecionavel())
     {
       this.onItemClickRegistroSelecionar(viwItem.getIntRegistroId());
@@ -505,13 +515,24 @@ public class ActConsulta extends ActMain implements OnTblChangeListener, TextWat
     Intent itt = new Intent();
 
     itt.putExtra(ActConsulta.STR_EXTRA_OUT_INT_REGISTRO_ID, intRegistroId);
-    itt.putExtra(ActConsulta.STR_EXTRA_OUT_INT_TBL_OBJETO_ID, this.getTbl().getIntObjetoId());
+    itt.putExtra(ActConsulta.STR_EXTRA_OUT_INT_TABELA_OBJETO_ID, this.getTbl().getIntObjetoId());
+    itt.putExtra(ActConsulta.STR_EXTRA_OUT_INT_COLUNA_OBJETO_ID, this.getIntent().getIntExtra(STR_EXTRA_IN_INT_COLUNA_OBJETO_ID, -1));
 
     this.getTbl().setStrPesquisa(this.getTxtPesquisa().getText().toString());
 
     this.setResult(EnmResultado.REGISTRO_SELECIONADO.ordinal(), itt);
 
     this.finish();
+  }
+
+  private boolean onItemClickTabela(final ItemConsulta viwItem)
+  {
+    if (this.getTbl() == null)
+    {
+      return false;
+    }
+
+    return this.getTbl().processarItemClick(this, viwItem);
   }
 
   public void onItemLongClick(final ItemConsulta viwItem)

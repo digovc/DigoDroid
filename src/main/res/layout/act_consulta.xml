@@ -58,7 +58,7 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:gravity="center"
-        android:text="Lista vazia"
+        android:text="Nenhum registro encontrado"
         android:visibility="gone"/>
 
 </com.digosofter.digodroid.componente.painel.PainelGeral>

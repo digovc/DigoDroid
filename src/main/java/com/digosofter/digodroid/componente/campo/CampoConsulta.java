@@ -7,12 +7,14 @@ import android.util.AttributeSet;
 import com.digosofter.digodroid.AppAndroid;
 import com.digosofter.digodroid.activity.ActConsulta;
 import com.digosofter.digodroid.activity.ActMain;
-import com.digosofter.digodroid.componente.campo.CampoBotaoMain;
 import com.digosofter.digodroid.database.TblAndroidMain;
 import com.digosofter.digodroid.database.ViewAndroid;
 
 public class CampoConsulta extends CampoBotaoMain
 {
+  private int _intRegistroRefId;
+  private TblAndroidMain _tblPai;
+
   public CampoConsulta(Context cnt)
   {
     super(cnt);
@@ -48,8 +50,25 @@ public class CampoConsulta extends CampoBotaoMain
     Intent itt = new Intent();
 
     itt.putExtra(ActConsulta.STR_EXTRA_IN_BOO_REGISTRO_SELECIONAVEL, true);
+    itt.putExtra(ActConsulta.STR_EXTRA_IN_INT_COLUNA_OBJETO_ID, this.getCln().getIntObjetoId());
+
+    if (this.getTblPai() != null)
+    {
+      itt.putExtra(ActConsulta.STR_EXTRA_IN_INT_REGISTRO_REF_ID, this.getIntRegistroRefId());
+      itt.putExtra(ActConsulta.STR_EXTRA_IN_INT_TABELA_PAI_OBJETO_ID, this.getTblPai().getIntObjetoId());
+    }
 
     ((TblAndroidMain) this.getCln().getClnRef().getTbl()).getViwPrincipal().abrirConsulta((ActMain) this.getContext(), itt);
+  }
+
+  public int getIntRegistroRefId()
+  {
+    return _intRegistroRefId;
+  }
+
+  public TblAndroidMain getTblPai()
+  {
+    return _tblPai;
   }
 
   public void onActivityResult(final Intent itt)
@@ -84,7 +103,7 @@ public class CampoConsulta extends CampoBotaoMain
       return;
     }
 
-    TblAndroidMain tbl = (TblAndroidMain) AppAndroid.getI().getDbe().getTbl(itt.getIntExtra(ActConsulta.STR_EXTRA_OUT_INT_TBL_OBJETO_ID, 0));
+    TblAndroidMain tbl = (TblAndroidMain) AppAndroid.getI().getDbe().getTbl(itt.getIntExtra(ActConsulta.STR_EXTRA_OUT_INT_TABELA_OBJETO_ID, 0));
 
     ViewAndroid viw = null;
 
@@ -113,6 +132,11 @@ public class CampoConsulta extends CampoBotaoMain
   protected void processarBtnClick()
   {
     this.abrirConsulta();
+  }
+
+  public void setIntRegistroRefId(int intRegistroRefId)
+  {
+    _intRegistroRefId = intRegistroRefId;
   }
 
   @Override
@@ -157,5 +181,10 @@ public class CampoConsulta extends CampoBotaoMain
     {
       ((TblAndroidMain) this.getCln().getClnRef().getTbl()).getViwPrincipal().liberarThread();
     }
+  }
+
+  public void setTblPai(TblAndroidMain tblPai)
+  {
+    _tblPai = tblPai;
   }
 }

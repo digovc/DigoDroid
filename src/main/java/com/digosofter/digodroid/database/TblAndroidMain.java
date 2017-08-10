@@ -13,6 +13,7 @@ import com.digosofter.digodroid.activity.ActCadastroMain;
 import com.digosofter.digodroid.activity.ActConsulta;
 import com.digosofter.digodroid.activity.ActDetalhe;
 import com.digosofter.digodroid.activity.ActMain;
+import com.digosofter.digodroid.componente.item.ItemConsulta;
 import com.digosofter.digodroid.database.dominio.DominioAndroidMain;
 import com.digosofter.digodroid.database.tabela.TblReservaCodigo;
 import com.digosofter.digojava.Utils;
@@ -151,7 +152,7 @@ public abstract class TblAndroidMain<T extends DominioAndroidMain> extends Tabel
 
     itt.setClass(act, ActConsulta.class);
 
-    itt.putExtra(ActConsulta.STR_EXTRA_IN_INT_TBL_OBJETO_ID, this.getViwPrincipal().getIntObjetoId());
+    itt.putExtra(ActConsulta.STR_EXTRA_IN_INT_TABELA_OBJETO_ID, this.getViwPrincipal().getIntObjetoId());
 
     act.startActivityForResult(itt, ActConsulta.EnmResultado.REGISTRO_SELECIONADO.ordinal());
   }
@@ -179,7 +180,7 @@ public abstract class TblAndroidMain<T extends DominioAndroidMain> extends Tabel
 
     itt.putExtra(ActConsulta.STR_EXTRA_IN_BOO_REGISTRO_SELECIONAVEL, false);
     itt.putExtra(ActConsulta.STR_EXTRA_IN_INT_REGISTRO_REF_ID, intRegistroRefId);
-    itt.putExtra(ActConsulta.STR_EXTRA_IN_INT_TBL_PAI_OBJETO_ID, ((tblPai != null) ? tblPai.getIntObjetoId() : -1));
+    itt.putExtra(ActConsulta.STR_EXTRA_IN_INT_TABELA_PAI_OBJETO_ID, ((tblPai != null) ? tblPai.getIntObjetoId() : -1));
 
     this.abrirConsulta(act, itt);
   }
@@ -1038,13 +1039,6 @@ public abstract class TblAndroidMain<T extends DominioAndroidMain> extends Tabel
       return _viwPrincipal;
     }
 
-    if (this.getLstViwAndroid() == null)
-    {
-      _viwPrincipal = this;
-
-      return _viwPrincipal;
-    }
-
     if (this.getLstViwAndroid().isEmpty())
     {
       _viwPrincipal = this;
@@ -1505,6 +1499,11 @@ public abstract class TblAndroidMain<T extends DominioAndroidMain> extends Tabel
     crs.close();
 
     return lstObjDominioResultado;
+  }
+
+  public boolean processarItemClick(final ActConsulta actConsulta, final ItemConsulta viwItem)
+  {
+    return false;
   }
 
   public boolean processarMenu(ActMain act, MenuItem mni)
