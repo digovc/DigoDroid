@@ -67,7 +67,7 @@ public abstract class TblSincronizavelMain<T extends DominioSincronizavelMain> e
     return _clnBooSincronizado;
   }
 
-  private ColunaAndroid getClnBooSincronizar()
+  protected ColunaAndroid getClnBooSincronizar()
   {
     if (_clnBooSincronizar != null)
     {

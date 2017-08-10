@@ -440,7 +440,10 @@ public abstract class AppAndroid extends App
     });
   }
 
-  public abstract void processarRspWelcome(final RspWelcome rspWelcome);
+  public void processarRspWelcome(final RspWelcome rspWelcome)
+  {
+    
+  }
 
   /**
    * Reinicia a aplicação.
