@@ -35,11 +35,6 @@ public class TblSincronizacaoEnvio extends TblAndroidMain<DominioAndroidMain>
   private ColunaAndroid _clnStrCritica;
   private ColunaAndroid _clnStrTblNomeExibicao;
 
-  private TblSincronizacaoEnvio()
-  {
-    super("tbl_sincronizacao_envio", AppAndroid.getI().getDbe());
-  }
-
   private ColunaAndroid getClnBooSucesso()
   {
     if (_clnBooSucesso != null)

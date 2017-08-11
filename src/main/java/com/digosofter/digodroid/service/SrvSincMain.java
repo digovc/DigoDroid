@@ -12,11 +12,10 @@ import com.digosofter.digodroid.database.tabela.TblSincronizavelMain;
 import com.digosofter.digodroid.log.LogErro;
 import com.digosofter.digodroid.log.LogSinc;
 import com.digosofter.digodroid.server.ServerHttpSincMain;
+import com.digosofter.digojava.database.TabelaMain;
 import com.digosofter.digojava.log.Log;
 
 import java.lang.reflect.ParameterizedType;
-import java.util.ArrayList;
-import java.util.List;
 
 public abstract class SrvSincMain<T extends ServerHttpSincMain> extends ServiceMain
 {
@@ -31,7 +30,6 @@ public abstract class SrvSincMain<T extends ServerHttpSincMain> extends ServiceM
 
   private boolean _booPersistente;
   private Class<T> _clsSrvHttpSinc;
-  private List<TblSincronizavelMain> _lstTbl;
   private NotificationCompat.Builder _objNotificationBuilder;
   private T _srvHttpSinc;
 
@@ -110,20 +108,6 @@ public abstract class SrvSincMain<T extends ServerHttpSincMain> extends ServiceM
 
   protected abstract int getIntNotificacaoIconId();
 
-  private List<TblSincronizavelMain> getLstTbl()
-  {
-    if (_lstTbl != null)
-    {
-      return _lstTbl;
-    }
-
-    _lstTbl = new ArrayList<>();
-
-    this.inicializarLstTbl(_lstTbl);
-
-    return _lstTbl;
-  }
-
   private NotificationCompat.Builder getObjNotificationBuilder()
   {
     if (_objNotificationBuilder != null)
@@ -178,8 +162,6 @@ public abstract class SrvSincMain<T extends ServerHttpSincMain> extends ServiceM
       this.setBooParar(true);
     }
   }
-
-  protected abstract void inicializarLstTbl(final List<TblSincronizavelMain> lstTbl);
 
   private void inicializarNotificar()
   {
@@ -250,7 +232,7 @@ public abstract class SrvSincMain<T extends ServerHttpSincMain> extends ServiceM
 
   protected void sincronizar()
   {
-    for (TblSincronizavelMain tbl : this.getLstTbl())
+    for (TabelaMain tbl : this.getDbe().getLstTbl())
     {
       if (this.getBooParar())
       {
@@ -261,14 +243,19 @@ public abstract class SrvSincMain<T extends ServerHttpSincMain> extends ServiceM
     }
   }
 
-  private void sincronizar(final TblSincronizavelMain tbl)
+  private void sincronizar(final TabelaMain tbl)
   {
     if (tbl == null)
     {
       return;
     }
 
-    tbl.sincronizar(this);
+    if (!TblSincronizavelMain.class.isAssignableFrom(tbl.getClass()))
+    {
+      return;
+    }
+
+    ((TblSincronizavelMain) tbl).sincronizar(this);
   }
 
   private boolean validarInicializacao()

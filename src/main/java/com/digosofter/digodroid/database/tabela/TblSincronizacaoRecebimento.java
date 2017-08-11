@@ -37,11 +37,6 @@ public class TblSincronizacaoRecebimento extends TblAndroidMain<DominioAndroidMa
   private ColunaAndroid _clnStrCritica;
   private ColunaAndroid _clnStrTabelaNomeExibicao;
 
-  private TblSincronizacaoRecebimento()
-  {
-    super("tbl_sincronizacao_recebimento", AppAndroid.getI().getDbe());
-  }
-
   private ColunaAndroid getClnBooSincCompleto()
   {
     if (_clnBooSincCompleto != null)

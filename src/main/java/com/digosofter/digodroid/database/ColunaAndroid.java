@@ -9,6 +9,7 @@ import com.digosofter.digodroid.activity.ActCadastroMain;
 import com.digosofter.digodroid.componente.campo.CampoMain;
 import com.digosofter.digojava.Utils;
 import com.digosofter.digojava.database.Coluna;
+import com.digosofter.digojava.database.TabelaMain;
 import com.digosofter.digojava.dominio.DominioMain;
 
 import java.lang.reflect.Field;
@@ -95,7 +96,7 @@ public class ColunaAndroid extends Coluna
         continue;
       }
 
-      if (!Utils.simplificar(objField.getName().replace("_", Utils.STR_VAZIA)).equals(this.getStrDominioNome()))
+      if (!objField.getName().replace("_", Utils.STR_VAZIA).toLowerCase().equals(this.getStrDominioNome()))
       {
         continue;
       }
@@ -230,19 +231,14 @@ public class ColunaAndroid extends Coluna
     }
   }
 
-  public void criar()
+  private void criar()
   {
-    if (this.getTbl() == null)
+    if (!this.getTbl().getBooRecemCriada())
     {
       return;
     }
 
-    if (Utils.getBooStrVazia(this.getTbl().getSqlNome()))
-    {
-      return;
-    }
-
-    if (Utils.getBooStrVazia(this.getSqlNome()))
+    if (ViewAndroid.class.isAssignableFrom(this.getTbl().getClass()))
     {
       return;
     }
@@ -252,13 +248,11 @@ public class ColunaAndroid extends Coluna
       return;
     }
 
-    //    String sql = "alter table _tbl_nome add column _cln_nome _cln_tipo _cln_valor_default _cln_ref;";
-    String sql = "alter table _tbl_nome add column _cln_nome _cln_tipo _cln_ref;"; // TODO: Verificar se vai utilizar o recurso de "default" do próprio banco de dados.
+    String sql = "alter table _tbl_nome add column _cln_nome _cln_tipo _cln_ref;";
 
     sql = sql.replace("_tbl_nome", this.getTbl().getSqlNome());
     sql = sql.replace("_cln_nome", this.getSqlNome());
     sql = sql.replace("_cln_tipo", this.getSqlTipo());
-    //    sql = sql.replace("_cln_valor_default", (!Utils.getBooStrVazia(this.getSqlValorDetault())) ? this.getSqlValorDetault() : Utils.STR_VAZIA);
     sql = sql.replace("_cln_ref", this.getSqlReference());
 
     this.getTbl().getDbe().execSql(sql);
@@ -378,6 +372,14 @@ public class ColunaAndroid extends Coluna
       default:
         return _sqlTipo = "text";
     }
+  }
+
+  @Override
+  public void iniciar(final TabelaMain tbl)
+  {
+    super.iniciar(tbl);
+
+    this.criar();
   }
 
   void montarMenuCampo(SubMenu smn)

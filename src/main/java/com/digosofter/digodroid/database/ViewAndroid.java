@@ -18,13 +18,6 @@ public abstract class ViewAndroid extends TblAndroidMain<DominioAndroidMain>
   private TblAndroidMain _tbl;
   private TblAndroidMain _tblPrincipal;
 
-  protected ViewAndroid(String strNome, TblAndroidMain tbl, DbeAndroidMain dbeAndroid)
-  {
-    super(strNome, dbeAndroid);
-
-    this.setTbl(tbl);
-  }
-
   @Override
   public void apagar(int intRegistroId)
   {
@@ -47,19 +40,14 @@ public abstract class ViewAndroid extends TblAndroidMain<DominioAndroidMain>
     this.dispararEvtOnApagarReg(arg);
   }
 
-  private void atualizarTbl(final TblAndroidMain tbl)
+  @Override
+  public void criar()
   {
-    if (tbl == null)
+    if (!this.getTbl().getBooRecemCriada())
     {
       return;
     }
 
-    tbl.addViw(this);
-  }
-
-  @Override
-  public void criar()
-  {
     if (this.getIntRawFileId() == 0)
     {
       return;
@@ -71,12 +59,6 @@ public abstract class ViewAndroid extends TblAndroidMain<DominioAndroidMain>
 
     this.getDbe().execSql(sql);
     this.getDbe().execSql(this.getSqlSelect());
-  }
-
-  @Override
-  protected void criarColuna()
-  {
-    // super.criarColuna();
   }
 
   @Override
@@ -146,7 +128,7 @@ public abstract class ViewAndroid extends TblAndroidMain<DominioAndroidMain>
         return Utils.STR_VAZIA;
       }
 
-      return IOUtils.toString(AppAndroid.getI().getActPrincipal().getResources().openRawResource(this.getIntRawFileId()), "UTF-8");
+      return IOUtils.toString(AppAndroid.getI().getActAtual().getResources().openRawResource(this.getIntRawFileId()), "UTF-8");
     }
     catch (IOException ex)
     {
@@ -181,6 +163,13 @@ public abstract class ViewAndroid extends TblAndroidMain<DominioAndroidMain>
     lstCln.add(this.getClnIntId());
   }
 
+  void iniciar(final TblAndroidMain tbl)
+  {
+    this.setTbl(tbl);
+
+    this.iniciar(tbl.getDbe());
+  }
+
   @Override
   public void setStrNome(final String strNome)
   {
@@ -196,13 +185,6 @@ public abstract class ViewAndroid extends TblAndroidMain<DominioAndroidMain>
 
   private void setTbl(TblAndroidMain<?> tbl)
   {
-    if (_tbl == tbl)
-    {
-      return;
-    }
-
     _tbl = tbl;
-
-    this.atualizarTbl(tbl);
   }
 }

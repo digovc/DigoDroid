@@ -9,6 +9,7 @@ import com.digosofter.digodroid.OnPerguntarListener;
 import com.digosofter.digodroid.activity.ActMain;
 import com.digosofter.digodroid.arquivo.ArquivoDb;
 import com.digosofter.digojava.database.DbeMain;
+import com.digosofter.digojava.database.TabelaMain;
 
 public abstract class DbeAndroidMain extends DbeMain
 {
@@ -19,9 +20,9 @@ public abstract class DbeAndroidMain extends DbeMain
   private SQLiteDatabase _dbeLeitura;
   private SQLiteOpenHelper _objSqLiteOpenHelper;
 
-  public DbeAndroidMain(String strNome)
+  public DbeAndroidMain()
   {
-    this.setStrNome(strNome + STR_FILE_PREFIXO);
+    this.setStrNome(this.getClass().getSimpleName() + STR_FILE_PREFIXO);
   }
 
   /**
@@ -189,7 +190,7 @@ public abstract class DbeAndroidMain extends DbeMain
       return _objSqLiteOpenHelper;
     }
 
-    _objSqLiteOpenHelper = new SQLiteOpenHelper(AppAndroid.getI().getActPrincipal(), this.getStrNome(), null, AppAndroid.getI().getIntVersao())
+    _objSqLiteOpenHelper = new SQLiteOpenHelper(AppAndroid.getI().getActAtual(), this.getStrNome(), null, AppAndroid.getI().getIntVersao())
     {
       @Override
       public void onCreate(SQLiteDatabase objSQLiteDatabase)
@@ -205,6 +206,37 @@ public abstract class DbeAndroidMain extends DbeMain
     };
 
     return _objSqLiteOpenHelper;
+  }
+
+  @Override
+  protected void inicializar()
+  {
+    super.inicializar();
+
+    this.inicializarView();
+  }
+
+  private void inicializarView()
+  {
+    for (TabelaMain tbl : this.getLstTbl())
+    {
+      this.inicializarView(tbl);
+    }
+  }
+
+  private void inicializarView(final TabelaMain tbl)
+  {
+    if (tbl == null)
+    {
+      return;
+    }
+
+    if (!TblAndroidMain.class.isAssignableFrom(tbl.getClass()))
+    {
+      return;
+    }
+
+    ((TblAndroidMain)tbl).inicializarViw();
   }
 
   private void onCreateSQLiteOpenHelper(final SQLiteDatabase objSQLiteDatabase)

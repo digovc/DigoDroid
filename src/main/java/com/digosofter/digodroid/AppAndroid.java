@@ -41,6 +41,7 @@ public abstract class AppAndroid extends App
     return _i;
   }
 
+  private ActMain _actAtual;
   private ActMain _actPrincipal;
   private String _dir;
   private List<OnSrvSincCreateListener> _lstEvtOnSrvSincCreateListener;
@@ -186,6 +187,11 @@ public abstract class AppAndroid extends App
     System.exit(0);
   }
 
+  public ActMain getActAtual()
+  {
+    return _actAtual;
+  }
+
   public ActMain getActPrincipal()
   {
     return _actPrincipal;
@@ -324,6 +330,31 @@ public abstract class AppAndroid extends App
     _strVersao = this.getObjPackageInfo().versionName;
 
     return _strVersao;
+  }
+
+  @Override
+  protected void inicializar()
+  {
+    super.inicializar();
+
+    this.inicializarDbe();
+  }
+
+  private void inicializarDbe()
+  {
+    if (this.getDbe() == null)
+    {
+      return;
+    }
+
+    this.getDbe().iniciar();
+  }
+
+  public void iniciar(final ActMain act)
+  {
+    this.setActAtual(act);
+
+    this.inicializar();
   }
 
   public void inserirTexto(final ActMain act, final String strTitulo, final OnInserirTextoListener evt)
@@ -575,6 +606,11 @@ public abstract class AppAndroid extends App
     }
 
     this.getLstEvtOnSrvStartedListener().remove(evt);
+  }
+
+  public void setActAtual(ActMain actAtual)
+  {
+    _actAtual = actAtual;
   }
 
   public void setActPrincipal(ActMain actPrincipal)

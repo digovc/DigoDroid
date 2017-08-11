@@ -137,7 +137,10 @@ public class ActConsulta extends ActMain implements OnTblChangeListener, TextWat
   {
     super.finalizar();
 
-    this.getTbl().removerEvtOnTblChangeListener(this);
+    if (this.getTbl() != null)
+    {
+      this.getTbl().removerEvtOnTblChangeListener(this);
+    }
   }
 
   public AdapterConsulta getAdpCadastro()
@@ -855,6 +858,23 @@ public class ActConsulta extends ActMain implements OnTblChangeListener, TextWat
   private void setItmSelecionado(ItemConsulta itmSelecionado)
   {
     _itmSelecionado = itmSelecionado;
+  }
+
+  @Override
+  public boolean validarAbertura()
+  {
+    if (!super.validarAbertura())
+    {
+      return false;
+    }
+
+    if (this.getTbl() == null)
+    {
+      LogErro.getI().addLog("A tabela não foi encontrada.");
+      return false;
+    }
+
+    return true;
   }
 
 }

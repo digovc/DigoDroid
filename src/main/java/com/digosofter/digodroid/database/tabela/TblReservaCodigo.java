@@ -2,7 +2,6 @@ package com.digosofter.digodroid.database.tabela;
 
 import android.database.Cursor;
 
-import com.digosofter.digodroid.AppAndroid;
 import com.digosofter.digodroid.database.ColunaAndroid;
 import com.digosofter.digodroid.database.TblAndroidMain;
 import com.digosofter.digodroid.database.dominio.DominioAndroidMain;
@@ -36,11 +35,6 @@ public class TblReservaCodigo extends TblAndroidMain<DominioAndroidMain>
   private ColunaAndroid _clnIntQuantidadeRestante;
   private ColunaAndroid _clnIntReservaCodigoServerId;
   private ColunaAndroid _clnSqlTabelaNome;
-
-  private TblReservaCodigo()
-  {
-    super("tbl_reserva_codigo", AppAndroid.getI().getDbe());
-  }
 
   public boolean getBooCodigoDisponivel(final TblAndroidMain tbl)
   {
@@ -136,14 +130,9 @@ public class TblReservaCodigo extends TblAndroidMain<DominioAndroidMain>
     return _clnSqlTabelaNome;
   }
 
-  public int getIntCodigoDisponivelQuantidade(final TblSincronizavelMain tbl)
+  int getIntCodigoDisponivelQuantidade(final TblSincronizavelMain tbl)
   {
     if (tbl == null)
-    {
-      return 0;
-    }
-
-    if (Utils.getBooStrVazia(tbl.getSqlNome()))
     {
       return 0;
     }

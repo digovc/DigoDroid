@@ -56,7 +56,7 @@ public class ActCodigoBarra extends ActMain
 
     if (!objBarcodeDetector.isOperational())
     {
-      LogErro.getI().addLog("Erro ao criar o decodificador de código de barra.");
+      LogErro.getI().addLog("Erro ao iniciar o decodificador de código de barra.");
       return;
     }
 

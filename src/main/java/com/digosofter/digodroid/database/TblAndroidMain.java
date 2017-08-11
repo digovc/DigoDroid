@@ -55,20 +55,10 @@ public abstract class TblAndroidMain<T extends DominioAndroidMain> extends Tabel
   private ColunaAndroid _clnStrObservacao;
   private Class<? extends ActMain> _clsActCadastro;
   private DbeAndroidMain _dbe;
-  private List<ViewAndroid> _lstViwAndroid;
+  private List<ViewAndroid> _lstViw;
   private MenuItem _mniOrdemDecrescente;
   private String _sqlCursorAdapterId;
   private TblAndroidMain<?> _viwPrincipal;
-
-  /**
-   * Constroe uma nova instância dessa tabela. Este processo cria também a tabela e suas colunas no banco de dados SQLite caso ela não exista.
-   *
-   * @param strNome Nome da tabela no banco de dados.
-   */
-  protected TblAndroidMain(String strNome, DbeAndroidMain dbeAndroid)
-  {
-    super(strNome, dbeAndroid);
-  }
 
   /**
    * Atalho para {@link #abrirCadastro(ActMain, int, TblAndroidMain, int)}
@@ -233,14 +223,14 @@ public abstract class TblAndroidMain<T extends DominioAndroidMain> extends Tabel
       return;
     }
 
-    if (this.getLstViwAndroid().contains(viwAndroid))
+    if (this.getLstViw().contains(viwAndroid))
     {
       return;
     }
 
     this.setViwPrincipal(null);
 
-    this.getLstViwAndroid().add(viwAndroid);
+    this.getLstViw().add(viwAndroid);
   }
 
   /**
@@ -489,11 +479,6 @@ public abstract class TblAndroidMain<T extends DominioAndroidMain> extends Tabel
 
   protected void criar()
   {
-    if (this.getDbe() == null)
-    {
-      return;
-    }
-
     if (this.getBooExiste())
     {
       return;
@@ -506,6 +491,8 @@ public abstract class TblAndroidMain<T extends DominioAndroidMain> extends Tabel
     sql = sql.replace("_cln_pk_tipo", this.getClnIntId().getSqlTipo());
 
     this.getDbe().execSql(sql);
+
+    this.setBooRecemCriada(true);
   }
 
   /**
@@ -513,12 +500,12 @@ public abstract class TblAndroidMain<T extends DominioAndroidMain> extends Tabel
    */
   public void criarView()
   {
-    if (this.getLstViwAndroid() == null)
+    if (this.getLstViw() == null)
     {
       return;
     }
 
-    for (ViewAndroid viw : this.getLstViwAndroid())
+    for (ViewAndroid viw : this.getLstViw())
     {
       this.criarView(viw);
     }
@@ -558,7 +545,7 @@ public abstract class TblAndroidMain<T extends DominioAndroidMain> extends Tabel
       return;
     }
 
-    for (ViewAndroid viw : this.getLstViwAndroid())
+    for (ViewAndroid viw : this.getLstViw())
     {
       if (viw == null)
       {
@@ -586,7 +573,7 @@ public abstract class TblAndroidMain<T extends DominioAndroidMain> extends Tabel
 
     arg.setIntRegistroId(intRegistroId);
 
-    for (ViewAndroid viw : this.getLstViwAndroid())
+    for (ViewAndroid viw : this.getLstViw())
     {
       if (viw == null)
       {
@@ -844,18 +831,18 @@ public abstract class TblAndroidMain<T extends DominioAndroidMain> extends Tabel
    *
    * @return Lista de view que representam os dados desta tabela.
    */
-  public List<ViewAndroid> getLstViwAndroid()
+  public List<ViewAndroid> getLstViw()
   {
-    if (_lstViwAndroid != null)
+    if (_lstViw != null)
     {
-      return _lstViwAndroid;
+      return _lstViw;
     }
 
-    _lstViwAndroid = new ArrayList<>();
+    _lstViw = new ArrayList<>();
 
-    this.inicializarLstViwAndroid(_lstViwAndroid);
+    this.inicializarLstViw(_lstViw);
 
-    return _lstViwAndroid;
+    return _lstViw;
   }
 
   MenuItem getMniOrdemDecrescente()
@@ -1040,6 +1027,29 @@ public abstract class TblAndroidMain<T extends DominioAndroidMain> extends Tabel
     return Utils.removerUltimaLetra(strResultado);
   }
 
+  @Override
+  public TabelaMain getTbl(final int intTabelaObjetoId)
+  {
+    TabelaMain tblResultado = super.getTbl(intTabelaObjetoId);
+
+    if (tblResultado != null)
+    {
+      return tblResultado;
+    }
+
+    for (ViewAndroid viw : this.getLstViw())
+    {
+      tblResultado = viw.getTbl(intTabelaObjetoId);
+
+      if (tblResultado != null)
+      {
+        return tblResultado;
+      }
+    }
+
+    return null;
+  }
+
   /**
    * Esta é a view que representa esta tabela. A primeira view da lista de views. Caso a lista não contenha nenhuma view, retorna a instância desta
    * tabela.
@@ -1053,14 +1063,14 @@ public abstract class TblAndroidMain<T extends DominioAndroidMain> extends Tabel
       return _viwPrincipal;
     }
 
-    if (this.getLstViwAndroid().isEmpty())
+    if (this.getLstViw().isEmpty())
     {
       _viwPrincipal = this;
 
       return _viwPrincipal;
     }
 
-    _viwPrincipal = this.getLstViwAndroid().get(0);
+    _viwPrincipal = this.getLstViw().get(0);
 
     return _viwPrincipal;
   }
@@ -1070,22 +1080,34 @@ public abstract class TblAndroidMain<T extends DominioAndroidMain> extends Tabel
   {
     super.inicializar();
 
-    if (this instanceof ViewAndroid)
+    if (ViewAndroid.class.isAssignableFrom(this.getClass()))
     {
       return;
     }
 
     this.getClnBooAtivo().setBooValorDefault(true);
+
     this.getClnStrObservacao().setStrNomeExibicao("Observação");
   }
 
-  /**
-   * Este método tem a responsabilidade de inicializar a lista de views desta tabela.
-   *
-   * @param lstViw
-   */
-  protected void inicializarLstViwAndroid(final List<ViewAndroid> lstViw)
+  public void inicializarLstViw()
   {
+    for (ViewAndroid viw : this.getLstViw())
+    {
+      viw.iniciar(this);
+    }
+  }
+
+  protected void inicializarLstViw(final List<ViewAndroid> lstViw)
+  {
+  }
+
+  void inicializarViw()
+  {
+    for (ViewAndroid viw : this.getLstViw())
+    {
+      viw.iniciar(this);
+    }
   }
 
   public void lerDominio(T objDominio)
@@ -1453,7 +1475,6 @@ public abstract class TblAndroidMain<T extends DominioAndroidMain> extends Tabel
       }
 
       lstResultado.add(objDominio);
-
     }
     while (crs.moveToNext());
 

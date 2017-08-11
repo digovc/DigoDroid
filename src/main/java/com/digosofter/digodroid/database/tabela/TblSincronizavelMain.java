@@ -2,7 +2,6 @@ package com.digosofter.digodroid.database.tabela;
 
 import com.digosofter.digodroid.Aparelho;
 import com.digosofter.digodroid.database.ColunaAndroid;
-import com.digosofter.digodroid.database.DbeAndroidMain;
 import com.digosofter.digodroid.database.TblAndroidMain;
 import com.digosofter.digodroid.database.dominio.DominioSincronizavelMain;
 import com.digosofter.digodroid.log.LogErro;
@@ -39,11 +38,6 @@ public abstract class TblSincronizavelMain<T extends DominioSincronizavelMain> e
   private List<TblSincronizavelMain> _lstTblDependencia;
   private String _sqlServerNome;
   private SrvSincMain _srvSinc;
-
-  protected TblSincronizavelMain(final String strNome, final DbeAndroidMain dbeAndroid)
-  {
-    super(strNome, dbeAndroid);
-  }
 
   private boolean getBooEditavel()
   {
