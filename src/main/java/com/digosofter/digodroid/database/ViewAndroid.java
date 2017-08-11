@@ -53,12 +53,9 @@ public abstract class ViewAndroid extends TblAndroidMain<DominioAndroidMain>
       return;
     }
 
-    String sql = "drop view if exists _viw_nome;";
+    this.getDbe().execSql(String.format("drop view if exists %s;", this.getSqlNome()));
 
-    sql = sql.replace("_viw_nome", this.getSqlNome());
-
-    this.getDbe().execSql(sql);
-    this.getDbe().execSql(this.getSqlSelect());
+    this.getDbe().execSql(this.getSqlView());
   }
 
   @Override
@@ -119,7 +116,7 @@ public abstract class ViewAndroid extends TblAndroidMain<DominioAndroidMain>
 
   protected abstract String getSqlClnIntIdNome();
 
-  private String getSqlSelect()
+  private String getSqlView()
   {
     try
     {
