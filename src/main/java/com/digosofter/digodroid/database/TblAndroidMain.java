@@ -1,6 +1,5 @@
 package com.digosofter.digodroid.database;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.view.Menu;
@@ -8,6 +7,7 @@ import android.view.MenuItem;
 import android.view.SubMenu;
 
 import com.digosofter.digodroid.AppAndroid;
+import com.digosofter.digodroid.OnPerguntarListener;
 import com.digosofter.digodroid.R;
 import com.digosofter.digodroid.activity.ActCadastroMain;
 import com.digosofter.digodroid.activity.ActConsulta;
@@ -467,6 +467,15 @@ public abstract class TblAndroidMain<T extends DominioAndroidMain> extends Tabel
     }
   }
 
+  public int contar(Filtro fil)
+  {
+    List<Filtro> lstFil = new ArrayList<>();
+
+    lstFil.add(fil);
+
+    return this.contar(lstFil);
+  }
+
   public int contar(List<Filtro> lstFil)
   {
     String sql = "select count(_cln_pk_nome) from _tbl_nome _where;";
@@ -626,6 +635,11 @@ public abstract class TblAndroidMain<T extends DominioAndroidMain> extends Tabel
     sql = sql.replace("_tbl_nome", this.getSqlNome());
 
     return this.getDbe().execSqlBoo(sql);
+  }
+
+  protected boolean getBooPermitirDetalhar()
+  {
+    return true;
   }
 
   public boolean getBooRegistroExiste(int intRegistroId)
@@ -1094,14 +1108,14 @@ public abstract class TblAndroidMain<T extends DominioAndroidMain> extends Tabel
     }
   }
 
-  public void montarMenu(Menu mnu)
+  public void montarMenu(final ActConsulta actConsulta, Menu mnu)
   {
     if (mnu == null)
     {
       return;
     }
 
-    this.montarMenuPesquisa(mnu);
+    this.montarMenuPesquisa(actConsulta, mnu);
     this.montarMenuCampo(mnu);
     this.montarMenuOrdenar(mnu);
   }
@@ -1198,6 +1212,11 @@ public abstract class TblAndroidMain<T extends DominioAndroidMain> extends Tabel
       return;
     }
 
+    if (!this.getBooPermitirDetalhar())
+    {
+      return;
+    }
+
     mnu.add(TblAndroidMain.STR_MENU_DETALHAR);
   }
 
@@ -1267,9 +1286,14 @@ public abstract class TblAndroidMain<T extends DominioAndroidMain> extends Tabel
     }
   }
 
-  private void montarMenuPesquisa(final Menu mnu)
+  private void montarMenuPesquisa(final ActConsulta actConsulta, Menu mnu)
   {
-    if (mnu == null)
+    if (!actConsulta.getBooMultiplaSelecao())
+    {
+      return;
+    }
+
+    if (actConsulta.getAdpCadastro().getCount() < 15)
     {
       return;
     }
@@ -1683,19 +1707,22 @@ public abstract class TblAndroidMain<T extends DominioAndroidMain> extends Tabel
 
     String strPergunta = String.format("Deseja realmente apagar o registro %s da tabela %s?", intId, this.getStrNomeExibicao());
 
-    AppAndroid.getI().perguntar(act, strPergunta, new DialogInterface.OnClickListener()
+    AppAndroid.getI().perguntar(act, strPergunta, new OnPerguntarListener()
     {
       @Override
-      public void onClick(final DialogInterface dialog, final int intWhich)
+      public void onNao(final String strPergunta)
       {
-        if (DialogInterface.BUTTON_POSITIVE == intWhich)
-        {
-          TblAndroidMain.this.apagar(intId);
 
-          if (act instanceof ActDetalhe)
-          {
-            act.finish();
-          }
+      }
+
+      @Override
+      public void onSim(final String strPergunta)
+      {
+        TblAndroidMain.this.apagar(intId);
+
+        if (act instanceof ActDetalhe)
+        {
+          act.finish();
         }
       }
     });
@@ -1818,6 +1845,11 @@ public abstract class TblAndroidMain<T extends DominioAndroidMain> extends Tabel
       return true;
     }
 
+    return false;
+  }
+
+  public boolean processarOptionItemSelectedSelecionar(final ActConsulta actConsulta, final List<Integer> lstIntRegistroSelecionadoId)
+  {
     return false;
   }
 

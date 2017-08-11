@@ -1,16 +1,16 @@
 package com.digosofter.digodroid.database;
 
-import android.content.DialogInterface;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import com.digosofter.digodroid.AppAndroid;
+import com.digosofter.digodroid.OnPerguntarListener;
 import com.digosofter.digodroid.activity.ActMain;
 import com.digosofter.digodroid.arquivo.ArquivoDb;
 import com.digosofter.digojava.database.DbeMain;
 
-public abstract class DbeAndroidMain extends DbeMain implements DialogInterface.OnClickListener
+public abstract class DbeAndroidMain extends DbeMain
 {
   private static final String STR_FILE_PREFIXO = ".sqlite";
 
@@ -36,7 +36,20 @@ public abstract class DbeAndroidMain extends DbeMain implements DialogInterface.
       return;
     }
 
-    AppAndroid.getI().perguntar(act, "Todos os dados serão perdidos, inclusive aqueles que ainda não foram sincronizados.\n A aplicação será fechada.\n\n Tem certeza desta ação?", this);
+    AppAndroid.getI().perguntar(act, "Todos os dados serão perdidos, inclusive aqueles que ainda não foram sincronizados.\n A aplicação será fechada.\n\n Tem certeza desta ação?", new OnPerguntarListener()
+    {
+      @Override
+      public void onNao(final String strPergunta)
+      {
+
+      }
+
+      @Override
+      public void onSim(final String strPergunta)
+      {
+        DbeAndroidMain.this.apagar();
+      }
+    });
   }
 
   public void apagar()
@@ -192,17 +205,6 @@ public abstract class DbeAndroidMain extends DbeMain implements DialogInterface.
     };
 
     return _objSqLiteOpenHelper;
-  }
-
-  @Override
-  public void onClick(final DialogInterface dialog, final int which)
-  {
-    if (which != DialogInterface.BUTTON_POSITIVE)
-    {
-      return;
-    }
-
-    DbeAndroidMain.this.apagar();
   }
 
   private void onCreateSQLiteOpenHelper(final SQLiteDatabase objSQLiteDatabase)

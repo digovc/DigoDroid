@@ -365,6 +365,21 @@ public class ItemConsulta extends ItemMain implements View.OnClickListener, View
   }
 
   @Override
+  public void setBooSelecionado(final boolean booSelecionado)
+  {
+    super.setBooSelecionado(booSelecionado);
+
+    if (booSelecionado)
+    {
+      this.setBackgroundColor(Color.LTGRAY);
+    }
+    else
+    {
+      this.setBackgroundColor(Color.WHITE);
+    }
+  }
+
+  @Override
   public void setEventos()
   {
     super.setEventos();

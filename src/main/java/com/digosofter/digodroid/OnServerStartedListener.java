@@ -4,7 +4,7 @@ import com.digosofter.digodroid.service.ServiceMain;
 
 import java.util.EventListener;
 
-public interface OnSrvStartedListener extends EventListener
+public interface OnServerStartedListener extends EventListener
 {
   void onSrvStarted(final ServiceMain srv);
 }

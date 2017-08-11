@@ -1,6 +1,5 @@
 package com.digosofter.digodroid;
 
-import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.AlertDialog;
 import android.app.Notification;
@@ -12,7 +11,9 @@ import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Environment;
+import android.text.InputType;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.digosofter.digodroid.activity.ActMain;
@@ -44,7 +45,7 @@ public abstract class AppAndroid extends App
   private String _dir;
   private List<OnSrvSincCreateListener> _lstEvtOnSrvSincCreateListener;
   private List<OnSrvSincDestroyListener> _lstEvtOnSrvSincDestroyListener;
-  private List<OnSrvStartedListener> _lstEvtOnSrvStartedListener;
+  private List<OnServerStartedListener> _lstEvtOnSrvStartedListener;
   private List<Toast> _lstObjToast;
   private NotificationManager _objNotificationManager;
   private PackageInfo _objPackageInfo;
@@ -86,7 +87,7 @@ public abstract class AppAndroid extends App
     this.getLstEvtOnSrvSincDestroyListener().add(evt);
   }
 
-  public void addEvtOnSrvStartedListener(OnSrvStartedListener evt)
+  public void addEvtOnSrvStartedListener(OnServerStartedListener evt)
   {
     if (evt == null)
     {
@@ -159,7 +160,7 @@ public abstract class AppAndroid extends App
       return;
     }
 
-    for (OnSrvStartedListener evt : this.getLstEvtOnSrvStartedListener())
+    for (OnServerStartedListener evt : this.getLstEvtOnSrvStartedListener())
     {
       if (evt == null)
       {
@@ -240,7 +241,7 @@ public abstract class AppAndroid extends App
     return _lstEvtOnSrvSincDestroyListener;
   }
 
-  private List<OnSrvStartedListener> getLstEvtOnSrvStartedListener()
+  private List<OnServerStartedListener> getLstEvtOnSrvStartedListener()
   {
     if (_lstEvtOnSrvStartedListener != null)
     {
@@ -325,6 +326,63 @@ public abstract class AppAndroid extends App
     return _strVersao;
   }
 
+  public void inserirTexto(final ActMain act, final String strTitulo, final OnInserirTextoListener evt)
+  {
+    if (act == null)
+    {
+      return;
+    }
+
+    if (Utils.getBooStrVazia(strTitulo))
+    {
+      return;
+    }
+
+    if (evt == null)
+    {
+      return;
+    }
+
+    act.runOnUiThread(new Runnable()
+    {
+      @Override
+      public void run()
+      {
+        final EditText txt = new EditText(act);
+
+        txt.setInputType(InputType.TYPE_CLASS_TEXT);
+
+        final AlertDialog.Builder objBuilder = new AlertDialog.Builder(act);
+
+        objBuilder.setTitle(strTitulo);
+        objBuilder.setView(txt);
+
+        objBuilder.setPositiveButton("OK", new DialogInterface.OnClickListener()
+        {
+          @Override
+          public void onClick(final DialogInterface dialog, final int which)
+          {
+            evt.onOk(strTitulo, txt.getText().toString());
+          }
+        });
+
+        objBuilder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener()
+        {
+          @Override
+          public void onClick(final DialogInterface objDialog, final int which)
+          {
+            evt.onCancelar(strTitulo);
+
+            objDialog.cancel();
+          }
+        });
+
+        objBuilder.show();
+      }
+    });
+
+  }
+
   protected void limparNotificacao()
   {
     for (Toast objToast : this.getLstObjToast())
@@ -401,48 +459,61 @@ public abstract class AppAndroid extends App
     objToast.show();
   }
 
-  public void perguntar(Activity act, final String strPergunta, final DialogInterface.OnClickListener evtOnClick)
+  public void perguntar(final ActMain act, final String strPergunta, final OnPerguntarListener evt)
   {
-    if (act == null)
-    {
-      act = this.getActPrincipal();
-    }
-
     if (act == null)
     {
       return;
     }
-
-    final Activity actFinal = act;
 
     if (Utils.getBooStrVazia(strPergunta))
     {
       return;
     }
 
-    if (evtOnClick == null)
+    if (evt == null)
     {
       return;
     }
 
-    if (this.getActPrincipal() == null)
-    {
-      return;
-    }
-
-    actFinal.runOnUiThread(new Runnable()
+    act.runOnUiThread(new Runnable()
     {
       @Override
       public void run()
       {
-        new AlertDialog.Builder(actFinal).setMessage(strPergunta).setPositiveButton("Sim", evtOnClick).setNegativeButton("Não", evtOnClick).show();
+
+        AlertDialog.Builder objBuilder = new AlertDialog.Builder(act);
+
+        objBuilder.setMessage(strPergunta);
+
+        objBuilder.setPositiveButton("Sim", new DialogInterface.OnClickListener()
+        {
+          @Override
+          public void onClick(final DialogInterface dialog, final int which)
+          {
+            evt.onSim(strPergunta);
+          }
+        });
+
+        objBuilder.setNegativeButton("Não", new DialogInterface.OnClickListener()
+        {
+          @Override
+          public void onClick(final DialogInterface objDialog, final int which)
+          {
+            evt.onNao(strPergunta);
+
+            objDialog.cancel();
+          }
+        });
+
+        objBuilder.show();
       }
     });
   }
 
   public void processarRspWelcome(final RspWelcome rspWelcome)
   {
-    
+
   }
 
   /**
@@ -496,7 +567,7 @@ public abstract class AppAndroid extends App
     this.getLstEvtOnSrvSincDestroyListener().remove(evt);
   }
 
-  public void removerEvtOnSrvStartedListener(OnSrvStartedListener evt)
+  public void removerEvtOnSrvStartedListener(OnServerStartedListener evt)
   {
     if (evt == null)
     {

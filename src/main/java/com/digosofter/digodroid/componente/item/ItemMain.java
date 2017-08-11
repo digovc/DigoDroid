@@ -8,6 +8,8 @@ import com.digosofter.digodroid.componente.painel.PainelGeral;
 
 public abstract class ItemMain extends PainelGeral
 {
+  private boolean _booSelecionado;
+
   public ItemMain(Context cnt)
   {
     super(cnt);
@@ -32,11 +34,21 @@ public abstract class ItemMain extends PainelGeral
   {
   }
 
+  public boolean getBooSelecionado()
+  {
+    return _booSelecionado;
+  }
+
   @Override
   public void inicializar()
   {
     super.inicializar();
 
     this.setOrientation(VERTICAL);
+  }
+
+  public void setBooSelecionado(boolean booSelecionado)
+  {
+    _booSelecionado = booSelecionado;
   }
 }

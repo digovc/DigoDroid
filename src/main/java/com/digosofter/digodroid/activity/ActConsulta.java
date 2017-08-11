@@ -28,6 +28,9 @@ import com.digosofter.digojava.Utils;
 import com.digosofter.digojava.database.OnChangeArg;
 import com.digosofter.digojava.database.OnTblChangeListener;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**/
 public class ActConsulta extends ActMain implements OnTblChangeListener, TextWatcher, OnClickListener
 {
@@ -35,6 +38,7 @@ public class ActConsulta extends ActMain implements OnTblChangeListener, TextWat
   {
     NONE,
     REGISTRO_SELECIONADO,
+    REGISTRO_SELECIONADO_MULTIPLO,
     VOLTAR,
   }
 
@@ -42,38 +46,36 @@ public class ActConsulta extends ActMain implements OnTblChangeListener, TextWat
    * Indica se o cadastro será aberto automaticamente.
    */
   public static final String STR_EXTRA_IN_BOO_ABRIR_CADASTRO_AUTO = "boo_abrir_cadastro_auto";
-
+  public static final String STR_EXTRA_IN_BOO_MULTIPLA_SELECAO = "boo_multipla_selecao";
   /**
    * Indica se os registro da lista serão selecionados quando o usuário clicar.
    */
   public static final String STR_EXTRA_IN_BOO_REGISTRO_SELECIONAVEL = "boo_registro_selecionavel";
-
   public static final String STR_EXTRA_IN_INT_COLUNA_OBJETO_ID = "int_coluna_objeto_id";
 
   /**
    * Código do registro de referência.
    */
   public static final String STR_EXTRA_IN_INT_REGISTRO_REF_ID = "int_registro_ref_id";
-
   /**
    * Código do objeto da tabela que esta lista representa.
    */
   public static final String STR_EXTRA_IN_INT_TABELA_OBJETO_ID = "int_tabela_objeto_id";
   public static final String STR_EXTRA_IN_INT_TABELA_PAI_OBJETO_ID = "int_tabela_pai_objeto_id";
-
+  public static final String STR_EXTRA_OUT_ARR_INT_REGISTRO_ID = "arr_int_registro_id";
   public static final String STR_EXTRA_OUT_INT_COLUNA_OBJETO_ID = "int_coluna_objeto_id_out";
-
   /**
    * Código do registro que indica o consulta_item que o usuário selecionou na lista desta tela.
    */
   public static final String STR_EXTRA_OUT_INT_REGISTRO_ID = "int_registro_id";
-
+  public static final String STR_EXTRA_OUT_INT_REGISTRO_REF_ID = "int_registro_ref_id_out";
   /**
    * Código do objeto da tabela que esta lista representa.
    */
   public static final String STR_EXTRA_OUT_INT_TABELA_OBJETO_ID = "int_tabela_objeto_id";
 
   private static final String STR_MENU_PESQUISAR = "Pesquisar";
+  private static final String STR_MENU_SELECIONAR = "Selecionar";
 
   private AdapterConsulta _adpCadastro;
   private boolean _booAbrindoActDetalhe;
@@ -81,6 +83,7 @@ public class ActConsulta extends ActMain implements OnTblChangeListener, TextWat
   private int _intRegistroRefId = -1;
   private ItemConsulta _itmSelecionado;
   private LabelGeral _lblVazio;
+  private List<Integer> _lstIntRegistroSelecionadoId;
   private ListView _pnlLista;
   private PainelGeralRelativo _pnlPesquisa;
   private TblAndroidMain<?> _tbl;
@@ -137,7 +140,7 @@ public class ActConsulta extends ActMain implements OnTblChangeListener, TextWat
     this.getTbl().removerEvtOnTblChangeListener(this);
   }
 
-  private AdapterConsulta getAdpCadastro()
+  public AdapterConsulta getAdpCadastro()
   {
     if (_adpCadastro != null)
     {
@@ -157,6 +160,11 @@ public class ActConsulta extends ActMain implements OnTblChangeListener, TextWat
   private boolean getBooAbrindoActDetalhe()
   {
     return _booAbrindoActDetalhe;
+  }
+
+  public boolean getBooMultiplaSelecao()
+  {
+    return this.getIntent().getBooleanExtra(STR_EXTRA_IN_BOO_MULTIPLA_SELECAO, false);
   }
 
   private boolean getBooRegistroSelecionavel()
@@ -209,6 +217,18 @@ public class ActConsulta extends ActMain implements OnTblChangeListener, TextWat
     _lblVazio = this.getView(R.id.actConsulta_lblVazio);
 
     return _lblVazio;
+  }
+
+  private List<Integer> getLstIntRegistroSelecionadoId()
+  {
+    if (_lstIntRegistroSelecionadoId != null)
+    {
+      return _lstIntRegistroSelecionadoId;
+    }
+
+    _lstIntRegistroSelecionadoId = new ArrayList<>();
+
+    return _lstIntRegistroSelecionadoId;
   }
 
   private ListView getPnlLista()
@@ -499,6 +519,11 @@ public class ActConsulta extends ActMain implements OnTblChangeListener, TextWat
       return;
     }
 
+    if (this.onItemClickMultiplaSelecao(viwItem))
+    {
+      return;
+    }
+
     if (this.getBooRegistroSelecionavel())
     {
       this.onItemClickRegistroSelecionar(viwItem.getIntRegistroId());
@@ -518,6 +543,27 @@ public class ActConsulta extends ActMain implements OnTblChangeListener, TextWat
     this.setBooAbrindoActDetalhe(true);
 
     this.getTbl().abrirDetalhe(this, intRegistroId);
+  }
+
+  private boolean onItemClickMultiplaSelecao(final ItemConsulta viwItem)
+  {
+    if (!this.getBooMultiplaSelecao())
+    {
+      return false;
+    }
+
+    viwItem.setBooSelecionado(!viwItem.getBooSelecionado());
+
+    if (viwItem.getBooSelecionado())
+    {
+      this.getLstIntRegistroSelecionadoId().add(viwItem.getIntRegistroId());
+    }
+    else
+    {
+      this.getLstIntRegistroSelecionadoId().remove(this.getLstIntRegistroSelecionadoId().indexOf(viwItem.getIntRegistroId()));
+    }
+
+    return true;
   }
 
   private void onItemClickRegistroSelecionar(int intRegistroId)
@@ -587,6 +633,11 @@ public class ActConsulta extends ActMain implements OnTblChangeListener, TextWat
       return this.onOptionsItemSelectedPesquisar(mni);
     }
 
+    if (STR_MENU_SELECIONAR.equals(mni.getTitle()))
+    {
+      return this.onOptionsItemSelectedSelecionar(mni);
+    }
+
     return this.getTbl().processarMenu(this, mni);
   }
 
@@ -606,6 +657,45 @@ public class ActConsulta extends ActMain implements OnTblChangeListener, TextWat
     return true;
   }
 
+  private boolean onOptionsItemSelectedSelecionar(final MenuItem mni)
+  {
+    if (this.getTbl() == null)
+    {
+      return false;
+    }
+
+    if (!this.getBooMultiplaSelecao())
+    {
+      return false;
+    }
+
+    if (this.getLstIntRegistroSelecionadoId().isEmpty())
+    {
+      this.notificar("Pelo menos um registro deve ser selecionado.");
+      return false;
+    }
+
+    if (this.getTbl().processarOptionItemSelectedSelecionar(this, this.getLstIntRegistroSelecionadoId()))
+    {
+      return true;
+    }
+
+    Intent itt = new Intent();
+
+    itt.putExtra(ActConsulta.STR_EXTRA_OUT_ARR_INT_REGISTRO_ID, this.getLstIntRegistroSelecionadoId().toArray());
+    itt.putExtra(ActConsulta.STR_EXTRA_OUT_INT_COLUNA_OBJETO_ID, this.getIntent().getIntExtra(STR_EXTRA_IN_INT_COLUNA_OBJETO_ID, -1));
+    itt.putExtra(ActConsulta.STR_EXTRA_OUT_INT_REGISTRO_REF_ID, this.getIntRegistroRefId());
+    itt.putExtra(ActConsulta.STR_EXTRA_OUT_INT_TABELA_OBJETO_ID, this.getTbl().getIntObjetoId());
+
+    this.getTbl().setStrPesquisa(this.getTxtPesquisa().getText().toString());
+
+    this.setResult(EnmResultado.REGISTRO_SELECIONADO_MULTIPLO.ordinal(), itt);
+
+    this.finish();
+
+    return true;
+  }
+
   @Override
   public boolean onPrepareOptionsMenu(Menu mnu)
   {
@@ -613,6 +703,7 @@ public class ActConsulta extends ActMain implements OnTblChangeListener, TextWat
 
     mnu.clear();
 
+    this.onPrepareOptionsMenuSelecionar(mnu);
     this.onPrepareOptionsMenuPesquisar(mnu);
     this.onPrepareOptionsMenuAdicionar(mnu);
     this.onPrepareOptionsMenuTbl(mnu);
@@ -645,7 +736,12 @@ public class ActConsulta extends ActMain implements OnTblChangeListener, TextWat
 
   private void onPrepareOptionsMenuPesquisar(Menu mnu)
   {
-    if (mnu == null)
+    if (this.getTbl() == null)
+    {
+      return;
+    }
+
+    if (this.getAdpCadastro().getCount() < 15)
     {
       return;
     }
@@ -657,6 +753,20 @@ public class ActConsulta extends ActMain implements OnTblChangeListener, TextWat
     mni.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
   }
 
+  private void onPrepareOptionsMenuSelecionar(final Menu mnu)
+  {
+    if (!this.getBooMultiplaSelecao())
+    {
+      return;
+    }
+
+    MenuItem mni = mnu.add(STR_MENU_SELECIONAR);
+
+    mni.setCheckable(true);
+    mni.setIcon(R.drawable.salvar);
+    mni.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+  }
+
   private void onPrepareOptionsMenuTbl(Menu mnu)
   {
     if (this.getTbl() == null)
@@ -664,7 +774,7 @@ public class ActConsulta extends ActMain implements OnTblChangeListener, TextWat
       return;
     }
 
-    this.getTbl().montarMenu(mnu);
+    this.getTbl().montarMenu(this, mnu);
   }
 
   @Override
@@ -676,13 +786,13 @@ public class ActConsulta extends ActMain implements OnTblChangeListener, TextWat
   }
 
   @Override
-  public void onTblAdicionar(OnChangeArg arg)
+  public void onTabelaAdicionar(OnChangeArg arg)
   {
     this.atualizarLista();
   }
 
   @Override
-  public void onTblApagar(OnChangeArg arg)
+  public void onTabelaApagar(OnChangeArg arg)
   {
     if (arg.getIntRegistroId() < 1)
     {
@@ -695,7 +805,7 @@ public class ActConsulta extends ActMain implements OnTblChangeListener, TextWat
   }
 
   @Override
-  public void onTblAtualizar(OnChangeArg arg)
+  public void onTabelaAtualizar(OnChangeArg arg)
   {
     this.atualizarLista();
   }
@@ -746,4 +856,5 @@ public class ActConsulta extends ActMain implements OnTblChangeListener, TextWat
   {
     _itmSelecionado = itmSelecionado;
   }
+
 }

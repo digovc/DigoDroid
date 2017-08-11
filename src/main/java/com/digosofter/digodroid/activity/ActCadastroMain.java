@@ -424,6 +424,11 @@ public abstract class ActCadastroMain extends ActMain
   {
     super.onActivityResult(intRequestCode, intResultCode, ittResult);
 
+    if (ittResult == null)
+    {
+      return;
+    }
+
     if (intResultCode != ActConsulta.EnmResultado.REGISTRO_SELECIONADO.ordinal())
     {
       return;

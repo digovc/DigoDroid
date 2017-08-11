@@ -23,6 +23,7 @@ public class ActErro extends ActMain implements View.OnClickListener
   public static final String STR_EXTRA_INT_STR_ERRO_TITULO = "str_erro_titulo";
   public static final String STR_EXTRA_OUT_BOO_ERRO_IGNORAR_TODOS = "boo_erro_ignorar_todos";
   private static final String STR_MENU_COMPARTILHAR = "Compartilhar";
+  private static final String STR_MENU_SAIR = "Sair";
 
   private BotaoGeral _btnIgnorarTodos;
   private LabelGeral _lblTitulo;
@@ -194,9 +195,20 @@ public class ActErro extends ActMain implements View.OnClickListener
       return false;
     }
 
-    mnu.add(STR_MENU_COMPARTILHAR);
+    this.onCreateOptionsMenuCompartilhar(mnu);
+    this.onCreateOptionsMenuSair(mnu);
 
     return true;
+  }
+
+  private void onCreateOptionsMenuCompartilhar(final Menu mnu)
+  {
+    mnu.add(STR_MENU_COMPARTILHAR);
+  }
+
+  private void onCreateOptionsMenuSair(final Menu mnu)
+  {
+    mnu.add(STR_MENU_SAIR);
   }
 
   @Override
@@ -211,9 +223,24 @@ public class ActErro extends ActMain implements View.OnClickListener
     {
       case STR_MENU_COMPARTILHAR:
         return this.compartilhar();
+
+      case STR_MENU_SAIR:
+        return this.sair();
     }
 
     return false;
+  }
+
+  private boolean sair()
+  {
+    if (AppAndroid.getI() == null)
+    {
+      return false;
+    }
+
+    AppAndroid.getI().fechar();
+
+    return true;
   }
 
   @Override
