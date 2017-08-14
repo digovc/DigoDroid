@@ -381,7 +381,7 @@ public abstract class AppAndroid extends App
       {
         final EditText txt = new EditText(act);
 
-        txt.setInputType(InputType.TYPE_CLASS_TEXT);
+        txt.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_CHARACTERS);
 
         final AlertDialog.Builder objBuilder = new AlertDialog.Builder(act);
 

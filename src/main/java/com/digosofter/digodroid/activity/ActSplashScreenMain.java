@@ -1,6 +1,7 @@
 package com.digosofter.digodroid.activity;
 
 import android.content.Intent;
+import android.os.Handler;
 
 import com.digosofter.digodroid.AppAndroid;
 
@@ -30,16 +31,14 @@ public abstract class ActSplashScreenMain extends ActMain
 
   private void inicializarActPrincipal()
   {
-    this.inicializarActPrincipalDelay();
-
-    //    new Handler().postDelayed(new Runnable()
-    //    {
-    //      @Override
-    //      public void run()
-    //      {
-    //        ActSplashScreenMain.this.inicializarActPrincipalDelay();
-    //      }
-    //    }, 1500);
+    new Handler().postDelayed(new Runnable()
+    {
+      @Override
+      public void run()
+      {
+        ActSplashScreenMain.this.inicializarActPrincipalDelay();
+      }
+    }, 750);
   }
 
   private void inicializarActPrincipalDelay()
