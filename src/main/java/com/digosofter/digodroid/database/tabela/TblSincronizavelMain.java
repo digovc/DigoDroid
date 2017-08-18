@@ -56,7 +56,7 @@ public abstract class TblSincronizavelMain<T extends DominioSincronizavelMain> e
       return _clnBooSincronizado;
     }
 
-    _clnBooSincronizado = new ColunaAndroid("boo_sincronizado", this, Coluna.EnmTipo.BOOLEAN);
+    _clnBooSincronizado = new ColunaAndroid("boo_sincronizado", Coluna.EnmTipo.BOOLEAN);
 
     return _clnBooSincronizado;
   }
@@ -68,7 +68,7 @@ public abstract class TblSincronizavelMain<T extends DominioSincronizavelMain> e
       return _clnBooSincronizar;
     }
 
-    _clnBooSincronizar = new ColunaAndroid("boo_sincronizar", this, Coluna.EnmTipo.BOOLEAN);
+    _clnBooSincronizar = new ColunaAndroid("boo_sincronizar", Coluna.EnmTipo.BOOLEAN);
 
     return _clnBooSincronizar;
   }
@@ -80,7 +80,7 @@ public abstract class TblSincronizavelMain<T extends DominioSincronizavelMain> e
       return _clnIntReservaCodigoId;
     }
 
-    _clnIntReservaCodigoId = new ColunaAndroid("int_reserva_codigo_id", this, Coluna.EnmTipo.BIGINT);
+    _clnIntReservaCodigoId = new ColunaAndroid("int_reserva_codigo_id", Coluna.EnmTipo.BIGINT);
 
     return _clnIntReservaCodigoId;
   }
@@ -92,7 +92,7 @@ public abstract class TblSincronizavelMain<T extends DominioSincronizavelMain> e
       return _clnStrAparelhoId;
     }
 
-    _clnStrAparelhoId = new ColunaAndroid("str_aparelho_id", this, Coluna.EnmTipo.TEXT);
+    _clnStrAparelhoId = new ColunaAndroid("str_aparelho_id", Coluna.EnmTipo.TEXT);
 
     return _clnStrAparelhoId;
   }
@@ -104,7 +104,7 @@ public abstract class TblSincronizavelMain<T extends DominioSincronizavelMain> e
       return _clnStrSincCritica;
     }
 
-    _clnStrSincCritica = new ColunaAndroid("str_sinc_critica", this, Coluna.EnmTipo.TEXT);
+    _clnStrSincCritica = new ColunaAndroid("str_sinc_critica", Coluna.EnmTipo.TEXT);
 
     return _clnStrSincCritica;
   }

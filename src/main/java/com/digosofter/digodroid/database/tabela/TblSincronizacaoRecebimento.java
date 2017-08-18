@@ -1,6 +1,5 @@
 package com.digosofter.digodroid.database.tabela;
 
-import com.digosofter.digodroid.AppAndroid;
 import com.digosofter.digodroid.database.ColunaAndroid;
 import com.digosofter.digodroid.database.TblAndroidMain;
 import com.digosofter.digodroid.database.dominio.DominioAndroidMain;
@@ -44,7 +43,7 @@ public class TblSincronizacaoRecebimento extends TblAndroidMain<DominioAndroidMa
       return _clnBooSincCompleto;
     }
 
-    _clnBooSincCompleto = new ColunaAndroid("boo_sinc_completo", this, Coluna.EnmTipo.BOOLEAN);
+    _clnBooSincCompleto = new ColunaAndroid("boo_sinc_completo", Coluna.EnmTipo.BOOLEAN);
 
     return _clnBooSincCompleto;
   }
@@ -56,7 +55,7 @@ public class TblSincronizacaoRecebimento extends TblAndroidMain<DominioAndroidMa
       return _clnDttRecebimento;
     }
 
-    _clnDttRecebimento = new ColunaAndroid("dtt_recebimento", this, Coluna.EnmTipo.DATE_TIME);
+    _clnDttRecebimento = new ColunaAndroid("dtt_recebimento", Coluna.EnmTipo.DATE_TIME);
 
     return _clnDttRecebimento;
   }
@@ -68,7 +67,7 @@ public class TblSincronizacaoRecebimento extends TblAndroidMain<DominioAndroidMa
       return _clnIntRegistroQuantidade;
     }
 
-    _clnIntRegistroQuantidade = new ColunaAndroid("int_registro_quantidade", this, Coluna.EnmTipo.INTEGER);
+    _clnIntRegistroQuantidade = new ColunaAndroid("int_registro_quantidade", Coluna.EnmTipo.INTEGER);
 
     return _clnIntRegistroQuantidade;
   }
@@ -80,7 +79,7 @@ public class TblSincronizacaoRecebimento extends TblAndroidMain<DominioAndroidMa
       return _clnIntServerSincronizacaoId;
     }
 
-    _clnIntServerSincronizacaoId = new ColunaAndroid("int_sincronizacao_id", this, Coluna.EnmTipo.BIGINT);
+    _clnIntServerSincronizacaoId = new ColunaAndroid("int_sincronizacao_id", Coluna.EnmTipo.BIGINT);
 
     return _clnIntServerSincronizacaoId;
   }
@@ -92,7 +91,7 @@ public class TblSincronizacaoRecebimento extends TblAndroidMain<DominioAndroidMa
       return _clnSqlTabelaNome;
     }
 
-    _clnSqlTabelaNome = new ColunaAndroid("sql_tabela_nome", this, Coluna.EnmTipo.TEXT);
+    _clnSqlTabelaNome = new ColunaAndroid("sql_tabela_nome", Coluna.EnmTipo.TEXT);
 
     return _clnSqlTabelaNome;
   }
@@ -104,7 +103,7 @@ public class TblSincronizacaoRecebimento extends TblAndroidMain<DominioAndroidMa
       return _clnStrCritica;
     }
 
-    _clnStrCritica = new ColunaAndroid("str_critica", this, Coluna.EnmTipo.TEXT);
+    _clnStrCritica = new ColunaAndroid("str_critica", Coluna.EnmTipo.TEXT);
 
     return _clnStrCritica;
   }
@@ -116,7 +115,7 @@ public class TblSincronizacaoRecebimento extends TblAndroidMain<DominioAndroidMa
       return _clnStrTabelaNomeExibicao;
     }
 
-    _clnStrTabelaNomeExibicao = new ColunaAndroid("str_tabela_nome_exibicao", this, Coluna.EnmTipo.TEXT);
+    _clnStrTabelaNomeExibicao = new ColunaAndroid("str_tabela_nome_exibicao", Coluna.EnmTipo.TEXT);
 
     return _clnStrTabelaNomeExibicao;
   }

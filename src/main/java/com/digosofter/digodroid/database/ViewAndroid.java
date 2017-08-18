@@ -83,7 +83,7 @@ public abstract class ViewAndroid extends TblAndroidMain<DominioAndroidMain>
       return _clnIntId;
     }
 
-    _clnIntId = new ColunaAndroid(this.getSqlClnIntIdNome(), this, Coluna.EnmTipo.BIGINT);
+    _clnIntId = new ColunaAndroid(this.getSqlClnIntIdNome(), Coluna.EnmTipo.BIGINT);
 
     return _clnIntId;
   }

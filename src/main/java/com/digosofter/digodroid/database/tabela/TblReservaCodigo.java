@@ -77,7 +77,7 @@ public class TblReservaCodigo extends TblAndroidMain<DominioAndroidMain>
       return _clnIntCodigoInicial;
     }
 
-    _clnIntCodigoInicial = new ColunaAndroid("int_codigo_inicial", this, Coluna.EnmTipo.INTEGER);
+    _clnIntCodigoInicial = new ColunaAndroid("int_codigo_inicial", Coluna.EnmTipo.INTEGER);
 
     return _clnIntCodigoInicial;
   }
@@ -89,7 +89,7 @@ public class TblReservaCodigo extends TblAndroidMain<DominioAndroidMain>
       return _clnIntQuantidadeDisponibilizado;
     }
 
-    _clnIntQuantidadeDisponibilizado = new ColunaAndroid("int_quantidade_disponibilizado", this, Coluna.EnmTipo.INTEGER);
+    _clnIntQuantidadeDisponibilizado = new ColunaAndroid("int_quantidade_disponibilizado", Coluna.EnmTipo.INTEGER);
 
     return _clnIntQuantidadeDisponibilizado;
   }
@@ -101,7 +101,7 @@ public class TblReservaCodigo extends TblAndroidMain<DominioAndroidMain>
       return _clnIntQuantidadeRestante;
     }
 
-    _clnIntQuantidadeRestante = new ColunaAndroid("int_quantidade_restante", this, Coluna.EnmTipo.INTEGER);
+    _clnIntQuantidadeRestante = new ColunaAndroid("int_quantidade_restante", Coluna.EnmTipo.INTEGER);
 
     return _clnIntQuantidadeRestante;
   }
@@ -113,7 +113,7 @@ public class TblReservaCodigo extends TblAndroidMain<DominioAndroidMain>
       return _clnIntReservaCodigoServerId;
     }
 
-    _clnIntReservaCodigoServerId = new ColunaAndroid("int_reserva_codigo_server_id", this, Coluna.EnmTipo.INTEGER);
+    _clnIntReservaCodigoServerId = new ColunaAndroid("int_reserva_codigo_server_id", Coluna.EnmTipo.INTEGER);
 
     return _clnIntReservaCodigoServerId;
   }
@@ -125,7 +125,7 @@ public class TblReservaCodigo extends TblAndroidMain<DominioAndroidMain>
       return _clnSqlTabelaNome;
     }
 
-    _clnSqlTabelaNome = new ColunaAndroid("sql_tabela_nome", this, Coluna.EnmTipo.TEXT);
+    _clnSqlTabelaNome = new ColunaAndroid("sql_tabela_nome", Coluna.EnmTipo.TEXT);
 
     return _clnSqlTabelaNome;
   }

@@ -42,7 +42,7 @@ public class TblSincronizacaoEnvio extends TblAndroidMain<DominioAndroidMain>
       return _clnBooSucesso;
     }
 
-    _clnBooSucesso = new ColunaAndroid("boo_sucesso", this, Coluna.EnmTipo.BOOLEAN);
+    _clnBooSucesso = new ColunaAndroid("boo_sucesso", Coluna.EnmTipo.BOOLEAN);
 
     return _clnBooSucesso;
   }
@@ -54,7 +54,7 @@ public class TblSincronizacaoEnvio extends TblAndroidMain<DominioAndroidMain>
       return _clnDttEnvio;
     }
 
-    _clnDttEnvio = new ColunaAndroid("dtt_envio", this, Coluna.EnmTipo.DATE_TIME);
+    _clnDttEnvio = new ColunaAndroid("dtt_envio", Coluna.EnmTipo.DATE_TIME);
 
     return _clnDttEnvio;
   }
@@ -66,7 +66,7 @@ public class TblSincronizacaoEnvio extends TblAndroidMain<DominioAndroidMain>
       return _clnIntRegistroId;
     }
 
-    _clnIntRegistroId = new ColunaAndroid("int_registro_id", this, Coluna.EnmTipo.BIGINT);
+    _clnIntRegistroId = new ColunaAndroid("int_registro_id", Coluna.EnmTipo.BIGINT);
 
     return _clnIntRegistroId;
   }
@@ -78,7 +78,7 @@ public class TblSincronizacaoEnvio extends TblAndroidMain<DominioAndroidMain>
       return _ClnSqlTabelaNome;
     }
 
-    _ClnSqlTabelaNome = new ColunaAndroid("sql_tabela_nome", this, Coluna.EnmTipo.TEXT);
+    _ClnSqlTabelaNome = new ColunaAndroid("sql_tabela_nome", Coluna.EnmTipo.TEXT);
 
     return _ClnSqlTabelaNome;
   }
@@ -90,7 +90,7 @@ public class TblSincronizacaoEnvio extends TblAndroidMain<DominioAndroidMain>
       return _clnStrCritica;
     }
 
-    _clnStrCritica = new ColunaAndroid("str_critica", this, Coluna.EnmTipo.TEXT);
+    _clnStrCritica = new ColunaAndroid("str_critica", Coluna.EnmTipo.TEXT);
 
     return _clnStrCritica;
   }
@@ -102,7 +102,7 @@ public class TblSincronizacaoEnvio extends TblAndroidMain<DominioAndroidMain>
       return _clnStrTblNomeExibicao;
     }
 
-    _clnStrTblNomeExibicao = new ColunaAndroid("str_tabela_nome_exibicao", this, Coluna.EnmTipo.TEXT);
+    _clnStrTblNomeExibicao = new ColunaAndroid("str_tabela_nome_exibicao", Coluna.EnmTipo.TEXT);
 
     return _clnStrTblNomeExibicao;
   }

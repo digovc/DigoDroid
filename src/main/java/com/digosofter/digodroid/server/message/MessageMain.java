@@ -10,6 +10,7 @@ import com.android.volley.VolleyError;
 import com.digosofter.digodroid.Aparelho;
 import com.digosofter.digodroid.log.LogSinc;
 import com.digosofter.digodroid.server.ServerHttpSincMain;
+import com.digosofter.digodroid.service.SrvSincMain;
 import com.digosofter.digojava.Utils;
 import com.digosofter.digojava.json.Json;
 import com.digosofter.digojava.log.Log;
@@ -123,7 +124,7 @@ public abstract class MessageMain<T extends RespostaMain> implements Response.Li
   {
     if ((objVolleyError instanceof NetworkError) || (objVolleyError instanceof NoConnectionError))
     {
-      LogSinc.getI().addLog(Log.EnmTipo.ERRO, String.format("Erro de sincronização (%s). Erro de conexão.", this.getClsResposta().getSimpleName()));
+      this.onErrorResponseLocalConexao();
       return;
     }
 
@@ -140,6 +141,23 @@ public abstract class MessageMain<T extends RespostaMain> implements Response.Li
     }
 
     LogSinc.getI().addLog(Log.EnmTipo.ERRO, "Erro de sincronização. ".concat(objVolleyError.getMessage()));
+  }
+
+  private void onErrorResponseLocalConexao()
+  {
+    LogSinc.getI().addLog(Log.EnmTipo.ERRO, String.format("Erro de sincronização (%s). Erro de conexão.", this.getClsResposta().getSimpleName()));
+
+    if (Aparelho.getI().getBooConectado())
+    {
+      return;
+    }
+
+    if (SrvSincMain.getI() == null)
+    {
+      return;
+    }
+
+    SrvSincMain.getI().setBooParar(true);
   }
 
   @Override

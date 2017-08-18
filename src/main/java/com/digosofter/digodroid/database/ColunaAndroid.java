@@ -26,14 +26,14 @@ public class ColunaAndroid extends Coluna
   private MenuItem _mniPesquisa;
   private String _sqlTipo;
 
-  public ColunaAndroid(String strNome, TblAndroidMain<?> tbl, EnmTipo enmTipo)
+  public ColunaAndroid(String strNome, EnmTipo enmTipo)
   {
-    this(strNome, tbl, enmTipo, null);
+    this(strNome, enmTipo, null);
   }
 
-  public ColunaAndroid(String strNome, TblAndroidMain<?> tbl, EnmTipo enmTipo, ColunaAndroid clnRef)
+  public ColunaAndroid(String strNome, EnmTipo enmTipo, ColunaAndroid clnRef)
   {
-    super(strNome, tbl, enmTipo, clnRef);
+    super(strNome, enmTipo, clnRef);
   }
 
   @Override

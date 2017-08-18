@@ -660,7 +660,7 @@ public abstract class TblAndroidMain<T extends DominioAndroidMain> extends Tabel
       return _clnBooAtivo;
     }
 
-    _clnBooAtivo = new ColunaAndroid("boo_ativo", this, Coluna.EnmTipo.BOOLEAN);
+    _clnBooAtivo = new ColunaAndroid("boo_ativo", Coluna.EnmTipo.BOOLEAN);
 
     return _clnBooAtivo;
   }
@@ -672,7 +672,7 @@ public abstract class TblAndroidMain<T extends DominioAndroidMain> extends Tabel
       return _clnDttAlteracao;
     }
 
-    _clnDttAlteracao = new ColunaAndroid("dtt_alteracao", this, Coluna.EnmTipo.DATE_TIME);
+    _clnDttAlteracao = new ColunaAndroid("dtt_alteracao", Coluna.EnmTipo.DATE_TIME);
 
     return _clnDttAlteracao;
   }
@@ -684,7 +684,7 @@ public abstract class TblAndroidMain<T extends DominioAndroidMain> extends Tabel
       return _clnDttCadastro;
     }
 
-    _clnDttCadastro = new ColunaAndroid("dtt_cadastro", this, Coluna.EnmTipo.DATE_TIME);
+    _clnDttCadastro = new ColunaAndroid("dtt_cadastro", Coluna.EnmTipo.DATE_TIME);
 
     return _clnDttCadastro;
   }
@@ -696,7 +696,7 @@ public abstract class TblAndroidMain<T extends DominioAndroidMain> extends Tabel
       return _clnIntId;
     }
 
-    _clnIntId = new ColunaAndroid("int_id", this, Coluna.EnmTipo.BIGINT);
+    _clnIntId = new ColunaAndroid("int_id", Coluna.EnmTipo.BIGINT);
 
     return _clnIntId;
   }
@@ -708,7 +708,7 @@ public abstract class TblAndroidMain<T extends DominioAndroidMain> extends Tabel
       return _clnIntUsuarioAlteracaoId;
     }
 
-    _clnIntUsuarioAlteracaoId = new ColunaAndroid("int_usuario_alteracao_id", this, Coluna.EnmTipo.BIGINT);
+    _clnIntUsuarioAlteracaoId = new ColunaAndroid("int_usuario_alteracao_id", Coluna.EnmTipo.BIGINT);
 
     return _clnIntUsuarioAlteracaoId;
   }
@@ -720,7 +720,7 @@ public abstract class TblAndroidMain<T extends DominioAndroidMain> extends Tabel
       return _clnIntUsuarioCadastroId;
     }
 
-    _clnIntUsuarioCadastroId = new ColunaAndroid("int_usuario_cadastro_id", this, Coluna.EnmTipo.BIGINT);
+    _clnIntUsuarioCadastroId = new ColunaAndroid("int_usuario_cadastro_id", Coluna.EnmTipo.BIGINT);
 
     return _clnIntUsuarioCadastroId;
   }
@@ -749,7 +749,7 @@ public abstract class TblAndroidMain<T extends DominioAndroidMain> extends Tabel
       return _clnStrObservacao;
     }
 
-    _clnStrObservacao = new ColunaAndroid("str_observacao", this, Coluna.EnmTipo.TEXT);
+    _clnStrObservacao = new ColunaAndroid("str_observacao", Coluna.EnmTipo.TEXT);
 
     return _clnStrObservacao;
   }
