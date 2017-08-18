@@ -551,6 +551,8 @@ public abstract class TblSincronizavelMain<T extends DominioSincronizavelMain> e
   {
     for (TblSincronizavelMain tblDependencia : this.getLstTblDependencia())
     {
+      tblDependencia.sincronizarEnviarDependencia(srvHttpSinc);
+
       tblDependencia.sincronizarEnviar(srvHttpSinc);
 
       try

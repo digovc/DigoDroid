@@ -6,7 +6,7 @@ public abstract class RspContainerDominioMain<T extends MessageMain> extends Res
   private int _intRegistroQuantidade;
   private String _jsnLstObjDominio;
 
-  public boolean getBooCompactado()
+  boolean getBooCompactado()
   {
     return _booCompactado;
   }
@@ -31,7 +31,7 @@ public abstract class RspContainerDominioMain<T extends MessageMain> extends Res
     _intRegistroQuantidade = intRegistroQuantidade;
   }
 
-  public void setJsnLstObjDominio(String jsnData)
+  void setJsnLstObjDominio(String jsnData)
   {
     _jsnLstObjDominio = jsnData;
   }

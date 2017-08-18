@@ -92,7 +92,7 @@ public class LogErro extends LogManagerAndroidMain
       return;
     }
 
-    this.abrirActErro(AppAndroid.getI().getActPrincipal(), new Exception(strErro));
+    this.abrirActErro(AppAndroid.getI().getActAtual(), new Exception(strErro));
   }
 
   private Calendar getDttIgnorarTodosUltimo()
