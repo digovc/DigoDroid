@@ -508,7 +508,7 @@ public abstract class TblSincronizavelMain<T extends DominioSincronizavelMain> e
     this.sincronizarReceber();
   }
 
-  protected void sincronizarEnviar(final ServerHttpSincMain srvHttpSinc)
+  public void sincronizarEnviar(final ServerHttpSincMain srvHttpSinc)
   {
     if (srvHttpSinc == null)
     {

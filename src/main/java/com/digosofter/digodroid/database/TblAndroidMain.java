@@ -1423,7 +1423,14 @@ public abstract class TblAndroidMain<T extends DominioAndroidMain> extends Tabel
       return null;
     }
 
-    this.carregarLstFilConsulta(actConsulta, this.getLstFilConsulta());
+    List<Filtro> lstFilConsultaTemp = new ArrayList<>();
+
+    for (Filtro fil : this.getLstFilConsulta())
+    {
+      lstFilConsultaTemp.add(fil);
+    }
+
+    this.carregarLstFilConsulta(actConsulta, lstFilConsultaTemp);
 
     String sql = "select _clns_nome from _tbl_nome _where order by _order_by;";
 
@@ -1437,11 +1444,7 @@ public abstract class TblAndroidMain<T extends DominioAndroidMain> extends Tabel
 
     sql = sql.replace("_order_by", (!Utils.getBooStrVazia(this.getSqlOrderBy()) ? Utils.removerUltimaLetra(this.getSqlOrderBy(), 2) : Utils.STR_VAZIA));
 
-    Cursor crsResultado = this.getDbe().execSqlComRetorno(sql);
-
-    this.getLstFilConsulta().clear();
-
-    return crsResultado;
+    return this.getDbe().execSqlComRetorno(sql);
   }
 
   private List<T> pesquisarDominio(Cursor crs)
