@@ -1,6 +1,7 @@
 package com.digosofter.digodroid.componente.campo;
 
 import android.content.Context;
+import android.text.InputType;
 import android.util.AttributeSet;
 
 import com.digosofter.digodroid.componente.textbox.TextBoxGeral;
@@ -48,6 +49,7 @@ public class CampoAlfanumerico extends CampoMain implements OnValorAlteradoListe
 
   private void inicializarTxt()
   {
+    this.getTxt().setInputType(InputType.TYPE_TEXT_FLAG_CAP_SENTENCES);
     this.getTxt().setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
   }
 

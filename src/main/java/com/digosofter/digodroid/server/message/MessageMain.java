@@ -16,11 +16,14 @@ import com.digosofter.digojava.json.Json;
 import com.digosofter.digojava.log.Log;
 
 import java.lang.reflect.ParameterizedType;
+import java.util.ArrayList;
+import java.util.List;
 
 public abstract class MessageMain<T extends RespostaMain> implements Response.Listener, Response.ErrorListener
 {
   private transient Class<T> _clsResposta;
   private int _intTimeOut;
+  private List<OnMsgRespostaListener> _lstEvtOnMsgRespostaListener;
   private transient T _rsp;
   private transient ServerHttpSincMain _srvHttpSinc;
   private String _strAparelhoId;
@@ -28,6 +31,46 @@ public abstract class MessageMain<T extends RespostaMain> implements Response.Li
   protected MessageMain()
   {
     this.iniciar();
+  }
+
+  public void addEvtOnMsgRespostaListener(OnMsgRespostaListener evt)
+  {
+    if (evt == null)
+    {
+      return;
+    }
+
+    if (this.getLstEvtOnMsgRespostaListener().contains(evt))
+    {
+      return;
+    }
+
+    this.getLstEvtOnMsgRespostaListener().add(evt);
+  }
+
+  private void dispararEvtOnMsgRespostaListener(final boolean booErro)
+  {
+    if (this.getLstEvtOnMsgRespostaListener().isEmpty())
+    {
+      return;
+    }
+
+    for (OnMsgRespostaListener evt : this.getLstEvtOnMsgRespostaListener())
+    {
+      if (evt == null)
+      {
+        continue;
+      }
+
+      if (booErro)
+      {
+        evt.onRespostaErro(this);
+      }
+      else
+      {
+        evt.onRespostaSucesso(this);
+      }
+    }
   }
 
   private Class<T> getClsResposta()
@@ -67,6 +110,18 @@ public abstract class MessageMain<T extends RespostaMain> implements Response.Li
     _intTimeOut = (15 * 1000);
 
     return _intTimeOut;
+  }
+
+  private List<OnMsgRespostaListener> getLstEvtOnMsgRespostaListener()
+  {
+    if (_lstEvtOnMsgRespostaListener != null)
+    {
+      return _lstEvtOnMsgRespostaListener;
+    }
+
+    _lstEvtOnMsgRespostaListener = new ArrayList<>();
+
+    return _lstEvtOnMsgRespostaListener;
   }
 
   protected T getRsp()
@@ -115,6 +170,8 @@ public abstract class MessageMain<T extends RespostaMain> implements Response.Li
         finally
         {
           MessageMain.this.getSrvHttpSinc().removerMsgPendente(MessageMain.this);
+
+          MessageMain.this.dispararEvtOnMsgRespostaListener(true);
         }
       }
     });
@@ -179,6 +236,8 @@ public abstract class MessageMain<T extends RespostaMain> implements Response.Li
         finally
         {
           MessageMain.this.getSrvHttpSinc().removerMsgPendente(MessageMain.this);
+
+          MessageMain.this.dispararEvtOnMsgRespostaListener(false);
         }
       }
     });
@@ -220,6 +279,16 @@ public abstract class MessageMain<T extends RespostaMain> implements Response.Li
   }
 
   protected abstract void onResposta(final T rsp);
+
+  public void removerEvtOnMsgRespostaListener(OnMsgRespostaListener evt)
+  {
+    if (evt == null)
+    {
+      return;
+    }
+
+    this.getLstEvtOnMsgRespostaListener().remove(evt);
+  }
 
   private void setRsp(T rsp)
   {

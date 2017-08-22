@@ -731,6 +731,11 @@ public class ActConsulta extends ActMain implements OnTblChangeListener, TextWat
       return;
     }
 
+    if (!this.getTbl().getBooPermitirAdicionar())
+    {
+      return;
+    }
+
     MenuItem mni = mnu.add(TblAndroidMain.STR_MENU_ADICIONAR);
 
     mni.setIcon(R.drawable.adicionar);

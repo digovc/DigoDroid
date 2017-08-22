@@ -1438,7 +1438,7 @@ public abstract class TblAndroidMain<T extends DominioAndroidMain> extends Tabel
 
     sql = sql.replace("_tbl_nome", this.getSqlNome());
 
-    sql = sql.replace("_where", this.getSqlWhere(this.getLstFilConsulta()));
+    sql = sql.replace("_where", this.getSqlWhere(lstFilConsultaTemp));
 
     sql = sql.replace("order by _order_by", (!Utils.getBooStrVazia(this.getSqlOrderBy()) ? "order by _order_by" : Utils.STR_VAZIA));
 

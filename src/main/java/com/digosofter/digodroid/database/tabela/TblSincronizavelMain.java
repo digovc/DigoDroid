@@ -508,16 +508,16 @@ public abstract class TblSincronizavelMain<T extends DominioSincronizavelMain> e
     this.sincronizarReceber();
   }
 
-  public void sincronizarEnviar(final ServerHttpSincMain srvHttpSinc)
+  public MsgSalvar sincronizarEnviar(final ServerHttpSincMain srvHttpSinc)
   {
     if (srvHttpSinc == null)
     {
-      return;
+      return null;
     }
 
     if (!this.sincronizarEnviarValidar())
     {
-      return;
+      return null;
     }
 
     this.sincronizarEnviarDependencia(srvHttpSinc);
@@ -526,12 +526,12 @@ public abstract class TblSincronizavelMain<T extends DominioSincronizavelMain> e
 
     if (lstObjDominio == null)
     {
-      return;
+      return null;
     }
 
     if (lstObjDominio.isEmpty())
     {
-      return;
+      return null;
     }
 
     for (T objDominio : lstObjDominio)
@@ -545,6 +545,8 @@ public abstract class TblSincronizavelMain<T extends DominioSincronizavelMain> e
     msgSalvar.setTbl(this);
 
     srvHttpSinc.enviar(msgSalvar);
+
+    return msgSalvar;
   }
 
   private void sincronizarEnviarDependencia(final ServerHttpSincMain srvHttpSinc)
