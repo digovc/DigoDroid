@@ -18,7 +18,7 @@ import com.digosofter.digodroid.database.dominio.DominioAndroidMain;
 import com.digosofter.digodroid.database.tabela.TblReservaCodigo;
 import com.digosofter.digojava.Utils;
 import com.digosofter.digojava.Utils.EnmDataFormato;
-import com.digosofter.digojava.database.Coluna;
+import com.digosofter.digojava.database.ColunaMain;
 import com.digosofter.digojava.database.Filtro;
 import com.digosofter.digojava.database.OnChangeArg;
 import com.digosofter.digojava.database.TabelaMain;
@@ -297,7 +297,7 @@ public abstract class TblAndroidMain<T extends DominioAndroidMain> extends Tabel
 
     this.bloquearThread();
 
-    for (Coluna cln : this.getLstCln())
+    for (ColunaMain cln : this.getLstCln())
     {
       cln.setStrValor(crs.getString(crs.getColumnIndex(cln.getSqlNome())));
     }
@@ -326,7 +326,7 @@ public abstract class TblAndroidMain<T extends DominioAndroidMain> extends Tabel
       return null;
     }
 
-    for (Coluna cln : this.getLstCln())
+    for (ColunaMain cln : this.getLstCln())
     {
       if (cln == null)
       {
@@ -400,7 +400,7 @@ public abstract class TblAndroidMain<T extends DominioAndroidMain> extends Tabel
       return;
     }
 
-    for (Coluna cln : this.getLstCln())
+    for (ColunaMain cln : this.getLstCln())
     {
       if (this.carregarLstFilConsultaClnRef(actConsulta, lstFilConsulta, cln))
       {
@@ -412,7 +412,7 @@ public abstract class TblAndroidMain<T extends DominioAndroidMain> extends Tabel
     lstFilConsulta.add(new Filtro(this.getClnIntId(), -1));
   }
 
-  private boolean carregarLstFilConsultaClnRef(final ActConsulta actConsulta, final List<Filtro> lstFilConsulta, final Coluna cln)
+  private boolean carregarLstFilConsultaClnRef(final ActConsulta actConsulta, final List<Filtro> lstFilConsulta, final ColunaMain cln)
   {
     if (cln == null)
     {
@@ -446,7 +446,7 @@ public abstract class TblAndroidMain<T extends DominioAndroidMain> extends Tabel
       return;
     }
 
-    for (Coluna cln : this.getLstCln())
+    for (ColunaMain cln : this.getLstCln())
     {
       if (cln == null)
       {
@@ -660,7 +660,7 @@ public abstract class TblAndroidMain<T extends DominioAndroidMain> extends Tabel
       return _clnBooAtivo;
     }
 
-    _clnBooAtivo = new ColunaAndroid("boo_ativo", Coluna.EnmTipo.BOOLEAN);
+    _clnBooAtivo = new ColunaAndroid("boo_ativo", ColunaMain.EnmTipo.BOOLEAN);
 
     return _clnBooAtivo;
   }
@@ -672,7 +672,7 @@ public abstract class TblAndroidMain<T extends DominioAndroidMain> extends Tabel
       return _clnDttAlteracao;
     }
 
-    _clnDttAlteracao = new ColunaAndroid("dtt_alteracao", Coluna.EnmTipo.DATE_TIME);
+    _clnDttAlteracao = new ColunaAndroid("dtt_alteracao", ColunaMain.EnmTipo.DATE_TIME);
 
     return _clnDttAlteracao;
   }
@@ -684,7 +684,7 @@ public abstract class TblAndroidMain<T extends DominioAndroidMain> extends Tabel
       return _clnDttCadastro;
     }
 
-    _clnDttCadastro = new ColunaAndroid("dtt_cadastro", Coluna.EnmTipo.DATE_TIME);
+    _clnDttCadastro = new ColunaAndroid("dtt_cadastro", ColunaMain.EnmTipo.DATE_TIME);
 
     return _clnDttCadastro;
   }
@@ -696,7 +696,7 @@ public abstract class TblAndroidMain<T extends DominioAndroidMain> extends Tabel
       return _clnIntId;
     }
 
-    _clnIntId = new ColunaAndroid("int_id", Coluna.EnmTipo.BIGINT);
+    _clnIntId = new ColunaAndroid("int_id", ColunaMain.EnmTipo.BIGINT);
 
     return _clnIntId;
   }
@@ -708,7 +708,7 @@ public abstract class TblAndroidMain<T extends DominioAndroidMain> extends Tabel
       return _clnIntUsuarioAlteracaoId;
     }
 
-    _clnIntUsuarioAlteracaoId = new ColunaAndroid("int_usuario_alteracao_id", Coluna.EnmTipo.BIGINT);
+    _clnIntUsuarioAlteracaoId = new ColunaAndroid("int_usuario_alteracao_id", ColunaMain.EnmTipo.BIGINT);
 
     return _clnIntUsuarioAlteracaoId;
   }
@@ -720,15 +720,15 @@ public abstract class TblAndroidMain<T extends DominioAndroidMain> extends Tabel
       return _clnIntUsuarioCadastroId;
     }
 
-    _clnIntUsuarioCadastroId = new ColunaAndroid("int_usuario_cadastro_id", Coluna.EnmTipo.BIGINT);
+    _clnIntUsuarioCadastroId = new ColunaAndroid("int_usuario_cadastro_id", ColunaMain.EnmTipo.BIGINT);
 
     return _clnIntUsuarioCadastroId;
   }
 
   /**
-   * Coluna que está marcada como pesquisa.
+   * ColunaMain que está marcada como pesquisa.
    *
-   * @return Coluna que está marcada como pesquisa.
+   * @return ColunaMain que está marcada como pesquisa.
    */
   public ColunaAndroid getClnPesquisa()
   {
@@ -749,7 +749,7 @@ public abstract class TblAndroidMain<T extends DominioAndroidMain> extends Tabel
       return _clnStrObservacao;
     }
 
-    _clnStrObservacao = new ColunaAndroid("str_observacao", Coluna.EnmTipo.TEXT);
+    _clnStrObservacao = new ColunaAndroid("str_observacao", ColunaMain.EnmTipo.TEXT);
 
     return _clnStrObservacao;
   }
@@ -777,7 +777,7 @@ public abstract class TblAndroidMain<T extends DominioAndroidMain> extends Tabel
     return _dbe;
   }
 
-  public List<Integer> getLstInt(Coluna cln, List<Filtro> lstFil)
+  public List<Integer> getLstInt(ColunaMain cln, List<Filtro> lstFil)
   {
     List<String> lstStr = this.getLstStr(cln, lstFil);
     List<Integer> lstIntResultado = new ArrayList<>();
@@ -800,7 +800,7 @@ public abstract class TblAndroidMain<T extends DominioAndroidMain> extends Tabel
     return lstIntResultado;
   }
 
-  public List<String> getLstStr(Coluna cln, List<Filtro> lstFil)
+  public List<String> getLstStr(ColunaMain cln, List<Filtro> lstFil)
   {
     Cursor crs = this.pesquisar(cln, lstFil);
     List<String> lstStrResultado = new ArrayList<>();
@@ -854,7 +854,7 @@ public abstract class TblAndroidMain<T extends DominioAndroidMain> extends Tabel
   {
     StringBuilder stbResultado = new StringBuilder();
 
-    for (Coluna cln : this.getLstCln())
+    for (ColunaMain cln : this.getLstCln())
     {
       if (cln == null)
       {
@@ -874,11 +874,11 @@ public abstract class TblAndroidMain<T extends DominioAndroidMain> extends Tabel
 
   private String getSqlClnSelect()
   {
-    List<Coluna> lstClnAdicionada = new ArrayList<>();
+    List<ColunaMain> lstClnAdicionada = new ArrayList<>();
 
     StringBuilder stbResultado = new StringBuilder();
 
-    for (Coluna cln : this.getLstClnConsulta())
+    for (ColunaMain cln : this.getLstClnConsulta())
     {
       if (cln == null)
       {
@@ -893,7 +893,7 @@ public abstract class TblAndroidMain<T extends DominioAndroidMain> extends Tabel
     return stbResultado.toString().replace(" null", Utils.STR_VAZIA);
   }
 
-  private void getSqlClnSelect(List<Coluna> lstClnAdicionada, Coluna cln, final StringBuilder stb)
+  private void getSqlClnSelect(List<ColunaMain> lstClnAdicionada, ColunaMain cln, final StringBuilder stb)
   {
     if (cln == null)
     {
@@ -915,7 +915,7 @@ public abstract class TblAndroidMain<T extends DominioAndroidMain> extends Tabel
     stb.append(cln.getSqlSubSelect());
   }
 
-  private String getSqlClnSelect(List<Coluna> lstCln)
+  private String getSqlClnSelect(List<ColunaMain> lstCln)
   {
     if (lstCln == null)
     {
@@ -929,7 +929,7 @@ public abstract class TblAndroidMain<T extends DominioAndroidMain> extends Tabel
 
     StringBuilder stbResultado = new StringBuilder();
 
-    for (Coluna cln : lstCln)
+    for (ColunaMain cln : lstCln)
     {
       if (cln == null)
       {
@@ -946,7 +946,7 @@ public abstract class TblAndroidMain<T extends DominioAndroidMain> extends Tabel
   {
     StringBuilder stbResultado = new StringBuilder();
 
-    for (Coluna cln : this.getLstCln())
+    for (ColunaMain cln : this.getLstCln())
     {
       if (cln == null)
       {
@@ -968,7 +968,7 @@ public abstract class TblAndroidMain<T extends DominioAndroidMain> extends Tabel
   {
     StringBuilder stbResultado = new StringBuilder();
 
-    for (Coluna cln : this.getLstCln())
+    for (ColunaMain cln : this.getLstCln())
     {
       if (cln == null)
       {
@@ -1090,19 +1090,11 @@ public abstract class TblAndroidMain<T extends DominioAndroidMain> extends Tabel
     this.getClnStrObservacao().setStrNomeExibicao("Observação");
   }
 
-  public void inicializarLstViw()
-  {
-    for (ViewAndroid viw : this.getLstViw())
-    {
-      viw.iniciar(this);
-    }
-  }
-
   protected void inicializarLstViw(final List<ViewAndroid> lstViw)
   {
   }
 
-  void inicializarViw()
+  void inicializarLstViw()
   {
     for (ViewAndroid viw : this.getLstViw())
     {
@@ -1119,7 +1111,7 @@ public abstract class TblAndroidMain<T extends DominioAndroidMain> extends Tabel
       return;
     }
 
-    for (Coluna cln : this.getLstCln())
+    for (ColunaMain cln : this.getLstCln())
     {
       if (cln == null)
       {
@@ -1164,13 +1156,13 @@ public abstract class TblAndroidMain<T extends DominioAndroidMain> extends Tabel
       return;
     }
 
-    for (Coluna cln : this.getLstClnOrdenado())
+    for (ColunaMain cln : this.getLstClnOrdenado())
     {
       this.montarMenuCampoColuna(smn, cln);
     }
   }
 
-  protected void montarMenuCampoColuna(final SubMenu smn, final Coluna cln)
+  protected void montarMenuCampoColuna(final SubMenu smn, final ColunaMain cln)
   {
     if (cln == null)
     {
@@ -1269,7 +1261,7 @@ public abstract class TblAndroidMain<T extends DominioAndroidMain> extends Tabel
 
     ((ColunaAndroid) this.getClnNome()).montarMenuOrdenar(smn);
 
-    for (Coluna cln : this.getLstClnConsulta())
+    for (ColunaMain cln : this.getLstClnConsulta())
     {
       if (cln == null)
       {
@@ -1296,14 +1288,14 @@ public abstract class TblAndroidMain<T extends DominioAndroidMain> extends Tabel
 
     this.getMniOrdemDecrescente().setCheckable(true);
 
-    for (Coluna cln : this.getLstClnOrdem())
+    for (ColunaMain cln : this.getLstClnOrdem())
     {
-      if (Coluna.EnmOrdem.NONE.equals(cln.getEnmOrdem()))
+      if (ColunaMain.EnmOrdem.NONE.equals(cln.getEnmOrdem()))
       {
         continue;
       }
 
-      this.getMniOrdemDecrescente().setChecked(Coluna.EnmOrdem.DECRESCENTE.equals(cln.getEnmOrdem()));
+      this.getMniOrdemDecrescente().setChecked(ColunaMain.EnmOrdem.DECRESCENTE.equals(cln.getEnmOrdem()));
       return;
     }
   }
@@ -1335,7 +1327,7 @@ public abstract class TblAndroidMain<T extends DominioAndroidMain> extends Tabel
       return;
     }
 
-    for (Coluna cln : this.getLstClnOrdenado())
+    for (ColunaMain cln : this.getLstClnOrdenado())
     {
       if (cln == null)
       {
@@ -1356,40 +1348,40 @@ public abstract class TblAndroidMain<T extends DominioAndroidMain> extends Tabel
     return this.pesquisar(this.getClnIntId(), intId);
   }
 
-  public Cursor pesquisar(Coluna cln)
+  public Cursor pesquisar(ColunaMain cln)
   {
-    List<Coluna> lstCln = new ArrayList<>();
+    List<ColunaMain> lstCln = new ArrayList<>();
 
     lstCln.add(cln);
 
     return this.pesquisar(lstCln, null);
   }
 
-  public Cursor pesquisar(Coluna clnFiltro, boolean booFiltro)
+  public Cursor pesquisar(ColunaMain clnFiltro, boolean booFiltro)
   {
     return this.pesquisar(clnFiltro, (booFiltro ? 1 : 0));
   }
 
-  public Cursor pesquisar(Coluna clnFiltro, double dblFiltro)
+  public Cursor pesquisar(ColunaMain clnFiltro, double dblFiltro)
   {
     return this.pesquisar(clnFiltro, String.valueOf(dblFiltro));
   }
 
-  public Cursor pesquisar(Coluna clnFiltro, int intFiltro)
+  public Cursor pesquisar(ColunaMain clnFiltro, int intFiltro)
   {
     return this.pesquisar(clnFiltro, (double) intFiltro);
   }
 
-  public Cursor pesquisar(Coluna cln, List<Filtro> lstFil)
+  public Cursor pesquisar(ColunaMain cln, List<Filtro> lstFil)
   {
-    List<Coluna> lstCln = new ArrayList<>();
+    List<ColunaMain> lstCln = new ArrayList<>();
 
     lstCln.add(cln);
 
     return this.pesquisar(lstCln, lstFil);
   }
 
-  public Cursor pesquisar(Coluna clnFiltro, String strFiltro)
+  public Cursor pesquisar(ColunaMain clnFiltro, String strFiltro)
   {
     List<Filtro> lstFil = new ArrayList<>();
 
@@ -1398,7 +1390,7 @@ public abstract class TblAndroidMain<T extends DominioAndroidMain> extends Tabel
     return this.pesquisar(lstFil);
   }
 
-  public Cursor pesquisar(List<Coluna> lstCln, List<Filtro> lstFil)
+  public Cursor pesquisar(List<ColunaMain> lstCln, List<Filtro> lstFil)
   {
     String sql = "select _clns_nome from _tbl_nome _where order by _order_by;";
 
@@ -1481,17 +1473,17 @@ public abstract class TblAndroidMain<T extends DominioAndroidMain> extends Tabel
     return lstResultado;
   }
 
-  public List<T> pesquisarDominio(Coluna clnFiltro, boolean booFiltro)
+  public List<T> pesquisarDominio(ColunaMain clnFiltro, boolean booFiltro)
   {
     return this.pesquisarDominio(clnFiltro, (booFiltro ? 1 : 0));
   }
 
-  public List<T> pesquisarDominio(Coluna clnFiltro, double dblFiltro)
+  public List<T> pesquisarDominio(ColunaMain clnFiltro, double dblFiltro)
   {
     return this.pesquisarDominio(clnFiltro, String.valueOf(dblFiltro));
   }
 
-  public List<T> pesquisarDominio(Coluna clnFiltro, GregorianCalendar dttFiltro)
+  public List<T> pesquisarDominio(ColunaMain clnFiltro, GregorianCalendar dttFiltro)
   {
     if (dttFiltro == null)
     {
@@ -1501,12 +1493,12 @@ public abstract class TblAndroidMain<T extends DominioAndroidMain> extends Tabel
     return this.pesquisarDominio(clnFiltro, Utils.getStrDataFormatada(dttFiltro, EnmDataFormato.YYYY_MM_DD_HH_MM_SS));
   }
 
-  public List<T> pesquisarDominio(Coluna clnFiltro, int intFiltro)
+  public List<T> pesquisarDominio(ColunaMain clnFiltro, int intFiltro)
   {
     return this.pesquisarDominio(clnFiltro, (double) intFiltro);
   }
 
-  public List<T> pesquisarDominio(Coluna clnFiltro, String strFiltro)
+  public List<T> pesquisarDominio(ColunaMain clnFiltro, String strFiltro)
   {
     return this.pesquisarDominio(new Filtro(clnFiltro, strFiltro));
   }
@@ -1629,7 +1621,7 @@ public abstract class TblAndroidMain<T extends DominioAndroidMain> extends Tabel
       return false;
     }
 
-    for (Coluna cln : this.getLstCln())
+    for (ColunaMain cln : this.getLstCln())
     {
       if (this.processarMenuCampo(act, mni, cln))
       {
@@ -1640,7 +1632,7 @@ public abstract class TblAndroidMain<T extends DominioAndroidMain> extends Tabel
     return false;
   }
 
-  private boolean processarMenuCampo(final ActMain act, final MenuItem mni, final Coluna cln)
+  private boolean processarMenuCampo(final ActMain act, final MenuItem mni, final ColunaMain cln)
   {
     if (cln == null)
     {
@@ -1785,7 +1777,7 @@ public abstract class TblAndroidMain<T extends DominioAndroidMain> extends Tabel
       return false;
     }
 
-    for (Coluna cln : this.getLstCln())
+    for (ColunaMain cln : this.getLstCln())
     {
       if (cln == null)
       {
@@ -1814,14 +1806,14 @@ public abstract class TblAndroidMain<T extends DominioAndroidMain> extends Tabel
 
     this.getMniOrdemDecrescente().setChecked(!this.getMniOrdemDecrescente().isChecked());
 
-    for (Coluna cln : this.getLstCln())
+    for (ColunaMain cln : this.getLstCln())
     {
-      if (Coluna.EnmOrdem.NONE.equals(cln.getEnmOrdem()))
+      if (ColunaMain.EnmOrdem.NONE.equals(cln.getEnmOrdem()))
       {
         continue;
       }
 
-      cln.setEnmOrdem(this.getMniOrdemDecrescente().isChecked() ? Coluna.EnmOrdem.DECRESCENTE : Coluna.EnmOrdem.CRESCENTE);
+      cln.setEnmOrdem(this.getMniOrdemDecrescente().isChecked() ? ColunaMain.EnmOrdem.DECRESCENTE : ColunaMain.EnmOrdem.CRESCENTE);
       break;
     }
 
@@ -1847,7 +1839,7 @@ public abstract class TblAndroidMain<T extends DominioAndroidMain> extends Tabel
       return false;
     }
 
-    for (Coluna cln : this.getLstCln())
+    for (ColunaMain cln : this.getLstCln())
     {
       if (cln == null)
       {
@@ -1874,17 +1866,17 @@ public abstract class TblAndroidMain<T extends DominioAndroidMain> extends Tabel
     return false;
   }
 
-  public TblAndroidMain recuperar(Coluna clnFiltro, boolean booFiltro)
+  public TblAndroidMain recuperar(ColunaMain clnFiltro, boolean booFiltro)
   {
     return this.recuperar(clnFiltro, (booFiltro ? 1 : 0));
   }
 
-  public TblAndroidMain recuperar(Coluna clnFiltro, double dblFiltro)
+  public TblAndroidMain recuperar(ColunaMain clnFiltro, double dblFiltro)
   {
     return this.recuperar(clnFiltro, String.valueOf(dblFiltro));
   }
 
-  public TblAndroidMain recuperar(Coluna clnFiltro, GregorianCalendar dttFiltro)
+  public TblAndroidMain recuperar(ColunaMain clnFiltro, GregorianCalendar dttFiltro)
   {
     if (dttFiltro == null)
     {
@@ -1896,12 +1888,12 @@ public abstract class TblAndroidMain<T extends DominioAndroidMain> extends Tabel
     return this;
   }
 
-  public TblAndroidMain recuperar(Coluna clnFiltro, int intFiltro)
+  public TblAndroidMain recuperar(ColunaMain clnFiltro, int intFiltro)
   {
     return this.recuperar(clnFiltro, (double) intFiltro);
   }
 
-  public TblAndroidMain recuperar(Coluna clnFiltro, String strFiltro)
+  public TblAndroidMain recuperar(ColunaMain clnFiltro, String strFiltro)
   {
     return this.recuperar(new Filtro(clnFiltro, strFiltro));
   }
@@ -1951,17 +1943,17 @@ public abstract class TblAndroidMain<T extends DominioAndroidMain> extends Tabel
     return this;
   }
 
-  public T recuperarDominio(Coluna clnFiltro, boolean booFiltro)
+  public T recuperarDominio(ColunaMain clnFiltro, boolean booFiltro)
   {
     return this.recuperarDominio(clnFiltro, (booFiltro ? 1 : 0));
   }
 
-  public T recuperarDominio(Coluna clnFiltro, double dblFiltro)
+  public T recuperarDominio(ColunaMain clnFiltro, double dblFiltro)
   {
     return this.recuperarDominio(clnFiltro, String.valueOf(dblFiltro));
   }
 
-  public T recuperarDominio(Coluna clnFiltro, GregorianCalendar dttFiltro)
+  public T recuperarDominio(ColunaMain clnFiltro, GregorianCalendar dttFiltro)
   {
     if (dttFiltro == null)
     {
@@ -1971,12 +1963,12 @@ public abstract class TblAndroidMain<T extends DominioAndroidMain> extends Tabel
     return this.recuperarDominio(clnFiltro, Utils.getStrDataFormatada(dttFiltro, EnmDataFormato.YYYY_MM_DD_HH_MM_SS));
   }
 
-  public T recuperarDominio(Coluna clnFiltro, int intFiltro)
+  public T recuperarDominio(ColunaMain clnFiltro, int intFiltro)
   {
     return this.recuperarDominio(clnFiltro, (double) intFiltro);
   }
 
-  public T recuperarDominio(Coluna clnFiltro, String strFiltro)
+  public T recuperarDominio(ColunaMain clnFiltro, String strFiltro)
   {
     return this.recuperarDominio(new Filtro(clnFiltro, strFiltro));
   }
@@ -2107,7 +2099,7 @@ public abstract class TblAndroidMain<T extends DominioAndroidMain> extends Tabel
   /**
    * Indica a coluna que será utilizada como pesquisa.
    *
-   * @param clnPesquisa Coluna que será utilizada como pesquisa.
+   * @param clnPesquisa ColunaMain que será utilizada como pesquisa.
    */
   void setClnPesquisa(ColunaAndroid clnPesquisa)
   {
@@ -2142,7 +2134,7 @@ public abstract class TblAndroidMain<T extends DominioAndroidMain> extends Tabel
    */
   public boolean validarDados(final ActCadastroMain act)
   {
-    for (Coluna cln : this.getLstCln())
+    for (ColunaMain cln : this.getLstCln())
     {
       if (cln == null)
       {

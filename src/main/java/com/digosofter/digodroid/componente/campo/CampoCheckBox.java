@@ -24,6 +24,15 @@ public class CampoCheckBox extends CampoMain
     super(cnt, atr, intDefStyleAttr);
   }
 
+  @Override
+  public void finalizar()
+  {
+    super.finalizar();
+
+    this.getLayoutParams().height = LayoutParams.WRAP_CONTENT;
+    this.getLayoutParams().width = LayoutParams.MATCH_PARENT;
+  }
+
   private CheckBoxGeral getCkb()
   {
     if (_ckb != null)
@@ -41,12 +50,8 @@ public class CampoCheckBox extends CampoMain
   {
     super.inicializar();
 
-    this.inicializarCkb();
-  }
-
-  private void inicializarCkb()
-  {
-    this.getCkb().setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
+    this.getCkb().setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.MATCH_PARENT));
+    this.getLblTitulo().setVisibility(GONE);
   }
 
   @Override
@@ -69,5 +74,14 @@ public class CampoCheckBox extends CampoMain
     super.setBooSomenteLeitura(booSomenteLeitura);
 
     this.getCkb().setEnabled(booSomenteLeitura);
+  }
+
+  @Override
+  public void setStrTitulo(final String strTitulo)
+  {
+    super.setStrTitulo(strTitulo);
+
+    this.getCkb().setText(strTitulo);
+    this.getLblTitulo().setText(null);
   }
 }

@@ -5,7 +5,7 @@ import com.digosofter.digodroid.database.TblAndroidMain;
 import com.digosofter.digodroid.database.dominio.DominioAndroidMain;
 import com.digosofter.digodroid.server.message.RspPesquisar;
 import com.digosofter.digojava.Utils;
-import com.digosofter.digojava.database.Coluna;
+import com.digosofter.digojava.database.ColunaMain;
 import com.digosofter.digojava.database.Filtro;
 
 import java.util.ArrayList;
@@ -43,7 +43,7 @@ public class TblSincronizacaoRecebimento extends TblAndroidMain<DominioAndroidMa
       return _clnBooSincCompleto;
     }
 
-    _clnBooSincCompleto = new ColunaAndroid("boo_sinc_completo", Coluna.EnmTipo.BOOLEAN);
+    _clnBooSincCompleto = new ColunaAndroid("boo_sinc_completo", ColunaMain.EnmTipo.BOOLEAN);
 
     return _clnBooSincCompleto;
   }
@@ -55,7 +55,7 @@ public class TblSincronizacaoRecebimento extends TblAndroidMain<DominioAndroidMa
       return _clnDttRecebimento;
     }
 
-    _clnDttRecebimento = new ColunaAndroid("dtt_recebimento", Coluna.EnmTipo.DATE_TIME);
+    _clnDttRecebimento = new ColunaAndroid("dtt_recebimento", ColunaMain.EnmTipo.DATE_TIME);
 
     return _clnDttRecebimento;
   }
@@ -67,7 +67,7 @@ public class TblSincronizacaoRecebimento extends TblAndroidMain<DominioAndroidMa
       return _clnIntRegistroQuantidade;
     }
 
-    _clnIntRegistroQuantidade = new ColunaAndroid("int_registro_quantidade", Coluna.EnmTipo.INTEGER);
+    _clnIntRegistroQuantidade = new ColunaAndroid("int_registro_quantidade", ColunaMain.EnmTipo.INTEGER);
 
     return _clnIntRegistroQuantidade;
   }
@@ -79,9 +79,15 @@ public class TblSincronizacaoRecebimento extends TblAndroidMain<DominioAndroidMa
       return _clnIntServerSincronizacaoId;
     }
 
-    _clnIntServerSincronizacaoId = new ColunaAndroid("int_sincronizacao_id", Coluna.EnmTipo.BIGINT);
+    _clnIntServerSincronizacaoId = new ColunaAndroid("int_sincronizacao_id", ColunaMain.EnmTipo.BIGINT);
 
     return _clnIntServerSincronizacaoId;
+  }
+
+  @Override
+  public ColunaMain getClnNome()
+  {
+    return this.getClnStrTabelaNomeExibicao();
   }
 
   private ColunaAndroid getClnSqlTabelaNome()
@@ -91,7 +97,7 @@ public class TblSincronizacaoRecebimento extends TblAndroidMain<DominioAndroidMa
       return _clnSqlTabelaNome;
     }
 
-    _clnSqlTabelaNome = new ColunaAndroid("sql_tabela_nome", Coluna.EnmTipo.TEXT);
+    _clnSqlTabelaNome = new ColunaAndroid("sql_tabela_nome", ColunaMain.EnmTipo.TEXT);
 
     return _clnSqlTabelaNome;
   }
@@ -103,7 +109,7 @@ public class TblSincronizacaoRecebimento extends TblAndroidMain<DominioAndroidMa
       return _clnStrCritica;
     }
 
-    _clnStrCritica = new ColunaAndroid("str_critica", Coluna.EnmTipo.TEXT);
+    _clnStrCritica = new ColunaAndroid("str_critica", ColunaMain.EnmTipo.TEXT);
 
     return _clnStrCritica;
   }
@@ -115,7 +121,7 @@ public class TblSincronizacaoRecebimento extends TblAndroidMain<DominioAndroidMa
       return _clnStrTabelaNomeExibicao;
     }
 
-    _clnStrTabelaNomeExibicao = new ColunaAndroid("str_tabela_nome_exibicao", Coluna.EnmTipo.TEXT);
+    _clnStrTabelaNomeExibicao = new ColunaAndroid("str_tabela_nome_exibicao", ColunaMain.EnmTipo.TEXT);
 
     return _clnStrTabelaNomeExibicao;
   }
@@ -134,7 +140,7 @@ public class TblSincronizacaoRecebimento extends TblAndroidMain<DominioAndroidMa
 
     this.limparOrdem();
 
-    this.getClnIntId().setEnmOrdem(Coluna.EnmOrdem.DECRESCENTE);
+    this.getClnIntId().setEnmOrdem(ColunaMain.EnmOrdem.DECRESCENTE);
 
     List<Filtro> lstFil = new ArrayList<>();
 
@@ -181,7 +187,7 @@ public class TblSincronizacaoRecebimento extends TblAndroidMain<DominioAndroidMa
 
     this.getClnDttCadastro().setBooVisivelConsulta(true);
 
-    this.getClnIntId().setEnmOrdem(Coluna.EnmOrdem.DECRESCENTE);
+    this.getClnIntId().setEnmOrdem(ColunaMain.EnmOrdem.DECRESCENTE);
 
     this.getClnIntRegistroQuantidade().setBooVisivelConsulta(true);
     this.getClnIntRegistroQuantidade().setStrNomeExibicao("Registro (quantidade)");
@@ -192,12 +198,11 @@ public class TblSincronizacaoRecebimento extends TblAndroidMain<DominioAndroidMa
 
     this.getClnStrCritica().setStrNomeExibicao("Crítica");
 
-    this.getClnStrTabelaNomeExibicao().setBooNome(true);
     this.getClnStrTabelaNomeExibicao().setStrNomeExibicao("Tabela");
   }
 
   @Override
-  protected void inicializarLstCln(List<Coluna> lstCln)
+  protected void inicializarLstCln(List<ColunaMain> lstCln)
   {
     super.inicializarLstCln(lstCln);
 

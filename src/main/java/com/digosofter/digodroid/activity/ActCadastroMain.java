@@ -14,7 +14,7 @@ import com.digosofter.digodroid.database.ColunaAndroid;
 import com.digosofter.digodroid.database.TblAndroidMain;
 import com.digosofter.digodroid.log.LogErro;
 import com.digosofter.digojava.Utils;
-import com.digosofter.digojava.database.Coluna;
+import com.digosofter.digojava.database.ColunaMain;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -99,7 +99,7 @@ public abstract class ActCadastroMain extends ActMain
         this.getTbl().getClnIntUsuarioCadastroId().setIntValor(this.getIntUsuarioId());
       }
 
-      for (Coluna cln : this.getTbl().getLstCln())
+      for (ColunaMain cln : this.getTbl().getLstCln())
       {
         this.carregarDados((ColunaAndroid) cln);
       }
@@ -350,7 +350,7 @@ public abstract class ActCadastroMain extends ActMain
       return;
     }
 
-    Coluna cln = this.getTbl().getCln(cmp.getStrClnNomeSql());
+    ColunaMain cln = this.getTbl().getCln(cmp.getStrClnNomeSql());
 
     if (cln == null)
     {
@@ -605,7 +605,7 @@ public abstract class ActCadastroMain extends ActMain
 
     if (!booResultado)
     {
-      LogErro.getI().addLog(this, new Exception("Este aparelho não possui reserva de código para adicionar novos registros nesta tabela. Favor sincronizar os dados para prosseguir."));
+      LogErro.getI().addLog(this, new Exception(String.format("Este aparelho não possui reserva de código para adicionar novos registros na tabela \"%s\". Favor sincronizar os dados para prosseguir.", this.getTbl().getSqlNome())));
     }
 
     return booResultado;

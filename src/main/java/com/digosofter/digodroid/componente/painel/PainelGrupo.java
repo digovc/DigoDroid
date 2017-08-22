@@ -58,11 +58,6 @@ public class PainelGrupo extends PainelGeral implements View.OnClickListener
     this.setBooAberto(booAbrir);
   }
 
-  private void atualizarStrTitulo(final String strTitulo)
-  {
-    this.getLblTitulo().setText((!Utils.getBooStrVazia(strTitulo)) ? strTitulo : "<desconhecido>");
-  }
-
   @Override
   public void finalizar()
   {
@@ -189,16 +184,24 @@ public class PainelGrupo extends PainelGeral implements View.OnClickListener
   {
     this.getLblTitulo().setGravity(Gravity.CENTER_VERTICAL);
     this.getLblTitulo().setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.MATCH_PARENT));
-    this.getLblTitulo().setTextColor(Color.WHITE);
+
+    if (!this.isInEditMode())
+    {
+      this.getLblTitulo().setTextColor(Color.WHITE);
+    }
   }
 
   private void inicializarPnlCabecalho()
   {
     int intPadding = UtilsAndroid.dpToPx(TemaDefault.getI().getIntEspacamento(), this.getContext());
 
-    this.getPnlCabecalho().setBackgroundColor(AppAndroid.getI().getObjTema().getCorTemaClaro());
     this.getPnlCabecalho().setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, UtilsAndroid.dpToPx(40, this.getContext())));
     this.getPnlCabecalho().setPadding(intPadding, 0, intPadding, 0);
+
+    if (!this.isInEditMode())
+    {
+      this.getPnlCabecalho().setBackgroundColor(AppAndroid.getI().getObjTema().getCorTemaClaro());
+    }
   }
 
   private void inicializarPnlConteudo()
@@ -245,13 +248,8 @@ public class PainelGrupo extends PainelGeral implements View.OnClickListener
 
   public void setStrTitulo(String strTitulo)
   {
-    if (_strTitulo == strTitulo)
-    {
-      return;
-    }
-
     _strTitulo = strTitulo;
 
-    this.atualizarStrTitulo(strTitulo);
+    this.getLblTitulo().setText((!Utils.getBooStrVazia(strTitulo)) ? strTitulo : "<desconhecido>");
   }
 }

@@ -1,13 +1,12 @@
 package com.digosofter.digodroid.database.tabela;
 
-import com.digosofter.digodroid.AppAndroid;
 import com.digosofter.digodroid.database.ColunaAndroid;
 import com.digosofter.digodroid.database.TblAndroidMain;
 import com.digosofter.digodroid.database.dominio.DominioAndroidMain;
 import com.digosofter.digodroid.database.dominio.DominioSincronizavelMain;
 import com.digosofter.digodroid.server.message.RspSalvar;
 import com.digosofter.digojava.Utils;
-import com.digosofter.digojava.database.Coluna;
+import com.digosofter.digojava.database.ColunaMain;
 
 import java.util.Calendar;
 import java.util.List;
@@ -42,7 +41,7 @@ public class TblSincronizacaoEnvio extends TblAndroidMain<DominioAndroidMain>
       return _clnBooSucesso;
     }
 
-    _clnBooSucesso = new ColunaAndroid("boo_sucesso", Coluna.EnmTipo.BOOLEAN);
+    _clnBooSucesso = new ColunaAndroid("boo_sucesso", ColunaMain.EnmTipo.BOOLEAN);
 
     return _clnBooSucesso;
   }
@@ -54,7 +53,7 @@ public class TblSincronizacaoEnvio extends TblAndroidMain<DominioAndroidMain>
       return _clnDttEnvio;
     }
 
-    _clnDttEnvio = new ColunaAndroid("dtt_envio", Coluna.EnmTipo.DATE_TIME);
+    _clnDttEnvio = new ColunaAndroid("dtt_envio", ColunaMain.EnmTipo.DATE_TIME);
 
     return _clnDttEnvio;
   }
@@ -66,9 +65,15 @@ public class TblSincronizacaoEnvio extends TblAndroidMain<DominioAndroidMain>
       return _clnIntRegistroId;
     }
 
-    _clnIntRegistroId = new ColunaAndroid("int_registro_id", Coluna.EnmTipo.BIGINT);
+    _clnIntRegistroId = new ColunaAndroid("int_registro_id", ColunaMain.EnmTipo.BIGINT);
 
     return _clnIntRegistroId;
+  }
+
+  @Override
+  public ColunaMain getClnNome()
+  {
+    return this.getclnStrTblNomeExibicao();
   }
 
   private ColunaAndroid getClnSqlTabelaNome()
@@ -78,7 +83,7 @@ public class TblSincronizacaoEnvio extends TblAndroidMain<DominioAndroidMain>
       return _ClnSqlTabelaNome;
     }
 
-    _ClnSqlTabelaNome = new ColunaAndroid("sql_tabela_nome", Coluna.EnmTipo.TEXT);
+    _ClnSqlTabelaNome = new ColunaAndroid("sql_tabela_nome", ColunaMain.EnmTipo.TEXT);
 
     return _ClnSqlTabelaNome;
   }
@@ -90,7 +95,7 @@ public class TblSincronizacaoEnvio extends TblAndroidMain<DominioAndroidMain>
       return _clnStrCritica;
     }
 
-    _clnStrCritica = new ColunaAndroid("str_critica", Coluna.EnmTipo.TEXT);
+    _clnStrCritica = new ColunaAndroid("str_critica", ColunaMain.EnmTipo.TEXT);
 
     return _clnStrCritica;
   }
@@ -102,7 +107,7 @@ public class TblSincronizacaoEnvio extends TblAndroidMain<DominioAndroidMain>
       return _clnStrTblNomeExibicao;
     }
 
-    _clnStrTblNomeExibicao = new ColunaAndroid("str_tabela_nome_exibicao", Coluna.EnmTipo.TEXT);
+    _clnStrTblNomeExibicao = new ColunaAndroid("str_tabela_nome_exibicao", ColunaMain.EnmTipo.TEXT);
 
     return _clnStrTblNomeExibicao;
   }
@@ -122,7 +127,7 @@ public class TblSincronizacaoEnvio extends TblAndroidMain<DominioAndroidMain>
 
     this.getClnDttEnvio().setBooVisivelConsulta(true);
 
-    this.getClnIntId().setEnmOrdem(Coluna.EnmOrdem.DECRESCENTE);
+    this.getClnIntId().setEnmOrdem(ColunaMain.EnmOrdem.DECRESCENTE);
 
     this.getClnIntRegistroId().setBooVisivelConsulta(true);
 
@@ -130,12 +135,11 @@ public class TblSincronizacaoEnvio extends TblAndroidMain<DominioAndroidMain>
 
     this.getClnStrCritica().setStrNomeExibicao("Crítica");
 
-    this.getclnStrTblNomeExibicao().setBooNome(true);
     this.getclnStrTblNomeExibicao().setStrNomeExibicao("Tabela");
   }
 
   @Override
-  protected void inicializarLstCln(final List<Coluna> lstCln)
+  protected void inicializarLstCln(final List<ColunaMain> lstCln)
   {
     super.inicializarLstCln(lstCln);
 
@@ -169,7 +173,7 @@ public class TblSincronizacaoEnvio extends TblAndroidMain<DominioAndroidMain>
       this.limparDados();
 
       this.getClnBooAtivo().setBooValor(true);
-      this.getClnBooSucesso().setBooValor(Coluna.STR_VALOR_NULO.equals(objDominio.getStrSincCritica()));
+      this.getClnBooSucesso().setBooValor(ColunaMain.STR_VALOR_NULO.equals(objDominio.getStrSincCritica()));
       this.getClnDttAlteracao().setDttValor(Calendar.getInstance());
       this.getClnDttCadastro().setDttValor(Calendar.getInstance());
       this.getClnDttEnvio().setDttValor(Calendar.getInstance());

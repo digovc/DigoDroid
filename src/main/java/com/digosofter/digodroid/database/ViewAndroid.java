@@ -4,7 +4,7 @@ import com.digosofter.digodroid.AppAndroid;
 import com.digosofter.digodroid.activity.ActMain;
 import com.digosofter.digodroid.database.dominio.DominioAndroidMain;
 import com.digosofter.digojava.Utils;
-import com.digosofter.digojava.database.Coluna;
+import com.digosofter.digojava.database.ColunaMain;
 import com.digosofter.digojava.database.OnChangeArg;
 
 import org.apache.commons.io.IOUtils;
@@ -83,7 +83,7 @@ public abstract class ViewAndroid extends TblAndroidMain<DominioAndroidMain>
       return _clnIntId;
     }
 
-    _clnIntId = new ColunaAndroid(this.getSqlClnIntIdNome(), Coluna.EnmTipo.BIGINT);
+    _clnIntId = new ColunaAndroid(this.getSqlClnIntIdNome(), ColunaMain.EnmTipo.BIGINT);
 
     return _clnIntId;
   }
@@ -153,7 +153,7 @@ public abstract class ViewAndroid extends TblAndroidMain<DominioAndroidMain>
   }
 
   @Override
-  protected void inicializarLstCln(List<Coluna> lstCln)
+  protected void inicializarLstCln(List<ColunaMain> lstCln)
   {
     // super.inicializarLstCln(intOrdem);
 
@@ -165,6 +165,17 @@ public abstract class ViewAndroid extends TblAndroidMain<DominioAndroidMain>
     this.setTbl(tbl);
 
     this.iniciar(tbl.getDbe());
+  }
+
+  @Override
+  protected void setClsActCadastro(final Class<? extends ActMain> clsActFrm)
+  {
+    super.setClsActCadastro(clsActFrm);
+
+    if (this.getTbl() != null)
+    {
+      this.getTbl().setClsActCadastro(clsActFrm);
+    }
   }
 
   @Override

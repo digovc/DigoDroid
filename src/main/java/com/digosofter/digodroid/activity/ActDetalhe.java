@@ -14,7 +14,7 @@ import com.digosofter.digodroid.database.Grupo;
 import com.digosofter.digodroid.database.TblAndroidMain;
 import com.digosofter.digodroid.log.LogErro;
 import com.digosofter.digojava.Utils;
-import com.digosofter.digojava.database.Coluna;
+import com.digosofter.digojava.database.ColunaMain;
 
 public class ActDetalhe extends ActMain
 {
@@ -216,7 +216,7 @@ public class ActDetalhe extends ActMain
       return;
     }
 
-    for (Coluna cln : this.getTbl().getLstCln())
+    for (ColunaMain cln : this.getTbl().getLstCln())
     {
       this.montarLayoutItem((ColunaAndroid) cln);
     }
@@ -234,7 +234,7 @@ public class ActDetalhe extends ActMain
       return;
     }
 
-    if (cln.getBooNome())
+    if (cln.equals(cln.getTbl().getClnNome()))
     {
       return;
     }

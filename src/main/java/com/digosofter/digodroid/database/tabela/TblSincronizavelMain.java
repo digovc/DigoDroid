@@ -17,7 +17,7 @@ import com.digosofter.digodroid.server.message.RspPesquisar;
 import com.digosofter.digodroid.server.message.RspSalvar;
 import com.digosofter.digodroid.service.SrvSincMain;
 import com.digosofter.digojava.Utils;
-import com.digosofter.digojava.database.Coluna;
+import com.digosofter.digojava.database.ColunaMain;
 import com.digosofter.digojava.database.Filtro;
 import com.digosofter.digojava.json.Json;
 import com.digosofter.digojava.log.Log;
@@ -56,7 +56,7 @@ public abstract class TblSincronizavelMain<T extends DominioSincronizavelMain> e
       return _clnBooSincronizado;
     }
 
-    _clnBooSincronizado = new ColunaAndroid("boo_sincronizado", Coluna.EnmTipo.BOOLEAN);
+    _clnBooSincronizado = new ColunaAndroid("boo_sincronizado", ColunaMain.EnmTipo.BOOLEAN);
 
     return _clnBooSincronizado;
   }
@@ -68,7 +68,7 @@ public abstract class TblSincronizavelMain<T extends DominioSincronizavelMain> e
       return _clnBooSincronizar;
     }
 
-    _clnBooSincronizar = new ColunaAndroid("boo_sincronizar", Coluna.EnmTipo.BOOLEAN);
+    _clnBooSincronizar = new ColunaAndroid("boo_sincronizar", ColunaMain.EnmTipo.BOOLEAN);
 
     return _clnBooSincronizar;
   }
@@ -80,7 +80,7 @@ public abstract class TblSincronizavelMain<T extends DominioSincronizavelMain> e
       return _clnIntReservaCodigoId;
     }
 
-    _clnIntReservaCodigoId = new ColunaAndroid("int_reserva_codigo_id", Coluna.EnmTipo.BIGINT);
+    _clnIntReservaCodigoId = new ColunaAndroid("int_reserva_codigo_id", ColunaMain.EnmTipo.BIGINT);
 
     return _clnIntReservaCodigoId;
   }
@@ -92,7 +92,7 @@ public abstract class TblSincronizavelMain<T extends DominioSincronizavelMain> e
       return _clnStrAparelhoId;
     }
 
-    _clnStrAparelhoId = new ColunaAndroid("str_aparelho_id", Coluna.EnmTipo.TEXT);
+    _clnStrAparelhoId = new ColunaAndroid("str_aparelho_id", ColunaMain.EnmTipo.TEXT);
 
     return _clnStrAparelhoId;
   }
@@ -104,7 +104,7 @@ public abstract class TblSincronizavelMain<T extends DominioSincronizavelMain> e
       return _clnStrSincCritica;
     }
 
-    _clnStrSincCritica = new ColunaAndroid("str_sinc_critica", Coluna.EnmTipo.TEXT);
+    _clnStrSincCritica = new ColunaAndroid("str_sinc_critica", ColunaMain.EnmTipo.TEXT);
 
     return _clnStrSincCritica;
   }
@@ -178,7 +178,7 @@ public abstract class TblSincronizavelMain<T extends DominioSincronizavelMain> e
   }
 
   @Override
-  protected void inicializarLstCln(List<Coluna> lstCln)
+  protected void inicializarLstCln(List<ColunaMain> lstCln)
   {
     super.inicializarLstCln(lstCln);
 
@@ -445,7 +445,7 @@ public abstract class TblSincronizavelMain<T extends DominioSincronizavelMain> e
     if (Utils.getBooStrVazia(objDominio.getStrSincCritica()))
     {
       objDominio.setBooSincronizado(true);
-      objDominio.setStrSincCritica(Coluna.STR_VALOR_NULO);
+      objDominio.setStrSincCritica(ColunaMain.STR_VALOR_NULO);
     }
     else
     {

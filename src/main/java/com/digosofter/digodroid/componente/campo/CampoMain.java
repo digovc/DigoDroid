@@ -66,18 +66,6 @@ public abstract class CampoMain extends PainelLinha implements OnDestroyListener
     this.getLstEvtOnValorAlteradoListener().add(evt);
   }
 
-  protected void atualizarCln(final ColunaAndroid cln)
-  {
-    if (cln == null)
-    {
-      return;
-    }
-
-    this.setStrTitulo(cln.getStrNomeExibicao());
-
-    cln.setCmp(this);
-  }
-
   public void carregarValorCln()
   {
     if (this.getCln() == null)
@@ -161,7 +149,7 @@ public abstract class CampoMain extends PainelLinha implements OnDestroyListener
     return _intValor = (int) this.getDblValor();
   }
 
-  private LabelGeral getLblTitulo()
+  protected LabelGeral getLblTitulo()
   {
     if (_lblTitulo != null)
     {
@@ -284,7 +272,9 @@ public abstract class CampoMain extends PainelLinha implements OnDestroyListener
 
     _cln = cln;
 
-    this.atualizarCln(_cln);
+    this.setStrTitulo(_cln.getStrNomeExibicao());
+
+    _cln.setCmp(this);
   }
 
   public void setDblValor(double dblValor)
@@ -345,11 +335,6 @@ public abstract class CampoMain extends PainelLinha implements OnDestroyListener
    */
   public void setStrTitulo(String strTitulo)
   {
-    if (Utils.getBooStrVazia(strTitulo))
-    {
-      return;
-    }
-
     _strTitulo = strTitulo;
 
     this.getLblTitulo().setText(_strTitulo);

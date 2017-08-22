@@ -8,14 +8,13 @@ import com.digosofter.digodroid.AppAndroid;
 import com.digosofter.digodroid.activity.ActCadastroMain;
 import com.digosofter.digodroid.componente.campo.CampoMain;
 import com.digosofter.digojava.Utils;
-import com.digosofter.digojava.database.Coluna;
-import com.digosofter.digojava.database.TabelaMain;
+import com.digosofter.digojava.database.ColunaMain;
 import com.digosofter.digojava.dominio.DominioMain;
 
 import java.lang.reflect.Field;
 import java.util.GregorianCalendar;
 
-public class ColunaAndroid extends Coluna
+public class ColunaAndroid extends ColunaMain
 {
   private boolean _booDominioFieldCarregado;
   private boolean _booPesquisa;
@@ -231,7 +230,8 @@ public class ColunaAndroid extends Coluna
     }
   }
 
-  private void criar()
+  @Override
+  protected void criar()
   {
     if (!this.getTbl().getBooRecemCriada())
     {
@@ -334,6 +334,11 @@ public class ColunaAndroid extends Coluna
       return Utils.STR_VAZIA;
     }
 
+    if (this.getClnRef().getTbl() == null)
+    {
+      return Utils.STR_VAZIA;
+    }
+
     String sql = "references _tbl_ref_nome(_cln_ref_nome) _on_update_cascade _on_delete_cascade";
 
     sql = sql.replace("_tbl_ref_nome", this.getClnRef().getTbl().getSqlNome());
@@ -374,14 +379,6 @@ public class ColunaAndroid extends Coluna
     }
   }
 
-  @Override
-  public void iniciar(final TabelaMain tbl)
-  {
-    super.iniciar(tbl);
-
-    this.criar();
-  }
-
   void montarMenuCampo(SubMenu smn)
   {
     if (smn == null)
@@ -394,7 +391,7 @@ public class ColunaAndroid extends Coluna
       return;
     }
 
-    if (this.getBooNome())
+    if (this.equals(this.getTbl().getClnNome()))
     {
       return;
     }
@@ -421,7 +418,7 @@ public class ColunaAndroid extends Coluna
       return;
     }
 
-    if (!this.getBooVisivelConsulta() && !this.getBooNome() && !(this.equals(this.getTbl().getClnIntId())))
+    if (!this.getBooVisivelConsulta() && !this.equals(this.getTbl().getClnNome()) && !(this.equals(this.getTbl().getClnIntId())))
     {
       return;
     }

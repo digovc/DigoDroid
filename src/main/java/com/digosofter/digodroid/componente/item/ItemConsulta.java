@@ -17,7 +17,7 @@ import com.digosofter.digodroid.componente.painel.PainelRipple;
 import com.digosofter.digodroid.database.ColunaAndroid;
 import com.digosofter.digodroid.database.TblAndroidMain;
 import com.digosofter.digojava.Utils;
-import com.digosofter.digojava.database.Coluna;
+import com.digosofter.digojava.database.ColunaMain;
 
 public class ItemConsulta extends ItemMain implements View.OnClickListener, View.OnLongClickListener
 {
@@ -113,7 +113,7 @@ public class ItemConsulta extends ItemMain implements View.OnClickListener, View
       return;
     }
 
-    for (Coluna cln : this.getTbl().getLstClnConsulta())
+    for (ColunaMain cln : this.getTbl().getLstClnConsulta())
     {
       this.carregarDadosItem(crs, (ColunaAndroid) cln);
     }
@@ -131,7 +131,7 @@ public class ItemConsulta extends ItemMain implements View.OnClickListener, View
       return;
     }
 
-    if (cln.getBooNome())
+    if (cln.equals(cln.getTbl().getClnNome()))
     {
       return;
     }

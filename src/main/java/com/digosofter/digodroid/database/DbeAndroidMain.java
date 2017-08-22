@@ -213,18 +213,18 @@ public abstract class DbeAndroidMain extends DbeMain
   {
     super.inicializar();
 
-    this.inicializarView();
+    this.inicializarLstViw();
   }
 
-  private void inicializarView()
+  private void inicializarLstViw()
   {
     for (TabelaMain tbl : this.getLstTbl())
     {
-      this.inicializarView(tbl);
+      this.inicializarLstViw(tbl);
     }
   }
 
-  private void inicializarView(final TabelaMain tbl)
+  private void inicializarLstViw(final TabelaMain tbl)
   {
     if (tbl == null)
     {
@@ -236,7 +236,7 @@ public abstract class DbeAndroidMain extends DbeMain
       return;
     }
 
-    ((TblAndroidMain)tbl).inicializarViw();
+    ((TblAndroidMain)tbl).inicializarLstViw();
   }
 
   private void onCreateSQLiteOpenHelper(final SQLiteDatabase objSQLiteDatabase)
