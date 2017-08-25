@@ -73,6 +73,16 @@ public abstract class MessageMain<T extends RespostaMain> implements Response.Li
     }
   }
 
+  private void finalizarSincronizacao()
+  {
+    if (SrvSincMain.getI() == null)
+    {
+      return;
+    }
+
+    SrvSincMain.getI().setBooParar(true);
+  }
+
   private Class<T> getClsResposta()
   {
     if (_clsResposta != null)
@@ -172,6 +182,8 @@ public abstract class MessageMain<T extends RespostaMain> implements Response.Li
           MessageMain.this.getSrvHttpSinc().removerMsgPendente(MessageMain.this);
 
           MessageMain.this.dispararEvtOnMsgRespostaListener(true);
+
+          MessageMain.this.finalizarSincronizacao();
         }
       }
     });
@@ -181,7 +193,7 @@ public abstract class MessageMain<T extends RespostaMain> implements Response.Li
   {
     if ((objVolleyError instanceof NetworkError) || (objVolleyError instanceof NoConnectionError))
     {
-      this.onErrorResponseLocalConexao();
+      LogSinc.getI().addLog(Log.EnmTipo.ERRO, String.format("Erro de sincronização (%s). Erro de conexão.", this.getClsResposta().getSimpleName()));
       return;
     }
 
@@ -198,23 +210,6 @@ public abstract class MessageMain<T extends RespostaMain> implements Response.Li
     }
 
     LogSinc.getI().addLog(Log.EnmTipo.ERRO, "Erro de sincronização. ".concat(objVolleyError.getMessage()));
-  }
-
-  private void onErrorResponseLocalConexao()
-  {
-    LogSinc.getI().addLog(Log.EnmTipo.ERRO, String.format("Erro de sincronização (%s). Erro de conexão.", this.getClsResposta().getSimpleName()));
-
-    if (Aparelho.getI().getBooConectado())
-    {
-      return;
-    }
-
-    if (SrvSincMain.getI() == null)
-    {
-      return;
-    }
-
-    SrvSincMain.getI().setBooParar(true);
   }
 
   @Override

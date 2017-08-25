@@ -1589,7 +1589,7 @@ public abstract class TblAndroidMain<T extends DominioAndroidMain> extends Tabel
     return false;
   }
 
-  private boolean processarMenuAdicionar(ActMain act)
+  protected boolean processarMenuAdicionar(ActMain act)
   {
     if (act == null)
     {

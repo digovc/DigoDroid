@@ -7,7 +7,8 @@ public class MsgLongPolling extends MessageMain<RspLongPolling>
   {
     // return super.getIntTimeOut();
 
-    return (5 * 60 * 1000);
+    //    return (5 * 60 * 1000);
+    return (60 * 1000);
   }
 
   @Override

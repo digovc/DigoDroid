@@ -281,7 +281,7 @@ public abstract class ServerHttpSincMain
 
     this.dispararEvtOnProgressoChangedListener();
   }
-
+  
   private void setIntMsgQuantidadeMaxima(int intMsgQuantidadeMaxima)
   {
     _intMsgQuantidadeMaxima = intMsgQuantidadeMaxima;
