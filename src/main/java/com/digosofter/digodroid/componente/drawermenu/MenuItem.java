@@ -234,6 +234,12 @@ public class MenuItem extends PainelGeral implements View.OnClickListener, View.
   {
     _strTitulo = strTitulo;
 
+    if (this.isInEditMode())
+    {
+      MenuItem.this.getLblTitulo().setText(_strTitulo);
+      return;
+    }
+
     this.getLblTitulo().post(new Runnable()
     {
       @Override
