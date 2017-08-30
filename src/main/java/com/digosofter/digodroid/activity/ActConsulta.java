@@ -29,6 +29,7 @@ import com.digosofter.digojava.database.OnChangeArg;
 import com.digosofter.digojava.database.OnTblChangeListener;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 /**/
@@ -80,6 +81,7 @@ public class ActConsulta extends ActMain implements OnTblChangeListener, TextWat
   private AdapterConsulta _adpCadastro;
   private boolean _booAbrindoActDetalhe;
   private BotaoCircular _btnPesquisaLimpar;
+  private Calendar _dttItemClickUltimo;
   private int _intRegistroRefId = -1;
   private ItemConsulta _itmSelecionado;
   private LabelGeral _lblVazio;
@@ -185,6 +187,11 @@ public class ActConsulta extends ActMain implements OnTblChangeListener, TextWat
     _btnPesquisaLimpar = this.getView(R.id.actConsulta_btnPesquisaLimpar);
 
     return _btnPesquisaLimpar;
+  }
+
+  private Calendar getDttItemClickUltimo()
+  {
+    return _dttItemClickUltimo;
   }
 
   @Override
@@ -512,6 +519,13 @@ public class ActConsulta extends ActMain implements OnTblChangeListener, TextWat
 
   public void onItemClick(final ItemConsulta viwItem)
   {
+    if ((this.getDttItemClickUltimo() != null) && (Calendar.getInstance().getTimeInMillis() - this.getDttItemClickUltimo().getTimeInMillis()) < 1000)
+    {
+      return;
+    }
+
+    this.setDttItemClickUltimo(Calendar.getInstance());
+
     if (viwItem == null)
     {
       return;
@@ -847,6 +861,11 @@ public class ActConsulta extends ActMain implements OnTblChangeListener, TextWat
   private void setBooAbrindoActDetalhe(boolean booAbrindoActDetalhe)
   {
     _booAbrindoActDetalhe = booAbrindoActDetalhe;
+  }
+
+  private void setDttItemClickUltimo(Calendar dttItemClickUltimo)
+  {
+    _dttItemClickUltimo = dttItemClickUltimo;
   }
 
   @Override
