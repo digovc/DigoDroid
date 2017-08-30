@@ -22,35 +22,14 @@ public abstract class ActSplashScreenMain extends ActMain
   {
     super.inicializar();
 
-    this.inicializarApp();
-
-    this.inicializarDbe();
-
-    this.inicializarActPrincipal();
-  }
-
-  private void inicializarActPrincipal()
-  {
     new Handler().postDelayed(new Runnable()
     {
       @Override
       public void run()
       {
-        ActSplashScreenMain.this.inicializarActPrincipalDelay();
+        ActSplashScreenMain.this.inicializarDelayed();
       }
-    }, 750);
-  }
-
-  private void inicializarActPrincipalDelay()
-  {
-    if (this.getClsActPrincipal() == null)
-    {
-      return;
-    }
-
-    this.startActivity(new Intent(this, this.getClsActPrincipal()));
-
-    this.finish();
+    }, 350);
   }
 
   @Override
@@ -70,5 +49,21 @@ public abstract class ActSplashScreenMain extends ActMain
     {
       return;
     }
+  }
+
+  private void inicializarDelayed()
+  {
+    this.inicializarApp();
+
+    this.inicializarDbe();
+
+    if (this.getClsActPrincipal() == null)
+    {
+      return;
+    }
+
+    this.startActivity(new Intent(this, this.getClsActPrincipal()));
+
+    this.finish();
   }
 }
